@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { html } from "../../../support/formatting";
 import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-slider", () => {
@@ -1123,6 +1124,267 @@ describe("calcite-slider", () => {
 
         expect(minValueLabel.innerText).toBe(`2${frGroupSeparator}500`);
         expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
+      });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-slider-handle-border-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-slider-handle-border-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+          state: "hover",
+        },
+        "--calcite-slider-handle-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-slider-handle-color-active": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.handle } },
+        },
+        "--calcite-slider-handle-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-slider-track-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(html` <calcite-slider min="0" max="100" value="20" step="10"></calcite-slider> `, tokens);
+    });
+    describe("disabled", () => {
+      describe("default", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-fill-color": {
+            shadowSelector: `.${CSS.trackRange}`,
+            targetProp: "backgroundColor",
+          },
+        };
+        themed(html` <calcite-slider disabled min="0" max="100" value="20" step="10"></calcite-slider> `, tokens);
+      });
+      describe("ticks", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-fill-color": {
+            shadowSelector: `.${CSS.tickActive}`,
+            targetProp: "backgroundColor",
+          },
+        };
+        themed(
+          html` <calcite-slider disabled min="0" max="100" value="20" step="10" ticks="10"></calcite-slider> `,
+          tokens,
+        );
+      });
+    });
+    describe("histogram", () => {
+      describe("default", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-histogram-accent-color": {
+            shadowSelector: "calcite-graph",
+            targetProp: "--calcite-graph-accent-color",
+          },
+          "--calcite-slider-histogram-background-color": {
+            shadowSelector: "calcite-graph",
+            targetProp: "--calcite-graph-background-color",
+          },
+        };
+        themed(async () => {
+          const page: E2EPage = await newE2EPage();
+          await page.setContent(html` <calcite-slider min="0" max="100" value="60" step="1"></calcite-slider> `);
+          const tag = "calcite-slider";
+          await page.$eval(tag, (slider: HTMLCalciteSliderElement) => {
+            slider.histogram = [
+              [0, 0],
+              [20, 12],
+              [40, 25],
+              [60, 55],
+              [80, 10],
+              [100, 0],
+            ];
+          });
+          await page.waitForChanges();
+          return {
+            page,
+            tag,
+          };
+        }, tokens);
+      });
+      describe("labeled handles", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.handleLabel}`,
+            targetProp: "color",
+          },
+        };
+        themed(async () => {
+          const page: E2EPage = await newE2EPage();
+          await page.setContent(html`
+            <calcite-slider label-handles ticks="10" min="0" max="100" value="60" step="1"></calcite-slider>
+          `);
+          const tag = "calcite-slider";
+          await page.$eval(tag, (slider: HTMLCalciteSliderElement) => {
+            slider.histogram = [
+              [0, 0],
+              [20, 12],
+              [40, 25],
+              [60, 55],
+              [80, 10],
+              [100, 0],
+            ];
+          });
+          await page.waitForChanges();
+          return {
+            page,
+            tag,
+          };
+        }, tokens);
+      });
+      describe("labeled ticks", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.tickMin}`,
+            targetProp: "color",
+          },
+        };
+        themed(async () => {
+          const page: E2EPage = await newE2EPage();
+          await page.setContent(html`
+            <calcite-slider label-ticks ticks="10" min="0" max="100" value="60" step="1"></calcite-slider>
+          `);
+          const tag = "calcite-slider";
+          await page.$eval(tag, (slider: HTMLCalciteSliderElement) => {
+            slider.histogram = [
+              [0, 0],
+              [20, 12],
+              [40, 25],
+              [60, 55],
+              [80, 10],
+              [100, 0],
+            ];
+          });
+          await page.waitForChanges();
+          return {
+            page,
+            tag,
+          };
+        }, tokens);
+      });
+    });
+    describe("precise", () => {
+      describe("default and hover", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-precise-handle-color": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-slider-precise-handle-color-hover": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+        };
+        themed(
+          html` <calcite-slider min="10000" max="100000" value="100000" step="1000" precise></calcite-slider> `,
+          tokens,
+        );
+      });
+      describe("drag", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-precise-handle-color-hover": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.handleExtension } },
+          },
+        };
+        themed(
+          html` <calcite-slider min="10000" max="100000" value="100000" step="1000" precise></calcite-slider> `,
+          tokens,
+        );
+      });
+      describe("focus", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-precise-handle-color-hover": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: { focus: { attribute: "class", value: CSS.handleExtension } },
+          },
+        };
+        themed(
+          html` <calcite-slider min="10000" max="100000" value="20000" step="1000" precise></calcite-slider> `,
+          tokens,
+        );
+      });
+    });
+    describe("range", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-slider-track-color": {
+          shadowSelector: `.${CSS.trackRange}`,
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(
+        html`<calcite-slider
+          min="10000"
+          max="100000"
+          min-value="10000"
+          max-value="100000"
+          step="1000"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          label-handles
+          scale="s"
+        >
+        </calcite-slider>`,
+        tokens,
+      );
+    });
+    describe("ticks", () => {
+      describe("default", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-tick-border-color": {
+            shadowSelector: `.${CSS.tick}`,
+            targetProp: "borderColor",
+          },
+          "--calcite-slider-tick-color": {
+            shadowSelector: `.${CSS.tick}:nth-child(2)`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-slider-tick-color-active": {
+            shadowSelector: `.${CSS.tick}`,
+            targetProp: "backgroundColor",
+          },
+        };
+        themed(html` <calcite-slider min="0" max="100" step="10" ticks="10"></calcite-slider> `, tokens);
+      });
+      describe("labeled handles and ticks", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.handleLabel}`,
+            targetProp: "color",
+          },
+        };
+        themed(
+          html`
+            <calcite-slider
+              min="0"
+              max="100"
+              value="40"
+              step="10"
+              ticks="10"
+              label-handles
+              label-ticks
+            ></calcite-slider>
+          `,
+          tokens,
+        );
       });
     });
   });
