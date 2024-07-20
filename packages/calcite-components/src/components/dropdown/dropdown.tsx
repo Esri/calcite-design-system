@@ -43,7 +43,6 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
-import { componentOnReady } from "../../utils/component";
 import { ItemKeyboardEvent } from "./interfaces";
 import { SLOTS } from "./resources";
 
@@ -198,7 +197,7 @@ export class Dropdown
   //
   //--------------------------------------------------------------------------
 
-  async connectedCallback(): Promise<void> {
+  connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     if (this.open) {
@@ -207,8 +206,6 @@ export class Dropdown
     }
     connectInteractive(this);
     this.updateItems();
-
-    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -218,6 +215,7 @@ export class Dropdown
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   componentDidRender(): void {
@@ -446,21 +444,11 @@ export class Dropdown
 
   guid = `calcite-dropdown-${guid()}`;
 
-  defaultAssignedElements: Element[] = [];
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  slotChangeHandler = (event: Event): void => {
-    this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.updateItems();
-  };
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;

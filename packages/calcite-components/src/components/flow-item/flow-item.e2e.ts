@@ -12,7 +12,12 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { GlobalTestProps } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+
+type TestWindow = GlobalTestProps<{
+  beforeClose: () => Promise<void>;
+}>;
 
 describe("calcite-flow-item", () => {
   describe("renders", () => {
@@ -25,6 +30,10 @@ describe("calcite-flow-item", () => {
 
   describe("defaults", () => {
     defaults("calcite-flow-item", [
+      {
+        propertyName: "beforeClose",
+        defaultValue: undefined,
+      },
       {
         propertyName: "closable",
         defaultValue: false,
@@ -64,6 +73,10 @@ describe("calcite-flow-item", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
       {
         propertyName: "showBackButton",
@@ -199,6 +212,23 @@ describe("calcite-flow-item", () => {
     expect(calciteFlowItemBack).toHaveReceivedEvent();
   });
 
+  it("sets beforeClose on internal panel", async () => {
+    const page = await newE2EPage();
+    await page.exposeFunction("beforeClose", () => Promise.reject());
+    await page.setContent("<calcite-flow-item closable></calcite-flow-item>");
+
+    await page.$eval(
+      "calcite-flow-item",
+      (el: HTMLCalciteFlowItemElement) => (el.beforeClose = (window as TestWindow).beforeClose),
+    );
+
+    await page.waitForChanges();
+
+    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+    expect(await panel.getProperty("beforeClose")).toBeDefined();
+  });
+
   it("sets collapsible and collapsed on internal panel", async () => {
     const page = await newE2EPage();
 
@@ -290,5 +320,36 @@ describe("calcite-flow-item", () => {
     await page.waitForChanges();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("honors calciteFlowItemClose event", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-flow-item closable>test</calcite-flow-item>",
+    });
+
+    const toggleSpy = await page.spyOnEvent("calciteFlowItemClose");
+    const panel = await page.find("calcite-flow-item >>> calcite-panel");
+    panel.triggerEvent("calcitePanelClose");
+    await page.waitForChanges();
+
+    expect(toggleSpy).toHaveReceivedEventTimes(1);
+    expect(await panel.getProperty("closed")).toBe(true);
+  });
+
+  it("should set embedded on slotted alerts", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-flow-item closable>
+        test
+        <calcite-alert slot="alerts" open label="this is a default alert">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+      </calcite-flow-item>`,
+    });
+    await page.waitForChanges();
+
+    const alert = await page.find("calcite-alert");
+
+    expect(await alert.getProperty("embedded")).toBe(true);
   });
 });

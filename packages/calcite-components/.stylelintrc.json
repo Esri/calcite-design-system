@@ -3,6 +3,7 @@
   "extends": "stylelint-config-recommended-scss",
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
+    "length-zero-no-unit": true,
     "liberty/use-logical-spec": "always",
     "no-descending-specificity": [
       true,
