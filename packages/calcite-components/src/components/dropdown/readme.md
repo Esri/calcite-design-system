@@ -4,62 +4,6 @@ For comprehensive guidance on using and implementing `calcite-dropdown`, refer t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`.
-
-```html
-<calcite-dropdown>
-  <calcite-button slot="trigger">Choose a fruit</calcite-button>
-  <calcite-dropdown-group>
-    <calcite-dropdown-item>Apple</calcite-dropdown-item>
-    <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
-    <calcite-dropdown-item>Banana</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-dropdown>
-```
-
-### Disabling-close-on-select
-
-You can choose to leave the Dropdown open when an item is selected with the `close-on-select-disabled` attribute. Note that this will only apply when the `calcite-dropdown-group`'s `selectionMode` is set to `"single"` or `"multiple"`. Dropdowns will always close when the `calcite-dropdown-group`'s `selectionMode` is `"none"`.
-
-```html
-<calcite-dropdown close-on-select-disabled>
-  <calcite-button id="trigger" slot="trigger">Choose a fruit</calcite-button>
-  <calcite-dropdown-group id="fruits" selection-mode="single">
-    <calcite-dropdown-item id="apple">Apple</calcite-dropdown-item>
-    <calcite-dropdown-item id="orange" selected>Orange</calcite-dropdown-item>
-    <calcite-dropdown-item id="banana">Banana</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-dropdown>
-```
-
-### Groups
-
-You can combine groups in a single Dropdown, with different `selectionMode`s:
-
-```html
-<calcite-dropdown>
-  <calcite-button slot="trigger">Add to cart</calcite-button>
-  <calcite-dropdown-group group-title="Select one fruit">
-    <calcite-dropdown-item>Apple</calcite-dropdown-item>
-    <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
-    <calcite-dropdown-item>Banana</calcite-dropdown-item>
-  </calcite-dropdown-group>
-  <calcite-dropdown-group group-title="Select multiple vegetables" selection-mode="multiple">
-    <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
-    <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
-    <calcite-dropdown-item>Yam</calcite-dropdown-item>
-  </calcite-dropdown-group>
-  <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
-    <calcite-dropdown-item>Plant beans</calcite-dropdown-item>
-    <calcite-dropdown-item selected>Add peas</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-dropdown>
-```
-
 ## Properties
 
 | Property                | Attribute                  | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                              | Default                |

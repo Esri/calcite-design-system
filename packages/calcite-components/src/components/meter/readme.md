@@ -4,35 +4,6 @@ For comprehensive guidance on using and implementing `calcite-meter`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Advanced
-
-A complex meter component, which includes value and custom unit labels.
-
-```html
-<calcite-meter
-  group-separator="en"
-  unit-label="GB"
-  value-label-type="units"
-  value-label
-  range-labels
-  min="0"
-  max="12400"
-  low="4600"
-  high="7600"
-  value="2200"
-></calcite-meter>
-```
-
-### Basic
-
-A simple meter component.
-
-```html
-<calcite-meter min="0" max="100" low="25" high="75" value="50"></calcite-meter>
-```
-
 ## Properties
 
 | Property             | Attribute          | Description                                                                                                                                                                  | Type                                     | Default          |

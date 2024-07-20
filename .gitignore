@@ -24,7 +24,6 @@ $RECYCLE.BIN/
 .env
 .idea/
 .sass-cache/
-.stencil/
 .turbo
 .versions/
 Dockerfile

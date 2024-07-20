@@ -4,45 +4,6 @@ For comprehensive guidance on using and implementing `calcite-popover`, refer to
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-popover reference-element="popover-button">Hello! I am some popover content!</calcite-popover>
-
-<calcite-button id="popover-button">Clickable popover</calcite-button>
-```
-
-### Virtual
-
-```html
-<!-- virtually positioned popover -->
-<calcite-popover id="virtual-popover" label="Hello world!" open>
-  <p>Hello! I am some virtual popover content!</p>
-</calcite-popover>
-
-<script>
-  function generateGetBoundingClientRect() {
-    return () => ({
-      width: 0,
-      height: 0,
-      top: 100,
-      right: 100,
-      bottom: 100,
-      left: 600,
-    });
-  }
-
-  const virtualElement = {
-    getBoundingClientRect: generateGetBoundingClientRect(),
-  };
-
-  const popover = document.getElementById("virtual-popover");
-  popover.referenceElement = virtualElement;
-</script>
-```
-
 ## Properties
 
 | Property                        | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                       | Type                                                                                                                                                                                                                                                                                                              | Default                   |
@@ -60,7 +21,7 @@ For comprehensive guidance on using and implementing `calcite-popover`, refer to
 | `offsetSkidding`                | `offset-skidding`     | Offsets the position of the component along the `referenceElement`.                                                                                                                                                                                                                                                                                                               | `number`                                                                                                                                                                                                                                                                                                          | `0`                       |
 | `open`                          | `open`                | When `true`, displays and positions the component.                                                                                                                                                                                                                                                                                                                                | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                   |
 | `overlayPositioning`            | `overlay-positioning` | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`                                                                                                                                                                                                                                                                                           | `"absolute"`              |
-| `placement`                     | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                             | `"auto" \| "top" \| "bottom" \| "right" \| "left" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end" \| "leading" \| "trailing" \| "auto-start" \| "auto-end" \| "leading-start" \| "leading-end" \| "trailing-end" \| "trailing-start"` | `defaultPopoverPlacement` |
+| `placement`                     | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                             | `"auto" \| "top" \| "bottom" \| "left" \| "right" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "left-start" \| "left-end" \| "right-start" \| "right-end" \| "leading" \| "trailing" \| "auto-start" \| "auto-end" \| "leading-start" \| "leading-end" \| "trailing-end" \| "trailing-start"` | `defaultPopoverPlacement` |
 | `pointerDisabled`               | `pointer-disabled`    | When `true`, removes the caret pointer.                                                                                                                                                                                                                                                                                                                                           | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                   |
 | `referenceElement` *(required)* | `reference-element`   | The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.                                                                                                                             | `Element \| VirtualElement \| string`                                                                                                                                                                                                                                                                             | `undefined`               |
 | `scale`                         | `scale`               | Specifies the size of the component.                                                                                                                                                                                                                                                                                                                                              | `"l" \| "m" \| "s"`                                                                                                                                                                                                                                                                                               | `"m"`                     |
