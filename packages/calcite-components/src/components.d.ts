@@ -1394,6 +1394,10 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata": Record<string, unknown>;
+        /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
         "scale": Scale;
@@ -9244,6 +9248,10 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata"?: Record<string, unknown>;
         /**
           * Fires whenever the component is selected or unselected.
          */
