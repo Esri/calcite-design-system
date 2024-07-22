@@ -480,10 +480,8 @@ describe("calcite-combobox", () => {
   });
 
   it("should control max items displayed", async () => {
-    const page = await newE2EPage();
-
     const maxItems = 7;
-
+    const page = await newE2EPage();
     await page.setContent(`
       <calcite-combobox max-items="${maxItems}">
         <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
@@ -501,7 +499,6 @@ describe("calcite-combobox", () => {
         </calcite-combobox-item>
       </calcite-combobox>
     `);
-    await page.waitForChanges();
 
     const element = await page.find("calcite-combobox");
     await element.click();

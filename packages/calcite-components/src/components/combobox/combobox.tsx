@@ -1044,8 +1044,8 @@ export class Combobox
 
     if (items.length > maxItems) {
       items.forEach((item) => {
-        if (itemsToProcess < maxItems && maxItems > 0) {
-          const height = this.calculateSingleItemHeight(item);
+        if (itemsToProcess < maxItems) {
+          const height = this.calculateScrollerHeight(item);
           if (height > 0) {
             maxScrollerHeight += height;
             itemsToProcess++;
@@ -1057,20 +1057,18 @@ export class Combobox
     return maxScrollerHeight;
   }
 
-  private calculateSingleItemHeight(item: ComboboxChildElement): number {
+  private calculateScrollerHeight(item: ComboboxChildElement): number {
     if (!item) {
       return;
     }
 
-    let height = item.offsetHeight;
     // if item has children items, don't count their height twice
-    const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
-    children
-      .map((child) => child?.offsetHeight)
-      .forEach((offsetHeight) => {
-        height -= offsetHeight;
-      });
-    return height;
+    const parentHeight = item.getBoundingClientRect().height;
+    const childrenTotalHeight = Array.from(
+      item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector),
+    ).reduce((total, child) => total + child.getBoundingClientRect().height, 0);
+
+    return parentHeight - childrenTotalHeight;
   }
 
   inputHandler = (event: Event): void => {
@@ -1351,7 +1349,7 @@ export class Combobox
       return;
     }
 
-    const height = this.calculateSingleItemHeight(activeItem);
+    const height = this.calculateScrollerHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
       this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
