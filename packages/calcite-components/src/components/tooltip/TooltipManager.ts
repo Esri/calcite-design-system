@@ -140,22 +140,29 @@ export default class TooltipManager {
     this.toggleTooltip(tooltip, true);
   };
 
-  private focusInHandler = (event: FocusEvent): void => {
-    this.queryFocusedTooltip(event, true);
+  private blurHandler = (): void => {
+    this.closeActiveTooltip();
   };
 
-  private focusOutHandler = (event: FocusEvent): void => {
-    this.queryFocusedTooltip(event, false);
+  private focusInHandler = (event: FocusEvent): void => {
+    const composedPath = event.composedPath();
+    const tooltip = this.queryTooltip(composedPath);
+
+    this.closeTooltipIfNotActive(tooltip);
+
+    if (!tooltip) {
+      return;
+    }
+
+    this.toggleFocusedTooltip(tooltip, true);
   };
 
   private addShadowListeners(shadowRoot: ShadowRoot): void {
     shadowRoot.addEventListener("focusin", this.focusInHandler, { capture: true });
-    shadowRoot.addEventListener("focusout", this.focusOutHandler, { capture: true });
   }
 
   private removeShadowListeners(shadowRoot: ShadowRoot): void {
     shadowRoot.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    shadowRoot.removeEventListener("focusout", this.focusOutHandler, { capture: true });
   }
 
   private addListeners(): void {
@@ -163,7 +170,7 @@ export default class TooltipManager {
     window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     window.addEventListener("click", this.clickHandler, { capture: true });
     window.addEventListener("focusin", this.focusInHandler, { capture: true });
-    window.addEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.addEventListener("blur", this.blurHandler, { capture: true });
   }
 
   private removeListeners(): void {
@@ -171,7 +178,7 @@ export default class TooltipManager {
     window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     window.removeEventListener("click", this.clickHandler, { capture: true });
     window.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    window.removeEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.removeEventListener("blur", this.blurHandler, { capture: true });
   }
 
   private clearHoverOpenTimeout(): void {
@@ -241,19 +248,6 @@ export default class TooltipManager {
       this.closeActiveTooltip();
     }, TOOLTIP_CLOSE_DELAY_MS);
   };
-
-  private queryFocusedTooltip(event: FocusEvent, open: boolean): void {
-    const composedPath = event.composedPath();
-    const tooltip = this.queryTooltip(composedPath);
-
-    this.closeTooltipIfNotActive(tooltip);
-
-    if (!tooltip) {
-      return;
-    }
-
-    this.toggleFocusedTooltip(tooltip, open);
-  }
 
   private registerShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
