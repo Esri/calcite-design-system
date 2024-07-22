@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.15...@esri/calcite-components@2.11.0-next.16) (2024-07-22)
+
+### Features
+
+- **tooltip:** support touch events ([#9487](https://github.com/Esri/calcite-design-system/issues/9487)) ([77459fb](https://github.com/Esri/calcite-design-system/commit/77459fbfb54163dffb85e9ca1178e39938bf38eb)), closes [#9273](https://github.com/Esri/calcite-design-system/issues/9273)
+
 ## [2.11.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.14...@esri/calcite-components@2.11.0-next.15) (2024-07-19)
 
 ### Features
