@@ -49,7 +49,7 @@
 }
 
 :host([layout="vertical"][display-mode="float"]) .content,
-:host([layout="vertical"][display-mode="content-detached"]) .content {
+:host([layout="vertical"][display-mode="float-detach"]) .content {
   flex: 2;
 }
 
