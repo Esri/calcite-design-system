@@ -119,7 +119,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop({ reflect: true }) indeterminate = false;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- ignoring until https://github.com/stencil-community/stencil-eslint/issues/111 is fixed
+  @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
   /**
    * @internal

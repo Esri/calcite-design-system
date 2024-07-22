@@ -122,6 +122,14 @@ export class Modal
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) embedded = false;
+
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
 
@@ -155,14 +163,6 @@ export class Modal
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) slottedInShell: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -202,7 +202,7 @@ export class Modal
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -217,7 +217,7 @@ export class Modal
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
-            [CSS.slottedInShell]: this.slottedInShell,
+            [CSS.containerEmbedded]: this.embedded,
           }}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -534,7 +534,7 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    if (!this.slottedInShell) {
+    if (!this.embedded) {
       if (totalOpenModals === 0) {
         initialDocumentOverflowStyle = document.documentElement.style.overflow;
       }

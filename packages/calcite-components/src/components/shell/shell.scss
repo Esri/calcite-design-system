@@ -40,6 +40,7 @@
 
 .content {
   @apply overflow-auto;
+  justify-content: space-between;
 }
 
 .content ::slotted(calcite-shell-center-row),
@@ -95,6 +96,10 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   block-size: 100%;
   inline-size: 100%;
   min-inline-size: 0;
+}
+
+.content-bottom {
+  justify-content: flex-end;
 }
 
 ::slotted(calcite-shell-center-row) {
