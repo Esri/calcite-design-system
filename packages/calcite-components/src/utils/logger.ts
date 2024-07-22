@@ -1,6 +1,6 @@
 import { logLevel } from "./config";
 
-export type LogLevel = "debug" | "info" | "warn" | "error" | "trace";
+export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
 
 type Message = string;
 type MajorVersion = number;
@@ -19,10 +19,12 @@ type DeprecatedParams = {
 export const loggedDeprecations = new Set<string>();
 
 const logLevels = {
+  trace: 0,
   debug: 1,
   info: 2,
   warn: 4,
   error: 8,
+  off: 10,
 } as const;
 
 function willLog(level: LogLevel): boolean {
