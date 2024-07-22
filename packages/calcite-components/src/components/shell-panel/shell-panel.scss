@@ -259,7 +259,7 @@
   box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
 }
 
-.content--detached {
+.float--detach {
   @apply shadow-0
   mx-2
   mt-2
@@ -274,12 +274,12 @@
   }
 }
 
-:host([layout="horizontal"]) .content--detached {
+:host([layout="horizontal"]) .float--detach {
   @apply my-2;
 }
 
-:host([position="start"]) .content--detached,
-:host([position="end"]) .content--detached {
+:host([position="start"]) .float--detach,
+:host([position="end"]) .float--detach {
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     @apply border-none;

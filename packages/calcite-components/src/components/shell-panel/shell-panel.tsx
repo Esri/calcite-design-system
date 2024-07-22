@@ -333,7 +333,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.content]: true,
           [CSS.contentOverlay]: displayMode === "overlay",
-          [CSS.contentDetached]: displayMode === "float-detach",
+          [CSS.floatDetach]: displayMode === "float-detach",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
         }}
