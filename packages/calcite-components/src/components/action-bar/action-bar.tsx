@@ -40,15 +40,10 @@ import {
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { overflowActionsDebounceInMs } from "../../utils/debounceValues";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
 import { CSS, SLOTS } from "./resources";
-import {
-  geActionDimensions,
-  getOverflowCount,
-  overflowActions,
-  overflowActionsDebounceInMs,
-  queryActions,
-} from "./utils";
+import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.

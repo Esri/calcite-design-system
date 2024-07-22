@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
-import { DEBOUNCE_TIMEOUT } from "./resources";
+import { filterDebounceInMs } from "../../utils/debounceValues";
 
 describe("calcite-filter", () => {
   describe("renders", () => {
@@ -190,7 +190,7 @@ describe("calcite-filter", () => {
     it("updates filtered items after filtering", async () => {
       const filter = await page.find("calcite-filter");
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
-      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      await page.waitForTimeout(filterDebounceInMs);
       await page.waitForChanges();
 
       expect(filterChangeSpy).toHaveReceivedEventTimes(0);
@@ -215,7 +215,7 @@ describe("calcite-filter", () => {
       await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
         filter.items = filter.items.slice(3);
       });
-      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      await page.waitForTimeout(filterDebounceInMs);
       await page.waitForChanges();
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
@@ -274,7 +274,7 @@ describe("calcite-filter", () => {
 
     it("should return matching value", async () => {
       const filter = await page.find("calcite-filter");
-      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      await page.waitForTimeout(filterDebounceInMs);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
 
@@ -282,7 +282,7 @@ describe("calcite-filter", () => {
       const filter = await page.find("calcite-filter");
       filter.setProperty("filterProps", ["description"]);
       await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      await page.waitForTimeout(filterDebounceInMs);
       assertMatchingItems(await filter.getProperty("filteredItems"), []);
     });
   });

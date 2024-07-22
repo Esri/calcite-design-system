@@ -34,8 +34,9 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
+import { filterDebounceInMs } from "../../utils/debounceValues";
 import { FilterMessages } from "./assets/filter/t9n";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
+import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-filter",
@@ -235,7 +236,7 @@ export class Filter
     (value: string, emit = false, onFilter?: () => void): void =>
       this.items.length &&
       this.updateFiltered(filter(this.items, value, this.filterProps), emit, onFilter),
-    DEBOUNCE_TIMEOUT,
+    filterDebounceInMs,
   );
 
   inputHandler = (event: CustomEvent): void => {

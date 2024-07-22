@@ -72,17 +72,25 @@
         <div class="child right-aligned-text">action with text</div>
 
         <div class="child">
-          <calcite-action
-            scale="s"
-            indicator
-            active
-            text="click-me"
-            label="hello world"
-            text-enabled
-            icon="configure-popup"
-          >
-            <calcite-tooltip slot="tooltip">Hello World!</calcite-tooltip>
-          </calcite-action>
+          <div style="width: 500px; height: 500px">
+            <calcite-action-bar style="height: 290px">
+              <calcite-action-group id="dynamic-group"
+                ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+                <calcite-action id="second-action" text="Styles" icon="shapes"></calcite-action>
+                <calcite-action text="Styles" icon="shapes"></calcite-action>
+                <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+                <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
+                <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
+                <calcite-action text="Labels" icon="label" active></calcite-action>
+                <calcite-action text="Table" icon="table"></calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Save" icon="save" disabled></calcite-action>
+                <calcite-action icon="layers" text="Layers"></calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
+            </calcite-action-bar>
+          </div>
         </div>
 
         <div class="child">

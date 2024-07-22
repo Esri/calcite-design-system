@@ -1,4 +1,5 @@
 import { waitForAnimationFrame } from "../tests/utils";
+import { repositionDebounceInMs } from "./debounceValues";
 import * as floatingUI from "./floating-ui";
 import { FloatingUIComponent } from "./floating-ui";
 
@@ -13,7 +14,6 @@ const {
   placements,
   positionFloatingUI,
   reposition,
-  repositionDebounceTimeout,
 } = floatingUI;
 
 it("should set calcite placement to FloatingUI placement", () => {
@@ -122,7 +122,7 @@ describe("repositioning", () => {
 
     assertPreOpenPositioning(floatingEl);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceInMs));
     assertOpenPositioning(floatingEl);
   });
 
@@ -139,7 +139,7 @@ describe("repositioning", () => {
     floatingUI.reposition(anotherFakeFloatingUiComponent, positionOptions, true);
     expect(positionSpy).toHaveBeenCalledTimes(2);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceInMs));
     expect(positionSpy).toHaveBeenCalledTimes(2);
   });
 });
