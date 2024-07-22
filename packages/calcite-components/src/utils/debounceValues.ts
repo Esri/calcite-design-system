@@ -20,8 +20,10 @@ export const filterDebounceInMs = 250;
 export const noDebounce = 0;
 export const listDebounceInMs = noDebounce + filterDebounceInMs;
 
-// UI Reposition Debounce- UseCase: In scenarios where multiple reposition requests might be made in quick succession (e.g., due to rapid UI changes), calling debounce helps in optimizing performance by reducing unnecessary computations and re-renderings.
+// UI Reposition Debounce
+// - UseCase: In scenarios where multiple reposition requests might be made in quick succession (e.g., due to rapid UI changes), calling debounce helps in optimizing performance by reducing unnecessary computations and re-renderings.
 // - Use in the Component:
+
 // Floating-ui `positionFloatingUI` is called with debounce.
 export const repositionDebounceInMs = 100;
 
