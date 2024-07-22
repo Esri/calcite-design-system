@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.17...@esri/calcite-components@2.11.0-next.18) (2024-07-22)
+
+### Bug Fixes
+
+- **combobox-item:** tweak center content font-weight and spacing ([#9818](https://github.com/Esri/calcite-design-system/issues/9818)) ([e2bddcf](https://github.com/Esri/calcite-design-system/commit/e2bddcf4374d043246b969106090f543add81c52)), closes [#3695](https://github.com/Esri/calcite-design-system/issues/3695)
+
 ## [2.11.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.16...@esri/calcite-components@2.11.0-next.17) (2024-07-22)
 
 ### Features
