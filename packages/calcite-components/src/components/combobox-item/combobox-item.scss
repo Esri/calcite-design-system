@@ -6,16 +6,16 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent: theme("spacing.2");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
-  --calcite-combobox-item-description-font-size: var(--calcite-font-size-xs);
+  --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-xs);
 }
 
 .scale--m {
   @apply text-n1h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing[1.5]");
   --calcite-combobox-item-spacing-indent: theme("spacing.3");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
-  --calcite-combobox-item-description-font-size: var(--calcite-font-size-sm);
+  --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-sm);
 }
 
 .scale--l {
@@ -24,7 +24,7 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing[2.5]");
   --calcite-combobox-item-spacing-indent: theme("spacing.4");
   --calcite-combobox-item-selector-icon-size: theme("spacing.6");
-  --calcite-combobox-item-description-font-size: var(--calcite-font-size);
+  --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size);
 }
 
 .container {
@@ -66,7 +66,8 @@ ul:focus {
   justify-content: space-around;
   gap: var(--calcite-combobox-item-spacing-unit-l);
   padding-block: var(--calcite-combobox-item-spacing-unit-s);
-  padding-inline: var(--calcite-combobox-item-indent-value);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline-start: var(--calcite-combobox-item-indent-value);
 }
 
 :host([disabled]) .label {
@@ -75,7 +76,11 @@ ul:focus {
 
 // selected state
 .label--selected {
-  @apply text-color-1 font-medium;
+  @apply text-color-1;
+
+  .title {
+    @apply font-medium;
+  }
 }
 
 .label--active {
@@ -144,8 +149,7 @@ ul:focus {
 }
 
 .description {
-  font-size: var(--calcite-combobox-item-description-font-size);
-  font-weight: var(--calcite-font-weight-normal);
+  font-size: var(--calcite-internal-combobox-item-description-font-size);
 }
 
 :host([selected]),
@@ -157,4 +161,11 @@ ul:focus {
 
 .short-text {
   color: var(--calcite-color-text-3);
+  white-space: nowrap;
+}
+
+.title,
+.description,
+.short-text {
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
