@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.16...@esri/calcite-components@2.11.0-next.17) (2024-07-22)
+
+### Features
+
+- **combobox, combobox-item:** add `metadata` support for filtering ([#9819](https://github.com/Esri/calcite-design-system/issues/9819)) ([bd90f63](https://github.com/Esri/calcite-design-system/commit/bd90f638b6da0879b92dadbba6688e9590c8fe7f)), closes [#9796](https://github.com/Esri/calcite-design-system/issues/9796)
+
 ## [2.11.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.15...@esri/calcite-components@2.11.0-next.16) (2024-07-22)
 
 ### Features
