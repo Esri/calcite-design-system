@@ -49,7 +49,7 @@
 }
 
 :host([layout="vertical"][display-mode="float"]) .content,
-:host([layout="vertical"][display-mode="content-detached"]) .content {
+:host([layout="vertical"][display-mode="float-detach"]) .content {
   flex: 2;
 }
 
@@ -202,7 +202,6 @@
 
 :host([layout="vertical"]) .content {
   inline-size: var(--calcite-shell-panel-width-internal);
-  max-inline-size: var(--calcite-shell-panel-max-width-internal);
   min-inline-size: var(--calcite-shell-panel-min-width-internal);
 }
 
@@ -260,7 +259,7 @@
   box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
 }
 
-.content--detached {
+.float--detach {
   @apply shadow-0
   mx-2
   mt-2
@@ -275,12 +274,12 @@
   }
 }
 
-:host([layout="horizontal"]) .content--detached {
+:host([layout="horizontal"]) .float--detach {
   @apply my-2;
 }
 
-:host([position="start"]) .content--detached,
-:host([position="end"]) .content--detached {
+:host([position="start"]) .float--detach,
+:host([position="end"]) .float--detach {
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     @apply border-none;

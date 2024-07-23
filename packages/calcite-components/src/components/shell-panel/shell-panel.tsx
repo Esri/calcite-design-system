@@ -68,8 +68,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Watch("detached")
   handleDetached(value: boolean): void {
     if (value) {
-      this.displayMode = "content-detached";
-    } else if (this.displayMode === "content-detached") {
+      this.displayMode = "float-detach";
+    } else if (this.displayMode === "float-detach") {
       this.displayMode = "dock";
     }
   }
@@ -81,17 +81,17 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
    *
    * `"overlay"` displays at full height on top of center content, and
    *
-   * `"content-detached"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   * `"float-detach"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
 
   @Watch("displayMode")
   handleDisplayMode(value: DisplayMode): void {
-    this.detached = value === "content-detached";
+    this.detached = value === "float-detach";
   }
 
   /**
-   * When `displayMode` is `content-detached`, specifies the maximum height of the component.
+   * When `displayMode` is `float-detach`, specifies the maximum height of the component.
    *
    * @deprecated Use `heightScale` instead.
    */
@@ -129,12 +129,12 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /**
-   * Specifies the action bar's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
-  @Prop({ reflect: true }) actionBarPosition: Extract<"start" | "end", Position> = "start";
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
   /**
-   * When `true` and `displayMode` is not `content-detached`, the component's content area is resizable.
+   * When `true` and `displayMode` is not `float-detach`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -264,7 +264,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   render(): VNode {
     const {
       collapsed,
-      actionBarPosition,
+      position,
       initialContentWidth,
       initialContentHeight,
       contentWidth,
@@ -280,7 +280,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const dir = getElementDir(this.el);
 
-    const allowResizing = displayMode !== "content-detached" && resizable;
+    const allowResizing = displayMode !== "float-detach" && resizable;
 
     const style = allowResizing
       ? layout === "horizontal"
@@ -316,13 +316,12 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const getAnimationDir = (): string => {
       if (layout === "horizontal") {
-        return actionBarPosition === "start"
+        return position === "start"
           ? CSS_UTILITY.calciteAnimateInDown
           : CSS_UTILITY.calciteAnimateInUp;
       } else {
         const isStart =
-          (dir === "ltr" && actionBarPosition === "end") ||
-          (dir === "rtl" && actionBarPosition === "start");
+          (dir === "ltr" && position === "end") || (dir === "rtl" && position === "start");
         return isStart ? CSS_UTILITY.calciteAnimateInLeft : CSS_UTILITY.calciteAnimateInRight;
       }
     };
@@ -333,7 +332,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.content]: true,
           [CSS.contentOverlay]: displayMode === "overlay",
-          [CSS.contentDetached]: displayMode === "content-detached",
+          [CSS.floatDetach]: displayMode === "float-detach",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
         }}
@@ -356,7 +355,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const mainNodes = [actionBarNode, contentNode];
 
-    if (actionBarPosition === "end") {
+    if (position === "end") {
       mainNodes.reverse();
     }
 
@@ -461,7 +460,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       initialContentHeight,
       contentHeightMin,
       contentHeightMax,
-      actionBarPosition,
+      position,
     } = this;
     const multipliedStep = step * stepMultiplier;
 
@@ -488,11 +487,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const increaseKeys =
       layout === "horizontal"
-        ? actionBarPosition === "end"
+        ? position === "end"
           ? key === verticalKeys[1] || key === horizontalKeys[0]
           : key === verticalKeys[0] || key === horizontalKeys[1]
         : key === verticalKeys[1] ||
-          (actionBarPosition === "end" ? key === horizontalKeys[0] : key === horizontalKeys[1]);
+          (position === "end" ? key === horizontalKeys[0] : key === horizontalKeys[1]);
 
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -504,11 +503,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const decreaseKeys =
       layout === "horizontal"
-        ? actionBarPosition === "end"
+        ? position === "end"
           ? key === verticalKeys[0] || key === horizontalKeys[0]
           : key === verticalKeys[1] || key === horizontalKeys[1]
         : key === verticalKeys[0] ||
-          (actionBarPosition === "end" ? key === horizontalKeys[1] : key === horizontalKeys[0]);
+          (position === "end" ? key === horizontalKeys[1] : key === horizontalKeys[0]);
 
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -581,7 +580,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       layout,
       initialContentWidth,
       initialContentHeight,
-      actionBarPosition,
+      position,
       initialClientX,
       initialClientY,
     } = this;
@@ -593,10 +592,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const adjustedOffset =
       layout === "horizontal"
-        ? actionBarPosition === "end"
+        ? position === "end"
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset
-        : actionBarPosition === "end"
+        : position === "end"
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset;
 
