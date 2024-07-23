@@ -1141,9 +1141,9 @@ describe("calcite-tooltip", () => {
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
-      const other = await page.find("#other");
-      await other.click();
-      await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+      await page.$eval("#other", (el: HTMLElement) => {
+        el.dispatchEvent(new MouseEvent("click", { cancelable: true, bubbles: true }));
+      });
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(false);
     });
