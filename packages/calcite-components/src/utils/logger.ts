@@ -37,7 +37,7 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
   }
 
   const badgeTemplate = "%ccalcite";
-  const badgeStyle = "background: #007AC2; color: #fff; border-radius: 4px;padding: 2px 4px;";
+  const badgeStyle = "background: #007AC2; color: #fff; border-radius: 4px; padding: 2px 4px;";
 
   console[level].call(this, badgeTemplate, badgeStyle, ...data);
 }
