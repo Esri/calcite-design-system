@@ -34,7 +34,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
-import { filterDebounceInMs } from "../../utils/debounceValues";
+import { debounceValues } from "../../utils/resources";
 import { FilterMessages } from "./assets/filter/t9n";
 import { CSS, ICONS } from "./resources";
 
@@ -236,7 +236,7 @@ export class Filter
     (value: string, emit = false, onFilter?: () => void): void =>
       this.items.length &&
       this.updateFiltered(filter(this.items, value, this.filterProps), emit, onFilter),
-    filterDebounceInMs,
+    debounceValues.filter,
   );
 
   inputHandler = (event: CustomEvent): void => {
