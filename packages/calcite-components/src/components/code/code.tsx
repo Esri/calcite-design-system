@@ -1,6 +1,6 @@
 import { Component, h, VNode, Prop, State } from "@stencil/core";
 import hljs from "highlight.js";
-import { slotChangeGetTextContent } from "../../utils/dom";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 
 @Component({
   tag: "calcite-code",
@@ -57,6 +57,6 @@ export class Code {
   // --------------------------------------------------------------------------
 
   private handleDefaultSlotChange = (event: Event) => {
-    this.source = slotChangeGetTextContent(event);
+    this.source = slotChangeGetAssignedElements(event)[0]?.textContent;
   };
 }

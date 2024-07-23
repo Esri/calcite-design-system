@@ -37,19 +37,43 @@
 
   <body>
     <h2>CSS</h2>
-    <calcite-code> .myClass{ display:block; } calcite-block { color:red; } </calcite-code>
+    <calcite-code>
+      <pre>
+.myClass {
+  display:block;
+}
+
+calcite-block {
+  color:red;
+}
+    </pre
+      >
+    </calcite-code>
 
     <h2>HTML</h2>
     <calcite-code>
-      &lt;calcite-panel&gt; &lt;div slot="header-content"&gt;Header!&lt;/div&gt; &lt;p&gt;Slotted content!&lt;/p&gt;
-      &lt;/calcite-panel&gt;
+      <pre>
+&lt;calcite-panel&gt;
+  &lt;div slot="header-content"&gt;Header!&lt;/div&gt;
+  &lt;p&gt;Slotted content!&lt;/p&gt;
+&lt;/calcite-panel&gt;
+  </pre
+      >
     </calcite-code>
 
     <h2>TS</h2>
     <calcite-code>
-      export function isBefore(a: HTMLElement, b: HTMLElement): boolean { if (a.parentNode !== b.parentNode) { return
-      false; } const children = Array.from(a.parentNode.children); return children.indexOf(a) &lt; children.indexOf(b);
-      }
+      <pre>
+export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
+  if (a.parentNode !== b.parentNode) {
+    return false;
+  }
+
+  const children = Array.from(a.parentNode.children);
+  return children.indexOf(a) &lt; children.indexOf(b);
+}
+    </pre
+      >
     </calcite-code>
   </body>
 </html>
