@@ -5,9 +5,9 @@
  *
  * @prop --calcite-accordion-item-background-color: Specifies the background color for the component.
  * @prop --calcite-accordion-item-border-color: Specifies the border color for the component.
- * @prop --calcite-accordion-item-heading-text-color-expanded: Specifies the heading text color for the component when expanded.
+ * @prop --calcite-accordion-item-heading-text-color-highlighted: Specifies the heading text color for the component when expanded.
  * @prop --calcite-accordion-item-heading-text-color: Specifies the heading text color for the component.
- * @prop --calcite-accordion-item-text-color-expanded: Specifies the text color for the description and content of the component when expanded.
+ * @prop --calcite-accordion-item-text-color-highlighted: Specifies the text color for the description and content of the component when expanded.
  * @prop --calcite-accordion-item-text-color: Specifies the text color for the expand icon, description and content of the component.
  */
 
@@ -148,11 +148,11 @@
 :host(:focus),
 :host(:active),
 :host([expanded]) {
-  color: var(--calcite-accordion-item-text-color-expanded, var(--calcite-color-text-2));
+  color: var(--calcite-accordion-item-text-color-highlighted, var(--calcite-color-text-2));
 
   .heading,
   .icon {
-    color: var(--calcite-accordion-item-heading-text-color-expanded, var(--calcite-color-text-1));
+    color: var(--calcite-accordion-item-heading-text-color-highlighted, var(--calcite-color-text-1));
   }
 }
 
