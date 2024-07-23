@@ -24,7 +24,7 @@ const ICONS = {
 } as const;
 
 function getCalcitePosition(position: Position, el: HTMLElement): Position {
-  return position || el.closest("calcite-shell-panel")?.actionBarPosition || "start";
+  return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
 export function toggleChildActionText({
