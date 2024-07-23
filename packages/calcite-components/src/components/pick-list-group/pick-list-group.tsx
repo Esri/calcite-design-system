@@ -10,7 +10,7 @@ import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
 
 logger.deprecated("component", {
-  name: "pick-list-item-group",
+  name: "pick-list-group",
   removalVersion: 3,
   suggested: "list-item-group",
 });
