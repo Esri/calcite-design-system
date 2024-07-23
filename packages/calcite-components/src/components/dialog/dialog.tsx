@@ -490,6 +490,7 @@ export class Dialog
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey, defaultPrevented } = event;
+    const { dragEnabled, resizable } = this;
 
     if (defaultPrevented) {
       return;
@@ -502,36 +503,40 @@ export class Dialog
 
     switch (key) {
       case "ArrowUp":
-        if (shiftKey) {
+        if (shiftKey && resizable) {
           this.dialogHeight = transitionRect.height + dialogStep;
-        } else {
+          event.preventDefault();
+        } else if (dragEnabled) {
           this.dialogPositionY = Math.max(this.dialogPositionY + -dialogStep, -maxMoveY);
+          event.preventDefault();
         }
-        event.preventDefault();
         break;
       case "ArrowDown":
-        if (shiftKey) {
+        if (shiftKey && resizable) {
           this.dialogHeight = transitionRect.height - dialogStep;
-        } else {
+          event.preventDefault();
+        } else if (dragEnabled) {
           this.dialogPositionY = Math.min(this.dialogPositionY + dialogStep, maxMoveY);
+          event.preventDefault();
         }
-        event.preventDefault();
         break;
       case "ArrowLeft":
-        if (shiftKey) {
+        if (shiftKey && resizable) {
           this.dialogWidth = transitionRect.width - dialogStep;
-        } else {
+          event.preventDefault();
+        } else if (dragEnabled) {
           this.dialogPositionX = Math.max(this.dialogPositionX + -dialogStep, -maxMoveX);
+          event.preventDefault();
         }
-        event.preventDefault();
         break;
       case "ArrowRight":
-        if (shiftKey) {
+        if (shiftKey && resizable) {
           this.dialogWidth = transitionRect.width + dialogStep;
-        } else {
+          event.preventDefault();
+        } else if (dragEnabled) {
           this.dialogPositionX = Math.min(this.dialogPositionX + dialogStep, maxMoveX);
+          event.preventDefault();
         }
-        event.preventDefault();
         break;
     }
   };
