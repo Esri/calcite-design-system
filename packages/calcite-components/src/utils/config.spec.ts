@@ -13,6 +13,7 @@ describe("config", () => {
   it("has defaults", async () => {
     config = await loadConfig();
     expect(config.focusTrapStack).toHaveLength(0);
+    expect(config.logLevel).toBe("info");
   });
 
   it("allows custom configuration", async () => {
