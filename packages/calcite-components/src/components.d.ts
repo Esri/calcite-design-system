@@ -983,7 +983,7 @@ export namespace Components {
         "status": Status;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -1347,7 +1347,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -1393,6 +1393,10 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata": Record<string, unknown>;
         /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
@@ -2278,7 +2282,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2401,7 +2405,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2596,7 +2600,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2737,7 +2741,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2837,7 +2841,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2925,7 +2929,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -4221,7 +4225,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -4316,7 +4320,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -5226,7 +5230,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * When `true`, the component's `value` can be read, but cannot be modified.
-          * @readonly 
+          * @readonly
           * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
          */
         "readOnly": boolean;
@@ -5270,7 +5274,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -6051,10 +6055,6 @@ export interface CalciteStepperItemCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSwitchElement;
-}
-export interface CalciteTabCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteTabElement;
 }
 export interface CalciteTabNavCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -7492,18 +7492,7 @@ declare global {
         prototype: HTMLCalciteSwitchElement;
         new (): HTMLCalciteSwitchElement;
     };
-    interface HTMLCalciteTabElementEventMap {
-        "calciteInternalTabRegister": void;
-    }
     interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteTabElement: {
         prototype: HTMLCalciteTabElement;
@@ -7511,6 +7500,7 @@ declare global {
     };
     interface HTMLCalciteTabNavElementEventMap {
         "calciteTabChange": void;
+        "calciteInternalTabNavSlotChange": Element[];
         "calciteInternalTabChange": TabChangeEventDetail;
     }
     interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {
@@ -8805,7 +8795,7 @@ declare namespace LocalJSX {
         "status"?: Status;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -9198,7 +9188,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -9244,6 +9234,10 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata"?: Record<string, unknown>;
         /**
           * Fires whenever the component is selected or unselected.
          */
@@ -10170,7 +10164,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10304,7 +10298,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10501,7 +10495,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10647,7 +10641,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10758,7 +10752,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10865,7 +10859,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -12224,7 +12218,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -12323,7 +12317,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -12867,7 +12861,6 @@ declare namespace LocalJSX {
         "value"?: any;
     }
     interface CalciteTab {
-        "onCalciteInternalTabRegister"?: (event: CalciteTabCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
          */
@@ -12895,6 +12888,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TabNavMessages;
         "onCalciteInternalTabChange"?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
+        "onCalciteInternalTabNavSlotChange"?: (event: CalciteTabNavCustomEvent<Element[]>) => void;
         /**
           * Emits when the selected `calcite-tab` changes.
          */
@@ -13270,7 +13264,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * When `true`, the component's `value` can be read, but cannot be modified.
-          * @readonly 
+          * @readonly
           * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
          */
         "readOnly"?: boolean;
@@ -13306,7 +13300,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly 
+          * @readonly
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;

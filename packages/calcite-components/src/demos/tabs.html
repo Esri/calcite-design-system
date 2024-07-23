@@ -367,6 +367,63 @@
           </calcite-tabs>
         </div>
       </div>
+
+      <!-- closable tabs with title and tab removed from DOM  -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">closable tabs with title and tab removed from DOM</div>
+
+        <div class="child">
+          <calcite-tabs position="bottom" scale="s">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title data-name="s-closable-1" closable>Tab Title 1</calcite-tab-title>
+              <calcite-tab-title data-name="s-closable-2" closable>Tab Title 2</calcite-tab-title>
+              <calcite-tab-title data-name="s-closable-3" closable>Tab Title 3</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab data-name="s-closable-1">Tab 1 content</calcite-tab>
+            <calcite-tab data-name="s-closable-2">Tab 2 content</calcite-tab>
+            <calcite-tab data-name="s-closable-3">Tab 3 content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs position="bottom">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title data-name="m-closable-1" closable>Tab Title 1</calcite-tab-title>
+              <calcite-tab-title data-name="m-closable-2" closable>Tab Title 2</calcite-tab-title>
+              <calcite-tab-title data-name="m-closable-3" closable>Tab Title 3</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab data-name="m-closable-1">Tab 1 content</calcite-tab>
+            <calcite-tab data-name="m-closable-2">Tab 2 content</calcite-tab>
+            <calcite-tab data-name="m-closable-3">Tab 3 content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs position="bottom" scale="l">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title data-name="l-closable-1" closable>Tab Title 1</calcite-tab-title>
+              <calcite-tab-title data-name="l-closable-2" closable>Tab Title 2</calcite-tab-title>
+              <calcite-tab-title data-name="l-closable-3" closable>Tab Title 3</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab data-name="l-closable-1">Tab 1 content</calcite-tab>
+            <calcite-tab data-name="l-closable-2">Tab 2 content</calcite-tab>
+            <calcite-tab data-name="l-closable-3">Tab 3 content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
     </demo-dom-swapper>
+
+    <script>
+      document.addEventListener("calciteTabsClose", (event) => {
+        const name = event.target.dataset.name;
+        event.target.remove();
+        document.querySelector(`calcite-tab[data-name="${name}"]`).remove();
+        console.log("removed tab and title from DOM!");
+      });
+
+      document.addEventListener("calciteTabChange", (event) => {
+        console.log("calciteTabChange", event.target.selectedTitle.innerHTML);
+      });
+    </script>
   </body>
 </html>
