@@ -92,4 +92,22 @@ jobs:
           git commit -m "build: update types and package-lock" || true
 
           npm run publish:latest
-          npm run util:upload-release-assets -- "${{ steps.release.outputs.paths_released }}"
+          npm run util:upload-release-assets -- "$RELEASED_PATHS"
+
+          git checkout -b ci/cherry-pick-release-commit origin/dev
+
+          if ! git cherry-pick "$release_commit"; then
+            git checkout --theirs \
+              ${{github.workspace}}/packages/*/CHANGELOG.md \
+              ${{github.workspace}}/packages/calcite-components-angular/projects/component-library/CHANGELOG.md
+
+            git checkout --theirs
+              ${{github.workspace}}/packages/*/package.json \
+              ${{github.workspace}}/packages/calcite-components-angular/projects/component-library/package.json
+
+            git cherry-pick --continue
+          fi
+
+          git push -u origin HEAD
+          gh pr create --fill --head "ci/cherry-pick-release-commit" --base "dev" \
+            --label "skip visual snapshots"
