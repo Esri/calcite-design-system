@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.18...@esri/calcite-components@2.11.0-next.19) (2024-07-23)
+
+### Bug Fixes
+
+- **tabs:** handle tab close events that remove the associated tab-title and tab elements from the DOM ([#9768](https://github.com/Esri/calcite-design-system/issues/9768)) ([d945793](https://github.com/Esri/calcite-design-system/commit/d945793830940b578c21b6a48e592eb56503a1ad)), closes [#7155](https://github.com/Esri/calcite-design-system/issues/7155)
+
 ## [2.11.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.17...@esri/calcite-components@2.11.0-next.18) (2024-07-22)
 
 ### Bug Fixes
