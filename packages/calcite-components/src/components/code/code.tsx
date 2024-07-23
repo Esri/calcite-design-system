@@ -1,5 +1,6 @@
-import { Component, h, VNode, Prop } from "@stencil/core";
+import { Component, h, VNode, Prop, State } from "@stencil/core";
 import hljs from "highlight.js";
+import { slotChangeGetTextContent } from "../../utils/dom";
 
 @Component({
   tag: "calcite-code",
@@ -15,7 +16,13 @@ export class Code {
 
   @Prop() language: string;
 
-  @Prop() source: string;
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @State() source: string;
 
   // --------------------------------------------------------------------------
   //
@@ -36,7 +43,20 @@ export class Code {
               : null
           }
         />
+        <div hidden>
+          <slot onSlotchange={this.handleDefaultSlotChange} />
+        </div>
       </pre>
     );
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private handleDefaultSlotChange = (event: Event) => {
+    this.source = slotChangeGetTextContent(event);
+  };
 }

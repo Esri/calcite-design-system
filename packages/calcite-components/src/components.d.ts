@@ -1093,7 +1093,6 @@ export namespace Components {
     }
     interface CalciteCode {
         "language": string;
-        "source": string;
     }
     interface CalciteColorPicker {
         /**
@@ -8923,7 +8922,6 @@ declare namespace LocalJSX {
     }
     interface CalciteCode {
         "language"?: string;
-        "source"?: string;
     }
     interface CalciteColorPicker {
         /**
