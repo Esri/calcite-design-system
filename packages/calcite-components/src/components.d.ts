@@ -83,6 +83,7 @@ import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
+import { Element } from "@stencil/core";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
@@ -175,6 +176,7 @@ export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
+export { Element } from "@stencil/core";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
@@ -6056,10 +6058,6 @@ export interface CalciteSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSwitchElement;
 }
-export interface CalciteTabCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteTabElement;
-}
 export interface CalciteTabNavCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteTabNavElement;
@@ -7496,18 +7494,7 @@ declare global {
         prototype: HTMLCalciteSwitchElement;
         new (): HTMLCalciteSwitchElement;
     };
-    interface HTMLCalciteTabElementEventMap {
-        "calciteInternalTabRegister": void;
-    }
     interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteTabElement: {
         prototype: HTMLCalciteTabElement;
@@ -7515,6 +7502,7 @@ declare global {
     };
     interface HTMLCalciteTabNavElementEventMap {
         "calciteTabChange": void;
+        "calciteInternalTabNavSlotChange": Element[];
         "calciteInternalTabChange": TabChangeEventDetail;
     }
     interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {
@@ -12875,7 +12863,6 @@ declare namespace LocalJSX {
         "value"?: any;
     }
     interface CalciteTab {
-        "onCalciteInternalTabRegister"?: (event: CalciteTabCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
          */
@@ -12903,6 +12890,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TabNavMessages;
         "onCalciteInternalTabChange"?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
+        "onCalciteInternalTabNavSlotChange"?: (event: CalciteTabNavCustomEvent<Element[]>) => void;
         /**
           * Emits when the selected `calcite-tab` changes.
          */
