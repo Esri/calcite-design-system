@@ -79,10 +79,13 @@ export default class TooltipManager {
       if (activeTooltip?.open) {
         this.clearHoverTimeout();
         this.closeActiveTooltip();
-
         const referenceElement = getEffectiveReferenceElement(activeTooltip);
+        const composedPath = event.composedPath();
 
-        if (referenceElement instanceof Element && referenceElement.contains(event.target as HTMLElement)) {
+        if (
+          (referenceElement instanceof Element && composedPath.includes(referenceElement)) ||
+          composedPath.includes(activeTooltip)
+        ) {
           event.preventDefault();
         }
       }
@@ -149,29 +152,29 @@ export default class TooltipManager {
   };
 
   private addShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.addEventListener("focusin", this.focusInHandler, { capture: true });
-    shadowRoot.addEventListener("focusout", this.focusOutHandler, { capture: true });
+    shadowRoot.addEventListener("focusin", this.focusInHandler);
+    shadowRoot.addEventListener("focusout", this.focusOutHandler);
   }
 
   private removeShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    shadowRoot.removeEventListener("focusout", this.focusOutHandler, { capture: true });
+    shadowRoot.removeEventListener("focusin", this.focusInHandler);
+    shadowRoot.removeEventListener("focusout", this.focusOutHandler);
   }
 
   private addListeners(): void {
-    window.addEventListener("keydown", this.keyDownHandler, { capture: true });
-    window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.addEventListener("click", this.clickHandler, { capture: true });
-    window.addEventListener("focusin", this.focusInHandler, { capture: true });
-    window.addEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.addEventListener("keydown", this.keyDownHandler);
+    window.addEventListener("pointermove", this.pointerMoveHandler);
+    window.addEventListener("click", this.clickHandler);
+    window.addEventListener("focusin", this.focusInHandler);
+    window.addEventListener("focusout", this.focusOutHandler);
   }
 
   private removeListeners(): void {
-    window.removeEventListener("keydown", this.keyDownHandler, { capture: true });
-    window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.removeEventListener("click", this.clickHandler, { capture: true });
-    window.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    window.removeEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.removeEventListener("keydown", this.keyDownHandler);
+    window.removeEventListener("pointermove", this.pointerMoveHandler);
+    window.removeEventListener("click", this.clickHandler);
+    window.removeEventListener("focusin", this.focusInHandler);
+    window.removeEventListener("focusout", this.focusOutHandler);
   }
 
   private clearHoverOpenTimeout(): void {
