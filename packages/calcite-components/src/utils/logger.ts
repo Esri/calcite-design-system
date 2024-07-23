@@ -69,7 +69,7 @@ export const logger = {
  * @param params the deprecation details
  */
 function deprecated(context: Exclude<DeprecatedContext, "component">, params: DeprecatedParams): void;
-function deprecated(context: "component", params: ComponentDeprecatedParams): void;
+function deprecated(context: Extract<DeprecatedContext, "component">, params: ComponentDeprecatedParams): void;
 function deprecated(
   context: DeprecatedContext,
   { component, name, suggested, removalVersion }: DeprecatedParams | ComponentDeprecatedParams,

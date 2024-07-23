@@ -36,13 +36,15 @@ describe("logger", () => {
   });
 
   describe("deprecated", () => {
+    const context = "component";
+
     it("helps log planned deprecations", () => {
       const params = {
         name: "calcite-foo",
         removalVersion: 3,
       } as const;
 
-      logger.deprecated("component", params);
+      logger.deprecated(context, params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -56,7 +58,7 @@ describe("logger", () => {
         removalVersion: "future",
       } as const;
 
-      logger.deprecated("component", options);
+      logger.deprecated(context, options);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -71,7 +73,7 @@ describe("logger", () => {
         suggested: "calcite-bar",
       } as const;
 
-      logger.deprecated("component", params);
+      logger.deprecated(context, params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -86,7 +88,7 @@ describe("logger", () => {
         suggested: ["calcite-bar", "calcite-baz"],
       } as const;
 
-      logger.deprecated("component", params);
+      logger.deprecated(context, params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -100,8 +102,8 @@ describe("logger", () => {
         removalVersion: 3,
       } as const;
 
-      logger.deprecated("component", params);
-      logger.deprecated("component", params);
+      logger.deprecated(context, params);
+      logger.deprecated(context, params);
 
       expect(warnSpy).toHaveBeenCalledTimes(1);
     });
