@@ -168,16 +168,16 @@ export function getMeridiem(hour: string): Meridiem {
 }
 
 export function getMeridiemOrder(locale: string): number {
-  const isRTLKind = locale === "ar" || locale === "he";
-  if (!isRTLKind) {
-    const timeParts = getTimeParts({
-      value: "00:00:00",
-      locale,
-      numberingSystem: "latn",
-    });
-    return timeParts.findIndex((value) => value.type === "dayPeriod");
+  const isRtl = locale === "ar" || locale === "he";
+  if (isRtl) {
+    return 0;
   }
-  return 0;
+  const timeParts = getTimeParts({
+    value: "00:00:00",
+    locale,
+    numberingSystem: "latn",
+  });
+  return timeParts.findIndex((value) => value.type === "dayPeriod");
 }
 
 export function isValidTime(value: string): boolean {
