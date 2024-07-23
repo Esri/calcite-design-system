@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.19...@esri/calcite-components@2.11.0-next.20) (2024-07-23)
+
+### Bug Fixes
+
+- **time-picker:** render meridiem first for korean locale ([#9842](https://github.com/Esri/calcite-design-system/issues/9842)) ([6ed4d21](https://github.com/Esri/calcite-design-system/commit/6ed4d21d9429a42389657cce6d65ac814ac02a16)), closes [#9720](https://github.com/Esri/calcite-design-system/issues/9720)
+
 ## [2.11.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.18...@esri/calcite-components@2.11.0-next.19) (2024-07-23)
 
 ### Bug Fixes
