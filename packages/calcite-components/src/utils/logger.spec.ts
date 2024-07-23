@@ -36,15 +36,14 @@ describe("logger", () => {
   });
 
   describe("deprecated", () => {
-    const context = "component";
-
     it("helps log planned deprecations", () => {
       const params = {
-        name: "calcite-foo",
+        // @ts-expect-error -- using fake component name
+        name: "foo",
         removalVersion: 3,
-      } as const;
+      };
 
-      logger.deprecated(context, params);
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -54,11 +53,12 @@ describe("logger", () => {
 
     it("helps log future deprecations", () => {
       const options = {
-        name: "calcite-foo",
+        name: "foo",
         removalVersion: "future",
-      } as const;
+      };
 
-      logger.deprecated(context, options);
+      // @ts-expect-error -- using fake component names
+      logger.deprecated("component", options);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -68,12 +68,13 @@ describe("logger", () => {
 
     it("shows deprecation suggestions (single)", () => {
       const params = {
-        name: "calcite-foo",
+        name: "foo",
         removalVersion: 3,
-        suggested: "calcite-bar",
-      } as const;
+        suggested: "bar",
+      };
 
-      logger.deprecated(context, params);
+      // @ts-expect-error -- using fake component names
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -83,12 +84,13 @@ describe("logger", () => {
 
     it("shows deprecation suggestions (multiple)", () => {
       const params = {
-        name: "calcite-foo",
+        name: "foo",
         removalVersion: 3,
-        suggested: ["calcite-bar", "calcite-baz"],
-      } as const;
+        suggested: ["bar", "baz"],
+      };
 
-      logger.deprecated(context, params);
+      // @ts-expect-error -- using fake component names
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
@@ -98,12 +100,14 @@ describe("logger", () => {
 
     it("logs once per component", () => {
       const params = {
-        name: "calcite-foo",
+        name: "foo",
         removalVersion: 3,
-      } as const;
+      };
 
-      logger.deprecated(context, params);
-      logger.deprecated(context, params);
+      // @ts-expect-error -- using fake component names
+      logger.deprecated("component", params);
+      // @ts-expect-error -- using fake component names
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalledTimes(1);
     });
