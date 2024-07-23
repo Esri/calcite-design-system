@@ -48,6 +48,7 @@ import {
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { FlipContext } from "../interfaces";
+import { IconName } from "../icon/interfaces";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { BlockMessages } from "./assets/block/t9n";
 
@@ -106,13 +107,13 @@ export class Block
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconName;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -403,7 +404,7 @@ export class Block
         class={iconClass}
         flipRtl={flipRtl}
         icon={iconValue}
-        key={iconClass}
+        key={iconValue}
         scale="s"
       />
     );

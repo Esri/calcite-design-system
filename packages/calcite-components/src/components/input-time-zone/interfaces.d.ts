@@ -13,3 +13,5 @@ export interface TimeZoneItem<T extends number | string = number | string> {
   value: T;
   filterValue: string | string[];
 }
+
+export type OffsetStyle = "user" | "utc" | "gmt";

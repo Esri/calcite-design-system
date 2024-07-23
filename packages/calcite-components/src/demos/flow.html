@@ -39,23 +39,41 @@
 
         <div class="child">
           <calcite-flow custom-item-selectors="custom-flow-item">
-            <calcite-flow-item heading="flow-item-1">
+            <calcite-flow-item heading="flow-item-1" description="description" scale="m">
               <div slot="content-top">Slot for a content-top.</div>
               <img width="250" height="250" src="./_assets/images/placeholder.svg" />
               <div slot="content-bottom">Content bottom!</div>
               <div slot="footer">Footer!</div>
             </calcite-flow-item>
-            <custom-flow-item heading="custom-flow-item">
+            <custom-flow-item heading="custom-flow-item" description="description" scale="m">
               <div slot="content-top">Slot for a content-top.</div>
               <img width="250" height="250" src="./_assets/images/placeholder.svg" />
               <div slot="content-bottom">Content bottom!</div>
               <div slot="footer">Footer!</div>
             </custom-flow-item>
-            <calcite-flow-item heading="flow-item-2">
+            <calcite-flow-item heading="flow-item-2" description="description" scale="m">
               <div slot="content-top">Slot for a content-top.</div>
               <img width="250" height="250" src="./_assets/images/placeholder.svg" />
               <div slot="content-bottom">Content bottom!</div>
-              <div slot="footer">Footer!</div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-dropdown type="hover">
+                  <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="neutral" icon-start="caret-down">
+                  </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
             </calcite-flow-item>
           </calcite-flow>
           <script>
@@ -81,6 +99,8 @@
 
               connectedCallback() {
                 this.flowItemEl.setAttribute("heading", this.getAttribute("heading"));
+                this.flowItemEl.setAttribute("description", this.getAttribute("description"));
+                this.flowItemEl.setAttribute("scale", this.getAttribute("scale"));
                 this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button"));
                 this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open"));
               }

@@ -348,6 +348,8 @@ describe("calcite-date-picker", () => {
     expect(await date.getProperty("messages")).toEqual({
       nextMonth: "Next month",
       prevMonth: "Previous month",
+      monthMenu: "Month menu",
+      yearMenu: "Year menu",
       year: "Year",
     });
   });

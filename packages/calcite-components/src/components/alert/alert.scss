@@ -124,7 +124,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   inset-block-start: -2px;
   block-size: 2px;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
-  &:after {
+  &::after {
     @apply absolute
     top-0
     block;
@@ -299,7 +299,7 @@ $alertDurations:
   }
 }
 
-.container.focused .dismiss-progress:after {
+.container.focused .dismiss-progress::after {
   animation-play-state: paused;
 }
 
@@ -315,7 +315,7 @@ $alertDurations:
 /**
  * Conditional styles for when Alert is slotted in Shell
  */
-.container--slotted-in-shell {
+.container--embedded {
   @apply absolute;
 }
 

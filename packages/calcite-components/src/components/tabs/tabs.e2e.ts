@@ -431,5 +431,31 @@ describe("calcite-tabs", () => {
       expect(await allTabs[2].isVisible()).toBe(false);
       expect(await allTabs[3].isVisible()).toBe(true);
     });
+
+    it("should allow selecting the next tab after previous one is closed and removed from DOM", async () => {
+      type TestWindow = GlobalTestProps<{ selectedTitleTab: string }>;
+
+      await page.evaluate(() => {
+        document.addEventListener("calciteTabChange", (event) => {
+          (window as TestWindow).selectedTitleTab = (event.target as HTMLCalciteTabNavElement).selectedTitle.innerText;
+        });
+        document.addEventListener("calciteTabClose", (event) => {
+          const closedTabTitleElement = event.target as HTMLCalciteTabTitleElement;
+          const id = closedTabTitleElement.id.split("").at(-1);
+          closedTabTitleElement.remove();
+          document.querySelector(`calcite-tab#tab-${id}`).remove();
+        });
+      });
+
+      const tab2 = await page.find("#tab-title-2");
+
+      await page.click(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`);
+      await tab2.click();
+      await page.waitForChanges();
+
+      const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
+
+      expect(selectedTitleOnEmit).toBe("Tab 2 Title");
+    });
   });
 });
