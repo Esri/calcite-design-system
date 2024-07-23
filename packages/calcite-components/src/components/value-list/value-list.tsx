@@ -71,9 +71,9 @@ import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 logger.deprecated("component", {
-  name: "calcite-value-list",
+  name: "value-list",
   removalVersion: 3,
-  suggested: "calcite-list",
+  suggested: "list",
 });
 
 /**

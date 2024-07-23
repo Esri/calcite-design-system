@@ -10,9 +10,9 @@ import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
 
 logger.deprecated("component", {
-  name: "calcite-pick-list-item-group",
+  name: "pick-list-item-group",
   removalVersion: 3,
-  suggested: "calcite-list-item-group",
+  suggested: "list-item-group",
 });
 
 /**

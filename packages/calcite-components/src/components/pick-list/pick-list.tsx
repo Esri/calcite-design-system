@@ -52,9 +52,9 @@ import {
 import List from "./shared-list-render";
 
 logger.deprecated("component", {
-  name: "calcite-pick-list-item",
+  name: "pick-list-item",
   removalVersion: 3,
-  suggested: "calcite-list-item",
+  suggested: "list-item",
 });
 
 /**

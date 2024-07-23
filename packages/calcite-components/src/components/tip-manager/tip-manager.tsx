@@ -25,9 +25,9 @@ import { TipManagerMessages } from "./assets/tip-manager/t9n";
 import { CSS, ICONS } from "./resources";
 
 logger.deprecated("component", {
-  name: "calcite-tip-manager",
+  name: "tip-manager",
   removalVersion: 4,
-  suggested: "calcite-carousel",
+  suggested: "carousel",
 });
 
 /**

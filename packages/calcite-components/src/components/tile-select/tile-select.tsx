@@ -32,9 +32,9 @@ import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
 
 logger.deprecated("component", {
-  name: "calcite-tile-select",
+  name: "tile-select",
   removalVersion: 4,
-  suggested: ["calcite-tile", "calcite-tile-group"],
+  suggested: ["tile", "tile-group"],
 });
 
 /**

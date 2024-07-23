@@ -10,9 +10,9 @@ import { logger } from "../../utils/logger";
 import { TileSelectGroupLayout } from "./interfaces";
 
 logger.deprecated("component", {
-  name: "calcite-tile-select-group",
+  name: "tile-select-group",
   removalVersion: 4,
-  suggested: ["calcite-tile", "calcite-tile-group"],
+  suggested: ["tile", "tile-group"],
 });
 
 /**

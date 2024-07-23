@@ -30,9 +30,9 @@ import { TipMessages } from "./assets/tip/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 logger.deprecated("component", {
-  name: "calcite-tip",
+  name: "tip",
   removalVersion: 4,
-  suggested: ["calcite-card", "calcite-notice", "calcite-panel", "calcite-tile"],
+  suggested: ["card", "notice", "panel", "tile"],
 });
 
 /**

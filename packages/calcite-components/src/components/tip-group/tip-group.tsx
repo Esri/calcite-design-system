@@ -2,9 +2,9 @@ import { Component, h, Prop, VNode } from "@stencil/core";
 import { logger } from "../../utils/logger";
 
 logger.deprecated("component", {
-  name: "calcite-tip-group",
+  name: "tip-group",
   removalVersion: 4,
-  suggested: ["calcite-carousel", "calcite-carousel-item"],
+  suggested: ["carousel", "carousel-item"],
 });
 
 /**

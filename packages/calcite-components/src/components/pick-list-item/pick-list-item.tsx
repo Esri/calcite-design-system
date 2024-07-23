@@ -43,9 +43,9 @@ import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 logger.deprecated("component", {
-  name: "calcite-pick-list",
+  name: "pick-list",
   removalVersion: 3,
-  suggested: "calcite-list",
+  suggested: "list",
 });
 
 /**
