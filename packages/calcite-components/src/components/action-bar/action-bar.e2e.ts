@@ -12,7 +12,7 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
-import { overflowActionsDebounceInMs, overflowActionsDebounceInMsExtended } from "../../utils/debounceValues";
+import { debounceValues } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-bar", () => {
@@ -406,7 +406,7 @@ describe("calcite-action-bar", () => {
           </calcite-action-bar>
         </div>`,
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs);
+      await page.waitForTimeout(debounceValues.overflow);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(2);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
@@ -423,7 +423,7 @@ describe("calcite-action-bar", () => {
           <calcite-action text="Table" icon="table"></calcite-action>`,
         );
       });
-      await page.waitForTimeout(overflowActionsDebounceInMsExtended);
+      await page.waitForTimeout(debounceValues.overflow + 10);
       await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
@@ -454,7 +454,7 @@ describe("calcite-action-bar", () => {
         </div>`,
       );
       await page.waitForChanges();
-      await page.waitForTimeout(overflowActionsDebounceInMsExtended);
+      await page.waitForTimeout(debounceValues.overflow + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
@@ -462,7 +462,7 @@ describe("calcite-action-bar", () => {
       const actionBar = await page.find("calcite-action-bar");
       actionBar.setProperty("overflowActionsDisabled", false);
       await page.waitForChanges();
-      await page.waitForTimeout(overflowActionsDebounceInMsExtended);
+      await page.waitForTimeout(debounceValues.overflow + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -490,7 +490,7 @@ describe("calcite-action-bar", () => {
           </calcite-action-bar>
         </div>`,
       });
-      await page.waitForTimeout(overflowActionsDebounceInMsExtended);
+      await page.waitForTimeout(debounceValues.overflow + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -499,7 +499,7 @@ describe("calcite-action-bar", () => {
         element.style.height = "550px";
       });
 
-      await page.waitForTimeout(overflowActionsDebounceInMsExtended);
+      await page.waitForTimeout(debounceValues.overflow + 10);
       await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
