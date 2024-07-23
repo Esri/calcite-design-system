@@ -409,6 +409,11 @@ describe("dom", () => {
       slotEl.assignedElements = () => [document.createElement("div"), document.createElement("div")];
       expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
     });
+    it("returns no slotted elements", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [];
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
+    });
     it("returns slotted elements with direct element selector", () => {
       const slotEl = document.createElement("slot");
       slotEl.assignedElements = () => [
