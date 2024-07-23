@@ -43,7 +43,6 @@ export const TEXT = {
 };
 
 export const debounceValues = {
-  comboboxFilter: 100,
   filter: 250,
   nextTick: 0,
   overflow: 150,

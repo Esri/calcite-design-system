@@ -1130,7 +1130,7 @@ export class Combobox
       if (emit) {
         this.calciteComboboxFilterChange.emit();
       }
-    }, debounceValues.comboboxFilter);
+    }, debounceValues.filter);
   })();
 
   internalComboboxChangeEvent = (): void => {
