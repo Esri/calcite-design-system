@@ -1,28 +1,13 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-day-background-color-hover: Specifies the background color of component when hovered.
- * @prop --calcite-day-background-color-selected: Specifies the background color of component when selected.
- * @prop --calcite-day-background-color: Specifies the background color of component.
- * @prop --calcite-day-corner-radius: Specifies the border radius of component.
- * @prop --calcite-day-range-background-color-hovered: Specifies the background color of day range when hovered.
- * @prop --calcite-day-range-background-color-selected: Specifies the background color of day range when selected.
- * @prop --calcite-day-text-color-hover: Specifies the text color of component when hovered.
- * @prop --calcite-day-text-color-selected: Specifies the text color of component when selected.
- * @prop --calcite-day-text-color: Specifies the text color of component.
-*/
-
 :host {
   @apply cursor-pointer flex relative;
+  color: var(--calcite-date-picker-text-color, var(--calcite-color-text-3));
 }
 
 @include disabled();
 
 @mixin range-part-base() {
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     @apply absolute pointer-events-none;
     inset-block: 0;
     content: "";
@@ -32,10 +17,10 @@
 }
 
 @mixin range-part-edge-end() {
-  &:before {
+  &::before {
     inset-inline-end: 50%;
   }
-  &:after {
+  &::after {
     inset-inline-start: 50%;
     border-start-end-radius: var(--calcite-internal-day-size);
     border-end-end-radius: var(--calcite-internal-day-size);
@@ -44,25 +29,25 @@
 }
 
 @mixin range-part-edge-start() {
-  &:before {
+  &::before {
     inset-inline-end: 50%;
     border-start-start-radius: var(--calcite-internal-day-size);
     border-end-start-radius: var(--calcite-internal-day-size);
     inline-size: calc(var(--calcite-internal-day-size) / 2);
   }
-  &:after {
+  &::after {
     inset-inline-start: 50%;
   }
 }
 
 @mixin range-part-middle() {
-  &:before {
+  &::before {
     inset-inline-end: 50%;
-    border-radius: var(--calcite-corner-radius);
+    border-radius: var(--calcite-corner-radius-sharp);
   }
-  &:after {
+  &::after {
     inset-inline-start: 50%;
-    border-radius: var(--calcite-corner-radius);
+    border-radius: var(--calcite-corner-radius-sharp);
   }
 }
 
@@ -85,40 +70,39 @@
 }
 
 .day {
-  @apply flex
-  text-color-3
+  @apply text-n2h
+  
+    flex
     focus-base
     items-center
     justify-center
     leading-none
-    transition-default;
-  border-radius: var(--calcite-day-corner-radius, 9999px);
-  color: var(--calcite-day-text-color, var(--calcite-color-text-3));
-  font-size: var(--calcite-internal-day-font-size, var(--calcite-font-size));
-  z-index: var(--calcite-z-index);
+    transition-default
+    z-default;
+  border-radius: var(--calcite-date-picker-day-corner-radius, 9999px);
+  color: var(--calcite-date-picker-text-color, var(--calcite-color-text-3));
   background: none;
-  background-color: var(--calcite-day-background-color, var(--calcite-color-background-none));
   box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
   inline-size: var(--calcite-internal-day-size);
 }
 
 .text {
-  @apply mb-0;
-  margin-block-start: var(--calcite-spacing-px);
+  @apply mt-px mb-0;
+  margin-inline-start: theme("spacing.0");
 }
 
 :host([scale="s"]) {
   --calcite-internal-day-size: 27px;
 
   .day-v-wrapper {
-    padding-block: var(--calcite-spacing-base);
+    @apply py-0.5;
   }
   .day-wrapper {
     @apply p-0;
   }
   .day {
-    --calcite-internal-day-font-size: var(--calcite-font-size-sm);
+    @apply text-n2;
   }
 }
 
@@ -126,13 +110,13 @@
   --calcite-internal-day-size: 33px;
 
   .day-v-wrapper {
-    padding-block: var(--calcite-spacing-xxs);
+    @apply py-1;
   }
   .day-wrapper {
     @apply p-0;
   }
   .day {
-    --calcite-internal-day-font-size: var(--calcite-font-size);
+    @apply text-n1;
   }
 }
 
@@ -140,25 +124,25 @@
   --calcite-internal-day-size: 43px;
 
   .day-v-wrapper {
-    padding-block: var(--calcite-spacing-xxs);
+    @apply py-1;
   }
   .day-wrapper {
-    padding-inline: var(--calcite-spacing-xxs);
+    @apply px-1;
   }
   .day {
-    --calcite-internal-day-font-size: var(--calcite-font-size-md);
+    @apply text-0;
   }
 }
 
 :host(:not([current-month])) .day {
-  opacity: var(--calcite-opacity-disabled);
+  @apply opacity-disabled;
 }
 
 :host(:hover:not([disabled]):not([selected])),
 :host([active]:not([range]):not([selected])) {
   & .day {
-    background-color: var(--calcite-day-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-day-text-color-hover, var(--calcite-color-text-1));
+    background-color: var(--calcite-date-picker-background-color-highlighted, var(--calcite-color-foreground-2));
+    color: var(--calcite-date-picker-text-color-highlighted, var(--calcite-color-text-1));
   }
 }
 
@@ -172,16 +156,16 @@
 }
 
 :host([selected]) .day {
-  font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-day-text-color-selected, var(--calcite-color-text-inverse));
-  background-color: var(--calcite-day-background-color-selected, var(--calcite-color-brand));
+  @apply font-medium;
+  background-color: var(--calcite-date-picker-in-range-background-color-selected, var(--calcite-color-brand));
+  color: var(--calcite-date-picker-background-color, var(--calcite-color-foreground-1));
 }
 
 :host(:focus:not([disabled])),
 :host([start-of-range]:not(:focus)),
 :host([end-of-range]:not(:focus)) {
   .day {
-    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
+    box-shadow: 0 0 0 2px var(--calcite-date-picker-background-color, var(--calcite-color-foreground-1));
   }
 }
 
@@ -190,26 +174,30 @@
   .day-wrapper {
     @include range-part-middle();
   }
+
   .day {
-    color: var(--calcite-day-text-color-hover, var(--calcite-color-text-1));
+    color: var(--calcite-date-picker-text-color-highlighted, var(--calcite-color-text-1));
   }
 }
 
 :host([highlighted]),
 :host([selected]:not(.hover--outside-range)) {
   .day-wrapper {
-    &:before,
-    &:after {
-      background-color: var(--calcite-day-range-background-color-selected, var(--calcite-color-foreground-current));
+    &::before,
+    &::after {
+      background-color: var(
+        --calcite-date-picker-in-range-background-color-highlighted,
+        var(--calcite-color-foreground-current)
+      );
     }
   }
 }
 
 :host([range-hover]:not([selected])) {
   .day-wrapper {
-    &:before,
-    &:after {
-      background-color: var(--calcite-day-range-background-color-hovered, var(--calcite-color-foreground-2));
+    &::before,
+    &::after {
+      background-color: var(--calcite-date-picker-background-color-highlighted, var(--calcite-color-foreground-2));
     }
   }
 }
@@ -240,8 +228,8 @@
 :host([start-of-range][range-edge="end"].hover--inside-range),
 :host([end-of-range]) {
   .day-wrapper {
-    &:after,
-    &:before {
+    &::after,
+    &::before {
       content: unset;
     }
   }
@@ -252,13 +240,13 @@
 :host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range),
 :host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) {
   .day {
-    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
+    box-shadow: 0 0 0 2px var(--calcite-date-picker-background-color, var(--calcite-color-foreground-1));
   }
 }
 
 @media (forced-colors: active) {
   .day {
-    border-radius: var(--calcite-corner-radius);
+    border-radius: var(--calcite-corner-radius-sharp);
   }
 
   :host([selected]) {
@@ -275,8 +263,8 @@
   :host([highlighted]),
   :host([range-hover]:not([selected])) {
     .day-wrapper {
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         background-color: highlight;
       }
     }
@@ -286,8 +274,8 @@
   :host([range][selected][start-of-range]),
   :host([range][selected][end-of-range]) {
     .day-wrapper {
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         background-color: canvas;
       }
     }

@@ -1,5 +1,6 @@
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { setCSSVariables } from "../../utils/variableValue";
 import { locales, defaultLocale } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { DatePicker } from "./date-picker";
@@ -187,20 +188,39 @@ export const greaterThanMaxWidthAllScales_TestOnly = (): string => html`
   <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
 `;
 
-export const theming_TestOnly = (): string =>
-  html`<style>
-      calcite-date-picker {
-        --calcite-date-picker-border-color: #294b29;
-        --calcite-date-picker-border-radius: 2px;
-        --calcite-date-picker-day-background-color: #50623a;
-        --calcite-date-picker-day-background-color-selected: #ffb000;
-        --calcite-date-picker-day-corner-radius: 0px;
-        --calcite-date-picker-day-text-color: #a4ce95;
-        --calcite-date-picker-week-header-text-color: #5f5d9c;
-        --calcite-date-picker-header-background-color: green;
-        --calcite-date-picker-header-button-background-color: #6d2932;
-        --calcite-date-picker-header-button-text-color: #c7b7a3;
-        --calcite-date-picker-header-text-color: #e8d8c4;
-      }
-    </style>
-    <calcite-date-picker scale="s" value="2000-11-27" lang="th"></calcite-date-picker>`;
+export const theming_TestOnly = (): string => html`
+  <style>
+    .container {
+      ${setCSSVariables([
+      "--calcite-date-picker-background-color-highlighted",
+      "--calcite-date-picker-header-border-color",
+      "--calcite-date-picker-background-color-selected",
+      "--calcite-date-picker-background-color",
+      "--calcite-date-picker-day-corner-radius",
+      "--calcite-date-picker-in-range-background-color-highlighted",
+      "--calcite-date-picker-in-range-background-color-selected",
+      "--calcite-date-picker-text-color-highlighted",
+      "--calcite-date-picker-text-color",
+      "--calcite-date-picker-background-color",
+      "--calcite-date-picker-border-color",
+      "--calcite-date-picker-text-color",
+    ])}
+    }
+  </style>
+  <div class="container" style="width: 400px">
+    <calcite-date-picker
+      lang="${defaultLocale}"
+      min="2016-08-09"
+      range
+      scale="m"
+      value="2020-02-28"
+    ></calcite-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      document.querySelector("calcite-date-picker").value = ["2020-02-14", "2020-02-28"];
+      await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    })();
+  </script>
+`;
