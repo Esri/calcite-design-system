@@ -32,3 +32,11 @@ export function setVariableValue(token: string): string {
     return "rgb(0, 191, 255)";
   }
 }
+
+export function setCSSVariables(tokens: string[]): string {
+  return tokens
+    .map((token) => {
+      return `${token}: ${setVariableValue(token)};`;
+    })
+    .join("\n");
+}
