@@ -103,6 +103,7 @@ export const open_TestOnly = (): string => html`
 
 export const koreanLocale_TestOnly = (): string => html`
   <calcite-input-time-picker lang="ko" value="10:37" step="1" open> </calcite-input-time-picker>
+  <calcite-input-time-picker lang="ko" value="14:37" step="1" open> </calcite-input-time-picker>
 `;
 
 export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
