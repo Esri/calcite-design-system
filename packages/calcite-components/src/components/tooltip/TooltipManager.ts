@@ -140,10 +140,6 @@ export default class TooltipManager {
     this.toggleTooltip(tooltip, true);
   };
 
-  private blurHandler = (): void => {
-    this.closeActiveTooltip();
-  };
-
   private focusInHandler = (event: FocusEvent): void => {
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
@@ -170,7 +166,6 @@ export default class TooltipManager {
     window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     window.addEventListener("click", this.clickHandler, { capture: true });
     window.addEventListener("focusin", this.focusInHandler, { capture: true });
-    window.addEventListener("blur", this.blurHandler, { capture: true });
   }
 
   private removeListeners(): void {
@@ -178,7 +173,6 @@ export default class TooltipManager {
     window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     window.removeEventListener("click", this.clickHandler, { capture: true });
     window.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    window.removeEventListener("blur", this.blurHandler, { capture: true });
   }
 
   private clearHoverOpenTimeout(): void {
