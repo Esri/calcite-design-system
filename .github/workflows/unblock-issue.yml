@@ -1,0 +1,18 @@
+name: Blocked Issue Closed Notifier
+on:
+  issues:
+    types: [closed]
+jobs:
+  comment-on-unblocked-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for blocked issues text in body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutBlockerIssueClosing.js')
+            await action({github, context})
