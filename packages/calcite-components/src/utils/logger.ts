@@ -1,3 +1,4 @@
+import type { JSX } from "../components";
 import { logLevel } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
@@ -6,11 +7,18 @@ type Message = string;
 type MajorVersion = number;
 
 type DeprecatedContext = "component" | "property" | "method" | "event" | "slot";
+
 type DeprecatedParams = {
   name: string;
   suggested?: string | string[];
   component?: string;
   removalVersion: MajorVersion | "future";
+};
+
+type SimpleComponentName<T> = T extends `calcite-${infer Name}` ? Name : T;
+
+type ComponentDeprecatedParams = Omit<DeprecatedParams, "name"> & {
+  name: SimpleComponentName<keyof JSX.IntrinsicElements>;
 };
 
 /**
@@ -61,10 +69,10 @@ export const logger = {
  * @param params the deprecation details
  */
 function deprecated(context: Exclude<DeprecatedContext, "component">, params: DeprecatedParams): void;
-function deprecated(context: "component", params: Omit<DeprecatedParams, "component">): void;
+function deprecated(context: "component", params: ComponentDeprecatedParams): void;
 function deprecated(
   context: DeprecatedContext,
-  { component, name, suggested, removalVersion }: DeprecatedParams,
+  { component, name, suggested, removalVersion }: DeprecatedParams | ComponentDeprecatedParams,
 ): void {
   const key = `${context}:${context === "component" ? "" : component}${name}`;
 
