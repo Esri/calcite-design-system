@@ -37,24 +37,24 @@ describe("logger", () => {
 
   describe("deprecated", () => {
     it("helps log planned deprecations", () => {
-      const options = {
+      const params = {
         name: "calcite-foo",
         removalVersion: 3,
-      };
+      } as const;
 
-      logger.deprecated("component", options);
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
-        `[${options.name}] component is deprecated and will be removed in v${options.removalVersion}.`,
+        `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}.`,
       );
     });
 
     it("helps log future deprecations", () => {
       const options = {
         name: "calcite-foo",
-        removalVersion: "future" as const,
-      };
+        removalVersion: "future",
+      } as const;
 
       logger.deprecated("component", options);
 
@@ -65,43 +65,43 @@ describe("logger", () => {
     });
 
     it("shows deprecation suggestions (single)", () => {
-      const options = {
+      const params = {
         name: "calcite-foo",
         removalVersion: 3,
         suggested: "calcite-bar",
-      };
+      } as const;
 
-      logger.deprecated("component", options);
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
-        `[${options.name}] component is deprecated and will be removed in v${options.removalVersion}. Use "${options.suggested}" instead.`,
+        `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested}" instead.`,
       );
     });
 
     it("shows deprecation suggestions (multiple)", () => {
-      const options = {
+      const params = {
         name: "calcite-foo",
         removalVersion: 3,
         suggested: ["calcite-bar", "calcite-baz"],
-      };
+      } as const;
 
-      logger.deprecated("component", options);
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls[0][2]).toMatch(
-        `[${options.name}] component is deprecated and will be removed in v${options.removalVersion}. Use "${options.suggested.join(`" or "`)}" instead.`,
+        `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested.join(`" or "`)}" instead.`,
       );
     });
 
     it("logs once per component", () => {
-      const options = {
+      const params = {
         name: "calcite-foo",
         removalVersion: 3,
-      };
+      } as const;
 
-      logger.deprecated("component", options);
-      logger.deprecated("component", options);
+      logger.deprecated("component", params);
+      logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalledTimes(1);
     });
