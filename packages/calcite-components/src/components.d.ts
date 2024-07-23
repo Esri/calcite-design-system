@@ -1684,7 +1684,7 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
-          * Specifies the kind of the component, which will apply to top border.
+          * Specifies the kind of the component, which will style the top border.
          */
         "kind": Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
         /**
@@ -9686,7 +9686,7 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
-          * Specifies the kind of the component, which will apply to top border.
+          * Specifies the kind of the component, which will style the top border.
          */
         "kind"?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
         /**

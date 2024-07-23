@@ -91,7 +91,7 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("resizable", args.resizable)}
     ${boolean("modal", args.modal)}
     ${boolean("open", args.open)}
-    ${boolean("menuOpen", args.menuOpen)}
+    ${boolean("menu-open", args.menuOpen)}
     ${boolean("loading", args.loading)}
     ${boolean("close-disabled", args.closeDisabled)}
     kind="${args.kind}"

@@ -56,16 +56,16 @@ let initialDocumentOverflowStyle: string = "";
  * @slot content - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
- * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
- * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
- * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
- * @slot header-content - A slot for adding custom content to the header.
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+ * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
+ * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
+ * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer.
- * @slot footer-end - A slot for adding a trailing footer custom content.
- * @slot footer-start - A slot for adding a leading footer custom content.
+ * @slot footer-end - A slot for adding custom content to the component's trailing footer.
+ * @slot footer-start - A slot for adding custom content to the component's leading footer.
  */
 
 @Component({
@@ -120,7 +120,7 @@ export class Dialog
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /** Specifies the kind of the component, which will apply to top border. */
+  /** Specifies the kind of the component, which will style the top border. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
@@ -160,7 +160,7 @@ export class Dialog
     this.updateOverflowHiddenClass();
   }
 
-  /** When `true`, displays and positions the component.  */
+  /** When `true`, displays and positions the component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
