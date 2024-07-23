@@ -1,4 +1,6 @@
+import { GlobalTestProps } from "../tests/utils";
 import { LogLevel } from "./logger";
+import { CalciteConfig } from "./config";
 
 describe("logger", () => {
   type LoggerModule = typeof import("./logger");
@@ -31,7 +33,6 @@ describe("logger", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-    delete (globalThis as TestGlobal).calciteConfig;
   });
 
   describe("deprecated", () => {
@@ -107,6 +108,8 @@ describe("logger", () => {
   });
 
   describe("logLevel", () => {
+    type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "logLevel"> }>;
+
     function messageAllLevels(): void {
       const levels = ["debug", "info", "warn", "error", "trace"] as const;
 
@@ -123,6 +126,10 @@ describe("logger", () => {
       loggerModule = await import("./logger");
       logger = loggerModule.logger;
     }
+
+    afterEach(() => {
+      delete (globalThis as TestGlobal).calciteConfig;
+    });
 
     it("logs all messages when set to lowest level", async () => {
       await setLogLevel("trace");
