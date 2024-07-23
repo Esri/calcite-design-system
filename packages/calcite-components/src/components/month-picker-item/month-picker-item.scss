@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+}
+
+.month-item {
+  display: flex;
+  inline-size: 100%;
+  @apply text-color-1;
+  justify-content: center;
+  align-items: center;
+}
+
+.month-item--active {
+  background-color: var(--calcite-color-brand);
+  color: #ffffff;
+}
