@@ -12,12 +12,15 @@
 }
 
 .content {
-  @apply flex items-center justify-center mb-0.5 relative;
+  @apply flex items-center justify-center h-full mb-0.5 relative box-border;
 }
 
 .scale-s {
   .content {
     @apply text-n2h py-1;
+  }
+  .close-button {
+    @apply w-5;
   }
 }
 
@@ -25,16 +28,22 @@
   .content {
     @apply text-n1h py-2;
   }
+  .close-button {
+    @apply w-7;
+  }
 }
 
 .scale-l {
   .content {
     @apply text-0h py-2.5;
   }
+  .close-button {
+    @apply w-8;
+  }
 }
 
 :host([closable]) .content {
-  @apply h-full box-border border-b-color-transparent;
+  @apply border-b-color-transparent;
 }
 
 :host([layout="inline"]),
@@ -113,10 +122,6 @@
   inset-block-start: -1px;
 }
 
-:host([bordered]:not([selected]):hover) .selected-indicator {
-  display: none;
-}
-
 :host([bordered][selected]:hover) .container::after {
   background: var(--calcite-color-foreground-2);
 }
@@ -124,22 +129,7 @@
 :host([bordered][selected]:focus) .container::after {
   background: transparent;
 }
-/*
 
-:host([selected]:not([bordered]):focus) .selected-indicator {
-  inset-block-end: 2px;
-}
-
-:host([selected]:not([bordered]):focus) .container--bottom .selected-indicator {
-  inset-block-start: 2px;
-}
-
-:host([bordered][selected]:focus) .container--bottom .selected-indicator {
-  inset-block-end: 2px;
-  inset-block-start: unset;
-}
-
-*/
 :host([bordered]) .container--bottom .selected-indicator {
   inset-block-start: unset;
   inset-block-end: 0;
@@ -230,9 +220,9 @@
   h-full
   self-center
   text-color-3
-  transition-default;
+  transition-default
+  z-default;
   background-color: var(--calcite-button-transparent-1);
-  margin-inline-start: theme("margin.3");
   // compensate for the added border on parent and ensure focus alignment
   margin-inline-end: 1px;
   block-size: calc(100% - 4px);
@@ -244,9 +234,6 @@
   &:hover {
     @apply text-color-1;
     background-color: var(--calcite-color-foreground-3);
-    box-shadow:
-      0 0 0 1px var(--calcite-color-foreground-3),
-      0 1px 0 0 var(--calcite-color-foreground-3);
   }
 
   &:active {
