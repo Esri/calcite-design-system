@@ -167,6 +167,19 @@ export function getMeridiem(hour: string): Meridiem {
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
 }
 
+export function getMeridiemOrder(locale: string): number {
+  const isRTLKind = locale === "ar" || locale === "he";
+  if (!isRTLKind) {
+    const timeParts = getTimeParts({
+      value: "00:00:00",
+      locale,
+      numberingSystem: "latn",
+    });
+    return timeParts.findIndex((value) => value.type === "dayPeriod");
+  }
+  return 0;
+}
+
 export function isValidTime(value: string): boolean {
   if (!value || value.startsWith(":") || value.endsWith(":")) {
     return false;
