@@ -38,11 +38,11 @@ describe("logger", () => {
   describe("deprecated", () => {
     it("helps log planned deprecations", () => {
       const params = {
-        // @ts-expect-error -- using fake component name
         name: "foo",
         removalVersion: 3,
       };
 
+      // @ts-expect-error -- using fake component names
       logger.deprecated("component", params);
 
       expect(warnSpy).toHaveBeenCalled();
