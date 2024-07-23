@@ -6,7 +6,14 @@ import {
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
+import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
+
+logger.deprecated("component", {
+  name: "pick-list-group",
+  removalVersion: 3,
+  suggested: "list-item-group",
+});
 
 /**
  * @deprecated Use the `calcite-list` component instead.
