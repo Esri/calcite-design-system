@@ -1,6 +1,32 @@
-import { disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
 
 describe("calcite-combobox-item", () => {
+  describe("defaults", () => {
+    defaults("calcite-combobox-item", [
+      { propertyName: "active", defaultValue: false },
+      { propertyName: "description", defaultValue: undefined },
+      { propertyName: "disabled", defaultValue: false },
+      { propertyName: "filterDisabled", defaultValue: undefined },
+      { propertyName: "icon", defaultValue: undefined },
+      { propertyName: "iconFlipRtl", defaultValue: false },
+      { propertyName: "selected", defaultValue: false },
+      { propertyName: "shortHeading", defaultValue: undefined },
+      { propertyName: "textLabel", defaultValue: undefined },
+      { propertyName: "value", defaultValue: undefined },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-combobox-item", [
+      { propertyName: "active", value: true },
+      { propertyName: "disabled", value: true },
+      { propertyName: "filterDisabled", value: true },
+      { propertyName: "icon", value: "banana" },
+      { propertyName: "iconFlipRtl", value: true },
+      { propertyName: "selected", value: true },
+    ]);
+  });
+
   describe("renders", () => {
     renders("calcite-combobox-item", { display: "flex" });
   });
