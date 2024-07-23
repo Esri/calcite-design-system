@@ -905,7 +905,7 @@ describe("calcite-combobox", () => {
       await input.press("Enter");
       await page.waitForChanges();
 
-      const item = await page.find("calcite-combobox-item:last-child");
+      const item = await page.find("calcite-combobox-item:first-child");
       expect(await item.getProperty("textLabel")).toBe("K");
 
       const combobox = await page.find("calcite-combobox");
@@ -932,14 +932,14 @@ describe("calcite-combobox", () => {
       await input.press("Enter");
       await page.waitForChanges();
 
+      const customValue = await page.find("calcite-combobox-item:first-child");
       const item1 = await page.find("calcite-combobox-item#one");
-      const item2 = await page.find("calcite-combobox-item:last-child");
 
-      expect(await item2.getProperty("textLabel")).toBe("K");
+      expect(await customValue.getProperty("textLabel")).toBe("K");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
+      expect(await customValue.getProperty("selected")).toBe(true);
       expect(await item1.getProperty("selected")).toBe(false);
-      expect(await item2.getProperty("selected")).toBe(true);
     });
 
     it("should auto-select new custom values in multiple selection mode", async () => {
@@ -960,16 +960,16 @@ describe("calcite-combobox", () => {
       await input.press("Escape");
       await page.waitForChanges();
 
+      const customValue = await page.find("calcite-combobox-item:first-child");
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(3);
       expect(chips[2].textContent).toBe("K");
+      expect(await customValue.getProperty("selected")).toBe(true);
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(true);
-      expect(await item3.getProperty("selected")).toBe(true);
     });
   });
 
