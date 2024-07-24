@@ -33,7 +33,7 @@ import {
   getLocalizedDecimalSeparator,
   getLocalizedTimePartSuffix,
   getMeridiem,
-  getTimeParts,
+  getMeridiemOrder,
   HourCycle,
   isValidTime,
   localizeTimePart,
@@ -752,8 +752,6 @@ export class TimePicker
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
-        const formatParts = getTimeParts({ value, locale, numberingSystem });
-        this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
       this.hour = null;
@@ -871,18 +869,6 @@ export class TimePicker
     this.showFractionalSecond = decimalPlaces(this.step) > 0;
   }
 
-  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const locale = this.effectiveLocale;
-    const isRTLKind = locale === "ar" || locale === "he";
-    if (formatParts && !isRTLKind) {
-      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
-        return parts.value === this.localizedMeridiem;
-      });
-      return index;
-    }
-    return 0;
-  }
-
   private updateLocale() {
     updateMessages(this, this.effectiveLocale);
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
@@ -890,6 +876,7 @@ export class TimePicker
       this.effectiveLocale,
       this.numberingSystem,
     );
+    this.meridiemOrder = getMeridiemOrder(this.effectiveLocale);
     this.setValue(this.sanitizeValue(this.value));
   }
 
@@ -904,13 +891,6 @@ export class TimePicker
     this.updateLocale();
     connectMessages(this);
     this.toggleSecond();
-    this.meridiemOrder = this.getMeridiemOrder(
-      getTimeParts({
-        value: "0:00:00",
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-      }),
-    );
   }
 
   async componentWillLoad(): Promise<void> {
