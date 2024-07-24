@@ -1168,6 +1168,15 @@ describe("calcite-time-picker", () => {
       const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
       expect(meridiemStart).toBeTruthy();
     });
+
+    it("meridiem is to the left of the time for korean locale", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker lang="ko"></calcite-time-picker>`,
+      });
+
+      const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
+      expect(meridiemStart).toBeTruthy();
+    });
   });
 
   describe("translation support", () => {

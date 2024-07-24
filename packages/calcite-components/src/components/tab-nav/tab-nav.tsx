@@ -23,6 +23,7 @@ import {
   focusElementInGroup,
   FocusElementInGroupDestination,
   getElementDir,
+  slotChangeGetAssignedElements,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -73,6 +74,13 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
 
+  @Watch("selectedTitle")
+  selectedTitleChanged(): void {
+    this.calciteInternalTabChange.emit({
+      tab: this.selectedTabId,
+    });
+  }
+
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
    *
@@ -114,24 +122,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  @Watch("selectedTabId")
-  async selectedTabIdChanged(): Promise<void> {
-    if (
-      localStorage &&
-      this.storageId &&
-      this.selectedTabId !== undefined &&
-      this.selectedTabId !== null
-    ) {
-      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
-    }
-
-    this.calciteInternalTabChange.emit({
-      tab: this.selectedTabId,
-    });
-
-    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
   //--------------------------------------------------------------------------
@@ -260,6 +250,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       : this.getIndexOfTabTitle(activatedTabTitle);
     event.stopPropagation();
 
+    this.selectedTitle = activatedTabTitle;
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
@@ -323,9 +314,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    * @param event
    */
   @Listen("calciteInternalTabTitleRegister")
-  updateTabTitles(event: CustomEvent<TabID>): void {
+  async updateTabTitles(event: CustomEvent<TabID>): Promise<void> {
     if ((event.target as HTMLCalciteTabTitleElement).selected) {
       this.selectedTabId = event.detail;
+      this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
     }
   }
 
@@ -356,6 +348,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   /**
    * @internal
    */
+  @Event() calciteInternalTabNavSlotChange: EventEmitter<Element[]>;
+
+  /**
+   * @internal
+   */
   @Event({ cancelable: false }) calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
 
   //--------------------------------------------------------------------------
@@ -380,6 +377,22 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @State() private hasOverflowingEndTabTitle = false;
 
   @State() private selectedTabId: TabID;
+
+  @Watch("selectedTabId")
+  async selectedTabIdChanged(): Promise<void> {
+    if (
+      localStorage &&
+      this.storageId &&
+      this.selectedTabId !== undefined &&
+      this.selectedTabId !== null
+    ) {
+      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
+    }
+
+    this.calciteInternalTabChange.emit({
+      tab: this.selectedTabId,
+    });
+  }
 
   private effectiveDir: Direction = "ltr";
 
@@ -432,10 +445,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private onSlotChange = (event: Event): void => {
     this.intersectionObserver?.disconnect();
 
-    const slottedChildren = (event.target as HTMLSlotElement).assignedElements();
-    slottedChildren.forEach((child) => {
+    const slottedElements = slotChangeGetAssignedElements(event, "calcite-tab-title");
+    slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
+    this.calciteInternalTabNavSlotChange.emit(slottedElements);
   };
 
   private storeTabTitleWrapperRef = (el: HTMLDivElement) => {
