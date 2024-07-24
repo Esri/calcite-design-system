@@ -86,7 +86,7 @@
 }
 
 .scrim {
-  // todo: remove once tokens update is merged
+  // todo: remove once https://github.com/Esri/calcite-design-system/pull/9816 is merged
   --calcite-scrim-background: var(--calcite-dialog-scrim-background-color, var(--calcite-color-transparent-scrim));
   --calcite-scrim-background-color: var(
     --calcite-dialog-scrim-background-color,
