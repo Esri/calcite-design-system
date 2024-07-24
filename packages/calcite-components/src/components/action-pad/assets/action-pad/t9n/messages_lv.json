@@ -1,4 +1,6 @@
 {
   "expand": "Izvērst",
-  "collapse": "Sakļaut"
+  "collapse": "Sakļaut",
+  "expandLabel": "Izvērst",
+  "collapseLabel": "Sakļaut"
 }

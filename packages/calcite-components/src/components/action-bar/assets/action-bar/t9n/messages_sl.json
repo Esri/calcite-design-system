@@ -1,4 +1,6 @@
 {
   "expand": "Razširi",
-  "collapse": "Strni"
+  "collapse": "Strni",
+  "expandLabel": "Razširi",
+  "collapseLabel": "Strni"
 }
