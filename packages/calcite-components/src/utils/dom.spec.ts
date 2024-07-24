@@ -10,6 +10,7 @@ import {
   getElementProp,
   getModeName,
   getShadowRootNode,
+  getSlotAssignedElements,
   getSlotted,
   isBefore,
   isKeyboardTriggeredClick,
@@ -399,6 +400,39 @@ describe("dom", () => {
       expect(isPrimaryPointerButton({ button: 1, isPrimary: true } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({ button: 0, isPrimary: false } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({} as PointerEvent)).toBe(false);
+    });
+  });
+
+  describe("getSlotAssignedElements()", () => {
+    it("returns slotted elements with no selector", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
+    });
+    it("returns no slotted elements", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [];
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
+    });
+    it("returns slotted elements with direct element selector", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [
+        document.createElement("span"),
+        document.createElement("div"),
+        document.createElement("span"),
+      ];
+      expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
+    });
+    it("returns slotted elements with class selector", () => {
+      const slotEl = document.createElement("slot");
+      const spanEl = document.createElement("span");
+      spanEl.className = "my-span";
+      const divEl = document.createElement("div");
+      divEl.className = "my-div";
+      slotEl.assignedElements = () => [document.createElement("span"), spanEl, document.createElement("div"), divEl];
+      expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
     });
   });
 
