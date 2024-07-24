@@ -59,6 +59,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Accessible name for the component. */
+  @Prop() label: string;
+
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
@@ -227,17 +230,19 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     const checkbox =
       this.selectionMode === "ancestors" ? (
-        <label class={CSS.checkboxLabel} key="checkbox-label">
-          <calcite-checkbox
-            checked={this.selected}
-            class={CSS.checkbox}
-            data-test-id="checkbox"
-            indeterminate={this.hasChildren && this.indeterminate}
-            scale={this.scale}
-            tabIndex={-1}
+        <div
+          aria-checked={toAriaBoolean(this.selected)}
+          aria-disabled={this.disabled}
+          aria-label={this.label}
+          class={CSS.checkbox}
+          tabIndex={-1}
+        >
+          <calcite-icon
+            icon={this.selected ? ICONS.checkSquareF : ICONS.square}
+            scale={getIconScale(this.scale)}
           />
-          {defaultSlotNode}
-        </label>
+          <span class={CSS.checkboxLabel}>{defaultSlotNode}</span>
+        </div>
       ) : null;
     const selectedIcon = showBulletPoint
       ? ICONS.bulletPoint

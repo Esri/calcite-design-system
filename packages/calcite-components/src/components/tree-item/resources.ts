@@ -1,15 +1,15 @@
 export const CSS = {
   actionsEnd: "actions-end",
+  bulletPointIcon: "bullet-point",
   checkboxLabel: "checkbox-label",
   checkbox: "checkbox",
-  chevron: "chevron",
-  nodeContainer: "node-container",
-  childrenContainer: "children-container",
-  bulletPointIcon: "bullet-point",
   checkmarkIcon: "checkmark",
-  itemExpanded: "item--expanded",
+  chevron: "chevron",
+  childrenContainer: "children-container",
   iconStart: "icon-start",
+  itemExpanded: "item--expanded",
   nodeAndActionsContainer: "node-actions-container",
+  nodeContainer: "node-container",
 };
 
 export const SLOTS = {
@@ -18,8 +18,10 @@ export const SLOTS = {
 };
 
 export const ICONS = {
+  blank: "blank",
   bulletPoint: "bullet-point",
   checkmark: "check",
+  checkSquareF: "check-square-f",
   chevronRight: "chevron-right",
-  blank: "blank",
+  square: "square",
 } as const;

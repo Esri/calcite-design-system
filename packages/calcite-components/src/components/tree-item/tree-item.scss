@@ -31,6 +31,10 @@
       }
     }
   }
+
+  .checkbox-label {
+    margin-inline-start: theme("margin.1");
+  }
 }
 
 :host([scale="m"]) {
@@ -51,6 +55,10 @@
         padding: theme("padding.2");
       }
     }
+  }
+
+  .checkbox-label {
+    margin-inline-start: theme("margin.2");
   }
 }
 
@@ -73,6 +81,10 @@
         padding-block: var(--calcite-size-sm-plus);
       }
     }
+  }
+
+  .checkbox-label {
+    margin-inline-start: theme("margin.3");
   }
 }
 
@@ -136,6 +148,12 @@
 
 .checkbox {
   line-height: 0;
+  display: flex;
+  align-items: center;
+  &:hover,
+  &:focus {
+    --calcite-ui-icon-color: var(--calcite-color-brand);
+  }
 }
 
 .checkbox-label {
@@ -252,6 +270,9 @@
   .checkmark,
   .bullet-point {
     color: var(--calcite-color-brand);
+  }
+  .checkbox {
+    --calcite-ui-icon-color: var(--calcite-color-brand);
   }
 }
 

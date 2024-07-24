@@ -5653,6 +5653,10 @@ export namespace Components {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
         "lines": boolean;
         "parentExpanded": boolean;
         "scale": Scale;
@@ -13708,6 +13712,10 @@ declare namespace LocalJSX {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
         "lines"?: boolean;
         "onCalciteInternalTreeItemSelect"?: (event: CalciteTreeItemCustomEvent<TreeItemSelectDetail>) => void;
         "parentExpanded"?: boolean;
