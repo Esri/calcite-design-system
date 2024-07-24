@@ -1,8 +1,9 @@
 export const CSS = {
   actionsEnd: "actions-end",
   bulletPointIcon: "bullet-point",
-  checkboxLabel: "checkbox-label",
   checkbox: "checkbox",
+  checkboxContainer: "checkbox-container",
+  checkboxLabel: "checkbox-label",
   checkmarkIcon: "checkmark",
   chevron: "chevron",
   childrenContainer: "children-container",

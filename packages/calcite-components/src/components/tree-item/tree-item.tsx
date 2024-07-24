@@ -230,18 +230,20 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     const checkbox =
       this.selectionMode === "ancestors" ? (
-        <div
-          aria-checked={toAriaBoolean(this.selected)}
-          aria-disabled={this.disabled}
-          aria-label={this.label}
-          class={CSS.checkbox}
-          tabIndex={-1}
-        >
-          <calcite-icon
-            icon={this.selected ? ICONS.checkSquareF : ICONS.square}
-            scale={getIconScale(this.scale)}
-          />
-          <span class={CSS.checkboxLabel}>{defaultSlotNode}</span>
+        <div class={CSS.checkboxContainer}>
+          <div
+            aria-checked={toAriaBoolean(this.selected)}
+            aria-disabled={this.disabled}
+            aria-label={this.label}
+            class={CSS.checkbox}
+            tabIndex={-1}
+          >
+            <calcite-icon
+              icon={this.selected ? ICONS.checkSquareF : ICONS.square}
+              scale={getIconScale(this.scale)}
+            />
+          </div>
+          <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
         </div>
       ) : null;
     const selectedIcon = showBulletPoint

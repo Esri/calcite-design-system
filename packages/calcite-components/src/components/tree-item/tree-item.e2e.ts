@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
   describe("renders", () => {
@@ -331,8 +331,8 @@ describe("calcite-tree-item", () => {
       </calcite-tree>
     `);
     const container = await page.find("calcite-tree-item >>> .node-container");
-    const label = await container.find("label");
-    const checkbox = await label.find("calcite-checkbox");
+    const checkbox = await container.find(`.${CSS.checkbox} calcite-icon`);
+    const label = await container.find(`label`);
 
     const icon = await container.find(`[data-test-id="icon"]`);
     await icon.click();
@@ -342,24 +342,24 @@ describe("calcite-tree-item", () => {
     expect(isVisible).toBe(true);
 
     await container.click();
-    expect(checkbox).toHaveAttribute("checked");
+    expect(checkbox).toEqualAttribute("icon", ICONS.checkSquareF);
     expect(isVisible).toBe(true);
     await container.click();
-    expect(checkbox).not.toHaveAttribute("checked");
+    expect(checkbox).toEqualAttribute("icon", ICONS.square);
     expect(isVisible).toBe(true);
 
     await label.click();
-    expect(checkbox).toHaveAttribute("checked");
+    expect(checkbox).toEqualAttribute("icon", ICONS.checkSquareF);
     expect(isVisible).toBe(true);
     await label.click();
-    expect(checkbox).not.toHaveAttribute("checked");
+    expect(checkbox).toEqualAttribute("icon", ICONS.square);
     expect(isVisible).toBe(true);
 
     await checkbox.click();
-    expect(checkbox).toHaveAttribute("checked");
+    expect(checkbox).toEqualAttribute("icon", ICONS.checkSquareF);
     expect(isVisible).toBe(true);
     await checkbox.click();
-    expect(checkbox).not.toHaveAttribute("checked");
+    expect(checkbox).toEqualAttribute("icon", ICONS.square);
     expect(isVisible).toBe(true);
   });
 
