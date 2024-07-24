@@ -22,7 +22,7 @@ module.exports = async ({ github, context, core }) => {
   });
 
   // passes when an admin approves the PR
-  if (github.event.review.state == "APPROVED" && adminTeamMembers.includes(github.event.review.user.login)) {
+  if (github.event?.review?.state == "APPROVED" && adminTeamMembers.includes(github.event?.review?.user?.login)) {
     process.exit(0);
   }
 
