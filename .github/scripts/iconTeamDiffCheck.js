@@ -11,6 +11,8 @@ module.exports = async ({ github, context, core }) => {
     },
   } = context;
 
+  core.info("Checking author/reviewers because there are diffs outside of package/calcite-ui-icons");
+
   const { data: iconTeamMembers } = await github.rest.teams.listMembersInOrg({
     org: owner,
     team_slug: teams.iconDesigners,
@@ -23,12 +25,14 @@ module.exports = async ({ github, context, core }) => {
 
   // passes when an admin approves the PR
   if (github.event?.review?.state == "APPROVED" && adminTeamMembers.includes(github.event?.review?.user?.login)) {
+    core.info("Passing because an admin has approved this pull request");
     process.exit(0);
   }
 
   // passes if the author isn't on the icon designers team or if the author is on the admin team
   // admin(s) may be on the icon designers team for maintenance purposes
   if (!iconTeamMembers.includes(author) || adminTeamMembers.includes(author)) {
+    core.info("Passing because the author is an admin and/or isn't an icon designer");
     process.exit(0);
   }
 
@@ -37,6 +41,7 @@ module.exports = async ({ github, context, core }) => {
   // passes if there was a previous approval from an admin
   reviews.forEach((review) => {
     if (review.state == "APPROVED" && adminTeamMembers.includes(review.user.login)) {
+      core.info("Passing because an admin has approved this pull request");
       process.exit(0);
     }
   });
@@ -48,6 +53,7 @@ module.exports = async ({ github, context, core }) => {
   });
 
   if (!requestedReviewers.includes(teams.admins)) {
+    core.info(`Requesting review from the ${teams.admins} GitHub team`);
     await github.rest.pulls.requestReviewers({
       owner,
       repo,

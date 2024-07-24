@@ -21,7 +21,7 @@ jobs:
             )" -- . ':!**/calcite-ui-icons/**'
           )"
 
-          echo "changed non-icon files: $non_icon_changes"
+          printf "changed non-icon files:\n%s" "$non_icon_changes"
 
           # skip if the only changes are in package/calcite-ui-icons
           if [ -z "$non_icon_changes" ]; then
