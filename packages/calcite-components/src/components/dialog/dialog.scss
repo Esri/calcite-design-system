@@ -101,17 +101,13 @@ calcite-panel {
 }
 
 .dialog {
-  @apply shadow-2-sm
-    bg-foreground-1
-    pointer-events-none
+  @apply pointer-events-none
     float-none
     m-6
     box-border
     flex
     w-full
     flex-col
-    overflow-hidden
-    rounded
     opacity-0
     z-modal;
   -webkit-overflow-scrolling: touch;
@@ -141,6 +137,12 @@ calcite-panel {
       transform: var(--calcite-internal-dialog-hidden-position);
     }
   }
+}
+
+.panel {
+  @apply shadow-2-sm
+    bg-foreground-1
+    rounded;
 }
 
 .container--open {
