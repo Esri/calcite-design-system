@@ -49,6 +49,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { componentOnReady, getIconScale } from "../../utils/component";
+import { logger } from "../../utils/logger";
 import { ModalMessages } from "./assets/modal/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -65,6 +66,12 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
+
+logger.deprecated("component", {
+  name: "modal",
+  removalVersion: 3,
+  suggested: "dialog",
+});
 
 @Component({
   tag: "calcite-modal",
