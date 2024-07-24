@@ -37,7 +37,7 @@ const resources = {
     low: "low risk",
   },
   teams: {
-    admins: "calcite-admins",
+    admins: "calcite-design-system-admins",
     iconDesigners: "calcite-icon-designers",
   },
 };

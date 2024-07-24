@@ -11,12 +11,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Check changed files
         id: check-diff
         run: |
           non_icon_changes="$(
-            git diff --name-only ${{ github.ref_name }} "$(
-              git merge-base ${{ github.ref_name }} origin/${{ github.base_ref }}
+            git diff --name-only HEAD "$(
+              git merge-base HEAD origin/${{ github.base_ref }}
             )" -- . ':!**/calcite-ui-icons/**'
           )"
 
@@ -24,9 +25,9 @@ jobs:
 
           # skip if the only changes are in package/calcite-ui-icons
           if [ -z "$non_icon_changes" ]; then
-            echo "SKIP=true" >> $GITHUB_OUTPUT
+            echo "SKIP=true" >> "$GITHUB_OUTPUT"
           else
-            echo "SKIP=false" >> $GITHUB_OUTPUT
+            echo "SKIP=false" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.check-diff.outputs.SKIP == 'false'
         name: Check pull request author and reviewers
