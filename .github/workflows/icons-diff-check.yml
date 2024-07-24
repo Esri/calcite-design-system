@@ -32,6 +32,7 @@ jobs:
         name: Check pull request author and reviewers
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.ADMIN_TOKEN }}
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/iconTeamDiffCheck.js')
             await action({github, context, core})
