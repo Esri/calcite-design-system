@@ -1,4 +1,6 @@
 {
   "expand": "Laajenna",
-  "collapse": "Kutista"
+  "collapse": "Kutista",
+  "expandLabel": "Laajenna",
+  "collapseLabel": "Kutista"
 }
