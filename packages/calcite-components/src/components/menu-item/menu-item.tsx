@@ -469,7 +469,6 @@ export class CalciteMenuItem
         }}
         label={this.messages.submenu}
         layout="vertical"
-        ref={this.setTransitionEl}
         role="menu"
       >
         <slot name="submenu-item" onSlotchange={this.handleMenuItemSlotChange} />
