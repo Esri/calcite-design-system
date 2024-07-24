@@ -3481,9 +3481,6 @@ export namespace Components {
          */
         "valueLabelType": MeterLabelType;
     }
-    /**
-     * @deprecated Use the `calcite-dialog` component instead.
-     */
     interface CalciteModal {
         /**
           * Passes a function to run before the component closes.
@@ -7118,9 +7115,6 @@ declare global {
         "calciteModalBeforeOpen": void;
         "calciteModalOpen": void;
     }
-    /**
-     * @deprecated Use the `calcite-dialog` component instead.
-     */
     interface HTMLCalciteModalElement extends Components.CalciteModal, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteModalElementEventMap>(type: K, listener: (this: HTMLCalciteModalElement, ev: CalciteModalCustomEvent<HTMLCalciteModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11572,9 +11566,6 @@ declare namespace LocalJSX {
          */
         "valueLabelType"?: MeterLabelType;
     }
-    /**
-     * @deprecated Use the `calcite-dialog` component instead.
-     */
     interface CalciteModal {
         /**
           * Passes a function to run before the component closes.
@@ -14250,9 +14241,6 @@ declare module "@stencil/core" {
             "calcite-menu": LocalJSX.CalciteMenu & JSXBase.HTMLAttributes<HTMLCalciteMenuElement>;
             "calcite-menu-item": LocalJSX.CalciteMenuItem & JSXBase.HTMLAttributes<HTMLCalciteMenuItemElement>;
             "calcite-meter": LocalJSX.CalciteMeter & JSXBase.HTMLAttributes<HTMLCalciteMeterElement>;
-            /**
-             * @deprecated Use the `calcite-dialog` component instead.
-             */
             "calcite-modal": LocalJSX.CalciteModal & JSXBase.HTMLAttributes<HTMLCalciteModalElement>;
             "calcite-navigation": LocalJSX.CalciteNavigation & JSXBase.HTMLAttributes<HTMLCalciteNavigationElement>;
             "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo & JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;
