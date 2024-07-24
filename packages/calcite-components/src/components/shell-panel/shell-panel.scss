@@ -23,20 +23,20 @@
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
   --calcite-shell-panel-detached-max-height: unset;
   --calcite-shell-panel-max-height: unset;
-  --calcite-shell-panel-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
+  --calcite-internal-shell-panel-shadow-block-start: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
     0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08),
+  --calcite-internal-shell-panel-shadow-block-end: 0 -4px 8px -1px rgba(0, 0, 0, 0.08),
     0 -2px 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+  --calcite-internal-shell-panel-shadow-inline-start: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
     2px 0 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-inline-end-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+  --calcite-internal-shell-panel-shadow-inline-end: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
     -2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
 .calcite--rtl.content--overlay {
-  --calcite-shell-panel-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+  --calcite-internal-shell-panel-shadow-inline-start: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
     -2px 0 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+  --calcite-internal-shell-panel-shadow-inline-end: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
     2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
@@ -53,55 +53,55 @@
 }
 
 :host([layout="vertical"][width-scale="s"]:not([display-mode="float"])) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 300px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 150px);
+  --calcite-internal-shell-panel-width: var(--calcite-shell-panel-width, 12vw);
+  --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
+  --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 150px);
 }
 
 :host([layout="vertical"][width-scale="s"][display-mode="float"]) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 150px);
+  --calcite-internal-shell-panel-width: var(--calcite-shell-panel-width, 12vw);
+  --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 150px);
 }
 
 :host([layout="vertical"][width-scale="m"]:not([display-mode="float"])) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 20vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 420px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 240px);
+  --calcite-internal-shell-panel-width: var(--calcite-shell-panel-width, 20vw);
+  --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 420px);
+  --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 240px);
 }
 
 :host([layout="vertical"][width-scale="m"][display-mode="float"]) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 20vw);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 240px);
+  --calcite-internal-shell-panel-width: var(--calcite-shell-panel-width, 20vw);
+  --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 240px);
 }
 
 :host([layout="vertical"][width-scale="l"]:not([display-mode="float"])) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 45vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 680px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
+  --calcite-internal-shell-panel-width: var(--calcite-shell-panel-width, 45vw);
+  --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 680px);
+  --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
 :host([layout="vertical"][width-scale="l"][display-mode="float"]) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 45vw);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
+  --calcite-internal-shell-panel-width: var(--calcite-shell-panel-width, 45vw);
+  --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
 :host([layout="horizontal"][height-scale="s"]) .content {
-  --calcite-shell-panel-max-height-internal: var(
+  --calcite-internal-shell-panel-max-height: var(
     --calcite-shell-panel-max-height,
     var(--calcite-shell-panel-detached-max-height, 20vh)
   );
 }
 
 :host([layout="horizontal"]) .content {
-  --calcite-shell-panel-min-height-internal: var(--calcite-shell-panel-min-height, 5vh);
-  --calcite-shell-panel-max-height-internal: var(
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-internal-shell-panel-max-height: var(
     --calcite-shell-panel-max-height,
     var(--calcite-shell-panel-detached-max-height, 30vh)
   );
 }
 
 :host([layout="horizontal"][height-scale="l"]) .content {
-  --calcite-shell-panel-max-height-internal: var(
+  --calcite-internal-shell-panel-max-height: var(
     --calcite-shell-panel-max-height,
     var(--calcite-shell-panel-detached-max-height, 40vh)
   );
@@ -218,20 +218,20 @@
 }
 
 :host([layout="vertical"]:not([display-mode="float"])) .content {
-  inline-size: var(--calcite-shell-panel-width-internal);
-  max-inline-size: var(--calcite-shell-panel-max-width-internal);
-  min-inline-size: var(--calcite-shell-panel-min-width-internal);
+  inline-size: var(--calcite-internal-shell-panel-width);
+  max-inline-size: var(--calcite-internal-shell-panel-max-width);
+  min-inline-size: var(--calcite-internal-shell-panel-min-width);
 }
 
 :host([layout="vertical"][display-mode="float"]) .content {
-  inline-size: var(--calcite-shell-panel-width-internal);
-  min-inline-size: var(--calcite-shell-panel-min-width-internal);
+  inline-size: var(--calcite-internal-shell-panel-width);
+  min-inline-size: var(--calcite-internal-shell-panel-min-width);
 }
 
 :host([layout="horizontal"]) .content {
-  block-size: var(--calcite-shell-panel-height-internal);
-  max-block-size: var(--calcite-shell-panel-max-height-internal);
-  min-block-size: var(--calcite-shell-panel-min-height-internal);
+  block-size: var(--calcite-internal-shell-panel-height);
+  max-block-size: var(--calcite-internal-shell-panel-max-height);
+  min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
 .content__header {
@@ -264,22 +264,22 @@
 
 :host([layout="vertical"][position="start"]) .content--overlay {
   inset-inline-start: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-inline-start-internal);
+  box-shadow: var(--calcite-internal-shell-panel-shadow-inline-start);
 }
 
 :host([layout="vertical"][position="end"]) .content--overlay {
   inset-inline-end: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-inline-end-internal);
+  box-shadow: var(--calcite-internal-shell-panel-shadow-inline-end);
 }
 
 :host([layout="horizontal"][position="start"]) .content--overlay {
   inset-block-start: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-block-start-internal);
+  box-shadow: var(--calcite-internal-shell-panel-shadow-block-start);
 }
 
 :host([layout="horizontal"][position="end"]) .content--overlay {
   inset-block-end: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
+  box-shadow: var(--calcite-internal-shell-panel-shadow-block-end);
 }
 
 .float--detach {
@@ -290,7 +290,7 @@
   h-auto
   overflow-hidden
   rounded;
-  max-block-size: var(--calcite-shell-panel-max-height-internal, calc(100% - 1rem));
+  max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-block-size: unset;
