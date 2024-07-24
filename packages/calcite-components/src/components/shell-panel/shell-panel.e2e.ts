@@ -556,7 +556,7 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-shell content-behind>
-        <calcite-shell-panel slot="panel-start" position="start" display-mode="float"></calcite-shell-panel>
+        <calcite-shell-panel slot="panel-start" position="start" display-mode="float-detach"></calcite-shell-panel>
         <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
       </calcite-shell>`,
     );
