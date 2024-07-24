@@ -42,9 +42,9 @@ export const TEXT = {
   loading: "Loading",
 };
 
-export const debounceValues = {
+export const DEBOUNCE = {
   filter: 250,
   nextTick: 0,
-  overflow: 150,
+  resize: 150,
   reposition: 100,
 };

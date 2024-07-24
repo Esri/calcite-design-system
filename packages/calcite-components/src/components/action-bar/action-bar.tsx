@@ -40,7 +40,7 @@ import {
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { debounceValues } from "../../utils/resources";
+import { DEBOUNCE } from "../../utils/resources";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
 import { CSS, SLOTS } from "./resources";
 import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
@@ -337,7 +337,7 @@ export class ActionBar
       expanded,
       overflowCount,
     });
-  }, debounceValues.overflow);
+  }, DEBOUNCE.resize);
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
