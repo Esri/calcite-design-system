@@ -101,7 +101,7 @@
   inset-block-end: unset;
   inset-inline-start: -1px;
   inset-inline-end: 0;
-  inline-size: calc(100% + 2px);
+  inline-size: calc(100% + var(--calcite-spacing-base));
 }
 
 :host([bordered][selected]) .container::after {
@@ -200,11 +200,11 @@
 }
 
 .content--has-text .calcite-tab-title--icon.icon-start {
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-spacing-sm);
 }
 
 .content--has-text .calcite-tab-title--icon.icon-end {
-  margin-inline-start: theme("margin.2");
+  margin-inline-start: var(--calcite-spacing-sm);
 }
 
 .close-button {
@@ -220,12 +220,18 @@
   h-full
   self-center
   text-color-3
-  transition-default
-  z-default;
+  transition-default;
   background-color: var(--calcite-button-transparent-1);
   // compensate for the added border on parent and ensure focus alignment
-  margin-inline-end: 1px;
-  block-size: calc(100% - 4px);
+  margin-inline-end: var(--calcite-spacing-px);
+  box-shadow:
+    var(--calcite-spacing-px) 0 0 0 transparent,
+    0 var(--calcite-spacing-xxs) 0 0 transparent;
+  block-size: calc(100% - var(--calcite-spacing-xxs));
+
+  &:hover {
+    box-shadow: var(--calcite-spacing-px) 0 0 0 var(--calcite-color-foreground-3);
+  }
   &:focus {
     @apply focus-normal;
   }
@@ -249,7 +255,7 @@
 // compensate for spacing when no hastext and two icons
 :host([icon-start][icon-end]) {
   .calcite-tab-title--icon:first-child {
-    margin-inline-end: theme("margin.2");
+    margin-inline-end: var(--calcite-spacing-sm);
   }
 }
 
@@ -259,11 +265,11 @@
 }
 
 :host([bordered][selected]) {
-  box-shadow: inset 0 -2px var(--calcite-color-foreground-1);
+  box-shadow: inset 0 -1px var(--calcite-color-foreground-1);
 }
 
 :host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 2px 0 var(--calcite-color-foreground-1);
+  box-shadow: inset 0 var(--calcite-spacing-base) 0 var(--calcite-color-foreground-1);
 }
 
 :host([bordered]:hover) {
@@ -274,10 +280,10 @@
 
 :host([closable]) .container,
 :host([bordered]) .container {
-  border-inline-start: 1px solid transparent;
-  border-inline-end: 1px solid transparent;
+  border-inline-start: var(--calcite-spacing-px) solid transparent;
+  border-inline-end: var(--calcite-spacing-px) solid transparent;
   .close-button {
-    margin-inline-start: theme("margin.2");
+    margin-inline-start: var(--calcite-spacing-sm);
   }
 }
 
