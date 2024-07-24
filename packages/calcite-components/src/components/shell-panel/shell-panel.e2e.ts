@@ -153,13 +153,13 @@ describe("calcite-shell-panel", () => {
 
     const panel = await page.find("calcite-shell-panel");
 
-    expect(await panel.getProperty("float-detach")).toBe(false);
+    expect(await panel.getProperty("detached")).toBe(false);
 
     panel.setProperty("displayMode", "float");
 
     await page.waitForChanges();
 
-    expect(await panel.getProperty("float-detach")).toBe(true);
+    expect(await panel.getProperty("detached")).toBe(true);
 
     detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatDetach}`);
 
