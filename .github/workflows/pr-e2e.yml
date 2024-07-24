@@ -5,7 +5,7 @@ on:
     branches: [main, rc, dev]
 jobs:
   e2e:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -13,21 +13,18 @@ jobs:
       - name: skip for markdown only prs
         id: markdown-check
         run: |
-          current_branch="$(git rev-parse --abbrev-ref HEAD)"
-          # diff of branch excluding md
-          testable_changes=$(
-            git diff --name-only "$current_branch" $(
-              git merge-base "$current_branch" origin/${{ github.base_ref }}
-            ) -- . ':!*.md*' ':!**/calcite-ui-icons/**'
-          )
+          testable_changes="$(
+            git diff --name-only HEAD "$(
+              git merge-base HEAD origin/${{ github.base_ref }}
+            )" -- . ':!*.md*' ':!**/calcite-ui-icons/**'
+          )"
+
           echo "changed files: $testable_changes"
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
-            echo "skip e2e"
-            echo "SKIP=true" >> $GITHUB_OUTPUT
+            echo "SKIP=true" >> "$GITHUB_OUTPUT"
           else
-            echo "run e2e"
-            echo "SKIP=false" >> $GITHUB_OUTPUT
+            echo "SKIP=false" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.markdown-check.outputs.SKIP == 'false'
         uses: actions/setup-node@v4

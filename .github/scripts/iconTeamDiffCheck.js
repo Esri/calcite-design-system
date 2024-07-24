@@ -1,0 +1,62 @@
+const { teams } = require("./support/resources");
+
+module.exports = async ({ github, context, core }) => {
+  const {
+    repo: { owner, repo },
+    payload: {
+      pull_request: {
+        number: pull_number,
+        user: { login: author },
+      },
+    },
+  } = context;
+
+  const { data: iconTeamMembers } = await github.rest.teams.listMembersInOrg({
+    org: owner,
+    team_slug: teams.iconDesigners,
+  });
+
+  const { data: adminTeamMembers } = await github.rest.teams.listMembersInOrg({
+    org: owner,
+    team_slug: teams.admins,
+  });
+
+  // passes when an admin approves the PR
+  if (github.event.review.state == "APPROVED" && adminTeamMembers.includes(github.event.review.user.login)) {
+    process.exit(0);
+  }
+
+  // passes if the author isn't on the icon designers team or if the author is on the admin team
+  // admin(s) may be on the icon designers team for maintenance purposes
+  if (!iconTeamMembers.includes(author) || adminTeamMembers.includes(author)) {
+    process.exit(0);
+  }
+
+  const { data: reviews } = await github.rest.pulls.listReviews({ owner, repo, pull_number });
+
+  // passes if there was a previous approval from an admin
+  reviews.forEach((review) => {
+    if (review.state == "APPROVED" && adminTeamMembers.includes(review.user.login)) {
+      process.exit(0);
+    }
+  });
+
+  const { data: requestedReviewers } = await github.rest.pulls.listRequestedReviewers({
+    owner,
+    repo,
+    pull_number,
+  });
+
+  if (!requestedReviewers.includes(teams.admins)) {
+    await github.rest.pulls.requestReviewers({
+      owner,
+      repo,
+      pull_number,
+      team_reviewers: [teams.admins],
+    });
+  }
+
+  core.setFailed(
+    `An admin needs to review these changes because a file outside of package/calcite-ui-icons was changed.`,
+  );
+};

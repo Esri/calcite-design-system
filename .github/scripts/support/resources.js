@@ -36,6 +36,10 @@ const resources = {
   risk: {
     low: "low risk",
   },
+  teams: {
+    admins: "calcite-admins",
+    iconDesigners: "calcite-icon-designers",
+  },
 };
 
 module.exports = resources;
