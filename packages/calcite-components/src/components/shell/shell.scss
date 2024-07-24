@@ -39,10 +39,6 @@
   justify-content: space-between;
 }
 
-.content--non-interactive {
-  @apply flex pointer-events-none;
-}
-
 .content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
@@ -56,6 +52,10 @@
     border-0;
   z-index: calc(theme("zIndex.default") - 1);
   display: initial;
+}
+
+.content--non-interactive {
+  @apply flex pointer-events-none;
 }
 
 ::slotted(calcite-shell-center-row) {
