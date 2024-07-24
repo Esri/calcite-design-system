@@ -28,10 +28,11 @@ import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
+ * @slot content-end - A slot for adding non-actionable elements after the component's content.
  */
 @Component({
   tag: "calcite-combobox-item",
@@ -45,19 +46,31 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * When `true`, the component is selected.
-   */
-  @Prop({ reflect: true, mutable: true }) selected = false;
-
   /** When `true`, the component is active. */
   @Prop({ reflect: true }) active = false;
 
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
+
+  /**
+   * A description for the component, which displays below the label.
+   */
+  @Prop() description: string;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   */
+  @Prop({ reflect: true }) filterDisabled: boolean;
+
+  /**
+   * Pattern for highlighting filter text matches.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true }) guid = guid();
@@ -73,23 +86,22 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.calciteComboboxItemChange.emit();
   }
 
-  /** The component's text. */
-  @Prop({ reflect: true }) textLabel!: string;
+  /**
+   * Provides additional metadata to the component used in filtering.
+   */
+  @Prop() metadata: Record<string, unknown>;
 
   /**
-   * Pattern for highlighting filter text matches.
+   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
    *
    * @internal
    */
-  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
-
-  /** The component's value. */
-  @Prop() value!: any;
+  @Prop() scale: Scale = "m";
 
   /**
-   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   * When `true`, the component is selected.
    */
-  @Prop({ reflect: true }) filterDisabled: boolean;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
    * Specifies the selection mode of the component, where:
@@ -110,11 +122,19 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   > = "multiple";
 
   /**
-   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   * The component's short heading.
    *
-   * @internal
+   * When provided, the short heading will be displayed in the component's selection.
+   *
+   * It is recommended to use 5 characters or fewer.
    */
-  @Prop() scale: Scale = "m";
+  @Prop() shortHeading: string;
+
+  /** The component's text. */
+  @Prop({ reflect: true }) textLabel!: string;
+
+  /** The component's value. */
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //
@@ -189,7 +209,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.custom]: !!this.icon,
           [CSS.iconActive]: this.icon && this.selected,
-          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -207,7 +226,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.dot]: true,
-          [CSS.iconIndent]: true,
         }}
       />
     ) : (
@@ -215,7 +233,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.iconActive]: this.selected,
-          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={iconPath}
@@ -250,19 +267,31 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-    const depth = getDepth(this.el);
+    const depth = getDepth(this.el) + 1;
 
     return (
       <Host aria-hidden="true">
         <InteractiveContainer disabled={disabled}>
           <div
-            class={`container scale--${this.scale}`}
+            class={{
+              [CSS.container]: true,
+              [CSS.scale(this.scale)]: true,
+            }}
             style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
           >
             <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
-              <span class="title">{this.renderTextContent()}</span>
+              <div class={CSS.centerContent}>
+                <div class={CSS.title}>{this.renderTextContent(this.textLabel)}</div>
+                {this.description ? (
+                  <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
+                ) : null}
+              </div>
+              {this.shortHeading ? (
+                <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
+              ) : null}
+              <slot name={SLOTS.contentEnd} />
             </li>
             {this.renderChildren()}
           </div>
@@ -271,12 +300,14 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     );
   }
 
-  private renderTextContent(): string | (string | VNode)[] {
-    if (!this.filterTextMatchPattern) {
-      return this.textLabel;
+  private renderTextContent(text: string): string | (string | VNode)[] {
+    const pattern = this.filterTextMatchPattern;
+
+    if (!pattern || !text) {
+      return text;
     }
 
-    const parts: (string | VNode)[] = this.textLabel.split(this.filterTextMatchPattern);
+    const parts: (string | VNode)[] = text.split(pattern);
 
     if (parts.length > 1) {
       // we only highlight the first match

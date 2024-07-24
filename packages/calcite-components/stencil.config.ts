@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
@@ -146,6 +147,8 @@ export const create: () => Config = () => ({
     before: [
       replace({
         values: {
+          __CALCITE_BUILD_DATE__: () => new Date().toISOString().split("T")[0],
+          __CALCITE_REVISION__: execSync("git rev-parse HEAD", { encoding: "utf-8" }).trim(),
           __CALCITE_VERSION__: version,
         },
         include: ["src/utils/config.ts"],

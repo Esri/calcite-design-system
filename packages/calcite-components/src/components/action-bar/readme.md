@@ -6,59 +6,6 @@ For comprehensive guidance on using and implementing `calcite-action-bar`, refer
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Actions-end
-
-The actions-end slot renders `calcite-action`s that stick to the end of the bar prior to the expand/collapse icon.
-
-```html
-<calcite-action-bar>
-  <calcite-action text="Information" icon="information"></calcite-action>
-  <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
-</calcite-action-bar>
-```
-
-### Basic
-
-Renders `calcite-action`s that stick to the top of the bar.
-
-```html
-<calcite-action-bar>
-  <calcite-action text="Add" icon="plus"></calcite-action>
-  <calcite-action text="Save" icon="save"></calcite-action>
-</calcite-action-bar>
-```
-
-### Tooltip
-
-Renders with a tooltip on the expand action.
-
-```html
-<calcite-action-bar id="action-bar-test">
-  <calcite-tooltip slot="expand-tooltip">Expand</calcite-tooltip>
-  <calcite-action text="Add" icon="plus"></calcite-action>
-</calcite-action-bar>
-```
-
-### With-grouping
-
-Renders a group of `calcite-action`s contained in a `calcite-action-group`. Actions in a group are visually separated from other groups or actions in the bar.
-
-```html
-<calcite-action-bar>
-  <calcite-action-group label="Manage item">
-    <calcite-action text="Add" icon="plus"></calcite-action>
-    <calcite-action text="Save" icon="save"></calcite-action>
-  </calcite-action-group>
-
-  <calcite-action-group label="Item types">
-    <calcite-action text="Layers" icon="layers"></calcite-action>
-    <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
-  </calcite-action-group>
-</calcite-action-bar>
-```
-
 ## Properties
 
 | Property                  | Attribute                   | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                         | Default      |

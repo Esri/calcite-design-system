@@ -71,10 +71,19 @@ import { IconName } from "../icon/interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
-import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
+import {
+  getItemAncestors,
+  getItemChildren,
+  getLabel,
+  hasActiveChildren,
+  isSingleLike,
+} from "./utils";
 
 interface ItemData {
+  description: string;
   label: string;
+  metadata: Record<string, unknown>;
+  shortHeading: string;
   value: string;
 }
 
@@ -577,7 +586,7 @@ export class Combobox
 
   textInput: HTMLInputElement = null;
 
-  data: ItemData[];
+  private data: ItemData[];
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -1036,8 +1045,8 @@ export class Combobox
 
     if (items.length > maxItems) {
       items.forEach((item) => {
-        if (itemsToProcess < maxItems && maxItems > 0) {
-          const height = this.calculateSingleItemHeight(item);
+        if (itemsToProcess < maxItems) {
+          const height = this.calculateScrollerHeight(item);
           if (height > 0) {
             maxScrollerHeight += height;
             itemsToProcess++;
@@ -1049,20 +1058,18 @@ export class Combobox
     return maxScrollerHeight;
   }
 
-  private calculateSingleItemHeight(item: ComboboxChildElement): number {
+  private calculateScrollerHeight(item: ComboboxChildElement): number {
     if (!item) {
       return;
     }
 
-    let height = item.offsetHeight;
     // if item has children items, don't count their height twice
-    const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
-    children
-      .map((child) => child?.offsetHeight)
-      .forEach((offsetHeight) => {
-        height -= offsetHeight;
-      });
-    return height;
+    const parentHeight = item.getBoundingClientRect().height;
+    const childrenTotalHeight = Array.from(
+      item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector),
+    ).reduce((total, child) => total + child.getBoundingClientRect().height, 0);
+
+    return parentHeight - childrenTotalHeight;
   }
 
   inputHandler = (event: Event): void => {
@@ -1153,7 +1160,7 @@ export class Combobox
       this.emitComboboxChange();
 
       if (this.textInput) {
-        this.textInput.value = item.textLabel;
+        this.textInput.value = getLabel(item);
       }
       this.open = false;
       this.updateActiveItemIndex(-1);
@@ -1242,9 +1249,12 @@ export class Combobox
 
   getData(): ItemData[] {
     return this.items.map((item) => ({
+      description: item.description,
       filterDisabled: item.filterDisabled,
-      value: item.value,
       label: item.textLabel,
+      metadata: item.metadata,
+      shortHeading: item.shortHeading,
+      value: item.value,
     }));
   }
 
@@ -1282,7 +1292,7 @@ export class Combobox
       item.value = value;
       item.textLabel = value;
       item.selected = true;
-      this.el.appendChild(item);
+      this.el.prepend(item);
       this.resetText();
       if (focus) {
         this.setFocus();
@@ -1341,7 +1351,7 @@ export class Combobox
       return;
     }
 
-    const height = this.calculateSingleItemHeight(activeItem);
+    const height = this.calculateScrollerHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
       this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
@@ -1404,8 +1414,9 @@ export class Combobox
         "chip--active": activeChipIndex === i,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
-      const pathLabel = [...ancestors, item].map((el) => el.textLabel);
-      const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
+      const itemLabel = getLabel(item);
+      const pathLabel = [...ancestors, item].map((el) => getLabel(el));
+      const label = selectionMode !== "ancestors" ? itemLabel : pathLabel.join(" / ");
 
       return (
         <calcite-chip
@@ -1416,7 +1427,7 @@ export class Combobox
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
-          key={item.textLabel}
+          key={itemLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           onFocusin={() => (this.activeChipIndex = i)}
@@ -1607,7 +1618,7 @@ export class Combobox
             }}
             key="label"
           >
-            {selectedItem.textLabel}
+            {getLabel(selectedItem)}
           </span>
         )}
         <input

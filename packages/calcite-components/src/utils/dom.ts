@@ -420,6 +420,17 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
 }
 
 /**
+ * Filters an array of HTML elements by the provided css selector string.
+ *
+ * @param {Element[]} elements An array of elements, such as one returned by HTMLSlotElement.assignedElements().
+ * @param {string} selector The CSS selector string to filter the returned elements by.
+ * @returns {Element[]} A filtered array of elements.
+ */
+export function filterElementsBySelector<T extends Element>(elements: Element[], selector: string): T[] {
+  return elements.filter((element): element is T => element.matches(selector));
+}
+
+/**
  * Set a default icon from a defined set or allow an override with an icon name string
  *
  * @param {Record<string, string>} iconObject The icon object.
@@ -565,12 +576,25 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * ```
  *
  * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned elements.
+ * @param {string} selector The CSS selector string to filter the returned elements by.
+ * @returns {Element[]} An array of elements.
  */
-export function slotChangeGetAssignedElements(event: Event): Element[] {
-  return (event.currentTarget as HTMLSlotElement).assignedElements({
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
+  return getSlotAssignedElements(event.target as HTMLSlotElement, selector);
+}
+
+/**
+ * This helper returns the assigned elements on a `slot` element, filtered by an optional css selector.
+ *
+ * @param {HTMLSlotElement} slot The slot element.
+ * @param {string} selector CSS selector string to filter the returned elements by.
+ * @returns {Element[]} An array of elements.
+ */
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
+  const assignedElements = slot.assignedElements({
     flatten: true,
   });
+  return selector ? filterElementsBySelector<T>(assignedElements, selector) : (assignedElements as T[]);
 }
 
 /**
