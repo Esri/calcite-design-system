@@ -1,5 +1,7 @@
 {
   "nextMonth": "Mese successivo",
   "prevMonth": "Mese precedente",
+  "monthMenu": "Menu mese",
+  "yearMenu": "Menu anno",
   "year": "Anno"
 }

@@ -1,4 +1,6 @@
 {
   "expand": "Expandera",
-  "collapse": "Dölj"
+  "collapse": "Dölj",
+  "expandLabel": "Expandera",
+  "collapseLabel": "Dölj"
 }

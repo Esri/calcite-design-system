@@ -1,4 +1,6 @@
 {
   "expand": "Proširi",
-  "collapse": "Sažmi"
+  "collapse": "Sažmi",
+  "expandLabel": "Proširi",
+  "collapseLabel": "Sažmi"
 }
