@@ -1,4 +1,4 @@
-name: Blocked Issue Closed Notifier
+name: Issue Unblocked Comment
 on:
   issues:
     types: [closed]
@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check for blocked issues text in body
+      - name: "Create unblocked comment"
         uses: actions/github-script@v7
         with:
           script: |
