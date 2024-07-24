@@ -155,7 +155,7 @@ describe("calcite-shell-panel", () => {
 
     expect(await panel.getProperty("detached")).toBe(false);
 
-    panel.setProperty("displayMode", "float");
+    panel.setProperty("displayMode", "float-detach");
 
     await page.waitForChanges();
 
