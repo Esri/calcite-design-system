@@ -358,7 +358,7 @@ export const placementBottomEnd = (): string => html`
 `;
 
 const themedStyle = html` --calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
---calcite-dialog-size-y: 400px; --calcite-dialog-panel-footer-space: 50px; --calcite-dialog-border-color: pink;`;
+--calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;`;
 
 export const themed = (): string =>
   html`<calcite-dialog
