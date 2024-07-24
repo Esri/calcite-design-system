@@ -1,5 +1,5 @@
 import { waitForAnimationFrame } from "../tests/utils";
-import { debounceValues } from "./resources";
+import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
 import { FloatingUIComponent } from "./floating-ui";
 
@@ -122,7 +122,7 @@ describe("repositioning", () => {
 
     assertPreOpenPositioning(floatingEl);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, debounceValues.reposition));
+    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.reposition));
     assertOpenPositioning(floatingEl);
   });
 
@@ -139,7 +139,7 @@ describe("repositioning", () => {
     floatingUI.reposition(anotherFakeFloatingUiComponent, positionOptions, true);
     expect(positionSpy).toHaveBeenCalledTimes(2);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, debounceValues.reposition));
+    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.reposition));
     expect(positionSpy).toHaveBeenCalledTimes(2);
   });
 });
