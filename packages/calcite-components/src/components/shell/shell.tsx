@@ -198,13 +198,12 @@ export class Shell implements ConditionalSlotComponent {
   }
 
   renderContent(): VNode[] {
-    const { panelIsResizing } = this;
-    const defaultSlotNode: VNode = <slot key="default-slot" />;
-    const defaultSlotContainerNode = panelIsResizing ? (
-      <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>
-    ) : (
-      defaultSlotNode
+    const defaultSlotContainerNode = (
+      <div class={{ [CSS.contentNonInteractive]: this.panelIsResizing }}>
+        <slot key="default-slot" />
+      </div>
     );
+
     const deprecatedCenterRowSlotNode: VNode = (
       <slot key="center-row-slot" name={SLOTS.centerRow} />
     );

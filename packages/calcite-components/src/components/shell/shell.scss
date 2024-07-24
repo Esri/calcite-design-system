@@ -29,18 +29,18 @@
     overflow-hidden;
 }
 
-.content,
-.content--non-interactive {
+.content {
   @apply flex
     h-full
     w-full
     flex-col
-    flex-nowrap;
+    flex-nowrap
+    overflow-auto;
+  justify-content: space-between;
 }
 
-.content {
-  @apply overflow-auto;
-  justify-content: space-between;
+.content--non-interactive {
+  @apply flex pointer-events-none;
 }
 
 .content ::slotted(calcite-shell-center-row),
@@ -56,10 +56,6 @@
     border-0;
   z-index: calc(theme("zIndex.default") - 1);
   display: initial;
-}
-
-.content--non-interactive {
-  @apply pointer-events-none;
 }
 
 ::slotted(calcite-shell-center-row) {
