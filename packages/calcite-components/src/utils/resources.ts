@@ -43,7 +43,7 @@ export const TEXT = {
 };
 
 export const DEBOUNCE = {
-  filter: 250,
+  filter: 100,
   nextTick: 0,
   resize: 150,
   reposition: 100,
