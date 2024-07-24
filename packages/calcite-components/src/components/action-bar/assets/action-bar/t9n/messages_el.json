@@ -1,4 +1,6 @@
 {
   "expand": "Ανάπτυξη",
-  "collapse": "Σύμπτυξη"
+  "collapse": "Σύμπτυξη",
+  "expandLabel": "Ανάπτυξη",
+  "collapseLabel": "Σύμπτυξη"
 }
