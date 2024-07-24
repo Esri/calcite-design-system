@@ -277,7 +277,8 @@ export namespace Components {
          */
         "appearance": Extract<"solid" | "transparent", Appearance>;
         /**
-          * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+          * When `true`, the side padding of the component is reduced.
+          * @deprecated No longer necessary.
          */
         "compact": boolean;
         /**
@@ -8051,7 +8052,8 @@ declare namespace LocalJSX {
          */
         "appearance"?: Extract<"solid" | "transparent", Appearance>;
         /**
-          * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+          * When `true`, the side padding of the component is reduced.
+          * @deprecated No longer necessary.
          */
         "compact"?: boolean;
         /**
