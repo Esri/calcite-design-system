@@ -3,35 +3,38 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
+ * @prop --calcite-action-container-background-color: Specifies the background color of the component.
+ * @prop --calcite-action-pad-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-action-pad-expanded-max-size-x: When `layout` is `"vertical"`, specifies the expanded max width of the component.
+ * @prop --calcite-action-pad-shadow: Specifies the shadow of the component.
  */
 
 :host {
   @extend %component-host;
-  @apply animate-in block rounded-sm;
-  --calcite-action-pad-expanded-max-width: auto;
+  @apply animate-in block;
+
   background: transparent;
+  border-radius: var(--calcite-action-pad-corner-radius, 0.125rem /* 2px */);
 }
 
 :host([expanded][layout="vertical"]) .container {
-  max-inline-size: var(--calcite-action-pad-expanded-max-width);
-}
-
-::slotted(calcite-action-group) {
-  @apply border-color-3
-  border-0
-  border-b
-  border-solid
-  pb-0 pt-0;
+  max-inline-size: var(--calcite-action-pad-expanded-max-size-x, auto);
 }
 
 .container {
-  @apply bg-background
-  shadow-2
-  inline-flex
+  @apply inline-flex
   flex-col
-  overflow-y-auto
-  rounded;
+  overflow-y-auto;
+
+  --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  box-shadow: var(
+    --calcite-action-pad-shadow,
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow)
+  );
+  background-color: var(--calcite-action-container-background-color, var(--calcite-color-background));
+  border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2);
 }
 
 .action-group--bottom {
@@ -41,6 +44,7 @@
 :host([layout="horizontal"]) {
   .container {
     @apply flex-row;
+
     .action-group--bottom {
       @apply p-0;
     }
@@ -50,10 +54,6 @@
       border-inline-end-width: theme("borderWidth.DEFAULT");
     }
   }
-}
-
-::slotted(calcite-action-group:last-child) {
-  @apply border-b-0;
 }
 
 @include base-component();

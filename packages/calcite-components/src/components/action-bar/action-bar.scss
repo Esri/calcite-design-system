@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-bar-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
+ * @prop --calcite-action-bar-expanded-max-size: When `layout` is `"vertical"`, specifies the expanded max width of the component.
  */
 
 :host {
@@ -11,7 +11,6 @@
   @apply pointer-events-auto
     inline-flex
     self-stretch;
-  --calcite-action-bar-expanded-max-width: auto;
 }
 
 :host([layout="vertical"]) {
@@ -37,16 +36,12 @@
 }
 
 :host([layout="vertical"][expanded]) {
-  max-inline-size: var(--calcite-action-bar-expanded-max-width);
-}
-
-::slotted(calcite-action-group) {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  max-inline-size: var(--calcite-action-bar-expanded-max-size, auto);
 }
 
 :host([layout="horizontal"]) ::slotted(calcite-action-group) {
   border-block-end: 0;
-  border-inline-end: 1px solid var(--calcite-color-border-3);
+  border-inline-end-width: 1px;
 }
 
 :host([layout="horizontal"][expand-disabled]) ::slotted(calcite-action-group:last-of-type) {

@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n, themed } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { openClose } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
@@ -479,5 +479,150 @@ describe("calcite-alert", () => {
 
   describe("translation support", () => {
     t9n("calcite-alert");
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed("calcite-alert", {
+        "--calcite-alert-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-alert-border-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineColor",
+          },
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderBlockEndColor",
+          },
+        ],
+        "--calcite-alert-status-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBlockStartColor",
+        },
+        "--calcite-alert-close-background-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-background-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-alert-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-alert-close-text-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-alert-close-text-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+        },
+        "--calcite-alert-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-alert-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+        // "--calcite-alert-size-x": {
+        //   shadowSelector: `.${CSS.actionsEnd}`,
+        //   targetProp: "height",
+        // },
+      });
+    });
+    describe("status", () => {
+      describe("brand", () => {
+        themed(html`<calcite-alert kind="brand"></calcite-alert>`, {
+          "--calcite-alert-status-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderBlockStartColor",
+          },
+        });
+      });
+      describe("danger", () => {
+        themed(html`<calcite-alert kind="danger"></calcite-alert>`, {
+          "--calcite-alert-status-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderBlockStartColor",
+          },
+        });
+      });
+      describe("info", () => {
+        themed(html`<calcite-alert kind="info"></calcite-alert>`, {
+          "--calcite-alert-status-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderBlockStartColor",
+          },
+        });
+      });
+      describe("warning", () => {
+        themed(html`<calcite-alert kind="warning"></calcite-alert>`, {
+          "--calcite-alert-status-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderBlockStartColor",
+          },
+        });
+      });
+      describe("success", () => {
+        themed(html`<calcite-alert kind="success"></calcite-alert>`, {
+          "--calcite-alert-status-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderBlockStartColor",
+          },
+        });
+      });
+    });
+    describe.skip("queue", () => {
+      themed(
+        html`<calcite-alert open></calcite-alert><calcite-alert open></calcite-alert
+          ><calcite-alert open></calcite-alert>`,
+        {
+          "--calcite-alert-background-color": {
+            shadowSelector: `.${CSS.queueCount}`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+    describe.skip("slotted", () => {
+      themed(
+        html`<calcite-alert open
+          ><div class="link" slot="link">a link</div>
+          <div class="message" slot="message">message</div>
+          <div class="title" slot="title">title</div></calcite-alert
+        >`,
+        {
+          "--calcite-alert-link-text-color": {
+            shadowSelector: `::slotted('link')`,
+            targetProp: "color",
+          },
+          "--calcite-alert-message-text-color": {
+            shadowSelector: `::slotted('message')`,
+            targetProp: "color",
+          },
+          "--calcite-alert-title-text-color": {
+            shadowSelector: `::slotted('title')`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+    describe.skip("deprecated", () => {
+      themed("calcite-alert", {
+        "--calcite-alert-width": {
+          shadowSelector: `.${CSS.actionsEnd}`,
+          targetProp: "height",
+        },
+      });
+    });
   });
 });

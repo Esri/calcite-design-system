@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
@@ -204,5 +205,84 @@ describe("calcite-action", () => {
     expect(liveRegion.getAttribute("aria-live")).toBe("polite");
     expect(liveRegion.getAttribute("role")).toBe("region");
     expect(liveRegion.textContent).toBe("Indicator present");
+  });
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-action`, {
+        "--calcite-action-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-background-color-hover": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-action-background-color-active": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+    describe("text", () => {
+      themed(
+        html`<calcite-action
+          scale="s"
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+        ></calcite-action>`,
+        {
+          "--calcite-action-text-color": {
+            shadowSelector: `.${CSS.button}`,
+            targetProp: "color",
+          },
+          "--calcite-action-text-color-hover": {
+            shadowSelector: `.${CSS.button}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        },
+      );
+    });
+    describe("active", () => {
+      themed(
+        html`<calcite-action
+          scale="s"
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+        ></calcite-action>`,
+        {
+          "--calcite-action-text-color-active": {
+            shadowSelector: `.${CSS.button}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+    describe("indicator", () => {
+      themed(
+        html`<calcite-action class="one" indicator text="hello world"></calcite-action
+          ><calcite-action class="two" indicator icon="hamburger"></calcite-action>`,
+        {
+          "--calcite-action-indicator-color": [
+            {
+              selector: ".one",
+              shadowSelector: `.${CSS.indicatorWithoutIcon}::after`,
+              targetProp: "backgroundColor",
+            },
+            {
+              selector: ".two",
+              shadowSelector: `.${CSS.indicatorWithIcon}::after`,
+              targetProp: "backgroundColor",
+            },
+          ],
+        },
+      );
+    });
   });
 });

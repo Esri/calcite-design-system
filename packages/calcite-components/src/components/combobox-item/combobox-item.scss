@@ -1,35 +1,49 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-combobox-background-color-highlight: Specifies the background color of the combobox when hovered.
+ * @prop --calcite-combobox-indicator-color-selected: Specifies the color of the indicator when selected.
+ * @prop --calcite-combobox-indicator-color: Specifies the color of the indicator.
+ * @prop --calcite-combobox-text-color-highlight: Specifies the text color of the combobox when hovered.
+ * @prop --calcite-combobox-text-color-selected: Specifies the text color of the combobox when selected.
+ * @prop --calcite-combobox-text-color: Specifies the text color of the combobox.
+ */
+
 @include base-component();
 
 .scale--s {
   @apply text-n2h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
-  --calcite-combobox-item-spacing-indent: theme("spacing.2");
-  --calcite-combobox-item-selector-icon-size: theme("spacing.4");
+  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-combobox-item-spacing-indent: theme("spacing.2");
+  --calcite-internal-combobox-item-selector-icon-size: theme("spacing.4");
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-xs);
 }
 
 .scale--m {
   @apply text-n1h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing[1.5]");
-  --calcite-combobox-item-spacing-indent: theme("spacing.3");
-  --calcite-combobox-item-selector-icon-size: theme("spacing.4");
+  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-combobox-item-spacing-indent: theme("spacing.3");
+  --calcite-internal-combobox-item-selector-icon-size: theme("spacing.4");
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-sm);
 }
 
 .scale--l {
   @apply text-0h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing[2.5]");
-  --calcite-combobox-item-spacing-indent: theme("spacing.4");
-  --calcite-combobox-item-selector-icon-size: theme("spacing.6");
+  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[2.5]");
+  --calcite-internal-combobox-item-spacing-indent: theme("spacing.4");
+  --calcite-internal-combobox-item-selector-icon-size: theme("spacing.6");
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size);
 }
 
 .container {
-  --calcite-combobox-item-indent-value: calc(
-    var(--calcite-combobox-item-spacing-indent) * var(--calcite-combobox-item-spacing-indent-multiplier)
+  --calcite-internal-combobox-item-indent-value: calc(
+    var(--calcite-internal-combobox-item-spacing-indent) *
+      var(--calcite-internal-combobox-item-spacing-indent-multiplier)
   );
 }
 
@@ -50,8 +64,7 @@ ul:focus {
 }
 
 .label {
-  @apply text-color-3
-  focus-base
+  @apply focus-base
   relative
   box-border
   flex
@@ -63,11 +76,11 @@ ul:focus {
   duration-150
   ease-in-out;
   @include word-break();
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-3));
   justify-content: space-around;
-  gap: var(--calcite-combobox-item-spacing-unit-l);
-  padding-block: var(--calcite-combobox-item-spacing-unit-s);
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
-  padding-inline-start: var(--calcite-combobox-item-indent-value);
+  gap: var(--calcite-internal-combobox-item-spacing-unit-l);
+  padding-block: var(--calcite-internal-combobox-item-spacing-unit-s);
+  padding-inline: var(--calcite-internal-combobox-item-indent-value);
 }
 
 :host([disabled]) .label {
@@ -76,7 +89,7 @@ ul:focus {
 
 // selected state
 .label--selected {
-  @apply text-color-1;
+  color: var(--calcite-combobox-text-color-selected, var(--calcite-color-text-1));
 
   .title {
     @apply font-medium;
@@ -89,10 +102,10 @@ ul:focus {
 
 .label:hover,
 .label:active {
-  @apply text-color-1
-    bg-foreground-2
-    no-underline
+  @apply no-underline
     shadow-none;
+  background-color: var(--calcite-combobox-background-color-highlight, var(--calcite-color-foreground-2));
+  color: var(--calcite-combobox-text-color-selected, var(--calcite-color-text-1));
 }
 
 .icon {
@@ -100,21 +113,21 @@ ul:focus {
     opacity-0
     duration-150
     ease-in-out;
-  color: theme("borderColor.color.1");
+  color: var(--calcite-combobox-indicator-color, theme("borderColor.color.1"));
 }
 
 .icon--custom {
   margin-block-start: -1px;
-  @apply text-color-3;
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-3));
 }
 
 .icon--active {
-  @apply text-color-1;
+  color: var(--calcite-combobox-text-color-selected, var(--calcite-color-text-1));
 }
 
 .icon--dot {
   @apply flex justify-center;
-  min-inline-size: var(--calcite-combobox-item-selector-icon-size);
+  min-inline-size: var(--calcite-internal-combobox-item-selector-icon-size);
 }
 
 .icon--dot::before {
@@ -128,7 +141,7 @@ ul:focus {
 
 .label--selected .icon {
   @apply opacity-100;
-  color: theme("backgroundColor.brand");
+  color: var(--calcite-combobox-indicator-color-selected, theme("backgroundColor.brand"));
 }
 
 :host(:hover[disabled]) .icon {
@@ -137,7 +150,7 @@ ul:focus {
 
 .filter-match {
   font-weight: var(--calcite-font-weight-bold);
-  color: var(--calcite-color-text-1);
+  color: var(--calcite-combobox-text-color-selected, var(--calcite-color-text-1));
   background-color: var(--calcite-color-foreground-current);
 }
 
@@ -155,17 +168,11 @@ ul:focus {
 :host([selected]),
 :host(:hover) {
   .description {
-    color: var(--calcite-color-text-2);
+    color: var(--calcite-combobox-text-color-highlight, var(--calcite-color-text-2));
   }
 }
 
 .short-text {
-  color: var(--calcite-color-text-3);
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-3));
   white-space: nowrap;
-}
-
-.title,
-.description,
-.short-text {
-  line-height: var(--calcite-font-line-height-relative-snug);
 }

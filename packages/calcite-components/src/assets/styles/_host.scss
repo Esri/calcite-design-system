@@ -8,3 +8,11 @@
   color: var(--calcite-color-text-2);
   font-size: var(--calcite-font-size--1);
 }
+
+@mixin base-host() {
+  /* Base ":host" styles for the component */
+  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+  }
+}

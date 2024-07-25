@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
 
@@ -82,6 +82,16 @@ describe("calcite-accordion", () => {
         value: "multiple",
       },
     ]);
+  });
+
+  describe("theme", () => {
+    const tokens = {
+      "--calcite-accordion-border-color": {
+        shadowSelector: ".accordion",
+        targetProp: "borderColor",
+      },
+    } as const;
+    themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, tokens);
   });
 
   it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {

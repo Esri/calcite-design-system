@@ -1,13 +1,34 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-date-picker-background-color-highlighted: Specifies the background color of highlighted elements in the component.
+ * @prop --calcite-date-picker-header-border-color: Specifies the border color of the header.
+ * @prop --calcite-date-picker-background-color-selected: Specifies the background color of selected elements in the component.
+ * @prop --calcite-date-picker-background-color: Specifies the default background color of the component.
+ * @prop --calcite-date-picker-day-corner-radius: Specifies the corner radius of the day component.
+ * @prop --calcite-date-picker-in-range-background-color-highlighted: Specifies the background color of highlighted elements in the component when they are in-range of a date selection.
+ * @prop --calcite-date-picker-in-range-background-color-selected: Specifies the background color of selected elements in the component when they are in-range of a date selection
+ * @prop --calcite-date-picker-text-color-highlighted: Specifies the text color of highlighted elements in the component.
+ * @prop --calcite-date-picker-text-color: Specifies the default text color of the component.
+ * @prop --calcite-date-picker-background-color: Specifies the background color of the component.
+ * @prop --calcite-date-picker-border-color: Specifies the border color of the component.
+ * @prop --calcite-date-picker-text-color: Specifies the default text color of the component.
+*/
+
 :host {
   @extend %component-host;
   @apply align-top
     border
-    border-color-1
     border-solid
     inline-block
     overflow-visible
     rounded-none
     w-auto;
+
+  background-color: var(--calcite-date-picker-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-date-picker-border-color, var(--calcite-color-border-1));
 }
 
 :host([scale="s"]) {

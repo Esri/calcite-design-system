@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
@@ -71,5 +72,43 @@ describe("calcite-action-group", () => {
 
   describe("translation support", () => {
     t9n("calcite-action-group");
+  });
+
+  describe("theme", () => {
+    describe("siblings", () => {
+      themed("<calcite-action-group></calcite-action-group><calcite-action-group></calcite-action-group>", {
+        "--calcite-action-group-border-color": {
+          targetProp: "borderColor",
+        },
+      });
+    });
+    describe("layout grid", () => {
+      themed(html`<calcite-action-group layout="grid"></calcite-action-group>`, {
+        "--calcite-action-group-gap": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
+        "--calcite-action-group-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-group-columns": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gridTemplateColumns",
+        },
+        "--calcite-action-group-space": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "padding",
+        },
+      });
+    });
+    describe("deprecated", () => {
+      themed(html`<calcite-action-group layout="grid"></calcite-action-group>`, {
+        "--calcite-action-group-padding": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "padding",
+        },
+      });
+    });
   });
 });

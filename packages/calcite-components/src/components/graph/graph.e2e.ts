@@ -1,5 +1,6 @@
 import { newE2EPage, E2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-graph", () => {
   describe("renders", () => {
@@ -48,8 +49,8 @@ describe("calcite-graph", () => {
     const dimensionsStyle = `style="height:100px; width:300px;"`;
     const page = await newE2EPage();
     await page.setContent(`<calcite-graph ${dimensionsStyle}></calcite-graph>`);
-    await page.$eval("calcite-graph", (elm: any) => {
-      elm.data = [
+    await page.$eval("calcite-graph", (el: HTMLCalciteGraphElement) => {
+      el.data = [
         [0, 4],
         [1, 7],
         [4, 6],
@@ -67,14 +68,14 @@ describe("calcite-graph", () => {
   it("uses color-stops when provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-graph></calcite-graph>`);
-    await page.$eval("calcite-graph", (elm: any) => {
-      elm.data = [
+    await page.$eval("calcite-graph", (el: HTMLCalciteGraphElement) => {
+      el.data = [
         [0, 4],
         [1, 7],
         [4, 6],
         [6, 2],
       ];
-      elm.colorStops = [
+      el.colorStops = [
         { offset: 0, color: "red" },
         { offset: 0.5, color: "green" },
         { offset: 1, color: "blue" },
@@ -90,5 +91,71 @@ describe("calcite-graph", () => {
     const fill = path.getAttribute("fill");
 
     expect(fill).toBe(`url(#${linearGradientId})`);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-graph></calcite-graph>`);
+          await page.$eval("calcite-graph", (graph: HTMLCalciteGraphElement) => {
+            graph.data = [
+              [0, 4],
+              [1, 7],
+              [4, 6],
+              [6, 2],
+            ];
+            graph.colorStops = [
+              { offset: 0, color: "red" },
+              { offset: 0.5, color: "green" },
+              { offset: 1, color: "blue" },
+            ];
+          });
+          await page.waitForChanges();
+
+          return { tag: "calcite-graph", page };
+        },
+        {
+          "--calcite-graph-background-color": {
+            shadowSelector: ".svg",
+            targetProp: "fill",
+          },
+        },
+      );
+    });
+  });
+
+  describe("highlight", () => {
+    themed(
+      async () => {
+        const page = await newE2EPage();
+        await page.setContent(html` <calcite-graph></calcite-graph>`);
+        await page.$eval("calcite-graph", (graph: HTMLCalciteGraphElement) => {
+          graph.data = [
+            [0, 4],
+            [1, 7],
+            [4, 6],
+            [6, 2],
+          ];
+          graph.colorStops = [
+            { offset: 0, color: "red" },
+            { offset: 0.5, color: "green" },
+            { offset: 1, color: "blue" },
+          ];
+          graph.highlightMin = 1;
+          graph.highlightMax = 5;
+        });
+        await page.waitForChanges();
+
+        return { tag: "calcite-graph", page };
+      },
+      {
+        "--calcite-graph-accent-color": {
+          shadowSelector: ".graph-path--highlight",
+          targetProp: "fill",
+        },
+      },
+    );
   });
 });

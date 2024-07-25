@@ -10,6 +10,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
@@ -531,5 +532,20 @@ describe("calcite-action-bar", () => {
     await page.waitForChanges();
 
     expect(await group.getProperty("layout")).toBe("vertical");
+  });
+
+  describe("themed", () => {
+    describe("expanded", () => {
+      themed(
+        html`<calcite-action-bar layout="vertical" expanded>
+          <calcite-action-group></calcite-action-group>
+        </calcite-action-bar>`,
+        {
+          "--calcite-action-bar-expanded-max-size": {
+            targetProp: "maxInlineSize",
+          },
+        },
+      );
+    });
   });
 });

@@ -2,7 +2,7 @@ import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } fr
 import { Scale } from "../interfaces";
 import { getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
 import { TabLayout, TabPosition } from "./interfaces";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
@@ -45,6 +45,36 @@ export class Tabs {
    * When `true`, the component will display with a folder style menu.
    */
   @Prop() bordered = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.mutationObserver.observe(this.el, { childList: true });
+    this.updateItems();
+  }
+
+  async componentWillLoad(): Promise<void> {
+    this.updateItems();
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
+
+  render(): VNode {
+    return (
+      <Fragment>
+        <slot name={SLOTS.titleGroup} />
+        <section class={CSS.section}>
+          <slot />
+        </section>
+      </Fragment>
+    );
+  }
 
   //--------------------------------------------------------------------------
   //

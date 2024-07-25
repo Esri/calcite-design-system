@@ -148,7 +148,7 @@ export const thumbnailRounded = (): string => html`
   <div id="card-container" style="width:260px;">
     <style>
       calcite-card {
-        --calcite-border-radius-base: 12px;
+        --calcite-card-corner-radius: 12px;
       }
     </style>
     <calcite-card>

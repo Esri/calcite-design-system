@@ -1,17 +1,18 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-menu-text-color: Specifies the text color of the component.
+ \*/
+
 :host {
-  @apply text-color-2
-  text-1
+  @apply text-1
   box-border
   flex
   flex-col;
-}
 
-::slotted(calcite-action-group) {
-  border-block-end: 1px solid var(--calcite-color-border-3);
-}
-
-::slotted(calcite-action-group:last-child) {
-  border-block-end: 0;
+  color: var(--calcite-action-menu-text-color, var(--calcite-color-text-2));
 }
 
 .default-trigger {

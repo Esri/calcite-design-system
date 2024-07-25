@@ -60,6 +60,14 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed-example {
+        --calcite-link-background-color: lightblue;
+        --calcite-link-text-color: yellow;
+        --calcite-link-icon-color: red;
+        --calcite-link-underline-color-start: green;
+        --calcite-link-underline-color-end: blue;
+      }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
@@ -85,7 +93,7 @@
 
         <div class="child"><calcite-link icon-start="information" class="font-size--2">Link</calcite-link><br /></div>
 
-        <div class="child"><calcite-link icon-start="information" class="font-size--2">Link</calcite-link><br /></div>
+        <div class="child"><calcite-link icon-end="information" class="font-size--2">Link</calcite-link><br /></div>
 
         <div class="child">
           <calcite-link icon-start="information" icon-end="information" class="font-size--2">Link</calcite-link><br />
@@ -102,7 +110,7 @@
 
         <div class="child"><calcite-link icon-start="information" class="font-size--1">Link</calcite-link><br /></div>
 
-        <div class="child"><calcite-link icon-start="information" class="font-size--1">Link</calcite-link><br /></div>
+        <div class="child"><calcite-link icon-end="information" class="font-size--1">Link</calcite-link><br /></div>
 
         <div class="child">
           <calcite-link icon-start="information" icon-end="information" class="font-size--1">Link</calcite-link><br />
@@ -119,7 +127,7 @@
 
         <div class="child"><calcite-link icon-start="information" class="font-size-0">Link</calcite-link><br /></div>
 
-        <div class="child"><calcite-link icon-start="information" class="font-size-0">Link</calcite-link><br /></div>
+        <div class="child"><calcite-link icon-end="information" class="font-size-0">Link</calcite-link><br /></div>
 
         <div class="child">
           <calcite-link icon-start="information" icon-end="information" class="font-size-0">Link</calcite-link><br />
@@ -136,7 +144,7 @@
 
         <div class="child"><calcite-link icon-start="information" class="font-size-1">Link</calcite-link><br /></div>
 
-        <div class="child"><calcite-link icon-start="information" class="font-size-1">Link</calcite-link><br /></div>
+        <div class="child"><calcite-link icon-end="information" class="font-size-1">Link</calcite-link><br /></div>
 
         <div class="child">
           <calcite-link icon-start="information" icon-end="information" class="font-size-1">Link</calcite-link><br />
@@ -153,7 +161,7 @@
 
         <div class="child"><calcite-link icon-start="information" class="font-size-2">Link</calcite-link><br /></div>
 
-        <div class="child"><calcite-link icon-start="information" class="font-size-2">Link</calcite-link><br /></div>
+        <div class="child"><calcite-link icon-end="information" class="font-size-2">Link</calcite-link><br /></div>
 
         <div class="child">
           <calcite-link icon-start="information" icon-end="information" class="font-size-2">Link</calcite-link><br />
@@ -161,6 +169,15 @@
       </div>
 
       <hr />
+
+      <!-- themed -->
+      <div class="parent">
+        <div class="trigger-external-wrap-paragraph right-aligned-text">themed</div>
+
+        <div class="trigger-external-wrap-paragraph">
+          <calcite-link class="themed-example" icon-start="smile" icon-end="smile">Themed link </calcite-link>
+        </div>
+      </div>
 
       <!-- tooltip trigger -->
       <div class="parent">

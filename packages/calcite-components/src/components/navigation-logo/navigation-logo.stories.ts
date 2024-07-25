@@ -78,11 +78,45 @@ export const withHref_TestOnly = (): string => html`
   </calcite-navigation>
 `;
 
-export const headingLevel_TestOnly = (): string => html`
-  <calcite-navigation-logo
+export const headingLevel_TestOnly = (): string =>
+  html` <calcite-navigation-logo
     heading="ArcGIS Online"
     heading-level="1"
     description="City of AcmeCo"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-  />
+  />`;
+
+export const theming_TestOnly = (): string => html`
+  <style>
+    calcite-navigation-logo {
+      --calcite-navigation-logo-background-color: green;
+      --calcite-navigation-logo-border-color: pink;
+      --calcite-navigation-logo-heading-text-color: red;
+      --calcite-navigation-logo-description-text-color: yellow;
+    }
+
+    calcite-navigation-logo[active] {
+      --calcite-navigation-logo-border-color: yellow;
+    }
+  </style>
+  <calcite-navigation-logo
+    slot="logo"
+    heading="A view of the estuary"
+    icon="globe"
+    href="https://www.esri.com"
+    target="_blank"
+    description="20 years of change where the river meets the sea"
+  >
+  </calcite-navigation-logo>
+
+  <calcite-navigation-logo
+    active
+    slot="logo"
+    heading="A view of the estuary"
+    icon="globe"
+    href="https://www.esri.com"
+    target="_blank"
+    description="Active Logo"
+  >
+  </calcite-navigation-logo>
 `;

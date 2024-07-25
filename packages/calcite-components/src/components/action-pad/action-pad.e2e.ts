@@ -9,6 +9,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -346,5 +347,37 @@ describe("calcite-action-pad", () => {
     await page.waitForChanges();
 
     expect(await group.getProperty("layout")).toBe("vertical");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-action-pad", {
+        "--calcite-action-pad-corner-radius": [
+          {
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+        ],
+        "--calcite-action-pad-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-pad-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+      });
+    });
+    describe("expand vertical", () => {
+      themed("<calcite-action-pad></ calcite-action-pad>", {
+        "--calcite-action-pad-expanded-max-size-x": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "maxInlineSize",
+        },
+      });
+    });
   });
 });

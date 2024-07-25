@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   slots,
+  themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
@@ -524,6 +525,16 @@ describe("calcite-action-menu", () => {
 
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed("calcite-action-menu", {
+        "--calcite-action-menu-text-color": {
+          targetProp: "color",
+        },
+      });
     });
   });
 });

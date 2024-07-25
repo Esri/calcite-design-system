@@ -35,9 +35,7 @@
 }
 
 .chevron {
-  @apply text-color-3
-    bg-foreground-1
-    focus-base
+  @apply focus-base
     -mx-1
     box-content
     flex
@@ -50,6 +48,8 @@
     outline-none
     transition-default;
   inline-size: calc(100% / 7);
+  color: var(--calcite-date-picker-text-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-date-picker-background-color, var(--calcite-color-foreground-1));
 
   &:focus {
     @apply focus-inset;
@@ -57,11 +57,13 @@
 
   &:hover,
   &:focus {
-    @apply text-color-1 bg-foreground-2 fill-color-1;
+    color: var(--calcite-date-picker-text-color-highlighted, var(--calcite-color-text-1));
+    background-color: var(--calcite-date-picker-background-color-highlighted, var(--calcite-color-foreground-2));
+    fill: currentColor;
   }
 
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-date-picker-background-color-selected, var(--calcite-color-foreground-3));
   }
 
   &[aria-disabled="true"] {
@@ -87,14 +89,14 @@
 .month,
 .year,
 .suffix {
-  @apply text-color-1
-    bg-foreground-1
-    mx-1
+  @apply mx-1
     my-auto
     inline-block
     font-medium
     leading-tight;
   font-size: inherit;
+  color: var(--calcite-date-picker-text-color-highlighted, var(--calcite-color-text-1));
+  background-color: var(--calcite-date-picker-background-color, var(--calcite-color-foreground-1));
 }
 
 .year {
@@ -105,6 +107,7 @@
     border-none
     bg-transparent
     text-center;
+
   &:hover {
     @apply duration-100 ease-in-out;
     transition-property: outline-color;

@@ -1,23 +1,37 @@
+@import "../../assets/styles/animation";
+@import "../../assets/styles/header";
+
 /**
  * CSS Custom Properties
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
+ * @prop --calcite-block-color-status: Specifies the color of the status icon.
+ * @prop --calcite-block-handle-background-color-active: Specifies the background color of the block handle when active.
+ * @prop --calcite-block-handle-background-color-hover: Specifies the background color of the block handle when hovered.
+ * @prop --calcite-block-handle-color-hover: Specifies the color of the block handle when hovered.
+ * @prop --calcite-block-handle-color: Specifies the color of the block handle.
+ * @prop --calcite-block-heading-text-color-active: Specifies the text color of the block heading when active.
+ * @prop --calcite-block-heading-text-color: Specifies the text color of the block heading.
+ * @prop --calcite-block-padding: [Deprecated] Use --calcite-block-space-y and --calcite-block-space-x. Specifies the padding of the block `default` slot.
+ * @prop --calcite-block-space-x: Specifies the horizontal padding of the component
+ * @prop --calcite-block-space-y: Specifies the vertical padding of the component.
+ * @prop --calcite-block-text-color-hover: Specifies the text color of the block when hovered.
+ * @prop --calcite-block-text-color: Specifies the text color of the block.
+ * @prop --calcite-block-toggle-background-color-hover: Specifies the background color of the block toggle when hovered.
+ * @prop --calcite-block-toggle-background-color: Specifies the background color of the block toggle.
  */
 
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  @apply transition-margin ease-cubic border-color-3 flex flex-shrink-0 flex-grow-0
+  @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0 duration-150;
+
+  border-color: var(--calcite-color-border-3);
   flex-basis: auto;
 }
 
 @include disabled();
-
-@import "../../assets/styles/animation";
-@import "../../assets/styles/header";
 
 .header {
   @apply justify-start;
@@ -44,14 +58,14 @@
 }
 
 .icon {
-  & calcite-loader {
+  calcite-loader {
     margin-inline-end: var(--calcite-spacing-xxxs);
   }
 }
 
 .icon--start,
 .icon--end {
-  @apply text-color-3;
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
 .actions-end {
@@ -71,10 +85,14 @@
     p-0;
 
   text-align: initial;
-  background-color: transparent;
+  background-color: var(--calcite-block-toggle-background-color, transparent);
 
   &:hover {
-    @apply bg-foreground-2;
+    background-color: var(--calcite-block-toggle-background-color-hover, var(--calcite-color-foreground-2));
+
+    .toggle-icon {
+      color: var(--calcite-block-text-color-hover, var(--calcite-color-text-3));
+    }
   }
   &:focus {
     @apply focus-inset;
@@ -96,7 +114,6 @@ calcite-handle {
 
 .header .title .heading {
   @apply text-n1
-    text-color-2
     word-break
     transition-color
     p-0
@@ -104,14 +121,17 @@ calcite-handle {
     leading-tight
     duration-150
     ease-in-out;
+
+  color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
 }
 
 .description {
   @apply text-n2-wrap
-    text-color-3
     word-break
     mt-0.5
     p-0;
+
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
 .icon {
@@ -119,11 +139,11 @@ calcite-handle {
 }
 
 .status-icon.valid {
-  color: theme("colors.success");
+  color: var(--calcite-block-color-status, theme("colors.success"));
 }
 
 .status-icon.invalid {
-  color: theme("colors.danger");
+  color: var(--calcite-block-color-status, theme("colors.danger"));
 }
 
 @keyframes spin {
@@ -145,18 +165,14 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply text-color-3
-  transition-color
+  @apply transition-color
   self-center
   justify-self-end
   duration-150
   ease-in-out;
 
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
   margin-inline-end: var(--calcite-spacing-md);
-}
-
-.toggle:hover .toggle-icon {
-  @apply text-color-1;
 }
 
 .container {
@@ -165,12 +181,13 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative min-h-0;
-  padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
-  padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
+  padding-block: var(--calcite-block-space-y, var(--calcite-block-padding, var(--calcite-spacing-sm)));
+  padding-inline: var(--calcite-block-space-x, var(--calcite-block-padding, var(--calcite-spacing-md)));
 }
 
 .content-start {
-  @apply text-color-3 flex items-center;
+  @apply flex items-center;
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
 .control-container {
@@ -190,7 +207,14 @@ calcite-action-menu {
   @apply my-2;
 
   .header .title .heading {
-    @apply text-color-1;
+    color: var(--calcite-block-heading-text-color-active, var(--calcite-color-text-1));
+  }
+}
+
+:host([heading]),
+:host([description]) {
+  .header {
+    padding: var(--calcite-spacing-md);
   }
 }
 

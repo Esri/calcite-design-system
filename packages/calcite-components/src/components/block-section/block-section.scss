@@ -1,29 +1,44 @@
-:host {
-  @apply bg-foreground-1 text-n1 box-border block;
+/**
+ *
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-section-background-color: Specifies the background color of the component 
+ * @prop --calcite-block-section-border-color: Specifies the border color of the component
+ * @prop --calcite-block-section-icon-color-hover: Specifies the icon color of the component when hovered
+ * @prop --calcite-block-section-icon-color: Specifies the icon color of the component
+ * @prop --calcite-block-section-status-color-valid: Specifies the status icon color of the component when valid.
+ * @prop --calcite-block-section-status-color-invalid: Specifies the status icon color of the component when invalid.
+ * @prop --calcite-block-section-switch-border-color: Specifies the border color of the switch in the component
+ * @prop --calcite-block-section-switch-color-active: Specifies the color of the switch in the component when active
+ * @prop --calcite-block-section-switch-color-hover: Specifies the color of the switch in the component when hovered
+ * @prop --calcite-block-section-switch-color: Specifies the color of the switch in the component
+ * @prop --calcite-block-section-switch-track-border-color: Specifies the border color of the switch track in the component
+ * @prop --calcite-block-section-switch-track-color: Specifies the color of the switch track in the component
+ * @prop --calcite-block-section-text-color: Specifies the text color of the component
+ * @prop --calcite-block-section-toggle-text-color-active: Specifies the text color of the component toggle when active
+ * @prop --calcite-block-section-toggle-text-color-hover: Specifies the text color of the component toggle when hovered
+ * @prop --calcite-block-section-toggle-text-color: Specifies the text color of the component toggle
 
-  color: var(--calcite-color-text-2);
+*/
+
+:host {
+  @apply text-n1 box-border block;
+
+  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-block-section-text-color, var(--calcite-color-text-2));
 }
 
 :host([open]) {
-  @apply border-b-color-3
-    border-0
+  @apply border-0
     border-b
     border-solid;
 
+  border-block-end-color: var(--calcite-block-section-border-color, var(--calcite-color-border-3));
+
   .toggle {
-    color: var(--calcite-color-text-1);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
-  }
-
-  .chevron-icon {
-    color: var(--calcite-color-text-3);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
+    color: var(--calcite-block-section-toggle-text-color-active, var(--calcite-color-text-1));
   }
 }
 
@@ -32,35 +47,31 @@
 }
 
 .toggle {
-  @apply font-sans w-full border-0 bg-transparent;
-
-  gap: var(--calcite-spacing-md);
-  color: var(--calcite-color-text-2);
-  font-weight: var(--calcite-font-weight-normal);
-
-  &:hover {
-    color: var(--calcite-color-text-1);
-  }
-}
-
-.toggle--switch,
-.section-header {
-  @apply text-n1
+  @apply bg-transparent
+    border-0
+    cursor-pointer
+    flex
     focus-base
+    font-sans
+    items-center
     mx-0
     my-1
-    flex
-    cursor-pointer
-    select-none
-    items-center
     px-0
-    py-2;
+    py-2
+    select-none
+    text-n1
+    w-full;
+
+  gap: var(--calcite-spacing-md);
+  color: var(--calcite-block-section-toggle-text-color, var(--calcite-color-text-2));
+  font-weight: var(--calcite-font-weight-normal);
 
   &:focus {
     @apply focus-outset;
   }
+
   &:hover {
-    color: var(--calcite-color-text-1);
+    color: var(--calcite-block-section-toggle-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -75,21 +86,21 @@
 .toggle-container {
   @apply flex items-center relative bg-transparent;
   word-break: break-word;
+}
 
-  .toggle--switch__content {
-    @apply flex flex-auto items-center;
-  }
+.toggle--switch__content {
+  @apply flex flex-auto items-center;
+}
 
-  .icon--end,
-  .icon--start,
-  .chevron-icon {
-    @apply flex items-center;
+.icon--end,
+.icon--start,
+.chevron-icon {
+  @apply flex items-center;
 
-    color: var(--calcite-color-text-3);
+  color: var(--calcite-block-section-icon-color, var(--calcite-color-text-3));
 
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
+  &:hover {
+    color: var(--calcite-block-section-icon-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -98,11 +109,11 @@
 }
 
 .status-icon.valid {
-  color: theme("colors.success");
+  color: var(--calcite-block-section-status-color-valid, theme("colors.success"));
 }
 
 .status-icon.invalid {
-  color: theme("colors.danger");
+  color: var(--calcite-block-section-status-color-invalid, theme("colors.danger"));
 }
 
 @include base-component();

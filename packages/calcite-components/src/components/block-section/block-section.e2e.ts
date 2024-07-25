@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -232,4 +232,122 @@ describe("calcite-block-section", () => {
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed("calcite-block-section", {
+        "--calcite-block-section-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-block-section-icon-color-hover": {
+          shadowSelector: `.${CSS.chevronIcon}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-block-section-icon-color": {
+          shadowSelector: `.${CSS.chevronIcon}`,
+          targetProp: "color",
+        },
+        "--calcite-block-section-text-color": {
+          targetProp: "color",
+        },
+        "--calcite-block-section-toggle-text-color-hover": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-block-section-toggle-text-color": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "color",
+        },
+      });
+    });
+    describe("switch", () => {
+      themed(html`<calcite-block-section toggle-display="switch"></calcite-block-section>`, {
+        "--calcite-block-section-switch-border-color": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-border-color",
+        },
+        "--calcite-block-section-switch-color-active": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-color-active",
+        },
+        "--calcite-block-section-switch-color-hover": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-color-hover",
+        },
+        "--calcite-block-section-switch-color": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-color",
+        },
+        "--calcite-block-section-corner-radius": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-corner-radius",
+        },
+        "--calcite-block-section-switch-track-border-color": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-track-border-color",
+        },
+        "--calcite-block-section-switch-track-color": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-track-color",
+        },
+      });
+    });
+    describe("open", () => {
+      themed("<calcite-block-section open></calcite-block-section>", {
+        "--calcite-block-section-border-color": {
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-block-section-toggle-text-color-active": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "color",
+        },
+      });
+    });
+    describe("icons", () => {
+      themed(html`<calcite-block-section icon-start="book" icon-end="chevron-up"></calcite-block-section>`, {
+        "--calcite-block-section-icon-color-hover": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        ],
+        "--calcite-block-section-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+    describe("status", () => {
+      describe("valid", () => {
+        themed(html`<calcite-block-section status="valid"></calcite-block-section>`, {
+          "--calcite-block-section-status-color-valid": {
+            shadowSelector: `.${CSS.statusIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("invalid", () => {
+        themed(html`<calcite-block-section status="invalid"></calcite-block-section>`, {
+          "--calcite-block-section-status-color-invalid": {
+            shadowSelector: `.${CSS.statusIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+    });
+  });
 });

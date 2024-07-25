@@ -15,7 +15,7 @@
   @apply mb-0;
 }
 
-@import "../../assets/styles/header";
+@include header();
 
 .heading {
   @apply text-0h text-n1-wrap

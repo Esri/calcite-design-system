@@ -1,5 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
@@ -243,7 +243,7 @@ describe("calcite-shell-panel", () => {
         :root {
           --calcite-shell-panel-min-width: ${override};
           --calcite-shell-panel-max-width: ${override};
-          --calcite-shell-panel-width: ${override};
+          --calcite-shell-panel-content-width: ${override};
         }
       </style>
       <calcite-shell-panel>
@@ -570,5 +570,92 @@ describe("calcite-shell-panel", () => {
 
   describe("translation support", () => {
     t9n("calcite-shell-panel");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens = {
+        "--calcite-shell-panel-background-color": {
+          selector: "calcite-shell-panel",
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.content}`,
+        },
+        "--calcite-shell-panel-corner-radius": {
+          selector: "calcite-shell-panel",
+          targetProp: "borderRadius",
+          shadowSelector: `.${CSS.content}`,
+        },
+        "--calcite-shell-panel-z-index": {
+          selector: "calcite-shell-panel",
+          targetProp: "zIndex",
+        },
+      } as const;
+      themed(`calcite-shell-panel`, tokens);
+    });
+    describe("vertical layout", () => {
+      const tokens = {
+        "--calcite-shell-panel-max-width": {
+          selector: "calcite-shell-panel",
+          targetProp: "maxWidth",
+          shadowSelector: `.${CSS.content}`,
+        },
+        "--calcite-shell-panel-min-width": {
+          selector: "calcite-shell-panel",
+          targetProp: "minWidth",
+          shadowSelector: `.${CSS.content}`,
+        },
+        "--calcite-shell-panel-content-width": {
+          selector: "calcite-shell-panel",
+          targetProp: "width",
+          shadowSelector: `.${CSS.content}`,
+        },
+      } as const;
+      themed(`<calcite-shell-panel layout="vertical"></calcite-shell-panel>`, tokens);
+    });
+    describe("horizontal layout", () => {
+      const tokens = {
+        "--calcite-shell-panel-height": {
+          selector: "calcite-shell-panel",
+          targetProp: "height",
+          shadowSelector: `.${CSS.content}`,
+        },
+        "--calcite-shell-panel-max-height": {
+          selector: "calcite-shell-panel",
+          targetProp: "maxHeight",
+          shadowSelector: `.${CSS.content}`,
+        },
+        "--calcite-shell-panel-min-height": {
+          selector: "calcite-shell-panel",
+          targetProp: "minHeight",
+          shadowSelector: `.${CSS.content}`,
+        },
+      } as const;
+      themed(`<calcite-shell-panel layout="horizontal"></calcite-shell-panel>`, tokens);
+    });
+    describe("display overlay", () => {
+      const tokens = {
+        "--calcite-shell-panel-shadow": {
+          selector: "calcite-shell-panel",
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.contentOverlay}`,
+        },
+      } as const;
+      themed(`<calcite-shell-panel display-mode="overlay"></calcite-shell-panel>`, tokens);
+    });
+    describe("display float", () => {
+      const tokens = {
+        "--calcite-shell-panel-detached-max-height": {
+          selector: "calcite-shell-panel",
+          targetProp: "maxHeight",
+          shadowSelector: `.${CSS.contentFloat}`,
+        },
+        "--calcite-shell-panel-shadow": {
+          selector: "calcite-shell-panel",
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.contentFloat}`,
+        },
+      } as const;
+      themed(`<calcite-shell-panel display-mode="float"></calcite-shell-panel>`, tokens);
+    });
   });
 });

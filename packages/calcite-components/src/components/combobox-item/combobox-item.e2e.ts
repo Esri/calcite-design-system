@@ -1,4 +1,5 @@
-import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { defaults, disabled, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-combobox-item", () => {
   describe("defaults", () => {
@@ -41,5 +42,53 @@ describe("calcite-combobox-item", () => {
 
   describe("disabled", () => {
     disabled("calcite-combobox-item", { focusTarget: "none" });
+  });
+
+  describe("theme", () => {
+    themed("calcite-combobox-item", {
+      "--calcite-combobox-background-color-highlight": [
+        {
+          shadowSelector: `.${CSS.label}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        {
+          shadowSelector: `.${CSS.label}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.label } },
+        },
+      ],
+      "--calcite-combobox-indicator-color-selected": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
+      "--calcite-combobox-indicator-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
+      "--calcite-combobox-text-color-highlight": {
+        shadowSelector: `.${CSS.description}`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-combobox-text-color-selected": {
+        shadowSelector: `.${CSS.label}`,
+        targetProp: "color",
+      },
+      "--calcite-combobox-text-color": [
+        {
+          shadowSelector: `.${CSS.custom}`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `.${CSS.shortText}`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `.${CSS.label}`,
+          targetProp: "color",
+        },
+      ],
+    });
   });
 });

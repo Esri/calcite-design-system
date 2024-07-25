@@ -9,9 +9,11 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-radio-button", () => {
   describe("renders", () => {
@@ -609,6 +611,48 @@ describe("calcite-radio-button", () => {
           changeValueKeys: ["Space"],
         },
       );
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-radio-button", {
+        "--calcite-radio-button-background-color": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-radio-button-border-radius": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-radio-button-border-color": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-radio-button-size": [
+          {
+            shadowSelector: `.${CSS.radio}`,
+            targetProp: "blockSize",
+          },
+          {
+            shadowSelector: `.${CSS.radio}`,
+            targetProp: "maxInlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.radio}`,
+            targetProp: "minInlineSize",
+          },
+        ],
+      });
+    });
+
+    describe("checked", () => {
+      themed("calcite-radio-button", {
+        "--calcite-radio-button-border-color": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "boxShadow",
+        },
+      });
     });
   });
 });

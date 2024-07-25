@@ -5,20 +5,22 @@
 }
 
 .week-headers {
-  @apply border-color-3
-    flex
+  @apply flex
     border-0
     border-t
     border-solid
     py-0
     px-1;
+
+  border-color: var(--calcite-date-picker-header-border-color, var(--calcite-color-border-3));
 }
 
 .week-header {
-  @apply text-color-3
-    text-center
+  @apply text-center
     font-bold;
   inline-size: calc(100% / 7);
+
+  color: var(--calcite-date-picker-text-color, var(--calcite-color-text-3));
 }
 
 .day {

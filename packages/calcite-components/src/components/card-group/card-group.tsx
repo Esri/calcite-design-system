@@ -26,6 +26,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding one or more `calcite-card`s.
@@ -248,7 +249,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
           <div
             aria-disabled={toAriaBoolean(this.disabled)}
             aria-label={this.label}
-            class="container"
+            class={CSS.container}
             role={role}
           >
             <slot

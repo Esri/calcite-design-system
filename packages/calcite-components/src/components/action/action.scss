@@ -4,14 +4,17 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
+ * @prop --calcite-action-text-color: Specifies the text color of the component.
+ * @prop --calcite-action-text-color-hover: Specifies the text color of the component when hovered.
+ * @prop --calcite-action-text-color-active: Specifies the text color of the component when active.
+ * @prop --calcite-action-background-color: Specifies the background color of the component.
+ * @prop --calcite-action-background-color-hover: Specifies the background color of the component when hovered.
+ * @prop --calcite-action-background-color-active: Specifies the background color of the component when active. 
  */
 
 :host {
   @extend %component-host;
   @apply flex bg-transparent;
-  --calcite-action-indicator-color: theme("colors.brand");
-  --calcite-action-color-transparent-hover: var(--calcite-color-transparent-hover);
-  --calcite-action-color-transparent-press: var(--calcite-color-transparent-press);
 }
 
 @mixin action-indicator() {
@@ -24,18 +27,15 @@
       rounded-full;
     inset-block-end: calc(-0.275rem);
     inset-inline-end: calc(-0.275rem);
-    background-color: var(--calcite-action-indicator-color);
+    background-color: var(--calcite-action-indicator-color, theme("colors.brand"));
   }
 }
 
 @include disabled();
 
 .button {
-  @apply bg-foreground-1
-    fill-color-3
-    focus-base
+  @apply focus-base
     text-n2h
-    text-color-3
     relative
     m-0
     flex
@@ -47,18 +47,23 @@
     font-medium
     font-sans;
 
+  color: var(--calcite-action-text-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
   text-align: unset;
   flex: 1 0 auto;
-  &:hover {
-    @apply bg-foreground-2 text-color-1 fill-color-1;
+
+  &:hover,
+  &:focus {
+    color: var(--calcite-action-text-color-hover, var(--calcite-color-text-1));
+    background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
   }
 
   &:focus {
-    @apply bg-foreground-2 text-color-1 fill-color-1 focus-inset;
+    @apply focus-inset;
   }
 
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-action-background-color-active, var(--calcite-color-foreground-3));
   }
 
   .icon-container {
@@ -158,7 +163,8 @@
 :host([active]) .button:hover,
 :host([active]) .button:focus,
 :host([active][loading]) .button {
-  @apply text-color-1 fill-color-1 bg-foreground-3;
+  color: var(--calcite-action-text-color-active, var(--calcite-color-text-1));
+  background-color: var(--calcite-action-background-color-active, var(--calcite-color-foreground-3));
 }
 
 :host([appearance="transparent"]) .button {
@@ -169,17 +175,17 @@
 }
 
 :host([active]) .button:active {
-  @apply bg-foreground-1;
+  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([appearance="transparent"][active]) .button,
 :host([appearance="transparent"]) .button:hover,
 :host([appearance="transparent"]) .button:focus {
-  background-color: var(--calcite-action-color-transparent-hover);
+  background-color: var(--calcite-color-transparent-hover);
 }
 
 :host([appearance="transparent"]) .button:active {
-  background-color: var(--calcite-action-color-transparent-press);
+  background-color: var(--calcite-color-transparent-press);
 }
 
 :host([appearance="transparent"][disabled]) .button {
@@ -189,7 +195,7 @@
 :host([loading][appearance="solid"]) .button,
 :host([loading][appearance="solid"]) .button:hover,
 :host([loading][appearance="solid"]) .button:focus {
-  @apply bg-foreground-1;
+  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
 
   .text-container {
     @apply opacity-disabled;
@@ -197,20 +203,22 @@
 }
 
 :host([loading]) calcite-loader[inline] {
-  @apply text-color-3;
+  color: var(--calcite-action-text-color, var(--calcite-color-text-3));
   margin-inline-end: theme("spacing.0");
 }
 
 :host([disabled]) .button,
 :host([disabled]) .button:hover,
 :host([disabled]) .button:focus {
-  @apply opacity-disabled bg-foreground-1 cursor-default;
+  @apply opacity-disabled cursor-default;
+  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([disabled][active]) .button,
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
-  @apply opacity-disabled bg-foreground-3;
+  @apply opacity-disabled;
+  background-color: var(--calcite-action-background-color-active, var(--calcite-color-foreground-3));
 }
 
 .indicator-with-icon {

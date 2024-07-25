@@ -292,6 +292,16 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
                 <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
               ) : null}
               <slot name={SLOTS.contentEnd} />
+              <div class={CSS.centerContent}>
+                <div class={CSS.title}>{this.renderTextContent(this.textLabel)}</div>
+                {this.description ? (
+                  <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
+                ) : null}
+              </div>
+              {this.shortHeading ? (
+                <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
+              ) : null}
+              <slot name={SLOTS.contentEnd} />
             </li>
             {this.renderChildren()}
           </div>

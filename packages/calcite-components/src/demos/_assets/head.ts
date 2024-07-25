@@ -18,6 +18,14 @@
     {
       src: "demos/_assets/demo-dom-swapper.js",
     },
+    {
+      src: "demos/_assets/demo-theme.js",
+      type: "module",
+    },
+    {
+      src: "demos/_assets/demo-spacer.js",
+      type: "module",
+    },
   ];
 
   const parseTemplate = (text: string): HTMLTemplateElement | null => {

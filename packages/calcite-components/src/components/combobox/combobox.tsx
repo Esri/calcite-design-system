@@ -1410,8 +1410,8 @@ export class Combobox
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
-        chip: true,
-        "chip--active": activeChipIndex === i,
+        [CSS.chip]: true,
+        [CSS.chipActive]: activeChipIndex === i,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
       const itemLabel = getLabel(item);
@@ -1454,7 +1454,7 @@ export class Combobox
     return (
       <calcite-chip
         class={{
-          chip: true,
+          [CSS.chip]: true,
           [CSS.chipInvisible]: !(
             this.isAllSelected() &&
             !selectedVisibleChipsCount &&
@@ -1477,7 +1477,7 @@ export class Combobox
     return (
       <calcite-chip
         class={{
-          chip: true,
+          [CSS.chip]: true,
           [CSS.chipInvisible]: !(
             this.isAllSelected() &&
             !selectedVisibleChipsCount &&
@@ -1533,7 +1533,7 @@ export class Combobox
     return (
       <calcite-chip
         class={{
-          chip: true,
+          [CSS.chip]: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
         ref={setSelectedIndicatorChipEl}
@@ -1574,7 +1574,7 @@ export class Combobox
     return (
       <calcite-chip
         class={{
-          chip: true,
+          [CSS.chip]: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
         scale={scale}
@@ -1603,18 +1603,20 @@ export class Combobox
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem;
 
+    console.log("label: " + showLabel);
+
     return (
       <span
         class={{
-          "input-wrap": true,
-          "input-wrap--single": single,
+          [CSS.inputWrap]: true,
+          [CSS.inputWrapSingle]: single,
         }}
       >
         {showLabel && (
           <span
             class={{
-              label: true,
-              "label--icon": !!selectedItem?.icon,
+              [CSS.label]: true,
+              [CSS.labelIcon]: !!selectedItem?.icon,
             }}
             key="label"
           >
@@ -1631,9 +1633,9 @@ export class Combobox
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             [CSS.input]: true,
-            "input--single": true,
-            "input--hidden": showLabel,
-            "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
+            [CSS.inputSingle]: true,
+            [CSS.inputHidden]: showLabel,
+            [CSS.inputIcon]: this.showingInlineIcon && !!this.placeholderIcon,
           }}
           data-test-id="input"
           disabled={disabled}
@@ -1678,13 +1680,13 @@ export class Combobox
       <div
         aria-hidden="true"
         class={{
-          "floating-ui-container": true,
-          "floating-ui-container--active": open,
+          [CSS.floatingContainer]: true,
+          [CSS.floatingContainerActive]: open,
         }}
         ref={setFloatingEl}
       >
         <div class={classes} ref={setContainerEl}>
-          <ul class={{ list: true, "list--hide": !open }}>
+          <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             <slot />
           </ul>
         </div>
@@ -1699,9 +1701,9 @@ export class Combobox
 
     return (
       this.showingInlineIcon && (
-        <span class="icon-start" key="selected-placeholder-icon">
+        <span class={CSS.iconStart} key="selected-placeholder-icon">
           <calcite-icon
-            class="selected-icon"
+            class={CSS.iconSelected}
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
             icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
             scale={getIconScale(this.scale)}
@@ -1714,7 +1716,7 @@ export class Combobox
   renderChevronIcon(): VNode {
     const { open } = this;
     return (
-      <span class="icon-end" key="chevron">
+      <span class={CSS.iconEnd} key="chevron">
         <calcite-icon
           class={CSS.icon}
           icon={open ? "chevron-up" : "chevron-down"}
@@ -1738,9 +1740,9 @@ export class Combobox
           <div
             aria-live="polite"
             class={{
-              wrapper: true,
-              "wrapper--single": singleSelectionMode || !this.selectedItems.length,
-              "wrapper--active": open,
+              [CSS.wrapper]: true,
+              [CSS.wrapperSingle]: singleSelectionMode || !this.selectedItems.length,
+              [CSS.wrapperActive]: open,
             }}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
@@ -1749,7 +1751,7 @@ export class Combobox
             {this.renderSelectedOrPlaceholderIcon()}
             <div
               class={{
-                "grid-input": true,
+                [CSS.gridInput]: true,
                 [CSS.selectionDisplayFit]: fitSelectionDisplay,
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
@@ -1765,7 +1767,7 @@ export class Combobox
                   this.renderAllSelectedIndicatorChipCompact(),
                 ]}
               <label
-                class="screen-readers-only"
+                class={CSS.srOnly}
                 htmlFor={`${inputUidPrefix}${guid}`}
                 id={`${labelUidPrefix}${guid}`}
               >
@@ -1786,7 +1788,7 @@ export class Combobox
           <ul
             aria-labelledby={`${labelUidPrefix}${guid}`}
             aria-multiselectable="true"
-            class="screen-readers-only"
+            class={CSS.srOnly}
             id={`${listboxUidPrefix}${guid}`}
             role="listbox"
             tabIndex={-1}
