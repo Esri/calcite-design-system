@@ -1,15 +1,19 @@
-const { teams } = require("./support/resources");
+const {
+  teams: { admins, iconDesigners },
+  labels: { snapshots },
+} = require("./support/resources");
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
+  const { repo, owner } = context.repo;
+
+  const payload = /** @type {import('@octokit/webhooks-types').PullRequestEvent} */ (context.payload);
   const {
-    repo: { owner, repo },
-    payload: {
-      pull_request: {
-        number: pull_number,
-        user: { login: author },
-      },
+    pull_request: {
+      number: pull_number,
+      user: { login: author },
     },
-  } = context;
+  } = payload;
 
   core.debug("Checking author/reviewers because there are diffs outside of package/calcite-ui-icons");
   core.debug(`Author: ${author}`);
@@ -17,20 +21,20 @@ module.exports = async ({ github, context, core }) => {
   const iconTeamMembers = (
     await github.rest.teams.listMembersInOrg({
       org: owner,
-      team_slug: teams.iconDesigners,
+      team_slug: iconDesigners,
     })
   ).data.map((member) => member.login);
 
-  core.debug(`Members of "${teams.iconDesigners}" GitHub Team: ${JSON.stringify(iconTeamMembers)}`);
+  core.debug(`Members of "${iconDesigners}" GitHub Team: ${JSON.stringify(iconTeamMembers)}`);
 
   const adminTeamMembers = (
     await github.rest.teams.listMembersInOrg({
       org: owner,
-      team_slug: teams.admins,
+      team_slug: admins,
     })
   ).data.map((member) => member.login);
 
-  core.debug(`Members of "${teams.admins}" GitHub Team: ${JSON.stringify(adminTeamMembers)}`);
+  core.debug(`Members of "${admins}" GitHub Team: ${JSON.stringify(adminTeamMembers)}`);
 
   // passes when an admin approves the PR
   if (github.event?.review?.state == "APPROVED" && adminTeamMembers.includes(github.event?.review?.user?.login)) {
@@ -63,16 +67,22 @@ module.exports = async ({ github, context, core }) => {
     pull_number,
   });
 
-  if (!requestedReviewers.teams.map((reviewer) => reviewer.slug).includes(teams.admins)) {
-    core.debug(`Requesting review from the "${teams.admins}" GitHub team`);
+  if (!requestedReviewers.teams.map((reviewer) => reviewer.slug).includes(admins)) {
+    core.debug(`Requesting review from the "${admins}" GitHub team`);
     await github.rest.pulls.requestReviewers({
       owner,
       repo,
       pull_number,
-      team_reviewers: [teams.admins],
+      team_reviewers: [admins],
     });
   }
 
+  await github.rest.issues.addLabels({
+    owner,
+    repo,
+    issue_number: pull_number,
+    labels: [snapshots.skip],
+  });
   core.setFailed(
     `An admin needs to review these changes because a file outside of package/calcite-ui-icons was changed.`,
   );
