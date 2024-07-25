@@ -259,10 +259,9 @@ export class Dialog
                 <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
                 <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
                 <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer}>
-                  <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-                  <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-                </slot>
+                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+                <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+                <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
                 <slot />
               </calcite-panel>
             </slot>
