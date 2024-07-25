@@ -38,7 +38,7 @@
 }
 
 // focus styles
-:host .header-content {
+.header-content {
   @apply focus-base;
 }
 
@@ -59,11 +59,11 @@
 }
 
 // .header / content
-:host .header {
+.header {
   @apply flex items-stretch;
 }
 
-:host .icon {
+.icon {
   @apply relative
     m-0
     inline-flex
@@ -92,12 +92,12 @@
   padding: var(--calcite-internal-accordion-item-padding);
 }
 
-:host .content,
-:host .header {
+.content,
+.header {
   border-block-end: 1px solid var(--calcite-internal-accordion-item-border, theme("borderColor.color.2"));
 }
 
-:host .header * {
+.header * {
   @apply inline-flex
     items-center
     duration-150
@@ -105,13 +105,13 @@
   @include word-break();
 }
 
-:host .content {
+.content {
   @apply hidden pt-0;
   text-align: initial;
 }
 
 // accordion item icon
-:host .expand-icon {
+.expand-icon {
   margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-start);
   margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-end);
   transform: rotate(var(--calcite-internal-accordion-item-icon-rotation));
@@ -130,22 +130,22 @@
 }
 
 // accordion item title
-:host .header-text {
+.header-text {
   @apply my-0 flex-grow flex-col py-0;
   text-align: initial;
   margin-inline-end: theme("margin.auto");
 }
 
-:host .heading,
-:host .description {
+.heading,
+.description {
   @apply flex w-full;
 }
 
-:host .heading {
+.heading {
   @apply font-medium;
   color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
 }
-:host .description {
+.description {
   @apply mt-1;
 }
 
