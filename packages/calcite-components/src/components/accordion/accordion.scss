@@ -1,22 +1,22 @@
 // scale variants for child
 :host([scale="s"]) {
-  --calcite-accordion-item-spacing-unit: theme("spacing.1");
-  --calcite-accordion-icon-margin: theme("spacing.2");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.2");
+  --calcite-internal-accordion-item-spacing-unit: theme("spacing.1");
+  --calcite-internal-accordion-icon-margin: theme("spacing.2");
+  --calcite-internal-accordion-item-padding: var(--calcite-internal-accordion-item-spacing-unit) theme("spacing.2");
   @apply text-n2h;
 }
 
 :host([scale="m"]) {
-  --calcite-accordion-item-spacing-unit: theme("spacing.2");
-  --calcite-accordion-icon-margin: theme("spacing.3");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.3");
+  --calcite-internal-accordion-item-spacing-unit: theme("spacing.2");
+  --calcite-internal-accordion-icon-margin: theme("spacing.3");
+  --calcite-internal-accordion-item-padding: var(--calcite-internal-accordion-item-spacing-unit) theme("spacing.3");
   @apply text-n1h;
 }
 
 :host([scale="l"]) {
-  --calcite-accordion-item-spacing-unit: theme("spacing.3");
-  --calcite-accordion-icon-margin: theme("spacing.4");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.4");
+  --calcite-internal-accordion-item-spacing-unit: theme("spacing.3");
+  --calcite-internal-accordion-icon-margin: theme("spacing.4");
+  --calcite-internal-accordion-item-padding: var(--calcite-internal-accordion-item-spacing-unit) theme("spacing.4");
   @apply text-0h;
 }
 
@@ -35,7 +35,8 @@
 }
 
 .accordion {
-  @apply border border-solid border-color-2 border-b-0;
+  @apply border border-solid border-b-0;
+  border-color: var(--calcite-color-border-2);
 }
 
 @include base-component();
