@@ -61,9 +61,9 @@ let initialDocumentOverflowStyle: string = "";
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used in conjunction with footer-start or footer-end slots.
- * @slot footer-end - A slot for adding custom content to the component's trailing footer. Should not be used in conjunction with footer slot.
- * @slot footer-start - A slot for adding custom content to the component's leading footer. Should not be used in conjunction with footer slot.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 
 @Component({
