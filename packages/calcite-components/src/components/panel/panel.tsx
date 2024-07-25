@@ -620,8 +620,8 @@ export class Panel
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
-        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
         <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
         <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
         <slot
           key="footer-actions-slot"
