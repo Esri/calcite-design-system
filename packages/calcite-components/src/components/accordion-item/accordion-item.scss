@@ -6,6 +6,15 @@
   --calcite-internal-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
 }
 
+:host {
+  @apply relative
+    flex
+    flex-col
+    no-underline;
+
+  color: var(--calcite-accordion-text-color, var(--calcite-color-text-3));
+}
+
 // icon position variants for child
 .icon-position--start {
   @extend %icon-position;
@@ -26,15 +35,6 @@
   --calcite-internal-accordion-item-active-icon-rotation: theme("rotate.180");
   --calcite-internal-accordion-item-icon-rotation-rtl: theme("rotate.0");
   --calcite-internal-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
-}
-
-:host {
-  @apply relative
-    flex
-    flex-col
-    no-underline;
-
-  color: var(--calcite-accordion-text-color, var(--calcite-color-text-3));
 }
 
 // focus styles
