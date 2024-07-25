@@ -41,22 +41,21 @@ module.exports = async ({ github, context, core }) => {
 
   // passes if the author isn't on the icon designers team or if the author is on the admin team
   // admin(s) may be on the icon designers team for maintenance purposes
-  // if (adminTeamMembers.includes(author) || !iconTeamMembers.includes(author)) {
-  if (!iconTeamMembers.includes(author)) {
+  if (adminTeamMembers.includes(author) || !iconTeamMembers.includes(author)) {
     core.debug("Passing because the author is an admin and/or isn't an icon designer");
     process.exit(0);
   }
 
-  // const { data: reviews } = await github.rest.pulls.listReviews({ owner, repo, pull_number });
-  //
+  const { data: reviews } = await github.rest.pulls.listReviews({ owner, repo, pull_number });
+
   // passes if there was a previous approval from an admin
-  // reviews.forEach((review) => {
-  //   if (review.state == "APPROVED" && adminTeamMembers.includes(review.user.login)) {
-  //     core.debug(`Approved by admin: ${review.user.login}`);
-  //     core.debug("Passing because an admin has approved this pull request");
-  //     process.exit(0);
-  //   }
-  // });
+  reviews.forEach((review) => {
+    if (review.state == "APPROVED" && adminTeamMembers.includes(review.user.login)) {
+      core.debug(`Approved by admin: ${review.user.login}`);
+      core.debug("Passing because an admin has approved this pull request");
+      process.exit(0);
+    }
+  });
 
   const { data: requestedReviewers } = await github.rest.pulls.listRequestedReviewers({
     owner,
