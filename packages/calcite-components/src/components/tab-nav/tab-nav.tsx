@@ -209,6 +209,16 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           >
             <slot onSlotchange={this.onSlotChange} />
           </div>
+          <div
+            class={CSS.activeIndicatorContainer}
+            ref={(el) => (this.activeIndicatorContainerEl = el)}
+          >
+            <div
+              class={CSS.activeIndicator}
+              ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
+              style={indicatorStyle}
+            />
+          </div>
           {this.renderScrollButton("end")}
         </div>
       </Host>

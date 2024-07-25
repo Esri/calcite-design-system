@@ -2456,32 +2456,168 @@ describe("calcite-color-picker", () => {
       });
     });
   });
+
   describe("theme", () => {
-    themed("calcite-color-picker", {
-      "--calcite-color-picker-background-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-color-picker-border-color": [
-        {
+    describe("default", () => {
+      themed(`calcite-color-picker`, {
+        "--calcite-color-picker-background-color": {
           shadowSelector: `.${CSS.container}`,
-          targetProp: "borderColor",
+          targetProp: "backgroundColor",
         },
-        {
-          shadowSelector: "calcite-tabs",
-          targetProp: "--calcite-tab-border-color",
+        "--calcite-color-picker-button-background-color": [
+          {
+            shadowSelector: `.${CSS.deleteColor}`,
+            targetProp: "--calcite-button-background-color",
+          },
+          {
+            shadowSelector: `.${CSS.saveColor}`,
+            targetProp: "--calcite-button-background-color",
+          },
+        ],
+        "--calcite-color-picker-button-background-color-active": [
+          {
+            shadowSelector: `.${CSS.deleteColor}`,
+            targetProp: "--calcite-button-background-color",
+            state: { press: { attribute: "class", value: CSS.deleteColor } },
+          },
+          {
+            shadowSelector: `.${CSS.saveColor}`,
+            targetProp: "--calcite-button-background-color",
+            state: { press: { attribute: "class", value: CSS.saveColor } },
+          },
+        ],
+        "--calcite-color-picker-button-background-color-focus": [
+          {
+            shadowSelector: `.${CSS.deleteColor}`,
+            targetProp: "--calcite-button-background-color",
+            state: { focus: { attribute: "class", value: CSS.deleteColor } },
+          },
+          {
+            shadowSelector: `.${CSS.saveColor}`,
+            targetProp: "--calcite-button-background-color",
+            state: { focus: { attribute: "class", value: CSS.saveColor } },
+          },
+        ],
+        "--calcite-color-picker-button-background-color-hover": [
+          {
+            shadowSelector: `.${CSS.deleteColor}`,
+            targetProp: "--calcite-button-background-color",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.saveColor}`,
+            targetProp: "--calcite-button-background-color",
+            state: "hover",
+          },
+        ],
+        "--calcite-color-picker-input-background-color": [
+          {
+            shadowSelector: `.${CSS.channel}`,
+            targetProp: "--calcite-input-background-color",
+          },
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-background-color",
+          },
+        ],
+        "--calcite-color-picker-input-border-color": [
+          {
+            shadowSelector: `.${CSS.channel}`,
+            targetProp: "--calcite-input-border-color",
+          },
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-border-color",
+          },
+        ],
+        "--calcite-color-picker-input-corner-radius": [
+          {
+            shadowSelector: `.${CSS.channel}`,
+            targetProp: "--calcite-input-corner-radius",
+          },
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-corner-radius",
+          },
+        ],
+        "--calcite-color-picker-input-affix-background-color": [
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-affix-background-color",
+          },
+          {
+            shadowSelector: `.${CSS.channel}`,
+            targetProp: "--calcite-input-suffix-background-color",
+          },
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-affix-background-color",
+          },
+        ],
+        "--calcite-color-picker-input-affix-text-color": [
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-affix-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.channel}`,
+            targetProp: "--calcite-input-suffix-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-affix-text-color",
+          },
+        ],
+        "--calcite-color-picker-input-text-color": [
+          {
+            shadowSelector: `.${CSS.channel}`,
+            targetProp: "--calcite-input-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.hexInput}`,
+            targetProp: "--calcite-color-picker-hex-input-text-color",
+          },
+        ],
+        "--calcite-color-picker-tab-nav-indicator-color": {
+          shadowSelector: `.${CSS.colorModes}`,
+          targetProp: "--calcite-tab-nav-indicator-color",
         },
-      ],
-      "--calcite-color-picker-text-color": [
-        {
-          shadowSelector: `.${CSS.header}`,
-          targetProp: "color",
+        "--calcite-color-picker-tab-title-text-color": {
+          shadowSelector: `.${CSS.colorMode}`,
+          targetProp: "--calcite-tab-title-text-color",
         },
-        {
-          shadowSelector: "calcite-tabs",
-          targetProp: "--calcite-tab-text-color-selected",
+        "--calcite-color-picker-tabs-border-color": {
+          shadowSelector: `.${CSS.colorModeContainer}`,
+          targetProp: "--calcite-tabs-border-color",
         },
-      ],
+        "--calcite-color-picker-text-color": [
+          {
+            shadowSelector: `.${CSS.deleteColor}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.saveColor}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.header}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+
+    describe("opacity enabled", () => {
+      themed(html`<calcite-color-picker alpha-channel></calcite-color-picker>`, {
+        "--calcite-color-picker-input-affix-background-color": {
+          shadowSelector: `.${CSS.channel}[data-channel-index="3"]`,
+          targetProp: "--calcite-input-suffix-background-color",
+        },
+        "--calcite-color-picker-input-affix-text-color": {
+          shadowSelector: `.${CSS.channel}[data-channel-index="3"]`,
+          targetProp: "--calcite-input-suffix-text-color",
+        },
+      });
     });
   });
 });

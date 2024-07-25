@@ -4,6 +4,8 @@ export const ICON = {
 } as const;
 
 export const CSS = {
+  activeIndicator: "tab-nav-active-indicator",
+  activeIndicatorContainer: "tab-nav-active-indicator-container",
   container: "tab-nav",
   containerHasEndTabTitleOverflow: "tab-nav--end-overflow",
   containerHasStartTabTitleOverflow: "tab-nav--start-overflow",

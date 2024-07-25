@@ -1,7 +1,8 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
 import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-hex-input", () => {
@@ -628,6 +629,90 @@ describe("calcite-color-picker-hex-input", () => {
             expect(await input.getProperty("value")).toBe(startingHexa);
           });
         });
+      });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-color-picker-hex-input", {
+        "--calcite-color-picker-hex-input-affix-background-color": [
+          {
+            targetProp: "--calcite-input-prefix-background-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-background-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+        ],
+        "--calcite-color-picker-hex-input-affix-text-color": [
+          {
+            targetProp: "--calcite-input-prefix-text-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-text-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+        ],
+        "--calcite-color-picker-hex-input-background-color": {
+          targetProp: "--calcite-input-background-color",
+          shadowSelector: `.${CSS.hexInput}`,
+        },
+        "--calcite-color-picker-hex-input-border-color": {
+          targetProp: "--calcite-input-border-color",
+          shadowSelector: `.${CSS.hexInput}`,
+        },
+        "--calcite-color-picker-hex-input-corner-radius": {
+          targetProp: "--calcite-input-corner-radius",
+          shadowSelector: `.${CSS.hexInput}`,
+        },
+        "--calcite-color-picker-hex-input-text-color": {
+          targetProp: "--calcite-input-text-color",
+          shadowSelector: `.${CSS.hexInput}`,
+        },
+      });
+    });
+
+    describe("opacity enabled", () => {
+      themed(html`<calcite-color-picker-hex-input alpha-channel></calcite-color-picker-hex-input>`, {
+        "--calcite-color-picker-hex-input-background-color": {
+          targetProp: "--calcite-input-background-color",
+          shadowSelector: `.${CSS.opacityInput}`,
+        },
+        "--calcite-color-picker-hex-input-border-color": {
+          targetProp: "--calcite-input-border-color",
+          shadowSelector: `.${CSS.opacityInput}`,
+        },
+        "--calcite-color-picker-hex-input-corner-radius": {
+          targetProp: "--calcite-input-corner-radius",
+          shadowSelector: `.${CSS.opacityInput}`,
+        },
+        "--calcite-color-picker-hex-input-affix-background-color": [
+          {
+            targetProp: "--calcite-input-prefix-background-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-background-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+        ],
+        "--calcite-color-picker-hex-input-affix-text-color": [
+          {
+            targetProp: "--calcite-input-prefix-text-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-text-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+        ],
+        "--calcite-color-picker-hex-input-text-color": {
+          targetProp: "--calcite-input-text-color",
+          shadowSelector: `.${CSS.opacityInput}`,
+        },
       });
     });
   });

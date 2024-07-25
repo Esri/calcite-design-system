@@ -4,13 +4,13 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-loader-color:  defines the color of the component.
- * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
+ * @prop --calcite-loader-font-size: [Deprecated] Specifies the font size of the loading percentage when type is `"determinate"`.
  * @prop --calcite-loader-padding: [Deprecated] Use --calcite-loader-space instead. Specifies the padding of the loader.
  * @prop --calcite-loader-space: Specifies the padding of the loader.
  * @prop --calcite-loader-size-inline: [Deprecated] Use --calcite-loader-size. The width and height of an inline loader.
- * @prop --calcite-loader-size: The width and height of a loader.
+ * @prop --calcite-loader-size: [Deprecated] The width and height of a loader.
  * @prop --calcite-loader-text-color: defines the text color of a loader.
- * @prop --calcite-loader-track-color-determinate: defines the track color of a "determinate" loader
+ * @prop --calcite-loader-track-color: defines the track color of a "determinate" loader
  *
  */
 @import "../../assets/styles/animation";
@@ -41,17 +41,17 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host([scale="s"]) {
   --calcite-internal-loader-font-size: theme("fontSize.n2");
-  --calcite-internal-loader-size: theme("spacing.8");
+  --calcite-internal-loader-size-fallback: theme("spacing.8");
 }
 
 :host([scale="m"]) {
   --calcite-internal-loader-font-size: theme("fontSize.0");
-  --calcite-internal-loader-size: theme("spacing.16");
+  --calcite-internal-loader-size-fallback: theme("spacing.16");
 }
 
 :host([scale="l"]) {
   --calcite-internal-loader-font-size: theme("fontSize.2");
-  --calcite-internal-loader-size: theme("spacing.24");
+  --calcite-internal-loader-size-fallback: theme("spacing.24");
 }
 
 :host([no-padding]) {
@@ -114,7 +114,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host([type="determinate"]) {
   @apply animate-none;
-  stroke: var(--calcite-loader-track-color-determinate, var(--calcite-color-border-3));
+  stroke: var(--calcite-loader-track-color, var(--calcite-color-border-3));
 
   .loader__svgs {
     @apply animate-none;

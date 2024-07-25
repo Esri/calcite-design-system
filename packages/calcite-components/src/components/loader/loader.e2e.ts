@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { hidden, renders } from "../../tests/commonTests";
+import { hidden, renders, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-loader", () => {
   describe("renders", () => {
@@ -54,5 +55,115 @@ describe("calcite-loader", () => {
     const loader = await page.find("calcite-loader");
     expect(loader).toHaveAttribute("id");
     expect(loader.getAttribute("id").length).toEqual(36);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-loader", {
+        "--calcite-loader-color": {
+          targetProp: "stroke",
+        },
+        "--calcite-loader-size": [
+          {
+            targetProp: "minBlockSize",
+          },
+          {
+            shadowSelector: ".loader__svgs",
+            targetProp: "blockSize",
+          },
+          {
+            shadowSelector: ".loader__svgs",
+            targetProp: "inlineSize",
+          },
+          {
+            shadowSelector: ".loader__svg",
+            targetProp: "blockSize",
+          },
+          {
+            shadowSelector: ".loader__svg",
+            targetProp: "inlineSize",
+          },
+        ],
+      });
+    });
+
+    describe("determinate", () => {
+      themed(html` <calcite-loader text="loading..." type="determinate" value="100"></calcite-loader>`, {
+        "--calcite-loader-color": {
+          shadowSelector: ".loader__percentage",
+          targetProp: "color",
+        },
+        "--calcite-loader-size": [
+          {
+            shadowSelector: ".loader__percentage",
+            targetProp: "inlineSize",
+          },
+        ],
+        "--calcite-loader-text-color": [
+          {
+            shadowSelector: ".loader__percentage",
+            targetProp: "color",
+          },
+          {
+            shadowSelector: ".loader__text",
+            targetProp: "color",
+          },
+        ],
+        "--calcite-loader-track-color": {
+          targetProp: "stroke",
+        },
+      });
+    });
+
+    describe("inline", () => {
+      themed(html`<calcite-loader inline></calcite-loader>`, {
+        "--calcite-loader-size": [
+          {
+            targetProp: "blockSize",
+          },
+          {
+            targetProp: "inlineSize",
+          },
+        ],
+      });
+    });
+
+    describe("deprecated", () => {
+      describe("default", () => {
+        themed(`calcite-loader`, {
+          "--calcite-loader-font-size": {
+            targetProp: "fontSize",
+          },
+          "--calcite-loader-padding": {
+            targetProp: "paddingBlock",
+          },
+        });
+
+        describe("inline", () => {
+          themed(html`<calcite-loader inline></calcite-loader>`, {
+            "--calcite-loader-size-inline": [
+              {
+                targetProp: "blockSize",
+              },
+              {
+                targetProp: "minBlockSize",
+              },
+              {
+                targetProp: "inlineSize",
+              },
+            ],
+          });
+        });
+
+        describe("determinate", () => {
+          themed(html`<calcite-loader type="determinate" value="10"></calcite-loader>`, {
+            "--calcite-loader-font-size": {
+              shadowSelector: ".loader__percentage",
+              targetProp: "fontSize",
+            },
+          });
+        });
+      });
+    });
   });
 });

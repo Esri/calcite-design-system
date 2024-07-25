@@ -4,8 +4,20 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-color-picker-background-color: Specifies the background color of the component.
- * @prop --calcite-color-picker-border-color: Specifies the border color of the component.
- * @prop --calcite-color-picker-text-color: Specifies the text color of the component.
+ * @prop --calcite-color-picker-button-background-color-active: defines the background color of the button when in a active state in the component.
+ * @prop --calcite-color-picker-button-background-color-focus: defines the background color of the button when in a focus state in the component.
+ * @prop --calcite-color-picker-button-background-color-hover: defines the background color of the button when in a hover state in the component.
+ * @prop --calcite-color-picker-button-corner-radius: defines the corner radius of the button in the component.
+ * @prop --calcite-color-picker-input-affix-background-color: defines the background color of the prefix and suffix of the sub-component.
+ * @prop --calcite-color-picker-input-affix-text-color: defines the text color of the prefix and suffix of the sub-component.
+ * @prop --calcite-color-picker-input-background-color: defines the background color of the input in the component.
+ * @prop --calcite-color-picker-input-border-color: defines the border color of the input in the component.
+ * @prop --calcite-color-picker-input-corner-radius: defines the corner radius of the input in the component.
+ * @prop --calcite-color-picker-input-text-color: defines the text color of the input in the component.
+ * @prop --calcite-color-picker-tab-nav-indicator-color: Specifies the color of the active tab indicator.
+ * @prop --calcite-color-picker-tab-title-text-color: Specifies the text color of the sub-component.
+ * @prop --calcite-color-picker-tabs-border-color: The border color of the sub-component.
+ * @prop --calcite-color-picker-text-color: Specifies the background color of the component.
  */
 
 :host {
@@ -206,9 +218,53 @@ calcite-color-picker-swatch.saved-color {
   }
 }
 
-calcite-tabs.color-mode-container {
-  --calcite-tab-border-color: var(--calcite-color-picker-border-color, var(--calcite-color-border-1));
-  --calcite-tab-text-color-selected: var(--calcite-color-picker-text-color, var(--calcite-color-text-1));
+calcite-button {
+  --calcite-button-corner-radius: var(--calcite-color-picker-button-corner-radius);
+  --calcite-button-text-color: var(--calcite-color-picker-text-color);
+  --calcite-button-background-color: var(--calcite-color-picker-button-background-color);
+  --calcite-button-icon-color: var(--calcite-color-picker-text-color);
+
+  &:hover {
+    --calcite-button-background-color: var(--calcite-color-picker-button-background-color-hover);
+  }
+  &:focus {
+    --calcite-button-background-color: var(--calcite-color-picker-button-background-color-focus);
+  }
+  &:active {
+    --calcite-button-background-color: var(--calcite-color-picker-button-background-color-active);
+  }
+}
+
+calcite-color-picker-hex-input {
+  --calcite-color-picker-hex-input-affix-background-color: var(--calcite-color-picker-input-affix-background-color);
+  --calcite-color-picker-hex-input-affix-text-color: var(--calcite-color-picker-input-affix-text-color);
+  --calcite-color-picker-hex-input-background-color: var(--calcite-color-picker-input-background-color);
+  --calcite-color-picker-hex-input-border-color: var(--calcite-color-picker-input-border-color);
+  --calcite-color-picker-hex-input-corner-radius: var(--calcite-color-picker-input-corner-radius);
+  --calcite-color-picker-hex-input-text-color: var(--calcite-color-picker-input-text-color);
+}
+
+calcite-input-number {
+  --calcite-input-background-color: var(--calcite-color-picker-input-background-color);
+  --calcite-input-border-color: var(--calcite-color-picker-input-border-color);
+  --calcite-input-text-color: var(--calcite-color-picker-input-text-color);
+  --calcite-input-suffix-background-color: var(--calcite-color-picker-input-affix-background-color);
+  --calcite-input-suffix-text-color: var(--calcite-color-picker-input-affix-background-color);
+  --calcite-input-corner-radius: var(--calcite-color-picker-input-corner-radius);
+}
+
+calcite-tabs {
+  --calcite-tabs-background-color: var(--calcite-color-picker-tabs-background-color);
+  --calcite-tabs-border-color: var(--calcite-color-picker-tabs-border-color);
+}
+
+calcite-tab-nav {
+  --calcite-tab-nav-indicator-color: var(--calcite-color-picker-tab-nav-indicator-color);
+}
+
+calcite-tab-title {
+  --calcite-tab-title-background-color: var(--calcite-color-picker-tab-title-background-color);
+  --calcite-tab-title-text-color: var(--calcite-color-picker-tab-title-text-color);
 }
 
 @include base-component();

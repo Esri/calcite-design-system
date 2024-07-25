@@ -1,5 +1,5 @@
 import { newE2EPage, E2EPage, E2EElement } from "@stencil/core/testing";
-import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
+import { disabled, HYDRATED_ATTR, renders, hidden, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -342,5 +342,128 @@ describe("calcite-tab-title", () => {
 
     await page.keyboard.press("Enter");
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
+  });
+
+  describe("when the active tab-title changes", () => {
+    it("should move the active tab nav indicator", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-tabs>
+          <calcite-tab-nav slot="title-group">
+            <calcite-tab-title class="title-1">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title class="title-2" selected>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab selected>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+          <calcite-tab>Tab 4 Content</calcite-tab>
+        </calcite-tabs>
+        `,
+      });
+      const tabTitle1 = await page.find(".title-1");
+      const tabTitle2 = await page.find(".title-2");
+
+      expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 2 Title");
+      expect(
+        await page.evaluate(() => {
+          return (
+            document
+              .querySelector("calcite-tab-nav")
+              .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
+          ).style.left;
+        }),
+      ).not.toEqual("0px");
+
+      // toggle new selected tab-title
+      await tabTitle2.removeAttribute("selected");
+      await tabTitle1.setAttribute("selected", true);
+      await page.waitForChanges();
+
+      expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 1 Title");
+      expect(
+        await page.evaluate(() => {
+          return (
+            document
+              .querySelector("calcite-tab-nav")
+              .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
+          ).style.left;
+        }),
+      ).toEqual("0px");
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-tab-title", {
+        "--calcite-tab-title-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("bordered", () => {
+      themed(html`<calcite-tab-title bordered>close me</calcite-tab-title>`, {
+        "--calcite-tab-title-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+      });
+    });
+
+    describe("with icon", () => {
+      themed(html`<calcite-tab-title icon-start="banana">close me</calcite-tab-title>`, {
+        "--calcite-tab-title-icon-color": {
+          shadowSelector: `.${CSS.titleIcon}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("closable", () => {
+      themed(`<calcite-tab-title closable>close me</calcite-tab-title>`, {
+        "--calcite-tab-title-close-button-background-color": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+        },
+        "--calcite-tab-title-close-button-background-color-active": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-background-color-focus": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-background-color-hover": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-icon-color": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+        },
+        "--calcite-tab-title-close-button-icon-color-active": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-icon-color-focus": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-icon-color-hover": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: "hover",
+        },
+      });
+    });
   });
 });
