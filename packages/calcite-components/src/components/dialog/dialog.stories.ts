@@ -194,24 +194,6 @@ withTooltips.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const withCSSVars = (): string => html`
-  <button id="button">Open</button>
-  <calcite-dialog
-    scale="m"
-    width-scale="s"
-    open
-    heading="Dialog title"
-    style="--calcite-dialog-content-background: #ddd;"
-  >
-    <div>
-      Dialog content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
-    </div>
-    ${footerContent}
-  </calcite-dialog>
-`;
-
 export const withCustomHeader = (): string => html`
   <calcite-dialog open scale="m" width-scale="s">
     <div slot="${SLOTS.headerContent}">Header!</div>
@@ -351,25 +333,17 @@ export const placementBottomStart = (): string => html`
   </calcite-dialog>
 `;
 
-export const footerSlot = (): string => html`
-  <calcite-dialog
-    modal
-    placement="bottom-start"
-    kind="warning"
-    open
-    heading="heading"
-    description="description"
-    width-scale="s"
-  >
-    <p>Slotted content!</p>
-    <calcite-button slot="footer" width="auto" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="footer" width="auto">Save</calcite-button>
-  </calcite-dialog>
-`;
-
 export const placementBottomEnd = (): string => html`
   <calcite-dialog modal placement="bottom-end" open heading="heading" description="description" width-scale="s">
     <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const footerSlot = (): string => html`
+  <calcite-dialog modal open heading="heading" description="description" width-scale="s">
+    <p>Slotted content!</p>
+    <calcite-button slot="footer" width="auto" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="footer" width="auto">Save</calcite-button>
   </calcite-dialog>
 `;
 
