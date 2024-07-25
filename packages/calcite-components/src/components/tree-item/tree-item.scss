@@ -142,18 +142,15 @@
 .checkbox {
   line-height: 0;
   color: var(--calcite-color-border-input);
-  &:hover,
-  &:focus {
-    color: var(--calcite-color-brand);
-  }
-}
-
-.checkbox-label {
-  @apply pointer-events-none flex items-center;
 }
 
 .checkbox:focus {
   @apply outline-none;
+  color: var(--calcite-color-brand);
+}
+
+.checkbox-label {
+  @apply pointer-events-none flex items-center;
 }
 
 .children-container {
