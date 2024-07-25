@@ -31,7 +31,7 @@ module.exports = async ({ github, context, core }) => {
 
   // passes if the author isn't on the icon designers team or if the author is on the admin team
   // admin(s) may be on the icon designers team for maintenance purposes
-  if (!iconTeamMembers.includes(author) || adminTeamMembers.includes(author)) {
+  if (!iconTeamMembers.includes(author)) {
     core.info("Passing because the author is an admin and/or isn't an icon designer");
     process.exit(0);
   }
