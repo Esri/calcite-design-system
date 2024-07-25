@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-accordion-border-color: Specify the border color of the component.
+ * @prop --calcite-accordion-background-color:  Specify the background color of the component.
+*/
+
 // scale variants for child
 :host([scale="s"]) {
   --calcite-internal-accordion-item-spacing-unit: theme("spacing.1");
@@ -25,18 +34,19 @@
     block
     max-w-full
     leading-6;
-  --calcite-accordion-item-border: theme("borderColor.color.2");
-  --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
+
+  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
+  background-color: var(--calcite-accordion-background-color, theme("backgroundColor.foreground.1"));
 }
 
 .accordion--transparent {
-  --calcite-accordion-item-border: transparent;
-  --calcite-accordion-item-background: transparent;
+  border-color: var(--calcite-color-transparent);
+  background-color: var(--calcite-color-transparent);
 }
 
 .accordion {
   @apply border border-solid border-b-0;
-  border-color: var(--calcite-color-border-2);
+  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
 }
 
 @include base-component();
