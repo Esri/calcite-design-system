@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.23...@esri/calcite-components@2.11.0-next.24) (2024-07-25)
+
+### Bug Fixes
+
+- **panel, flow-item:** prevent footer slots from conflicting with each other ([#9856](https://github.com/Esri/calcite-design-system/issues/9856)) ([f3a26b6](https://github.com/Esri/calcite-design-system/commit/f3a26b6074f702cfc3c2638302cf4454a2a99a3d)), closes [#9855](https://github.com/Esri/calcite-design-system/issues/9855)
+
 ## [2.11.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.22...@esri/calcite-components@2.11.0-next.23) (2024-07-25)
 
 ### Bug Fixes
