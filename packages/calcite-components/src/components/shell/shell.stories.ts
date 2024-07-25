@@ -1402,3 +1402,228 @@ export const panelEndWithPositionStart_TestOnly = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+export const panelTopFloatHorizontal_TestOnly = (): string =>
+  html`<calcite-shell>
+    <calcite-shell-panel
+      layout="horizontal"
+      slot="panel-top"
+      position="start"
+      display-mode="float"
+      width-scale="m"
+      calcite-hydrated=""
+    >
+      <calcite-action-bar
+        slot="action-bar"
+        expand-disabled=""
+        layout="horizontal"
+        overlay-positioning="absolute"
+        calcite-hydrated=""
+      >
+        <calcite-action-group layout="horizontal" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action text="Save" icon="save" indicator="" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+          <calcite-action icon="map" text="New" appearance="solid" scale="m" calcite-hydrated=""> </calcite-action>
+          <calcite-action icon="collection" text="Open" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group layout="horizontal" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action icon="layers" text="Layers" active="" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+          <calcite-action icon="legend" text="Legend" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+          <calcite-action icon="bookmark" text="Bookmarks" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group layout="horizontal" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action text="Share" icon="share" appearance="solid" scale="m" calcite-hydrated=""></calcite-action>
+          <calcite-action text="Print" icon="print" appearance="solid" scale="m" calcite-hydrated=""></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end" layout="horizontal" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action
+            text="Feedback"
+            icon="speech-bubble-plus"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+          ></calcite-action>
+          <calcite-action
+            text="What's next"
+            icon="mega-phone"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+          ></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel
+        heading="Example"
+        closable=""
+        id="panel-top"
+        overlay-positioning="absolute"
+        scale="m"
+        calcite-hydrated=""
+      >
+        <calcite-block open="" heading="Preview display-mode" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-chip-group id="chip-group-panel-top" selection-mode="single-persist" scale="m" calcite-hydrated="">
+            <calcite-chip value="dock" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >dock</calcite-chip
+            >
+            <calcite-chip value="float-detach" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >float-detach</calcite-chip
+            >
+            <calcite-chip value="overlay" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >overlay</calcite-chip
+            >
+            <calcite-chip value="float" appearance="solid" kind="neutral" scale="m" calcite-hydrated="" selected=""
+              >float</calcite-chip
+            >
+          </calcite-chip-group>
+          <calcite-chip-group id="chip-layout-panel-top" selection-mode="single-persist" scale="m" calcite-hydrated="">
+            <calcite-chip value="vertical" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >Vertical</calcite-chip
+            >
+            <calcite-chip selected="" value="horizontal" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >Horizontal</calcite-chip
+            >
+          </calcite-chip-group>
+          <div class="tall-content-example" style="display: none"></div>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
+
+export const panelTopFloatVertical_TestOnly = (): string =>
+  html`<calcite-shell>
+    <calcite-shell-panel
+      layout="vertical"
+      slot="panel-top"
+      position="start"
+      display-mode="float"
+      width-scale="m"
+      calcite-hydrated=""
+    >
+      <calcite-action-bar
+        slot="action-bar"
+        expand-disabled=""
+        layout="vertical"
+        overlay-positioning="absolute"
+        calcite-hydrated=""
+      >
+        <calcite-action-group layout="vertical" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action text="Save" icon="save" indicator="" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+          <calcite-action
+            icon="map"
+            text="New"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+            text-enabled=""
+            slot="menu-actions"
+          >
+          </calcite-action>
+          <calcite-action
+            icon="collection"
+            text="Open"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+            text-enabled=""
+            slot="menu-actions"
+          >
+          </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group layout="vertical" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action icon="layers" text="Layers" active="" appearance="solid" scale="m" calcite-hydrated="">
+          </calcite-action>
+          <calcite-action
+            icon="basemap"
+            text="Basemaps"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+            text-enabled=""
+            slot="menu-actions"
+          >
+          </calcite-action>
+          <calcite-action
+            icon="legend"
+            text="Legend"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+            text-enabled=""
+            slot="menu-actions"
+          >
+          </calcite-action>
+          <calcite-action
+            icon="bookmark"
+            text="Bookmarks"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+            text-enabled=""
+            slot="menu-actions"
+          >
+          </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group layout="vertical" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action text="Share" icon="share" appearance="solid" scale="m" calcite-hydrated=""></calcite-action>
+          <calcite-action text="Print" icon="print" appearance="solid" scale="m" calcite-hydrated=""></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end" layout="vertical" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-action
+            text="Feedback"
+            icon="speech-bubble-plus"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+          ></calcite-action>
+          <calcite-action
+            text="What's next"
+            icon="mega-phone"
+            appearance="solid"
+            scale="m"
+            calcite-hydrated=""
+          ></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel
+        heading="Example"
+        closable=""
+        id="panel-top"
+        overlay-positioning="absolute"
+        scale="m"
+        calcite-hydrated=""
+      >
+        <calcite-block open="" heading="Preview display-mode" overlay-positioning="absolute" calcite-hydrated="">
+          <calcite-chip-group id="chip-group-panel-top" selection-mode="single-persist" scale="m" calcite-hydrated="">
+            <calcite-chip value="dock" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >dock</calcite-chip
+            >
+            <calcite-chip value="float-detach" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >float-detach</calcite-chip
+            >
+            <calcite-chip value="overlay" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >overlay</calcite-chip
+            >
+            <calcite-chip value="float" appearance="solid" kind="neutral" scale="m" calcite-hydrated="" selected=""
+              >float</calcite-chip
+            >
+          </calcite-chip-group>
+          <calcite-chip-group id="chip-layout-panel-top" selection-mode="single-persist" scale="m" calcite-hydrated="">
+            <calcite-chip value="vertical" appearance="solid" kind="neutral" scale="m" calcite-hydrated="" selected=""
+              >Vertical</calcite-chip
+            >
+            <calcite-chip value="horizontal" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >Horizontal</calcite-chip
+            >
+          </calcite-chip-group>
+          <div class="tall-content-example" style="display: none"></div>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
