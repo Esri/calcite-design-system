@@ -10,8 +10,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: skip for markdown only prs
-        id: markdown-check
+      - name: Check diff for testable changes
+        id: diff-check
         run: |
           testable_changes="$(
             git diff --name-only HEAD "$(
@@ -26,9 +26,17 @@ jobs:
           else
             echo "SKIP=false" >> "$GITHUB_OUTPUT"
           fi
-      - if: steps.markdown-check.outputs.SKIP == 'false'
+      - if: steps.diff-check.outputs.SKIP == 'false'
         uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-      - if: steps.markdown-check.outputs.SKIP == 'false'
+      - if: steps.diff-check.outputs.SKIP == 'false'
+        name: Run tests for testable changes
         run: npm install && npm run build && npm run test
+      - if: steps.diff-check.outputs.SKIP == 'true'
+        name: Skip visual snapshots for non-testable changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr edit "$PR_NUMBER" --add-label "skip visual snapshots"
