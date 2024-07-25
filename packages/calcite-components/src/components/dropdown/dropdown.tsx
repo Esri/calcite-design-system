@@ -440,21 +440,11 @@ export class Dropdown
 
   guid = `calcite-dropdown-${guid()}`;
 
-  defaultAssignedElements: Element[] = [];
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  slotChangeHandler = (event: Event): void => {
-    this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.updateItems();
-  };
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;

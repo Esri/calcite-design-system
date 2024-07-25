@@ -83,6 +83,7 @@ import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
+import { Element } from "@stencil/core";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
@@ -175,6 +176,7 @@ export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
+export { Element } from "@stencil/core";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
@@ -1394,6 +1396,10 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata": Record<string, unknown>;
+        /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
         "scale": Scale;
@@ -1884,6 +1890,10 @@ export namespace Components {
           * When provided, the method will be called before it is removed from its parent `calcite-flow`.
          */
         "beforeBack": () => Promise<void>;
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose": () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
@@ -3393,6 +3403,10 @@ export namespace Components {
          */
         "docked": boolean;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled": boolean;
@@ -3442,10 +3456,6 @@ export namespace Components {
           * Sets focus on the component's "close" button (the first focusable item).
          */
         "setFocus": () => Promise<void>;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell": boolean;
         /**
           * Updates the element(s) that are used within the focus-trap of the component.
          */
@@ -3680,6 +3690,10 @@ export namespace Components {
         "totalItems": number;
     }
     interface CalcitePanel {
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose": () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the header.
          */
@@ -4332,6 +4346,10 @@ export namespace Components {
          */
         "displayMode": DisplayMode;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled": boolean;
@@ -4367,10 +4385,6 @@ export namespace Components {
           * Sets focus on the component's "close" button - the first focusable item.
          */
         "setFocus": () => Promise<void>;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell": boolean;
         /**
           * Updates the element(s) that are used within the focus-trap of the component.
          */
@@ -4859,8 +4873,6 @@ export namespace Components {
     }
     interface CalciteTabNav {
         "bordered": boolean;
-        "indicatorOffset": number;
-        "indicatorWidth": number;
         "layout": TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -6043,10 +6055,6 @@ export interface CalciteStepperItemCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSwitchElement;
-}
-export interface CalciteTabCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteTabElement;
 }
 export interface CalciteTabNavCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -7484,18 +7492,7 @@ declare global {
         prototype: HTMLCalciteSwitchElement;
         new (): HTMLCalciteSwitchElement;
     };
-    interface HTMLCalciteTabElementEventMap {
-        "calciteInternalTabRegister": void;
-    }
     interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteTabElement: {
         prototype: HTMLCalciteTabElement;
@@ -7503,6 +7500,7 @@ declare global {
     };
     interface HTMLCalciteTabNavElementEventMap {
         "calciteTabChange": void;
+        "calciteInternalTabNavSlotChange": Element[];
         "calciteInternalTabChange": TabChangeEventDetail;
     }
     interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {
@@ -9237,6 +9235,10 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata"?: Record<string, unknown>;
+        /**
           * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
@@ -9749,6 +9751,10 @@ declare namespace LocalJSX {
           * When provided, the method will be called before it is removed from its parent `calcite-flow`.
          */
         "beforeBack"?: () => Promise<void>;
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose"?: () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
@@ -11364,6 +11370,10 @@ declare namespace LocalJSX {
          */
         "docked"?: boolean;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled"?: boolean;
@@ -11419,10 +11429,6 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell"?: boolean;
         /**
           * Specifies the width of the component.
          */
@@ -11646,6 +11652,10 @@ declare namespace LocalJSX {
         "totalItems"?: number;
     }
     interface CalcitePanel {
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose"?: () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the header.
          */
@@ -12331,6 +12341,10 @@ declare namespace LocalJSX {
          */
         "displayMode"?: DisplayMode;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled"?: boolean;
@@ -12378,10 +12392,6 @@ declare namespace LocalJSX {
           * Determines where the component will be positioned.
          */
         "position"?: LogicalFlowPosition;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell"?: boolean;
         /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
          */
@@ -12851,7 +12861,6 @@ declare namespace LocalJSX {
         "value"?: any;
     }
     interface CalciteTab {
-        "onCalciteInternalTabRegister"?: (event: CalciteTabCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
          */
@@ -12867,8 +12876,6 @@ declare namespace LocalJSX {
     }
     interface CalciteTabNav {
         "bordered"?: boolean;
-        "indicatorOffset"?: number;
-        "indicatorWidth"?: number;
         "layout"?: TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -12879,6 +12886,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TabNavMessages;
         "onCalciteInternalTabChange"?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
+        "onCalciteInternalTabNavSlotChange"?: (event: CalciteTabNavCustomEvent<Element[]>) => void;
         /**
           * Emits when the selected `calcite-tab` changes.
          */

@@ -12,6 +12,10 @@ describe("calcite-sheet properties", () => {
         defaultValue: false,
       },
       {
+        propertyName: "embedded",
+        defaultValue: false,
+      },
+      {
         propertyName: "displayMode",
         defaultValue: "overlay",
       },

@@ -4,73 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-input placeholder="Enter your region"></calcite-input>
-```
-
-### Clearable
-
-Display a clear button when the component has a value with the `clearable` attribute:
-
-```html
-<calcite-label>
-  Full name
-  <calcite-input clearable value="John Doe" placeholder="John Doe"></calcite-input>
-</calcite-label>
-```
-
-### Native-events
-
-You can also listen for native events emitted from `<calcite-input>`.
-
-You must use `focusin`/`focusout` instead of `focus`/`blur` because these events bubble up from the rendered child element rendered inside of `<calcite-input>`
-
-All events return an element and a value:
-
-```js
-inputEl.addEventListener("focusin", logFocus);
-inputEl.addEventListener("focusout", logBlur);
-
-function logFocus() {
-  console.log(event.target);
-}
-
-function logBlur() {
-  console.log(event.target.value);
-}
-```
-
-### With-label
-
-```html
-<calcite-label for="invalid-input">
-  Invalid input
-  <calcite-input status="invalid" id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message status="invalid" icon> Something doesn't look right </calcite-input-message>
-</calcite-label>
-```
-
-### With-message
-
-```html
-<calcite-label>
-  Desired subdomain
-  <calcite-input
-    suffix-text=".city-of-acme.gov"
-    status="invalid"
-    placeholder="Enter your subdomain"
-    value="i-love-maps"
-  ></calcite-input>
-  <calcite-input-message icon="frown" status="invalid">
-    Apologies, this subdomain has already been registered.
-  </calcite-input-message>
-</calcite-label>
-```
-
 ## Properties
 
 | Property            | Attribute            | Description                                                                                                                                                                                                               | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |
@@ -84,7 +17,7 @@ function logBlur() {
 | `files`             | --                   | When `type` is `"file"`, specifies the component's selected files.                                                                                                                                                        | `FileList`                                                                                                                                                                                                                                          | `undefined`                                                                                                                                                                                                                                                                 |
 | `form`              | `form`               | The `id` of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                                                                   | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `groupSeparator`    | `group-separator`    | When `true`, number values are displayed with a group separator corresponding to the language and country format.                                                                                                         | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
-| `icon`              | `icon`               | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.                                                                                                     | `boolean \| string`                                                                                                                                                                                                                                 | `undefined`                                                                                                                                                                                                                                                                 |
+| `icon`              | `icon`               | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.                                                                                                     | `boolean \| IconName`                                                                                                                                                                                                                               | `undefined`                                                                                                                                                                                                                                                                 |
 | `iconFlipRtl`       | `icon-flip-rtl`      | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                                                                                                              | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `label`             | `label`              | Accessible name for the component.                                                                                                                                                                                        | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `loading`           | `loading`            | When `true`, a busy indicator is displayed.                                                                                                                                                                               | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
@@ -107,7 +40,7 @@ function logBlur() {
 | `step`              | `step`               | Specifies the granularity the component's `value` must adhere to.                                                                                                                                                         | `"any" \| number`                                                                                                                                                                                                                                   | `undefined`                                                                                                                                                                                                                                                                 |
 | `suffixText`        | `suffix-text`        | Adds text to the end of the component.                                                                                                                                                                                    | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `type`              | `type`               | Specifies the component type. Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.                                                       | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"`                                                              | `"text"`                                                                                                                                                                                                                                                                    |
-| `validationIcon`    | `validation-icon`    | Specifies the validation icon to display under the component.                                                                                                                                                             | `boolean \| string`                                                                                                                                                                                                                                 | `undefined`                                                                                                                                                                                                                                                                 |
+| `validationIcon`    | `validation-icon`    | Specifies the validation icon to display under the component.                                                                                                                                                             | `boolean \| IconName`                                                                                                                                                                                                                               | `undefined`                                                                                                                                                                                                                                                                 |
 | `validationMessage` | `validation-message` | Specifies the validation message to display under the component.                                                                                                                                                          | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `validity`          | --                   | The current validation state of the component.                                                                                                                                                                            | `{ valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; }` | `{     valid: false,     badInput: false,     customError: false,     patternMismatch: false,     rangeOverflow: false,     rangeUnderflow: false,     stepMismatch: false,     tooLong: false,     tooShort: false,     typeMismatch: false,     valueMissing: false,   }` |
 | `value`             | `value`              | The component's value.                                                                                                                                                                                                    | `string`                                                                                                                                                                                                                                            | `""`                                                                                                                                                                                                                                                                        |

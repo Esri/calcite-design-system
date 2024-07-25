@@ -93,7 +93,8 @@
   border-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sharp));
   max-block-size: 0;
   text-align: start;
-  border-inline-start: 0px solid;
+  border-inline-start: 0 solid;
+  box-shadow: 0 0 0 0 transparent;
 }
 
 // focus styles

@@ -89,8 +89,11 @@ ul:focus {
 
 // selected state
 .label--selected {
-  @apply font-medium;
   color: var(--calcite-combobox-text-color-selected, var(--calcite-color-text-1));
+
+  .title {
+    @apply font-medium;
+  }
 }
 
 .label--active {
@@ -160,7 +163,6 @@ ul:focus {
 
 .description {
   font-size: var(--calcite-internal-combobox-item-description-font-size);
-  font-weight: var(--calcite-font-weight-normal);
 }
 
 :host([selected]),
@@ -172,4 +174,5 @@ ul:focus {
 
 .short-text {
   color: var(--calcite-combobox-text-color, var(--calcite-color-text-3));
+  white-space: nowrap;
 }

@@ -27,8 +27,15 @@ import {
 } from "../../utils/loadable";
 import { Alignment, Width } from "../interfaces";
 import { IconName } from "../icon/interfaces";
+import { logger } from "../../utils/logger";
 import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
+
+logger.deprecated("component", {
+  name: "tile-select",
+  removalVersion: 4,
+  suggested: ["tile", "tile-group"],
+});
 
 /**
  * @deprecated Use the `calcite-tile` component instead.

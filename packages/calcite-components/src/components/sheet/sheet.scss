@@ -234,7 +234,7 @@
 /**
  * Conditional styles for when Sheet is slotted in Shell
  */
-:host([position]) .container--slotted-in-shell {
+:host([position]) .container--embedded {
   @apply absolute pointer-events-auto;
   inline-size: var(--calcite-container-size-content-fluid);
   max-inline-size: var(--calcite-container-size-content-fluid);

@@ -48,7 +48,63 @@
 
   .container.is-circle,
   .container.is-circle.image--slotted {
-    @apply w-6 h-6;
+    .container.is-circle,
+    .container.is-circle.image--slotted {
+      @apply w-6 h-6;
+
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
+    }
+
+    .multiple {
+      .select-icon {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+      }
+
+      &.image--slotted {
+        .select-icon {
+          --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+        }
+
+        &.text--slotted {
+          --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+        }
+      }
+    }
+
+    .container {
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+
+      &.image--slotted {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+
+        &.closable {
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+        }
+      }
+    }
+
+    .container:not(.is-circle):not(.multiple) {
+      &:not(.image-slotted) .select-icon.select-icon--active {
+        padding-inline-start: 0;
+        padding-inline-end: var(--calcite-spacing-xs);
+      }
+
+      &.image--slotted .select-icon.select-icon--active {
+        padding-inline-start: var(--calcite-spacing-base);
+        padding-inline-end: var(--calcite-spacing-sm);
+      }
+    }
+  }
+
+  :host([scale="s"][closable]) .container {
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 
     --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
@@ -117,11 +173,71 @@
 
     --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container.is-circle,
   .container.is-circle.image--slotted {
-    @apply w-8 h-8;
+    .container.is-circle,
+    .container.is-circle.image--slotted {
+      @apply w-8 h-8;
+
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
+    }
+
+    .multiple {
+      .select-icon {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-base);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-base);
+      }
+
+      &.image--slotted {
+        .select-icon {
+          --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+        }
+
+        &.text--slotted {
+          --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
+        }
+      }
+    }
+
+    .container {
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
+
+      &.image--slotted {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
+
+        &.closable {
+          --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+        }
+      }
+    }
+
+    .container:not(.is-circle):not(.multiple) {
+      &:not(.image-slotted) .select-icon.select-icon--active {
+        padding-inline-start: 0;
+        padding-inline-end: var(--calcite-spacing-px);
+      }
+
+      &.image--slotted .select-icon.select-icon--active {
+        padding-inline-start: 0;
+        padding-inline-end: var(--calcite-spacing-sm);
+      }
+    }
+  }
+
+  :host([scale="m"][closable]) .container {
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 
     --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
@@ -192,11 +308,66 @@
 
     --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container.is-circle,
   .container.is-circle.image--slotted {
-    @apply w-11 h-11;
+    .container.is-circle,
+    .container.is-circle.image--slotted {
+      @apply w-11 h-11;
+
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+    }
+
+    .multiple {
+      .select-icon {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+      }
+
+      &.image--slotted {
+        .select-icon {
+          --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-md);
+        }
+      }
+    }
+
+    .container {
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-sm);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+
+      &.image--slotted {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+
+        &.closable {
+          --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+          --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
+        }
+      }
+    }
+
+    .container:not(.is-circle):not(.multiple) {
+      &:not(.image-slotted) .select-icon.select-icon--active {
+        padding-inline-start: 0;
+        padding-inline-end: var(--calcite-spacing-xxs);
+      }
+
+      &.image--slotted .select-icon.select-icon--active {
+        padding-inline-start: 0;
+        padding-inline-end: var(--calcite-spacing-md);
+      }
+    }
+  }
+
+  :host([scale="l"][closable]) .container {
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-sm);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
 
     --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
@@ -404,6 +575,10 @@
 
 .container:hover .select-icon--active {
   opacity: 1;
+}
+
+.multiple .select-icon {
+  @apply flex justify-center items-center;
 }
 
 .multiple .select-icon {

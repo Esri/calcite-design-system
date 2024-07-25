@@ -252,9 +252,9 @@
   }
 }
 
-.thumb:hover.thumb--precise:after,
-.thumb:focus.thumb--precise:after,
-.thumb--active.thumb--precise:after {
+.thumb:hover.thumb--precise::after,
+.thumb:focus.thumb--precise::after,
+.thumb--active.thumb--precise::after {
   background-color: var(--calcite-slider-handle-color-hover, var(--calcite-color-brand));
 }
 
@@ -276,7 +276,7 @@
     &:hover {
       cursor: ew-resize;
     }
-    &:after {
+    &::after {
       @apply absolute w-full;
       content: "";
       inset-block-start: calc(var(--calcite-internal-slider-full-handle-height) * -0.5);

@@ -44,6 +44,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
@@ -98,6 +99,9 @@ export class FlowItem
    * When provided, the method will be called before it is removed from its parent `calcite-flow`.
    */
   @Prop() beforeBack: () => Promise<void>;
+
+  /** Passes a function to run before the component closes. */
+  @Prop() beforeClose: () => Promise<void>;
 
   /** A description for the component. */
   @Prop() description: string;
@@ -365,11 +369,13 @@ export class FlowItem
       menuOpen,
       messages,
       overlayPositioning,
+      beforeClose,
     } = this;
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
           <calcite-panel
+            beforeClose={beforeClose}
             closable={closable}
             closed={closed}
             collapseDirection={collapseDirection}
@@ -391,6 +397,7 @@ export class FlowItem
           >
             {this.renderBackButton()}
             <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+            <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
             <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
             <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
             <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />

@@ -58,7 +58,6 @@
 $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure the mask color stops overlap when both start and end are overflowing
 
 .tab-nav--start-overflow {
-  .tab-nav-active-indicator-container,
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-end-side),
@@ -71,7 +70,6 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 }
 
 .tab-nav--end-overflow {
-  .tab-nav-active-indicator-container,
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-start-side),
@@ -84,7 +82,6 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 }
 
 .tab-nav--start-overflow.tab-nav--end-overflow {
-  .tab-nav-active-indicator-container,
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
         to var(--calcite-internal-tab-nav-gradient-end-side),
@@ -248,31 +245,6 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 
   .scroll-button-container--forward::before {
     inset-inline-start: 0;
-  }
-}
-
-:host .position-bottom .tab-nav-active-indicator {
-  inset-block-end: unset;
-  @apply top-0;
-}
-
-:host .position-bottom .tab-nav-active-indicator-container {
-  inset-block-end: unset;
-  @apply top-0;
-}
-
-:host([bordered]) .tab-nav-active-indicator-container {
-  inset-block-end: unset; // display active blue line above instead of below
-}
-
-:host([bordered]) .position-bottom .tab-nav-active-indicator-container {
-  inset-block-end: 0; // display active blue line below instead of above
-  inset-block-start: unset;
-}
-
-@media (forced-colors: active) {
-  .tab-nav-active-indicator {
-    background-color: highlight;
   }
 }
 

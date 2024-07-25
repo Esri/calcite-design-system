@@ -175,15 +175,15 @@ calcite-action {
   --calcite-action-background-color: var(--calcite-menu-item-action-background-color);
   @apply relative h-auto;
   border-inline-start: 1px solid var(--calcite-color-foreground-1);
-  &:after {
-    @apply block absolute;
+  &::after {
+    @apply block w-px  absolute -start-px;
     content: "";
     inline-size: var(--calcite-spacing-px);
     inset-inline-start: calc(-1 * var(--calcite-spacing-px));
     inset-block: theme("spacing.3");
     background-color: var(--calcite-menu-item-action-border-color, var(--calcite-color-border-3));
   }
-  &:hover:after {
+  &:hover::after {
     @apply h-full;
     inset-block: 0;
   }

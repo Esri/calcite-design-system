@@ -17,9 +17,6 @@
 }
 
 @mixin range-part-edge-end() {
-  &::before {
-    inset-inline-end: 50%;
-  }
   &::after {
     inset-inline-start: 50%;
     border-start-end-radius: var(--calcite-internal-day-size);
@@ -41,10 +38,6 @@
 }
 
 @mixin range-part-middle() {
-  &::before {
-    inset-inline-end: 50%;
-    border-radius: var(--calcite-corner-radius-sharp);
-  }
   &::after {
     inset-inline-start: 50%;
     border-radius: var(--calcite-corner-radius-sharp);
