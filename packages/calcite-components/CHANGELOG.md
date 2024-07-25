@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.22...@esri/calcite-components@2.11.0-next.23) (2024-07-25)
+
+### Bug Fixes
+
+- **carousel:** Prevent duplicate animation when navigating via keyboard ([#9848](https://github.com/Esri/calcite-design-system/issues/9848)) ([37229a5](https://github.com/Esri/calcite-design-system/commit/37229a5de4a6338c6d921d2def6afc38300bf636)), closes [#9471](https://github.com/Esri/calcite-design-system/issues/9471)
+
 ## [2.11.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.21...@esri/calcite-components@2.11.0-next.22) (2024-07-25)
 
 ### Bug Fixes
