@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.22...@esri/calcite-components@2.11.0-next.23) (2024-07-25)
+
+### Bug Fixes
+
+- **carousel:** Prevent duplicate animation when navigating via keyboard ([#9848](https://github.com/Esri/calcite-design-system/issues/9848)) ([37229a5](https://github.com/Esri/calcite-design-system/commit/37229a5de4a6338c6d921d2def6afc38300bf636)), closes [#9471](https://github.com/Esri/calcite-design-system/issues/9471)
+
+## [2.11.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.21...@esri/calcite-components@2.11.0-next.22) (2024-07-25)
+
+### Bug Fixes
+
+- **shell:** fix resizing a slotted shell-panel when clicking to resize ([#9846](https://github.com/Esri/calcite-design-system/issues/9846)) ([2318905](https://github.com/Esri/calcite-design-system/commit/23189059dd8a0efa4e665c5a10d2dc1568e0d6ef)), closes [#9807](https://github.com/Esri/calcite-design-system/issues/9807)
+- **tabs:** Update tab title indicator display ([#9666](https://github.com/Esri/calcite-design-system/issues/9666)) ([d570023](https://github.com/Esri/calcite-design-system/commit/d570023ab447b6ba6694c38b611efae4db2cc0eb)), closes [#8800](https://github.com/Esri/calcite-design-system/issues/8800) [#8772](https://github.com/Esri/calcite-design-system/issues/8772)
+
 ## [2.11.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.20...@esri/calcite-components@2.11.0-next.21) (2024-07-23)
 
 ### Features
