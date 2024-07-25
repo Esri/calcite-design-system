@@ -24,5 +24,6 @@ export const ICONS = {
   checkmark: "check",
   checkSquareF: "check-square-f",
   chevronRight: "chevron-right",
+  minusSquareF: "minus-square-f",
   square: "square",
 } as const;

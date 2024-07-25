@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
   describe("renders", () => {
@@ -331,7 +331,7 @@ describe("calcite-tree-item", () => {
       </calcite-tree>
     `);
     const container = await page.find("calcite-tree-item >>> .node-container");
-    const checkbox = await container.find(`.${CSS.checkbox} calcite-icon`);
+    const checkbox = await container.find(`.${CSS.checkbox}`);
     const label = await container.find(`label`);
 
     const icon = await container.find(`[data-test-id="icon"]`);
@@ -342,24 +342,24 @@ describe("calcite-tree-item", () => {
     expect(isVisible).toBe(true);
 
     await container.click();
-    expect(checkbox).toEqualAttribute("icon", ICONS.checkSquareF);
+    expect(checkbox).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await container.click();
-    expect(checkbox).toEqualAttribute("icon", ICONS.square);
+    expect(checkbox).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
 
     await label.click();
-    expect(checkbox).toEqualAttribute("icon", ICONS.checkSquareF);
+    expect(checkbox).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await label.click();
-    expect(checkbox).toEqualAttribute("icon", ICONS.square);
+    expect(checkbox).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
 
     await checkbox.click();
-    expect(checkbox).toEqualAttribute("icon", ICONS.checkSquareF);
+    expect(checkbox).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await checkbox.click();
-    expect(checkbox).toEqualAttribute("icon", ICONS.square);
+    expect(checkbox).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
   });
 

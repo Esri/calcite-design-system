@@ -213,6 +213,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const showCheckmark =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
     const chevron = this.hasChildren ? (
       <calcite-icon
@@ -239,7 +240,13 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
             tabIndex={-1}
           >
             <calcite-icon
-              icon={this.selected ? ICONS.checkSquareF : ICONS.square}
+              icon={
+                this.selected
+                  ? ICONS.checkSquareF
+                  : checkboxIsIndeterminate
+                    ? ICONS.minusSquareF
+                    : ICONS.square
+              }
               scale={getIconScale(this.scale)}
             />
           </div>

@@ -141,9 +141,10 @@
 
 .checkbox {
   line-height: 0;
+  color: var(--calcite-color-border-input);
   &:hover,
   &:focus {
-    --calcite-ui-icon-color: var(--calcite-color-brand);
+    color: var(--calcite-color-brand);
   }
 }
 
@@ -263,7 +264,13 @@
     color: var(--calcite-color-brand);
   }
   .checkbox {
-    --calcite-ui-icon-color: var(--calcite-color-brand);
+    color: var(--calcite-color-brand);
+  }
+}
+
+:host([has-children][indeterminate]) {
+  .checkbox {
+    color: var(--calcite-color-brand);
   }
 }
 
