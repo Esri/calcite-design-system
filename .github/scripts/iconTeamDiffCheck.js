@@ -19,14 +19,14 @@ module.exports = async ({ github, context, core }) => {
     team_slug: teams.iconDesigners,
   });
 
-  core.debug(`Members of "${teams.iconDesigners}" GitHub Team: ${iconTeamMembers}`);
+  core.debug(`Members of "${teams.iconDesigners}" GitHub Team: ${JSON.stringify(iconTeamMembers)}`);
 
   const { data: adminTeamMembers } = await github.rest.teams.listMembersInOrg({
     org: owner,
     team_slug: teams.admins,
   });
 
-  core.debug(`Members of "${teams.admins}" GitHub Team: ${adminTeamMembers}`);
+  core.debug(`Members of "${teams.admins}" GitHub Team: ${JSON.stringify(adminTeamMembers)}`);
 
   // passes when an admin approves the PR
   if (github.event?.review?.state == "APPROVED" && adminTeamMembers.includes(github.event?.review?.user?.login)) {
