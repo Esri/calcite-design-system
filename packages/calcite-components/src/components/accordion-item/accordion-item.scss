@@ -29,12 +29,16 @@
 }
 
 :host {
-  @apply text-color-3
-    relative
+  @apply relative
     flex
     flex-col
     no-underline;
-  background-color: var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"));
+
+  color: var(--calcite-accordion-text-color, var(--calcite-color-text-3));
+  background-color: var(
+    --calcite-accordion-background-color,
+    var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"))
+  );
 }
 
 // focus styles
@@ -48,9 +52,10 @@
 }
 
 :host([expanded]) {
-  @apply text-color-1;
+  color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
   & .content {
-    @apply text-color-1 block;
+    @apply block;
+    color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
   }
   & .header {
     border-block-end-color: transparent;
@@ -63,8 +68,7 @@
 }
 
 :host .icon {
-  @apply text-color-3
-    relative
+  @apply relative
     m-0
     inline-flex
     duration-150
@@ -106,13 +110,12 @@
 }
 
 :host .content {
-  @apply text-color-3 hidden pt-0;
+  @apply hidden pt-0;
   text-align: initial;
 }
 
 // accordion item icon
 :host .expand-icon {
-  @apply text-color-3;
   margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-start);
   margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-end);
   transform: rotate(var(--calcite-internal-accordion-item-icon-rotation));
@@ -123,7 +126,6 @@
 }
 
 :host([expanded]) .expand-icon {
-  @apply text-color-3;
   transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
 }
 
@@ -144,40 +146,19 @@
 }
 
 :host .heading {
-  @apply text-color-2 font-medium;
+  @apply font-medium;
+  color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
 }
 :host .description {
-  @apply text-color-3 mt-1;
+  @apply mt-1;
 }
 
 :host(:focus),
 :host(:hover) {
-  & .heading {
-    @apply text-color-1;
-  }
-  & .icon {
-    @apply text-color-1;
-  }
+  color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
 
-  & .expand-icon {
-    @apply text-color-1;
-  }
-  & .description {
-    @apply text-color-2;
-  }
-}
-
-:host(:focus),
-:host(:active),
-:host([expanded]) {
-  & .heading {
-    @apply text-color-1;
-  }
-  & .icon {
-    @apply text-color-1;
-  }
-  & .description {
-    @apply text-color-2;
+  .description {
+    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
   }
 }
 
