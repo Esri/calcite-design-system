@@ -125,7 +125,7 @@ const footerContent = html`<calcite-button
 export const slots = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s">
     <div slot="${SLOTS.contentTop}">Slot for a content-top.</div>
-    <div style="height: 100px">${mightyLongTextToScroll}</div>
+    ${mightyLongTextToScroll}
     <div slot="${SLOTS.contentBottom}">Slot for a content-bottom.</div>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
     <calcite-action-bar slot="${SLOTS.actionBar}">
@@ -139,10 +139,10 @@ export const slots = (): string => html`
   </calcite-dialog>
 `;
 
-export const slotsModal = (): string => html`
+export const slotsWithModal = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s" modal>
     <div slot="${SLOTS.contentTop}">Slot for a content-top.</div>
-    <div style="height: 100px">${mightyLongTextToScroll}</div>
+    ${mightyLongTextToScroll}
     <div slot="${SLOTS.contentBottom}">Slot for a content-bottom.</div>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
     <calcite-action-bar slot="${SLOTS.actionBar}">
