@@ -4965,8 +4965,6 @@ export namespace Components {
     }
     interface CalciteTabNav {
         "bordered": boolean;
-        "indicatorOffset": number;
-        "indicatorWidth": number;
         "layout": TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -13086,8 +13084,6 @@ declare namespace LocalJSX {
     }
     interface CalciteTabNav {
         "bordered"?: boolean;
-        "indicatorOffset"?: number;
-        "indicatorWidth"?: number;
         "layout"?: TabLayout;
         /**
           * Use this property to override individual strings used by the component.
