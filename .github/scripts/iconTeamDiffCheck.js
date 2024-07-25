@@ -14,17 +14,21 @@ module.exports = async ({ github, context, core }) => {
   core.debug("Checking author/reviewers because there are diffs outside of package/calcite-ui-icons");
   core.debug(`Author: ${author}`);
 
-  const { data: iconTeamMembers } = await github.rest.teams.listMembersInOrg({
-    org: owner,
-    team_slug: teams.iconDesigners,
-  });
+  const iconTeamMembers = (
+    await github.rest.teams.listMembersInOrg({
+      org: owner,
+      team_slug: teams.iconDesigners,
+    })
+  ).data.map((member) => member.login);
 
   core.debug(`Members of "${teams.iconDesigners}" GitHub Team: ${JSON.stringify(iconTeamMembers)}`);
 
-  const { data: adminTeamMembers } = await github.rest.teams.listMembersInOrg({
-    org: owner,
-    team_slug: teams.admins,
-  });
+  const adminTeamMembers = (
+    await github.rest.teams.listMembersInOrg({
+      org: owner,
+      team_slug: teams.admins,
+    })
+  ).data.map((member) => member.login);
 
   core.debug(`Members of "${teams.admins}" GitHub Team: ${JSON.stringify(adminTeamMembers)}`);
 
