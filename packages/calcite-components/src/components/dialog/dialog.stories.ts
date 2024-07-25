@@ -35,6 +35,7 @@ export default {
     loading: false,
     menuOpen: false,
     modal: false,
+    overlayPositioning: overlayPositioning.defaultValue,
   },
   argTypes: {
     kind: {
@@ -79,7 +80,8 @@ const menuActionsContent = html` <calcite-action
     icon="banana"
     slot="${SLOTS.headerMenuActions}"
   ></calcite-action>
-  <calcite-action text="measure" text-enabled icon="measure" slot="${SLOTS.headerMenuActions}"></calcite-action>`;
+  <calcite-action text="measure" text-enabled icon="measure" slot="${SLOTS.headerMenuActions}"></calcite-action
+  ><calcite-action text="search" text-enabled icon="search" slot="${SLOTS.headerMenuActions}"></calcite-action>`;
 
 export const simple = (args: DialogStoryArgs): string => html`
   <calcite-dialog
@@ -94,6 +96,7 @@ export const simple = (args: DialogStoryArgs): string => html`
     placement="${args.placement}"
     heading="${args.heading}"
     description="${args.description}"
+    overlay-positioning="${args.overlayPositioning}"
   >
     ${actionsContent} ${menuActionsContent} The small modal is perfect for short confirmation dialogs or very compact
     interfaces with few elements. ${footerContent}
