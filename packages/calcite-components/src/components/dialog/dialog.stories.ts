@@ -116,11 +116,11 @@ const footerContent = html`<calcite-button
     kind="neutral"
     appearance="outline"
     icon="chevron-left"
-    width="full"
+    width="auto"
     >Back</calcite-button
   >
-  <calcite-button slot="${SLOTS.footerEnd}" width="full" appearance="outline">Cancel</calcite-button>
-  <calcite-button slot="${SLOTS.footerEnd}" width="full">Save</calcite-button>`;
+  <calcite-button slot="${SLOTS.footerEnd}" width="auto" appearance="outline">Cancel</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="auto">Save</calcite-button>`;
 
 export const slots = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s">
@@ -348,6 +348,22 @@ export const placementBottomStart = (): string => html`
     width-scale="s"
   >
     <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const footerSlot = (): string => html`
+  <calcite-dialog
+    modal
+    placement="bottom-start"
+    kind="warning"
+    open
+    heading="heading"
+    description="description"
+    width-scale="s"
+  >
+    <p>Slotted content!</p>
+    <calcite-button slot="footer" width="auto" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="footer" width="auto">Save</calcite-button>
   </calcite-dialog>
 `;
 

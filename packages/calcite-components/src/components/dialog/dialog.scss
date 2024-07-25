@@ -122,7 +122,9 @@ calcite-panel {
     w-full
     flex-col
     opacity-0
-    z-modal;
+    shadow-2-sm
+    z-modal
+    rounded;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
   transition:
@@ -153,9 +155,7 @@ calcite-panel {
 }
 
 .panel {
-  @apply shadow-2-sm
-    bg-foreground-1
-    rounded;
+  @apply rounded;
 }
 
 .container--open {
@@ -222,11 +222,17 @@ calcite-panel {
     --calcite-internal-dialog-hidden-position: translate3D(0, 20px, 0) scale(0.95);
     --calcite-internal-dialog-shown-position: translate3D(0, 0, 0) scale(1);
   }
+  .panel {
+    @apply rounded-none;
+  }
 }
 
 /**
  * Kinds
  */
+:host([kind]) .panel {
+  @apply rounded-t-none;
+}
 :host([kind="brand"]) .dialog {
   @apply border-color-brand;
 }
