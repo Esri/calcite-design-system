@@ -49,11 +49,11 @@
 
 :host([expanded]) {
   color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
-  & .content {
+  .content {
     @apply block;
     color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
   }
-  & .header {
+  .header {
     border-block-end-color: transparent;
   }
 }
@@ -171,17 +171,17 @@
 
 @media (forced-colors: active) {
   :host([expanded]) {
-    & .header {
+    .header {
       border-block-end: none;
     }
-    & .heading {
+    .heading {
       /** give visual indicator of expanded state since subtle color changes can't be done **/
       font-weight: bolder;
     }
   }
   :host(:hover),
   :host(:focus) {
-    & .heading {
+    .heading {
       /** give visual indicator of expandability/click-ability since subtle color changes can't be done **/
       text-decoration: underline;
     }
