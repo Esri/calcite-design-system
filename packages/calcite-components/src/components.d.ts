@@ -1885,10 +1885,6 @@ export namespace Components {
          */
         "beforeBack": () => Promise<void>;
         /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose": () => Promise<void>;
-        /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
         "closable": boolean;
@@ -3397,10 +3393,6 @@ export namespace Components {
          */
         "docked": boolean;
         /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "embedded": boolean;
-        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled": boolean;
@@ -3450,6 +3442,10 @@ export namespace Components {
           * Sets focus on the component's "close" button (the first focusable item).
          */
         "setFocus": () => Promise<void>;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "slottedInShell": boolean;
         /**
           * Updates the element(s) that are used within the focus-trap of the component.
          */
@@ -3684,10 +3680,6 @@ export namespace Components {
         "totalItems": number;
     }
     interface CalcitePanel {
-        /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose": () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the header.
          */
@@ -4340,10 +4332,6 @@ export namespace Components {
          */
         "displayMode": DisplayMode;
         /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "embedded": boolean;
-        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled": boolean;
@@ -4379,6 +4367,10 @@ export namespace Components {
           * Sets focus on the component's "close" button - the first focusable item.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "slottedInShell": boolean;
         /**
           * Updates the element(s) that are used within the focus-trap of the component.
          */
@@ -9758,10 +9750,6 @@ declare namespace LocalJSX {
          */
         "beforeBack"?: () => Promise<void>;
         /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose"?: () => Promise<void>;
-        /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
         "closable"?: boolean;
@@ -11376,10 +11364,6 @@ declare namespace LocalJSX {
          */
         "docked"?: boolean;
         /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "embedded"?: boolean;
-        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled"?: boolean;
@@ -11435,6 +11419,10 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "slottedInShell"?: boolean;
         /**
           * Specifies the width of the component.
          */
@@ -11658,10 +11646,6 @@ declare namespace LocalJSX {
         "totalItems"?: number;
     }
     interface CalcitePanel {
-        /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose"?: () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the header.
          */
@@ -12347,10 +12331,6 @@ declare namespace LocalJSX {
          */
         "displayMode"?: DisplayMode;
         /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "embedded"?: boolean;
-        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled"?: boolean;
@@ -12398,6 +12378,10 @@ declare namespace LocalJSX {
           * Determines where the component will be positioned.
          */
         "position"?: LogicalFlowPosition;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "slottedInShell"?: boolean;
         /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
          */
