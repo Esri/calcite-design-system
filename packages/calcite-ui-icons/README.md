@@ -1,7 +1,7 @@
 # calcite-ui-icons
 
 A collection of UI SVG icons created by Esri for mapping applications.
-<https://esri.github.io/calcite-ui-icons/>
+<https://developers.arcgis.com/calcite-design-system/icons/>
 
 ## Installation
 
@@ -113,7 +113,7 @@ This will give you an object containing all the icons in the library at all size
 }
 ```
 
-*Note: path data omitted for brevity*.
+*Note: path data omitted for brevity.*
 
 Most icons will have simple strings as path data, but some will be more complex as they need to store not only path, but opacity as well for multiple shapes. Icons of this structure will be annotated with the `multiPath` flag.
 
@@ -183,18 +183,8 @@ Then:
 
 ## Licensing
 
-COPYRIGHT © 2020 Esri
-
-All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
-
-This material is licensed for use under the Esri Master License Agreement (MLA), and is bound by the terms of that agreement. You may redistribute and use this code without modification, provided you adhere to the terms of the MLA and include this copyright notice.
-
-See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
-
-For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
-
-email: <contracts@esri.com>
+Please read [LICENSE.md](./LICENSE.md)
 
 ## Contributing
 
-Please read the [Contributing document](./CONTRIBUTING.md).
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md)
