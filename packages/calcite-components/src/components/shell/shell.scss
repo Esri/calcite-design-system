@@ -29,17 +29,13 @@
     overflow-hidden;
 }
 
-.content,
-.content--non-interactive {
+.content {
   @apply flex
     h-full
     w-full
     flex-col
-    flex-nowrap;
-}
-
-.content {
-  @apply overflow-auto;
+    flex-nowrap
+    overflow-auto;
   justify-content: space-between;
 }
 
@@ -59,7 +55,7 @@
 }
 
 .content--non-interactive {
-  @apply pointer-events-none;
+  @apply flex pointer-events-none;
 }
 
 ::slotted(calcite-shell-center-row) {
