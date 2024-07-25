@@ -11,7 +11,7 @@ module.exports = async ({ github, context, core }) => {
     },
   } = context;
 
-  core.info("Checking author/reviewers because there are diffs outside of package/calcite-ui-icons");
+  core.debug("Checking author/reviewers because there are diffs outside of package/calcite-ui-icons");
   core.debug(`Author: ${author}`);
 
   const { data: iconTeamMembers } = await github.rest.teams.listMembersInOrg({
@@ -19,26 +19,26 @@ module.exports = async ({ github, context, core }) => {
     team_slug: teams.iconDesigners,
   });
 
-  core.debug(`Members of "${teams.iconDesigners}" GitHub Team: ${author}`);
+  core.debug(`Members of "${teams.iconDesigners}" GitHub Team: ${iconTeamMembers}`);
 
   const { data: adminTeamMembers } = await github.rest.teams.listMembersInOrg({
     org: owner,
     team_slug: teams.admins,
   });
 
-  core.debug(`Members of "${teams.admins}" GitHub Team: ${author}`);
+  core.debug(`Members of "${teams.admins}" GitHub Team: ${adminTeamMembers}`);
 
   // passes when an admin approves the PR
   if (github.event?.review?.state == "APPROVED" && adminTeamMembers.includes(github.event?.review?.user?.login)) {
     core.debug(`Approved by admin: ${github.event?.review?.user?.login}`);
-    core.info("Passing because an admin has approved this pull request");
+    core.debug("Passing because an admin has approved this pull request");
     process.exit(0);
   }
 
   // passes if the author isn't on the icon designers team or if the author is on the admin team
   // admin(s) may be on the icon designers team for maintenance purposes
   if (!iconTeamMembers.includes(author)) {
-    core.info("Passing because the author is an admin and/or isn't an icon designer");
+    core.debug("Passing because the author is an admin and/or isn't an icon designer");
     process.exit(0);
   }
 
@@ -48,7 +48,7 @@ module.exports = async ({ github, context, core }) => {
   reviews.forEach((review) => {
     if (review.state == "APPROVED" && adminTeamMembers.includes(review.user.login)) {
       core.debug(`Approved by admin: ${review.user.login}`);
-      core.info("Passing because an admin has approved this pull request");
+      core.debug("Passing because an admin has approved this pull request");
       process.exit(0);
     }
   });
