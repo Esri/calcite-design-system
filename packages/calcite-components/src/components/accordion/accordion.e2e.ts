@@ -283,12 +283,11 @@ describe("calcite-accordion", () => {
   });
 
   describe("theme", () => {
-    const tokens = {
+    themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, {
       "--calcite-accordion-border-color": {
         shadowSelector: ".accordion",
         targetProp: "borderColor",
       },
-    } as const;
-    themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, tokens);
+    });
   });
 });
