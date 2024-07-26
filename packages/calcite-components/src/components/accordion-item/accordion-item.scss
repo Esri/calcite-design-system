@@ -37,7 +37,7 @@
 .content,
 .header {
   border-block-end: var(--calcite-border-width-sm) solid
-    var(--calcite-internal-accordion-item-border, theme("borderColor.color.2"));
+    var(--calcite-accordion-border-color, theme("borderColor.color.2"));
 }
 
 .header {
