@@ -136,8 +136,7 @@
 }
 
 :host(:focus) .header-content {
-  @apply focus-inset
-  outline-none;
+  @apply outline-none;
 }
 
 :host([expanded]) {
