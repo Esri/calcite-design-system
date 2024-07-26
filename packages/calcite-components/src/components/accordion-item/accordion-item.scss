@@ -19,11 +19,15 @@
 .icon-position--start {
   @extend %icon-position;
   --calcite-internal-accordion-item-flex-direction: row-reverse;
+  --calcite-internal-accordion-item-icon-spacing-start: 0;
+  --calcite-internal-accordion-item-icon-spacing-end: var(--calcite-internal-accordion-icon-margin);
 }
 
 .icon-position--end {
   @extend %icon-position;
   --calcite-internal-accordion-item-flex-direction: row;
+  --calcite-internal-accordion-item-icon-spacing-start: var(--calcite-internal-accordion-icon-margin);
+  --calcite-internal-accordion-item-icon-spacing-end: 0;
 }
 
 .icon-position--end:not(.icon-type--plus-minus) {
@@ -88,10 +92,24 @@
     ease-in-out
     flex
     items-center;
+
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-start);
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-end);
+}
+
+.icon--start {
+  margin-inline-end: var(--calcite-internal-accordion-icon-margin);
+}
+
+.icon--end {
+  margin-inline-end: var(--calcite-internal-accordion-icon-margin);
+  margin-inline-start: var(--calcite-internal-accordion-icon-margin);
 }
 
 // accordion item icon
 .expand-icon {
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-start);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-end);
   transform: rotate(var(--calcite-internal-accordion-item-icon-rotation));
 }
 
