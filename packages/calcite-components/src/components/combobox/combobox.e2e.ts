@@ -512,10 +512,13 @@ describe("calcite-combobox", () => {
       });
 
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const combobox = await page.find("calcite-combobox");
       combobox.setProperty("filterText", "foo");
+
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
 
@@ -1745,7 +1748,14 @@ describe("calcite-combobox", () => {
       const button = await page.find("button");
       await input.click();
       await input.press("o");
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       await input.press("Tab");
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
@@ -1753,6 +1763,10 @@ describe("calcite-combobox", () => {
       let chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
       await input.press("j");
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       await button.click();
 
       await page.waitForChanges();
