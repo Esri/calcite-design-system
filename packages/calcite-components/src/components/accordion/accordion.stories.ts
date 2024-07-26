@@ -1,7 +1,9 @@
+// import { getVariableTestValue } from "../../tests/utils";
 import { AccordionItem } from "../accordion-item/accordion-item";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { iconNames } from "../../../.storybook/helpers";
+import { setCSSVariables } from "../../utils/variableValue";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Accordion } from "./accordion";
@@ -216,3 +218,47 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
 export const longHeading_MediumIconForLargeAccordionItem_TestOnly = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
+
+export const theming_TestOnly = (): string =>
+  html` <style>
+      .container {
+        ${setCSSVariables([
+        "--calcite-accordion-background-color",
+        "--calcite-accordion-border-color",
+        "--calcite-accordion-text-color-highlighted",
+        "--calcite-accordion-text-color-selected",
+        "--calcite-accordion-text-color",
+      ])}
+      }
+    </style>
+    <div class="container">
+      <calcite-accordion appearance="solid" selection-mode="multiple">
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
+          ${accordionItemContent}
+        </calcite-accordion-item>
+      </calcite-accordion>
+      <br />
+      <calcite-accordion appearance="transparent" selection-mode="multiple">
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
+          ${accordionItemContent}
+        </calcite-accordion-item>
+      </calcite-accordion>
+    </div>`;
