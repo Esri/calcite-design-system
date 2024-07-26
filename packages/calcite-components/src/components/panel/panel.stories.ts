@@ -274,7 +274,16 @@ export const footerActionsDeprecated = (): string =>
     </div>`;
 
 export const footerVariations = (): string =>
-  html` <h2>footer-start only</h2>
+  html`<h2>footer</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start only</h2>
     <div style="width: 300px;">
       <calcite-panel height-scale="s">
         <div slot="header-content">Header!</div>

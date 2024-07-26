@@ -177,6 +177,7 @@
 .footer-content {
   @apply flex flex-col items-center justify-center;
   gap: var(--calcite-internal-panel-default-padding);
+  flex: 1;
 }
 
 .footer-actions {
