@@ -1,3 +1,14 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-accordion-border-color: Specify the border color of the component.
+ * @prop --calcite-accordion-text-color: Specify the text color of the component.
+ * @prop --calcite-accordion-text-color-highlighted: Specify the text color of the component when highlighted.
+ * @prop --calcite-accordion-text-color-selected: Specify the text color of the component when selected.
+ */
+
 %icon-position {
   /* icon rotation variables */
   --calcite-internal-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
