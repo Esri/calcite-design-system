@@ -1,4 +1,13 @@
+// @ts-check
 module.exports = {
+  /**
+   * @typedef {object} removeLabelParam
+   * @property {InstanceType<typeof import('@actions/github/lib/utils').GitHub>} github
+   * @property {import('@actions/github/lib/context').Context} context
+   * @property {string} label
+   *
+   * @param {removeLabelParam} obj
+   **/
   removeLabel: async ({ github, context, label }) => {
     const { owner, repo } = context.repo;
     const issue_number = context.issue.number;
@@ -15,6 +24,16 @@ module.exports = {
     }
   },
 
+  /**
+   * @typedef {object} createLabelIfMissingParam
+   * @property {InstanceType<typeof import('@actions/github/lib/utils').GitHub>} github
+   * @property {import('@actions/github/lib/context').Context} context
+   * @property {string} label
+   * @property {string} color
+   * @property {string} description
+   *
+   * @param {createLabelIfMissingParam} obj
+   **/
   createLabelIfMissing: async ({ github, context, label, color, description }) => {
     const { owner, repo } = context.repo;
     try {

@@ -58,10 +58,10 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
  * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
- * @slot footer-end - A slot for adding a trailing footer custom content.
- * @slot footer-start - A slot for adding a leading footer custom content.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 @Component({
   tag: "calcite-panel",
@@ -299,12 +299,12 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.closed = true;
+      this.handleUserClose();
       event.preventDefault();
     }
   };
 
-  private handleCloseClick = (): void => {
+  private handleUserClose = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
   };
@@ -517,7 +517,7 @@ export class Panel
         aria-label={close}
         data-test="close"
         icon={ICONS.close}
-        onClick={this.handleCloseClick}
+        onClick={this.handleUserClose}
         scale={this.scale}
         text={close}
         title={close}
@@ -620,10 +620,9 @@ export class Panel
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
-        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange}>
-          <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
-          <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
-        </slot>
+        <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+        <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
         <slot
           key="footer-actions-slot"
           name={SLOTS.footerActions}
