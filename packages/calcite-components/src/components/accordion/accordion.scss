@@ -7,6 +7,25 @@
  * @prop --calcite-accordion-background-color:  Specify the background color of the component.
 */
 
+:host {
+  @apply relative
+    block
+    max-w-full
+    leading-6;
+}
+
+.accordion {
+  @apply border border-solid border-b-0;
+  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
+  background-color: var(--calcite-accordion-background-color, theme("backgroundColor.foreground.1"));
+}
+
+:host([appearance="transparent"]) .accordion {
+  --calcite-accordion-border-color: var(--calcite-color-transparent);
+  border-color: var(--calcite-color-transparent);
+  background-color: var(--calcite-color-transparent);
+}
+
 // scale variants for child
 :host([scale="s"]) {
   --calcite-internal-accordion-item-spacing-unit: theme("spacing.1");
@@ -27,26 +46,6 @@
   --calcite-internal-accordion-icon-margin: theme("spacing.4");
   --calcite-internal-accordion-item-padding: var(--calcite-internal-accordion-item-spacing-unit) theme("spacing.4");
   @apply text-0h;
-}
-
-:host {
-  @apply relative
-    block
-    max-w-full
-    leading-6;
-
-  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
-  background-color: var(--calcite-accordion-background-color, theme("backgroundColor.foreground.1"));
-}
-
-.accordion--transparent {
-  border-color: var(--calcite-color-transparent);
-  background-color: var(--calcite-color-transparent);
-}
-
-.accordion {
-  @apply border border-solid border-b-0;
-  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
 }
 
 @include base-component();
