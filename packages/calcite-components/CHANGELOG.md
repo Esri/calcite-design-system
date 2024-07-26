@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.24...@esri/calcite-components@2.11.0-next.25) (2024-07-26)
+
+### Features
+
+- **dialog:** adds new dialog component and deprecates the modal component ([#9751](https://github.com/Esri/calcite-design-system/issues/9751)) ([0cdd327](https://github.com/Esri/calcite-design-system/commit/0cdd327438f43248b33a5244a2fb18c31b92d582)), closes [#7886](https://github.com/Esri/calcite-design-system/issues/7886)
+
 ## [2.11.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.23...@esri/calcite-components@2.11.0-next.24) (2024-07-25)
 
 ### Bug Fixes
