@@ -237,7 +237,7 @@ export const withActionBar = (): string =>
     </calcite-panel>
   </div>`;
 
-export const footerPadding = (): string =>
+export const footerCustomPadding = (): string =>
   html`<div style="width: 300px;">
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
@@ -253,8 +253,8 @@ export const footerPadding = (): string =>
     </calcite-panel>
   </div>`;
 
-export const footerActionsDeprecated = (): string =>
-  html`<h2>Auto width</h2>
+export const footerActions = (): string =>
+  html`<h2>footer-actions (Deprecated): Auto width</h2>
     <div style="width: 300px;">
       <calcite-panel height-scale="s">
         <div slot="header-content">Header!</div>
@@ -263,7 +263,7 @@ export const footerActionsDeprecated = (): string =>
         <calcite-button type="button" slot="footer-actions">2</calcite-button>
       </calcite-panel>
     </div>
-    <h2>Full width</h2>
+    <h2>footer-actions (Deprecated): Full width</h2>
     <div style="width: 300px;">
       <calcite-panel height-scale="s">
         <div slot="header-content">Header!</div>
