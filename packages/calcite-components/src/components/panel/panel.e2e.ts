@@ -459,6 +459,7 @@ describe("calcite-panel", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-panel>test</calcite-panel>");
     const panel = await page.find("calcite-panel");
+    const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
     const container = await page.find(`calcite-panel >>> .${CSS.container}`);
     expect(await panel.getProperty("closed")).toBe(false);
     expect(await container.isVisible()).toBe(true);
@@ -469,14 +470,17 @@ describe("calcite-panel", () => {
     panel.setProperty("closable", true);
     await page.waitForChanges();
     await container.press("Escape");
+    await page.waitForChanges();
     expect(await panel.getProperty("closed")).toBe(true);
     expect(await container.isVisible()).toBe(false);
+    expect(calcitePanelClose).toHaveReceivedEventTimes(1);
   });
 
   it("should not close when Escape key is prevented and closable is true", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-panel closable>test</calcite-panel>");
     const panel = await page.find("calcite-panel");
+    const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
     const container = await page.find(`calcite-panel >>> .${CSS.container}`);
 
     expect(await panel.getProperty("closed")).toBe(false);
@@ -495,5 +499,6 @@ describe("calcite-panel", () => {
 
     expect(await panel.getProperty("closed")).toBe(false);
     expect(await container.isVisible()).toBe(true);
+    expect(calcitePanelClose).toHaveReceivedEventTimes(0);
   });
 });
