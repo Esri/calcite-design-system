@@ -37,6 +37,9 @@ import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
+import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
+import { OverlayPositioning as OverlayPositioning1 } from "./components";
+import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 import { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -83,6 +86,7 @@ import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
+import { Element } from "@stencil/core";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
@@ -129,6 +133,9 @@ export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
+export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
+export { OverlayPositioning as OverlayPositioning1 } from "./components";
+export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 export { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -175,6 +182,7 @@ export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
+export { Element } from "@stencil/core";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
@@ -1394,6 +1402,10 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata": Record<string, unknown>;
+        /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
         "scale": Scale;
@@ -1647,6 +1659,92 @@ export namespace Components {
           * Already selected date.
          */
         "selectedDate": Date;
+    }
+    interface CalciteDialog {
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose": () => Promise<void>;
+        /**
+          * When `true`, disables the component's close button.
+         */
+        "closeDisabled": boolean;
+        /**
+          * A description for the component.
+         */
+        "description": string;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
+          * The component header text.
+         */
+        "heading": string;
+        /**
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
+         */
+        "headingLevel": HeadingLevel;
+        /**
+          * Specifies the kind of the component, which will style the top border.
+         */
+        "kind": Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
+        /**
+          * When `true`, a busy indicator is displayed.
+         */
+        "loading": boolean;
+        /**
+          * When `true`, the action menu items in the `header-menu-actions` slot are open.
+         */
+        "menuOpen": boolean;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<DialogMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DialogMessages;
+        /**
+          * When `true`, displays a scrim blocking interaction underneath the component.
+         */
+        "modal": boolean;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning1;
+        /**
+          * Specifies the placement of the dialog.
+         */
+        "placement": DialogPlacement;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Scrolls the component's content to a specified set of coordinates.
+          * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
+          * @param options - allows specific coordinates to be defined.
+          * @returns - promise that resolves once the content is scrolled to.
+         */
+        "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
+        /**
+          * Sets focus on the component's "close" button (the first focusable item).
+          * @returns - A promise that is resolved when the operation has completed.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Updates the element(s) that are used within the focus-trap of the component.
+         */
+        "updateFocusTrapElements": () => Promise<void>;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale": Scale;
     }
     interface CalciteDropdown {
         /**
@@ -4867,8 +4965,6 @@ export namespace Components {
     }
     interface CalciteTabNav {
         "bordered": boolean;
-        "indicatorOffset": number;
-        "indicatorWidth": number;
         "layout": TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -5884,6 +5980,10 @@ export interface CalciteDatePickerMonthHeaderCustomEvent<T> extends CustomEvent<
     detail: T;
     target: HTMLCalciteDatePickerMonthHeaderElement;
 }
+export interface CalciteDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteDialogElement;
+}
 export interface CalciteDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteDropdownElement;
@@ -6051,10 +6151,6 @@ export interface CalciteStepperItemCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSwitchElement;
-}
-export interface CalciteTabCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteTabElement;
 }
 export interface CalciteTabNavCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6569,6 +6665,27 @@ declare global {
     var HTMLCalciteDatePickerMonthHeaderElement: {
         prototype: HTMLCalciteDatePickerMonthHeaderElement;
         new (): HTMLCalciteDatePickerMonthHeaderElement;
+    };
+    interface HTMLCalciteDialogElementEventMap {
+        "calciteDialogBeforeClose": void;
+        "calciteDialogClose": void;
+        "calciteDialogBeforeOpen": void;
+        "calciteDialogOpen": void;
+        "calciteDialogScroll": void;
+    }
+    interface HTMLCalciteDialogElement extends Components.CalciteDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteDialogElementEventMap>(type: K, listener: (this: HTMLCalciteDialogElement, ev: CalciteDialogCustomEvent<HTMLCalciteDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteDialogElementEventMap>(type: K, listener: (this: HTMLCalciteDialogElement, ev: CalciteDialogCustomEvent<HTMLCalciteDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteDialogElement: {
+        prototype: HTMLCalciteDialogElement;
+        new (): HTMLCalciteDialogElement;
     };
     interface HTMLCalciteDropdownElementEventMap {
         "calciteDropdownSelect": void;
@@ -7492,18 +7609,7 @@ declare global {
         prototype: HTMLCalciteSwitchElement;
         new (): HTMLCalciteSwitchElement;
     };
-    interface HTMLCalciteTabElementEventMap {
-        "calciteInternalTabRegister": void;
-    }
     interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteTabElement: {
         prototype: HTMLCalciteTabElement;
@@ -7511,6 +7617,7 @@ declare global {
     };
     interface HTMLCalciteTabNavElementEventMap {
         "calciteTabChange": void;
+        "calciteInternalTabNavSlotChange": Element[];
         "calciteInternalTabChange": TabChangeEventDetail;
     }
     interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {
@@ -7891,6 +7998,7 @@ declare global {
         "calcite-date-picker-day": HTMLCalciteDatePickerDayElement;
         "calcite-date-picker-month": HTMLCalciteDatePickerMonthElement;
         "calcite-date-picker-month-header": HTMLCalciteDatePickerMonthHeaderElement;
+        "calcite-dialog": HTMLCalciteDialogElement;
         "calcite-dropdown": HTMLCalciteDropdownElement;
         "calcite-dropdown-group": HTMLCalciteDropdownGroupElement;
         "calcite-dropdown-item": HTMLCalciteDropdownItemElement;
@@ -9245,6 +9353,10 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
+          * Provides additional metadata to the component used in filtering.
+         */
+        "metadata"?: Record<string, unknown>;
+        /**
           * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
@@ -9523,6 +9635,96 @@ declare namespace LocalJSX {
           * Already selected date.
          */
         "selectedDate"?: Date;
+    }
+    interface CalciteDialog {
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose"?: () => Promise<void>;
+        /**
+          * When `true`, disables the component's close button.
+         */
+        "closeDisabled"?: boolean;
+        /**
+          * A description for the component.
+         */
+        "description"?: string;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
+          * The component header text.
+         */
+        "heading"?: string;
+        /**
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
+          * Specifies the kind of the component, which will style the top border.
+         */
+        "kind"?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
+        /**
+          * When `true`, a busy indicator is displayed.
+         */
+        "loading"?: boolean;
+        /**
+          * When `true`, the action menu items in the `header-menu-actions` slot are open.
+         */
+        "menuOpen"?: boolean;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<DialogMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DialogMessages;
+        /**
+          * When `true`, displays a scrim blocking interaction underneath the component.
+         */
+        "modal"?: boolean;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteDialogBeforeClose"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteDialogBeforeOpen"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteDialogClose"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteDialogOpen"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the content is scrolled.
+         */
+        "onCalciteDialogScroll"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning1;
+        /**
+          * Specifies the placement of the dialog.
+         */
+        "placement"?: DialogPlacement;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale"?: Scale;
     }
     interface CalciteDropdown {
         /**
@@ -12867,7 +13069,6 @@ declare namespace LocalJSX {
         "value"?: any;
     }
     interface CalciteTab {
-        "onCalciteInternalTabRegister"?: (event: CalciteTabCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
          */
@@ -12883,8 +13084,6 @@ declare namespace LocalJSX {
     }
     interface CalciteTabNav {
         "bordered"?: boolean;
-        "indicatorOffset"?: number;
-        "indicatorWidth"?: number;
         "layout"?: TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -12895,6 +13094,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TabNavMessages;
         "onCalciteInternalTabChange"?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
+        "onCalciteInternalTabNavSlotChange"?: (event: CalciteTabNavCustomEvent<Element[]>) => void;
         /**
           * Emits when the selected `calcite-tab` changes.
          */
@@ -13889,6 +14089,7 @@ declare namespace LocalJSX {
         "calcite-date-picker-day": CalciteDatePickerDay;
         "calcite-date-picker-month": CalciteDatePickerMonth;
         "calcite-date-picker-month-header": CalciteDatePickerMonthHeader;
+        "calcite-dialog": CalciteDialog;
         "calcite-dropdown": CalciteDropdown;
         "calcite-dropdown-group": CalciteDropdownGroup;
         "calcite-dropdown-item": CalciteDropdownItem;
@@ -14005,6 +14206,7 @@ declare module "@stencil/core" {
             "calcite-date-picker-day": LocalJSX.CalciteDatePickerDay & JSXBase.HTMLAttributes<HTMLCalciteDatePickerDayElement>;
             "calcite-date-picker-month": LocalJSX.CalciteDatePickerMonth & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthElement>;
             "calcite-date-picker-month-header": LocalJSX.CalciteDatePickerMonthHeader & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthHeaderElement>;
+            "calcite-dialog": LocalJSX.CalciteDialog & JSXBase.HTMLAttributes<HTMLCalciteDialogElement>;
             "calcite-dropdown": LocalJSX.CalciteDropdown & JSXBase.HTMLAttributes<HTMLCalciteDropdownElement>;
             "calcite-dropdown-group": LocalJSX.CalciteDropdownGroup & JSXBase.HTMLAttributes<HTMLCalciteDropdownGroupElement>;
             "calcite-dropdown-item": LocalJSX.CalciteDropdownItem & JSXBase.HTMLAttributes<HTMLCalciteDropdownItemElement>;

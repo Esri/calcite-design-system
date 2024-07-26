@@ -494,6 +494,8 @@ export class Carousel
       return;
     }
 
+    const lastItem = this.items.length - 1;
+
     switch (event.key) {
       case " ":
       case "Enter":
@@ -512,13 +514,19 @@ export class Carousel
         break;
       case "Home":
         event.preventDefault();
+        if (this.selectedIndex === 0) {
+          return;
+        }
         this.direction = "backward";
         this.setSelectedItem(0, true);
         break;
       case "End":
         event.preventDefault();
+        if (this.selectedIndex === lastItem) {
+          return;
+        }
         this.direction = "forward";
-        this.setSelectedItem(this.items.length - 1, true);
+        this.setSelectedItem(lastItem, true);
         break;
     }
   };
