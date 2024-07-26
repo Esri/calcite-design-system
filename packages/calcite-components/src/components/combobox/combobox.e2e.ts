@@ -1757,9 +1757,6 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
-
       let chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
       await input.press("j");
