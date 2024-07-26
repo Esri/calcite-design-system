@@ -20,8 +20,8 @@
   background-color: var(--calcite-accordion-background-color, theme("backgroundColor.foreground.1"));
 }
 
-:host([appearance="transparent"]) .accordion {
-  --calcite-accordion-border-color: var(--calcite-color-transparent);
+.accordion--transparent {
+  --calcite-accordion-border-color: transparent;
   border-color: var(--calcite-color-transparent);
   background-color: var(--calcite-color-transparent);
 }

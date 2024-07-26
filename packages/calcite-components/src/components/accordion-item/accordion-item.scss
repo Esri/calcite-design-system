@@ -13,6 +13,7 @@
     no-underline;
 
   color: var(--calcite-accordion-text-color, var(--calcite-color-text-3));
+  border-width: 0;
 }
 
 // icon position variants for child
@@ -40,8 +41,9 @@
 // .header / content
 .content,
 .header {
-  border-block-end: var(--calcite-border-width-sm) solid
-    var(--calcite-accordion-border-color, theme("borderColor.color.2"));
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-block-end-style: solid;
+  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
 }
 
 .header {
