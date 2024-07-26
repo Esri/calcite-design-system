@@ -906,20 +906,20 @@
       </div>
 
       <!-- Theme-ing -->
-      <div class="parent">
-        <div class="child right-aligned-text">Theme</div>
-
-        <demo-theme
-          tokens="
+      <demo-theme
+        tokens="
         --calcite-accordion-border-color,
         --calcite-accordion-background-color,
         --calcite-accordion-text-color,
         --calcite-accordion-text-color-highlighted,
         --calcite-accordion-text-color-selected
-        "
-        >
+    "
+      >
+        <div class="parent">
+          <div class="child right-aligned-text">Theme</div>
+
           <div class="child">
-            <calcite-accordion selection-mode="single-persist" scale="m">
+            <calcite-accordion selection-mode="single-persist" scale="s">
               <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-end"></calcite-action
@@ -954,7 +954,7 @@
           </div>
 
           <div class="child">
-            <calcite-accordion appearance="transparent" selection-mode="single-persist" scale="m">
+            <calcite-accordion appearance="transparent" selection-mode="single-persist" scale="s">
               <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-end"></calcite-action
@@ -989,7 +989,7 @@
           </div>
 
           <div class="child">
-            <calcite-accordion selection-mode="single-persist" scale="m">
+            <calcite-accordion selection-mode="single-persist" scale="s">
               <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-end"></calcite-action
@@ -1022,8 +1022,8 @@
               </calcite-accordion-item>
             </calcite-accordion>
           </div>
-        </demo-theme>
-      </div>
+        </div>
+      </demo-theme>
     </demo-dom-swapper>
   </body>
 </html>
