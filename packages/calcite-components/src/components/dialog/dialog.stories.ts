@@ -39,6 +39,7 @@ export default {
     modal: false,
     dragEnabled: false,
     resizable: false,
+    overlayPositioning: overlayPositioning.defaultValue,
   },
   argTypes: {
     kind: {
@@ -83,7 +84,8 @@ const menuActionsContent = html` <calcite-action
     icon="banana"
     slot="${SLOTS.headerMenuActions}"
   ></calcite-action>
-  <calcite-action text="measure" text-enabled icon="measure" slot="${SLOTS.headerMenuActions}"></calcite-action>`;
+  <calcite-action text="measure" text-enabled icon="measure" slot="${SLOTS.headerMenuActions}"></calcite-action
+  ><calcite-action text="search" text-enabled icon="search" slot="${SLOTS.headerMenuActions}"></calcite-action>`;
 
 export const simple = (args: DialogStoryArgs): string => html`
   <calcite-dialog
@@ -100,6 +102,7 @@ export const simple = (args: DialogStoryArgs): string => html`
     placement="${args.placement}"
     heading="${args.heading}"
     description="${args.description}"
+    overlay-positioning="${args.overlayPositioning}"
   >
     ${actionsContent} ${menuActionsContent} The small modal is perfect for short confirmation dialogs or very compact
     interfaces with few elements. ${footerContent}
@@ -122,16 +125,16 @@ const footerContent = html`<calcite-button
     kind="neutral"
     appearance="outline"
     icon="chevron-left"
-    width="full"
+    width="auto"
     >Back</calcite-button
   >
-  <calcite-button slot="${SLOTS.footerEnd}" width="full" appearance="outline">Cancel</calcite-button>
-  <calcite-button slot="${SLOTS.footerEnd}" width="full">Save</calcite-button>`;
+  <calcite-button slot="${SLOTS.footerEnd}" width="auto" appearance="outline">Cancel</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="auto">Save</calcite-button>`;
 
 export const slots = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s">
     <div slot="${SLOTS.contentTop}">Slot for a content-top.</div>
-    <div style="height: 100px">${mightyLongTextToScroll}</div>
+    ${mightyLongTextToScroll}
     <div slot="${SLOTS.contentBottom}">Slot for a content-bottom.</div>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
     <calcite-action-bar slot="${SLOTS.actionBar}">
@@ -145,10 +148,10 @@ export const slots = (): string => html`
   </calcite-dialog>
 `;
 
-export const slotsModal = (): string => html`
+export const slotsWithModal = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s" modal>
     <div slot="${SLOTS.contentTop}">Slot for a content-top.</div>
-    <div style="height: 100px">${mightyLongTextToScroll}</div>
+    ${mightyLongTextToScroll}
     <div slot="${SLOTS.contentBottom}">Slot for a content-bottom.</div>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
     <calcite-action-bar slot="${SLOTS.actionBar}">
@@ -199,24 +202,6 @@ export const withTooltips = (): string => html`
 withTooltips.parameters = {
   chromatic: { delay: 500 },
 };
-
-export const withCSSVars = (): string => html`
-  <button id="button">Open</button>
-  <calcite-dialog
-    scale="m"
-    width-scale="s"
-    open
-    heading="Dialog title"
-    style="--calcite-dialog-content-background: #ddd;"
-  >
-    <div>
-      Dialog content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
-    </div>
-    ${footerContent}
-  </calcite-dialog>
-`;
 
 export const withCustomHeader = (): string => html`
   <calcite-dialog open scale="m" width-scale="s">
@@ -363,8 +348,16 @@ export const placementBottomEnd = (): string => html`
   </calcite-dialog>
 `;
 
+export const footerSlot = (): string => html`
+  <calcite-dialog modal open heading="heading" description="description" width-scale="s">
+    <p>Slotted content!</p>
+    <calcite-button slot="footer" width="auto" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="footer" width="auto">Save</calcite-button>
+  </calcite-dialog>
+`;
+
 const themedStyle = html` --calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
---calcite-dialog-size-y: 400px; --calcite-dialog-panel-footer-space: 50px; --calcite-dialog-border-color: pink;`;
+--calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;`;
 
 export const themed = (): string =>
   html`<calcite-dialog

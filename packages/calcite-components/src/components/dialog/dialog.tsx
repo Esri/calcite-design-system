@@ -63,9 +63,9 @@ let initialDocumentOverflowStyle: string = "";
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer.
- * @slot footer-end - A slot for adding custom content to the component's trailing footer.
- * @slot footer-start - A slot for adding custom content to the component's leading footer.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 
 @Component({
@@ -288,10 +288,9 @@ export class Dialog
                 <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
                 <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
                 <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer}>
-                  <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-                  <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-                </slot>
+                <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+                <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
                 <slot />
               </calcite-panel>
             </slot>

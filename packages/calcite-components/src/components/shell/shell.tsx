@@ -122,7 +122,7 @@ export class Shell implements ConditionalSlotComponent {
   handleAlertsSlotChange = (event: Event): void => {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-ALERT") {
+      if (el.tagName === "CALCITE-ALERT") {
         (el as HTMLCalciteAlertElement).embedded = true;
       }
     });
@@ -131,7 +131,7 @@ export class Shell implements ConditionalSlotComponent {
   handleSheetsSlotChange = (event: Event): void => {
     this.hasSheets = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-SHEET") {
+      if (el.tagName === "CALCITE-SHEET") {
         (el as HTMLCalciteSheetElement).embedded = true;
       }
     });
@@ -140,7 +140,7 @@ export class Shell implements ConditionalSlotComponent {
   handleModalsSlotChange = (event: Event): void => {
     this.hasModals = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-MODAL") {
+      if (el.tagName === "CALCITE-MODAL") {
         (el as HTMLCalciteModalElement).embedded = true;
       }
     });
@@ -157,7 +157,7 @@ export class Shell implements ConditionalSlotComponent {
   handleDialogsSlotChange = (event: Event): void => {
     this.hasDialogs = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-DIALOG") {
+      if (el.tagName === "CALCITE-DIALOG") {
         (el as HTMLCalciteDialogElement).embedded = true;
       }
     });
