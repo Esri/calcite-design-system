@@ -276,12 +276,12 @@
 :host([bordered]) .container {
   &:not(.container--bottom) .close-button {
     block-size: calc(100% - var(--calcite-spacing-px));
-    margin-block-start: -1px;
+    margin-block-start: var(--calcite-spacing-px);
   }
   .close-button {
     box-shadow: 0 2px 0 0 transparent;
     & calcite-icon {
-      margin-block-start: var(--calcite-spacing-px);
+      margin-block-start: var(--calcite-spacing-xxs);
     }
 
     &:focus,
@@ -294,7 +294,7 @@
   &.container--bottom .close-button {
     box-shadow: 0 -2px 0 0 transparent;
     & calcite-icon {
-      margin-block-end: var(--calcite-spacing-px);
+      margin-block-end: var(--calcite-spacing-xxs);
     }
     &:focus,
     &:hover,
