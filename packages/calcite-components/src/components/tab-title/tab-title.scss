@@ -104,13 +104,33 @@
   inline-size: calc(100% + var(--calcite-spacing-base));
 }
 
+:host([bordered]) .container:not(.container--bottom) {
+  border-block-end: 1px solid transparent;
+}
+
+:host([bordered]:not([selected]):hover) .container:not(.container--bottom) {
+  border-block-end: 1px solid var(--calcite-color-border-1);
+}
+
+:host([bordered]:not([selected]):hover:not(:focus)) {
+  .selected-indicator {
+    background-color: var(--calcite-color-foreground-2);
+  }
+  .container:not(.container--bottom) .selected-indicator {
+    box-shadow: inset 0 1px var(--calcite-color-border-1);
+  }
+  .container.container--bottom .selected-indicator {
+    box-shadow: inset 0 -1px var(--calcite-color-border-1);
+  }
+}
+
 :host([bordered][selected]) .container::after {
   @apply absolute
     block
     w-full
     h-0.5
     transition-default;
-  inset-block-end: 0;
+  inset-block-end: -1px;
   inset-inline-start: 0;
   inset-inline-end: 0;
   inline-size: 100%;
@@ -209,7 +229,7 @@
 
 .close-button {
   @apply appearance-none
-  bg-foreground-1
+  bg-transparent
   border-none
   content-center
   cursor-pointer
@@ -221,17 +241,10 @@
   self-center
   text-color-3
   transition-default;
-  background-color: var(--calcite-button-transparent-1);
-  // compensate for the added border on parent and ensure focus alignment
+  margin-inline-start: var(--calcite-spacing-sm);
   margin-inline-end: var(--calcite-spacing-px);
-  box-shadow:
-    var(--calcite-spacing-px) 0 0 0 transparent,
-    0 var(--calcite-spacing-xxs) 0 0 transparent;
   block-size: calc(100% - var(--calcite-spacing-xxs));
 
-  &:hover {
-    box-shadow: var(--calcite-spacing-px) 0 0 0 var(--calcite-color-foreground-3);
-  }
   &:focus {
     @apply focus-normal;
   }
@@ -260,16 +273,39 @@
 }
 
 // bordered styles
-:host([bordered]) {
-  margin-inline-end: 0;
+:host([bordered]) .container {
+  &:not(.container--bottom) .close-button {
+    block-size: calc(100% - var(--calcite-spacing-px));
+    margin-block-start: -1px;
+  }
+  .close-button {
+    box-shadow: 0 2px 0 0 transparent;
+    & calcite-icon {
+      margin-block-start: var(--calcite-spacing-px);
+    }
+
+    &:focus,
+    &:hover,
+    &:active {
+      box-shadow: 0 2px 0 0 var(--calcite-color-foreground-3);
+    }
+  }
+
+  &.container--bottom .close-button {
+    box-shadow: 0 -2px 0 0 transparent;
+    & calcite-icon {
+      margin-block-end: var(--calcite-spacing-px);
+    }
+    &:focus,
+    &:hover,
+    &:active {
+      box-shadow: 0 -2px 0 0 var(--calcite-color-foreground-3);
+    }
+  }
 }
 
 :host([bordered][selected]) {
   box-shadow: inset 0 -1px var(--calcite-color-foreground-1);
-}
-
-:host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 var(--calcite-spacing-base) 0 var(--calcite-color-foreground-1);
 }
 
 :host([bordered]:hover) {
@@ -278,18 +314,12 @@
   }
 }
 
-:host([closable]) .container,
 :host([bordered]) .container {
-  border-inline-start: var(--calcite-spacing-px) solid transparent;
-  border-inline-end: var(--calcite-spacing-px) solid transparent;
-  .close-button {
-    margin-inline-start: var(--calcite-spacing-sm);
-  }
+  border-inline: var(--calcite-spacing-px) solid transparent;
 }
 
 :host([selected][bordered]) .container {
-  border-inline-start-color: var(--calcite-color-border-1);
-  border-inline-end-color: var(--calcite-color-border-1);
+  border-inline-color: var(--calcite-color-border-1);
 }
 
 :host([layout="inline"][bordered]),
