@@ -54,7 +54,7 @@ import {
   getUserTimeZoneOffset,
 } from "./utils";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { OffsetStyle, TimeZoneItem, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -324,7 +324,7 @@ export class InputTimeZone
 
   private selectedTimeZoneItem: TimeZoneItem;
 
-  private timeZoneItems: TimeZoneItem[];
+  private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
 
   //--------------------------------------------------------------------------
   //
@@ -410,7 +410,7 @@ export class InputTimeZone
       this.findTimeZoneItem(valueToMatch) || this.findTimeZoneItem(fallbackValue);
   }
 
-  private async createTimeZoneItems(): Promise<TimeZoneItem[]> {
+  private async createTimeZoneItems(): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
     if (!this.effectiveLocale || !this.messages) {
       return [];
     }
@@ -488,7 +488,11 @@ export class InputTimeZone
             open={this.open}
             overlayPositioning={this.overlayPositioning}
             placeholder={
-              this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder
+              this.mode === "name"
+                ? this.messages.namePlaceholder
+                : this.mode === "offset"
+                  ? this.messages.offsetPlaceholder
+                  : this.messages.regionPlaceholder
             }
             readOnly={this.readOnly}
             ref={this.setComboboxRef}
@@ -498,24 +502,57 @@ export class InputTimeZone
             validation-icon={this.validationIcon}
             validation-message={this.validationMessage}
           >
-            {this.timeZoneItems.map((group) => {
-              const selected = this.selectedTimeZoneItem === group;
-              const { label, value } = group;
-
-              return (
-                <calcite-combobox-item
-                  data-value={value}
-                  key={label}
-                  selected={selected}
-                  textLabel={label}
-                  value={`${group.filterValue}`}
-                />
-              );
-            })}
+            {this.renderItems()}
           </calcite-combobox>
           <HiddenFormInputSlot component={this} />
         </InteractiveContainer>
       </Host>
     );
+  }
+
+  private renderItems(): VNode[] {
+    if (this.mode === "region") {
+      return this.renderRegionItems();
+    }
+
+    return this.timeZoneItems.map((group) => {
+      const selected = this.selectedTimeZoneItem === group;
+      const { label, value } = group;
+
+      return (
+        <calcite-combobox-item
+          data-value={value}
+          key={label}
+          selected={selected}
+          textLabel={label}
+          value={`${group.filterValue}`}
+        />
+      );
+    });
+  }
+
+  private renderRegionItems(): VNode[] {
+    return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
+      <calcite-combobox-item-group key={label} label={label}>
+        {items.map((item) => {
+          const selected = this.selectedTimeZoneItem === item;
+          const { label, value } = item;
+
+          return (
+            <calcite-combobox-item
+              data-value={value}
+              description={this.messages[item.metadata.country] || item.metadata.country}
+              key={label}
+              metadata={item.metadata}
+              selected={selected}
+              textLabel={label}
+              value={`${item.filterValue}`}
+            >
+              <span slot="content-end">{item.metadata.offset}</span>
+            </calcite-combobox-item>
+          );
+        })}
+      </calcite-combobox-item-group>
+    ));
   }
 }
