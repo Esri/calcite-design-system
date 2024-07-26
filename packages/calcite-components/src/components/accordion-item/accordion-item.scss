@@ -129,7 +129,7 @@
 
 :host(:not(:focus):not(:hover):not([expanded])) {
   .heading {
-    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
+    color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
   }
 }
 
@@ -138,14 +138,14 @@
 }
 
 :host([expanded]) {
-  color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
+  color: var(--calcite-accordion-text-color-selected, var(--calcite-color-text-1));
 
   .header {
     border-block-end-color: transparent;
   }
 
   .expand-icon {
-    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
+    color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
     transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
   }
   .calcite--rtl .expand-icon {
@@ -153,7 +153,7 @@
   }
 
   .description {
-    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
+    color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
   }
 
   .content {
@@ -163,11 +163,11 @@
 
 :host(:focus),
 :host(:hover) {
-  color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
 
   .expand-icon,
   .heading {
-    color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
+    color: var(--calcite-accordion-text-color-selected, var(--calcite-color-text-1));
   }
 }
 
