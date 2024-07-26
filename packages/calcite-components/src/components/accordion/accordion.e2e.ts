@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
 
@@ -280,5 +280,15 @@ describe("calcite-accordion", () => {
     expect(await item1Content.isVisible()).toBe(true);
     expect(await item2Content.isVisible()).toBe(true);
     expect(await item3Content.isVisible()).toBe(true);
+  });
+
+  describe("theme", () => {
+    const tokens = {
+      "--calcite-accordion-border-color": {
+        shadowSelector: ".accordion",
+        targetProp: "borderColor",
+      },
+    } as const;
+    themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, tokens);
   });
 });

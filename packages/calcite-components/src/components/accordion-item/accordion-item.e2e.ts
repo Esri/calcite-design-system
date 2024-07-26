@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden, focusable } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
@@ -22,6 +22,78 @@ describe("calcite-accordion-item", () => {
 
   describe("is focusable", () => {
     focusable("calcite-accordion-item");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
+          >content</calcite-accordion-item
+        >`,
+        {
+          "--calcite-accordion-background-color": {
+            targetProp: "backgroundColor",
+          },
+          "--calcite-accordion-text-color": [
+            {
+              shadowSelector: `.${CSS.content}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.expandIcon}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.description}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-text-color-highlight": [
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-border-color": [
+            {
+              shadowSelector: `.${CSS.content}`,
+              targetProp: "borderBlockEndColor",
+            },
+            {
+              shadowSelector: `.${CSS.header}`,
+              targetProp: "borderBlockEndColor",
+            },
+          ],
+        },
+      );
+    });
+    describe("expanded", () => {
+      themed(
+        html`<calcite-accordion-item heading="Heading" description="Description" expanded
+          >content</calcite-accordion-item
+        >`,
+        {
+          "--calcite-accordion-text-color-highlighted": [
+            {
+              shadowSelector: `.${CSS.description}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-text-color-selected": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 
   it("properly uses ARIA and roles", async () => {
