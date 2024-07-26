@@ -309,6 +309,20 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
 }
 
 /**
+ * Clears up an existing E2E page for tests that need to work with elements programmatically.
+ *
+ * **Note**: whenever possible, use `newProgrammaticE2EPage` to create a new page instead of reusing an existing one.
+ *
+ * @param page
+ * @returns {Promise<E2EPage>} an e2e page
+ */
+export async function toProgrammaticE2EPage(page: E2EPage): Promise<E2EPage> {
+  await page.setContent("");
+
+  return page;
+}
+
+/**
  * Sets CSS vars to skip animations/transitions.
  *
  * @example

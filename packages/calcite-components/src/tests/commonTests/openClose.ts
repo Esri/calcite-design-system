@@ -1,6 +1,6 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../utils";
+import { GlobalTestProps, toProgrammaticE2EPage, skipAnimations } from "../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTag, ComponentTestSetup } from "./interfaces";
 
@@ -167,15 +167,16 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
 
   if (customizedOptions.initialToggleValue === true) {
     it("emits on initialization with animations enabled", async () => {
-      const page = await newProgrammaticE2EPage();
-      const { tag } = await getTagAndPage(componentTestSetup);
+      const { page, tag } = await getTagAndPage(componentTestSetup);
+      await toProgrammaticE2EPage(page);
+
       await skipAnimations(page);
       await testOpenCloseEvents(tag, page);
     });
 
     it("emits on initialization with animations disabled", async () => {
-      const page = await newProgrammaticE2EPage();
-      const { tag } = await getTagAndPage(componentTestSetup);
+      const { page, tag } = await getTagAndPage(componentTestSetup);
+      await toProgrammaticE2EPage(page);
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 0; }`,
       });
