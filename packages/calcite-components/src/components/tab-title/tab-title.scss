@@ -12,12 +12,15 @@
 }
 
 .content {
-  @apply flex items-center justify-center;
+  @apply flex items-center justify-center h-full mb-0.5 relative box-border;
 }
 
 .scale-s {
   .content {
     @apply text-n2h py-1;
+  }
+  .close-button {
+    @apply w-5;
   }
 }
 
@@ -25,16 +28,22 @@
   .content {
     @apply text-n1h py-2;
   }
+  .close-button {
+    @apply w-7;
+  }
 }
 
 .scale-l {
   .content {
     @apply text-0h py-2.5;
   }
+  .close-button {
+    @apply w-8;
+  }
 }
 
 :host([closable]) .content {
-  @apply h-full box-border border-b-color-transparent;
+  @apply border-b-color-transparent;
 }
 
 :host([layout="inline"]),
@@ -55,8 +64,7 @@
 }
 
 .container {
-  @apply border-b-2
-  border-b-color-transparent
+  @apply relative 
   box-border
   content-center
   cursor-pointer
@@ -69,15 +77,82 @@
   text-n1h
   transition-default
   w-full;
-
-  border-block-end-style: solid;
 }
 
-:host([position="bottom"]) .container {
-  @apply border-t-color-transparent
-    border-b-0
-    border-t-2;
-  border-block-start-style: solid;
+.selected-indicator {
+  @apply absolute
+    block
+    w-full
+    h-0.5
+    transition-default;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inline-size: 100%;
+}
+
+.container--bottom .selected-indicator {
+  inset-block-end: unset;
+  inset-block-start: 0;
+}
+
+:host([bordered]) .selected-indicator {
+  inset-block-start: 0;
+  inset-block-end: unset;
+  inset-inline-start: -1px;
+  inset-inline-end: 0;
+  inline-size: calc(100% + var(--calcite-spacing-base));
+}
+
+:host([bordered][selected]) .container::after {
+  @apply absolute
+    block
+    w-full
+    h-0.5
+    transition-default;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inline-size: 100%;
+  background: var(--calcite-color-foreground-1);
+  content: "";
+}
+
+:host([bordered][selected]) .container.container--bottom::after {
+  inset-block-start: -1px;
+}
+
+:host([bordered][selected]:hover) .container::after {
+  background: var(--calcite-color-foreground-2);
+}
+
+:host([bordered][selected]:focus) .container::after {
+  background: transparent;
+}
+
+:host([bordered]) .container--bottom .selected-indicator {
+  inset-block-start: unset;
+  inset-block-end: 0;
+}
+
+:host([selected]) .selected-indicator,
+:host([selected]:hover) .selected-indicator {
+  @apply bg-brand;
+}
+
+:host(:hover) .selected-indicator {
+  background-color: var(--calcite-color-border-3);
+}
+
+:host(:focus) .selected-indicator,
+:host(:active) .selected-indicator {
+  background-color: var(--calcite-color-brand);
+}
+
+@media (forced-colors: active) {
+  .selected-indicator {
+    background-color: highlight;
+  }
 }
 
 :host([closed]) {
@@ -125,11 +200,11 @@
 }
 
 .content--has-text .calcite-tab-title--icon.icon-start {
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-spacing-sm);
 }
 
 .content--has-text .calcite-tab-title--icon.icon-end {
-  margin-inline-start: theme("margin.2");
+  margin-inline-start: var(--calcite-spacing-sm);
 }
 
 .close-button {
@@ -142,25 +217,29 @@
   focus-base
   items-center
   justify-center
-  p-1
+  h-full
   self-center
   text-color-3
   transition-default;
-
   background-color: var(--calcite-button-transparent-1);
-  margin-inline-start: auto;
+  // compensate for the added border on parent and ensure focus alignment
+  margin-inline-end: var(--calcite-spacing-px);
+  box-shadow:
+    var(--calcite-spacing-px) 0 0 0 transparent,
+    0 var(--calcite-spacing-xxs) 0 0 transparent;
+  block-size: calc(100% - var(--calcite-spacing-xxs));
 
+  &:hover {
+    box-shadow: var(--calcite-spacing-px) 0 0 0 var(--calcite-color-foreground-3);
+  }
   &:focus {
-    @apply focus-inset;
-
-    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-color-focus-offset-invert
-    outline-offset: -1px;
+    @apply focus-normal;
   }
 
   &:focus,
   &:hover {
     @apply text-color-1;
-    background-color: var(--calcite-color-foreground-2);
+    background-color: var(--calcite-color-foreground-3);
   }
 
   &:active {
@@ -176,7 +255,7 @@
 // compensate for spacing when no hastext and two icons
 :host([icon-start][icon-end]) {
   .calcite-tab-title--icon:first-child {
-    margin-inline-end: theme("margin.2");
+    margin-inline-end: var(--calcite-spacing-sm);
   }
 }
 
@@ -186,31 +265,26 @@
 }
 
 :host([bordered][selected]) {
-  box-shadow: inset 0 -2px var(--calcite-color-foreground-1);
+  box-shadow: inset 0 -1px var(--calcite-color-foreground-1);
 }
 
 :host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 2px 0 var(--calcite-color-foreground-1);
+  box-shadow: inset 0 var(--calcite-spacing-base) 0 var(--calcite-color-foreground-1);
 }
 
 :host([bordered]:hover) {
   .container {
-    background-color: var(--calcite-color-transparent-hover);
+    background-color: var(--calcite-color-foreground-2);
   }
 }
 
 :host([closable]) .container,
 :host([bordered]) .container {
-  border-inline-start: 1px solid transparent;
-  border-inline-end: 1px solid transparent;
+  border-inline-start: var(--calcite-spacing-px) solid transparent;
+  border-inline-end: var(--calcite-spacing-px) solid transparent;
   .close-button {
-    margin-inline: 0;
+    margin-inline-start: var(--calcite-spacing-sm);
   }
-}
-
-:host([closable][position="bottom"]) .container,
-:host([bordered][position="bottom"]) .container {
-  border-block-start-style: unset;
 }
 
 :host([selected][bordered]) .container {
@@ -263,7 +337,7 @@
     border-block-end-style: solid;
   }
 
-  :host([bordered][position="bottom"]) .container {
+  :host([bordered]) .container--bottom {
     border-block-start-style: solid;
   }
 
@@ -271,7 +345,7 @@
     border-block-end-style: none;
   }
 
-  :host([bordered][position="bottom"][selected]) .container {
+  :host([bordered][selected]) .container--bottom {
     border-block-start-style: none;
   }
 
