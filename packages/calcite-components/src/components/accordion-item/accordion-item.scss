@@ -76,7 +76,6 @@
 
 .heading {
   @apply font-medium;
-  color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
 }
 
 .actions-start,
@@ -119,6 +118,12 @@
   padding: var(--calcite-internal-accordion-item-padding);
 }
 
+:host(:not(:focus):not(:hover):not([expanded])) {
+  .heading {
+    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
+  }
+}
+
 :host(:focus) .header-content {
   @apply outline-none;
 }
@@ -131,24 +136,29 @@
   }
 
   .expand-icon {
+    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
     transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
   }
   .calcite--rtl .expand-icon {
     transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation-rtl));
   }
 
+  .description {
+    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
+  }
+
   .content {
     @apply block;
-    color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
   }
 }
 
 :host(:focus),
 :host(:hover) {
-  color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
+  color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
 
-  .description {
-    color: var(--calcite-accordion-heading-text-color, var(--calcite-color-text-2));
+  .expand-icon,
+  .heading {
+    color: var(--calcite-accordion-text-color-highlight, var(--calcite-color-text-1));
   }
 }
 
