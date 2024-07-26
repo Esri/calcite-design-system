@@ -188,6 +188,11 @@ export class InputTimeZone
   /** When `true`, displays and positions the component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
+  @Watch("open")
+  openChanged(value: boolean): void {
+    this.comboboxEl.open = value;
+  }
+
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
@@ -338,6 +343,7 @@ export class InputTimeZone
 
   private setComboboxRef = (el: HTMLCalciteComboboxElement): void => {
     this.comboboxEl = el;
+    this.comboboxEl.open = this.open;
   };
 
   private onComboboxBeforeClose = (event: CustomEvent): void => {
@@ -485,7 +491,6 @@ export class InputTimeZone
             onCalciteComboboxChange={this.onComboboxChange}
             onCalciteComboboxClose={this.onComboboxClose}
             onCalciteComboboxOpen={this.onComboboxOpen}
-            open={this.open}
             overlayPositioning={this.overlayPositioning}
             placeholder={
               this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder

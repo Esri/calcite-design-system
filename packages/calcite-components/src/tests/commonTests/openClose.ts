@@ -1,8 +1,8 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../utils";
-import { getTag, simplePageSetup } from "./utils";
-import { TagOrHTML } from "./interfaces";
+import { getTagAndPage } from "./utils";
+import { ComponentTag, ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -67,11 +67,11 @@ interface OpenCloseOptions {
  *    }
  * })
  *
- * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {object} [options] - Additional options to assert.
  */
 
-export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): void {
+export function openClose(componentTestSetup: ComponentTestSetup, options?: OpenCloseOptions): void {
   const defaultOptions: OpenCloseOptions = {
     initialToggleValue: false,
     openPropName: "open",
@@ -79,46 +79,13 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   const customizedOptions = { ...defaultOptions, ...options };
 
   type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
-  const eventSequence = setUpEventSequence(componentTagOrHTML);
 
-  function setUpEventSequence(componentTagOrHTML: TagOrHTML): string[] {
-    const tag = getTag(componentTagOrHTML);
-
+  async function testOpenCloseEvents(tag: ComponentTag, page: E2EPage): Promise<void> {
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
-    const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
+    const eventSequence = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`].map((suffix) => `${camelCaseTag}${suffix}`);
 
-    return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
-  }
+    await setUpPage(tag, page);
 
-  async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
-    await page.evaluate(
-      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
-        const receivedEvents: string[] = [];
-
-        (window as EventOrderWindow).events = receivedEvents;
-
-        eventSequence.forEach((eventType) => {
-          document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-        });
-
-        if (!initialToggleValue) {
-          return;
-        }
-
-        const component = document.createElement(componentTagOrHTML);
-        component[openPropName] = true;
-
-        document.body.append(component);
-      },
-      eventSequence,
-      customizedOptions.initialToggleValue,
-      customizedOptions.openPropName,
-      componentTagOrHTML,
-    );
-  }
-
-  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
-    const tag = getTag(componentTagOrHTML);
     const element = await page.find(tag);
 
     const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
@@ -164,6 +131,33 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     expect(openSpy).toHaveReceivedEventTimes(1);
 
     expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
+
+    async function setUpPage(tag: ComponentTag, page: E2EPage): Promise<void> {
+      await page.evaluate(
+        (eventSequence: string[], initialToggleValue: boolean, openPropName: string, tag: ComponentTag) => {
+          const receivedEvents: string[] = [];
+
+          (window as EventOrderWindow).events = receivedEvents;
+
+          eventSequence.forEach((eventType) => {
+            document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+          });
+
+          if (!initialToggleValue) {
+            return;
+          }
+
+          const component = document.createElement(tag);
+          component[openPropName] = true;
+
+          document.body.append(component);
+        },
+        eventSequence,
+        customizedOptions.initialToggleValue,
+        customizedOptions.openPropName,
+        tag,
+      );
+    }
   }
 
   /**
@@ -174,34 +168,32 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   if (customizedOptions.initialToggleValue === true) {
     it("emits on initialization with animations enabled", async () => {
       const page = await newProgrammaticE2EPage();
+      const { tag } = await getTagAndPage(componentTestSetup);
       await skipAnimations(page);
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(tag, page);
     });
 
     it("emits on initialization with animations disabled", async () => {
       const page = await newProgrammaticE2EPage();
+      const { tag } = await getTagAndPage(componentTestSetup);
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 0; }`,
       });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(tag, page);
     });
   } else {
     it(`emits with animations enabled`, async () => {
-      const page = await simplePageSetup(componentTagOrHTML);
+      const { page, tag } = await getTagAndPage(componentTestSetup);
       await skipAnimations(page);
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(tag, page);
     });
 
     it(`emits with animations disabled`, async () => {
-      const page = await simplePageSetup(componentTagOrHTML);
+      const { page, tag } = await getTagAndPage(componentTestSetup);
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 0; }`,
       });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(tag, page);
     });
   }
 }

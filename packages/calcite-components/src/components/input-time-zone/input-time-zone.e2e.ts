@@ -8,6 +8,7 @@ import {
   formAssociated,
   hidden,
   labelable,
+  openClose,
   reflects,
   renders,
   t9n,
@@ -121,6 +122,10 @@ describe("calcite-input-time-zone", () => {
     disabled(simpleTestProvider, {
       shadowAriaAttributeTargetSelector: "calcite-combobox",
     });
+  });
+
+  describe("openClose", () => {
+    openClose(simpleTestProvider);
   });
 
   describe("t9n", () => {
