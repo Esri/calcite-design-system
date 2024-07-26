@@ -170,27 +170,33 @@
 
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1 text-n2-wrap;
-  gap: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
   padding: var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-padding));
 }
 
-.footer-content,
+.footer-content {
+  @apply flex flex-col items-center justify-center;
+  gap: var(--calcite-internal-panel-default-padding);
+}
+
 .footer-actions {
-  @apply flex flex-row items-center justify-center;
-  gap: var(--calcite-spacing-md);
+  @apply flex flex-row items-center justify-evenly;
+  gap: var(--calcite-internal-panel-default-padding);
+  flex: 1;
 }
 
 .footer-start {
   @apply flex flex-row items-center justify-start;
   margin-inline-end: auto;
-  gap: var(--calcite-spacing-md);
+  gap: var(--calcite-internal-panel-default-padding);
+  flex: 1;
 }
 
 .footer-end {
   @apply flex flex-row items-center justify-end;
   margin-inline-start: auto;
-  gap: var(--calcite-spacing-md);
+  gap: var(--calcite-internal-panel-default-padding);
+  flex: 1;
 }
 
 .fab-container {
