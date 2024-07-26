@@ -32,8 +32,15 @@ import {
 } from "../../utils/loadable";
 import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICON_TYPES } from "../pick-list/resources";
+import { logger } from "../../utils/logger";
 import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
+
+logger.deprecated("component", {
+  name: "value-list",
+  removalVersion: 3,
+  suggested: "list",
+});
 
 /**
  * @deprecated Use the `calcite-list` component instead.
