@@ -17,6 +17,10 @@ export const CSS = {
   contentWrapper: "content-wrapper",
   fabContainer: "fab-container",
   footer: "footer",
+  footerContent: "footer-content",
+  footerActions: "footer-actions",
+  footerStart: "footer-start",
+  footerEnd: "footer-end",
 };
 
 export const ICONS = {
