@@ -175,29 +175,25 @@
 }
 
 .footer-content {
-  @apply flex flex-col items-center justify-center;
+  @apply flex flex-col items-center justify-center flex-1;
   gap: var(--calcite-internal-panel-default-padding);
-  flex: 1;
 }
 
 .footer-actions {
-  @apply flex flex-row items-center justify-evenly;
+  @apply flex flex-row items-center justify-evenly flex-1;
   gap: var(--calcite-internal-panel-default-padding);
-  flex: 1;
 }
 
 .footer-start {
-  @apply flex flex-row items-center justify-start;
+  @apply flex flex-row items-center justify-start flex-1;
   margin-inline-end: auto;
   gap: var(--calcite-internal-panel-default-padding);
-  flex: 1;
 }
 
 .footer-end {
-  @apply flex flex-row items-center justify-end;
+  @apply flex flex-row items-center justify-end flex-1;
   margin-inline-start: auto;
   gap: var(--calcite-internal-panel-default-padding);
-  flex: 1;
 }
 
 .fab-container {
