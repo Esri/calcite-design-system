@@ -84,19 +84,10 @@
 }
 
 .icon {
-  @apply relative
-    m-0
-    inline-flex
-    duration-150
-    ease-in-out;
-}
-
-.icon--start {
-  @apply flex items-center;
-}
-
-.icon--end {
-  @apply flex items-center;
+  @apply duration-150
+    ease-in-out
+    flex
+    items-center;
 }
 
 // accordion item icon
