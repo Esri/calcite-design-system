@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { setCSSVariables } from "../../utils/variableValue";
 import { Action } from "./action";
 const { alignment, appearance, scale } = ATTRIBUTES;
 
@@ -197,5 +198,32 @@ export const darkModeRTL_TestOnly = (): string => html`
     ></calcite-action>
   </div>
 `;
+
+export const theming_TestOnly = (): string =>
+  html` <style>
+      .container {
+        ${setCSSVariables([
+        "--calcite-action-indicator-color",
+        "--calcite-action-background-color",
+        "--calcite-action-background-color-highlight",
+        "--calcite-action-background-color-selected",
+        "--calcite-action-text-color",
+        "--calcite-action-text-color-highlight",
+      ])}
+      }
+    </style>
+    <div class="container">
+      <calcite-action
+        appearance="solid"
+        label="Label"
+        scale="m"
+        icon="banana"
+        alignment="start"
+        class="calcite-mode-dark"
+        dir="rtl"
+        text="Text"
+        text-enabled
+      ></calcite-action>
+    </div>`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
