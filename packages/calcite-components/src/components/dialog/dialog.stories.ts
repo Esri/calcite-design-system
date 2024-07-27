@@ -364,6 +364,7 @@ export const themed = (): string =>
     scale="m"
     width-scale="s"
   >
-    <p>Slotted content!</p>
+    Slotted content!
     <div slot="footer">Footer!</div>
+    <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
   </calcite-dialog>`;
