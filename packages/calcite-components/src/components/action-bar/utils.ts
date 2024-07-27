@@ -3,7 +3,6 @@ import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout } from "../interfaces";
 
-export const overflowActionsDebounceInMs = 150;
 const groupBufferPx = 2;
 
 const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.length;
