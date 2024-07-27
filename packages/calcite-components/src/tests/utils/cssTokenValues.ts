@@ -6,7 +6,7 @@
  * @param token - the token as a CSS variable
  * @returns string - the new value for the token
  */
-export function setVariableValue(token: string): string {
+export function getTokenValue(token: string): string {
   const tokenValueMap = {
     background$: "rgb(252, 244, 52)",
     "text-color$": "rgb(239,118,39)",
@@ -19,24 +19,29 @@ export function setVariableValue(token: string): string {
       "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px",
     "z-index$": "42",
     "(size|space)$": "42px",
-  };
+  } as const;
 
-  try {
-    const [, value] = Object.entries(tokenValueMap).find(([regexStr]) => {
-      return new RegExp(regexStr, "g").test(token);
-    });
+  const match = Object.entries(tokenValueMap).find(([regexStr]) => {
+    return new RegExp(regexStr, "g").test(token);
+  });
 
-    return value;
-  } catch (error) {
+  if (!match) {
     console.warn("token not found in tokenValueMap", token);
-    return "rgb(0, 191, 255)";
+    return tokenValueMap["color$"];
   }
+
+  return match[1];
 }
 
+/**
+ *
+ * @param tokens - an array of CSS variables
+ * @returns a string of CSS variables with their new values.
+ */
 export function setCSSVariables(tokens: string[]): string {
   return tokens
     .map((token) => {
-      return `${token}: ${setVariableValue(token)};`;
+      return `${token}: ${getTokenValue(token)};`;
     })
     .join("\n");
 }

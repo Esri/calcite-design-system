@@ -2,7 +2,7 @@ import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { ElementHandle } from "puppeteer";
 import type { RequireExactlyOne } from "type-fest";
-import { setVariableValue } from "../../utils/variableValue";
+import { getTokenValue } from "../utils/cssTokenValues";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -102,7 +102,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
       // Set test values for each token
       if (!setTokens[token]) {
-        setTokens[token] = setVariableValue(token);
+        setTokens[token] = getTokenValue(token);
       }
 
       // Set up styleTargets and testTargets
