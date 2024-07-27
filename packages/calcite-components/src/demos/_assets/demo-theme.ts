@@ -36,6 +36,17 @@ export function getTokenValue(token: string): string {
 /*
  * @prop tokens - an array of CSS variables
  * @returns a string of CSS variables with their new values.
+ */
+export function setCSSVariables(tokens: string[]): string {
+  return tokens
+    .map((token) => {
+      return `${token}: ${getTokenValue(token)};`;
+    })
+    .join("\n");
+}
+
+/**
+ *
  * @example
  * <demo-theme tokens="
  *     --calcite-button-background-color,
@@ -51,15 +62,6 @@ export function getTokenValue(token: string): string {
  *     --calcite-button-icon-color"
  * ><calcite-button kind="inverse" scale="l"> Button </calcite-button></demo-theme>
  */
-
-export function setCSSVariables(tokens: string[]): string {
-  return tokens
-    .map((token) => {
-      return `${token}: ${getTokenValue(token)};`;
-    })
-    .join("\n");
-}
-
 export class DemoTheme extends HTMLElement {
   _slot: HTMLSlotElement;
 
