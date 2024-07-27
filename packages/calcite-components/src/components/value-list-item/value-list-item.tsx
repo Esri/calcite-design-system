@@ -37,9 +37,9 @@ import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
 
 logger.deprecated("component", {
-  name: "value-list",
+  name: "value-list-item",
   removalVersion: 3,
-  suggested: "list",
+  suggested: "list-item",
 });
 
 /**
