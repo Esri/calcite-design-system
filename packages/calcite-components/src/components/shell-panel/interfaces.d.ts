@@ -1,1 +1,1 @@
-export type DisplayMode = "dock" | "float" | "overlay" | "float-detach";
+export type DisplayMode = "dock" | "float" | "overlay" | "float-content" | "float-all";

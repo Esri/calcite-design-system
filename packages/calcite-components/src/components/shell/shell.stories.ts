@@ -360,7 +360,7 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const closedPanels = (): string =>
   html(`<calcite-shell content-behind>
-  <calcite-shell-panel slot="panel-start" display-mode="float-detach">
+  <calcite-shell-panel slot="panel-start" display-mode="float-content">
     <calcite-action-bar slot="action-bar">
       <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
       <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
@@ -403,7 +403,7 @@ background-size: 20px 20px;
 background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 "
     ></div>
-    <calcite-shell-panel slot="panel-end" position="end" display-mode="float-detach">
+    <calcite-shell-panel slot="panel-end" position="end" display-mode="float-content">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
@@ -741,7 +741,7 @@ export const slottedSheetFloat = (): string =>
     "
     >
       <div class="gnav" slot="header">Header Example</div>
-      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="float-detach">
+      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="float-content">
             <calcite-panel closable heading="Ultrices neque"
               ><p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -868,7 +868,7 @@ export const contentBehindPanelBottom = (): string =>
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
-      <calcite-shell-panel slot="panel-bottom" display-mode="float-detach" layout="horizontal">${bottomPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-bottom" display-mode="float-content" layout="horizontal">${bottomPanelHTML}</calcite-shell-panel>
     </calcite-shell>
   `);
 
@@ -1409,7 +1409,7 @@ export const panelTopFloatHorizontal_TestOnly = (): string =>
       layout="horizontal"
       slot="panel-top"
       position="start"
-      display-mode="float"
+      display-mode="float-all"
       width-scale="m"
       calcite-hydrated=""
     >
@@ -1471,14 +1471,14 @@ export const panelTopFloatHorizontal_TestOnly = (): string =>
             <calcite-chip value="dock" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
               >dock</calcite-chip
             >
-            <calcite-chip value="float-detach" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
-              >float-detach</calcite-chip
+            <calcite-chip value="float-content" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >float content</calcite-chip
             >
             <calcite-chip value="overlay" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
               >overlay</calcite-chip
             >
-            <calcite-chip value="float" appearance="solid" kind="neutral" scale="m" calcite-hydrated="" selected=""
-              >float</calcite-chip
+            <calcite-chip value="float-all" appearance="solid" kind="neutral" scale="m" calcite-hydrated="" selected=""
+              >float all</calcite-chip
             >
           </calcite-chip-group>
           <calcite-chip-group id="chip-layout-panel-top" selection-mode="single-persist" scale="m" calcite-hydrated="">
@@ -1501,7 +1501,7 @@ export const panelTopFloatVertical_TestOnly = (): string =>
       layout="vertical"
       slot="panel-top"
       position="start"
-      display-mode="float"
+      display-mode="float-all"
       width-scale="m"
       calcite-hydrated=""
     >
@@ -1604,14 +1604,14 @@ export const panelTopFloatVertical_TestOnly = (): string =>
             <calcite-chip value="dock" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
               >dock</calcite-chip
             >
-            <calcite-chip value="float-detach" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
-              >float-detach</calcite-chip
+            <calcite-chip value="float-content" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
+              >float content</calcite-chip
             >
             <calcite-chip value="overlay" appearance="solid" kind="neutral" scale="m" calcite-hydrated=""
               >overlay</calcite-chip
             >
-            <calcite-chip value="float" appearance="solid" kind="neutral" scale="m" calcite-hydrated="" selected=""
-              >float</calcite-chip
+            <calcite-chip value="float-all" appearance="solid" kind="neutral" scale="m" calcite-hydrated="" selected=""
+              >float all</calcite-chip
             >
           </calcite-chip-group>
           <calcite-chip-group id="chip-layout-panel-top" selection-mode="single-persist" scale="m" calcite-hydrated="">

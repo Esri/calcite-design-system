@@ -147,7 +147,7 @@ describe("calcite-shell-panel", () => {
 
     await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
 
-    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatDetach}`);
+    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatContent}`);
 
     expect(detachedElement).toBeNull();
 
@@ -155,13 +155,13 @@ describe("calcite-shell-panel", () => {
 
     expect(await panel.getProperty("detached")).toBe(false);
 
-    panel.setProperty("displayMode", "float-detach");
+    panel.setProperty("displayMode", "float-content");
 
     await page.waitForChanges();
 
     expect(await panel.getProperty("detached")).toBe(true);
 
-    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatDetach}`);
+    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatContent}`);
 
     expect(detachedElement).not.toBeNull();
   });
@@ -556,7 +556,7 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-shell content-behind>
-        <calcite-shell-panel slot="panel-start" position="start" display-mode="float-detach"></calcite-shell-panel>
+        <calcite-shell-panel slot="panel-start" position="start" display-mode="float-content"></calcite-shell-panel>
         <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
       </calcite-shell>`,
     );
