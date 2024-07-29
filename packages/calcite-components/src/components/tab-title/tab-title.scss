@@ -279,7 +279,6 @@
     margin-block-start: -1px;
   }
   .close-button {
-    box-shadow: 0 2px 0 0 transparent;
     & calcite-icon {
       margin-block-start: var(--calcite-spacing-px);
     }
@@ -306,6 +305,10 @@
 
 :host([bordered][selected]) {
   box-shadow: inset 0 -1px var(--calcite-color-foreground-1);
+}
+
+:host([bordered]:not([selected])) .container .close-button {
+  box-shadow: 0 2px 0 0 transparent;
 }
 
 :host([bordered]:hover) {
