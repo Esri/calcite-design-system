@@ -188,7 +188,7 @@
   }
 }
 
-// Compact
+/* [Deprecated]  Compact */
 :host([scale="s"][compact]) .button,
 :host([scale="m"][compact]) .button,
 :host([scale="l"][compact]) .button {
