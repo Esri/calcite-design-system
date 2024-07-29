@@ -76,6 +76,7 @@
 }
 
 :host([scale="s"]) {
+  --calcite-internal-dialog-content-padding: var(--calcite-spacing-sm);
   --calcite-internal-dialog-padding: theme("spacing.3");
   --calcite-internal-dialog-padding-large: theme("spacing.4");
   --calcite-internal-dialog-title-text: theme("fontSize.1h");
@@ -83,6 +84,7 @@
 }
 
 :host([scale="m"]) {
+  --calcite-internal-dialog-content-padding: var(--calcite-spacing-md);
   --calcite-internal-dialog-padding: theme("spacing.4");
   --calcite-internal-dialog-padding-large: theme("spacing.5");
   --calcite-internal-dialog-title-text: theme("fontSize.2h");
@@ -90,6 +92,7 @@
 }
 
 :host([scale="l"]) {
+  --calcite-internal-dialog-content-padding: var(--calcite-spacing-lg);
   --calcite-internal-dialog-padding: theme("spacing.5");
   --calcite-internal-dialog-padding-large: theme("spacing.6");
   --calcite-internal-dialog-title-text: theme("fontSize.3h");
@@ -115,7 +118,7 @@ calcite-panel {
 }
 
 .content {
-  padding: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-padding));
+  padding: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
 }
 
 .dialog {
