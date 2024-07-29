@@ -15,6 +15,10 @@ export const CSS = {
   numberButtonItem: "number-button-item",
 };
 
+export const IDS = {
+  validationMessage: "validationMessage",
+};
+
 export const INPUT_TYPE_ICONS = {
   tel: "phone",
   password: "lock",
