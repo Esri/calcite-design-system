@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.25...@esri/calcite-components@2.11.0-next.26) (2024-07-29)
+
+### Features
+
+- **combobox-item:** apply heading color according to updated spec ([#9883](https://github.com/Esri/calcite-design-system/issues/9883)) ([d8ddf57](https://github.com/Esri/calcite-design-system/commit/d8ddf57eec1b9aa009cbe1c18b3c8146fc54b1ca)), closes [#9881](https://github.com/Esri/calcite-design-system/issues/9881)
+- **dialog:** add padding to default slot ([#9871](https://github.com/Esri/calcite-design-system/issues/9871)) ([9f06123](https://github.com/Esri/calcite-design-system/commit/9f06123ac2f5b152ce2f27a2ca64f46e212c5a9b)), closes [#9869](https://github.com/Esri/calcite-design-system/issues/9869)
+
+### Bug Fixes
+
+- **panel:** correct footer padding and layout ([#9868](https://github.com/Esri/calcite-design-system/issues/9868)) ([b25a0ae](https://github.com/Esri/calcite-design-system/commit/b25a0ae7427613c9b75dd763327f622894ca1d22)), closes [#9858](https://github.com/Esri/calcite-design-system/issues/9858) [#9857](https://github.com/Esri/calcite-design-system/issues/9857)
+- **tab-title:** Adjust hover styling for `bordered` Tab Title ([#9867](https://github.com/Esri/calcite-design-system/issues/9867)) ([2c62917](https://github.com/Esri/calcite-design-system/commit/2c629172c3f5f6facbe9d9424daaae9f5dbdf344)), closes [#9854](https://github.com/Esri/calcite-design-system/issues/9854)
+
 ## [2.11.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.24...@esri/calcite-components@2.11.0-next.25) (2024-07-26)
 
 ### Features
