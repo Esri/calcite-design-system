@@ -96,6 +96,7 @@ import { TableHeaderMessages } from "./components/table-header/assets/table-head
 import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+import { HourCycle } from "./utils/time";
 import { TipMessages } from "./components/tip/assets/tip/t9n";
 import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
@@ -192,6 +193,7 @@ export { TableHeaderMessages } from "./components/table-header/assets/table-head
 export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+export { HourCycle } from "./utils/time";
 export { TipMessages } from "./components/tip/assets/tip/t9n";
 export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
@@ -5564,6 +5566,7 @@ export namespace Components {
         "layout": TileSelectGroupLayout;
     }
     interface CalciteTimePicker {
+        "hourCycle": HourCycle;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -13709,6 +13712,7 @@ declare namespace LocalJSX {
         "layout"?: TileSelectGroupLayout;
     }
     interface CalciteTimePicker {
+        "hourCycle"?: HourCycle;
         /**
           * Use this property to override individual strings used by the component.
          */

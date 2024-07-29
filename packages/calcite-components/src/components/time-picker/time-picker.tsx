@@ -888,7 +888,6 @@ export class TimePicker
 
   connectedCallback() {
     connectLocalized(this);
-    this.updateLocale();
     connectMessages(this);
     this.toggleSecond();
   }
