@@ -43,9 +43,9 @@ import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 logger.deprecated("component", {
-  name: "pick-list",
+  name: "pick-list-item",
   removalVersion: 3,
-  suggested: "list",
+  suggested: "list-item",
 });
 
 /**

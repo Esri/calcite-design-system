@@ -40,6 +40,7 @@ export const create: () => Config = () => ({
         "calcite-date-picker-month-header",
       ],
     },
+    { components: ["calcite-dialog"] },
     { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
     { components: ["calcite-fab"] },
     { components: ["calcite-flow"] },

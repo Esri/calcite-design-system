@@ -52,9 +52,9 @@ import {
 import List from "./shared-list-render";
 
 logger.deprecated("component", {
-  name: "pick-list-item",
+  name: "pick-list",
   removalVersion: 3,
-  suggested: "list-item",
+  suggested: "list",
 });
 
 /**
