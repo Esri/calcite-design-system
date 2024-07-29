@@ -170,7 +170,7 @@ export default class TooltipManager {
     window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     window.addEventListener("click", this.clickHandler, { capture: true });
     window.addEventListener("focusin", this.focusInHandler, { capture: true });
-    window.addEventListener("blur", this.blurHandler, { capture: true });
+    window.addEventListener("blur", this.blurHandler);
   }
 
   private removeListeners(): void {
@@ -178,7 +178,7 @@ export default class TooltipManager {
     window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     window.removeEventListener("click", this.clickHandler, { capture: true });
     window.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    window.removeEventListener("blur", this.blurHandler, { capture: true });
+    window.removeEventListener("blur", this.blurHandler);
   }
 
   private clearHoverOpenTimeout(): void {
