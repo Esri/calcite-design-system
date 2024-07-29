@@ -36,5 +36,8 @@
   "devDependencies": {
     "ts-jest-resolver": "2.0.1",
     "ts-node": "10.9.2"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }
