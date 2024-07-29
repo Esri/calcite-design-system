@@ -234,7 +234,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         <div class={CSS.checkboxContainer}>
           <div class={CSS.checkbox} tabIndex={-1}>
             <calcite-icon
-              aria-hidden="true"
               icon={
                 this.selected
                   ? ICONS.checkSquareF
@@ -289,10 +288,23 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     return (
       <Host
-        aria-checked={this.selectionMode === "ancestors" ? toAriaBoolean(this.selected) : undefined}
+        aria-checked={
+          this.selectionMode === "multiple" ||
+          this.selectionMode === "multichildren" ||
+          this.selectionMode === "ancestors"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         aria-expanded={this.hasChildren ? toAriaBoolean(isExpanded) : undefined}
         aria-hidden={toAriaBoolean(hidden)}
         aria-live="polite"
+        aria-selected={
+          this.selectionMode === "single" ||
+          this.selectionMode === "children" ||
+          this.selectionMode === "single-persist"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         calcite-hydrated-hidden={hidden}
         role="treeitem"
         tabIndex={this.disabled ? -1 : 0}

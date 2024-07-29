@@ -128,6 +128,11 @@
   .node-container {
     @apply focus-inset outline-none;
   }
+
+  .checkbox {
+    @apply outline-none;
+    color: var(--calcite-color-brand);
+  }
 }
 
 .actions-end {
@@ -142,11 +147,6 @@
 .checkbox {
   line-height: 0;
   color: var(--calcite-color-border-input);
-}
-
-.checkbox:focus {
-  @apply outline-none;
-  color: var(--calcite-color-brand);
 }
 
 .checkbox-label {
