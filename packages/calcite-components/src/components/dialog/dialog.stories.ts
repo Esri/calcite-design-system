@@ -351,7 +351,8 @@ export const footerSlot = (): string => html`
 `;
 
 const themedStyle = html` --calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
---calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;`;
+--calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;
+--calcite-dialog-content-space: 50px;`;
 
 export const themed = (): string =>
   html`<calcite-dialog
@@ -363,6 +364,7 @@ export const themed = (): string =>
     scale="m"
     width-scale="s"
   >
-    <p>Slotted content!</p>
+    Slotted content!
     <div slot="footer">Footer!</div>
+    <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
   </calcite-dialog>`;
