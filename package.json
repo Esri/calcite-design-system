@@ -129,7 +129,7 @@
   },
   "packageManager": "npm@10.2.3",
   "volta": {
-    "node": "20.12.1"
+    "node": "20.16.0"
   },
   "dependencies": {
     "patch-package": "8.0.0"
