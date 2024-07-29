@@ -18,6 +18,7 @@ import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
+import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
@@ -166,11 +167,6 @@ export const positionFloatingUI =
  * Exported for testing purposes only
  */
 export const placementDataAttribute = "data-placement";
-
-/**
- * Exported for testing purposes only
- */
-export const repositionDebounceTimeout = 100;
 
 export type ReferenceElement = VirtualElement | Element;
 
@@ -457,9 +453,9 @@ function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<t
     return debounced;
   }
 
-  debounced = debounce(positionFloatingUI, repositionDebounceTimeout, {
+  debounced = debounce(positionFloatingUI, DEBOUNCE.reposition, {
     leading: true,
-    maxWait: repositionDebounceTimeout,
+    maxWait: DEBOUNCE.reposition,
   });
 
   componentToDebouncedRepositionMap.set(component, debounced);
