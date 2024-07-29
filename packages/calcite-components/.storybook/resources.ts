@@ -25,6 +25,7 @@ import { TextType } from "../src/components/input/interfaces.ts";
 import { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
 import { DisplayMode } from "../src/components/sheet/interfaces.ts";
 import { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
+import { OverlayPositioning } from "../src/components";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -58,6 +59,7 @@ interface CommonAttributes {
   mode: AttributeMetadata<TimeZoneMode>;
   selectionAppearance: AttributeMetadata<SelectionAppearance>;
   shellDisplayMode: AttributeMetadata<ShellDisplayMode>;
+  overlayPositioning: AttributeMetadata<OverlayPositioning>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
@@ -114,6 +116,7 @@ const textTypeOptions: TextType[] = [
 ];
 const modeOptions: TimeZoneMode[] = ["offset", "name"];
 const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border"];
+const overlayPositioningOptions: OverlayPositioning[] = ["absolute", "fixed"];
 const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float", "overlay"];
 
 export const ATTRIBUTES: CommonAttributes = {
@@ -212,6 +215,10 @@ export const ATTRIBUTES: CommonAttributes = {
   mode: {
     values: modeOptions,
     defaultValue: modeOptions[0],
+  },
+  overlayPositioning: {
+    values: overlayPositioningOptions,
+    defaultValue: overlayPositioningOptions[0],
   },
   selectionAppearance: {
     values: selectionAppearanceOptions,

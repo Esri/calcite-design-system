@@ -18,6 +18,10 @@
     {
       src: "demos/_assets/demo-dom-swapper.js",
     },
+    {
+      src: "demos/_assets/demo-theme.js",
+      type: "module",
+    },
   ];
 
   const parseTemplate = (text: string): HTMLTemplateElement | null => {
