@@ -255,7 +255,8 @@ export default class TooltipManager {
   private registerShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
 
-    const newCount = (registeredShadowRootCounts.get(shadowRoot) ?? 0) + 1;
+    const count = registeredShadowRootCounts.get(shadowRoot);
+    const newCount = Math.min((typeof count === "number" ? count : 0) + 1, 1);
 
     if (newCount === 1) {
       this.addShadowListeners(shadowRoot);
@@ -267,7 +268,8 @@ export default class TooltipManager {
   private unregisterShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
 
-    const newCount = registeredShadowRootCounts.get(shadowRoot) - 1;
+    const count = registeredShadowRootCounts.get(shadowRoot);
+    const newCount = Math.max((typeof count === "number" ? count : 1) - 1, 0);
 
     if (newCount === 0) {
       this.removeShadowListeners(shadowRoot);
