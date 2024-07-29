@@ -20,4 +20,4 @@ This will optimize the icons, create a JSON file with all the icon path data, an
 
 This task also watches for changes and rebuilds the JSON file whenever icons are added or edited, automatically reloading your browser to display changes as they come in.
 
-**Mac users can also double click `launch-calcite.sh`, which runs the commands above.**
+**Mac users can also double click `launch`, which runs the commands above.**
