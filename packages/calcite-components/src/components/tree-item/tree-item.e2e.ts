@@ -332,6 +332,7 @@ describe("calcite-tree-item", () => {
     `);
     const container = await page.find("calcite-tree-item >>> .node-container");
     const checkbox = await container.find(`.${CSS.checkbox}`);
+    const host = await page.find("calcite-tree-item[role='treeitem']");
     const label = await container.find(`label`);
 
     const icon = await container.find(`[data-test-id="icon"]`);
@@ -342,24 +343,24 @@ describe("calcite-tree-item", () => {
     expect(isVisible).toBe(true);
 
     await container.click();
-    expect(checkbox).toEqualAttribute("aria-checked", true);
+    expect(host).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await container.click();
-    expect(checkbox).toEqualAttribute("aria-checked", false);
+    expect(host).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
 
     await label.click();
-    expect(checkbox).toEqualAttribute("aria-checked", true);
+    expect(host).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await label.click();
-    expect(checkbox).toEqualAttribute("aria-checked", false);
+    expect(host).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
 
     await checkbox.click();
-    expect(checkbox).toEqualAttribute("aria-checked", true);
+    expect(host).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await checkbox.click();
-    expect(checkbox).toEqualAttribute("aria-checked", false);
+    expect(host).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
   });
 
