@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.26...@esri/calcite-components@2.11.0-next.27) (2024-07-29)
+
+### Bug Fixes
+
+- **tooltip:** allow focusing on a reference element and then clicking on a tooltip ([#9878](https://github.com/Esri/calcite-design-system/issues/9878)) ([af467a1](https://github.com/Esri/calcite-design-system/commit/af467a16fd10788e103e96ab6c19cff3ee9af6b9)), closes [#9840](https://github.com/Esri/calcite-design-system/issues/9840)
+
 ## [2.11.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.25...@esri/calcite-components@2.11.0-next.26) (2024-07-29)
 
 ### Features
