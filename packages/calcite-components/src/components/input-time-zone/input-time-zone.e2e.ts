@@ -321,6 +321,10 @@ describe("calcite-input-time-zone", () => {
     });
 
     describe("region", () => {
+      function getCityName(timeZoneName: string): string {
+        return timeZoneName.split("/").pop();
+      }
+
       describe("selects user's matching time zone name on initialization", () => {
         testTimeZoneItems.forEach(({ name }) => {
           it(`selects default time zone for "${name}"`, async () => {
@@ -336,7 +340,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(name));
+            expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCityName(name)));
           });
         });
       });
@@ -359,7 +363,9 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(testTimeZoneItems[1].name));
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
+          toUserFriendlyName(getCityName(testTimeZoneItems[1].name)),
+        );
       });
 
       it("ignores invalid values", async () => {
@@ -377,7 +383,9 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(testTimeZoneItems[0].name));
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
+          toUserFriendlyName(getCityName(testTimeZoneItems[0].name)),
+        );
       });
     });
   });
