@@ -1143,4 +1143,59 @@ describe("calcite-tooltip", () => {
     expect(await tooltip1.getProperty("open")).toBe(false);
     expect(await tooltip2.getProperty("open")).toBe(true);
   });
+
+  describe("allows clicking on an open tooltip", () => {
+    const pageContent = html`
+      <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip>
+      <button id="ref">referenceElement</button>
+      <button id="other">other</button>
+    `;
+
+    it("should work when clicking on a reference element first", async () => {
+      const page = await newE2EPage();
+      await page.setContent(pageContent);
+      await page.waitForChanges();
+      const tooltip = await page.find("calcite-tooltip");
+      const referenceElement = await page.find("#ref");
+
+      await referenceElement.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      await tooltip.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      await page.$eval(
+        "#other",
+        (el: HTMLElement, eventOptions) => {
+          el.dispatchEvent(new MouseEvent("click", eventOptions));
+        },
+        eventOptions,
+      );
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(false);
+    });
+
+    it("should work when focusing on a reference element first", async () => {
+      const page = await newE2EPage();
+      await page.setContent(pageContent);
+      await page.waitForChanges();
+      const tooltip = await page.find("calcite-tooltip");
+      const referenceElement = await page.find("#ref");
+
+      await referenceElement.focus();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      await tooltip.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      const other = await page.find("#other");
+      await other.focus();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(false);
+    });
+  });
 });

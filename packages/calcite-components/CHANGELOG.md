@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.24...@esri/calcite-components@2.11.0-next.25) (2024-07-26)
+
+### Features
+
+- **dialog:** adds new dialog component and deprecates the modal component ([#9751](https://github.com/Esri/calcite-design-system/issues/9751)) ([0cdd327](https://github.com/Esri/calcite-design-system/commit/0cdd327438f43248b33a5244a2fb18c31b92d582)), closes [#7886](https://github.com/Esri/calcite-design-system/issues/7886)
+
+## [2.11.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.23...@esri/calcite-components@2.11.0-next.24) (2024-07-25)
+
+### Bug Fixes
+
+- **panel, flow-item:** prevent footer slots from conflicting with each other ([#9856](https://github.com/Esri/calcite-design-system/issues/9856)) ([f3a26b6](https://github.com/Esri/calcite-design-system/commit/f3a26b6074f702cfc3c2638302cf4454a2a99a3d)), closes [#9855](https://github.com/Esri/calcite-design-system/issues/9855)
+
+## [2.11.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.22...@esri/calcite-components@2.11.0-next.23) (2024-07-25)
+
+### Bug Fixes
+
+- **carousel:** Prevent duplicate animation when navigating via keyboard ([#9848](https://github.com/Esri/calcite-design-system/issues/9848)) ([37229a5](https://github.com/Esri/calcite-design-system/commit/37229a5de4a6338c6d921d2def6afc38300bf636)), closes [#9471](https://github.com/Esri/calcite-design-system/issues/9471)
+
+## [2.11.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.21...@esri/calcite-components@2.11.0-next.22) (2024-07-25)
+
+### Bug Fixes
+
+- **shell:** fix resizing a slotted shell-panel when clicking to resize ([#9846](https://github.com/Esri/calcite-design-system/issues/9846)) ([2318905](https://github.com/Esri/calcite-design-system/commit/23189059dd8a0efa4e665c5a10d2dc1568e0d6ef)), closes [#9807](https://github.com/Esri/calcite-design-system/issues/9807)
+- **tabs:** Update tab title indicator display ([#9666](https://github.com/Esri/calcite-design-system/issues/9666)) ([d570023](https://github.com/Esri/calcite-design-system/commit/d570023ab447b6ba6694c38b611efae4db2cc0eb)), closes [#8800](https://github.com/Esri/calcite-design-system/issues/8800) [#8772](https://github.com/Esri/calcite-design-system/issues/8772)
+
+## [2.11.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.20...@esri/calcite-components@2.11.0-next.21) (2024-07-23)
+
+### Features
+
+- **combobox:** append custom values to top of dropdown ([#9817](https://github.com/Esri/calcite-design-system/issues/9817)) ([287448b](https://github.com/Esri/calcite-design-system/commit/287448b432d0e93b0b183282cca07867ab29a678)), closes [#7288](https://github.com/Esri/calcite-design-system/issues/7288)
+
+## [2.11.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.19...@esri/calcite-components@2.11.0-next.20) (2024-07-23)
+
+### Bug Fixes
+
+- **time-picker:** render meridiem first for korean locale ([#9842](https://github.com/Esri/calcite-design-system/issues/9842)) ([6ed4d21](https://github.com/Esri/calcite-design-system/commit/6ed4d21d9429a42389657cce6d65ac814ac02a16)), closes [#9720](https://github.com/Esri/calcite-design-system/issues/9720)
+
 ## [2.11.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.18...@esri/calcite-components@2.11.0-next.19) (2024-07-23)
 
 ### Bug Fixes

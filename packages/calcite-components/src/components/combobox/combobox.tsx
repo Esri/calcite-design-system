@@ -56,6 +56,7 @@ import {
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { DEBOUNCE } from "../../utils/resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -1128,7 +1129,7 @@ export class Combobox
       if (emit) {
         this.calciteComboboxFilterChange.emit();
       }
-    }, 100);
+    }, DEBOUNCE.filter);
   })();
 
   internalComboboxChangeEvent = (): void => {
@@ -1292,7 +1293,7 @@ export class Combobox
       item.value = value;
       item.textLabel = value;
       item.selected = true;
-      this.el.appendChild(item);
+      this.el.prepend(item);
       this.resetText();
       if (focus) {
         this.setFocus();

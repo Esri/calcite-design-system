@@ -17,6 +17,7 @@ import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import { getElementXY, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { assertCaretPosition } from "../../tests/utils";
+import { DEBOUNCE } from "../../utils/resources";
 import { CSS } from "./resources";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
@@ -201,6 +202,7 @@ describe("calcite-combobox", () => {
 
       await combobox.type(text);
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       expect(await combobox.getProperty("open")).toBe(true);
 
@@ -209,6 +211,7 @@ describe("calcite-combobox", () => {
       }
 
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
       expect(await combobox.getProperty("open")).toBe(false);
     });
 
@@ -256,6 +259,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
 
       await input.type("undefined");
+      await page.waitForTimeout(DEBOUNCE.filter);
       await page.waitForChanges();
 
       expect(await items[0].isVisible()).toBe(false);
@@ -287,6 +291,7 @@ describe("calcite-combobox", () => {
 
       await combobox.press("s");
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
       expect(filterEventSpy).toHaveReceivedEventTimes(1);
 
       expect(await items[0].isVisible()).toBe(true);
@@ -299,6 +304,7 @@ describe("calcite-combobox", () => {
 
       await combobox.press("i");
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
       expect(filterEventSpy).toHaveReceivedEventTimes(2);
 
       expect(await items[0].isVisible()).toBe(true);
@@ -311,6 +317,7 @@ describe("calcite-combobox", () => {
 
       await combobox.press("n");
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
       expect(filterEventSpy).toHaveReceivedEventTimes(3);
 
       expect(await items[0].isVisible()).toBe(true);
@@ -342,6 +349,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await combobox.type("Algeria");
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const [lastItemX, lastItemY] = await getElementXY(page, "#item-4");
 
@@ -369,6 +377,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await combobox.type("two");
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
       const one = await (await page.find("#one")).isVisible();
       const two = await (await page.find("#two")).isVisible();
       const three = await (await page.find("#three")).isVisible();
@@ -407,6 +416,7 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html` <calcite-combobox filter-text="1.2"> ${nestedComboboxChildren} </calcite-combobox> `);
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const visibleItemsAndGroups = await page.findAll(
         "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
@@ -434,6 +444,7 @@ describe("calcite-combobox", () => {
       const combobox = await page.find("calcite-combobox");
       combobox.setProperty("filterText", "1.2");
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const filteredItemsAndGroups = await page.findAll(
         "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
@@ -454,6 +465,7 @@ describe("calcite-combobox", () => {
 
       combobox.setProperty("filterText", "");
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const allVisibleItemAndGroups = await page.findAll(
         "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
@@ -500,10 +512,13 @@ describe("calcite-combobox", () => {
       });
 
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const combobox = await page.find("calcite-combobox");
       combobox.setProperty("filterText", "foo");
+
       await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
 
@@ -905,7 +920,7 @@ describe("calcite-combobox", () => {
       await input.press("Enter");
       await page.waitForChanges();
 
-      const item = await page.find("calcite-combobox-item:last-child");
+      const item = await page.find("calcite-combobox-item:first-child");
       expect(await item.getProperty("textLabel")).toBe("K");
 
       const combobox = await page.find("calcite-combobox");
@@ -932,14 +947,14 @@ describe("calcite-combobox", () => {
       await input.press("Enter");
       await page.waitForChanges();
 
+      const customValue = await page.find("calcite-combobox-item:first-child");
       const item1 = await page.find("calcite-combobox-item#one");
-      const item2 = await page.find("calcite-combobox-item:last-child");
 
-      expect(await item2.getProperty("textLabel")).toBe("K");
+      expect(await customValue.getProperty("textLabel")).toBe("K");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
+      expect(await customValue.getProperty("selected")).toBe(true);
       expect(await item1.getProperty("selected")).toBe(false);
-      expect(await item2.getProperty("selected")).toBe(true);
     });
 
     it("should auto-select new custom values in multiple selection mode", async () => {
@@ -960,16 +975,16 @@ describe("calcite-combobox", () => {
       await input.press("Escape");
       await page.waitForChanges();
 
+      const customValue = await page.find("calcite-combobox-item:first-child");
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(3);
       expect(chips[2].textContent).toBe("K");
+      expect(await customValue.getProperty("selected")).toBe(true);
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(true);
-      expect(await item3.getProperty("selected")).toBe(true);
     });
   });
 
@@ -1733,11 +1748,27 @@ describe("calcite-combobox", () => {
       const button = await page.find("button");
       await input.click();
       await input.press("o");
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       await input.press("Tab");
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       let chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
       await input.press("j");
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       await button.click();
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(2);
     });

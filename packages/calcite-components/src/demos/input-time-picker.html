@@ -61,13 +61,16 @@
           const currentDate = new Date();
           const currentTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
-          locales.forEach(({ locale, name, numberingSystem, hourCycle }) => {
+          locales.forEach(({ locale, name, numberingSystem, hourCycle, dir }) => {
             let labelEl = document.createElement("calcite-label");
             let inputTimePickerEl = document.createElement("calcite-input-time-picker");
 
             inputTimePickerEl.setAttribute("lang", locale);
             if (numberingSystem) {
               inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
+            if (dir) {
+              inputTimePickerEl.setAttribute("dir", dir);
             }
             inputTimePickerEl.setAttribute("value", "10:00:00");
             labelEl.append(document.createTextNode(`${name} (${locale})`));
@@ -88,6 +91,9 @@
             if (numberingSystem) {
               inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
             }
+            if (dir) {
+              inputTimePickerEl.setAttribute("dir", dir);
+            }
             inputTimePickerEl.setAttribute("step", 1);
             inputTimePickerEl.setAttribute("value", "10:00");
             labelEl.append(document.createTextNode(`${name} (${locale}) (seconds)`));
@@ -106,6 +112,9 @@
             inputTimePickerEl.setAttribute("lang", locale);
             if (numberingSystem) {
               inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
+            if (dir) {
+              inputTimePickerEl.setAttribute("dir", dir);
             }
             inputTimePickerEl.setAttribute("step", 0.001);
             inputTimePickerEl.setAttribute("value", "10:00:00.001");
