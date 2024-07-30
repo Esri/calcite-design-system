@@ -15,6 +15,7 @@ import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { DEBOUNCE } from "../../utils/resources";
 import { assertCaretPosition } from "../../tests/utils";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
 
@@ -809,6 +810,10 @@ describe("calcite-input", () => {
       await element.callMethod("setFocus");
       await page.waitForChanges();
       await typeNumberValue(page, inputFirstPart);
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       expect(await element.getProperty("value")).toBe(inputFirstPart);
       expect(calciteInputInput).toHaveReceivedEventTimes(5);
       expect(calciteInputChange).toHaveReceivedEventTimes(0);
@@ -829,6 +834,10 @@ describe("calcite-input", () => {
       await element.callMethod("setFocus");
       await page.waitForChanges();
       await typeNumberValue(page, textSecondPart);
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       expect(calciteInputInput).toHaveReceivedEventTimes(10);
       expect(calciteInputChange).toHaveReceivedEventTimes(1);
 
