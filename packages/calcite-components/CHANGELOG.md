@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.27...@esri/calcite-components@2.11.0-next.28) (2024-07-30)
+
+### Features
+
+- **shell-panel:** deprecate float displayMode and add float-content and float-all ([#9795](https://github.com/Esri/calcite-design-system/issues/9795)) ([9beb6eb](https://github.com/Esri/calcite-design-system/commit/9beb6eba2971b3f06d9e4ee3c625c276561b9542)), closes [#7513](https://github.com/Esri/calcite-design-system/issues/7513)
+
 ## [2.11.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.26...@esri/calcite-components@2.11.0-next.27) (2024-07-29)
 
 ### Bug Fixes
