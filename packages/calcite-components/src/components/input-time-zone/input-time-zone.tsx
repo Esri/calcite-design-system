@@ -46,7 +46,6 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import { IconName } from "../icon/interfaces";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
@@ -155,7 +154,7 @@ export class InputTimeZone
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * The current validation state of the component.

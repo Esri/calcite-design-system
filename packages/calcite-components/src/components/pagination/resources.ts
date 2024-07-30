@@ -13,4 +13,4 @@ export const ICONS = {
   previous: "chevron-left",
   first: "chevron-start",
   last: "chevron-end",
-} as const;
+};

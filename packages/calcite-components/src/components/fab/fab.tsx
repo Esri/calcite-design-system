@@ -14,7 +14,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Kind, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
 import { CSS, ICONS } from "./resources";
 
 @Component({
@@ -50,7 +49,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    *
    * @default "plus"
    */
-  @Prop({ reflect: true }) icon: IconName = ICONS.plus;
+  @Prop({ reflect: true }) icon: string = ICONS.plus;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;

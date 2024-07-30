@@ -30,7 +30,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
-import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
 import { MenuItemMessages } from "./assets/menu-item/t9n";
@@ -63,13 +62,13 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   @Prop() href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @Prop({ reflect: true }) iconEnd: string;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @Prop({ reflect: true }) iconStart: string;
 
   /**
    * @internal

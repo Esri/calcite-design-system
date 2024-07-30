@@ -1,7 +1,6 @@
 import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import { setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
 import { StatusIconDefaults } from "./interfaces";
 
 /**
@@ -20,7 +19,7 @@ export class InputMessage {
   //--------------------------------------------------------------------------
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconName | boolean;
+  @Prop({ reflect: true }) icon: boolean | string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -66,7 +65,7 @@ export class InputMessage {
   @Element() el: HTMLCalciteInputMessageElement;
 
   /** the computed icon to render */
-  private requestedIcon?: IconName;
+  private requestedIcon?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -74,7 +73,7 @@ export class InputMessage {
   //
   //--------------------------------------------------------------------------
 
-  private renderIcon(iconName: IconName): VNode {
+  private renderIcon(iconName: string): VNode {
     if (iconName) {
       return (
         <calcite-icon

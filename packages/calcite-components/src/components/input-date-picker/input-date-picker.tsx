@@ -87,7 +87,6 @@ import { guid } from "../../utils/guid";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { isBrowser } from "../../utils/browser";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
@@ -279,7 +278,7 @@ export class InputDatePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * The current validation state of the component.

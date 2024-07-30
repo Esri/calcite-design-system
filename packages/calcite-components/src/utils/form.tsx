@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { Writable } from "type-fest";
-import { IconName, Status } from "../components";
+import { Status } from "../components";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 /**
@@ -211,7 +211,7 @@ function hasRegisteredFormComponentParent(
 export interface ValidationProps {
   status: Status;
   message: string;
-  icon: IconName | boolean | "";
+  icon: string | boolean;
 }
 
 function displayValidationMessage(

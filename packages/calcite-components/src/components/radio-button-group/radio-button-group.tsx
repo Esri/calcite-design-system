@@ -21,7 +21,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -90,7 +89,7 @@ export class RadioButtonGroup implements LoadableComponent {
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   @Watch("scale")
   onScaleChange(): void {

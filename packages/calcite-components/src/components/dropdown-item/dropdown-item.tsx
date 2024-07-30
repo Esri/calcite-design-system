@@ -26,7 +26,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -60,10 +59,10 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @Prop({ reflect: true }) iconEnd: string;
 
   /** Accessible name for the component. */
   @Prop() label: string;

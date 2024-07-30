@@ -46,7 +46,6 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 import { StepperItemMessages } from "./assets/stepper-item/t9n";
 
@@ -362,7 +361,7 @@ export class StepperItem
   };
 
   private renderIcon(): VNode {
-    let path: IconName = "circle";
+    let path = "circle";
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
       path = "circleF";

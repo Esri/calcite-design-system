@@ -74,7 +74,6 @@ import {
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 
@@ -171,7 +170,7 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @Prop({ reflect: true }) icon: IconName | boolean;
+  @Prop({ reflect: true }) icon: string | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -254,7 +253,7 @@ export class InputNumber
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * The current validation state of the component.
@@ -423,7 +422,7 @@ export class InputNumber
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: IconName;
+  private requestedIcon?: string;
 
   private nudgeNumberValueIntervalId: number;
 

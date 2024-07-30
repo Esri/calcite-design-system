@@ -10,6 +10,6 @@ export const SLOTS = {
 
 export const ICONS = {
   menu: "ellipsis",
-} as const;
+};
 
 export const activeAttr = "data-active";

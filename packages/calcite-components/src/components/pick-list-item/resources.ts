@@ -17,7 +17,7 @@ export const CSS = {
 export const ICONS = {
   checked: "check",
   remove: "x",
-} as const;
+};
 
 export const SLOTS = {
   actionsEnd: "actions-end",

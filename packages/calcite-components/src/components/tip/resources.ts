@@ -10,7 +10,7 @@ export const CSS = {
 
 export const ICONS = {
   close: "x",
-} as const;
+};
 
 export const SLOTS = {
   thumbnail: "thumbnail",

@@ -22,7 +22,7 @@ export const INPUT_TYPE_ICONS = {
   date: "calendar",
   time: "clock",
   search: "search",
-} as const;
+};
 
 export const SLOTS = {
   action: "action",

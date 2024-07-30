@@ -28,4 +28,4 @@ export const ICONS = {
   unselected: "square",
   selectedSingle: "circle-f",
   unselectedSingle: "circle",
-} as const;
+};

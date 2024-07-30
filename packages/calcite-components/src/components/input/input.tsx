@@ -68,7 +68,6 @@ import {
 } from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
@@ -165,7 +164,7 @@ export class Input
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: IconName | boolean;
+  @Prop({ reflect: true }) icon: string | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -242,7 +241,7 @@ export class Input
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * The current validation state of the component.
@@ -480,7 +479,7 @@ export class Input
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: IconName;
+  private requestedIcon?: string;
 
   private nudgeNumberValueIntervalId: number;
 

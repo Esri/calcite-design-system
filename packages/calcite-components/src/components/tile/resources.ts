@@ -20,7 +20,7 @@ export const ICONS = {
   selectedSingle: "circle-f",
   unselectedMultiple: "square",
   unselectedSingle: "circle",
-} as const;
+};
 
 export const SLOTS = {
   contentBottom: "content-bottom",

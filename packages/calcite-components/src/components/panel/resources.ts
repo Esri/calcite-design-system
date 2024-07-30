@@ -30,7 +30,7 @@ export const ICONS = {
   backRight: "chevron-right",
   expand: "chevron-down",
   collapse: "chevron-up",
-} as const;
+};
 
 export const SLOTS = {
   actionBar: "action-bar",

@@ -42,7 +42,6 @@ import {
 } from "../../utils/t9n";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
-import { IconName } from "../icon/interfaces";
 import { AlertMessages } from "./assets/alert/t9n";
 import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -111,7 +110,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: IconName | boolean;
+  @Prop({ reflect: true }) icon: string | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -309,7 +308,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
   }
 
-  private renderIcon(icon: IconName): VNode {
+  private renderIcon(icon: string): VNode {
     return (
       <div class={CSS.icon}>
         <calcite-icon flipRtl={this.iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />

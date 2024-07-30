@@ -49,6 +49,6 @@ export const ICONS = {
   open: "chevron-down",
   blank: "blank",
   close: "x",
-} as const;
+};
 
 export const activeCellTestAttribute = "data-test-active";

@@ -26,4 +26,4 @@ export const ICONS = {
   menuClosed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
-} as const;
+};

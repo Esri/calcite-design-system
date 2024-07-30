@@ -22,4 +22,4 @@ export const ICONS = {
   checkmark: "check",
   chevronRight: "chevron-right",
   blank: "blank",
-} as const;
+};
