@@ -226,7 +226,7 @@ export class Button
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (isBrowser) {
+    if (isBrowser()) {
       this.updateHasContent();
       await setUpMessages(this);
     }

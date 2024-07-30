@@ -138,7 +138,7 @@ export class Icon {
   private async loadIconPathData(): Promise<void> {
     const { icon, scale, visible } = this;
 
-    if (!isBrowser || !icon || !visible) {
+    if (!isBrowser() || !icon || !visible) {
       return;
     }
 

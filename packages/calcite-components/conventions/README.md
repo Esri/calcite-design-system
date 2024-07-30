@@ -375,7 +375,7 @@ Since many of the same lifecycle methods are called on the client and server you
 ```ts
 import { isBrowser } from "../utils/browser";
 
-if (isBrowser) {
+if (isBrowser()) {
   // client side
 } else {
   // server side

@@ -22,7 +22,7 @@ import { getElementDir } from "./dom";
 import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (isBrowser) {
+  if (isBrowser()) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -499,7 +499,7 @@ async function runAutoUpdate(
     return;
   }
 
-  const effectiveAutoUpdate = isBrowser
+  const effectiveAutoUpdate = isBrowser()
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();

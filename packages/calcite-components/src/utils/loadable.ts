@@ -135,7 +135,7 @@ export function componentLoaded(component: LoadableComponent): Promise<void> {
 export async function componentFocusable(component: LoadableComponent): Promise<void> {
   await componentLoaded(component);
 
-  if (!isBrowser) {
+  if (!isBrowser()) {
     return;
   }
 

@@ -172,7 +172,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    if (isBrowser) {
+    if (isBrowser()) {
       this.updateHasText();
     }
     if (this.tab && this.selected) {

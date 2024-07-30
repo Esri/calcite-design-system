@@ -38,7 +38,7 @@ export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElem
 }
 
 export function getDepth(element: HTMLElement, includeGroup = false): number {
-  if (!isBrowser) {
+  if (!isBrowser()) {
     return 0;
   }
 

@@ -51,7 +51,7 @@ export async function setUpMessages(component: T9nComponent): Promise<void> {
 }
 
 async function fetchMessages(component: T9nComponent, lang: string): Promise<MessageBundle> {
-  if (!isBrowser) {
+  if (!isBrowser()) {
     return {};
   }
 

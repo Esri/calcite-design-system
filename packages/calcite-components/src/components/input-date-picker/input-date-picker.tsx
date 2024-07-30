@@ -981,7 +981,7 @@ export class InputDatePicker
   };
 
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser) {
+    if (!isBrowser()) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {

@@ -26,7 +26,7 @@ export function hasActiveChildren(node: HTMLCalciteComboboxItemElement): boolean
 }
 
 export function getDepth(element: HTMLElement): number {
-  if (!isBrowser) {
+  if (!isBrowser()) {
     return 0;
   }
 

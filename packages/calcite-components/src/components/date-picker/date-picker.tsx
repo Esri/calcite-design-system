@@ -347,7 +347,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser) {
+    if (!isBrowser()) {
       return;
     }
 

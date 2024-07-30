@@ -390,7 +390,7 @@ export class SegmentedControl
     });
 
     this.selectedItem = match;
-    if (isBrowser && match) {
+    if (isBrowser() && match) {
       match.focus();
     }
   }
