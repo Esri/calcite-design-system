@@ -18,6 +18,9 @@
     "packages/calcite-design-tokens": {
       "component": "@esri/calcite-design-tokens"
     },
+    "packages/calcite-ui-icons": {
+      "component": "@esri/calcite-ui-icons"
+    },
     "packages/eslint-plugin-calcite-components": {
       "component": "@esri/eslint-plugin-calcite-components"
     }
