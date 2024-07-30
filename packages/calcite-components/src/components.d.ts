@@ -2471,7 +2471,8 @@ export namespace Components {
         "readOnly": boolean;
         /**
           * Updates the position of the component.
-          * @param delayed
+          * @param delayed If true, the repositioning is delayed.
+          * @returns void
          */
         "reposition": (delayed?: boolean) => Promise<void>;
         /**
@@ -2903,7 +2904,7 @@ export namespace Components {
         "readOnly": boolean;
         /**
           * Updates the position of the component.
-          * @param delayed
+          * @param delayed If true, delay the repositioning.
          */
         "reposition": (delayed?: boolean) => Promise<void>;
         /**

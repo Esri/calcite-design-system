@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   forceUpdate,
@@ -38,6 +37,7 @@ import {
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { toAriaBoolean } from "../../utils/dom";
 import { IconName } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -226,7 +226,7 @@ export class Button
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       this.updateHasContent();
       await setUpMessages(this);
     }

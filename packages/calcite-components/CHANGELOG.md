@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.28...@esri/calcite-components@2.11.0-next.29) (2024-07-30)
+
+### Bug Fixes
+
+- **dialog:** fix menu positioning when when overlayPositioning is 'fixed' and menuOpen is true ([#9891](https://github.com/Esri/calcite-design-system/issues/9891)) ([6911682](https://github.com/Esri/calcite-design-system/commit/69116826923b31259c36cdf1c262128763c1b016)), closes [#9876](https://github.com/Esri/calcite-design-system/issues/9876)
+- improve browser check to resolve SSR errors ([#9897](https://github.com/Esri/calcite-design-system/issues/9897)) ([94683e3](https://github.com/Esri/calcite-design-system/commit/94683e3de58e2b24d05f605770eef7f5b599d835)), closes [#9242](https://github.com/Esri/calcite-design-system/issues/9242)
+- **input-date-picker:** ensure initial value is in range ([#9894](https://github.com/Esri/calcite-design-system/issues/9894)) ([b7b1705](https://github.com/Esri/calcite-design-system/commit/b7b17058e15815634f4f4acdc83c8e5e3e649c50)), closes [#9282](https://github.com/Esri/calcite-design-system/issues/9282)
+
 ## [2.11.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.27...@esri/calcite-components@2.11.0-next.28) (2024-07-30)
 
 ### Features
