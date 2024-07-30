@@ -232,7 +232,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const checkbox =
       this.selectionMode === "ancestors" ? (
         <div class={CSS.checkboxContainer}>
-          <div class={CSS.checkbox} tabIndex={-1}>
+          <div class={CSS.checkbox}>
             <calcite-icon
               icon={
                 this.selected
