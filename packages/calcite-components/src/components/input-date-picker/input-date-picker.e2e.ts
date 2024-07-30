@@ -777,6 +777,23 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
+  it("ensures initial value is in range", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-input-date-picker
+        value="2017-07-22"
+        min="2018-01-01"
+        max="2018-12-31"
+      ></calcite-input-date-picker>`,
+    );
+
+    const element = await page.find("calcite-input-date-picker");
+
+    expect(await element.getProperty("value")).toEqual("2018-01-01");
+    expect(await getDateInputValue(page)).toEqual("1/1/2018");
+  });
+
   it("updates internally when min attribute is updated after initialization", async () => {
     const page = await newE2EPage();
     await page.emulateTimezone("America/Los_Angeles");

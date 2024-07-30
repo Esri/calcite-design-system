@@ -7,7 +7,9 @@
 // The secret is formatted like so: person1, person2, person3
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
-const { issueWorkflow, planning } = require("./support/resources");
+const {
+  labels: { issueWorkflow, planning },
+} = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
