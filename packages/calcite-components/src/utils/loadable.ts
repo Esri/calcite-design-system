@@ -1,4 +1,5 @@
-import { Build, forceUpdate } from "@stencil/core";
+import { forceUpdate } from "@stencil/core";
+import { isBrowser } from "./browser";
 
 /**
  * This helper adds support for knowing when a component has been loaded.
@@ -134,7 +135,7 @@ export function componentLoaded(component: LoadableComponent): Promise<void> {
 export async function componentFocusable(component: LoadableComponent): Promise<void> {
   await componentLoaded(component);
 
-  if (!Build.isBrowser) {
+  if (!isBrowser) {
     return;
   }
 

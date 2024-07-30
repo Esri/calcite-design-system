@@ -1,5 +1,6 @@
-import { Build, getAssetPath } from "@stencil/core";
+import { getAssetPath } from "@stencil/core";
 import { getSupportedLocale, LocalizedComponent } from "./locale";
+import { isBrowser } from "./browser";
 
 export type MessageBundle = Record<string, string>;
 
@@ -50,7 +51,7 @@ export async function setUpMessages(component: T9nComponent): Promise<void> {
 }
 
 async function fetchMessages(component: T9nComponent, lang: string): Promise<MessageBundle> {
-  if (!Build.isBrowser) {
+  if (!isBrowser) {
     return {};
   }
 

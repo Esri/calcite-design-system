@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   forceUpdate,
@@ -38,6 +37,7 @@ import {
 } from "../../utils/t9n";
 import { Alignment, Appearance, Scale } from "../interfaces";
 import { IconName } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ActionMessages } from "./assets/action/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -182,7 +182,7 @@ export class Action
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser) {
       await setUpMessages(this);
     }
   }

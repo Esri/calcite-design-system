@@ -1,8 +1,9 @@
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
-import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
+import { Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
+import { isBrowser } from "../../utils/browser";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
 import { IconName } from "./interfaces";
@@ -137,7 +138,7 @@ export class Icon {
   private async loadIconPathData(): Promise<void> {
     const { icon, scale, visible } = this;
 
-    if (!Build.isBrowser || !icon || !visible) {
+    if (!isBrowser || !icon || !visible) {
       return;
     }
 
