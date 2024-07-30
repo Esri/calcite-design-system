@@ -364,6 +364,42 @@ describe("calcite-tree-item", () => {
     expect(isVisible).toBe(true);
   });
 
+  it('should contain aria-selected attribute when selectionMode is "single". Also applies to selectionMode: "children" and "single-persist"', async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree selection-mode="single" scale="m">
+        <calcite-tree-item>
+          <span>Child 1</span>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <span>Child 2</span>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
+
+    const host = await page.find("calcite-tree-item[role='treeitem']");
+
+    expect(host).toHaveAttribute("aria-selected");
+  });
+
+  it('should contain aria-checked attribute when selectionMode is "multiple". Also applies to selectionMode: "multichildren" and "ancestors"', async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree selection-mode="multiple" scale="m">
+        <calcite-tree-item>
+          <span>Child 1</span>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <span>Child 2</span>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
+
+    const host = await page.find("calcite-tree-item[role='treeitem']");
+
+    expect(host).toHaveAttribute("aria-checked");
+  });
+
   it("displaying an expanded item is visible", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
