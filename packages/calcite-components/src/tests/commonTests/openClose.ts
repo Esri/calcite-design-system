@@ -169,7 +169,6 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
     it("emits on initialization with animations enabled", async () => {
       const { page, tag } = await getTagAndPage(componentTestSetup);
       await toProgrammaticE2EPage(page);
-
       await skipAnimations(page);
       await testOpenCloseEvents(tag, page);
     });

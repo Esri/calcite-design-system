@@ -317,7 +317,9 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
  * @returns {Promise<E2EPage>} an e2e page
  */
 export async function toProgrammaticE2EPage(page: E2EPage): Promise<E2EPage> {
-  await page.setContent("");
+  await page.evaluate(() => {
+    document.body.innerHTML = "";
+  });
 
   return page;
 }
