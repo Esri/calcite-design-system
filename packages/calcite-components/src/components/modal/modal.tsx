@@ -49,6 +49,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { componentOnReady, getIconScale } from "../../utils/component";
+import { logger } from "../../utils/logger";
 import { ModalMessages } from "./assets/modal/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -56,6 +57,7 @@ let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
 /**
+ * @deprecated Use the `calcite-dialog` component instead.
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
  * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
@@ -64,6 +66,12 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
+
+logger.deprecated("component", {
+  name: "modal",
+  removalVersion: 3,
+  suggested: "dialog",
+});
 
 @Component({
   tag: "calcite-modal",

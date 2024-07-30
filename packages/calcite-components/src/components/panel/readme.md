@@ -67,10 +67,10 @@ Type: `Promise<void>`
 | `"content-bottom"`       | A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)                                |
 | `"content-top"`          | A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).                           |
 | `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action.                                                   |
-| `"footer"`               | A slot for adding custom content to the component's footer.                                                                        |
+| `"footer"`               | A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.  |
 | `"footer-actions"`       | [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer. |
-| `"footer-end"`           | A slot for adding a trailing footer custom content.                                                                                |
-| `"footer-start"`         | A slot for adding a leading footer custom content.                                                                                 |
+| `"footer-end"`           | A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.                                   |
+| `"footer-start"`         | A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.                                    |
 | `"header-actions-end"`   | A slot for adding actions or content to the end side of the header.                                                                |
 | `"header-actions-start"` | A slot for adding actions or content to the start side of the header.                                                              |
 | `"header-content"`       | A slot for adding custom content to the header.                                                                                    |
@@ -87,6 +87,7 @@ Type: `Promise<void>`
 
 ### Used by
 
+- [calcite-dialog](../dialog)
 - [calcite-flow-item](../flow-item)
 
 ### Depends on
@@ -109,6 +110,7 @@ graph TD;
   calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-scrim --> calcite-loader
+  calcite-dialog --> calcite-panel
   calcite-flow-item --> calcite-panel
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```

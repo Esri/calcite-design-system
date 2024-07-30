@@ -249,7 +249,7 @@ export const footerStartEndAndContentBottom = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const footerSlotCoexistence = (): string =>
+export const footerSlot = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
