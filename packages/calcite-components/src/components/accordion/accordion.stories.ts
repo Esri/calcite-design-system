@@ -3,9 +3,9 @@ import { AccordionItem } from "../accordion-item/accordion-item";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { iconNames } from "../../../.storybook/helpers";
-import { setCSSVariables } from "../../utils/variableValue";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { Accordion } from "./accordion";
 const { scale, appearance, selectionMode } = ATTRIBUTES;
 
