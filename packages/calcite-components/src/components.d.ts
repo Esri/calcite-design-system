@@ -4518,12 +4518,12 @@ export namespace Components {
          */
         "detached": boolean;
         /**
-          * When `displayMode` is `float`, specifies the maximum height of the component.
+          * When `displayMode` is `float-content`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale": Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
          */
         "displayMode": DisplayMode1;
         /**
@@ -4547,7 +4547,7 @@ export namespace Components {
          */
         "position": Extract<"start" | "end", Position>;
         /**
-          * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `float-content`, the component's content area is resizable.
          */
         "resizable": boolean;
         /**
@@ -12638,12 +12638,12 @@ declare namespace LocalJSX {
          */
         "detached"?: boolean;
         /**
-          * When `displayMode` is `float`, specifies the maximum height of the component.
+          * When `displayMode` is `float-content`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale"?: Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
          */
         "displayMode"?: DisplayMode1;
         /**
@@ -12669,7 +12669,7 @@ declare namespace LocalJSX {
          */
         "position"?: Extract<"start" | "end", Position>;
         /**
-          * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `float-content`, the component's content area is resizable.
          */
         "resizable"?: boolean;
         /**
