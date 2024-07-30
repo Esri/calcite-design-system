@@ -5,8 +5,8 @@
  *
  * @prop --calcite-accordion-border-color: Specify the border color of the component
  * @prop --calcite-accordion-text-color: Specify the text color of the component
- * @prop --calcite-accordion-text-color-highlighted: Specify the highlighted text color
- * @prop --calcite-accordion-text-color-selected: Specify the selected text color
+ * @prop --calcite-accordion-text-color-secondary: Specify the highlighted text color
+ * @prop --calcite-accordion-text-color-emphasis: Specify the selected text color
  */
 
 %icon-position {
@@ -142,7 +142,7 @@
 
 :host(:not(:focus):not(:hover):not([expanded])) {
   .heading {
-    color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
+    color: var(--calcite-accordion-text-color-secondary, var(--calcite-color-text-2));
   }
 }
 
@@ -151,14 +151,14 @@
 }
 
 :host([expanded]) {
-  color: var(--calcite-accordion-text-color-selected, var(--calcite-color-text-1));
+  color: var(--calcite-accordion-text-color-emphasis, var(--calcite-color-text-1));
 
   .header {
     border-block-end-color: transparent;
   }
 
   .expand-icon {
-    color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
+    color: var(--calcite-accordion-text-color-secondary, var(--calcite-color-text-2));
     transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
   }
   .calcite--rtl .expand-icon {
@@ -166,7 +166,7 @@
   }
 
   .description {
-    color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
+    color: var(--calcite-accordion-text-color-secondary, var(--calcite-color-text-2));
   }
 
   .content {
@@ -176,11 +176,11 @@
 
 :host(:focus),
 :host(:hover) {
-  color: var(--calcite-accordion-text-color-highlighted, var(--calcite-color-text-2));
+  color: var(--calcite-accordion-text-color-secondary, var(--calcite-color-text-2));
 
   .expand-icon,
   .heading {
-    color: var(--calcite-accordion-text-color-selected, var(--calcite-color-text-1));
+    color: var(--calcite-accordion-text-color-emphasis, var(--calcite-color-text-1));
   }
 }
 
