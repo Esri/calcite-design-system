@@ -35,8 +35,16 @@
     w-full
     flex-col
     flex-nowrap
-    overflow-auto;
+    overflow-auto
+    relative
+    z-default;
   justify-content: space-between;
+}
+
+.panel {
+  @apply flex
+  relative
+  z-header;
 }
 
 .content ::slotted(calcite-shell-center-row),

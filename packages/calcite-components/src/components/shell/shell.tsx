@@ -281,9 +281,13 @@ export class Shell implements ConditionalSlotComponent {
   renderMain(): VNode {
     return (
       <div class={CSS.main}>
-        <slot name={SLOTS.panelStart} />
+        <div class={CSS.panel}>
+          <slot name={SLOTS.panelStart} />
+        </div>
         {this.renderContent()}
-        <slot name={SLOTS.panelEnd} />
+        <div class={CSS.panel}>
+          <slot name={SLOTS.panelEnd} />
+        </div>
       </div>
     );
   }
