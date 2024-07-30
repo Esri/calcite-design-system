@@ -225,8 +225,8 @@ export const theming_TestOnly = (): string =>
         ${setCSSVariables([
         "--calcite-accordion-background-color",
         "--calcite-accordion-border-color",
-        "--calcite-accordion-text-color-secondary",
-        "--calcite-accordion-text-color-emphasis",
+        "--calcite-accordion-text-color-hover",
+        "--calcite-accordion-text-color-pressed",
         "--calcite-accordion-text-color",
       ])}
       }

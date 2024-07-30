@@ -9,12 +9,12 @@
 export function getTokenValue(token: string): string {
   const tokenValueMap = {
     background$: "rgb(252, 244, 52)",
-    "text-color$": "rgb(239,118,39)",
+    "text-color$": "rgb(239, 118, 39)",
     "border-color$": "rgb(156, 89, 209)",
     "background-color$": "rgb(252, 244, 52)",
     color$: "rgb(0, 191, 255)",
-    secondary$: "rgb(255, 105, 180)",
-    emphasis$: "rgb(44, 44, 44)",
+    hover$: "rgb(255, 105, 180)",
+    pressed$: "rgb(44, 44, 44)",
     shadow$:
       "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px",
     "z-index$": "42",

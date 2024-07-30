@@ -31,9 +31,6 @@ describe("calcite-accordion-item", () => {
           >content</calcite-accordion-item
         >`,
         {
-          "--calcite-accordion-background-color": {
-            targetProp: "backgroundColor",
-          },
           "--calcite-accordion-text-color": [
             {
               shadowSelector: `.${CSS.content}`,
@@ -48,17 +45,9 @@ describe("calcite-accordion-item", () => {
               targetProp: "color",
             },
           ],
-          "--calcite-accordion-text-color-highlight": [
+          "--calcite-accordion-text-color-hover": [
             {
               shadowSelector: `.${CSS.heading}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.iconStart}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.iconEnd}`,
               targetProp: "color",
             },
           ],
@@ -81,13 +70,13 @@ describe("calcite-accordion-item", () => {
           >content</calcite-accordion-item
         >`,
         {
-          "--calcite-accordion-text-color-highlighted": [
+          "--calcite-accordion-text-color-hover": [
             {
               shadowSelector: `.${CSS.description}`,
               targetProp: "color",
             },
           ],
-          "--calcite-accordion-text-color-selected": {
+          "--calcite-accordion-text-color-pressed": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
           },
