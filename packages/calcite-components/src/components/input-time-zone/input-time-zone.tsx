@@ -47,6 +47,7 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import { IconName } from "../icon/interfaces";
+import { CSS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
@@ -548,7 +549,9 @@ export class InputTimeZone
               textLabel={label}
               value={`${item.filterValue}`}
             >
-              <span slot="content-end">{item.metadata.offset}</span>
+              <span class={CSS.offset} slot="content-end">
+                {item.metadata.offset}
+              </span>
             </calcite-combobox-item>
           );
         })}
