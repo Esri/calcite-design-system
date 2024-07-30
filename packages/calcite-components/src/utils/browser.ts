@@ -19,7 +19,7 @@ function getUserAgentData(): NavigatorUAData | undefined {
 }
 
 export function getUserAgentString(): string {
-  if (!Build.isBrowser && !isBrowser()) {
+  if (!Build.isBrowser || !isBrowser()) {
     return "";
   }
 

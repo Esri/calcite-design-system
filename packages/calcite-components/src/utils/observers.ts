@@ -51,7 +51,7 @@ export function createObserver<T extends ObserverType>(
   callback: ObserverCallbackType<T>,
   options?: ObserverOptions<T>,
 ): ObserverInstanceType<T> | undefined {
-  if (!Build.isBrowser && !isBrowser()) {
+  if (!Build.isBrowser || !isBrowser()) {
     return undefined;
   }
 
