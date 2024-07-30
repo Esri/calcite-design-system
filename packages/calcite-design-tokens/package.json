@@ -16,7 +16,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Esri/calcite-design-system.git"
+    "url": "git://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/calcite-design-tokens"
   },
   "author": {
     "name": "Esri"
@@ -24,6 +25,7 @@
   "bugs": {
     "url": "https://github.com/Esri/calcite-design-system/issues"
   },
+  "license": "SEE LICENSE.md",
   "scripts": {
     "build": "tsx support/run.ts",
     "clean": "rimraf dist",
