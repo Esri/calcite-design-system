@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -90,6 +89,7 @@ import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
+import { isBrowser } from "../../utils/browser";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import { CSS } from "./resources";
@@ -437,7 +437,8 @@ export class InputDatePicker
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed If true, the repositioning is delayed.
+   * @returns void
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -469,11 +470,22 @@ export class InputDatePicker
 
     const { open } = this;
     open && this.openHandler();
+
+    if (this.min) {
+      this.minAsDate = dateFromISO(this.min);
+    }
+
+    if (this.max) {
+      this.maxAsDate = dateFromISO(this.max);
+    }
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
       try {
-        this.valueAsDate = dateFromISO(this.value);
+        const date = dateFromISO(this.value);
+        const dateInRange = dateFromRange(date, this.minAsDate, this.maxAsDate);
+        this.valueAsDate = dateInRange;
       } catch (error) {
         this.warnAboutInvalidValue(this.value);
         this.value = "";
@@ -484,14 +496,6 @@ export class InputDatePicker
       } else if (!Array.isArray(this.valueAsDate)) {
         this.value = dateToISO(this.valueAsDate);
       }
-    }
-
-    if (this.min) {
-      this.minAsDate = dateFromISO(this.min);
-    }
-
-    if (this.max) {
-      this.maxAsDate = dateFromISO(this.max);
     }
 
     connectLabel(this);
@@ -820,7 +824,7 @@ export class InputDatePicker
       : null;
   };
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
@@ -981,7 +985,7 @@ export class InputDatePicker
   };
 
   private async loadLocaleData(): Promise<void> {
-    if (!Build.isBrowser) {
+    if (!isBrowser()) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {

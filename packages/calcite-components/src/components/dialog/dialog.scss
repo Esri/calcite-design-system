@@ -168,6 +168,12 @@ calcite-panel {
   }
 }
 
+:host([menu-open]) .dialog {
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+}
+
 .panel {
   @apply rounded;
 }
