@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.28...@esri/calcite-components@2.11.0-next.29) (2024-07-30)
+
+### Bug Fixes
+
+- **dialog:** fix menu positioning when when overlayPositioning is 'fixed' and menuOpen is true ([#9891](https://github.com/Esri/calcite-design-system/issues/9891)) ([6911682](https://github.com/Esri/calcite-design-system/commit/69116826923b31259c36cdf1c262128763c1b016)), closes [#9876](https://github.com/Esri/calcite-design-system/issues/9876)
+- improve browser check to resolve SSR errors ([#9897](https://github.com/Esri/calcite-design-system/issues/9897)) ([94683e3](https://github.com/Esri/calcite-design-system/commit/94683e3de58e2b24d05f605770eef7f5b599d835)), closes [#9242](https://github.com/Esri/calcite-design-system/issues/9242)
+- **input-date-picker:** ensure initial value is in range ([#9894](https://github.com/Esri/calcite-design-system/issues/9894)) ([b7b1705](https://github.com/Esri/calcite-design-system/commit/b7b17058e15815634f4f4acdc83c8e5e3e649c50)), closes [#9282](https://github.com/Esri/calcite-design-system/issues/9282)
+
+## [2.11.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.27...@esri/calcite-components@2.11.0-next.28) (2024-07-30)
+
+### Features
+
+- **shell-panel:** deprecate float displayMode and add float-content and float-all ([#9795](https://github.com/Esri/calcite-design-system/issues/9795)) ([9beb6eb](https://github.com/Esri/calcite-design-system/commit/9beb6eba2971b3f06d9e4ee3c625c276561b9542)), closes [#7513](https://github.com/Esri/calcite-design-system/issues/7513)
+
+## [2.11.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.26...@esri/calcite-components@2.11.0-next.27) (2024-07-29)
+
+### Bug Fixes
+
+- **tooltip:** allow focusing on a reference element and then clicking on a tooltip ([#9878](https://github.com/Esri/calcite-design-system/issues/9878)) ([af467a1](https://github.com/Esri/calcite-design-system/commit/af467a16fd10788e103e96ab6c19cff3ee9af6b9)), closes [#9840](https://github.com/Esri/calcite-design-system/issues/9840)
+
 ## [2.11.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.25...@esri/calcite-components@2.11.0-next.26) (2024-07-29)
 
 ### Features
