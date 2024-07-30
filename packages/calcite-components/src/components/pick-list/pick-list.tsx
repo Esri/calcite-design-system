@@ -25,6 +25,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
 import type { ValueUnion } from "../types";
+import { logger } from "../../utils/logger";
 import { ICON_TYPES } from "./resources";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -50,8 +51,14 @@ import {
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 
+logger.deprecated("component", {
+  name: "pick-list",
+  removalVersion: 3,
+  suggested: "list",
+});
+
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */

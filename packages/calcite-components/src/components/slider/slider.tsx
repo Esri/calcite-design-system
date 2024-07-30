@@ -102,7 +102,7 @@ export class Slider
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
    */
   @Prop() histogram: DataSeries;
 
@@ -326,11 +326,7 @@ export class Slider
             }}
           >
             {this.renderGraph()}
-            <div
-              class={CSS.track}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.storeTrackRef}
-            >
+            <div class={CSS.track} ref={this.storeTrackRef}>
               <div
                 class={CSS.trackRange}
                 onPointerDown={this.onTrackPointerDown}
@@ -463,11 +459,10 @@ export class Slider
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
+        ref={this.storeThumbRef}
         role="slider"
         style={thumbStyle}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.storeThumbRef}
       >
         {thumbContent}
       </div>

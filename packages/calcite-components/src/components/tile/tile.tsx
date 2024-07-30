@@ -7,6 +7,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
 } from "@stencil/core";
 import {
@@ -17,13 +18,14 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
-import { toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   componentFocusable,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SelectableComponent } from "../../utils/selectableComponent";
+import { IconName } from "../icon/interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
@@ -82,7 +84,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
 
@@ -106,7 +108,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
    *
    * @internal
    */
-  @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
   /**
    * Specifies the size of the component.
@@ -115,8 +117,6 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
-   *
-   * @internal
    */
   @Prop({ reflect: true }) selected = false;
 
@@ -181,6 +181,14 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   private containerEl: HTMLDivElement;
 
+  @State() hasContentBottom = false;
+
+  @State() hasContentEnd = false;
+
+  @State() hasContentStart = false;
+
+  @State() hasContentTop = false;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -212,6 +220,11 @@ export class Tile implements InteractiveComponent, SelectableComponent {
       return;
     }
     this.calciteTileSelect.emit();
+  };
+
+  private handleSlotChange = (event: Event): void => {
+    const slotName = (event.target as HTMLSlotElement).dataset.name;
+    this[`has${slotName}`] = slotChangeHasAssignedElement(event);
   };
 
   private setContainerEl = (el): void => {
@@ -301,8 +314,20 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   }
 
   renderTile(): VNode {
-    const { description, disabled, heading, icon, iconFlipRtl, interactive, selectionMode } = this;
-    const isLargeVisual = heading && icon && !Boolean(description);
+    const {
+      description,
+      disabled,
+      hasContentBottom,
+      hasContentEnd,
+      hasContentStart,
+      hasContentTop,
+      heading,
+      icon,
+      iconFlipRtl,
+      interactive,
+      selectionMode,
+    } = this;
+    const isLargeVisual = heading && icon && !description;
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
       selectionMode === "multiple" && interactive
@@ -312,6 +337,8 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           : interactive
             ? "button"
             : undefined;
+    const hasContent = !!(description || hasContentEnd || hasContentStart || heading || icon);
+    const hasOnlyContentTopAndBottom = !hasContent && hasContentTop && hasContentBottom;
     return (
       <div
         aria-checked={
@@ -328,24 +355,45 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           [CSS.selected]: this.selected,
         }}
         onClick={this.clickHandler}
+        ref={this.setContainerEl}
         role={role}
         tabIndex={disableInteraction ? undefined : 0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setContainerEl}
       >
         {this.renderSelectionIcon()}
-        <div class={CSS.column}>
-          <slot name={SLOTS.contentTop} />
-          {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
-          <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
-            <slot name={SLOTS.contentStart} />
+        <div
+          class={{
+            [CSS.contentContainer]: true,
+            [CSS.contentContainerHasContent]: hasContent,
+            [CSS.contentContainerHasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
+          }}
+        >
+          <slot
+            data-name="ContentTop"
+            name={SLOTS.contentTop}
+            onSlotchange={this.handleSlotChange}
+          />
+          {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+          <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
+            <slot
+              data-name="ContentStart"
+              name={SLOTS.contentStart}
+              onSlotchange={this.handleSlotChange}
+            />
             <div class={CSS.textContent}>
               {heading && <div class={CSS.heading}>{heading}</div>}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
-            <slot name={SLOTS.contentEnd} />
+            <slot
+              data-name="ContentEnd"
+              name={SLOTS.contentEnd}
+              onSlotchange={this.handleSlotChange}
+            />
           </div>
-          <slot name={SLOTS.contentBottom} />
+          <slot
+            data-name="ContentBottom"
+            name={SLOTS.contentBottom}
+            onSlotchange={this.handleSlotChange}
+          />
         </div>
       </div>
     );
@@ -356,7 +404,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        {!!this.href ? (
+        {this.href ? (
           <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>

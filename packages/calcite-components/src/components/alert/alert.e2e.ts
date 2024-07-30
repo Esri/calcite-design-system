@@ -11,6 +11,10 @@ describe("defaults", () => {
       propertyName: "autoCloseDuration",
       defaultValue: "medium",
     },
+    {
+      propertyName: "embedded",
+      defaultValue: false,
+    },
   ]);
 });
 
@@ -454,6 +458,20 @@ describe("calcite-alert", () => {
 
       await page.mouse.move(0, 0);
 
+      await page.waitForTimeout(DURATIONS.medium + animationDurationInMs);
+      await page.waitForSelector("#alert", { visible: false });
+    });
+
+    it("pauses on focus and resumes on blur", async () => {
+      await button.click();
+      expect(await alert.isVisible()).toBe(true);
+      expect(await alert.getProperty("autoCloseDuration")).toEqual("medium");
+      expect(playState).toEqual("running");
+      buttonClose = await page.find(`#alert >>> .${CSS.close}`);
+      buttonClose.focus();
+      await page.waitForTimeout(DURATIONS.medium);
+      expect(await alert.isVisible()).toBe(true);
+      await button.focus();
       await page.waitForTimeout(DURATIONS.medium + animationDurationInMs);
       await page.waitForSelector("#alert", { visible: false });
     });

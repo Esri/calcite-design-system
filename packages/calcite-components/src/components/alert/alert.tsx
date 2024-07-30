@@ -42,6 +42,7 @@ import {
 } from "../../utils/t9n";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
+import { IconName } from "../icon/interfaces";
 import { AlertMessages } from "./assets/alert/t9n";
 import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -92,6 +93,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) embedded = false;
+
   /** Specifies the kind of the component, which will apply to top border and icon. */
   @Prop({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
@@ -102,7 +111,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -139,14 +148,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) slottedInShell: boolean;
 
   @Watch("autoCloseDuration")
   updateDuration(): void {
@@ -200,10 +201,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       }),
     );
     window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
     window.clearTimeout(this.queueTimeout);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -225,15 +227,19 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [CSS.container]: true,
             [CSS.containerQueued]: queued,
             [`${CSS.container}--${placement}`]: true,
-            [CSS.containerSlottedInShell]: this.slottedInShell,
+            [CSS.containerEmbedded]: this.embedded,
+            [CSS.focused]: this.keyBoardFocus,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
-          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+          onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
           ref={this.setTransitionEl}
         >
           {effectiveIcon && this.renderIcon(effectiveIcon)}
-          <div class={CSS.textContainer}>
+          <div
+            class={CSS.textContainer}
+            onFocusin={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
+            onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
+          >
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
@@ -247,6 +253,18 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
   }
 
+  private handleKeyBoardFocus = (): void => {
+    this.keyBoardFocus = true;
+    this.handleFocus();
+  };
+
+  private handleKeyBoardBlur = (): void => {
+    this.keyBoardFocus = false;
+    if (!this.mouseFocus) {
+      this.handleBlur();
+    }
+  };
+
   private renderCloseButton(): VNode {
     return (
       <button
@@ -254,9 +272,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         class={CSS.close}
         key="close"
         onClick={this.closeAlert}
-        type="button"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        onFocusin={this.autoClose ? this.handleKeyBoardFocus : null}
+        onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
         ref={(el) => (this.closeButton = el)}
+        type="button"
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
@@ -290,7 +309,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
   }
 
-  private renderIcon(icon: string): VNode {
+  private renderIcon(icon: IconName): VNode {
     return (
       <div class={CSS.icon}>
         <calcite-icon flipRtl={this.iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />
@@ -431,6 +450,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
+  @State() keyBoardFocus = false;
+
   private autoCloseTimeoutId: number = null;
 
   private closeButton: HTMLButtonElement;
@@ -448,6 +469,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  mouseFocus: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -512,12 +535,25 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   };
 
   private handleMouseOver = (): void => {
+    this.mouseFocus = true;
+    this.handleFocus();
+  };
+
+  private handleMouseLeave = (): void => {
+    this.mouseFocus = false;
+    if (!this.keyBoardFocus) {
+      this.handleBlur();
+    }
+  };
+
+  private handleFocus = (): void => {
     window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
     this.totalOpenTime = Date.now() - this.initialOpenTime;
     this.lastMouseOverBegin = Date.now();
   };
 
-  private handleMouseLeave = (): void => {
+  private handleBlur = (): void => {
     const hoverDuration = Date.now() - this.lastMouseOverBegin;
     const timeRemaining =
       DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;

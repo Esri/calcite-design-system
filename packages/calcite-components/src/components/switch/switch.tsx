@@ -32,6 +32,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-switch",
@@ -204,14 +205,13 @@ export class Switch
           <div
             aria-checked={toAriaBoolean(this.checked)}
             aria-label={getLabelText(this)}
-            class="container"
+            class={CSS.container}
+            ref={this.setSwitchEl}
             role="switch"
             tabIndex={0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setSwitchEl}
           >
-            <div class="track">
-              <div class="handle" />
+            <div class={CSS.track}>
+              <div class={CSS.handle} />
             </div>
             <HiddenFormInputSlot component={this} />
           </div>

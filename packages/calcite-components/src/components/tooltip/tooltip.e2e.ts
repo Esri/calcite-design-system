@@ -371,7 +371,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 
-  it("should not open tooltip when clicked", async () => {
+  it("should handle mouse events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(html`
@@ -388,7 +388,37 @@ describe("calcite-tooltip", () => {
 
     await page.evaluate(() => {
       const ref = document.getElementById("ref");
-      ref.click();
+      const event1 = new MouseEvent("click", {
+        cancelable: true,
+        bubbles: true,
+      });
+      ref.dispatchEvent(event1);
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("ref");
+      const event1 = new MouseEvent("click", {
+        cancelable: true,
+        bubbles: true,
+      });
+      ref.dispatchEvent(event1);
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("test");
+      const event1 = new MouseEvent("click", {
+        cancelable: true,
+        bubbles: true,
+      });
+      ref.dispatchEvent(event1);
     });
 
     await page.waitForChanges();
@@ -516,7 +546,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (el: HTMLElement) => {
-      el.dispatchEvent(new Event("pointermove"));
+      el.dispatchEvent(new PointerEvent("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
@@ -572,7 +602,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (el: HTMLElement) => {
-      el.dispatchEvent(new Event("pointermove"));
+      el.dispatchEvent(new PointerEvent("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
@@ -911,7 +941,7 @@ describe("calcite-tooltip", () => {
       const { delay, selector } = pointerMoves[i];
       await page.waitForTimeout(delay);
       await page.$eval(selector, (el: HTMLElement) => {
-        el.dispatchEvent(new Event("pointermove"));
+        el.dispatchEvent(new PointerEvent("pointermove"));
       });
 
       expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
@@ -970,7 +1000,7 @@ describe("calcite-tooltip", () => {
       const { delay, selector } = pointerMoves[i];
       await page.waitForTimeout(delay);
       await page.$eval(selector, (el: HTMLElement) => {
-        el.dispatchEvent(new Event("pointermove"));
+        el.dispatchEvent(new PointerEvent("pointermove"));
       });
 
       expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
@@ -1029,7 +1059,7 @@ describe("calcite-tooltip", () => {
           .querySelector("shadow-component-b")
           .shadowRoot.querySelector("shadow-component-a")
           .shadowRoot.querySelector("button");
-        referenceElement.dispatchEvent(new Event("focusin"));
+        referenceElement.dispatchEvent(new FocusEvent("focusin"));
       });
     }
 
@@ -1061,7 +1091,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip2.getProperty("open")).toBe(false);
 
     await page.$eval("#ref1", (el: HTMLElement) => {
-      el.dispatchEvent(new Event("pointermove"));
+      el.dispatchEvent(new PointerEvent("pointermove"));
     });
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
     await page.waitForChanges();
@@ -1070,12 +1100,63 @@ describe("calcite-tooltip", () => {
     expect(await tooltip2.getProperty("open")).toBe(false);
 
     await page.$eval("#ref2", (el: HTMLElement) => {
-      el.dispatchEvent(new Event("pointermove"));
+      el.dispatchEvent(new PointerEvent("pointermove"));
     });
     await page.waitForTimeout(0);
     await page.waitForChanges();
 
     expect(await tooltip1.getProperty("open")).toBe(false);
     expect(await tooltip2.getProperty("open")).toBe(true);
+  });
+
+  describe("allows clicking on an open tooltip", () => {
+    const pageContent = html`
+      <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip>
+      <button id="ref">referenceElement</button>
+      <button id="other">other</button>
+    `;
+
+    it("should work when clicking on a reference element first", async () => {
+      const page = await newE2EPage();
+      await page.setContent(pageContent);
+      await page.waitForChanges();
+      const tooltip = await page.find("calcite-tooltip");
+      const referenceElement = await page.find("#ref");
+
+      await referenceElement.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      await tooltip.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      await page.$eval("#other", (el: HTMLElement) => {
+        el.dispatchEvent(new MouseEvent("click", { cancelable: true, bubbles: true }));
+      });
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(false);
+    });
+
+    it("should work when focusing on a reference element first", async () => {
+      const page = await newE2EPage();
+      await page.setContent(pageContent);
+      await page.waitForChanges();
+      const tooltip = await page.find("calcite-tooltip");
+      const referenceElement = await page.find("#ref");
+
+      await referenceElement.focus();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      await tooltip.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      const other = await page.find("#other");
+      await other.focus();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(false);
+    });
   });
 });

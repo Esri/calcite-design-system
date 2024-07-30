@@ -23,6 +23,7 @@ import {
   focusElementInGroup,
   FocusElementInGroupDestination,
   getElementDir,
+  slotChangeGetAssignedElements,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -73,6 +74,13 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
 
+  @Watch("selectedTitle")
+  selectedTitleChanged(): void {
+    this.calciteInternalTabChange.emit({
+      tab: this.selectedTabId,
+    });
+  }
+
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
    *
@@ -98,16 +106,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
-   * @internal
-   */
-  @Prop({ mutable: true }) indicatorOffset: number;
-
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) indicatorWidth: number;
-
-  /**
    * Made into a prop for testing purposes only.
    *
    * @internal
@@ -124,29 +122,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  @Watch("selectedTabId")
-  async selectedTabIdChanged(): Promise<void> {
-    if (
-      localStorage &&
-      this.storageId &&
-      this.selectedTabId !== undefined &&
-      this.selectedTabId !== null
-    ) {
-      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
-    }
-
-    this.calciteInternalTabChange.emit({
-      tab: this.selectedTabId,
-    });
-
-    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
-  }
-
-  @Watch("selectedTitle")
-  selectedTitleChanged(): void {
-    this.updateActiveIndicator();
   }
 
   //--------------------------------------------------------------------------
@@ -181,10 +156,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
     this.effectiveDir = getElementDir(this.el);
-
-    if (this.selectedTitle) {
-      this.updateActiveIndicator();
-    }
   }
 
   componentDidRender(): void {
@@ -215,11 +186,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const width = `${this.indicatorWidth}px`;
-    const offset = `${this.indicatorOffset}px`;
-    const indicatorStyle =
-      this.effectiveDir !== "rtl" ? { width, left: offset } : { width, right: offset };
-
     return (
       <Host role="tablist">
         <div
@@ -231,8 +197,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             [`position-${this.position}`]: true,
             [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
           }}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.storeContainerRef}
         >
           {this.renderScrollButton("start")}
           <div
@@ -241,24 +205,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             }}
             onScroll={this.onTabTitleScroll}
             onWheel={this.onTabTitleWheel}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeTabTitleWrapperRef}
           >
             <slot onSlotchange={this.onSlotChange} />
-          </div>
-          <div
-            class={{
-              [CSS.activeIndicatorContainer]: true,
-            }}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.activeIndicatorContainerEl = el)}
-          >
-            <div
-              class="tab-nav-active-indicator"
-              style={indicatorStyle}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
-            />
           </div>
           {this.renderScrollButton("end")}
         </div>
@@ -301,6 +250,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       : this.getIndexOfTabTitle(activatedTabTitle);
     event.stopPropagation();
 
+    this.selectedTitle = activatedTabTitle;
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
@@ -364,9 +314,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    * @param event
    */
   @Listen("calciteInternalTabTitleRegister")
-  updateTabTitles(event: CustomEvent<TabID>): void {
+  async updateTabTitles(event: CustomEvent<TabID>): Promise<void> {
     if ((event.target as HTMLCalciteTabTitleElement).selected) {
       this.selectedTabId = event.detail;
+      this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
     }
   }
 
@@ -383,11 +334,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalTabIconChanged")
-  iconStartChangeHandler(): void {
-    this.updateActiveIndicator();
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -398,6 +344,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    * Emits when the selected `calcite-tab` changes.
    */
   @Event({ cancelable: false }) calciteTabChange: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalTabNavSlotChange: EventEmitter<Element[]>;
 
   /**
    * @internal
@@ -427,11 +378,21 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @State() private selectedTabId: TabID;
 
-  private activeIndicatorEl: HTMLElement;
+  @Watch("selectedTabId")
+  async selectedTabIdChanged(): Promise<void> {
+    if (
+      localStorage &&
+      this.storageId &&
+      this.selectedTabId !== undefined &&
+      this.selectedTabId !== null
+    ) {
+      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
+    }
 
-  private activeIndicatorContainerEl: HTMLDivElement;
-
-  private containerEl: HTMLDivElement;
+    this.calciteInternalTabChange.emit({
+      tab: this.selectedTabId,
+    });
+  }
 
   private effectiveDir: Direction = "ltr";
 
@@ -445,12 +406,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private resizeObserver = createObserver("resize", () => {
     this.updateScrollingState();
-
-    if (!this.activeIndicatorEl) {
-      return;
-    }
-
-    this.updateActiveIndicator();
   });
 
   private get scrollerButtonWidth(): number {
@@ -463,20 +418,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private updateActiveIndicator(): void {
-    const tabTitleScrollLeft = this.tabTitleContainerEl?.scrollLeft;
-    const containerScrollLeft = this.containerEl?.scrollLeft;
-    const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
-    const tabLeft = this.selectedTitle?.offsetLeft;
-    const tabWidth = this.selectedTitle?.offsetWidth;
-    const offsetRight = navWidth - tabLeft - tabWidth;
-    const offsetBase = this.effectiveDir === "ltr" ? tabLeft : offsetRight;
-    const multiplier = this.effectiveDir === "ltr" ? -1 : 1;
-
-    this.indicatorOffset = offsetBase + multiplier * (containerScrollLeft + tabTitleScrollLeft);
-    this.indicatorWidth = this.selectedTitle?.offsetWidth;
-  }
 
   private onTabTitleWheel = (event: WheelEvent): void => {
     event.preventDefault();
@@ -499,19 +440,17 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     const scrollByX = (this.effectiveDir === "rtl" ? -1 : 1) * scrollBy;
     (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
-    requestAnimationFrame(() => this.updateActiveIndicator());
   };
 
   private onSlotChange = (event: Event): void => {
     this.intersectionObserver?.disconnect();
 
-    const slottedChildren = (event.target as HTMLSlotElement).assignedElements();
-    slottedChildren.forEach((child) => {
+    const slottedElements = slotChangeGetAssignedElements(event, "calcite-tab-title");
+    slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
+    this.calciteInternalTabNavSlotChange.emit(slottedElements);
   };
-
-  private storeContainerRef = (el: HTMLDivElement) => (this.containerEl = el);
 
   private storeTabTitleWrapperRef = (el: HTMLDivElement) => {
     this.tabTitleContainerEl = el;
@@ -640,7 +579,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   }
 
   private onTabTitleScroll = (): void => {
-    this.updateActiveIndicator();
     this.updateScrollingState();
   };
 
@@ -693,7 +631,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     }
 
     requestAnimationFrame(() => {
-      this.updateActiveIndicator();
       tabTitles[this.selectedTabId].focus();
     });
   }

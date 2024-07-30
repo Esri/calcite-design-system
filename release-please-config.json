@@ -2,6 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
   "tag-separator": "@",
+  "draft-pull-request": true,
   "include-v-in-tag": false,
   "packages": {
     "packages/calcite-components": {
@@ -11,12 +12,14 @@
     "packages/calcite-components-react": {
       "component": "@esri/calcite-components-react"
     },
-
     "packages/calcite-components-angular/projects/component-library": {
       "component": "@esri/calcite-components-angular"
     },
     "packages/calcite-design-tokens": {
       "component": "@esri/calcite-design-tokens"
+    },
+    "packages/calcite-ui-icons": {
+      "component": "@esri/calcite-ui-icons"
     },
     "packages/eslint-plugin-calcite-components": {
       "component": "@esri/eslint-plugin-calcite-components"

@@ -1,9 +1,12 @@
 export const CSS = {
-  column: "column",
   container: "container",
   contentContainer: "content-container",
+  contentContainerHasContent: "content-container--has-content",
+  contentContainerHasOnlyContentTopAndBottom: "content-container--has-only-content-top-and-bottom",
+  textContentContainer: "text-content-container",
   description: "description",
   heading: "heading",
+  icon: "icon",
   interactive: "interactive",
   largeVisualDeprecated: "large-visual-deprecated",
   row: "row",
@@ -17,7 +20,7 @@ export const ICONS = {
   selectedSingle: "circle-f",
   unselectedMultiple: "square",
   unselectedSingle: "circle",
-};
+} as const;
 
 export const SLOTS = {
   contentBottom: "content-bottom",

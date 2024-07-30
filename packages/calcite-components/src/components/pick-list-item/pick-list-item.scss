@@ -54,7 +54,7 @@
 
 .icon-dot {
   @apply flex w-6 items-center p-2;
-  &:before {
+  &::before {
     @apply opacity-0;
     content: "\2022";
   }
@@ -64,7 +64,7 @@
   @apply opacity-0;
 }
 
-:host([selected]) .icon-dot:before,
+:host([selected]) .icon-dot::before,
 :host([selected]) .icon calcite-icon {
   transition: opacity var(--calcite-animation-timing);
   @apply opacity-100;

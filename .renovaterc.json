@@ -7,6 +7,7 @@
     ":pinAllExceptPeerDependencies",
     ":widenPeerDependencies"
   ],
+  "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": true,
   "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
@@ -17,8 +18,6 @@
     "@types/node",
     "@types/react",
     "@types/react-dom",
-    "@whitespace/storybook-addon-html",
-    "cheerio",
     "jest",
     "jest-cli",
     "node",
@@ -29,6 +28,7 @@
     "ts-jest",
     "typescript"
   ],
+  "ignorePaths": ["packages/calcite-ui-icons/**"],
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],

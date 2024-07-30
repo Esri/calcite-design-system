@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -42,6 +41,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
+import { isBrowser } from "../../utils/browser";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
@@ -113,9 +113,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("min")
   onMinChanged(min: string): void {
-    if (min) {
-      this.minAsDate = dateFromISO(min);
-    }
+    this.minAsDate = dateFromISO(min);
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
@@ -123,9 +121,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    if (max) {
-      this.maxAsDate = dateFromISO(max);
-    }
+    this.maxAsDate = dateFromISO(max);
   }
 
   /**
@@ -351,7 +347,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
-    if (!Build.isBrowser) {
+    if (!isBrowser()) {
       return;
     }
 

@@ -4,22 +4,10 @@
 
 ## Properties
 
-| Property             | Attribute  | Description                                                                              | Type                  | Default     |
-| -------------------- | ---------- | ---------------------------------------------------------------------------------------- | --------------------- | ----------- |
-| `active`             | `active`   | When `true`, the component is active if it has a parent `calcite-carousel`.              | `boolean`             | `false`     |
-| `disabled`           | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`             | `false`     |
-| `label` *(required)* | `label`    | The component label text.                                                                | `string`              | `undefined` |
-| `messageOverrides`   | --         | Use this property to override individual strings used by the component.                  | `{ close?: string; }` | `undefined` |
-
-## Methods
-
-### `setFocus() => Promise<void>`
-
-Sets focus on the component.
-
-#### Returns
-
-Type: `Promise<void>`
+| Property             | Attribute  | Description                             | Type      | Default     |
+| -------------------- | ---------- | --------------------------------------- | --------- | ----------- |
+| `label` *(required)* | `label`    | Accessible name for the component.      | `string`  | `undefined` |
+| `selected`           | `selected` | When `true`, the component is selected. | `boolean` | `false`     |
 
 ## Slots
 

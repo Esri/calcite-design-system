@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Input Time Picker</title>
-    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
     <link rel="stylesheet" href="../build/calcite.css" />
     <script type="module" src="../build/calcite.esm.js"></script>
     <script src="./_assets/head.js"></script>
@@ -62,13 +61,16 @@
           const currentDate = new Date();
           const currentTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
-          locales.forEach(({ locale, name, numberingSystem, hourCycle }) => {
+          locales.forEach(({ locale, name, numberingSystem, hourCycle, dir }) => {
             let labelEl = document.createElement("calcite-label");
             let inputTimePickerEl = document.createElement("calcite-input-time-picker");
 
             inputTimePickerEl.setAttribute("lang", locale);
             if (numberingSystem) {
               inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
+            if (dir) {
+              inputTimePickerEl.setAttribute("dir", dir);
             }
             inputTimePickerEl.setAttribute("value", "10:00:00");
             labelEl.append(document.createTextNode(`${name} (${locale})`));
@@ -89,6 +91,9 @@
             if (numberingSystem) {
               inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
             }
+            if (dir) {
+              inputTimePickerEl.setAttribute("dir", dir);
+            }
             inputTimePickerEl.setAttribute("step", 1);
             inputTimePickerEl.setAttribute("value", "10:00");
             labelEl.append(document.createTextNode(`${name} (${locale}) (seconds)`));
@@ -107,6 +112,9 @@
             inputTimePickerEl.setAttribute("lang", locale);
             if (numberingSystem) {
               inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
+            if (dir) {
+              inputTimePickerEl.setAttribute("dir", dir);
             }
             inputTimePickerEl.setAttribute("step", 0.001);
             inputTimePickerEl.setAttribute("value", "10:00:00.001");

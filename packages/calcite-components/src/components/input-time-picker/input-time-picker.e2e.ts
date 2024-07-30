@@ -60,7 +60,9 @@ describe("calcite-input-time-picker", () => {
     `);
   });
 
-  it.skip("supports t9n", () => t9n("calcite-input-time-picker"));
+  describe("translation support", () => {
+    t9n("calcite-input-time-picker");
+  });
 
   describe("defaults", () => {
     defaults("calcite-input-time-picker", [
@@ -598,6 +600,7 @@ describe("calcite-input-time-picker", () => {
       submitsOnEnter: true,
       validation: true,
       validUserInputTestValue: "03:23 AM",
+      inputType: "time",
     });
   });
 
@@ -628,15 +631,14 @@ describe("calcite-input-time-picker", () => {
     await page.setContent(`<calcite-input-time-picker step="1" value="14:00:00"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
-
     await inputTimePicker.callMethod("setFocus");
     await page.waitForChanges();
     await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("Backspace");
     await page.keyboard.press("5");
 
@@ -648,7 +650,7 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
   });
 
-  it.skip("correctly relocalizes the display value when the lang and numbering systems change", async () => {
+  it("correctly relocalizes the display value when the lang and numbering systems change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
     const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -679,7 +681,7 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
     await waitForAnimationFrame();
 
-    expect(await getInputValue(page)).toBe("下午02:30");
+    expect(await getInputValue(page)).toBe("下午02:30:25");
   });
 
   describe("arabic locale support", () => {
@@ -712,7 +714,7 @@ describe("calcite-input-time-picker", () => {
       expect(await getInputValue(page)).toBe("٠١٢٣٤٥٦٧٨٩");
     });
 
-    it.skip("committing typed value works as expected in arab numbering system", async () => {
+    it("committing typed value works as expected in arab numbering system", async () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab"></calcite-input-time-picker>`,

@@ -12,8 +12,8 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
+import { DEBOUNCE } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
-import { overflowActionsDebounceInMs } from "./utils";
 
 describe("calcite-action-bar", () => {
   describe("renders", () => {
@@ -75,6 +75,37 @@ describe("calcite-action-bar", () => {
     );
   });
 
+  describe("messageOverrides", () => {
+    it("should honor expandLabel and collapseLabel", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent("<calcite-action-bar></calcite-action-bar>");
+      await page.waitForChanges();
+
+      const actionBar = await page.find("calcite-action-bar");
+
+      const expandLabel = "Open me up";
+      const collapseLabel = "Close me down";
+
+      actionBar.setProperty("messageOverrides", {
+        expandLabel,
+        collapseLabel,
+      });
+      await page.waitForChanges();
+
+      const expandAction = await page.find("calcite-action-bar >>> #expand-toggle");
+
+      expect(expandAction).not.toBeNull();
+
+      expect(await expandAction.getProperty("label")).toBe(expandLabel);
+
+      actionBar.setProperty("expanded", true);
+      await page.waitForChanges();
+
+      expect(await expandAction.getProperty("label")).toBe(collapseLabel);
+    });
+  });
+
   describe("expand functionality", () => {
     it("should not modify actions within an action-menu", async () => {
       const page = await newE2EPage({
@@ -109,7 +140,7 @@ describe("calcite-action-bar", () => {
 
       await page.waitForChanges();
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> #expand-toggle");
 
       expect(expandAction).not.toBeNull();
     });
@@ -375,7 +406,7 @@ describe("calcite-action-bar", () => {
           </calcite-action-bar>
         </div>`,
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs);
+      await page.waitForTimeout(DEBOUNCE.resize);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(2);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
@@ -392,7 +423,7 @@ describe("calcite-action-bar", () => {
           <calcite-action text="Table" icon="table"></calcite-action>`,
         );
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
       await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
@@ -423,7 +454,7 @@ describe("calcite-action-bar", () => {
         </div>`,
       );
       await page.waitForChanges();
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
@@ -431,7 +462,7 @@ describe("calcite-action-bar", () => {
       const actionBar = await page.find("calcite-action-bar");
       actionBar.setProperty("overflowActionsDisabled", false);
       await page.waitForChanges();
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -459,7 +490,7 @@ describe("calcite-action-bar", () => {
           </calcite-action-bar>
         </div>`,
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -468,7 +499,7 @@ describe("calcite-action-bar", () => {
         element.style.height = "550px";
       });
 
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
       await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);

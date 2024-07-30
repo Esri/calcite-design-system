@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   forceUpdate,
@@ -37,12 +36,14 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Alignment, Appearance, Scale } from "../interfaces";
+import { IconName } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ActionMessages } from "./assets/action/t9n";
 import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
- * @slot tooltip - A slot for adding a `calcite-tooltip`.
+ * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
 @Component({
   tag: "calcite-action",
@@ -73,7 +74,9 @@ export class Action
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
-   * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+   * When `true`, the side padding of the component is reduced.
+   *
+   * @deprecated No longer necessary.
    */
   @Prop({ reflect: true }) compact = false;
 
@@ -83,7 +86,7 @@ export class Action
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @Prop() icon: string;
+  @Prop() icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -179,7 +182,7 @@ export class Action
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       await setUpMessages(this);
     }
   }
@@ -322,7 +325,6 @@ export class Action
             class={buttonClasses}
             disabled={disabled}
             id={buttonId}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
           >
             {this.renderIconContainer()}

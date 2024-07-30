@@ -33,7 +33,7 @@ import {
   getLocalizedDecimalSeparator,
   getLocalizedTimePartSuffix,
   getMeridiem,
-  getTimeParts,
+  getMeridiemOrder,
   HourCycle,
   isValidTime,
   localizeTimePart,
@@ -752,8 +752,6 @@ export class TimePicker
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
-        const formatParts = getTimeParts({ value, locale, numberingSystem });
-        this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
       this.hour = null;
@@ -871,18 +869,6 @@ export class TimePicker
     this.showFractionalSecond = decimalPlaces(this.step) > 0;
   }
 
-  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const locale = this.effectiveLocale;
-    const isRTLKind = locale === "ar" || locale === "he";
-    if (formatParts && !isRTLKind) {
-      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
-        return parts.value === this.localizedMeridiem;
-      });
-      return index;
-    }
-    return 0;
-  }
-
   private updateLocale() {
     updateMessages(this, this.effectiveLocale);
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
@@ -890,6 +876,7 @@ export class TimePicker
       this.effectiveLocale,
       this.numberingSystem,
     );
+    this.meridiemOrder = getMeridiemOrder(this.effectiveLocale);
     this.setValue(this.sanitizeValue(this.value));
   }
 
@@ -904,13 +891,6 @@ export class TimePicker
     this.updateLocale();
     connectMessages(this);
     this.toggleSecond();
-    this.meridiemOrder = this.getMeridiemOrder(
-      getTimeParts({
-        value: "0:00:00",
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-      }),
-    );
   }
 
   async componentWillLoad(): Promise<void> {
@@ -977,10 +957,9 @@ export class TimePicker
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
+            ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setHourEl}
           >
             {this.localizedHour || "--"}
           </span>
@@ -1024,10 +1003,9 @@ export class TimePicker
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
+            ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setMinuteEl}
           >
             {this.localizedMinute || "--"}
           </span>
@@ -1071,10 +1049,9 @@ export class TimePicker
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
+              ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setSecondEl}
             >
               {this.localizedSecond || "--"}
             </span>
@@ -1121,10 +1098,9 @@ export class TimePicker
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.fractionalSecondKeyDownHandler}
+              ref={this.setFractionalSecondEl}
               role="spinbutton"
               tabIndex={0}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setFractionalSecondEl}
             >
               {this.localizedFractionalSecond || "--"}
             </span>
@@ -1178,10 +1154,9 @@ export class TimePicker
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
+              ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setMeridiemEl}
             >
               {this.localizedMeridiem || "--"}
             </span>

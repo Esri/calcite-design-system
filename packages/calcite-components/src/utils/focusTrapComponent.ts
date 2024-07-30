@@ -20,7 +20,7 @@ export interface FocusTrapComponent {
   /**
    * When `true`, prevents focus trapping.
    */
-  focusTrapDisabled: boolean;
+  focusTrapDisabled?: boolean;
 
   /**
    * The focus trap instance.
@@ -37,7 +37,7 @@ export interface FocusTrapComponent {
   /**
    * Method that will be called before returning focus to the node that had focus prior to activation upon deactivation.
    */
-  onFocusTrapDeactivate?(): void;
+  onFocusTrapDeactivate?: () => void;
 }
 
 export type FocusTrap = _FocusTrap;

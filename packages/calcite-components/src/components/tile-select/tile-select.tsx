@@ -26,10 +26,19 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Alignment, Width } from "../interfaces";
+import { IconName } from "../icon/interfaces";
+import { logger } from "../../utils/logger";
 import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
 
+logger.deprecated("component", {
+  name: "tile-select",
+  removalVersion: 4,
+  suggested: ["tile", "tile-group"],
+});
+
 /**
+ * @deprecated Use the `calcite-tile` component instead.
  * @slot - A slot for adding custom content.
  */
 @Component({
@@ -62,7 +71,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) heading: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;

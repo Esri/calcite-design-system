@@ -124,7 +124,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   inset-block-start: -2px;
   block-size: 2px;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
-  &:after {
+  &::after {
     @apply absolute
     top-0
     block;
@@ -293,9 +293,14 @@ $alertDurations:
   :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
   }
-  :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after {
+  :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after,
+  :host(:focus[auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation-play-state: paused;
   }
+}
+
+.container.focused .dismiss-progress::after {
+  animation-play-state: paused;
 }
 
 @keyframes dismissProgress {
@@ -310,7 +315,7 @@ $alertDurations:
 /**
  * Conditional styles for when Alert is slotted in Shell
  */
-.container--slotted-in-shell {
+.container--embedded {
   @apply absolute;
 }
 

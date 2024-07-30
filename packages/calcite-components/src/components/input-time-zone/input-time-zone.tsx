@@ -46,6 +46,7 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
+import { IconName } from "../icon/interfaces";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
@@ -53,7 +54,7 @@ import {
   getUserTimeZoneOffset,
 } from "./utils";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { TimeZoneItem, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZoneItem, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -137,11 +138,24 @@ export class InputTimeZone
     this.updateTimeZoneItemsAndSelection();
   }
 
+  /**
+   * Specifies how the offset will be displayed, where
+   *
+   * `"user"` uses `UTC` or `GMT` depending on the user's locale,
+   * `"gmt"` always uses `GMT`, and
+   * `"utc"` always uses `UTC`.
+   *
+   * This only applies to the `offset` mode.
+   *
+   * @default "user"
+   */
+  @Prop({ reflect: true }) offsetStyle: OffsetStyle = "user";
+
   /** Specifies the validation message to display under the component. */
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.
@@ -408,6 +422,7 @@ export class InputTimeZone
       this.referenceDate instanceof Date
         ? this.referenceDate
         : new Date(this.referenceDate ?? Date.now()),
+      this.offsetStyle,
     );
   }
 
@@ -476,13 +491,12 @@ export class InputTimeZone
               this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder
             }
             readOnly={this.readOnly}
+            ref={this.setComboboxRef}
             scale={this.scale}
             selectionMode={this.clearable ? "single" : "single-persist"}
             status={this.status}
             validation-icon={this.validationIcon}
             validation-message={this.validationMessage}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setComboboxRef}
           >
             {this.timeZoneItems.map((group) => {
               const selected = this.selectedTimeZoneItem === group;

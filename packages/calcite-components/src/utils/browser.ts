@@ -1,5 +1,14 @@
 import { Build } from "@stencil/core";
 
+export const isBrowser = (): boolean =>
+  Build.isBrowser &&
+  typeof navigator !== "undefined" &&
+  typeof window !== "undefined" &&
+  typeof location !== "undefined" &&
+  typeof document !== "undefined" &&
+  window.location === location &&
+  window.document === document;
+
 interface NavigatorUAData {
   brands: Array<{ brand: string; version: string }>;
   mobile: boolean;
@@ -11,7 +20,7 @@ function getUserAgentData(): NavigatorUAData | undefined {
 }
 
 export function getUserAgentString(): string {
-  if (!Build.isBrowser) {
+  if (!isBrowser()) {
     return "";
   }
 

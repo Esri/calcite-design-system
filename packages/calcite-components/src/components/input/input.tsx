@@ -68,6 +68,7 @@ import {
 } from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { IconName } from "../icon/interfaces";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
@@ -116,6 +117,14 @@ export class Input
   @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
+   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+   *
+   * @ignore
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() autofocus: boolean;
+
+  /**
    * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
    */
   @Prop({ reflect: true }) clearable = false;
@@ -133,6 +142,15 @@ export class Input
   }
 
   /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() enterKeyHint: string;
+
+  /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
@@ -147,10 +165,19 @@ export class Input
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() inputMode: string;
 
   /** Accessible name for the component. */
   @Prop() label: string;
@@ -215,7 +242,7 @@ export class Input
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.
@@ -453,7 +480,7 @@ export class Input
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: string;
+  private requestedIcon?: IconName;
 
   private nudgeNumberValueIntervalId: number;
 
@@ -1135,8 +1162,11 @@ export class Input
     );
 
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+
+    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
+    const enterKeyHint = this.el.enterKeyHint || this.el.getAttribute("enterkeyhint");
+    const inputMode = this.el.inputMode || this.el.getAttribute("inputmode");
 
     const localeNumberInput =
       this.type === "number" ? (
@@ -1144,11 +1174,11 @@ export class Input
           accept={this.accept}
           aria-label={getLabelText(this)}
           autocomplete={this.autocomplete}
-          autofocus={this.el.autofocus ? true : null}
+          autofocus={autofocus}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={this.el.enterKeyHint}
-          inputMode={this.el.inputMode}
+          enterKeyHint={enterKeyHint}
+          inputMode={inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1162,10 +1192,9 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
+          ref={this.setChildNumberElRef}
           type="text"
           value={this.displayedValue}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setChildNumberElRef}
         />
       ) : null;
 
@@ -1176,15 +1205,15 @@ export class Input
               accept={this.accept}
               aria-label={getLabelText(this)}
               autocomplete={this.autocomplete}
-              autofocus={this.el.autofocus ? true : null}
+              autofocus={autofocus}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
                 [CSS.inlineChild]: !!this.inlineEditableEl,
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={this.el.enterKeyHint}
-              inputMode={this.el.inputMode}
+              enterKeyHint={enterKeyHint}
+              inputMode={inputMode}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
@@ -1200,6 +1229,7 @@ export class Input
               pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
+              ref={this.setChildElRef}
               required={this.required ? true : null}
               step={this.step}
               tabIndex={
@@ -1207,8 +1237,6 @@ export class Input
               }
               type={this.type}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setChildElRef}
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
