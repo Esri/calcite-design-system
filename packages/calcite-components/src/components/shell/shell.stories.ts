@@ -358,36 +358,41 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const closedPanels = (): string =>
-  html(`<calcite-shell content-behind>
-  <calcite-shell-panel slot="panel-start" display-mode="float-content">
-    <calcite-action-bar slot="action-bar">
-      <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
-      <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
-      <calcite-action data-action-id="legend" icon="legend" text="Legend"></calcite-action>
-      <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bookmarks"></calcite-action>
-      <calcite-action data-action-id="print" icon="print" text="Print"></calcite-action>
-    </calcite-action-bar>
-    <calcite-panel heading="Layers" height-scale="l" data-panel-id="layers" closable closed>
-      <div id="layers-container"></div>
-    </calcite-panel>
-    <calcite-panel heading="Basemaps" height-scale="l" data-panel-id="basemaps" closable closed>
-      <div id="basemaps-container"></div>
-    </calcite-panel>
-    <calcite-panel heading="Legend" height-scale="l" data-panel-id="legend" closable closed>
-      <div id="legend-container"></div>
-    </calcite-panel>
-    <calcite-panel heading="Bookmarks" height-scale="l" data-panel-id="bookmarks" closable closed>
-      <div id="bookmarks-container"></div>
-    </calcite-panel>
-    <calcite-panel heading="Print" height-scale="l" data-panel-id="print" closable closed>
-      <div id="print-container"></div>
-    </calcite-panel>
-  </calcite-shell-panel>
-</calcite-shell>`);
+const closedPanelsHtml: string[] = [];
+["float", "float-content"].forEach((d, i) => {
+  closedPanelsHtml[i] = html(`<calcite-shell content-behind>
+    <calcite-shell-panel slot="panel-start" display-mode="${d}">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
+        <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
+        <calcite-action data-action-id="legend" icon="legend" text="Legend"></calcite-action>
+        <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bookmarks"></calcite-action>
+        <calcite-action data-action-id="print" icon="print" text="Print"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" height-scale="l" data-panel-id="layers" closable closed>
+        <div id="layers-container"></div>
+      </calcite-panel>
+      <calcite-panel heading="Basemaps" height-scale="l" data-panel-id="basemaps" closable closed>
+        <div id="basemaps-container"></div>
+      </calcite-panel>
+      <calcite-panel heading="Legend" height-scale="l" data-panel-id="legend" closable closed>
+        <div id="legend-container"></div>
+      </calcite-panel>
+      <calcite-panel heading="Bookmarks" height-scale="l" data-panel-id="bookmarks" closable closed>
+        <div id="bookmarks-container"></div>
+      </calcite-panel>
+      <calcite-panel heading="Print" height-scale="l" data-panel-id="print" closable closed>
+        <div id="print-container"></div>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`);
+});
+export const closedPanelsFloat = (): string => closedPanelsHtml[0];
+export const closedPanelsFloatContent = (): string => closedPanelsHtml[1];
 
-export const endPanel_TestOnly = (): string =>
-  html(`<calcite-shell content-behind>
+const endPanelHtml: string[] = [];
+["float", "float-content"].forEach((d, i) => {
+  endPanelHtml[i] = html(`<calcite-shell content-behind>
     <header slot="header">
       <h2>My Shell Header</h2>
     </header>
@@ -403,7 +408,7 @@ background-size: 20px 20px;
 background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 "
     ></div>
-    <calcite-shell-panel slot="panel-end" position="end" display-mode="float-content">
+    <calcite-shell-panel slot="panel-end" position="end" display-mode="${d}">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
@@ -552,6 +557,9 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
     </calcite-shell-panel>
     <footer slot="footer">My Shell Footer</footer>
   </calcite-shell>`);
+});
+export const endPanelFloat_TestOnly = (): string => endPanelHtml[0];
+export const endPanelFloatContent_TestOnly = (): string => endPanelHtml[1];
 
 export const slottedModalAndAlert = (): string =>
   html(`
@@ -722,8 +730,9 @@ export const slottedSheetOverlay = (): string =>
   </script>
 `);
 
-export const slottedSheetFloat = (): string =>
-  html(`
+const slottedSheetHtml: string[] = [];
+["float", "float-content"].forEach((d, i) => {
+  slottedSheetHtml[i] = html(`
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
       Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
@@ -741,7 +750,7 @@ export const slottedSheetFloat = (): string =>
     "
     >
       <div class="gnav" slot="header">Header Example</div>
-      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="float-content">
+      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
             <calcite-panel closable heading="Ultrices neque"
               ><p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -812,6 +821,9 @@ export const slottedSheetFloat = (): string =>
     });
   </script>
 `);
+});
+export const slottedSheetFloat = (): string => slottedSheetHtml[0];
+export const slottedSheetFloatContent = (): string => slottedSheetHtml[1];
 
 export const contentBehind = (): string =>
   html(`<calcite-shell content-behind>
@@ -848,29 +860,33 @@ export const slottedPanelTop_TestOnly = (): string =>
   </calcite-shell>
 `);
 
-export const contentBehindPanelBottom = (): string =>
-  html(`
-  <calcite-shell
-    content-behind
-    style="
-    width:700px;
-    height:700px;
-    position:relative;
-    "
-  >
-      <div
+const contentBehindPanelBottomHtml: string[] = [];
+["float", "float-content"].forEach((d, i) => {
+  contentBehindPanelBottomHtml[i] = html(`
+    <calcite-shell
+      content-behind
       style="
-      width:100%;
-      height:100%;
-      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
-      <calcite-shell-panel slot="panel-bottom" display-mode="float-content" layout="horizontal">${bottomPanelHTML}</calcite-shell-panel>
-    </calcite-shell>
-  `);
+      width:700px;
+      height:700px;
+      position:relative;
+      "
+    >
+        <div
+        style="
+        width:100%;
+        height:100%;
+        background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
+        <calcite-shell-panel slot="panel-bottom" display-mode="${d}" layout="horizontal">${bottomPanelHTML}</calcite-shell-panel>
+      </calcite-shell>
+    `);
+});
+export const contentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
+export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
 
 export const slottedPanelBottom_TestOnly = (): string =>
   html(`

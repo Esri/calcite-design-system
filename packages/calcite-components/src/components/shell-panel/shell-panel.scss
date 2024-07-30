@@ -6,10 +6,10 @@
  * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
- * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the height of the component.
- * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the maximum height of the component.
- * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-detached-max-height: [Deprecated] Use the `heightScale` property instead. When `displayMode` is `float-content`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the height of the component.
+ * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
+ * @prop --calcite-shell-panel-detached-max-height: [Deprecated] Use the `heightScale` property instead. When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
