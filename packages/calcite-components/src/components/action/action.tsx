@@ -74,7 +74,9 @@ export class Action
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
-   * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+   * When `true`, the side padding of the component is reduced.
+   *
+   * @deprecated No longer necessary.
    */
   @Prop({ reflect: true }) compact = false;
 
