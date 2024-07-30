@@ -1111,7 +1111,7 @@ describe("calcite-tooltip", () => {
 
   describe("allows clicking on an open tooltip", () => {
     const pageContent = html`
-      <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip>
+      <calcite-tooltip placement="auto" reference-element="ref">content <button>test</button></calcite-tooltip>
       <button id="ref">referenceElement</button>
       <button id="other">other</button>
     `;
@@ -1128,6 +1128,11 @@ describe("calcite-tooltip", () => {
       expect(await tooltip.getProperty("open")).toBe(true);
 
       await tooltip.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      const button = await page.find("button");
+      await button.click();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -1150,6 +1155,11 @@ describe("calcite-tooltip", () => {
       expect(await tooltip.getProperty("open")).toBe(true);
 
       await tooltip.click();
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(true);
+
+      const button = await page.find("button");
+      await button.focus();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
