@@ -262,7 +262,9 @@ export class Dialog
                 <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
                 <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
                 <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-                <slot />
+                <div class={CSS.content}>
+                  <slot />
+                </div>
               </calcite-panel>
             </slot>
           </div>
