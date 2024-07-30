@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -90,6 +89,7 @@ import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
+import { isBrowser } from "../../utils/browser";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import { CSS } from "./resources";
@@ -984,7 +984,7 @@ export class InputDatePicker
   };
 
   private async loadLocaleData(): Promise<void> {
-    if (!Build.isBrowser) {
+    if (!isBrowser()) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {
