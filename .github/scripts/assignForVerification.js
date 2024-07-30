@@ -1,5 +1,7 @@
 // @ts-check
-const { handoff, issueWorkflow } = require("./support/resources");
+const {
+  labels: { handoff, issueWorkflow },
+} = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
