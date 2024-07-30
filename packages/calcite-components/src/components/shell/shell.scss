@@ -41,12 +41,6 @@
   justify-content: space-between;
 }
 
-.panel {
-  @apply flex
-  relative
-  z-header;
-}
-
 .content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
@@ -72,6 +66,12 @@
 
 ::slotted(.header .heading) {
   @apply text-n2-wrap font-normal;
+}
+
+slot[name="panel-start"]::slotted(calcite-shell-panel),
+slot[name="panel-end"]::slotted(calcite-shell-panel) {
+  @apply relative
+  z-header;
 }
 
 slot[name="panel-end"]::slotted(calcite-shell-panel) {

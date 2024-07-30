@@ -1,7 +1,6 @@
 export const CSS = {
   main: "main",
   content: "content",
-  panel: "panel",
   contentBehind: "content--behind",
   contentBottom: "content-bottom",
   contentNonInteractive: "content--non-interactive",
