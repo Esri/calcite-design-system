@@ -13,6 +13,7 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
+import { DEBOUNCE } from "../../utils/resources";
 import { toUserFriendlyName } from "./utils";
 
 /*
@@ -227,6 +228,7 @@ describe("calcite-input-time-zone", () => {
         await input.click();
         await input.type(searchTerms[0]);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
 
@@ -235,6 +237,7 @@ describe("calcite-input-time-zone", () => {
         await clearSearchTerm(searchTerms[0]);
         await input.type(searchTerms[1]);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
 
@@ -243,6 +246,7 @@ describe("calcite-input-time-zone", () => {
         await clearSearchTerm(searchTerms[1]);
         await input.type(searchTerms[2]);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
 
@@ -250,6 +254,7 @@ describe("calcite-input-time-zone", () => {
 
         await clearSearchTerm(searchTerms[1]);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
 
@@ -448,6 +453,7 @@ describe("calcite-input-time-zone", () => {
         await page.waitForChanges();
         await input.type("(GMT-6)");
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.filter);
 
         const sharedOffsetTimeZoneItems = await page.findAll(
           "calcite-input-time-zone >>> calcite-combobox-item:not([hidden])",
@@ -456,6 +462,7 @@ describe("calcite-input-time-zone", () => {
 
         await sharedOffsetTimeZoneItems[1].click();
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.filter);
 
         const selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
         const expectedTimeZoneItem = testTimeZoneItems[3];

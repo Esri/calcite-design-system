@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.11.0-next.23",
+  "version": "2.11.0-next.27",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -69,7 +69,7 @@
     "@types/color": "3.0.6",
     "@types/sortablejs": "1.15.7",
     "color": "4.2.3",
-    "composed-offset-position": "0.0.4",
+    "composed-offset-position": "0.0.6",
     "dayjs": "1.11.12",
     "focus-trap": "7.5.4",
     "lodash-es": "4.17.21",
@@ -78,7 +78,7 @@
     "type-fest": "4.18.2"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "^2.2.1-next.1",
+    "@esri/calcite-design-tokens": "^2.2.1-next.2",
     "@esri/eslint-plugin-calcite-components": "^1.2.1-next.3",
     "@stencil-community/eslint-plugin": "0.7.2",
     "@stencil-community/postcss": "2.2.0",
