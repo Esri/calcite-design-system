@@ -2,4 +2,8 @@
 
 cd "$(dirname "$0")" || return
 npm --prefix ../.. install
+
+# Prevent lint-staged errors. Turbo will cache the build, so this shouldn't impact startup times too much
+npx turbo run build --filter="@esri/eslint-plugin-calcite-components"
+
 npm start
