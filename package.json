@@ -32,7 +32,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@cspell/eslint-plugin": "8.9.1",
+    "@cspell/eslint-plugin": "8.12.1",
     "@esri/calcite-base": "1.2.0",
     "@esri/calcite-colors": "6.1.0",
     "@octokit/webhooks-types": "7.5.1",
