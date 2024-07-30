@@ -437,7 +437,8 @@ export class InputDatePicker
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed If true, the repositioning is delayed.
+   * @returns void
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -820,7 +821,7 @@ export class InputDatePicker
       : null;
   };
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
