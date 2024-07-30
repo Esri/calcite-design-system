@@ -1,6 +1,7 @@
 import { Build } from "@stencil/core";
 
 export const isBrowser = (): boolean =>
+  typeof navigator !== "undefined" &&
   typeof window !== "undefined" &&
   typeof location !== "undefined" &&
   typeof document !== "undefined" &&

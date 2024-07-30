@@ -8,6 +8,7 @@ import { stampVersion } from "./config";
  */
 export default function (): void {
   const isBrowser =
+    typeof navigator !== "undefined" &&
     typeof window !== "undefined" &&
     typeof location !== "undefined" &&
     typeof document !== "undefined" &&
