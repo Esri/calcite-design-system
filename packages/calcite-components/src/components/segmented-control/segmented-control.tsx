@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -39,6 +38,7 @@ import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { CSS } from "./resources";
 
 /**
@@ -390,7 +390,7 @@ export class SegmentedControl
     });
 
     this.selectedItem = match;
-    if (Build.isBrowser && match) {
+    if (isBrowser() && match) {
       match.focus();
     }
   }
