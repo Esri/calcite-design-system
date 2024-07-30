@@ -469,11 +469,22 @@ export class InputDatePicker
 
     const { open } = this;
     open && this.openHandler();
+
+    if (this.min) {
+      this.minAsDate = dateFromISO(this.min);
+    }
+
+    if (this.max) {
+      this.maxAsDate = dateFromISO(this.max);
+    }
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
       try {
-        this.valueAsDate = dateFromISO(this.value);
+        const date = dateFromISO(this.value);
+        const dateInRange = dateFromRange(date, this.minAsDate, this.maxAsDate);
+        this.valueAsDate = dateInRange;
       } catch (error) {
         this.warnAboutInvalidValue(this.value);
         this.value = "";
@@ -484,14 +495,6 @@ export class InputDatePicker
       } else if (!Array.isArray(this.valueAsDate)) {
         this.value = dateToISO(this.valueAsDate);
       }
-    }
-
-    if (this.min) {
-      this.minAsDate = dateFromISO(this.min);
-    }
-
-    if (this.max) {
-      this.maxAsDate = dateFromISO(this.max);
     }
 
     connectLabel(this);
