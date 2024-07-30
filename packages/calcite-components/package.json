@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@esri/calcite-ui-icons": "3.29.0",
-    "@floating-ui/dom": "1.6.7",
+    "@floating-ui/dom": "1.6.8",
     "@stencil/core": "4.19.2",
     "@types/color": "3.0.6",
     "@types/sortablejs": "1.15.7",
