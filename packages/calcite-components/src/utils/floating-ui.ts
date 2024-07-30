@@ -14,14 +14,15 @@ import {
   Strategy,
   VirtualElement,
 } from "@floating-ui/dom";
-import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
+import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
+import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (Build.isBrowser) {
+  if (isBrowser()) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -166,11 +167,6 @@ export const positionFloatingUI =
  * Exported for testing purposes only
  */
 export const placementDataAttribute = "data-placement";
-
-/**
- * Exported for testing purposes only
- */
-export const repositionDebounceTimeout = 100;
 
 export type ReferenceElement = VirtualElement | Element;
 
@@ -457,9 +453,9 @@ function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<t
     return debounced;
   }
 
-  debounced = debounce(positionFloatingUI, repositionDebounceTimeout, {
+  debounced = debounce(positionFloatingUI, DEBOUNCE.reposition, {
     leading: true,
-    maxWait: repositionDebounceTimeout,
+    maxWait: DEBOUNCE.reposition,
   });
 
   componentToDebouncedRepositionMap.set(component, debounced);
@@ -503,7 +499,7 @@ async function runAutoUpdate(
     return;
   }
 
-  const effectiveAutoUpdate = Build.isBrowser
+  const effectiveAutoUpdate = isBrowser()
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();

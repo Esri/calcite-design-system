@@ -299,12 +299,12 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.closed = true;
+      this.handleUserClose();
       event.preventDefault();
     }
   };
 
-  private handleCloseClick = (): void => {
+  private handleUserClose = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
   };
@@ -517,7 +517,7 @@ export class Panel
         aria-label={close}
         data-test="close"
         icon={ICONS.close}
-        onClick={this.handleCloseClick}
+        onClick={this.handleUserClose}
         scale={this.scale}
         text={close}
         title={close}
@@ -620,14 +620,22 @@ export class Panel
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
-        <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
-        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
-        <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
-        <slot
-          key="footer-actions-slot"
-          name={SLOTS.footerActions}
-          onSlotchange={this.handleFooterActionsSlotChange}
-        />
+        <div class={CSS.footerContent} hidden={!hasFooterContent}>
+          <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+        </div>
+        <div class={CSS.footerStart} hidden={hasFooterContent || !hasFooterStartContent}>
+          <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+        </div>
+        <div class={CSS.footerEnd} hidden={hasFooterContent || !hasFooterEndContent}>
+          <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
+        </div>
+        <div class={CSS.footerActions} hidden={hasFooterContent || !hasFooterActions}>
+          <slot
+            key="footer-actions-slot"
+            name={SLOTS.footerActions}
+            onSlotchange={this.handleFooterActionsSlotChange}
+          />
+        </div>
       </footer>
     );
   }

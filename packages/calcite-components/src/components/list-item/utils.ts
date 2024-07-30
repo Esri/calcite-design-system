@@ -1,4 +1,4 @@
-import { Build } from "@stencil/core";
+import { isBrowser } from "../../utils/browser";
 
 const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
@@ -38,7 +38,7 @@ export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElem
 }
 
 export function getDepth(element: HTMLElement, includeGroup = false): number {
-  if (!Build.isBrowser) {
+  if (!isBrowser()) {
     return 0;
   }
 

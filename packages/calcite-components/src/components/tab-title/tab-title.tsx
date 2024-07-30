@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -36,6 +35,7 @@ import {
 } from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
 import { CSS, ICONS } from "./resources";
 
@@ -172,7 +172,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       this.updateHasText();
     }
     if (this.tab && this.selected) {

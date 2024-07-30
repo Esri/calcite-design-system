@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -39,6 +38,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ChipMessages } from "./assets/chip/t9n";
 import { CSS, SLOTS, ICONS } from "./resources";
 
@@ -230,7 +230,7 @@ export class Chip
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       await setUpMessages(this);
       this.updateHasText();
     }
