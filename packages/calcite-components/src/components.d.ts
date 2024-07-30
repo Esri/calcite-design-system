@@ -4418,7 +4418,7 @@ export namespace Components {
          */
         "detached": boolean;
         /**
-          * When `displayMode` is `float-content`, specifies the maximum height of the component.
+          * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale": Scale;
@@ -4447,7 +4447,7 @@ export namespace Components {
          */
         "position": Extract<"start" | "end", Position>;
         /**
-          * When `true` and `displayMode` is not `float-content`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable.
          */
         "resizable": boolean;
         /**
@@ -12538,7 +12538,7 @@ declare namespace LocalJSX {
          */
         "detached"?: boolean;
         /**
-          * When `displayMode` is `float-content`, specifies the maximum height of the component.
+          * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale"?: Scale;
@@ -12569,7 +12569,7 @@ declare namespace LocalJSX {
          */
         "position"?: Extract<"start" | "end", Position>;
         /**
-          * When `true` and `displayMode` is not `float-content`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable.
          */
         "resizable"?: boolean;
         /**
