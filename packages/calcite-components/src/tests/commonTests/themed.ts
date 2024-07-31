@@ -68,12 +68,7 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  *        {
  *          shadowSelector: "calcite-action",
  *          targetProp: "--calcite-action-border-color",
- *        },
- *        {
- *          // added to demonstrate pseudo-element support
- *          shadowSelector: "calcite-action::after",
- *          targetProp: "borderColor",
- *        },
+ *        }
  *     ],
  *   };
  *   themed(`calcite-action-bar`, tokens);
