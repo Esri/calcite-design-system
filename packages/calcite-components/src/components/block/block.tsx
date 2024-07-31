@@ -416,7 +416,7 @@ export class Block
     const toggleLabel = open ? messages.collapse : messages.expand;
 
     const headerContent = (
-      <header class={CSS.header} id={IDS.header}>
+      <header class={{ [CSS.header]: true, [CSS.headerPadding]: !!heading }} id={IDS.header}>
         {this.renderIcon("start")}
         {this.renderContentStart()}
         {this.renderLoaderStatusIcon()}
