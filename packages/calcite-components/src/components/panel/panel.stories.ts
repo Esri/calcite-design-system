@@ -8,7 +8,7 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface PanelStoryArgs
   extends Pick<
     Panel,
-    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading"
+    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading" | "scale"
   > {
   heightScale: string;
 }
@@ -242,9 +242,96 @@ export const footerPadding_TestOnly = (): string =>
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
-      <div slot="footer">Footer!</div>
+      <calcite-button type="button" slot="footer">1</calcite-button>
+      <calcite-button type="button" slot="footer">2</calcite-button>
+      <calcite-button type="button" slot="footer-start">3</calcite-button>
+      <calcite-button type="button" slot="footer-start">4</calcite-button>
+      <calcite-button type="button" slot="footer-end">5</calcite-button>
+      <calcite-button type="button" slot="footer-end">6</calcite-button>
+      <calcite-button type="button" slot="footer-actions">7</calcite-button>
+      <calcite-button type="button" slot="footer-actions">8</calcite-button>
     </calcite-panel>
   </div>`;
+
+export const footerActions = (): string =>
+  html`<h2>footer-actions (Deprecated): Auto width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-actions">1</calcite-button>
+        <calcite-button type="button" slot="footer-actions">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-actions (Deprecated): Full width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-actions">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-actions">2</calcite-button>
+      </calcite-panel>
+    </div>`;
+
+export const footerVariations = (): string =>
+  html`<h2>footer</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start only</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-start">1</calcite-button>
+        <calcite-button type="button" slot="footer-start">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-end only</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-end">1</calcite-button>
+        <calcite-button type="button" slot="footer-end">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end auto width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-start">1</calcite-button>
+        <calcite-button type="button" slot="footer-start">2</calcite-button>
+        <calcite-button type="button" slot="footer-end">3</calcite-button>
+        <calcite-button type="button" slot="footer-end">4</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end full width single</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-start">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end full width multiple</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-start">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-start">2</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">3</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">4</calcite-button>
+      </calcite-panel>
+    </div>`;
 
 export const actionBarBackgroundColor_TestOnly = (): string =>
   html`<calcite-panel height-scale="s" style="width: 300px;">
@@ -409,6 +496,24 @@ export const footerAndContentTopBottomSlots = (): string => html`
 
 export const footerStartAndEndSlots = (): string => html`
   <calcite-panel style="height: 200px; width: 300px;">
+    <div slot="header-content">header-content slot</div>
+    <p>Slotted content!</p>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button type="button" slot="footer-start" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer start</calcite-button
+    >
+    <calcite-button type="button" slot="footer-end" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer end</calcite-button
+    >
+  </calcite-panel>
+`;
+
+export const withSlottedAlert = (): string => html`
+  <calcite-panel style="height: 500px; width: 800px;">
+    <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
+      <div slot="title">Hello there!</div>
+      <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+    </calcite-alert>
     <div slot="header-content">header-content slot</div>
     <p>Slotted content!</p>
     <div slot="content-bottom">Slot for a content-bottom.</div>

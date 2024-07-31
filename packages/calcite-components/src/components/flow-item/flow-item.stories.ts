@@ -8,7 +8,7 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface FlowItemStoryArgs
   extends Pick<
     FlowItem,
-    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading"
+    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading" | "scale"
   > {
   heightScale: string;
 }
@@ -234,7 +234,8 @@ export const footerPaddingAndContentBottom = (): string =>
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
-      <div slot="footer">Footer!</div>
+      <calcite-button slot="footer" width="half" appearance="outline">Footer 1</calcite-button>
+      <calcite-button slot="footer" width="half">Footer 2</calcite-button>
     </calcite-flow-item>
   </div>`;
 
@@ -248,13 +249,14 @@ export const footerStartEndAndContentBottom = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const footerSlotPrecedence = (): string =>
+export const footerSlot = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
-      <div slot="footer">Footer!</div>
+      <calcite-button slot="footer" width="half" appearance="outline">Footer 1</calcite-button>
+      <calcite-button slot="footer" width="half">Footer 2</calcite-button>
       ${footerHTML}
     </calcite-flow-item>
   </div>`;
@@ -263,3 +265,13 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   html`<calcite-flow-item style="--calcite-flow-item-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
+
+export const withAlertsSlot = (): string => html`
+  <calcite-flow-item height-scale="s" heading="My Panel" style="width: 500px; height:200px">
+    Slotted content!
+    <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
+      <div slot="title">Hello there!</div>
+      <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+    </calcite-alert>
+  </calcite-flow-item>
+`;

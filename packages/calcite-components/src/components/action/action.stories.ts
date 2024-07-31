@@ -10,7 +10,6 @@ type ActionStoryArgs = Pick<
   | "active"
   | "alignment"
   | "appearance"
-  | "compact"
   | "disabled"
   | "icon"
   | "indicator"
@@ -27,7 +26,6 @@ export default {
     active: false,
     alignment: alignment.defaultValue,
     appearance: appearance.defaultValue,
-    compact: false,
     disabled: false,
     icon: "banana",
     indicator: false,
@@ -63,7 +61,6 @@ export const simple = (args: ActionStoryArgs): string => html`
       ${boolean("active", args.active)}
       alignment="${args.alignment}"
       appearance="${args.appearance}"
-      ${boolean("compact", args.compact)}
       ${boolean("disabled", args.disabled)}
       icon="${args.icon}"
       ${boolean("indicator", args.indicator)}
@@ -76,7 +73,7 @@ export const simple = (args: ActionStoryArgs): string => html`
   </div>
 `;
 
-export const disabledAndCompactAndTextOnly_TestOnly = (): string => html`
+export const disabledAndTextOnly_TestOnly = (): string => html`
   <div>
     <calcite-action
       icon="banana"
@@ -84,7 +81,6 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string => html`
       appearance="solid"
       label="Label"
       scale="m"
-      compact
       disabled
       text="Text"
       text-enabled

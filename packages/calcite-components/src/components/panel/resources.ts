@@ -17,6 +17,10 @@ export const CSS = {
   contentWrapper: "content-wrapper",
   fabContainer: "fab-container",
   footer: "footer",
+  footerContent: "footer-content",
+  footerActions: "footer-actions",
+  footerStart: "footer-start",
+  footerEnd: "footer-end",
 };
 
 export const ICONS = {
@@ -30,6 +34,7 @@ export const ICONS = {
 
 export const SLOTS = {
   actionBar: "action-bar",
+  alerts: "alerts",
   contentBottom: "content-bottom",
   contentTop: "content-top",
   headerActionsStart: "header-actions-start",

@@ -1,4 +1,6 @@
 {
   "expand": "Utvid",
-  "collapse": "Skjul"
+  "collapse": "Skjul",
+  "expandLabel": "Utvid",
+  "collapseLabel": "Skjul"
 }

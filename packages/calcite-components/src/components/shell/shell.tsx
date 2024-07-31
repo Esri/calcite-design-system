@@ -17,6 +17,7 @@ import { CSS, SLOTS } from "./resources";
  * @slot panel-bottom - A slot for adding the bottom `calcite-shell-panel`.
  * @slot center-row - [Deprecated] Use the `"panel-bottom"` slot instead. A slot for adding the bottom `calcite-shell-center-row`.
  * @slot modals - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the `calcite-shell`.
+ * @slot dialogs - A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
  * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
  * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
  */
@@ -72,6 +73,8 @@ export class Shell implements ConditionalSlotComponent {
 
   @State() hasModals = false;
 
+  @State() hasDialogs = false;
+
   @State() hasSheets = false;
 
   @State() hasPanelTop = false;
@@ -119,8 +122,8 @@ export class Shell implements ConditionalSlotComponent {
   handleAlertsSlotChange = (event: Event): void => {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-ALERT") {
-        (el as HTMLCalciteAlertElement).slottedInShell = true;
+      if (el.tagName === "CALCITE-ALERT") {
+        (el as HTMLCalciteAlertElement).embedded = true;
       }
     });
   };
@@ -128,8 +131,8 @@ export class Shell implements ConditionalSlotComponent {
   handleSheetsSlotChange = (event: Event): void => {
     this.hasSheets = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-SHEET") {
-        (el as HTMLCalciteSheetElement).slottedInShell = true;
+      if (el.tagName === "CALCITE-SHEET") {
+        (el as HTMLCalciteSheetElement).embedded = true;
       }
     });
   };
@@ -137,8 +140,8 @@ export class Shell implements ConditionalSlotComponent {
   handleModalsSlotChange = (event: Event): void => {
     this.hasModals = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-MODAL") {
-        (el as HTMLCalciteModalElement).slottedInShell = true;
+      if (el.tagName === "CALCITE-MODAL") {
+        (el as HTMLCalciteModalElement).embedded = true;
       }
     });
   };
@@ -149,6 +152,15 @@ export class Shell implements ConditionalSlotComponent {
 
   handlePanelBottomChange = (event: Event): void => {
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
+  };
+
+  handleDialogsSlotChange = (event: Event): void => {
+    this.hasDialogs = !!slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.tagName === "CALCITE-DIALOG") {
+        (el as HTMLCalciteDialogElement).embedded = true;
+      }
+    });
   };
 
   // --------------------------------------------------------------------------
@@ -193,6 +205,14 @@ export class Shell implements ConditionalSlotComponent {
     return (
       <div hidden={!this.hasModals}>
         <slot key="modals" name={SLOTS.modals} onSlotchange={this.handleModalsSlotChange} />
+      </div>
+    );
+  }
+
+  renderDialogs(): VNode {
+    return (
+      <div hidden={!this.hasDialogs}>
+        <slot key="dialogs" name={SLOTS.dialogs} onSlotchange={this.handleDialogsSlotChange} />
       </div>
     );
   }
@@ -273,6 +293,7 @@ export class Shell implements ConditionalSlotComponent {
       <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
         {this.renderModals()}
+        {this.renderDialogs()}
         {this.renderSheets()}
       </div>
     );

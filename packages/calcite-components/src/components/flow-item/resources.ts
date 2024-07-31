@@ -9,6 +9,7 @@ export const ICONS = {
 
 export const SLOTS = {
   actionBar: "action-bar",
+  alerts: "alerts",
   contentTop: "content-top",
   contentBottom: "content-bottom",
   headerActionsStart: "header-actions-start",

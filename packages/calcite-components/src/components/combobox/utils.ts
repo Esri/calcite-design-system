@@ -1,5 +1,5 @@
-import { Build } from "@stencil/core";
 import { nodeListToArray } from "../../utils/dom";
+import { isBrowser } from "../../utils/browser";
 import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector } from "./resources";
 import { Combobox } from "./combobox";
@@ -26,7 +26,7 @@ export function hasActiveChildren(node: HTMLCalciteComboboxItemElement): boolean
 }
 
 export function getDepth(element: HTMLElement): number {
-  if (!Build.isBrowser) {
+  if (!isBrowser()) {
     return 0;
   }
 
@@ -43,4 +43,8 @@ export function getDepth(element: HTMLElement): number {
 
 export function isSingleLike(selectionMode: Combobox["selectionMode"]): boolean {
   return selectionMode.includes("single");
+}
+
+export function getLabel(item: HTMLCalciteComboboxItemElement): string {
+  return item.shortHeading || item.textLabel;
 }
