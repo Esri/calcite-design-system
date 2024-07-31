@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   forceUpdate,
@@ -37,7 +36,8 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Alignment, Appearance, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ActionMessages } from "./assets/action/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -86,7 +86,7 @@ export class Action
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @Prop() icon: IconName;
+  @Prop() icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -182,7 +182,7 @@ export class Action
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       await setUpMessages(this);
     }
   }

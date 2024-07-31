@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -38,7 +37,8 @@ import {
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { CSS } from "./resources";
 
 /**
@@ -137,7 +137,7 @@ export class SegmentedControl
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -390,7 +390,7 @@ export class SegmentedControl
     });
 
     this.selectedItem = match;
-    if (Build.isBrowser && match) {
+    if (isBrowser() && match) {
       match.focus();
     }
   }
