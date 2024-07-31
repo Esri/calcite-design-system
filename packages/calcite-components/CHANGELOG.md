@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.29...@esri/calcite-components@2.11.0-next.31) (2024-07-31)
+
+### Bug Fixes
+
+- widen icon type to allow string ([#9915](https://github.com/Esri/calcite-design-system/issues/9915)) ([cfee852](https://github.com/Esri/calcite-design-system/commit/cfee852293f068dff5f8ec6e27b13fd393137523)), closes [#8858](https://github.com/Esri/calcite-design-system/issues/8858)
+
 ## [2.11.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.29...@esri/calcite-components@2.11.0-next.30) (2024-07-30)
 
 **Note:** Version bump only for package @esri/calcite-components
