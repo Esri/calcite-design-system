@@ -14,15 +14,15 @@ import {
   Strategy,
   VirtualElement,
 } from "@floating-ui/dom";
-import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
+import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (Build.isBrowser) {
+  if (isBrowser()) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -499,7 +499,7 @@ async function runAutoUpdate(
     return;
   }
 
-  const effectiveAutoUpdate = Build.isBrowser
+  const effectiveAutoUpdate = isBrowser()
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();

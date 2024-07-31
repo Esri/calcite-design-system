@@ -26,7 +26,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Alignment, Width } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { logger } from "../../utils/logger";
 import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
@@ -71,7 +71,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) heading: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconName;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
