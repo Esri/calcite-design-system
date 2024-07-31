@@ -92,7 +92,7 @@ import { syncHiddenFormInput } from "../input/common/input";
 import { isBrowser } from "../../utils/browser";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -568,8 +568,10 @@ export class InputDatePicker
                   aria-autocomplete="none"
                   aria-controls={this.dialogId}
                   aria-describedby={this.placeholderTextId}
+                  aria-errormessage={IDS.validationMessage}
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
+                  aria-invalid={this.status === "invalid"}
                   class={{
                     [CSS.input]: true,
                     [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
@@ -661,8 +663,10 @@ export class InputDatePicker
                   <calcite-input-text
                     aria-autocomplete="none"
                     aria-controls={this.dialogId}
+                    aria-errormessage={IDS.validationMessage}
                     aria-expanded={toAriaBoolean(this.open)}
                     aria-haspopup="dialog"
+                    aria-invalid={this.status === "invalid"}
                     class={{
                       [CSS.input]: true,
                       [CSS.inputBorderTopColorOne]: this.layout === "vertical" && this.range,
@@ -689,6 +693,7 @@ export class InputDatePicker
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

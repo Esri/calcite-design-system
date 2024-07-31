@@ -10,3 +10,7 @@ export const CSS = {
   listContainer: "list-container",
   icon: "icon",
 };
+
+export const IDS = {
+  validationMessage: "comboboxValidationMessage",
+};

@@ -4,7 +4,6 @@ import { Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 
 interface ValidationProps extends JSXBase.HTMLAttributes {
-  ariaLive?: boolean;
   scale: Scale;
   status: Status;
   icon?: IconName | boolean;
@@ -17,7 +16,6 @@ export const CSS = {
 };
 
 export const Validation: FunctionalComponent<ValidationProps> = ({
-  ariaLive,
   scale,
   status,
   id,
@@ -25,10 +23,8 @@ export const Validation: FunctionalComponent<ValidationProps> = ({
   message,
 }) => (
   <div class={CSS.validationContainer}>
-    <calcite-input-message icon={icon} scale={scale} status={status}>
-      <span aria-live={ariaLive ? "polite" : "off"} id={id}>
-        {message}
-      </span>
+    <calcite-input-message aria-live="polite" icon={icon} id={id} scale={scale} status={status}>
+      {message}
     </calcite-input-message>
   </div>
 );

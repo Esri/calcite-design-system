@@ -16,7 +16,7 @@ export const CSS = {
 };
 
 export const IDS = {
-  validationMessage: "validationMessage",
+  validationMessage: "inputValidationMessage",
 };
 
 export const INPUT_TYPE_ICONS = {
