@@ -14,7 +14,7 @@ export const CSS = {
   description: "description",
   header: "header",
   headerContainer: "header-container",
-  headerPadding: "header-padding",
+  headerPresent: "header--present",
   heading: "heading",
   icon: "icon",
   iconStart: "icon--start",
