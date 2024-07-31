@@ -6,7 +6,7 @@ import { Scale } from "../interfaces";
 import { isBrowser } from "../../utils/browser";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
-import { IconName } from "./interfaces";
+import { IconNameOrString } from "./interfaces";
 
 @Component({
   tag: "calcite-icon",
@@ -29,7 +29,7 @@ export class Icon {
   @Prop({
     reflect: true,
   })
-  icon: IconName = null;
+  icon: IconNameOrString = null;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
