@@ -191,18 +191,6 @@
   @apply flex;
   calcite-loader {
     @apply m-0;
-    transition:
-      inline-size var(--calcite-internal-animation-timing-slow) ease-in-out,
-      opacity var(--calcite-internal-animation-timing-slow) ease-in-out,
-      transform var(--calcite-internal-animation-timing-slow) ease-in-out;
-    &.loading-in {
-      animation-name: loader-in;
-      animation-duration: var(--calcite-internal-animation-timing-slow);
-    }
-    &.loading-out {
-      animation-name: loader-out;
-      animation-duration: var(--calcite-internal-animation-timing-slow);
-    }
   }
 }
 
