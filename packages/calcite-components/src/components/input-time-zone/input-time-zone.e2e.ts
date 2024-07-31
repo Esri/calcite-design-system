@@ -14,7 +14,7 @@ import {
 } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
-import { toUserFriendlyName } from "./utils";
+import { getCity, toUserFriendlyName } from "./utils";
 
 /*
  * **Notes**
@@ -321,10 +321,6 @@ describe("calcite-input-time-zone", () => {
     });
 
     describe("region", () => {
-      function getCityName(timeZoneName: string): string {
-        return timeZoneName.split("/").pop();
-      }
-
       describe("selects user's matching time zone name on initialization", () => {
         testTimeZoneItems.forEach(({ name }) => {
           it(`selects default time zone for "${name}"`, async () => {
@@ -340,7 +336,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCityName(name)));
+            expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(name)));
           });
         });
       });
@@ -364,7 +360,7 @@ describe("calcite-input-time-zone", () => {
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
         expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCityName(testTimeZoneItems[1].name)),
+          toUserFriendlyName(getCity(testTimeZoneItems[1].name)),
         );
       });
 
@@ -384,7 +380,7 @@ describe("calcite-input-time-zone", () => {
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
         expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCityName(testTimeZoneItems[0].name)),
+          toUserFriendlyName(getCity(testTimeZoneItems[0].name)),
         );
       });
     });
