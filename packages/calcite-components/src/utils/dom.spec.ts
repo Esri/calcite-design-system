@@ -293,13 +293,11 @@ describe("dom", () => {
 
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
-      // @ts-expect-error -- unsupported icon names are used to make the test more readable
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
         "myCustomValue",
       ));
 
     it("returns the pre-defined icon name if custom value is not passed", () =>
-      // @ts-expect-error -- unsupported icon names are used to make the test more readable
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
         "exampleReturnedValue",
       ));
