@@ -7,11 +7,11 @@
 }
 
 @mixin floatingUIOffsetLeft {
-  inset-inline-start: 5px;
+  left: 5px;
 }
 
 @mixin floatingUIOffsetRight {
-  inset-inline-start: -5px;
+  left: -5px;
 }
 
 @mixin floating-ui-base {
@@ -23,7 +23,7 @@
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
-    transition-property: inset, opacity;
+    transition-property: inset, left, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
     @apply rounded z-default;
@@ -32,7 +32,8 @@
 
 @mixin floatingUIAnimActive {
   opacity: 1;
-  inset: 0;
+  inset-block: 0;
+  left: 0;
 }
 
 @mixin floatingUIElemAnim($selector) {
