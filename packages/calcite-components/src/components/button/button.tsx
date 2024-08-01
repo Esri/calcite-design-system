@@ -181,18 +181,6 @@ export class Button
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
-  @Watch("loading")
-  loadingChanged(newValue: boolean, oldValue: boolean): void {
-    if (!!newValue && !oldValue) {
-      this.hasLoader = true;
-    }
-    if (!newValue && !!oldValue) {
-      window.setTimeout(() => {
-        this.hasLoader = false;
-      }, 300);
-    }
-  }
-
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /** referred in t9n util */
@@ -208,7 +196,6 @@ export class Button
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
@@ -244,7 +231,7 @@ export class Button
   render(): VNode {
     const childElType = this.href ? "a" : "button";
     const Tag = childElType;
-    const loaderNode = this.hasLoader ? (
+    const loaderNode = this.loading ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
@@ -351,9 +338,6 @@ export class Button
 
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
-
-  /** determine if loader present for styling purposes */
-  @State() private hasLoader = false;
 
   @State() effectiveLocale = "";
 
