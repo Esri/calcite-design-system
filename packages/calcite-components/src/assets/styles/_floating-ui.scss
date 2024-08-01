@@ -1,17 +1,19 @@
+$transition-offset: 5px;
+
 @mixin floatingUIOffsetBottom {
-  inset-block-start: -5px;
+  inset-block-start: -$transition-offset;
 }
 
 @mixin floatingUIOffsetTop {
-  inset-block-start: 5px;
+  inset-block-start: $transition-offset;
 }
 
 @mixin floatingUIOffsetLeft {
-  left: 5px;
+  left: $transition-offset;
 }
 
 @mixin floatingUIOffsetRight {
-  left: -5px;
+  left: -$transition-offset;
 }
 
 @mixin floating-ui-base {
