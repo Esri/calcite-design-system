@@ -20,7 +20,7 @@
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-padding: var(--calcite-spacing-sm);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-md);
+  --calcite-internal-panel-header-vertical-padding: 10px; // this should use a spacing token once made available
 
   .header-content {
     .heading {
