@@ -218,9 +218,10 @@ describe("calcite-action", () => {
           targetProp: "backgroundColor",
           state: "hover",
         },
-        "--calcite-action-background-color-active": {
+        "--calcite-action-background-color-pressed": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.button } },
         },
       });
     });
@@ -257,7 +258,7 @@ describe("calcite-action", () => {
           icon="configure-popup"
         ></calcite-action>`,
         {
-          "--calcite-action-text-color-active": {
+          "--calcite-action-text-color-hover": {
             shadowSelector: `.${CSS.button}`,
             targetProp: "color",
           },

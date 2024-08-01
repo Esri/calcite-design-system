@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
- * @prop --calcite-action-background-color: Specifies the background color of the component.
- * @prop --calcite-action-background-color-highlight: Specifies the background color of the component when hovered or focused.
- * @prop --calcite-action-background-color-selected: Specifies the background color of the component when active.
+ * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
+ * @prop --calcite-action-background-color: Specifies the component's  background color.
+ * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
+ * @prop --calcite-action-background-color-pressed: Specifies the component's background color when active.
  * @prop --calcite-action-text-color: Specifies the text color of the component.
- * @prop --calcite-action-text-color-highlight: Specifies the text color of the component when interacted with.
+ * @prop --calcite-action-text-color-hover: Specifies the component's text color when hovered.
  */
 
 :host {
@@ -51,8 +51,8 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-action-background-color-highlight, var(--calcite-color-foreground-2));
-    color: var(--calcite-action-text-color-highlight, var(--calcite-color-text-1));
+    background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(--calcite-action-text-color-hover, var(--calcite-color-text-1));
   }
 
   &:focus {
@@ -60,7 +60,7 @@
   }
 
   &:active {
-    background-color: var(--calcite-action-background-color-selected, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
   }
 }
 
@@ -97,8 +97,8 @@
     &,
     &:hover,
     &:focus {
-      color: var(--calcite-action-text-color-highlight, var(--calcite-color-text-1));
-      background-color: var(--calcite-action-background-color-selected, var(--calcite-color-foreground-3));
+      color: var(--calcite-action-text-color-hover, var(--calcite-color-text-1));
+      background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
     }
 
     &:active {
@@ -235,7 +235,7 @@
   //   .button:hover,
   //   .button:focus {
   //     @apply opacity-disabled;
-  //     background-color: var(--calcite-action-background-color-selected, var(--calcite-color-foreground-3));
+  //     background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
   //   }
   // }
 }

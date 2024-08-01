@@ -2,7 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { setCSSVariables } from "../../utils/variableValue";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { Action } from "./action";
 const { alignment, appearance, scale } = ATTRIBUTES;
 
@@ -201,10 +201,10 @@ export const theming_TestOnly = (): string =>
         ${setCSSVariables([
         "--calcite-action-indicator-color",
         "--calcite-action-background-color",
-        "--calcite-action-background-color-highlight",
-        "--calcite-action-background-color-selected",
+        "--calcite-action-background-color-hover",
+        "--calcite-action-background-color-pressed",
         "--calcite-action-text-color",
-        "--calcite-action-text-color-highlight",
+        "--calcite-action-text-color-hover",
       ])}
       }
     </style>
