@@ -1,4 +1,5 @@
 import { html } from "../../../support/formatting";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 
 export default {
   title: "Components/Action Group",
@@ -94,3 +95,27 @@ export const TurkishLocale_TestOnly = (): string =>
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
+
+export const theming_TestOnly = (): string =>
+  html` <style>
+      .container {
+        ${setCSSVariables([
+        "--calcite-action-background-color",
+        "--calcite-action-group-border-color",
+        "--calcite-action-group-columns",
+        "--calcite-action-group-gap",
+      ])}
+      }
+    </style>
+    <div class="container">
+      <calcite-action-bar>
+        <calcite-action-group
+          ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+          <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
+        ></calcite-action-group>
+        <calcite-action-group layout="grid"
+          ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+          <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
+        ></calcite-action-group>
+      </calcite-action-bar>
+    </div>`;
