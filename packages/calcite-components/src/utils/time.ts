@@ -42,17 +42,25 @@ export type TimePart =
 
 export const maxTenthForMinuteAndSecond = 5;
 
-function createLocaleDateTimeFormatter(
-  locale: string,
-  numberingSystem: NumberingSystem,
+function createLocaleDateTimeFormatter({
+  locale,
+  numberingSystem,
   includeSeconds = true,
-  fractionalSecondDigits?: FractionalSecondDigits,
-): Intl.DateTimeFormat {
+  fractionalSecondDigits,
+  hour12,
+}: {
+  locale: string;
+  numberingSystem: NumberingSystem;
+  includeSeconds?: boolean;
+  fractionalSecondDigits?: FractionalSecondDigits;
+  hour12?: boolean;
+}): Intl.DateTimeFormat {
   const options: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "UTC",
     numberingSystem: getSupportedNumberingSystem(numberingSystem),
+    hour12,
   };
   if (includeSeconds) {
     options.second = "2-digit";
@@ -108,7 +116,7 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
 }
 
 export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem): HourCycle {
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
+  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
@@ -126,7 +134,7 @@ export function getLocalizedTimePartSuffix(
   locale: string,
   numberingSystem: NumberingSystem = "latn",
 ): string {
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
+  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart(`${part}Suffix` as TimePart, parts);
 }
@@ -260,7 +268,7 @@ export function localizeTimePart({ value, part, locale, numberingSystem }: Local
   if (!date) {
     return;
   }
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
+  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
   const parts = formatter.formatToParts(date);
   return getLocalizedTimePart(part, parts);
 }
@@ -296,7 +304,7 @@ export function localizeTimeString({
       fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
     ),
   );
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds, fractionalSecondDigits);
+  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem, includeSeconds, fractionalSecondDigits });
   return formatter.format(dateFromTimeString) || null;
 }
 
@@ -304,12 +312,14 @@ interface LocalizeTimeStringToPartsParameters {
   value: string;
   locale: string;
   numberingSystem?: NumberingSystem;
+  hour12?: boolean;
 }
 
 export function localizeTimeStringToParts({
   value,
   locale,
   numberingSystem = "latn",
+  hour12,
 }: LocalizeTimeStringToPartsParameters): LocalizedTime {
   if (!isValidTime(value)) {
     return null;
@@ -317,7 +327,7 @@ export function localizeTimeStringToParts({
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
+    const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem, hour12 });
     const parts = formatter.formatToParts(dateFromTimeString);
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
@@ -351,7 +361,7 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
+    const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
     const parts = formatter.formatToParts(dateFromTimeString);
     return parts;
   }

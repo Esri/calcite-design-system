@@ -76,6 +76,13 @@ export class TimePicker
   //
   //--------------------------------------------------------------------------
 
+  @Prop({ reflect: true, mutable: true }) hourCycle: HourCycle;
+
+  @Watch("hourCycle")
+  hourCycleWatcher(): void {
+    this.setValue(this.value);
+  }
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -160,8 +167,6 @@ export class TimePicker
   @State() fractionalSecond: string;
 
   @State() hour: string;
-
-  @State() hourCycle: HourCycle;
 
   @State() localizedDecimalSeparator = ".";
 
@@ -725,7 +730,7 @@ export class TimePicker
   private setValue = (value: string): void => {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-      const { effectiveLocale: locale, numberingSystem } = this;
+      const { effectiveLocale: locale, numberingSystem, hourCycle } = this;
       const {
         localizedHour,
         localizedHourSuffix,
@@ -736,7 +741,7 @@ export class TimePicker
         localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
-      } = localizeTimeStringToParts({ value, locale, numberingSystem });
+      } = localizeTimeStringToParts({ value, locale, numberingSystem, hour12: hourCycle === "12" });
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -871,7 +876,9 @@ export class TimePicker
 
   private updateLocale() {
     updateMessages(this, this.effectiveLocale);
-    this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
+    if (!this.hourCycle) {
+      this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
+    }
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.effectiveLocale,
       this.numberingSystem,
