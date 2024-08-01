@@ -35,10 +35,13 @@
     w-full
     flex-col
     flex-nowrap
-    overflow-auto
-    relative
-    z-default;
+    overflow-auto;
   justify-content: space-between;
+}
+
+.content ::slotted(:not(calcite-tip-manager)) {
+  @apply relative
+    z-default;
 }
 
 .content ::slotted(calcite-shell-center-row),
