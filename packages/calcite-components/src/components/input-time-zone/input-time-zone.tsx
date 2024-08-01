@@ -495,6 +495,7 @@ export class InputTimeZone
                   ? this.messages.offsetPlaceholder
                   : this.messages.regionPlaceholder
             }
+            placeholderIcon="search"
             readOnly={this.readOnly}
             ref={this.setComboboxRef}
             scale={this.scale}
