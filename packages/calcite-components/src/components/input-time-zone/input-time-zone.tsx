@@ -535,7 +535,7 @@ export class InputTimeZone
 
   private renderRegionItems(): VNode[] {
     return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
-      <calcite-combobox-item-group key={label} label={label}>
+      <calcite-combobox-item-group key={label} label={messages[label] || label}>
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, value } = item;
