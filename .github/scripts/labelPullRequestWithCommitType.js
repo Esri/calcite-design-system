@@ -1,7 +1,5 @@
 // @ts-check
-const {
-  labels: { issueType },
-} = require("./support/resources");
+const { issueType } = require("./support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {

@@ -28,7 +28,6 @@
     "ts-jest",
     "typescript"
   ],
-  "ignorePaths": ["packages/calcite-ui-icons/**"],
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
