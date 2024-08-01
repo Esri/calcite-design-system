@@ -411,12 +411,15 @@ export class Block
   }
 
   render(): VNode {
-    const { collapsible, el, loading, open, heading, messages } = this;
+    const { collapsible, el, loading, open, heading, messages, description } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
     const headerContent = (
-      <header class={CSS.header} id={IDS.header}>
+      <header
+        class={{ [CSS.header]: true, [CSS.headerHasText]: !!(heading || description) }}
+        id={IDS.header}
+      >
         {this.renderIcon("start")}
         {this.renderContentStart()}
         {this.renderLoaderStatusIcon()}

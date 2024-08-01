@@ -8,7 +8,7 @@ For comprehensive guidance on using and implementing `calcite-input-message`, re
 
 | Property      | Attribute       | Description                                                                                  | Type                             | Default     |
 | ------------- | --------------- | -------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `icon`        | `icon`          | Specifies an icon to display.                                                                | `boolean \| IconName`            | `undefined` |
+| `icon`        | `icon`          | Specifies an icon to display.                                                                | `boolean \| string`              | `undefined` |
 | `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                        | `false`     |
 | `scale`       | `scale`         | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`              | `"m"`       |
 | `status`      | `status`        | Specifies the status of the input field, which determines message and icons.                 | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
