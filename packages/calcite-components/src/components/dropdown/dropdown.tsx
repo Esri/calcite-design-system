@@ -11,7 +11,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
+import {
+  focusElement,
+  focusElementInGroup,
+  focusFirstTabbable,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -188,7 +193,7 @@ export class Dropdown
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.referenceEl);
   }
 
   //--------------------------------------------------------------------------

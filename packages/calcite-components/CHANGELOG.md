@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.31...@esri/calcite-components@2.11.1-next.0) (2024-08-01)
+
+### Bug Fixes
+
+- **block:** display correct header spacing when heading or description are present ([#9924](https://github.com/Esri/calcite-design-system/issues/9924)) ([23d67b4](https://github.com/Esri/calcite-design-system/commit/23d67b4af5843ec92790f6de0c338885f30ca779)), closes [#9920](https://github.com/Esri/calcite-design-system/issues/9920)
+
 ## [2.11.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.1...@esri/calcite-components@2.11.0) (2024-07-31)
 
 ### Features
