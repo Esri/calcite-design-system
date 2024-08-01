@@ -1,6 +1,7 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { ActionBar } from "./action-bar";
 const { position } = ATTRIBUTES;
 
@@ -199,3 +200,16 @@ export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expande
 <calcite-action text="Information" icon="information"></calcite-action>
 <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
+
+export const theming_TestOnly = (): string =>
+  html` <style>
+      .container {
+        ${setCSSVariables(["--calcite-action-bar-expanded-max-width"])}
+      }
+    </style>
+    <div class="container">
+      <calcite-action-bar expanded lang="bs">
+        <calcite-action text="Information" icon="information"></calcite-action>
+        <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+      </calcite-action-bar>
+    </div>`;
