@@ -57,7 +57,12 @@
 }
 
 .content--non-interactive {
-  @apply flex pointer-events-none;
+  @apply flex
+    h-full
+    w-full
+    flex-col
+    flex-nowrap
+    pointer-events-none;
 }
 
 ::slotted(calcite-shell-center-row) {
