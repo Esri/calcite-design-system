@@ -17,8 +17,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-      - run: npm install
-      - run: npm --workspace="packages/calcite-design-tokens" run build
+      - run: |
+          npm install
+          npm --workspace="packages/calcite-design-tokens" run build
+          npm --workspace="packages/calcite-ui-icons" run build
       - name: Publish to Chromatic
         uses: chromaui/action@v11
         with:

@@ -69,7 +69,7 @@ let initialDocumentOverflowStyle: string = "";
 
 logger.deprecated("component", {
   name: "modal",
-  removalVersion: 3,
+  removalVersion: 4,
   suggested: "dialog",
 });
 
