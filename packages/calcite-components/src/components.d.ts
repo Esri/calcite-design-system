@@ -992,7 +992,7 @@ export namespace Components {
         "status": Status;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -1356,7 +1356,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2377,7 +2377,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2501,7 +2501,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2696,7 +2696,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2837,7 +2837,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -2937,7 +2937,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -3025,7 +3025,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -4321,7 +4321,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -4416,7 +4416,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -5324,7 +5324,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * When `true`, the component's `value` can be read, but cannot be modified.
-          * @readonly
+          * @readonly 
           * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
          */
         "readOnly": boolean;
@@ -5368,7 +5368,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": MutableValidityState;
@@ -8916,7 +8916,7 @@ declare namespace LocalJSX {
         "status"?: Status;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -9309,7 +9309,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10375,7 +10375,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10509,7 +10509,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10706,7 +10706,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10852,7 +10852,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -10963,7 +10963,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -11070,7 +11070,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -12429,7 +12429,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -12528,7 +12528,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
@@ -13473,7 +13473,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * When `true`, the component's `value` can be read, but cannot be modified.
-          * @readonly
+          * @readonly 
           * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
          */
         "readOnly"?: boolean;
@@ -13509,7 +13509,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The current validation state of the component.
-          * @readonly
+          * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: MutableValidityState;
