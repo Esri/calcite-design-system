@@ -99,6 +99,7 @@ Type: `Promise<void>`
 | Name                                      | Description                                                                                                                                                    |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--calcite-dialog-border-color`           | Specifies the component's border color.                                                                                                                        |
+| `--calcite-dialog-content-space`          | Specifies the padding of the component's content.                                                                                                              |
 | `--calcite-dialog-footer-space`           | Specifies the padding of the component's footer.                                                                                                               |
 | `--calcite-dialog-scrim-background-color` | Specifies the background color of the component's scrim.                                                                                                       |
 | `--calcite-dialog-size-x`                 | Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Does not exceed the viewport's width - applies when `placement="cover"` is set.   |
