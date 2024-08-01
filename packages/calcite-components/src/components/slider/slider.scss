@@ -180,7 +180,7 @@
       }
     }
     .scale--l {
-      .thumb:not(.thumb--precise) {
+      .thumb:not(.thumb--precise):not(.thumb--vertical) {
         --calcite-slider-thumb-y-offset: -2rem;
       }
     }
@@ -307,6 +307,10 @@
   transition: opacity var(--calcite-internal-animation-timing-fast);
 }
 
+.tick__label--vertical {
+  transform: rotate(90deg) translateX(-40px);
+}
+
 :host([has-histogram][label-handles]),
 :host([has-histogram][precise]) {
   .tick__label--min,
@@ -370,6 +374,14 @@
       );
     }
   }
+}
+
+.track--vertical {
+  transform: rotate(-90deg);
+}
+
+.handle__label--vertical {
+  transform: rotate(90deg) translateX(2px);
 }
 
 @include hidden-form-input();
