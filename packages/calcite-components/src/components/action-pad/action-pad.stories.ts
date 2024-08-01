@@ -1,6 +1,7 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { ActionPad } from "./action-pad";
 const { position } = ATTRIBUTES;
 
@@ -102,3 +103,19 @@ export const romanianMoldovaLocale_TestOnly = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="ro-mo" layout="horizontal"> </calcite-action-pad>
   </div>`;
+
+export const theming_TestOnly = (): string =>
+  html` <style>
+      .container {
+        ${setCSSVariables([
+        "--calcite-action-pad-corner-radius",
+        "--calcite-action-pad-expanded-max-width",
+        "--calcite-action-group-border-color",
+      ])}
+      }
+    </style>
+    <div class="container">
+      <calcite-action-pad layout="vertical" expanded>
+        <calcite-action-group></calcite-action-group>
+      </calcite-action-pad>
+    </div>`;
