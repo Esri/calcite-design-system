@@ -417,7 +417,7 @@ export class Block
 
     const headerContent = (
       <header
-        class={{ [CSS.header]: true, [CSS.headerPresent]: !!(heading || description) }}
+        class={{ [CSS.header]: true, [CSS.headerHasText]: !!(heading || description) }}
         id={IDS.header}
       >
         {this.renderIcon("start")}

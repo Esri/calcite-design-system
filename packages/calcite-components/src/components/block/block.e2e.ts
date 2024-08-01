@@ -334,17 +334,17 @@ describe("calcite-block", () => {
       block.setAttribute("heading", "test-heading");
       await page.waitForChanges();
 
-      expect(header).toHaveClass(CSS.headerPresent);
+      expect(header).toHaveClass(CSS.headerHasText);
 
       block.removeAttribute("heading");
       await page.waitForChanges();
 
-      expect(header).not.toHaveClass(CSS.headerPresent);
+      expect(header).not.toHaveClass(CSS.headerHasText);
 
       block.setAttribute("description", "test-description");
       await page.waitForChanges();
 
-      expect(header).toHaveClass(CSS.headerPresent);
+      expect(header).toHaveClass(CSS.headerHasText);
     });
   });
 
