@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.0...@esri/calcite-components@2.12.0-next.1) (2024-08-01)
+
+### Bug Fixes
+
+- **button:** drop loader fade-in/out animation ([#9929](https://github.com/Esri/calcite-design-system/issues/9929)) ([0f8a4a3](https://github.com/Esri/calcite-design-system/commit/0f8a4a3777065434baf5a8bf6b43ae53b0e6659a)), closes [#8576](https://github.com/Esri/calcite-design-system/issues/8576)
+
 ## [2.12.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.1-next.0...@esri/calcite-components@2.12.0-next.0) (2024-08-01)
 
 ### Features
