@@ -173,7 +173,7 @@
 }
 
 :host([layout="horizontal"]) .separator {
-  @apply right-0 w-full
+  @apply end-0 w-full
   h-0.5;
   cursor: row-resize;
 }
@@ -259,7 +259,7 @@
 }
 
 :host([layout="horizontal"]) .content--overlay {
-  @apply left-0 w-full;
+  @apply start-0 w-full;
 }
 
 :host([layout="vertical"][position="start"]) .content--overlay {
