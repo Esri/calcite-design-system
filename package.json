@@ -24,6 +24,7 @@
     "publish:hotfix": "./support/release.sh publish hotfix",
     "prepare": "husky",
     "start": "turbo run start --log-order=stream",
+    "start:components": "turbo run start --log-order=stream --filter=@esri/calcite-components",
     "test": "turbo run test --log-order=stream",
     "util:is-next-deployable": "tsx support/isNextDeployable.ts",
     "util:push-tags": "git push origin HEAD --follow-tags",
