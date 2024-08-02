@@ -212,11 +212,7 @@ export class Slider
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  @Prop({ reflect: true }) layout:
-    | "horizontal"
-    | "horizontal-reversed"
-    | "vertical"
-    | "vertical-reversed" = "horizontal";
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   //--------------------------------------------------------------------------
   //
@@ -282,7 +278,8 @@ export class Slider
     const thumbTypes = this.buildThumbType("max");
     const thumb = this.renderThumb({
       type: thumbTypes,
-      thumbPlacement: thumbTypes.includes("histogram") || this._isVertical ? "below" : "above",
+      thumbPlacement:
+        thumbTypes.includes("histogram") || this.layout === "vertical" ? "below" : "above",
       maxInterval,
       minInterval,
       mirror,
@@ -329,7 +326,7 @@ export class Slider
               [CSS.container]: true,
               [CSS.containerRange]: valueIsRange,
               [`scale--${this.scale}`]: true,
-              [CSS.trackVertical]: this._isVertical,
+              [CSS.trackVertical]: this.layout === "vertical",
             }}
           >
             {this.renderGraph()}
@@ -426,7 +423,10 @@ export class Slider
       ? [
           <span
             aria-hidden="true"
-            class={{ [thumbLabelClasses]: true, [CSS.handleLabelVertical]: this._isVertical }}
+            class={{
+              [thumbLabelClasses]: true,
+              [CSS.handleLabelVertical]: this.layout === "vertical",
+            }}
           >
             {displayedValue}
           </span>,
@@ -463,7 +463,7 @@ export class Slider
           [CSS.thumbActive]: this.lastDragProp !== "minMaxValue" && this.dragProp === valueProp,
           [CSS.thumbPrecise]: isPrecise,
           [CSS.thumbMinValue]: isMinThumb,
-          [CSS.thumbVertical]: this._isVertical,
+          [CSS.thumbVertical]: this.layout === "vertical",
         }}
         data-value-prop={valueProp}
         key={type}
@@ -512,7 +512,7 @@ export class Slider
           [CSS.tickLabel]: true,
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
-          [CSS.tickLabelVertical]: this._isVertical,
+          [CSS.tickLabelVertical]: this.layout === "vertical",
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
@@ -724,12 +724,7 @@ export class Slider
   }
 
   private shouldMirror(): boolean {
-    return (
-      (this.mirrored ||
-        this.layout === "horizontal-reversed" ||
-        this.layout === "vertical-reversed") &&
-      !this.hasHistogram
-    );
+    return this.mirrored && !this.hasHistogram;
   }
 
   private shouldUseMinValue(): boolean {
@@ -1311,9 +1306,5 @@ export class Slider
 
   private get _isHorizontal(): boolean {
     return this.layout === "horizontal" || this.layout === "horizontal-reversed";
-  }
-
-  private get _isVertical(): boolean {
-    return this.layout === "vertical" || this.layout === "vertical-reversed";
   }
 }
