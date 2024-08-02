@@ -53,7 +53,6 @@ import {
 } from "../../utils/locale";
 import {
   activateFocusTrap,
-  connectFocusTrap,
   deactivateFocusTrap,
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
@@ -689,27 +688,6 @@ export class InputTimePicker
     return timeString;
   }
 
-  private popoverCloseHandler = () => {
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      },
-    });
-    this.open = false;
-  };
-
-  private popoverOpenHandler = () => {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
-  };
-
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -870,17 +848,6 @@ export class InputTimePicker
   private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
     this.transitionEl = el;
-  };
-
-  private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
-    this.calciteTimePickerEl = el;
-    connectFocusTrap(this, {
-      focusTrapEl: el,
-      focusTrapOptions: {
-        initialFocus: false,
-        setReturnFocus: false,
-      },
-    });
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -1046,8 +1013,6 @@ export class InputTimePicker
             id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
-            onCalcitePopoverClose={this.popoverCloseHandler}
-            onCalcitePopoverOpen={this.popoverOpenHandler}
             open={this.open}
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
@@ -1060,7 +1025,6 @@ export class InputTimePicker
               messageOverrides={this.messageOverrides}
               numberingSystem={this.numberingSystem}
               onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
-              ref={this.setCalciteTimePickerEl}
               scale={this.scale}
               step={this.step}
               tabIndex={this.open ? undefined : -1}
