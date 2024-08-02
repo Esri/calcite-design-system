@@ -9364,6 +9364,9 @@ declare namespace LocalJSX {
           * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
+        /**
+          * Fires whenever a property the parent combobox needs to know about is changed.
+         */
         "onCalciteInternalComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
