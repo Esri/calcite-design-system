@@ -181,11 +181,16 @@ describe("calcite-sheet properties", () => {
           window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
         ).beforeClose),
     );
+    await skipAnimations(page);
     await page.waitForChanges();
+    await page.waitForEvent("calciteSheetOpen");
     expect(await sheet.getProperty("opened")).toBe(true);
+
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     await page.waitForChanges();
+    await page.waitForTimeout(500);
+
     expect(mockCallBack).toHaveBeenCalledTimes(1);
     expect(await sheet.getProperty("opened")).toBe(false);
   });
