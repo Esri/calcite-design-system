@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.3...@esri/calcite-components@2.12.0-next.4) (2024-08-02)
+
+### Bug Fixes
+
+- **input-time-zone:** translate region names ([#9940](https://github.com/Esri/calcite-design-system/issues/9940)) ([f975adb](https://github.com/Esri/calcite-design-system/commit/f975adb0ec56aca487eec83db24f1d95bce6c73f)), closes [#9018](https://github.com/Esri/calcite-design-system/issues/9018)
+
 ## [2.12.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.2...@esri/calcite-components@2.12.0-next.3) (2024-08-02)
 
 ### Bug Fixes
