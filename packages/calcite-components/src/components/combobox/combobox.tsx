@@ -397,6 +397,14 @@ export class Combobox
     this.toggleSelection(target, target.selected);
   }
 
+  @Listen("calciteInternalComboboxItemChange")
+  calciteInternalComboboxItemChangeHandler(
+    event: CustomEvent<HTMLCalciteComboboxItemElement>,
+  ): void {
+    event.stopPropagation();
+    this.updateItems();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
