@@ -842,6 +842,10 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
+  private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
+    this.calciteTimePickerEl = el;
+  };
+
   private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
     this.transitionEl = el;
@@ -1022,6 +1026,7 @@ export class InputTimePicker
               messageOverrides={this.messageOverrides}
               numberingSystem={this.numberingSystem}
               onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
+              ref={this.setCalciteTimePickerEl}
               scale={this.scale}
               step={this.step}
               tabIndex={this.open ? undefined : -1}
