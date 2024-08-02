@@ -60,6 +60,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  @Watch("disabled")
+  handleDisabledChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
+
   /**
    * When `true`, omits the component from the `calcite-combobox` filtered search results.
    */
@@ -176,6 +181,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    *
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
+
+  /**
+   * Fires whenever a property the parent combobox needs to know about is changed.
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalComboboxItemChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
