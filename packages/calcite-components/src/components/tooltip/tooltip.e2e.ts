@@ -470,7 +470,6 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(true);
 
     await setUpEscapeKeyCancelListener(page);
-
     await dispatchKeydownEvent(page, "#ref", "Escape");
 
     expect(await tooltip.getProperty("open")).toBe(false);
@@ -535,10 +534,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(true);
 
     await setUpEscapeKeyCancelListener(page);
-
     await dispatchKeydownEvent(page, "#ref", "Escape");
-
-    await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
     await assertEscapeKeyCanceled(page, true);

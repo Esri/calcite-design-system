@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.1...@esri/calcite-components@2.12.0-next.2) (2024-08-02)
+
+### Bug Fixes
+
+- **shell:** position side panels above the center content ([#9912](https://github.com/Esri/calcite-design-system/issues/9912)) ([3c061b8](https://github.com/Esri/calcite-design-system/commit/3c061b8c020de153f96f11968636a891fd46ed81)), closes [#6658](https://github.com/Esri/calcite-design-system/issues/6658)
+
+## [2.12.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.0...@esri/calcite-components@2.12.0-next.1) (2024-08-01)
+
+### Bug Fixes
+
+- **button:** drop loader fade-in/out animation ([#9929](https://github.com/Esri/calcite-design-system/issues/9929)) ([0f8a4a3](https://github.com/Esri/calcite-design-system/commit/0f8a4a3777065434baf5a8bf6b43ae53b0e6659a)), closes [#8576](https://github.com/Esri/calcite-design-system/issues/8576)
+
+## [2.12.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.1-next.0...@esri/calcite-components@2.12.0-next.0) (2024-08-01)
+
+### Features
+
+- **input-time-zone:** add region mode ([#9873](https://github.com/Esri/calcite-design-system/issues/9873)) ([7111a51](https://github.com/Esri/calcite-design-system/commit/7111a51bd4cd4ff8b27a7947408b8ffe4b94319f)), closes [#9018](https://github.com/Esri/calcite-design-system/issues/9018)
+- **input-time-zone:** add search placeholder icon to provide hint ([#9892](https://github.com/Esri/calcite-design-system/issues/9892)) ([923c8f7](https://github.com/Esri/calcite-design-system/commit/923c8f71367f5e8c01153c1b69f67683f2300c58)), closes [#9017](https://github.com/Esri/calcite-design-system/issues/9017)
+
+### Bug Fixes
+
+- **dropdown:** ensure `setFocus` focuses the trigger ([#9917](https://github.com/Esri/calcite-design-system/issues/9917)) ([3b7d880](https://github.com/Esri/calcite-design-system/commit/3b7d880af91ef081295df9eb14b31c8c26cd268e)), closes [#9731](https://github.com/Esri/calcite-design-system/issues/9731)
+- improve all initial floating-ui positioning ([#9937](https://github.com/Esri/calcite-design-system/issues/9937)) ([7d21438](https://github.com/Esri/calcite-design-system/commit/7d214385bea68185eda6228315d8fb7cc91fa063)), closes [#5697](https://github.com/Esri/calcite-design-system/issues/5697)
+- **panel, flow-item:** fix header padding regression ([#9936](https://github.com/Esri/calcite-design-system/issues/9936)) ([f618380](https://github.com/Esri/calcite-design-system/commit/f61838065070729f81e54afdb17584578566b96a)), closes [#9921](https://github.com/Esri/calcite-design-system/issues/9921)
+
 ## [2.11.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.31...@esri/calcite-components@2.11.1-next.0) (2024-08-01)
 
 ### Bug Fixes
