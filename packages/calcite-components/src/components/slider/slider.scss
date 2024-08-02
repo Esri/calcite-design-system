@@ -209,6 +209,9 @@
   }
   &:host(:not([has-histogram])) .scale--l .thumb--value {
     --calcite-slider-thumb-y-offset: -3.0625rem;
+    &.thumb--vertical {
+      --calcite-slider-thumb-y-offset: -0.0625rem;
+    }
   }
 }
 
