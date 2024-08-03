@@ -1,6 +1,7 @@
-import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { CSS } from "./resources";
 
 @Component({
@@ -8,7 +9,7 @@ import { CSS } from "./resources";
   styleUrl: "loader.scss",
   shadow: true,
 })
-export class Loader {
+export class Loader implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -20,6 +21,9 @@ export class Loader {
 
   /** Accessible name for the component. */
   @Prop() label!: string;
+
+  /** When `true`, and when the type is `determinate`, displays the progress value as a percentage */
+  @Prop({ reflect: true }) percentage = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -43,6 +47,16 @@ export class Loader {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLocalized(this);
+
+    this.updateFormatter();
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+  }
 
   render(): VNode {
     const { el, inline, label, scale, text, type, value } = this;
@@ -89,10 +103,18 @@ export class Loader {
           ))}
         </div>
         {text && <div class={CSS.loaderText}>{text}</div>}
-        {isDeterminate && <div class={CSS.loaderPercentage}>{value}</div>}
+        {isDeterminate && <div class={CSS.loaderPercentage}>{this.formatValue()}</div>}
       </Host>
     );
   }
+
+  private formatValue = (): string => {
+    if (!this.percentage) {
+      return `${this.value}`;
+    }
+
+    return this.formatter.format(this.value / 100);
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -101,6 +123,17 @@ export class Loader {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteLoaderElement;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  @Watch("percentage")
+  @Watch("type")
+  formatterPropsChange(): void {
+    this.updateFormatter();
+  }
+
+  private formatter: Intl.NumberFormat;
 
   //--------------------------------------------------------------------------
   //
@@ -127,5 +160,19 @@ export class Loader {
       m: 16,
       l: 20,
     }[scale];
+  }
+
+  private updateFormatter(): void {
+    if (
+      this.type !== "determinate" ||
+      !this.percentage ||
+      this.formatter?.resolvedOptions().locale === this.effectiveLocale
+    ) {
+      return;
+    }
+
+    this.formatter = new Intl.NumberFormat(this.effectiveLocale, {
+      style: "percent",
+    });
   }
 }

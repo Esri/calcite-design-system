@@ -40,6 +40,13 @@ export const inline_TestOnly = (): string => html`
   </div>
 `;
 
+export const determinate = (): string => html`
+  <h1>default</h1>
+  <calcite-loader type="determinate" value="50" /></calcite-loader>
+  <h1>percentage</h1>
+  <calcite-loader type="determinate" percentage value="50" /></calcite-loader>
+`;
+
 export const customTheme_TestOnly = (): string => html`
   <calcite-loader
     type="indeterminate"
