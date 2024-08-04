@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   State,
@@ -443,6 +444,11 @@ export class InputTimePicker
 
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteInputTimePickerOpen: EventEmitter<void>;
+
+  @Listen("calcitePopoverClose")
+  calcitePopoverCloseHandler(): void {
+    this.open = false;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -1010,7 +1016,7 @@ export class InputTimePicker
             {!this.readOnly && this.renderToggleIcon(this.open)}
           </div>
           <calcite-popover
-            focusTrapDisabled={true}
+            focusTrapDisabled={false}
             id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
