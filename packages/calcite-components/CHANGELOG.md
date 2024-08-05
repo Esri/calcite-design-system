@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.3...@esri/calcite-components@2.12.0-next.4) (2024-08-02)
+
+### Bug Fixes
+
+- **input-time-zone:** translate region names ([#9940](https://github.com/Esri/calcite-design-system/issues/9940)) ([f975adb](https://github.com/Esri/calcite-design-system/commit/f975adb0ec56aca487eec83db24f1d95bce6c73f)), closes [#9018](https://github.com/Esri/calcite-design-system/issues/9018)
+
+## [2.12.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.2...@esri/calcite-components@2.12.0-next.3) (2024-08-02)
+
+### Bug Fixes
+
+- **combobox:** fix selection of items that were previously disabled ([#9943](https://github.com/Esri/calcite-design-system/issues/9943)) ([368abed](https://github.com/Esri/calcite-design-system/commit/368abed2dc5fcaa127adeeb63c47553a41f0e75c)), closes [#9719](https://github.com/Esri/calcite-design-system/issues/9719)
+
+## [2.11.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0...@esri/calcite-components@2.11.1) (2024-08-02)
+
+### Bug Fixes
+
+- **block:** Display correct header spacing when heading or description are present ([#9924](https://github.com/Esri/calcite-design-system/issues/9924)) ([d8f1077](https://github.com/Esri/calcite-design-system/commit/d8f1077c649f9f45f0db7e00a916a4261cd0adf2))
+- **panel, flow-item:** Fix header padding regression ([#9936](https://github.com/Esri/calcite-design-system/issues/9936)) ([90e9368](https://github.com/Esri/calcite-design-system/commit/90e93681c6926eec8480c4028f2797046ebd54f4))
+
 ## [2.12.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.1...@esri/calcite-components@2.12.0-next.2) (2024-08-02)
 
 ### Bug Fixes
