@@ -61,6 +61,7 @@ import {
   formatTimePart,
   formatTimeString,
   FractionalSecondDigits,
+  HourCycle,
   isValidTime,
   localizeTimeString,
   toISOTimeString,
@@ -217,6 +218,26 @@ export class InputTimePicker
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @Prop({ reflect: true }) form: string;
+
+  /**
+   * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+   */
+  @Prop({ reflect: true }) hourCycle: HourCycle;
+
+  @Watch("hourCycle")
+  hourCycleWatcher(newHourCycle: HourCycle): void {
+    const { effectiveLocale: locale, numberingSystem, value, step } = this;
+    this.setInputValue(
+      localizeTimeString({
+        fractionalSecondDigits: decimalPlaces(step) as FractionalSecondDigits,
+        hour12: newHourCycle === "12" || false,
+        includeSeconds: this.shouldIncludeSeconds(),
+        locale,
+        numberingSystem,
+        value,
+      }),
+    );
+  }
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -1056,6 +1077,7 @@ export class InputTimePicker
             triggerDisabled={true}
           >
             <calcite-time-picker
+              hourCycle={this.hourCycle}
               lang={this.effectiveLocale}
               messageOverrides={this.messageOverrides}
               numberingSystem={this.numberingSystem}

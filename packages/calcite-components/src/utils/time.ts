@@ -279,6 +279,7 @@ interface LocalizeTimeStringParameters {
   fractionalSecondDigits?: FractionalSecondDigits;
   locale: string;
   numberingSystem: NumberingSystem;
+  hour12?: boolean;
 }
 
 export function localizeTimeString({
@@ -287,6 +288,7 @@ export function localizeTimeString({
   numberingSystem,
   includeSeconds = true,
   fractionalSecondDigits,
+  hour12,
 }: LocalizeTimeStringParameters): string {
   if (!isValidTime(value)) {
     return null;
@@ -304,7 +306,13 @@ export function localizeTimeString({
       fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
     ),
   );
-  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem, includeSeconds, fractionalSecondDigits });
+  const formatter = createLocaleDateTimeFormatter({
+    locale,
+    numberingSystem,
+    includeSeconds,
+    fractionalSecondDigits,
+    hour12,
+  });
   return formatter.format(dateFromTimeString) || null;
 }
 

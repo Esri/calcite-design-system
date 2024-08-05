@@ -54,6 +54,7 @@ import { InputMessages } from "./components/input/assets/input/t9n";
 import { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
 import { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
 import { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+import { HourCycle } from "./utils/time";
 import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
@@ -96,7 +97,6 @@ import { TableHeaderMessages } from "./components/table-header/assets/table-head
 import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
-import { HourCycle } from "./utils/time";
 import { TipMessages } from "./components/tip/assets/tip/t9n";
 import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
@@ -151,6 +151,7 @@ export { InputMessages } from "./components/input/assets/input/t9n";
 export { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
 export { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
 export { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+export { HourCycle } from "./utils/time";
 export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
@@ -193,7 +194,6 @@ export { TableHeaderMessages } from "./components/table-header/assets/table-head
 export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
-export { HourCycle } from "./utils/time";
 export { TipMessages } from "./components/tip/assets/tip/t9n";
 export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
@@ -2861,6 +2861,10 @@ export namespace Components {
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
+        /**
+          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+         */
+        "hourCycle": HourCycle;
         /**
           * Specifies the maximum value.
           * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
@@ -5568,6 +5572,9 @@ export namespace Components {
         "layout": TileSelectGroupLayout;
     }
     interface CalciteTimePicker {
+        /**
+          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+         */
         "hourCycle": HourCycle;
         /**
           * Use this property to override individual strings used by the component.
@@ -10878,6 +10885,10 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
+          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+         */
+        "hourCycle"?: HourCycle;
+        /**
           * Specifies the maximum value.
           * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
          */
@@ -13715,6 +13726,9 @@ declare namespace LocalJSX {
         "layout"?: TileSelectGroupLayout;
     }
     interface CalciteTimePicker {
+        /**
+          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+         */
         "hourCycle"?: HourCycle;
         /**
           * Use this property to override individual strings used by the component.
