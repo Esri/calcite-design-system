@@ -1,9 +1,10 @@
 name: Icon Team Diff Check
 on:
-  pull_request:
-    branches: [main, rc, dev]
-  pull_request_review:
-    types: [submitted]
+  workflow_call:
+  # pull_request:
+  #   branches: [main, rc, dev]
+  # pull_request_review:
+  #   types: [submitted]
 jobs:
   check-diff:
     runs-on: ubuntu-latest
