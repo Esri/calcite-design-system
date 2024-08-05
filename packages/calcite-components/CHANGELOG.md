@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.4...@esri/calcite-components@2.12.0-next.5) (2024-08-05)
+
+### Bug Fixes
+
+- **combobox:** update placeholder-icon color ([#9956](https://github.com/Esri/calcite-design-system/issues/9956)) ([d916ca4](https://github.com/Esri/calcite-design-system/commit/d916ca41010720f312c45a7c08e33546013eebf5)), closes [#9935](https://github.com/Esri/calcite-design-system/issues/9935)
+- **list-item:** prevent scrolling when item is focused. ([#9948](https://github.com/Esri/calcite-design-system/issues/9948)) ([eab1e06](https://github.com/Esri/calcite-design-system/commit/eab1e069f8a5ae7a43d43ab8a5b11d8ff9520c04)), closes [#9949](https://github.com/Esri/calcite-design-system/issues/9949)
+
 ## [2.12.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.3...@esri/calcite-components@2.12.0-next.4) (2024-08-02)
 
 ### Bug Fixes
