@@ -61,6 +61,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
+  @Watch("textLabel")
   handleDisabledChange(): void {
     this.calciteInternalComboboxItemChange.emit();
   }
