@@ -77,7 +77,7 @@ export class ActionBar
   @Prop({ reflect: true }) expandDisabled = false;
 
   @Watch("expandDisabled")
-  expandHandler(): void {
+  expandDisabledHandler(): void {
     this.overflowActions();
   }
 
@@ -109,7 +109,7 @@ export class ActionBar
   @Prop({ reflect: true }) overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
-  overflowDisabledHandler(overflowActionsDisabled: boolean): void {
+  overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
     if (overflowActionsDisabled) {
       this.resizeObserver?.disconnect();
       return;
@@ -177,15 +177,13 @@ export class ActionBar
 
   @Element() el: HTMLCalciteActionBarElement;
 
-  mutationObserver = createObserver("mutation", () => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  });
+  mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
+
+  actionGroups: HTMLCalciteActionGroupElement[];
 
   @State() effectiveLocale: string;
 
@@ -208,34 +206,25 @@ export class ActionBar
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad(): void {
-    const { el, expanded } = this;
-
-    setComponentLoaded(this);
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  }
-
   connectedCallback(): void {
-    const { el, expanded } = this;
-
     connectLocalized(this);
     connectMessages(this);
-    toggleChildActionText({ el, expanded });
 
-    this.mutationObserver?.observe(el, { childList: true, subtree: true });
-
-    if (!this.overflowActionsDisabled) {
-      this.resizeObserver?.observe(el);
-    }
-
+    this.updateGroups();
     this.overflowActions();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     connectConditionalSlotComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+    this.overflowActions();
   }
 
   disconnectedCallback(): void {
@@ -281,12 +270,17 @@ export class ActionBar
   actionMenuOpenHandler = (event: CustomEvent<void>): void => {
     if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
-      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+      this.actionGroups?.forEach((group) => {
         if (!composedPath.includes(group)) {
           group.menuOpen = false;
         }
       });
     }
+  };
+
+  mutationObserverHandler = (): void => {
+    this.updateGroups();
+    this.overflowActions();
   };
 
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
@@ -299,7 +293,7 @@ export class ActionBar
   };
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { el, expanded, expandDisabled, layout, overflowActionsDisabled } = this;
+    const { el, expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
       overflowActionsDisabled ||
@@ -311,9 +305,7 @@ export class ActionBar
 
     const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
-    const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
-
-    this.setGroupLayout(actionGroups);
+    this.updateGroups();
 
     const groupCount =
       this.hasActionsEnd || this.hasBottomActions || !expandDisabled
@@ -349,19 +341,17 @@ export class ActionBar
   };
 
   updateGroups(): void {
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = groups;
+    this.setGroupLayout(groups);
   }
 
   setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
     groups.forEach((group) => (group.layout = this.layout));
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
-
-    this.setGroupLayout(groups);
+  handleDefaultSlotChange = (): void => {
+    this.updateGroups();
   };
 
   handleActionsEndSlotChange = (event: Event): void => {
