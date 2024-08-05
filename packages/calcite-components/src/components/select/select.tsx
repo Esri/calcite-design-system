@@ -39,7 +39,7 @@ import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -421,6 +421,8 @@ export class Select
         <InteractiveContainer disabled={disabled}>
           <div class={CSS.wrapper}>
             <select
+              aria-errormessage={IDS.validationMessage}
+              aria-invalid={this.status === "invalid"}
               aria-label={getLabelText(this)}
               class={CSS.select}
               disabled={disabled}
@@ -435,6 +437,7 @@ export class Select
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

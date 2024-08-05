@@ -58,7 +58,7 @@ import { syncHiddenFormInput, TextualInputComponent } from "../input/common/inpu
 import { IconName } from "../icon/interfaces";
 import { CharacterLengthObj } from "./interfaces";
 import { TextAreaMessages } from "./assets/text-area/t9n";
-import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
+import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -310,7 +310,10 @@ export class TextArea
         <InteractiveContainer disabled={this.disabled}>
           <textarea
             aria-describedby={this.guid}
-            aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
+            aria-errormessage={IDS.validationMessage}
+            aria-invalid={
+              this.status === "invalid" || toAriaBoolean(this.isCharacterLimitExceeded())
+            }
             aria-label={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{
@@ -374,6 +377,7 @@ export class TextArea
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}
