@@ -1,12 +1,14 @@
+// @ts-check
 const { createLabelIfMissing } = require("./support/utils");
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
+  const { repo, owner } = context.repo;
+
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
-    repo: { owner, repo },
-    payload: {
-      issue: { body, number: issue_number },
-    },
-  } = context;
+    issue: { body, number: issue_number },
+  } = payload;
 
   if (!body) {
     console.log("could not determine the issue body");

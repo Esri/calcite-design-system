@@ -7,7 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
-import { IconName } from "./components/icon/interfaces";
+import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
 import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
@@ -37,6 +37,9 @@ import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
+import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
+import { OverlayPositioning as OverlayPositioning1 } from "./components";
+import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 import { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -100,7 +103,7 @@ import { ValueListMessages } from "./components/value-list/assets/value-list/t9n
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
-export { IconName } from "./components/icon/interfaces";
+export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
 export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
@@ -130,6 +133,9 @@ export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
+export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
+export { OverlayPositioning as OverlayPositioning1 } from "./components";
+export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 export { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -237,7 +243,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -249,7 +255,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
@@ -277,7 +283,8 @@ export namespace Components {
          */
         "appearance": Extract<"solid" | "transparent", Appearance>;
         /**
-          * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+          * When `true`, the side padding of the component is reduced.
+          * @deprecated No longer necessary.
          */
         "compact": boolean;
         /**
@@ -287,7 +294,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -518,7 +525,7 @@ export namespace Components {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -617,7 +624,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -625,7 +632,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * When `true`, a busy indicator is displayed.
          */
@@ -660,7 +667,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -668,7 +675,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -730,7 +737,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -738,7 +745,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
@@ -1014,7 +1021,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1292,7 +1299,7 @@ export namespace Components {
         /**
           * Specifies the placeholder icon for the input.
          */
-        "placeholderIcon": IconName;
+        "placeholderIcon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1342,7 +1349,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -1390,7 +1397,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1654,6 +1661,92 @@ export namespace Components {
          */
         "selectedDate": Date;
     }
+    interface CalciteDialog {
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose": () => Promise<void>;
+        /**
+          * When `true`, disables the component's close button.
+         */
+        "closeDisabled": boolean;
+        /**
+          * A description for the component.
+         */
+        "description": string;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
+          * The component header text.
+         */
+        "heading": string;
+        /**
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
+         */
+        "headingLevel": HeadingLevel;
+        /**
+          * Specifies the kind of the component, which will style the top border.
+         */
+        "kind": Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
+        /**
+          * When `true`, a busy indicator is displayed.
+         */
+        "loading": boolean;
+        /**
+          * When `true`, the action menu items in the `header-menu-actions` slot are open.
+         */
+        "menuOpen": boolean;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<DialogMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DialogMessages;
+        /**
+          * When `true`, displays a scrim blocking interaction underneath the component.
+         */
+        "modal": boolean;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning1;
+        /**
+          * Specifies the placement of the dialog.
+         */
+        "placement": DialogPlacement;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Scrolls the component's content to a specified set of coordinates.
+          * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
+          * @param options - allows specific coordinates to be defined.
+          * @returns - promise that resolves once the content is scrolled to.
+         */
+        "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
+        /**
+          * Sets focus on the component's "close" button (the first focusable item).
+          * @returns - A promise that is resolved when the operation has completed.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Updates the element(s) that are used within the focus-trap of the component.
+         */
+        "updateFocusTrapElements": () => Promise<void>;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale": Scale;
+    }
     interface CalciteDropdown {
         /**
           * When `true`, the component will remain open after a selection is made.  If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
@@ -1737,7 +1830,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1745,7 +1838,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Accessible name for the component.
          */
@@ -1788,7 +1881,7 @@ export namespace Components {
           * Specifies an icon to display.
           * @default "plus"
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2040,7 +2133,7 @@ export namespace Components {
           * Displays a specific icon.
           * @see [Icons](https://esri.github.io/calcite-ui-icons)
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * Specifies the size of the component.
          */
@@ -2139,7 +2232,7 @@ export namespace Components {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2277,7 +2370,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2378,7 +2471,8 @@ export namespace Components {
         "readOnly": boolean;
         /**
           * Updates the position of the component.
-          * @param delayed
+          * @param delayed If true, the repositioning is delayed.
+          * @returns void
          */
         "reposition": (delayed?: boolean) => Promise<void>;
         /**
@@ -2400,7 +2494,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2424,7 +2518,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2480,7 +2574,7 @@ export namespace Components {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2595,7 +2689,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2649,7 +2743,7 @@ export namespace Components {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2736,7 +2830,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2810,7 +2904,7 @@ export namespace Components {
         "readOnly": boolean;
         /**
           * Updates the position of the component.
-          * @param delayed
+          * @param delayed If true, delay the repositioning.
          */
         "reposition": (delayed?: boolean) => Promise<void>;
         /**
@@ -2836,7 +2930,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2924,7 +3018,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2975,7 +3069,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2983,7 +3077,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Specifies the relationship to the linked document defined in `href`.
          */
@@ -3264,7 +3358,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -3272,7 +3366,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         "isTopLevelItem": boolean;
         /**
           * Accessible name for the component.
@@ -3503,7 +3597,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -3573,7 +3667,7 @@ export namespace Components {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4101,7 +4195,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -4220,7 +4314,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -4252,7 +4346,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4260,7 +4354,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
@@ -4315,7 +4409,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -4425,12 +4519,12 @@ export namespace Components {
          */
         "detached": boolean;
         /**
-          * When `displayMode` is `float`, specifies the maximum height of the component.
+          * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale": Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
          */
         "displayMode": DisplayMode1;
         /**
@@ -4454,7 +4548,7 @@ export namespace Components {
          */
         "position": Extract<"start" | "end", Position>;
         /**
-          * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable.
          */
         "resizable": boolean;
         /**
@@ -4663,7 +4757,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the primary button.
          */
-        "primaryIconEnd": IconName;
+        "primaryIconEnd": IconNameOrString;
         /**
           * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4671,7 +4765,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the primary button.
          */
-        "primaryIconStart": IconName;
+        "primaryIconStart": IconNameOrString;
         /**
           * Accessible name for the primary button.
          */
@@ -4873,8 +4967,6 @@ export namespace Components {
     }
     interface CalciteTabNav {
         "bordered": boolean;
-        "indicatorOffset": number;
-        "indicatorWidth": number;
         "layout": TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -4933,7 +5025,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4941,7 +5033,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         "layout": TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -5269,7 +5361,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -5324,7 +5416,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5426,7 +5518,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5654,7 +5746,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
@@ -5889,6 +5981,10 @@ export interface CalciteDatePickerMonthCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteDatePickerMonthHeaderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteDatePickerMonthHeaderElement;
+}
+export interface CalciteDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteDialogElement;
 }
 export interface CalciteDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6478,6 +6574,7 @@ declare global {
     };
     interface HTMLCalciteComboboxItemElementEventMap {
         "calciteComboboxItemChange": void;
+        "calciteInternalComboboxItemChange": void;
     }
     interface HTMLCalciteComboboxItemElement extends Components.CalciteComboboxItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteComboboxItemElementEventMap>(type: K, listener: (this: HTMLCalciteComboboxItemElement, ev: CalciteComboboxItemCustomEvent<HTMLCalciteComboboxItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6571,6 +6668,27 @@ declare global {
     var HTMLCalciteDatePickerMonthHeaderElement: {
         prototype: HTMLCalciteDatePickerMonthHeaderElement;
         new (): HTMLCalciteDatePickerMonthHeaderElement;
+    };
+    interface HTMLCalciteDialogElementEventMap {
+        "calciteDialogBeforeClose": void;
+        "calciteDialogClose": void;
+        "calciteDialogBeforeOpen": void;
+        "calciteDialogOpen": void;
+        "calciteDialogScroll": void;
+    }
+    interface HTMLCalciteDialogElement extends Components.CalciteDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteDialogElementEventMap>(type: K, listener: (this: HTMLCalciteDialogElement, ev: CalciteDialogCustomEvent<HTMLCalciteDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteDialogElementEventMap>(type: K, listener: (this: HTMLCalciteDialogElement, ev: CalciteDialogCustomEvent<HTMLCalciteDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteDialogElement: {
+        prototype: HTMLCalciteDialogElement;
+        new (): HTMLCalciteDialogElement;
     };
     interface HTMLCalciteDropdownElementEventMap {
         "calciteDropdownSelect": void;
@@ -7883,6 +8001,7 @@ declare global {
         "calcite-date-picker-day": HTMLCalciteDatePickerDayElement;
         "calcite-date-picker-month": HTMLCalciteDatePickerMonthElement;
         "calcite-date-picker-month-header": HTMLCalciteDatePickerMonthHeaderElement;
+        "calcite-dialog": HTMLCalciteDialogElement;
         "calcite-dropdown": HTMLCalciteDropdownElement;
         "calcite-dropdown-group": HTMLCalciteDropdownGroupElement;
         "calcite-dropdown-item": HTMLCalciteDropdownItemElement;
@@ -8013,7 +8132,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8025,7 +8144,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
@@ -8051,7 +8170,8 @@ declare namespace LocalJSX {
          */
         "appearance"?: Extract<"solid" | "transparent", Appearance>;
         /**
-          * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+          * When `true`, the side padding of the component is reduced.
+          * @deprecated No longer necessary.
          */
         "compact"?: boolean;
         /**
@@ -8061,7 +8181,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8280,7 +8400,7 @@ declare namespace LocalJSX {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8399,7 +8519,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8407,7 +8527,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * When `true`, a busy indicator is displayed.
          */
@@ -8459,7 +8579,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8467,7 +8587,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8529,7 +8649,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8537,7 +8657,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
@@ -8826,7 +8946,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9143,7 +9263,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the placeholder icon for the input.
          */
-        "placeholderIcon"?: IconName;
+        "placeholderIcon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9183,7 +9303,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -9231,7 +9351,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9244,6 +9364,10 @@ declare namespace LocalJSX {
           * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
+        /**
+          * Fires whenever a property the parent combobox needs to know about is changed.
+         */
+        "onCalciteInternalComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
@@ -9520,6 +9644,96 @@ declare namespace LocalJSX {
          */
         "selectedDate"?: Date;
     }
+    interface CalciteDialog {
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose"?: () => Promise<void>;
+        /**
+          * When `true`, disables the component's close button.
+         */
+        "closeDisabled"?: boolean;
+        /**
+          * A description for the component.
+         */
+        "description"?: string;
+        /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
+          * The component header text.
+         */
+        "heading"?: string;
+        /**
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
+          * Specifies the kind of the component, which will style the top border.
+         */
+        "kind"?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
+        /**
+          * When `true`, a busy indicator is displayed.
+         */
+        "loading"?: boolean;
+        /**
+          * When `true`, the action menu items in the `header-menu-actions` slot are open.
+         */
+        "menuOpen"?: boolean;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<DialogMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DialogMessages;
+        /**
+          * When `true`, displays a scrim blocking interaction underneath the component.
+         */
+        "modal"?: boolean;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteDialogBeforeClose"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteDialogBeforeOpen"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteDialogClose"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteDialogOpen"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the content is scrolled.
+         */
+        "onCalciteDialogScroll"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning1;
+        /**
+          * Specifies the placement of the dialog.
+         */
+        "placement"?: DialogPlacement;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale"?: Scale;
+    }
     interface CalciteDropdown {
         /**
           * When `true`, the component will remain open after a selection is made.  If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
@@ -9615,7 +9829,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9623,7 +9837,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Accessible name for the component.
          */
@@ -9669,7 +9883,7 @@ declare namespace LocalJSX {
           * Specifies an icon to display.
           * @default "plus"
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9915,7 +10129,7 @@ declare namespace LocalJSX {
           * Displays a specific icon.
           * @see [Icons](https://esri.github.io/calcite-ui-icons)
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * Specifies the size of the component.
          */
@@ -10019,7 +10233,7 @@ declare namespace LocalJSX {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10159,7 +10373,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10293,7 +10507,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10317,7 +10531,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10373,7 +10587,7 @@ declare namespace LocalJSX {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10490,7 +10704,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10544,7 +10758,7 @@ declare namespace LocalJSX {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10636,7 +10850,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10747,7 +10961,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10854,7 +11068,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10908,7 +11122,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10916,7 +11130,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Specifies the relationship to the linked document defined in `href`.
          */
@@ -11232,7 +11446,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -11240,7 +11454,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         "isTopLevelItem"?: boolean;
         /**
           * Accessible name for the component.
@@ -11474,7 +11688,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -11536,7 +11750,7 @@ declare namespace LocalJSX {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12094,7 +12308,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -12213,7 +12427,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -12245,7 +12459,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12253,7 +12467,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
@@ -12312,7 +12526,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -12430,12 +12644,12 @@ declare namespace LocalJSX {
          */
         "detached"?: boolean;
         /**
-          * When `displayMode` is `float`, specifies the maximum height of the component.
+          * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale"?: Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.  `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
          */
         "displayMode"?: DisplayMode1;
         /**
@@ -12461,7 +12675,7 @@ declare namespace LocalJSX {
          */
         "position"?: Extract<"start" | "end", Position>;
         /**
-          * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable.
          */
         "resizable"?: boolean;
         /**
@@ -12686,7 +12900,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the primary button.
          */
-        "primaryIconEnd"?: IconName;
+        "primaryIconEnd"?: IconNameOrString;
         /**
           * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12694,7 +12908,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the primary button.
          */
-        "primaryIconStart"?: IconName;
+        "primaryIconStart"?: IconNameOrString;
         /**
           * Accessible name for the primary button.
          */
@@ -12878,8 +13092,6 @@ declare namespace LocalJSX {
     }
     interface CalciteTabNav {
         "bordered"?: boolean;
-        "indicatorOffset"?: number;
-        "indicatorWidth"?: number;
         "layout"?: TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -12934,7 +13146,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12942,7 +13154,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         "layout"?: TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -13295,7 +13507,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -13350,7 +13562,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -13457,7 +13669,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -13699,7 +13911,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
@@ -13885,6 +14097,7 @@ declare namespace LocalJSX {
         "calcite-date-picker-day": CalciteDatePickerDay;
         "calcite-date-picker-month": CalciteDatePickerMonth;
         "calcite-date-picker-month-header": CalciteDatePickerMonthHeader;
+        "calcite-dialog": CalciteDialog;
         "calcite-dropdown": CalciteDropdown;
         "calcite-dropdown-group": CalciteDropdownGroup;
         "calcite-dropdown-item": CalciteDropdownItem;
@@ -14001,6 +14214,7 @@ declare module "@stencil/core" {
             "calcite-date-picker-day": LocalJSX.CalciteDatePickerDay & JSXBase.HTMLAttributes<HTMLCalciteDatePickerDayElement>;
             "calcite-date-picker-month": LocalJSX.CalciteDatePickerMonth & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthElement>;
             "calcite-date-picker-month-header": LocalJSX.CalciteDatePickerMonthHeader & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthHeaderElement>;
+            "calcite-dialog": LocalJSX.CalciteDialog & JSXBase.HTMLAttributes<HTMLCalciteDialogElement>;
             "calcite-dropdown": LocalJSX.CalciteDropdown & JSXBase.HTMLAttributes<HTMLCalciteDropdownElement>;
             "calcite-dropdown-group": LocalJSX.CalciteDropdownGroup & JSXBase.HTMLAttributes<HTMLCalciteDropdownGroupElement>;
             "calcite-dropdown-item": LocalJSX.CalciteDropdownItem & JSXBase.HTMLAttributes<HTMLCalciteDropdownItemElement>;

@@ -29,18 +29,19 @@
     overflow-hidden;
 }
 
-.content,
-.content--non-interactive {
+.content {
   @apply flex
     h-full
     w-full
     flex-col
-    flex-nowrap;
+    flex-nowrap
+    overflow-auto;
+  justify-content: space-between;
 }
 
-.content {
-  @apply overflow-auto;
-  justify-content: space-between;
+.content ::slotted(:not(calcite-tip-manager)) {
+  @apply relative
+    z-default;
 }
 
 .content ::slotted(calcite-shell-center-row),
@@ -59,7 +60,12 @@
 }
 
 .content--non-interactive {
-  @apply pointer-events-none;
+  @apply flex
+    h-full
+    w-full
+    flex-col
+    flex-nowrap
+    pointer-events-none;
 }
 
 ::slotted(calcite-shell-center-row) {
@@ -68,6 +74,12 @@
 
 ::slotted(.header .heading) {
   @apply text-n2-wrap font-normal;
+}
+
+slot[name="panel-start"]::slotted(calcite-shell-panel),
+slot[name="panel-end"]::slotted(calcite-shell-panel) {
+  @apply relative
+  z-header;
 }
 
 slot[name="panel-end"]::slotted(calcite-shell-panel) {

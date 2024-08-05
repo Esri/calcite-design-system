@@ -1,4 +1,6 @@
 {
   "expand": "הרחב",
-  "collapse": "צמצם"
+  "collapse": "צמצם",
+  "expandLabel": "הרחב",
+  "collapseLabel": "צמצם"
 }

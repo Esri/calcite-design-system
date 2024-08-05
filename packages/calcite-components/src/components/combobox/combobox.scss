@@ -160,6 +160,10 @@
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
+.placeholder-icon {
+  color: var(--calcite-color-text-3);
+}
+
 .input-wrap {
   @apply flex flex-grow items-center;
 }

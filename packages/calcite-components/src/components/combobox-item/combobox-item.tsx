@@ -27,7 +27,7 @@ import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
 
 /**
@@ -60,6 +60,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  @Watch("disabled")
+  handleDisabledChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
+
   /**
    * When `true`, omits the component from the `calcite-combobox` filtered search results.
    */
@@ -76,7 +81,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) guid = guid();
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconName;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -177,6 +182,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
 
+  /**
+   * Fires whenever a property the parent combobox needs to know about is changed.
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalComboboxItemChange: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -203,7 +215,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(iconPath: IconName): VNode {
+  renderIcon(iconPath: IconNameOrString): VNode {
     return this.icon ? (
       <calcite-icon
         class={{
@@ -219,8 +231,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   renderSelectIndicator(showDot: boolean): VNode;
-  renderSelectIndicator(showDot: boolean, iconPath: IconName): VNode;
-  renderSelectIndicator(showDot: boolean, iconPath?: IconName): VNode {
+  renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): VNode {
     return showDot ? (
       <span
         class={{

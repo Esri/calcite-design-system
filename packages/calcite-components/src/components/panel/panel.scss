@@ -20,6 +20,7 @@
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-padding: var(--calcite-spacing-sm);
+  --calcite-internal-panel-header-vertical-padding: 10px; // this should use a spacing token once made available
 
   .header-content {
     .heading {
@@ -34,6 +35,7 @@
 
 :host([scale="m"]) {
   --calcite-internal-panel-default-padding: var(--calcite-spacing-md);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-lg);
 
   .header-content {
     .heading {
@@ -48,6 +50,7 @@
 
 :host([scale="l"]) {
   --calcite-internal-panel-default-padding: var(--calcite-spacing-xl);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xxl);
 
   .header-content {
     .heading {
@@ -163,31 +166,40 @@
 }
 
 .content-top,
-.content-bottom,
-.header-content {
+.content-bottom {
   padding: var(--calcite-internal-panel-default-padding);
 }
 
-.footer {
-  @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1;
+.header-content {
+  padding-block: var(--calcite-internal-panel-header-vertical-padding);
+  padding-inline: var(--calcite-internal-panel-default-padding);
+}
 
+.footer {
+  @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1 text-n2-wrap;
   border-block-start: 1px solid var(--calcite-color-border-3);
   padding: var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-padding));
-  column-gap: 0;
-  row-gap: var(--calcite-spacing-md);
 }
 
-@include slotted("footer-start", "*") {
-  @apply flex text-n2-wrap self-center;
+.footer-content {
+  @apply flex flex-row items-center justify-center flex-1;
+}
 
+.footer-actions {
+  @apply flex flex-row items-center justify-evenly flex-1;
+  gap: var(--calcite-internal-panel-default-padding);
+}
+
+.footer-start {
+  @apply flex flex-row items-center justify-start flex-1;
   margin-inline-end: auto;
-  gap: var(--calcite-spacing-md);
+  gap: var(--calcite-internal-panel-default-padding);
 }
 
-@include slotted("footer-end", "*") {
-  @apply flex text-n2-wrap self-center;
-
-  gap: var(--calcite-spacing-md);
+.footer-end {
+  @apply flex flex-row items-center justify-end flex-1;
+  margin-inline-start: auto;
+  gap: var(--calcite-internal-panel-default-padding);
 }
 
 .fab-container {

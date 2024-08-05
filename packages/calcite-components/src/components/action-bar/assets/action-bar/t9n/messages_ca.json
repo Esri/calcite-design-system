@@ -1,4 +1,6 @@
 {
   "expand": "Amplia",
-  "collapse": "Redueix"
+  "collapse": "Redueix",
+  "expandLabel": "Amplia",
+  "collapseLabel": "Redueix"
 }

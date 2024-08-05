@@ -323,6 +323,29 @@ describe("calcite-block", () => {
       const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
       expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
     });
+
+    it("applies correct header spacing when heading or description properties are present", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(`<calcite-block></calcite-block>`);
+
+      const block = await page.find("calcite-block");
+      const header = await page.find(`calcite-block >>> .${CSS.header}`);
+      block.setAttribute("heading", "test-heading");
+      await page.waitForChanges();
+
+      expect(header).toHaveClass(CSS.headerHasText);
+
+      block.removeAttribute("heading");
+      await page.waitForChanges();
+
+      expect(header).not.toHaveClass(CSS.headerHasText);
+
+      block.setAttribute("description", "test-description");
+      await page.waitForChanges();
+
+      expect(header).toHaveClass(CSS.headerHasText);
+    });
   });
 
   it("should allow the CSS custom property to be overridden when applied to :root", async () => {

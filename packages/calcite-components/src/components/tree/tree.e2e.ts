@@ -583,6 +583,7 @@ describe("calcite-tree", () => {
       const keyDownSpy = await page.spyOnEvent("keydown");
       const item = await page.find("#middle-item");
       await item.focus();
+      await page.waitForChanges();
 
       expect(keyDownSpy).toHaveReceivedEventTimes(0);
 
@@ -593,6 +594,7 @@ describe("calcite-tree", () => {
       await page.keyboard.press("Home");
       await page.keyboard.press("End");
       await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       expect(keyDownSpy).toHaveReceivedEventTimes(7);
     });
@@ -1033,11 +1035,13 @@ describe("calcite-tree", () => {
 
       await button.focus();
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(1);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
 
       await page.keyboard.press("Space");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(2);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
@@ -1063,11 +1067,13 @@ describe("calcite-tree", () => {
 
       await button.focus();
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(1);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
 
       await page.keyboard.press("Space");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(2);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);

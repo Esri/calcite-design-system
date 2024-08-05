@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.11.0-next.21",
+  "version": "2.12.0-next.4",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && stencil build",
-    "postbuild": "npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
+    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:prep-storybook-build && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
@@ -47,8 +47,6 @@
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
     "util:generate-t9n-types": "tsx support/generateT9nTypes.ts",
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
-    "util:patch": "npm run util:patch-esm-resolution",
-    "util:patch-esm-resolution": "tsx support/patchESMResolution.ts",
     "util:prep-build-reqs": "npm run util:copy-assets && npm run util:generate-t9n-types",
     "util:prep-storybook-build": "npm run util:prep-build-reqs && stencil build --config stencil.storybook.config.ts && npm run lint:md",
     "util:sync-t9n-en-bundles": "tsx support/syncEnT9nBundles.ts",
@@ -63,29 +61,29 @@
     "directory": "packages/calcite-components"
   },
   "dependencies": {
-    "@esri/calcite-ui-icons": "3.29.0",
-    "@floating-ui/dom": "1.6.7",
+    "@esri/calcite-ui-icons": "3.30.1-next.0",
+    "@floating-ui/dom": "1.6.8",
     "@stencil/core": "4.19.2",
     "@types/color": "3.0.6",
     "@types/sortablejs": "1.15.7",
     "color": "4.2.3",
-    "composed-offset-position": "0.0.4",
+    "composed-offset-position": "0.0.6",
     "dayjs": "1.11.12",
     "focus-trap": "7.5.4",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.1",
-    "timezone-groups": "0.8.0",
+    "timezone-groups": "0.9.0",
     "type-fest": "4.18.2"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "^2.2.1-next.1",
+    "@esri/calcite-design-tokens": "^2.2.1-next.3",
     "@esri/eslint-plugin-calcite-components": "^1.2.1-next.3",
     "@stencil-community/eslint-plugin": "0.7.2",
     "@stencil-community/postcss": "2.2.0",
     "@stencil/angular-output-target": "0.8.4",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.0.12",
-    "jsdom": "24.1.0"
+    "jsdom": "24.1.1"
   },
   "license": "SEE LICENSE.md",
   "volta": {
