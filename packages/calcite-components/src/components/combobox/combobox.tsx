@@ -1702,17 +1702,21 @@ export class Combobox
   }
 
   renderSelectedOrPlaceholderIcon(): VNode {
-    const { selectedItems, placeholderIcon, placeholderIconFlipRtl } = this;
+    const { open, placeholderIcon, placeholderIconFlipRtl, selectedItems } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
+    const showPlaceholder = placeholderIcon && (open || !selectedItem);
 
     return (
       this.showingInlineIcon && (
         <span class="icon-start" key="selected-placeholder-icon">
           <calcite-icon
-            class="selected-icon"
-            flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
-            icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
+            class={{
+              [CSS.selectedIcon]: !showPlaceholder,
+              [CSS.placeholderIcon]: showPlaceholder,
+            }}
+            flipRtl={showPlaceholder ? placeholderIconFlipRtl : selectedItem.iconFlipRtl}
+            icon={showPlaceholder ? placeholderIcon : selectedIcon}
             scale={getIconScale(this.scale)}
           />
         </span>
