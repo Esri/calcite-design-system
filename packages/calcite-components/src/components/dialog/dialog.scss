@@ -142,7 +142,6 @@ calcite-panel {
   visibility: hidden;
   transition:
     inset var(--calcite-internal-animation-timing-slow) $easing-function,
-    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 
   --calcite-internal-dialog-hidden-position: 20px;
@@ -190,10 +189,7 @@ calcite-panel {
       opacity-100;
     transition:
       inset var(--calcite-internal-animation-timing-slow) $easing-function,
-      visibility 0ms linear,
-      opacity var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-block-size var(--calcite-internal-animation-timing-slow) $easing-function;
+      opacity var(--calcite-internal-animation-timing-slow) $easing-function;
     transition-delay: 0ms;
   }
 }
