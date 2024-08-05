@@ -1,0 +1,73 @@
+{
+  "name": "@esri/calcite-ui-icons",
+  "version": "3.30.1-next.0",
+  "private": false,
+  "description": "A collection of UI SVG icons created by Esri for applications.",
+  "keywords": [
+    "esri",
+    "arcgis",
+    "apps",
+    "icons",
+    "svg"
+  ],
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "bugs": {
+    "url": "https://github.com/Esri/calcite-design-system/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/calcite-ui-icons"
+  },
+  "license": "SEE LICENSE.md",
+  "main": "index.js",
+  "module": "index.js",
+  "bin": {
+    "spriter": "bin/spriter.js"
+  },
+  "files": [
+    "icons/",
+    "js/",
+    "lib/",
+    "bin/sprinter.js",
+    "docs/icons.json",
+    "docs/keywords.json",
+    "index.d.ts",
+    "index.js",
+    "sprite-16.svg",
+    "sprite-24.svg",
+    "sprite-32.svg"
+  ],
+  "scripts": {
+    "build": "npm run copy-assets && npm run buildsprite-16 && npm run buildsprite-24 && npm run buildsprite-32 && npm run optimize",
+    "buildsprite-16": "svgstore -o sprite-16.svg icons/*-16*.svg",
+    "buildsprite-24": "svgstore -o sprite-24.svg icons/*-24*.svg",
+    "buildsprite-32": "svgstore -o sprite-32.svg icons/*-32*.svg",
+    "convert-all-desktop-multi": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s 16 && node bin/convert-mobile.js -o \"../desktop-output\" -s 24 && node bin/convert-mobile.js -o \"../desktop-output\" -s 32 && node bin/convert-mobile.js -o \"../desktop-output\" -s 64",
+    "convert-all-desktop:size": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s",
+    "convert-all-ios": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -i \"24\"",
+    "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
+    "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
+    "optimize": "node bin/cli.js",
+    "spriter": "node bin/spriter.js",
+    "start": "npm run copy-assets && node bin/server.js"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.24.7",
+    "calcite-web": "github:esri/calcite-web#v1.1.0",
+    "camelcase": "^5.3.1",
+    "cli-progress": "^3.12.0",
+    "debounce": "^2.1.0",
+    "fs-extra": "^7.0.0",
+    "glob": "^11.0.0",
+    "promise": "~8.0.1",
+    "svg2img": "1.0.0-beta.2",
+    "svgo": "^1.3.0",
+    "svgson": "^2.1.1",
+    "svgstore-cli": "^1.3.1",
+    "yargs": "^17.7.2"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

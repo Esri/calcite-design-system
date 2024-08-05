@@ -56,6 +56,7 @@ import {
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { DEBOUNCE } from "../../utils/resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -67,7 +68,7 @@ import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
@@ -80,9 +81,10 @@ import {
 } from "./utils";
 
 interface ItemData {
-  label: string;
-  shortHeading: string;
   description: string;
+  label: string;
+  metadata: Record<string, unknown>;
+  shortHeading: string;
   value: string;
 }
 
@@ -186,7 +188,7 @@ export class Combobox
   @Prop() placeholder: string;
 
   /** Specifies the placeholder icon for the input. */
-  @Prop({ reflect: true }) placeholderIcon: IconName;
+  @Prop({ reflect: true }) placeholderIcon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) placeholderIconFlipRtl = false;
@@ -203,7 +205,7 @@ export class Combobox
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -393,6 +395,14 @@ export class Combobox
     const newIndex = this.filteredItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
+  }
+
+  @Listen("calciteInternalComboboxItemChange")
+  calciteInternalComboboxItemChangeHandler(
+    event: CustomEvent<HTMLCalciteComboboxItemElement>,
+  ): void {
+    event.stopPropagation();
+    this.updateItems();
   }
 
   //--------------------------------------------------------------------------
@@ -1044,8 +1054,8 @@ export class Combobox
 
     if (items.length > maxItems) {
       items.forEach((item) => {
-        if (itemsToProcess < maxItems && maxItems > 0) {
-          const height = this.calculateSingleItemHeight(item);
+        if (itemsToProcess < maxItems) {
+          const height = this.calculateScrollerHeight(item);
           if (height > 0) {
             maxScrollerHeight += height;
             itemsToProcess++;
@@ -1057,20 +1067,18 @@ export class Combobox
     return maxScrollerHeight;
   }
 
-  private calculateSingleItemHeight(item: ComboboxChildElement): number {
+  private calculateScrollerHeight(item: ComboboxChildElement): number {
     if (!item) {
       return;
     }
 
-    let height = item.offsetHeight;
     // if item has children items, don't count their height twice
-    const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
-    children
-      .map((child) => child?.offsetHeight)
-      .forEach((offsetHeight) => {
-        height -= offsetHeight;
-      });
-    return height;
+    const parentHeight = item.getBoundingClientRect().height;
+    const childrenTotalHeight = Array.from(
+      item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector),
+    ).reduce((total, child) => total + child.getBoundingClientRect().height, 0);
+
+    return parentHeight - childrenTotalHeight;
   }
 
   inputHandler = (event: Event): void => {
@@ -1129,7 +1137,7 @@ export class Combobox
       if (emit) {
         this.calciteComboboxFilterChange.emit();
       }
-    }, 100);
+    }, DEBOUNCE.filter);
   })();
 
   internalComboboxChangeEvent = (): void => {
@@ -1253,6 +1261,7 @@ export class Combobox
       description: item.description,
       filterDisabled: item.filterDisabled,
       label: item.textLabel,
+      metadata: item.metadata,
       shortHeading: item.shortHeading,
       value: item.value,
     }));
@@ -1292,7 +1301,7 @@ export class Combobox
       item.value = value;
       item.textLabel = value;
       item.selected = true;
-      this.el.appendChild(item);
+      this.el.prepend(item);
       this.resetText();
       if (focus) {
         this.setFocus();
@@ -1351,7 +1360,7 @@ export class Combobox
       return;
     }
 
-    const height = this.calculateSingleItemHeight(activeItem);
+    const height = this.calculateScrollerHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
       this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
@@ -1693,17 +1702,21 @@ export class Combobox
   }
 
   renderSelectedOrPlaceholderIcon(): VNode {
-    const { selectedItems, placeholderIcon, placeholderIconFlipRtl } = this;
+    const { open, placeholderIcon, placeholderIconFlipRtl, selectedItems } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
+    const showPlaceholder = placeholderIcon && (open || !selectedItem);
 
     return (
       this.showingInlineIcon && (
         <span class="icon-start" key="selected-placeholder-icon">
           <calcite-icon
-            class="selected-icon"
-            flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
-            icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
+            class={{
+              [CSS.selectedIcon]: !showPlaceholder,
+              [CSS.placeholderIcon]: showPlaceholder,
+            }}
+            flipRtl={showPlaceholder ? placeholderIconFlipRtl : selectedItem.iconFlipRtl}
+            icon={showPlaceholder ? placeholderIcon : selectedIcon}
             scale={getIconScale(this.scale)}
           />
         </span>

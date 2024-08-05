@@ -3,6 +3,7 @@
  */
 
 import { FocusTrap } from "./focusTrapComponent";
+import { LogLevel } from "./logger";
 
 export interface CalciteConfig {
   /**
@@ -15,6 +16,11 @@ export interface CalciteConfig {
   focusTrapStack: FocusTrap[];
 
   /**
+   * Defines the global log level to use when logging messages.
+   */
+  logLevel: LogLevel;
+
+  /**
    * Contains the version of the Calcite components.
    *
    * @readonly
@@ -25,6 +31,8 @@ export interface CalciteConfig {
 const existingConfig: CalciteConfig = globalThis["calciteConfig"];
 
 export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
+
+export const logLevel: LogLevel = existingConfig?.logLevel || "info";
 
 // the following placeholders are replaced by the build
 const version = "__CALCITE_VERSION__";

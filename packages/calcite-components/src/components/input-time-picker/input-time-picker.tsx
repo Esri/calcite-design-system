@@ -80,7 +80,7 @@ import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { focusFirstTabbable } from "../../utils/dom";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { CSS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
@@ -270,7 +270,7 @@ export class InputTimePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -546,7 +546,7 @@ export class InputTimePicker
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed If true, delay the repositioning.
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -585,7 +585,7 @@ export class InputTimePicker
 
     const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
 
-    let delocalizedTimeString;
+    let delocalizedTimeString: string;
 
     if (this.shouldIncludeFractionalSeconds()) {
       const stepPrecision = decimalPlaces(this.step);
@@ -781,7 +781,7 @@ export class InputTimePicker
   ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
-        meridiem: (hour) => (hour > 12 ? "م" : "ص"),
+        meridiem: (hour: number) => (hour > 12 ? "م" : "ص"),
         formats: {
           LT: "HH:mm A",
           LTS: "HH:mm:ss A",
@@ -795,19 +795,19 @@ export class InputTimePicker
 
     if (locale === "en-au") {
       return {
-        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
+        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "en-ca") {
       return {
-        meridiem: (hour) => (hour > 12 ? "p.m." : "a.m."),
+        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
       };
     }
 
     if (locale === "el") {
       return {
-        meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ."),
+        meridiem: (hour: number) => (hour > 12 ? "μ.μ." : "π.μ."),
       };
     }
 
@@ -821,13 +821,13 @@ export class InputTimePicker
           LLL: "D MMMM YYYY, h:mm A",
           LLLL: "dddd, D MMMM YYYY, h:mm A",
         },
-        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
+        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "ko") {
       return {
-        meridiem: (hour) => (hour > 12 ? "오후" : "오전"),
+        meridiem: (hour: number) => (hour > 12 ? "오후" : "오전"),
       };
     }
 
@@ -846,7 +846,7 @@ export class InputTimePicker
           LT: "AHH:mm",
           LTS: "AHH:mm:ss",
         },
-        meridiem: (hour) => (hour > 12 ? "下午" : "上午"),
+        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
       };
     }
   }
@@ -894,7 +894,7 @@ export class InputTimePicker
    * Sets the value and emits a change event.
    * This is used to update the value as a result of user interaction.
    *
-   * @param value
+   * @param value The new value
    */
   private setValue = (value: string): void => {
     const oldValue = this.value;
@@ -928,7 +928,7 @@ export class InputTimePicker
    * Sets the value directly without emitting a change event.
    * This is used to update the value on initial load and when props change that are not the result of user interaction.
    *
-   * @param value
+   * @param value The new value
    */
   private setValueDirectly = (value: string): void => {
     const includeSeconds = this.shouldIncludeSeconds();

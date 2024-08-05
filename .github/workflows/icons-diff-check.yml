@@ -1,0 +1,40 @@
+name: Icon Team Diff Check
+on:
+  workflow_call:
+  # pull_request:
+  #   branches: [main, rc, dev]
+  # pull_request_review:
+  #   types: [submitted]
+jobs:
+  check-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Check changed files
+        id: check-diff
+        run: |
+          non_icon_changes="$(
+            git diff --name-only HEAD "$(
+              git merge-base HEAD origin/${{ github.base_ref }}
+            )" -- . ':!**/calcite-ui-icons/**'
+          )"
+
+          printf "changed non-icon files:\n%s" "$non_icon_changes"
+
+          # skip if the only changes are in package/calcite-ui-icons
+          if [ -z "$non_icon_changes" ]; then
+            echo "SKIP=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "SKIP=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.check-diff.outputs.SKIP == 'false'
+        name: Check pull request author and reviewers
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.ADMIN_TOKEN }}
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/iconTeamDiffCheck.js')
+            await action({github, context, core})

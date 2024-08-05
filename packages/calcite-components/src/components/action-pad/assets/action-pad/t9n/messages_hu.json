@@ -1,4 +1,6 @@
 {
   "expand": "Kibontás",
-  "collapse": "Összecsukás"
+  "collapse": "Összecsukás",
+  "expandLabel": "Kibontás",
+  "collapseLabel": "Összecsukás"
 }
