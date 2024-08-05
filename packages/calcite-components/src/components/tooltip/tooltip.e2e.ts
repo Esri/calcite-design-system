@@ -11,10 +11,57 @@ interface PointerMoveOptions {
   value: boolean;
 }
 
+const eventOptions = { bubbles: true, cancelable: true };
+
 describe("calcite-tooltip", () => {
   type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
     escapeKeyCanceled: boolean;
   }>;
+
+  async function dispatchPointerEvent(page: E2EPage, selector: string): Promise<void> {
+    await page.$eval(
+      selector,
+      (el: HTMLElement, eventOptions) => {
+        el.dispatchEvent(new PointerEvent("pointermove", eventOptions));
+      },
+      eventOptions,
+    );
+    await page.waitForChanges();
+  }
+
+  async function dispatchClickEvent(page: E2EPage, selector: string): Promise<void> {
+    await page.$eval(
+      selector,
+      (el: HTMLElement, eventOptions) => {
+        el.dispatchEvent(new MouseEvent("click", eventOptions));
+      },
+      eventOptions,
+    );
+    await page.waitForChanges();
+  }
+
+  async function dispatchDocumentKeydownEvent(page: E2EPage, key: string): Promise<void> {
+    await page.evaluate(
+      (eventOptions, key) => {
+        document.dispatchEvent(new KeyboardEvent("keydown", { key, ...eventOptions }));
+      },
+      eventOptions,
+      key,
+    );
+    await page.waitForChanges();
+  }
+
+  async function dispatchKeydownEvent(page: E2EPage, selector: string, key: string): Promise<void> {
+    await page.$eval(
+      selector,
+      (el: HTMLElement, eventOptions, key) => {
+        el.dispatchEvent(new KeyboardEvent("keydown", { key, ...eventOptions }));
+      },
+      eventOptions,
+      key,
+    );
+    await page.waitForChanges();
+  }
 
   /**
    * Helps assert the canceled Esc key press when closing tooltips
@@ -24,7 +71,8 @@ describe("calcite-tooltip", () => {
    */
   async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
     await page.evaluate(() => {
-      document.addEventListener(
+      (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled = false;
+      window.addEventListener(
         "keydown",
         (event) => {
           (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled = event.defaultPrevented;
@@ -386,42 +434,15 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(false);
 
-    await page.evaluate(() => {
-      const ref = document.getElementById("ref");
-      const event1 = new MouseEvent("click", {
-        cancelable: true,
-        bubbles: true,
-      });
-      ref.dispatchEvent(event1);
-    });
-
-    await page.waitForChanges();
+    await dispatchClickEvent(page, "#ref");
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
-    await page.evaluate(() => {
-      const ref = document.getElementById("ref");
-      const event1 = new MouseEvent("click", {
-        cancelable: true,
-        bubbles: true,
-      });
-      ref.dispatchEvent(event1);
-    });
-
-    await page.waitForChanges();
+    await dispatchClickEvent(page, "#ref");
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
-    await page.evaluate(() => {
-      const ref = document.getElementById("test");
-      const event1 = new MouseEvent("click", {
-        cancelable: true,
-        bubbles: true,
-      });
-      ref.dispatchEvent(event1);
-    });
-
-    await page.waitForChanges();
+    await dispatchClickEvent(page, "#test");
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
@@ -449,9 +470,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(true);
 
     await setUpEscapeKeyCancelListener(page);
-    await referenceElement.press("Escape");
-
-    await page.waitForChanges();
+    await dispatchKeydownEvent(page, "#ref", "Escape");
 
     expect(await tooltip.getProperty("open")).toBe(false);
     await assertEscapeKeyCanceled(page, true);
@@ -482,9 +501,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(true);
 
     await setUpEscapeKeyCancelListener(page);
-    await page.keyboard.press("Escape");
-
-    await page.waitForChanges();
+    await dispatchDocumentKeydownEvent(page, "Escape");
 
     expect(await tooltip.getProperty("open")).toBe(false);
     await assertEscapeKeyCanceled(page, false);
@@ -517,9 +534,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(true);
 
     await setUpEscapeKeyCancelListener(page);
-    await page.keyboard.press("Escape");
-
-    await page.waitForChanges();
+    await dispatchKeydownEvent(page, "#ref", "Escape");
 
     expect(await tooltip.getProperty("open")).toBe(false);
     await assertEscapeKeyCanceled(page, true);
@@ -545,13 +560,8 @@ describe("calcite-tooltip", () => {
 
     expect(await hoverTip.getProperty("open")).toBe(false);
 
-    await page.$eval("#hoverRef", (el: HTMLElement) => {
-      el.dispatchEvent(new PointerEvent("pointermove"));
-    });
-
+    await dispatchPointerEvent(page, "#hoverRef");
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
-
-    await page.waitForChanges();
 
     expect(await focusTip.getProperty("open")).toBe(false);
 
@@ -601,13 +611,8 @@ describe("calcite-tooltip", () => {
 
     expect(await hoverTip.getProperty("open")).toBe(false);
 
-    await page.$eval("#hoverRef", (el: HTMLElement) => {
-      el.dispatchEvent(new PointerEvent("pointermove"));
-    });
-
+    await dispatchPointerEvent(page, "#hoverRef");
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
-
-    await page.waitForChanges();
 
     expect(await focusTip.getProperty("open")).toBe(false);
 
@@ -940,10 +945,7 @@ describe("calcite-tooltip", () => {
     for (let i = 0; i < pointerMoves.length; i++) {
       const { delay, selector } = pointerMoves[i];
       await page.waitForTimeout(delay);
-      await page.$eval(selector, (el: HTMLElement) => {
-        el.dispatchEvent(new PointerEvent("pointermove"));
-      });
-
+      await dispatchPointerEvent(page, selector);
       expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
     }
   });
@@ -999,10 +1001,7 @@ describe("calcite-tooltip", () => {
     for (let i = 0; i < pointerMoves.length; i++) {
       const { delay, selector } = pointerMoves[i];
       await page.waitForTimeout(delay);
-      await page.$eval(selector, (el: HTMLElement) => {
-        el.dispatchEvent(new PointerEvent("pointermove"));
-      });
-
+      await dispatchPointerEvent(page, selector);
       expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
     }
   });
@@ -1039,36 +1038,61 @@ describe("calcite-tooltip", () => {
           );
         }
 
-        document.body.innerHTML = "<shadow-component-b></shadow-component-b>";
+        document.body.innerHTML = `<shadow-component-b id="one"></shadow-component-b>
+        <shadow-component-b id="two"></shadow-component-b>`;
       });
       await page.waitForChanges();
     }
 
-    function isTooltipOpen(page: E2EPage): Promise<boolean> {
-      return page.evaluate((): boolean => {
+    function isTooltipOpen(page: E2EPage, componentId = "one"): Promise<boolean> {
+      return page.evaluate((componentId): boolean => {
         return document
-          .querySelector("shadow-component-b")
+          .querySelector(`#${componentId}`)
           .shadowRoot.querySelector("shadow-component-a")
           .shadowRoot.querySelector("calcite-tooltip").open;
-      });
+      }, componentId);
     }
 
-    async function focusReferenceElement(page: E2EPage): Promise<void> {
-      await page.evaluate((): void => {
-        const referenceElement = document
-          .querySelector("shadow-component-b")
-          .shadowRoot.querySelector("shadow-component-a")
-          .shadowRoot.querySelector("button");
-        referenceElement.dispatchEvent(new FocusEvent("focusin"));
-      });
+    async function focusReferenceElement(page: E2EPage, componentId = "one"): Promise<void> {
+      await page.$eval(
+        `#${componentId} >>> shadow-component-a >>> button`,
+        (refEl, eventOptions) => {
+          refEl.dispatchEvent(new FocusEvent("focusin", eventOptions));
+        },
+        eventOptions,
+      );
     }
 
     it("should open focused tooltips within shadowRoots", async () => {
       const page = await newE2EPage();
       await defineTestComponents(page);
-      expect(await isTooltipOpen(page)).toBe(false);
-      await focusReferenceElement(page);
-      expect(await isTooltipOpen(page)).toBe(true);
+      expect(await isTooltipOpen(page, "one")).toBe(false);
+      expect(await isTooltipOpen(page, "two")).toBe(false);
+      await focusReferenceElement(page, "one");
+      expect(await isTooltipOpen(page, "one")).toBe(true);
+      expect(await isTooltipOpen(page, "two")).toBe(false);
+      await focusReferenceElement(page, "two");
+      expect(await isTooltipOpen(page, "one")).toBe(false);
+      expect(await isTooltipOpen(page, "two")).toBe(true);
+    });
+
+    it("should open focused tooltips within shadowRoots using tab", async () => {
+      const page = await newE2EPage();
+      await defineTestComponents(page);
+      expect(await isTooltipOpen(page, "one")).toBe(false);
+      expect(await isTooltipOpen(page, "two")).toBe(false);
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await isTooltipOpen(page, "one")).toBe(true);
+      expect(await isTooltipOpen(page, "two")).toBe(false);
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await isTooltipOpen(page, "one")).toBe(false);
+      expect(await isTooltipOpen(page, "two")).toBe(true);
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await isTooltipOpen(page, "one")).toBe(false);
+      expect(await isTooltipOpen(page, "two")).toBe(false);
     });
   });
 
@@ -1090,21 +1114,13 @@ describe("calcite-tooltip", () => {
     expect(await tooltip1.getProperty("open")).toBe(false);
     expect(await tooltip2.getProperty("open")).toBe(false);
 
-    await page.$eval("#ref1", (el: HTMLElement) => {
-      el.dispatchEvent(new PointerEvent("pointermove"));
-    });
+    await dispatchPointerEvent(page, "#ref1");
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
-    await page.waitForChanges();
-
     expect(await tooltip1.getProperty("open")).toBe(true);
     expect(await tooltip2.getProperty("open")).toBe(false);
 
-    await page.$eval("#ref2", (el: HTMLElement) => {
-      el.dispatchEvent(new PointerEvent("pointermove"));
-    });
+    await dispatchPointerEvent(page, "#ref2");
     await page.waitForTimeout(0);
-    await page.waitForChanges();
-
     expect(await tooltip1.getProperty("open")).toBe(false);
     expect(await tooltip2.getProperty("open")).toBe(true);
   });
@@ -1131,10 +1147,7 @@ describe("calcite-tooltip", () => {
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
-      await page.$eval("#other", (el: HTMLElement) => {
-        el.dispatchEvent(new MouseEvent("click", { cancelable: true, bubbles: true }));
-      });
-      await page.waitForChanges();
+      await dispatchClickEvent(page, "#other");
       expect(await tooltip.getProperty("open")).toBe(false);
     });
 

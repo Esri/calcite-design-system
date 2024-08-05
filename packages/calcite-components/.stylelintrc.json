@@ -4,7 +4,12 @@
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
     "length-zero-no-unit": true,
-    "liberty/use-logical-spec": "always",
+    "liberty/use-logical-spec": [
+      "always",
+      {
+        "except": ["left", "right"]
+      }
+    ],
     "no-descending-specificity": [
       true,
       {

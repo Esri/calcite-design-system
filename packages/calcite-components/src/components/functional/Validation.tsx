@@ -1,12 +1,12 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
 import { Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 
 interface ValidationProps extends JSXBase.HTMLAttributes {
   scale: Scale;
   status: Status;
-  icon?: IconName | boolean;
+  icon?: IconNameOrString | boolean;
   id?: string;
   message: string;
 }

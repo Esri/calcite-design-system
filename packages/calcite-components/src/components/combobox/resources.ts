@@ -9,6 +9,8 @@ export const CSS = {
   selectionDisplaySingle: "selection-display-single",
   listContainer: "list-container",
   icon: "icon",
+  placeholderIcon: "placeholder-icon",
+  selectedIcon: "selected-icon",
 };
 
 export const IDS = {

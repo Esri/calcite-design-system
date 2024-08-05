@@ -7,7 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
-import { IconName } from "./components/icon/interfaces";
+import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
 import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
@@ -103,7 +103,7 @@ import { ValueListMessages } from "./components/value-list/assets/value-list/t9n
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
-export { IconName } from "./components/icon/interfaces";
+export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
 export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
@@ -243,7 +243,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -255,7 +255,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
@@ -294,7 +294,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -525,7 +525,7 @@ export namespace Components {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -624,7 +624,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -632,7 +632,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * When `true`, a busy indicator is displayed.
          */
@@ -667,7 +667,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -675,7 +675,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -737,7 +737,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -745,7 +745,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
@@ -1021,7 +1021,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1299,7 +1299,7 @@ export namespace Components {
         /**
           * Specifies the placeholder icon for the input.
          */
-        "placeholderIcon": IconName;
+        "placeholderIcon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1349,7 +1349,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -1397,7 +1397,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1830,7 +1830,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1838,7 +1838,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Accessible name for the component.
          */
@@ -1881,7 +1881,7 @@ export namespace Components {
           * Specifies an icon to display.
           * @default "plus"
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2133,7 +2133,7 @@ export namespace Components {
           * Displays a specific icon.
           * @see [Icons](https://esri.github.io/calcite-ui-icons)
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * Specifies the size of the component.
          */
@@ -2232,7 +2232,7 @@ export namespace Components {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2370,7 +2370,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2494,7 +2494,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2518,7 +2518,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2574,7 +2574,7 @@ export namespace Components {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2689,7 +2689,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2743,7 +2743,7 @@ export namespace Components {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2830,7 +2830,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -2930,7 +2930,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -3018,7 +3018,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -3069,7 +3069,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -3077,7 +3077,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Specifies the relationship to the linked document defined in `href`.
          */
@@ -3358,7 +3358,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -3366,7 +3366,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         "isTopLevelItem": boolean;
         /**
           * Accessible name for the component.
@@ -3597,7 +3597,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -3667,7 +3667,7 @@ export namespace Components {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon": IconName | boolean;
+        "icon": IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4195,7 +4195,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -4314,7 +4314,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -4346,7 +4346,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4354,7 +4354,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
@@ -4409,7 +4409,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -4757,7 +4757,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the primary button.
          */
-        "primaryIconEnd": IconName;
+        "primaryIconEnd": IconNameOrString;
         /**
           * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4765,7 +4765,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the primary button.
          */
-        "primaryIconStart": IconName;
+        "primaryIconStart": IconNameOrString;
         /**
           * Accessible name for the primary button.
          */
@@ -5025,7 +5025,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": IconName;
+        "iconEnd": IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5033,7 +5033,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         "layout": TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -5361,7 +5361,7 @@ export namespace Components {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon": IconName | boolean;
+        "validationIcon": IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -5416,7 +5416,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5518,7 +5518,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": IconName;
+        "icon": IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5746,7 +5746,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart": IconName;
+        "iconStart": IconNameOrString;
         /**
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
@@ -6574,6 +6574,7 @@ declare global {
     };
     interface HTMLCalciteComboboxItemElementEventMap {
         "calciteComboboxItemChange": void;
+        "calciteInternalComboboxItemChange": void;
     }
     interface HTMLCalciteComboboxItemElement extends Components.CalciteComboboxItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteComboboxItemElementEventMap>(type: K, listener: (this: HTMLCalciteComboboxItemElement, ev: CalciteComboboxItemCustomEvent<HTMLCalciteComboboxItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8131,7 +8132,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8143,7 +8144,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
@@ -8180,7 +8181,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8399,7 +8400,7 @@ declare namespace LocalJSX {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8518,7 +8519,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8526,7 +8527,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * When `true`, a busy indicator is displayed.
          */
@@ -8578,7 +8579,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8586,7 +8587,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8648,7 +8649,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8656,7 +8657,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
@@ -8945,7 +8946,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9262,7 +9263,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the placeholder icon for the input.
          */
-        "placeholderIcon"?: IconName;
+        "placeholderIcon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9302,7 +9303,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -9350,7 +9351,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9363,6 +9364,10 @@ declare namespace LocalJSX {
           * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
+        /**
+          * Fires whenever a property the parent combobox needs to know about is changed.
+         */
+        "onCalciteInternalComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
@@ -9824,7 +9829,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9832,7 +9837,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Accessible name for the component.
          */
@@ -9878,7 +9883,7 @@ declare namespace LocalJSX {
           * Specifies an icon to display.
           * @default "plus"
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10124,7 +10129,7 @@ declare namespace LocalJSX {
           * Displays a specific icon.
           * @see [Icons](https://esri.github.io/calcite-ui-icons)
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * Specifies the size of the component.
          */
@@ -10228,7 +10233,7 @@ declare namespace LocalJSX {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10368,7 +10373,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10502,7 +10507,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10526,7 +10531,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10582,7 +10587,7 @@ declare namespace LocalJSX {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10699,7 +10704,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10753,7 +10758,7 @@ declare namespace LocalJSX {
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -10845,7 +10850,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -10956,7 +10961,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -11063,7 +11068,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -11117,7 +11122,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -11125,7 +11130,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Specifies the relationship to the linked document defined in `href`.
          */
@@ -11441,7 +11446,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -11449,7 +11454,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         "isTopLevelItem"?: boolean;
         /**
           * Accessible name for the component.
@@ -11683,7 +11688,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -11745,7 +11750,7 @@ declare namespace LocalJSX {
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
-        "icon"?: IconName | boolean;
+        "icon"?: IconNameOrString | boolean;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12303,7 +12308,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -12422,7 +12427,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -12454,7 +12459,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12462,7 +12467,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
@@ -12521,7 +12526,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -12895,7 +12900,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the primary button.
          */
-        "primaryIconEnd"?: IconName;
+        "primaryIconEnd"?: IconNameOrString;
         /**
           * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12903,7 +12908,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the primary button.
          */
-        "primaryIconStart"?: IconName;
+        "primaryIconStart"?: IconNameOrString;
         /**
           * Accessible name for the primary button.
          */
@@ -13141,7 +13146,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: IconName;
+        "iconEnd"?: IconNameOrString;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -13149,7 +13154,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         "layout"?: TabLayout;
         /**
           * Use this property to override individual strings used by the component.
@@ -13502,7 +13507,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the validation icon to display under the component.
          */
-        "validationIcon"?: IconName | boolean;
+        "validationIcon"?: IconNameOrString | boolean;
         /**
           * Specifies the validation message to display under the component.
          */
@@ -13557,7 +13562,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -13664,7 +13669,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: IconName;
+        "icon"?: IconNameOrString;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -13906,7 +13911,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the component.
          */
-        "iconStart"?: IconName;
+        "iconStart"?: IconNameOrString;
         /**
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
