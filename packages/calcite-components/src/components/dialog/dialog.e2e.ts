@@ -925,7 +925,15 @@ describe("calcite-dialog", () => {
   describe("keyboard resize", () => {
     it("should resize properly via shift and arrow keys", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-dialog width-scale="s" heading="Hello world" resizable open>Hello world!</calcite-dialog>`,
+        html: html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
+          ><p>
+            Lorem ipsum odor amet, consectetuer adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+            Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
+            eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
+            ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
+            fermentum tellus quis ad facilisis ultrices eros imperdiet.
+          </p></calcite-dialog
+        >`,
       });
       await skipAnimations(page);
       await page.setViewport({ width: 1200, height: 1200 });
