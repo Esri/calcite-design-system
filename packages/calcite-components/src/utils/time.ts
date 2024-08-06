@@ -273,7 +273,7 @@ export function localizeTimePart({ value, part, locale, numberingSystem }: Local
   return getLocalizedTimePart(part, parts);
 }
 
-interface LocalizeTimeStringParameters {
+export interface LocalizeTimeStringParameters {
   value: string;
   includeSeconds?: boolean;
   fractionalSecondDigits?: FractionalSecondDigits;

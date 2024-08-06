@@ -797,7 +797,7 @@ export class TimePicker
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value: number | string | Meridiem,
   ): void => {
-    const { effectiveLocale: locale, numberingSystem } = this;
+    const { effectiveLocale: locale, hourCycle, numberingSystem } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -862,8 +862,12 @@ export class TimePicker
     }
     this.value = newValue;
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
-          ?.localizedMeridiem || null
+      ? localizeTimeStringToParts({
+          hour12: hourCycle === "12",
+          locale,
+          numberingSystem,
+          value: this.value,
+        })?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
       this.calciteInternalTimePickerChange.emit();

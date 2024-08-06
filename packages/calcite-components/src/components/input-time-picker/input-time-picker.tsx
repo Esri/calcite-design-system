@@ -153,6 +153,13 @@ interface DayjsTimeParts {
   millisecond: number;
 }
 
+interface GetLocalizedTimeStringParameters {
+  hourCycle?: HourCycle;
+  isoTimeString?: string;
+  locale?: string;
+  numberingSystem?: NumberingSystem;
+}
+
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
@@ -225,18 +232,8 @@ export class InputTimePicker
   @Prop({ reflect: true }) hourCycle: HourCycle;
 
   @Watch("hourCycle")
-  hourCycleWatcher(newHourCycle: HourCycle): void {
-    const { effectiveLocale: locale, numberingSystem, value, step } = this;
-    this.setInputValue(
-      localizeTimeString({
-        fractionalSecondDigits: decimalPlaces(step) as FractionalSecondDigits,
-        hour12: newHourCycle === "12" || false,
-        includeSeconds: this.shouldIncludeSeconds(),
-        locale,
-        numberingSystem,
-        value,
-      }),
-    );
+  hourCycleWatcher(hourCycle: HourCycle): void {
+    this.setLocalizedInputValue({ hourCycle });
   }
 
   /**
@@ -324,15 +321,7 @@ export class InputTimePicker
 
   @Watch("numberingSystem")
   numberingSystemWatcher(numberingSystem: NumberingSystem): void {
-    this.setInputValue(
-      localizeTimeString({
-        value: this.value,
-        locale: this.effectiveLocale,
-        numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds(),
-        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      }),
-    );
+    this.setLocalizedInputValue({ numberingSystem });
   }
 
   /** When `true`, the component must have a value in order for the form to submit. */
@@ -433,16 +422,7 @@ export class InputTimePicker
   @Watch("effectiveLocale")
   async effectiveLocaleWatcher(locale: SupportedLocale): Promise<void> {
     await Promise.all([this.loadDateTimeLocaleData(), updateMessages(this, this.effectiveLocale)]);
-
-    this.setInputValue(
-      localizeTimeString({
-        value: this.value,
-        locale,
-        numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds(),
-        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      }),
-    );
+    this.setLocalizedInputValue({ locale });
   }
 
   //--------------------------------------------------------------------------
@@ -540,15 +520,7 @@ export class InputTimePicker
     const value = target.value;
     const includeSeconds = this.shouldIncludeSeconds();
     this.setValue(toISOTimeString(value, includeSeconds));
-    this.setInputValue(
-      localizeTimeString({
-        value,
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-        includeSeconds,
-        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      }),
-    );
+    this.setLocalizedInputValue({ isoTimeString: value });
   };
 
   // --------------------------------------------------------------------------
@@ -872,6 +844,23 @@ export class InputTimePicker
     }
   }
 
+  private getLocalizedTimeString(params: GetLocalizedTimeStringParameters): string {
+    const hour12 = params.hourCycle === "12" || this.hourCycle === "12";
+    const locale = params.locale ?? this.effectiveLocale;
+    const numberingSystem = params.numberingSystem ?? this.numberingSystem;
+    const value = params.isoTimeString ?? this.value;
+    return (
+      localizeTimeString({
+        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
+        hour12,
+        includeSeconds: this.shouldIncludeSeconds(),
+        locale,
+        numberingSystem,
+        value,
+      }) ?? ""
+    );
+  }
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -904,6 +893,15 @@ export class InputTimePicker
     });
   };
 
+  private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
+    if (!this.calciteInputEl) {
+      return;
+    }
+    this.calciteInputEl.value = this.getLocalizedTimeString(
+      params ?? { isoTimeString: this.value },
+    );
+  };
+
   private setInputValue = (newInputValue: string): void => {
     if (!this.calciteInputEl) {
       return;
@@ -933,15 +931,7 @@ export class InputTimePicker
     if (changeEvent.defaultPrevented) {
       this.userChangedValue = false;
       this.value = oldValue;
-      this.setInputValue(
-        localizeTimeString({
-          value: oldValue,
-          locale: this.effectiveLocale,
-          numberingSystem: this.numberingSystem,
-          includeSeconds: this.shouldIncludeSeconds(),
-          fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        }),
-      );
+      this.setLocalizedInputValue({ isoTimeString: oldValue });
     }
   };
 
@@ -954,17 +944,7 @@ export class InputTimePicker
   private setValueDirectly = (value: string): void => {
     const includeSeconds = this.shouldIncludeSeconds();
     this.value = toISOTimeString(value, includeSeconds);
-    this.setInputValue(
-      this.value
-        ? localizeTimeString({
-            value: this.value,
-            includeSeconds,
-            locale: this.effectiveLocale,
-            numberingSystem: this.numberingSystem,
-            fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-          })
-        : "",
-    );
+    this.setLocalizedInputValue();
   };
 
   private onInputWrapperClick = () => {
@@ -1007,15 +987,7 @@ export class InputTimePicker
   componentDidLoad() {
     setComponentLoaded(this);
     if (isValidTime(this.value)) {
-      this.setInputValue(
-        localizeTimeString({
-          value: this.value,
-          locale: this.effectiveLocale,
-          numberingSystem: this.numberingSystem,
-          includeSeconds: this.shouldIncludeSeconds(),
-          fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        }),
-      );
+      this.setLocalizedInputValue();
     }
   }
 
