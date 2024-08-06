@@ -247,3 +247,21 @@ export const Focus = (): string =>
 Focus.parameters = {
   chromatic: { delay: 2000 },
 };
+
+export const bsLocale = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker
+      value="2020-12-12"
+      lang="bs"
+    ></calcite-input-date-picker
+  </div>
+`;
+
+export const itCHLocale = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker
+      value="2020-12-12"
+      lang="it-CH"
+    ></calcite-input-date-picker
+  </div>
+`;

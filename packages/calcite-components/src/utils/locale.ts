@@ -176,6 +176,23 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
 }
 
 /**
+ * Gets the locale that best matches the context for date formatting.
+ *
+ * @param locale – the BCP 47 locale code
+ * @returns {string} a BCP 47 locale code
+ */
+export function getDateFormatSupportedLocale(locale: string): string {
+  switch (locale) {
+    case "it-CH":
+      return "de-CH";
+    case "bs":
+      return "bs-Cyrl";
+    default:
+      return locale;
+  }
+}
+
+/**
  * This interface is for components that need to determine locale from the lang attribute.
  */
 export interface LocalizedComponent {
