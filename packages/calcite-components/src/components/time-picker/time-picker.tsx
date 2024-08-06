@@ -353,7 +353,7 @@ export class TimePicker
   }
 
   private decrementHour = (): void => {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    const newHour = !this.hour ? 0 : parseInt(this.hour) === 0 ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
   };
 
