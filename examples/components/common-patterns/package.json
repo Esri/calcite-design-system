@@ -1,0 +1,16 @@
+{
+  "name": "calcite-common-patterns",
+  "private": true,
+  "description": "Common workflow patterns using calcite components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx web-dev-server --open /src/ --node-resolve --watch"
+  },
+  "dependencies": {
+    "@esri/calcite-components": "^2.1.0"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.4.1"
+  }
+}

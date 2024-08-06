@@ -1,0 +1,52 @@
+{
+  "name": "calcite-react-starter",
+  "private": true,
+  "dependencies": {
+    "@esri/calcite-components-react": "^2.1.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "ncp": "^2.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "npm run copy",
+    "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets/ ./public/assets/"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@esri/calcite-*|@stencil/core)).*\\.js$"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "volta": {
+    "node": "16.13.2",
+    "npm": "8.4.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "calcite-web-dev-server-starter",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "npx web-dev-server --open /src/ --node-resolve --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.1.35"
+  },
+  "dependencies": {
+    "@esri/calcite-components": "^2.1.0"
+  }
+}

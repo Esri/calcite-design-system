@@ -1,0 +1,27 @@
+@import url('./styles/shared.css');
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.header {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #9f9f9f;
+}
+
+.component-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+.component-link {
+  text-decoration: none;
+}
