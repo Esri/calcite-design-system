@@ -209,6 +209,9 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   if (customizedOptions.initialToggleValue === true) {
     it("emits on initialization with animations enabled", async () => {
       const page = await newProgrammaticE2EPage();
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 2; }`,
+      });
       await setUpPage(componentTagOrHTML, page);
       await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
     });
@@ -224,6 +227,9 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   } else {
     it(`emits with animations enabled`, async () => {
       const page = await simplePageSetup(componentTagOrHTML);
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 2; }`,
+      });
       await setUpPage(componentTagOrHTML, page);
       await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
     });
