@@ -81,11 +81,11 @@ describe("calcite-sheet properties", () => {
 
   describe("openClose", () => {
     describe("default", () => {
-      openClose("calcite-modal");
+      openClose("calcite-sheet");
     });
 
     describe("initially open", () => {
-      openClose("calcite-modal", {
+      openClose("calcite-sheet", {
         initialToggleValue: true,
       });
     });
