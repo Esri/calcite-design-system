@@ -237,8 +237,6 @@ calcite-panel {
       h-full
       w-full
       rounded-none;
-    --calcite-internal-dialog-hidden-position: translate3D(0, 20px, 0) scale(0.95);
-    --calcite-internal-dialog-shown-position: translate3D(0, 0, 0) scale(1);
   }
   .panel {
     @apply rounded-none;
