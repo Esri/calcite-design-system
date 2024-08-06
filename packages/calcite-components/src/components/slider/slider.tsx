@@ -188,6 +188,9 @@ export class Slider
   /** Displays tick marks on the number line at a specified interval. */
   @Prop({ reflect: true }) ticks: number;
 
+  /** Displays tick labels on the right side of the track and thumb label on the left */
+  @Prop({ reflect: true }) labelsReversed = false;
+
   @Watch("ticks")
   ticksWatcher(): void {
     this.tickValues = this.generateTickValues();
@@ -279,7 +282,9 @@ export class Slider
     const thumb = this.renderThumb({
       type: thumbTypes,
       thumbPlacement:
-        thumbTypes.includes("histogram") || this.layout === "vertical" ? "below" : "above",
+        thumbTypes.includes("histogram") || (this.layout === "vertical" && !this.precise)
+          ? "below"
+          : "above",
       maxInterval,
       minInterval,
       mirror,
@@ -426,6 +431,7 @@ export class Slider
             class={{
               [thumbLabelClasses]: true,
               [CSS.handleLabelVertical]: this.layout === "vertical",
+              [CSS.handleLabelVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
             }}
           >
             {displayedValue}
@@ -464,6 +470,7 @@ export class Slider
           [CSS.thumbPrecise]: isPrecise,
           [CSS.thumbMinValue]: isMinThumb,
           [CSS.thumbVertical]: this.layout === "vertical",
+          [CSS.thumbVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
         }}
         data-value-prop={valueProp}
         key={type}
@@ -513,6 +520,7 @@ export class Slider
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
           [CSS.tickLabelVertical]: this.layout === "vertical",
+          [CSS.tickLabelVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
@@ -575,7 +583,8 @@ export class Slider
       return;
     }
 
-    const v = this._isHorizontal ? event.clientX || event.pageX : event.clientY || event.pageY;
+    const v =
+      this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
     const position = this.translate(v);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
@@ -818,9 +827,8 @@ export class Slider
 
     event.preventDefault();
     if (this.dragProp) {
-      const valueToTranslate = this._isHorizontal
-        ? event.clientX || event.pageX
-        : event.clientY || event.pageY;
+      const valueToTranslate =
+        this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
       const value = this.translate(valueToTranslate);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
@@ -963,7 +971,7 @@ export class Slider
   private translate(p: number): number {
     const range = this.max - this.min;
     let percent: number;
-    if (this._isHorizontal) {
+    if (this.layout === "horizontal") {
       const { left, width } = this.trackEl.getBoundingClientRect();
       percent = (p - left) / width;
     } else {
@@ -1302,9 +1310,5 @@ export class Slider
     }
 
     return formattedValue;
-  }
-
-  private get _isHorizontal(): boolean {
-    return this.layout === "horizontal" || this.layout === "horizontal-reversed";
   }
 }
