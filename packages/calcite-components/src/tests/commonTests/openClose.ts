@@ -33,6 +33,11 @@ interface OpenCloseOptions {
    * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
    */
   beforeToggle?: BeforeToggle;
+
+  /**
+   * When `true`, the test will assert that the delays match those used when animation is disabled
+   */
+  willUseFallback?: boolean;
 }
 
 /**
@@ -75,6 +80,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   const defaultOptions: OpenCloseOptions = {
     initialToggleValue: false,
     openPropName: "open",
+    willUseFallback: false,
   };
   const customizedOptions = { ...defaultOptions, ...options };
 
@@ -117,6 +123,18 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     );
   }
 
+  type OpenCloseName = "beforeOpen" | "open" | "beforeClose" | "close";
+
+  function toOpenCloseName(eventName: string): OpenCloseName {
+    return eventName.includes("BeforeOpen")
+      ? "beforeOpen"
+      : eventName.includes("Open")
+        ? "open"
+        : eventName.includes("BeforeClose")
+          ? "beforeClose"
+          : "close";
+  }
+
   async function testOpenCloseEvents(
     componentTagOrHTML: TagOrHTML,
     page: E2EPage,
@@ -125,9 +143,19 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     const tag = getTag(componentTagOrHTML);
     const element = await page.find(tag);
 
-    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
-      page.waitForEvent(event),
-    );
+    const timestamps: Record<OpenCloseName, number> = {
+      beforeOpen: undefined,
+      open: undefined,
+      beforeClose: undefined,
+      close: undefined,
+    };
+
+    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) => {
+      return page.waitForEvent(event).then((spy) => {
+        timestamps[toOpenCloseName(event)] = Date.now();
+        return spy;
+      });
+    });
 
     const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
       eventSequence.map(async (event) => await element.spyOnEvent(event)),
@@ -149,13 +177,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     }
 
     await page.waitForChanges();
-
     await beforeOpenEvent;
-
-    if (animationsEnabled) {
-      assertEventSequence([1, 0, 0, 0]);
-    }
-
     await openEvent;
 
     assertEventSequence([1, 1, 0, 0]);
@@ -167,25 +189,28 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     }
 
     await page.waitForChanges();
-
     await beforeCloseEvent;
-
-    if (animationsEnabled) {
-      assertEventSequence([1, 1, 1, 0]);
-    }
-
     await closeEvent;
 
     assertEventSequence([1, 1, 1, 1]);
 
     expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
+
+    const delayDeltaThreshold = 10;
+    const delayBetweenBeforeOpenAndOpen = timestamps.open - timestamps.beforeOpen;
+    const delayBetweenBeforeCloseAndClose = timestamps.close - timestamps.beforeClose;
+
+    const matcherName = animationsEnabled ? "toBeGreaterThan" : ("toBeLessThanOrEqual" as const);
+
+    expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
+    expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
   }
 
   if (customizedOptions.initialToggleValue === true) {
     it("emits on initialization with animations enabled", async () => {
       const page = await newProgrammaticE2EPage();
       await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
     });
 
     it("emits on initialization with animations disabled", async () => {
@@ -200,7 +225,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     it(`emits with animations enabled`, async () => {
       const page = await simplePageSetup(componentTagOrHTML);
       await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
     });
 
     it(`emits with animations disabled`, async () => {
