@@ -35,9 +35,22 @@ module.exports = async ({ github, context }) => {
         ...issueProps,
         body: `Issue #${context.issue.number} has been closed, this issue can now move forward. cc ${verifiers}`,
       });
+
+      try {
+        await github.rest.issues.removeLabel({
+          ...issueProps,
+          name: "blocked",
+        });
+      } catch (error) {
+        if (error.status === 404) {
+          console.log(`The label "blocked" does not exist on issue #${issueNumber}.`);
+        } else {
+          throw error;
+        }
+      }
     }
   } else {
-    console.log("No blocked issues listed.");
+    console.log(`No blocked issues listed in the body of issue #${context.payload.issue.number}.`);
     return;
   }
 };

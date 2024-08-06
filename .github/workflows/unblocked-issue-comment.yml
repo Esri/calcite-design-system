@@ -16,5 +16,5 @@ jobs:
           ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutBlockerIssueClosing.js')
+            const action = require('${{ github.workspace }}/.github/scripts/addUnblockedComment.js')
             await action({github, context})
