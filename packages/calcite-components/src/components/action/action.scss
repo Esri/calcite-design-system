@@ -14,6 +14,10 @@
   --calcite-action-color-transparent-press: var(--calcite-color-transparent-press);
 }
 
+:host([slot="actions-start"]) {
+  block-size: 100%;
+}
+
 @mixin action-indicator() {
   position: relative;
   &::after {
