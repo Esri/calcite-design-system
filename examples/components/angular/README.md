@@ -1,27 +1,80 @@
 # Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.3.
+This examples use [`@esri/calcite-components-angular`](https://www.npmjs.com/package/@esri/calcite-components-angular), which provides Angular wrappers for Calcite components.
 
-## Development server
+## Usage
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Install the package
 
-## Code scaffolding
+```sh
+npm install @esri/calcite-components-angular
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.
 
-## Build
+### Copy local assets
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Calcite components' assets need to be copied to the `./public` directory when [using assets](https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets) locally. This example has a `copy` npm script, which will automatically run after installing dependencies. For example:
 
-## Running unit tests
+```sh
+cp -r node_modules/@esri/calcite-components/dist/calcite/assets/ ./public
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Import the stylesheet
 
-## Running end-to-end tests
+Import the global stylesheet into your app (only do this once):
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```css
+/* src/styles.css */
+@import "@esri/calcite-components/dist/calcite/calcite.css";
+```
 
-## Further help
+### Define the custom elements
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The Angular wrapper components must use [Calcite Component's Distribution build](https://developers.arcgis.com/calcite-design-system/get-started/#distribution):
+
+```ts
+// src/main.ts
+import { defineCustomElements } from "@esri/calcite-components/dist/loader";
+defineCustomElements(window, { resourcesUrl: "./assets" });
+```
+
+### Use the components
+
+Add `CalciteComponentsModule` to the imports of the Angular component file:
+
+```ts
+// src/app/app.component.ts
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { CalciteComponentsModule } from '@esri/calcite-components-angular';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  templateUrl: './app.component.html',
+  imports: [CommonModule, CalciteComponentsModule, RouterOutlet],
+  styleUrls: ['./app.component.css'],
+})
+```
+
+Calcite Components can now be used in your application like any other Angular component!
+
+```html
+<!-- app.component.html -->
+<calcite-slider min="1" max="100" [value]="sliderValue" (calciteSliderInput)="onSliderInput($event)"></calcite-slider>
+```
+
+## License
+
+COPYRIGHT © 2023-2924 Esri
+
+All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
+
+This material is licensed for use under the Esri Master License Agreement (MLA), and is bound by the terms of that agreement. You may redistribute and use this code without modification, provided you adhere to the terms of the MLA and include this copyright notice.
+
+See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
+
+For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
+
+email: <contracts@esri.com>

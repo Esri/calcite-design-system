@@ -1,6 +1,6 @@
 {
-  "name": "angular",
-  "version": "0.0.0",
+  "name": "calcite-angular-starter",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,7 +10,6 @@
     "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets ./public/assets",
     "postinstall": "npm run copy"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^18.1.0",
     "@angular/common": "^18.1.0",
