@@ -6,8 +6,8 @@ describe('AppComponent', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [CalciteComponentsModule],
-      declarations: [AppComponent]
-    }).compileComponents()
+      declarations: [AppComponent],
+    }).compileComponents(),
   );
 
   it('should create the app', () => {

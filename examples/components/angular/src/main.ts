@@ -4,7 +4,7 @@ import { AppComponent } from './app/app.component';
 import { defineCustomElements } from '@esri/calcite-components/dist/loader';
 
 defineCustomElements(window, {
-  resourcesUrl: 'https://js.arcgis.com/calcite-components/2.11.1/assets',
+  resourcesUrl: './assets',
 });
 
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
