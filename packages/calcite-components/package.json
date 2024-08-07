@@ -78,7 +78,7 @@
   "devDependencies": {
     "@esri/calcite-design-tokens": "^2.2.1-next.3",
     "@esri/eslint-plugin-calcite-components": "^1.2.1-next.3",
-    "@stencil-community/eslint-plugin": "0.7.2",
+    "@stencil-community/eslint-plugin": "0.8.0",
     "@stencil-community/postcss": "2.2.0",
     "@stencil/angular-output-target": "0.8.4",
     "@stencil/react-output-target": "0.5.3",
