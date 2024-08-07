@@ -4,9 +4,8 @@ import { CalciteComponentsModule } from '@esri/calcite-components-angular';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, CalciteComponentsModule],
+  imports: [AppComponent, BrowserModule, CalciteComponentsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

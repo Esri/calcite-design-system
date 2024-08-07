@@ -1,11 +1,10 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
 /dist
 /tmp
 /out-tsc
 /bazel-out
-/.angular
 
 # Node
 /node_modules
@@ -37,7 +36,6 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-/src/assets
 
 # System files
 .DS_Store
