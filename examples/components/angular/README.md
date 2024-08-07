@@ -67,7 +67,7 @@ Calcite Components can now be used in your application like any other Angular co
 
 ## License
 
-COPYRIGHT © 2023-2924 Esri
+COPYRIGHT © 2023-2024 Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
