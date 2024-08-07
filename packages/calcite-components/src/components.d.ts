@@ -3304,6 +3304,10 @@ export namespace Components {
          */
         "label": string;
         /**
+          * When `true`, and when the type is `determinate`, displays the progress value as a percentage
+         */
+        "percentage": boolean;
+        /**
           * Specifies the size of the component.
          */
         "scale": Scale;
@@ -11395,6 +11399,10 @@ declare namespace LocalJSX {
           * Accessible name for the component.
          */
         "label": string;
+        /**
+          * When `true`, and when the type is `determinate`, displays the progress value as a percentage
+         */
+        "percentage"?: boolean;
         /**
           * Specifies the size of the component.
          */
