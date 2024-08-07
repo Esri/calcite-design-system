@@ -61,6 +61,7 @@ import {
   formatTimePart,
   formatTimeString,
   FractionalSecondDigits,
+  getLocaleHourCycle,
   HourCycle,
   isValidTime,
   localizeTimeString,
@@ -420,9 +421,8 @@ export class InputTimePicker
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  async effectiveLocaleWatcher(locale: SupportedLocale): Promise<void> {
-    await Promise.all([this.loadDateTimeLocaleData(), updateMessages(this, this.effectiveLocale)]);
-    this.setLocalizedInputValue({ locale });
+  effectiveLocaleWatcher(locale: SupportedLocale): void {
+    this.updateLocale(locale);
   }
 
   //--------------------------------------------------------------------------
@@ -455,6 +455,7 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   private hostBlurHandler = (): void => {
+    // TODO: need to handle cases here where hour-cycle differs from the locale's default hour-cycle
     const inputValue = this.calciteInputEl.value;
     const delocalizedInputValue = this.delocalizeTimeString(inputValue);
 
@@ -465,18 +466,7 @@ export class InputTimePicker
 
     if (delocalizedInputValue !== this.value) {
       this.setValue(delocalizedInputValue);
-    }
-
-    const localizedTimeString = localizeTimeString({
-      value: this.value,
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      includeSeconds: this.shouldIncludeSeconds(),
-      fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-    });
-
-    if (localizedTimeString !== inputValue) {
-      this.setInputValue(localizedTimeString);
+      this.setLocalizedInputValue();
     }
 
     this.deactivate();
@@ -522,6 +512,14 @@ export class InputTimePicker
     this.setValue(toISOTimeString(value, includeSeconds));
     this.setLocalizedInputValue({ isoTimeString: value });
   };
+
+  async updateLocale(locale: SupportedLocale): Promise<void> {
+    await Promise.all([this.loadDateTimeLocaleData(), updateMessages(this, locale)]);
+    if (!this.hourCycle) {
+      this.hourCycle = getLocaleHourCycle(locale);
+    }
+    this.setLocalizedInputValue({ locale });
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -716,22 +714,13 @@ export class InputTimePicker
         return;
       }
 
+      // TODO: need to handle cases here where hour-cycle differs from the locale's default hour-cycle
+
       const newValue = this.delocalizeTimeString(this.calciteInputEl.value);
 
       if (isValidTime(newValue)) {
         this.setValue(newValue);
-
-        const localizedTimeString = localizeTimeString({
-          value: this.value,
-          locale: this.effectiveLocale,
-          numberingSystem: this.numberingSystem,
-          includeSeconds: this.shouldIncludeSeconds(),
-          fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        });
-
-        if (newValue && this.calciteInputEl.value !== localizedTimeString) {
-          this.setInputValue(localizedTimeString);
-        }
+        this.setLocalizedInputValue();
       }
     } else if (key === "ArrowDown") {
       this.open = true;
@@ -844,8 +833,8 @@ export class InputTimePicker
     }
   }
 
-  private getLocalizedTimeString(params: GetLocalizedTimeStringParameters): string {
-    const hour12 = params.hourCycle === "12" || this.hourCycle === "12";
+  private getLocalizedTimeString = (params: GetLocalizedTimeStringParameters): string => {
+    const hour12 = params.hourCycle === "12" || (this.hourCycle && this.hourCycle === "12");
     const locale = params.locale ?? this.effectiveLocale;
     const numberingSystem = params.numberingSystem ?? this.numberingSystem;
     const value = params.isoTimeString ?? this.value;
@@ -859,7 +848,7 @@ export class InputTimePicker
         value,
       }) ?? ""
     );
-  }
+  };
 
   onLabelClick(): void {
     this.setFocus();

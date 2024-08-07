@@ -50,7 +50,7 @@ function createLocaleDateTimeFormatter({
   hour12,
 }: {
   locale: string;
-  numberingSystem: NumberingSystem;
+  numberingSystem?: NumberingSystem;
   includeSeconds?: boolean;
   fractionalSecondDigits?: FractionalSecondDigits;
   hour12?: boolean;
@@ -115,8 +115,8 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
   return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
 
-export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem): HourCycle {
-  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
+export function getLocaleHourCycle(locale: string): HourCycle {
+  const formatter = createLocaleDateTimeFormatter({ locale });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }

@@ -882,7 +882,7 @@ export class TimePicker
   private updateLocale() {
     updateMessages(this, this.effectiveLocale);
     if (!this.hourCycle) {
-      this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
+      this.hourCycle = getLocaleHourCycle(this.effectiveLocale);
     }
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.effectiveLocale,
