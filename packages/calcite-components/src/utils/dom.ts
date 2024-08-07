@@ -737,7 +737,7 @@ export async function whenTransitionOrAnimationDone(
   const allProps = type === "transition" ? style.transitionProperty : style.animationName;
 
   const allDurationsArray = allDurations.split(",");
-  const allPropsArray = allProps.split(",");
+  const allPropsArray = allProps.split(",").map((prop) => prop.trim());
   const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
   const duration =
     allDurationsArray[propIndex] ??

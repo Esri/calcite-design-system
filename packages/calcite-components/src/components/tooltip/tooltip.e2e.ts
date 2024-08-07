@@ -167,7 +167,10 @@ describe("calcite-tooltip", () => {
 
   describe("openClose", () => {
     openClose(simpleTooltipHtml);
-    openClose(tooltipDisplayNoneHtml);
+
+    describe("parent has display none", () => {
+      openClose(tooltipDisplayNoneHtml, { willUseFallback: true });
+    });
   });
 
   it("should have zIndex of 901", async () => {
