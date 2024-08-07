@@ -29,7 +29,7 @@ module.exports = async ({ github, context }) => {
       const issueProps = {
         repo,
         owner,
-        issue_number: issueNumber,
+        issue_number: Number(issueNumber),
       };
 
       await github.rest.issues.createComment({
