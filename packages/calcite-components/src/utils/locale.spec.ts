@@ -233,18 +233,17 @@ describe("getSupportedLocale", () => {
 });
 
 describe("getDateFormatSupportedLocale", () => {
-  function assertAllContexts(locale: string, expectedLocale: string): void {
-    expect(getDateFormatSupportedLocale(locale)).toBe(expectedLocale);
+  function assertLocaleMapping(locale: string, expectedLocale: string): void {
     expect(getDateFormatSupportedLocale(locale)).toBe(expectedLocale);
   }
 
   describe("locale mappings", () => {
     it("maps `it-CH` to `de-CH`", () => {
-      assertAllContexts("it-CH", "de-CH");
+      assertLocaleMapping("it-CH", "de-CH");
     });
 
     it("maps `bs` to `bs-Cyrl`", () => {
-      assertAllContexts("bs", "bs-Cyrl");
+      assertLocaleMapping("bs", "bs-Cyrl");
     });
 
     it("maps `en` to `en`", () => {

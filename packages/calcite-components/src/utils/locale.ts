@@ -178,6 +178,10 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
 /**
  * Gets the locale that best matches the context for date formatting.
  *
+ * Intl date formatting has some quirks with certain locales. This handles those quirks by mapping a locale to another for date formatting.
+ *
+ * See https://github.com/Esri/calcite-design-system/issues/9387
+ *
  * @param locale – the BCP 47 locale code
  * @returns {string} a BCP 47 locale code
  */

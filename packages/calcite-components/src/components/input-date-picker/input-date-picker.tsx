@@ -739,7 +739,7 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
-  dateTimeFormat: Intl.DateTimeFormat;
+  private dateTimeFormat: Intl.DateTimeFormat;
 
   @State() datePickerActiveDate: Date;
 
