@@ -170,7 +170,7 @@
   }
   &:host(:not([has-histogram])) {
     .scale--s {
-      .thumb:not(.thumb--precise) {
+      .thumb:not(.thumb--precise):not(.thumb--vertical) {
         --calcite-slider-thumb-y-offset: -1.4375rem;
       }
     }
@@ -203,13 +203,19 @@
 :host([label-handles][precise]) {
   &:host(:not([has-histogram])) .scale--s .thumb--value {
     --calcite-slider-thumb-y-offset: -2.075rem;
+    &.thumb--vertical:not(.thumb--vertical-reversed) {
+      --calcite-slider-thumb-y-offset: -0.075rem;
+    }
   }
   &:host(:not([has-histogram])) .scale--m .thumb--value {
     --calcite-slider-thumb-y-offset: -2.75rem;
+    &.thumb--vertical:not(.thumb--vertical-reversed) {
+      --calcite-slider-thumb-y-offset: -0.75rem;
+    }
   }
   &:host(:not([has-histogram])) .scale--l .thumb--value {
     --calcite-slider-thumb-y-offset: -3.0625rem;
-    &.thumb--vertical {
+    &.thumb--vertical:not(.thumb--vertical-reversed) {
       --calcite-slider-thumb-y-offset: -0.0625rem;
     }
   }
@@ -312,6 +318,10 @@
 
 .tick__label--vertical {
   transform: rotate(90deg) translateX(-40px);
+
+  &.tick__label--vertical-reversed {
+    transform: rotate(90deg) translate(0);
+  }
 }
 
 :host([has-histogram][label-handles]),
@@ -385,6 +395,10 @@
 
 .handle__label--vertical {
   transform: rotate(90deg) translateX(2px);
+
+  &.handle__label--vertical-reversed {
+    transform: rotate(90deg) translateX(-34px);
+  }
 }
 
 @include hidden-form-input();

@@ -282,7 +282,9 @@ export class Slider
     const thumb = this.renderThumb({
       type: thumbTypes,
       thumbPlacement:
-        thumbTypes.includes("histogram") || (this.layout === "vertical" && !this.precise)
+        thumbTypes.includes("histogram") ||
+        (this.layout === "vertical" && !this.labelsReversed) ||
+        !this.precise
           ? "below"
           : "above",
       maxInterval,
@@ -1042,7 +1044,7 @@ export class Slider
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
-    label.style.transform = `translateX(${labelStaticOffset}px)`;
+    label.style.transform = `translateX(${labelStaticOffset}px) ${this.layout === "vertical" ? "rotate(90deg)" : ""}`;
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
 
