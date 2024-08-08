@@ -14,8 +14,10 @@ export interface FocusTrapComponent {
   /** When `true`, disables the default close on escape behavior. */
   escapeDisabled?: boolean;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
-  outsideCloseDisabled?: boolean;
+  /**
+   * When `true`, indicates the click has happened outside of the component and can therefore deactivate focusTrap.
+   */
+  clickOutsideDeactivates?: (event: MouseEvent) => boolean;
 
   /**
    * When `true`, prevents focus trapping.
@@ -69,7 +71,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   }
 
   const focusTrapOptions: FocusTrapOptions = {
-    clickOutsideDeactivates: !component.outsideCloseDisabled ?? true,
+    clickOutsideDeactivates: component.clickOutsideDeactivates ?? true,
     escapeDeactivates: !component.escapeDisabled ?? true,
     fallbackFocus: focusTrapNode,
     onDeactivate: () => component.onFocusTrapDeactivate?.(),
@@ -130,4 +132,18 @@ export function deactivateFocusTrap(
  */
 export function updateFocusTrapElements(component: FocusTrapComponent): void {
   component.focusTrap?.updateContainerElements(component.el);
+}
+
+/**
+ * Helper to manage focusTrap by determining if a click event occurred outside of the component. When `true`, the focus trap will deactivate.
+ *
+ * @param {FocusTrapComponent} component The FocusTrap component.
+ * @param [options] The FocusTrap activate options.
+ * @param event
+ */
+export function clickOutsideDeactivates(event: MouseEvent): boolean {
+  const path = event.composedPath();
+  const isClickInside = path.some((el: EventTarget) => this.contains(el as Node));
+  // If the click is inside the component, do not deactivate the focus trap
+  return !isClickInside;
 }
