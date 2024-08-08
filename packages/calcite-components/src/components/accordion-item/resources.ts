@@ -4,19 +4,19 @@ export const SLOTS = {
 };
 
 export const CSS = {
-  icon: "icon",
-  header: "header",
-  headerContent: "header-content",
-  actionsStart: "actions-start",
   actionsEnd: "actions-end",
-  headerText: "header-text",
-  heading: "heading",
+  actionsStart: "actions-start",
+  content: "content",
   description: "description",
   expandIcon: "expand-icon",
-  content: "content",
-  iconStart: "icon--start",
-  iconEnd: "icon--end",
+  header: "header",
   headerContainer: "header-container",
+  headerContent: "header-content",
+  headerText: "header-text",
+  heading: "heading",
+  icon: "icon",
+  iconEnd: "icon--end",
+  iconStart: "icon--start",
 };
 
 export const IDS = {
