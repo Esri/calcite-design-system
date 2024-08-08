@@ -569,6 +569,10 @@ export namespace Components {
           * Sets focus on the component's "close" button, the first focusable item.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the priority of the component. urgent alerts will be shown first.
+         */
+        "urgent": boolean;
     }
     interface CalciteAvatar {
         /**
@@ -8464,6 +8468,10 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * Specifies the priority of the component. urgent alerts will be shown first.
+         */
+        "urgent"?: boolean;
     }
     interface CalciteAvatar {
         /**

@@ -160,6 +160,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
   }
 
+  /** Specifies the priority of the component. urgent alerts will be shown first. */
+  @Prop({ reflect: true }) urgent = false;
+
+  @Watch("urgent")
+  handleUrgentChange(): void {
+    // todo
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -365,7 +373,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   alertRegister(): void {
     if (this.open && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
-      this.queue.push(this.el as HTMLCalciteAlertElement);
+      if (this.urgent) {
+        this.queue.unshift(this.el as HTMLCalciteAlertElement);
+      } else {
+        this.queue.push(this.el as HTMLCalciteAlertElement);
+      }
     }
     this.calciteInternalAlertSync.emit({ queue: this.queue });
     this.determineActiveAlert();
@@ -441,9 +453,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @State() hasEndActions = false;
 
+  // todo: this queue stack is maintained as a state on every alert instance? Should we refactor this?
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];
 
+  // todo: this queue length is maintained on every alert instance?
   /** the count of queued alerts */
   @State() queueLength = 0;
 
@@ -494,6 +508,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         );
       }
     } else {
+      this.queued = this.open;
       return;
     }
   }
