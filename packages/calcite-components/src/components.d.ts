@@ -4603,6 +4603,11 @@ export namespace Components {
          */
         "labelTicks": boolean;
         /**
+          * Displays tick labels on the right side of the track and thumb label on the left
+         */
+        "labelsReversed": boolean;
+        "layout": "horizontal" | "vertical";
+        /**
           * The component's maximum selectable value.
          */
         "max": number;
@@ -12729,6 +12734,11 @@ declare namespace LocalJSX {
           * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
          */
         "labelTicks"?: boolean;
+        /**
+          * Displays tick labels on the right side of the track and thumb label on the left
+         */
+        "labelsReversed"?: boolean;
+        "layout"?: "horizontal" | "vertical";
         /**
           * The component's maximum selectable value.
          */

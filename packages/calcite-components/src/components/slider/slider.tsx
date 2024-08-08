@@ -188,6 +188,9 @@ export class Slider
   /** Displays tick marks on the number line at a specified interval. */
   @Prop({ reflect: true }) ticks: number;
 
+  /** Displays tick labels on the right side of the track and thumb label on the left */
+  @Prop({ reflect: true }) labelsReversed = false;
+
   @Watch("ticks")
   ticksWatcher(): void {
     this.tickValues = this.generateTickValues();
@@ -211,6 +214,8 @@ export class Slider
    *  Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   //--------------------------------------------------------------------------
   //
@@ -276,7 +281,10 @@ export class Slider
     const thumbTypes = this.buildThumbType("max");
     const thumb = this.renderThumb({
       type: thumbTypes,
-      thumbPlacement: thumbTypes.includes("histogram") ? "below" : "above",
+      thumbPlacement:
+        thumbTypes.includes("histogram") || (this.layout === "vertical" && !this.precise)
+          ? "below"
+          : "above",
       maxInterval,
       minInterval,
       mirror,
@@ -323,6 +331,7 @@ export class Slider
               [CSS.container]: true,
               [CSS.containerRange]: valueIsRange,
               [`scale--${this.scale}`]: true,
+              [CSS.trackVertical]: this.layout === "vertical",
             }}
           >
             {this.renderGraph()}
@@ -417,7 +426,14 @@ export class Slider
 
     const labels = isLabeled
       ? [
-          <span aria-hidden="true" class={thumbLabelClasses}>
+          <span
+            aria-hidden="true"
+            class={{
+              [thumbLabelClasses]: true,
+              [CSS.handleLabelVertical]: this.layout === "vertical",
+              [CSS.handleLabelVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
+            }}
+          >
             {displayedValue}
           </span>,
           <span aria-hidden="true" class={`${thumbLabelClasses} ${CSS.static}`}>
@@ -443,7 +459,7 @@ export class Slider
       <div
         aria-disabled={this.disabled}
         aria-label={ariaLabel}
-        aria-orientation="horizontal"
+        aria-orientation={this.layout}
         aria-valuemax={this.max}
         aria-valuemin={this.min}
         aria-valuenow={ariaValuenow}
@@ -453,6 +469,8 @@ export class Slider
           [CSS.thumbActive]: this.lastDragProp !== "minMaxValue" && this.dragProp === valueProp,
           [CSS.thumbPrecise]: isPrecise,
           [CSS.thumbMinValue]: isMinThumb,
+          [CSS.thumbVertical]: this.layout === "vertical",
+          [CSS.thumbVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
         }}
         data-value-prop={valueProp}
         key={type}
@@ -501,6 +519,8 @@ export class Slider
           [CSS.tickLabel]: true,
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
+          [CSS.tickLabelVertical]: this.layout === "vertical",
+          [CSS.tickLabelVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
@@ -563,8 +583,9 @@ export class Slider
       return;
     }
 
-    const x = event.clientX || event.pageX;
-    const position = this.translate(x);
+    const v =
+      this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
+    const position = this.translate(v);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -581,7 +602,7 @@ export class Slider
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
-    this.focusActiveHandle(x);
+    this.focusActiveHandle(v);
   }
 
   handleTouchStart(event: TouchEvent): void {
@@ -806,7 +827,9 @@ export class Slider
 
     event.preventDefault();
     if (this.dragProp) {
-      const value = this.translate(event.clientX || event.pageX);
+      const valueToTranslate =
+        this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
+      const value = this.translate(valueToTranslate);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -942,13 +965,20 @@ export class Slider
   /**
    * Translate a pixel position to value along the range
    *
-   * @param x
+   * @param p
    * @internal
    */
-  private translate(x: number): number {
+  private translate(p: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.getBoundingClientRect();
-    const percent = (x - left) / width;
+    let percent: number;
+    if (this.layout === "horizontal") {
+      const { left, width } = this.trackEl.getBoundingClientRect();
+      percent = (p - left) / width;
+    } else {
+      const { bottom, height } = this.trackEl.getBoundingClientRect();
+      percent = (bottom - p) / height;
+    }
+
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
     const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
@@ -980,6 +1010,7 @@ export class Slider
       : this.maxHandle;
   }
 
+  /* May need change: to handle y distance */
   private getDistanceX(el: HTMLDivElement, valueX: number): number {
     return Math.abs(el.getBoundingClientRect().left - valueX);
   }
