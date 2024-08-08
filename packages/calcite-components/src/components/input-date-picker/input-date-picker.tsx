@@ -982,7 +982,7 @@ export class InputDatePicker
     connectFocusTrap(this, {
       focusTrapEl: el,
       focusTrapOptions: {
-        clickOutsideDeactivates: () => !event.composedPath().includes(el),
+        clickOutsideDeactivates: () => !event.composedPath().includes(this.el),
         initialFocus: false,
         setReturnFocus: false,
       },
