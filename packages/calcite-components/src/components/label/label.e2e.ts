@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
+import { labelClickEvent } from "../../utils/label";
 
 describe("calcite-label", () => {
   describe("renders", () => {
@@ -143,6 +144,36 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("id", "do-not-duplicate-me");
     expect(childElement).not.toHaveAttribute("id");
     expect(element).toEqualAttribute("layout", "inline-space-between");
+  });
+
+  it(`should emit ${labelClickEvent} when a label is clicked`, async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
+    Label text
+    <calcite-input></calcite-input>
+    </calcite-label>
+    `);
+
+    const element = await page.find("calcite-label");
+
+    const eventSpy = await element.spyOnEvent(labelClickEvent);
+
+    await element.click();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    await page.$eval("calcite-label", (el) => {
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      const range = document.createRange();
+      range.selectNode(el);
+      selection.addRange(range);
+      el.click();
+    });
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
   });
 
   // TODO: need shadow DOM equivalent update on helper
