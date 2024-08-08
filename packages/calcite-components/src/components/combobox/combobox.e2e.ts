@@ -2374,4 +2374,29 @@ describe("calcite-combobox", () => {
     });
     await page.waitForChanges();
   });
+
+  it("allow selecting an item that was previously disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox>
+        <calcite-combobox-item text-label="Item 1" value="one"></calcite-combobox-item>
+        <calcite-combobox-item text-label="Item 2" value="two"></calcite-combobox-item>
+        <calcite-combobox-item id="tres" text-label="Item 3" value="three" disabled></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    const combobox = await page.find("calcite-combobox");
+
+    await combobox.click();
+    const item3 = await page.find("calcite-combobox-item[disabled]");
+    await item3.click();
+
+    expect(await combobox.getProperty("value")).toBe("");
+
+    await item3.setProperty("disabled", false);
+    await page.waitForChanges();
+
+    await item3.click();
+
+    expect(await combobox.getProperty("value")).toBe("three");
+  });
 });

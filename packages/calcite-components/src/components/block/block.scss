@@ -23,6 +23,10 @@
   @apply justify-start;
 }
 
+.header--has-text {
+  padding: var(--calcite-spacing-md);
+}
+
 .header,
 .toggle {
   grid-area: header;
@@ -191,13 +195,6 @@ calcite-action-menu {
 
   .header .title .heading {
     @apply text-color-1;
-  }
-}
-
-:host([heading]),
-:host([description]) {
-  .header {
-    padding: var(--calcite-spacing-md);
   }
 }
 
