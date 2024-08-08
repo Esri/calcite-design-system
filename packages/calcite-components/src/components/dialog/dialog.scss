@@ -24,6 +24,10 @@
   @apply absolute;
 }
 
+:host([drag-enabled]) .dialog {
+  @apply select-none;
+}
+
 .container {
   @apply text-color-2
     pointer-events-auto
@@ -132,32 +136,35 @@ calcite-panel {
     opacity-0
     shadow-2-sm
     z-modal
-    rounded;
+    rounded
+    relative;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
   transition:
-    transform var(--calcite-internal-animation-timing-slow) $easing-function,
-    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    inset var(--calcite-internal-animation-timing-slow) $easing-function,
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 
-  --calcite-internal-dialog-hidden-position: translate3d(0, 20px, 0);
-  --calcite-internal-dialog-shown-position: translate3d(0, 0, 0);
+  --calcite-internal-dialog-hidden-position: 20px;
+  --calcite-internal-dialog-shown-position: 0;
+
+  min-inline-size: 275px;
+  min-block-size: 175px;
 
   &--opening {
     &-idle {
-      transform: var(--calcite-internal-dialog-hidden-position);
+      inset-block-start: var(--calcite-internal-dialog-hidden-position);
     }
     &-active {
-      transform: var(--calcite-internal-dialog-shown-position);
+      inset-block-start: var(--calcite-internal-dialog-shown-position);
     }
   }
 
   &--closing {
     &-idle {
-      transform: var(--calcite-internal-dialog-shown-position);
+      inset-block-start: var(--calcite-internal-dialog-shown-position);
     }
     &-active {
-      transform: var(--calcite-internal-dialog-hidden-position);
+      inset-block-start: var(--calcite-internal-dialog-hidden-position);
     }
   }
 }
@@ -181,11 +188,8 @@ calcite-panel {
       visible
       opacity-100;
     transition:
-      transform var(--calcite-internal-animation-timing-slow) $easing-function,
-      visibility 0ms linear,
-      opacity var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-block-size var(--calcite-internal-animation-timing-slow) $easing-function;
+      inset var(--calcite-internal-animation-timing-slow) $easing-function,
+      opacity var(--calcite-internal-animation-timing-slow) $easing-function;
     transition-delay: 0ms;
   }
 }
@@ -233,8 +237,6 @@ calcite-panel {
       h-full
       w-full
       rounded-none;
-    --calcite-internal-dialog-hidden-position: translate3D(0, 20px, 0) scale(0.95);
-    --calcite-internal-dialog-shown-position: translate3D(0, 0, 0) scale(1);
   }
   .panel {
     @apply rounded-none;
@@ -285,6 +287,10 @@ calcite-panel {
   calcite-scrim {
     position: absolute;
   }
+}
+
+.assistive-text {
+  @apply sr-only;
 }
 
 @include base-component();

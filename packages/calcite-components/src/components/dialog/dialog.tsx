@@ -12,6 +12,8 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import interact from "interactjs";
+import type { Interactable, ResizeEvent, DragEvent } from "@interactjs/types";
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -43,7 +45,7 @@ import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import { OverlayPositioning } from "../../components";
 import { DialogMessages } from "./assets/dialog/t9n";
-import { CSS, SLOTS } from "./resources";
+import { CSS, dialogStep, SLOTS } from "./resources";
 import { DialogPlacement } from "./interfaces";
 
 let totalOpenDialogs: number = 0;
@@ -91,6 +93,11 @@ export class Dialog
 
   /** A description for the component. */
   @Prop() description: string;
+
+  /**
+   * When `true`, the component is draggable.
+   */
+  @Prop({ reflect: true }) dragEnabled = false;
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeDisabled = false;
@@ -171,6 +178,11 @@ export class Dialog
    */
   @Prop({ reflect: true }) placement: DialogPlacement = "center";
 
+  /**
+   * When `true`, the component is resizable.
+   */
+  @Prop({ reflect: true }) resizable = false;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -201,6 +213,7 @@ export class Dialog
     connectLocalized(this);
     connectMessages(this);
     connectFocusTrap(this);
+    this.setInteraction();
   }
 
   disconnectedCallback(): void {
@@ -210,15 +223,17 @@ export class Dialog
     disconnectLocalized(this);
     disconnectMessages(this);
     this.embedded = false;
+    this.unsetInteraction();
   }
 
   render(): VNode {
-    const { description, heading, opened } = this;
+    const { assistiveText, description, heading, opened } = this;
     return (
       <Host
         aria-description={description}
         aria-label={heading}
         aria-modal={toAriaBoolean(this.modal)}
+        onKeyDown={this.handleKeyDown}
         role="dialog"
       >
         <div
@@ -227,11 +242,25 @@ export class Dialog
             [CSS.containerOpen]: opened,
             [CSS.containerEmbedded]: this.embedded,
           }}
+          ref={(el) => (this.containerEl = el)}
         >
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           ) : null}
-          <div class={CSS.dialog} ref={this.setTransitionEl}>
+          <div
+            class={CSS.dialog}
+            ref={this.setTransitionEl}
+            style={{
+              inlineSize: `${this.dialogWidth}px`,
+              blockSize: `${this.dialogHeight}px`,
+              transform: `translate(${this.dialogPositionX}px, ${this.dialogPositionY}px)`,
+            }}
+          >
+            {assistiveText ? (
+              <div aria-live="polite" class={CSS.assistiveText} key="assistive-text">
+                {assistiveText}
+              </div>
+            ) : null}
             <slot name={SLOTS.content}>
               <calcite-panel
                 beforeClose={this.beforeClose}
@@ -281,6 +310,14 @@ export class Dialog
 
   @Element() el: HTMLCalciteDialogElement;
 
+  @State() dialogWidth: number;
+
+  @State() dialogHeight: number;
+
+  @State() dialogPositionX = 0;
+
+  @State() dialogPositionY = 0;
+
   @State() opened = false;
 
   @State() hasFooter = true;
@@ -298,11 +335,27 @@ export class Dialog
 
   @State() defaultMessages: DialogMessages;
 
+  @State() assistiveText = "";
+
+  @Watch("messages")
+  @Watch("dragEnabled")
+  @Watch("resizable")
+  updateAssistiveText(): void {
+    const { messages } = this;
+    this.assistiveText = messages
+      ? `${this.dragEnabled ? messages.dragEnabled : ""} ${this.resizable ? messages.resizeEnabled : ""}`.trim()
+      : "";
+  }
+
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 
+  containerEl: HTMLDivElement;
+
   focusTrap: FocusTrap;
+
+  private interaction: Interactable;
 
   private panelEl: HTMLCalcitePanelElement;
 
@@ -436,8 +489,116 @@ export class Dialog
     onToggleOpenCloseComponent(this);
   }
 
+  private handleKeyDown = (event: KeyboardEvent): void => {
+    const { key, shiftKey, defaultPrevented } = event;
+    const { dragEnabled, resizable } = this;
+
+    if (defaultPrevented) {
+      return;
+    }
+
+    const transitionRect = this.transitionEl.getBoundingClientRect();
+    const containerRect = this.containerEl.getBoundingClientRect();
+    const maxMoveY = containerRect.height / 2 - transitionRect.height / 2;
+    const maxMoveX = containerRect.width / 2 - transitionRect.width / 2;
+
+    switch (key) {
+      case "ArrowUp":
+        if (shiftKey && resizable) {
+          this.dialogHeight = transitionRect.height + dialogStep;
+          event.preventDefault();
+        } else if (dragEnabled) {
+          this.dialogPositionY = Math.max(this.dialogPositionY + -dialogStep, -maxMoveY);
+          event.preventDefault();
+        }
+        break;
+      case "ArrowDown":
+        if (shiftKey && resizable) {
+          this.dialogHeight = transitionRect.height - dialogStep;
+          event.preventDefault();
+        } else if (dragEnabled) {
+          this.dialogPositionY = Math.min(this.dialogPositionY + dialogStep, maxMoveY);
+          event.preventDefault();
+        }
+        break;
+      case "ArrowLeft":
+        if (shiftKey && resizable) {
+          this.dialogWidth = transitionRect.width - dialogStep;
+          event.preventDefault();
+        } else if (dragEnabled) {
+          this.dialogPositionX = Math.max(this.dialogPositionX + -dialogStep, -maxMoveX);
+          event.preventDefault();
+        }
+        break;
+      case "ArrowRight":
+        if (shiftKey && resizable) {
+          this.dialogWidth = transitionRect.width + dialogStep;
+          event.preventDefault();
+        } else if (dragEnabled) {
+          this.dialogPositionX = Math.min(this.dialogPositionX + dialogStep, maxMoveX);
+          event.preventDefault();
+        }
+        break;
+    }
+  };
+
+  private unsetInteraction = (): void => {
+    this.interaction?.unset();
+  };
+
+  private setInteraction = (): void => {
+    this.interaction?.unset();
+
+    if (!this.transitionEl) {
+      return;
+    }
+
+    const position = { x: 0, y: 0 };
+
+    const restrictToParent = interact.modifiers.restrictRect({
+      restriction: "parent",
+    });
+
+    if (this.resizable || this.dragEnabled) {
+      this.interaction = interact(this.transitionEl, { context: this.el.ownerDocument });
+    }
+
+    if (this.resizable) {
+      this.interaction.resizable({
+        edges: {
+          top: true,
+          left: true,
+          bottom: true,
+          right: true,
+        },
+        modifiers: [restrictToParent],
+        listeners: {
+          move: (event: ResizeEvent) => {
+            this.dialogWidth = event.rect.width;
+            this.dialogHeight = event.rect.height;
+          },
+        },
+      });
+    }
+
+    if (this.dragEnabled) {
+      this.interaction.draggable({
+        modifiers: [restrictToParent],
+        listeners: {
+          move: (event: DragEvent) => {
+            position.x += event.dx;
+            position.y += event.dy;
+            this.dialogPositionX = position.x;
+            this.dialogPositionY = position.y;
+          },
+        },
+      });
+    }
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
+    this.setInteraction();
   };
 
   private openEnd = (): void => {

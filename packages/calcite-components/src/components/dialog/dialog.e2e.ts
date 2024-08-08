@@ -13,11 +13,32 @@ import {
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
 import { DialogMessages } from "./assets/dialog/t9n";
-import { CSS, SLOTS } from "./resources";
+import { CSS, dialogStep, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
 }>;
+
+const dispatchDialogKeydown = async ({
+  page,
+  key,
+  shiftKey = false,
+}: {
+  page: E2EPage;
+  key: string;
+  shiftKey?: boolean;
+}): Promise<void> => {
+  await page.$eval(
+    "calcite-dialog",
+    (el: HTMLCalciteDialogElement, key, shiftKey) => {
+      el.dispatchEvent(new KeyboardEvent("keydown", { key, shiftKey, bubbles: true }));
+    },
+    key,
+    shiftKey,
+  );
+
+  await page.waitForChanges();
+};
 
 describe("calcite-dialog", () => {
   describe("renders", () => {
@@ -49,6 +70,10 @@ describe("calcite-dialog", () => {
     reflects("calcite-dialog", [
       {
         propertyName: "closeDisabled",
+        value: true,
+      },
+      {
+        propertyName: "dragEnabled",
         value: true,
       },
       {
@@ -84,6 +109,10 @@ describe("calcite-dialog", () => {
         value: "fixed",
       },
       {
+        propertyName: "resizable",
+        value: true,
+      },
+      {
         propertyName: "scale",
         value: "s",
       },
@@ -103,6 +132,10 @@ describe("calcite-dialog", () => {
       {
         propertyName: "description",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "dragEnabled",
+        defaultValue: false,
       },
       {
         propertyName: "closeDisabled",
@@ -147,6 +180,10 @@ describe("calcite-dialog", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "resizable",
+        defaultValue: false,
       },
       {
         propertyName: "scale",
@@ -801,5 +838,137 @@ describe("calcite-dialog", () => {
     const alert = await page.find("calcite-alert");
 
     expect(await alert.getProperty("embedded")).toBe(true);
+  });
+
+  describe("keyboard movement", () => {
+    it("should move properly via arrow keys", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open
+          >Hello world!</calcite-dialog
+        >`,
+      });
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+
+      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogStep})`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+
+      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${dialogStep}, 0)`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+    });
+  });
+
+  describe("keyboard assistive text", () => {
+    it("should not have assistive text by default", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).toBeNull();
+    });
+
+    it("should have assistive text when resizable", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).not.toBeNull();
+      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      expect(assistiveTextElement.textContent).toBe(messages.resizeEnabled);
+    });
+
+    it("should have assistive text when dragEnabled", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open
+          >Hello world!</calcite-dialog
+        >`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).not.toBeNull();
+      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      expect(assistiveTextElement.textContent).toBe(messages.dragEnabled);
+    });
+
+    it("should have assistive text when resizable and dragEnabled", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
+          >Hello world!</calcite-dialog
+        >`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).not.toBeNull();
+      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`.trim());
+    });
+  });
+
+  describe("keyboard resize", () => {
+    it("should resize properly via shift and arrow keys", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
+          ><p>
+            Lorem ipsum odor amet, consectetuer adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+            Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
+            eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
+            ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
+            fermentum tellus quis ad facilisis ultrices eros imperdiet.
+          </p></calcite-dialog
+        >`,
+      });
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+
+      let computedStyle = await container.getComputedStyle();
+      const initialBlockSize = computedStyle.blockSize;
+      const initialInlineSize = computedStyle.inlineSize;
+      const initialHeight = parseInt(initialBlockSize, 10);
+      const initialWidth = parseInt(initialInlineSize, 10);
+
+      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight - dialogStep}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth - dialogStep}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+    });
   });
 });

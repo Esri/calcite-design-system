@@ -1675,6 +1675,10 @@ export namespace Components {
          */
         "description": string;
         /**
+          * When `true`, the component is draggable.
+         */
+        "dragEnabled": boolean;
+        /**
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "embedded": boolean;
@@ -1722,6 +1726,10 @@ export namespace Components {
           * Specifies the placement of the dialog.
          */
         "placement": DialogPlacement;
+        /**
+          * When `true`, the component is resizable.
+         */
+        "resizable": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -9658,6 +9666,10 @@ declare namespace LocalJSX {
          */
         "description"?: string;
         /**
+          * When `true`, the component is draggable.
+         */
+        "dragEnabled"?: boolean;
+        /**
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "embedded"?: boolean;
@@ -9725,6 +9737,10 @@ declare namespace LocalJSX {
           * Specifies the placement of the dialog.
          */
         "placement"?: DialogPlacement;
+        /**
+          * When `true`, the component is resizable.
+         */
+        "resizable"?: boolean;
         /**
           * Specifies the size of the component.
          */

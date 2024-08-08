@@ -7,6 +7,7 @@ export const CSS = {
   container: "container",
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
+  assistiveText: "assistive-text",
   content: "content",
 
   // these classes help apply the animation in phases to only set transform on open/close
@@ -43,3 +44,5 @@ export const dialogPlacements: DialogPlacement[] = [
   "cover",
   "center",
 ];
+
+export const dialogStep = 25;
