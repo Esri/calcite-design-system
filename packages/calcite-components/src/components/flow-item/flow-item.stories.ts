@@ -8,7 +8,15 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface FlowItemStoryArgs
   extends Pick<
     FlowItem,
-    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading" | "scale"
+    | "closed"
+    | "disabled"
+    | "closable"
+    | "collapsible"
+    | "collapsed"
+    | "collapseDirection"
+    | "loading"
+    | "scale"
+    | "selected"
   > {
   heightScale: string;
 }
@@ -25,6 +33,7 @@ export default {
     heightScale: scale.defaultValue,
     scale: scale.defaultValue,
     loading: false,
+    selected: false,
   },
   argTypes: {
     collapseDirection: {
@@ -93,6 +102,7 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     height-scale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    ${boolean("selected", args.selected)}
     heading="Heading"
     description="A wonderful flow item description"
   >
