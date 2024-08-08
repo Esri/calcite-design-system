@@ -74,6 +74,21 @@
   @apply focus-base flex-grow cursor-pointer;
   padding: var(--calcite-accordion-item-space);
   flex-direction: var(--calcite-internal-accordion-item-flex-direction);
+
+  &:focus {
+    @apply focus-inset;
+  }
+
+  &:focus,
+  &:hover,
+  &:active {
+    color: var(--calcite-accordion-text-color-hover, var(--calcite-color-text-2));
+
+    .expand-icon,
+    .heading {
+      color: var(--calcite-accordion-text-color-pressed, var(--calcite-color-text-1));
+    }
+  }
 }
 
 .header-container {
@@ -148,10 +163,6 @@
   }
 }
 
-:host(:focus) .header-content {
-  @apply outline-none;
-}
-
 :host([expanded]) {
   color: var(--calcite-accordion-text-color-pressed, var(--calcite-color-text-1));
 
@@ -176,29 +187,19 @@
   }
 }
 
-:host(:focus),
-:host(:hover) {
-  color: var(--calcite-accordion-text-color-hover, var(--calcite-color-text-2));
-
-  .expand-icon,
-  .heading {
-    color: var(--calcite-accordion-text-color-pressed, var(--calcite-color-text-1));
-  }
-}
-
 @media (forced-colors: active) {
   :host([expanded]) {
-    .header {
+    & .header {
       border-block-end: none;
     }
-    .heading {
+    & .heading {
       /** give visual indicator of expanded state since subtle color changes can't be done **/
       font-weight: bolder;
     }
   }
-  :host(:hover),
-  :host(:focus) {
-    .heading {
+  .header-content:hover,
+  .header-content:focus {
+    & .heading {
       /** give visual indicator of expandability/click-ability since subtle color changes can't be done **/
       text-decoration: underline;
     }
