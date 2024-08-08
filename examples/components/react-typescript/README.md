@@ -1,6 +1,6 @@
 # React and TypeScript
 
-This project was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project).
+This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) and uses [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), which provides React wrappers for Calcite components.
 
 To start the development server, run the following commands from the example's directory:
 
@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-## Calcite Components with React
+## Calcite Components React
 
 To install [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), run:
 
@@ -39,12 +39,9 @@ Next, import the components used in your application:
 import "@esri/calcite-components/dist/components/calcite-button.js";
 import "@esri/calcite-components/dist/components/calcite-icon.js";
 import "@esri/calcite-components/dist/components/calcite-slider.js";
+
 // import the React wrapper components
-import {
-  CalciteButton,
-  CalciteIcon,
-  CalciteSlider,
-} from "@esri/calcite-components-react";
+import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 ```
 
 ### Import stylesheet

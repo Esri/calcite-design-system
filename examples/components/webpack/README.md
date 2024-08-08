@@ -2,101 +2,101 @@
 
 ## Project setup
 
-To install dependencies, run:
+To install dependencies and start the development server, run:
 
-```
+```sh
 npm install
+npm start
 ```
 
-After installation, you can use `npm start` to start up a development server at `http://localhost:8080/`.
+## Usage
 
-## Calcite Components with Webpack
+To install `@esri/calcite-components`, run:
 
-To install calcite components, first run:
-
-```
-npm install --save @esri/calcite-components
+```sh
+npm install @esri/calcite-components
 ```
 
-After calcite-components is installed, import the components you will use in the app:
+Then, import the components used in your application:
 
 ```js
 // src/index.js
-import '@esri/calcite-components/dist/components/calcite-button';
-import '@esri/calcite-components/dist/components/calcite-icon';
-import '@esri/calcite-components/dist/components/calcite-date-picker';
-import { setAssetPath } from '@esri/calcite-components/dist/components';
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-date-picker";
+```
+
+Next, import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
+
+```js
+import { setAssetPath } from "@esri/calcite-components/dist/components";
 
 setAssetPath(location.href);
 ```
 
-Using `setAssetPath` will ensure that calcite components look for assets like icons in the correct location (more on copying assets below).
+Lastly, import Calcite's global stylesheet (only do this once):
 
-## Adding the CSS
-
-The global calcite components CSS can be added by importing the `calcite.css` file. This will require you set up a css loader in your Webpack config (see [Config > CSS](#css) below):
-
-```
+```css
 import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 
+> [!NOTE]
+> This requires setting up a CSS loader in your Webpack config (see [Config > CSS](#css) below)
+
 ## Config
 
-Calcite components will need to be copied over to your output folder for Stencil to load them properly from the client. The easiest way to do this is to utilize the [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First install:
+Calcite components need to be copied to your output directory so Stencil can load them from the client. The easiest way to do this is with [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First, install the package:
 
-```
-npm install --save-dev copy-webpack-plugin
+```sh
+npm install -D copy-webpack-plugin
 ```
 
-Then import the plugin in your `webpack.config.js` file and call it inside the `plugins` array:
+Then, import the package in `webpack.config.js` and set it up in the `plugins` section:
 
 ```js
-const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
         {
-          from: '**',
-          context: 'node_modules/@esri/calcite-components/dist/calcite/',
-          to: './'
-        }
-      ]
-    })
-  ]
+          from: "**",
+          context: "node_modules/@esri/calcite-components/dist/calcite/",
+          to: "./",
+        },
+      ],
+    }),
+  ],
 };
 ```
 
-This will ensure the library is available to your JavaScript.
+This will ensure the library is available to your application.
 
 ### CSS
 
-While we imported CSS file above, we need to output a CSS file in the final bundle. To do this, you can leverage the [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
+While we imported CSS file above, we need to output a CSS file in the final bundle. To do this, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
 
-First, install the required plugins and loaders:
+First, install the required plugin and loader packages:
 
+```sh
+npm install -D mini-css-extract-plugin css-loader
 ```
-npm install --save-dev mini-css-extract-plugin css-loader
-```
 
-Then add them to your config:
+Then, add them to your config:
 
-```
+```js
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader'
-        ],
-      }
-    ]
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
   },
-}
+};
 ```
 
-You can see this example projects [webpack.config.js](./webpack.config.js) for a complete config with dev server and html loading.
+You can see this example project's [webpack.config.js](./webpack.config.js) for a complete setup with a dev server and html loading.
