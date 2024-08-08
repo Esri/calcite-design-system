@@ -175,7 +175,7 @@
       }
     }
     .scale--m {
-      .thumb:not(.thumb--precise) {
+      .thumb:not(.thumb--precise):not(.thumb--vertical) {
         --calcite-slider-thumb-y-offset: -1.875rem;
       }
     }
@@ -210,7 +210,7 @@
   &:host(:not([has-histogram])) .scale--m .thumb--value {
     --calcite-slider-thumb-y-offset: -2.75rem;
     &.thumb--vertical:not(.thumb--vertical-reversed) {
-      --calcite-slider-thumb-y-offset: -0.75rem;
+      --calcite-slider-thumb-y-offset: 0;
     }
   }
   &:host(:not([has-histogram])) .scale--l .thumb--value {
