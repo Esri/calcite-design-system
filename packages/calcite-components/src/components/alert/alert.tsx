@@ -232,7 +232,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [CSS.containerQueued]: queued,
             [`${CSS.container}--${placement}`]: true,
             [CSS.containerEmbedded]: this.embedded,
-            [CSS.focused]: this.keyBoardFocus,
+            [CSS.focused]: this.isFocused,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
@@ -258,13 +258,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   private handleKeyBoardFocus = (): void => {
-    this.keyBoardFocus = true;
+    this.isFocused = true;
     this.handleFocus();
   };
 
   private handleKeyBoardBlur = (): void => {
-    this.keyBoardFocus = false;
-    if (!this.mouseFocus) {
+    this.isFocused = false;
+    if (!this.isHovered) {
       this.handleBlur();
     }
   };
@@ -460,7 +460,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
-  @State() keyBoardFocus = false;
+  @State() isFocused = false;
 
   private autoCloseTimeoutId: number = null;
 
@@ -476,11 +476,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private totalHoverTime = 0;
 
+  private isHovered: boolean;
+
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
-
-  mouseFocus: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -570,13 +570,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   };
 
   private handleMouseOver = (): void => {
-    this.mouseFocus = true;
+    this.isHovered = true;
     this.handleFocus();
   };
 
   private handleMouseLeave = (): void => {
-    this.mouseFocus = false;
-    if (!this.keyBoardFocus) {
+    this.isHovered = false;
+    if (!this.isFocused) {
       this.handleBlur();
     }
   };
