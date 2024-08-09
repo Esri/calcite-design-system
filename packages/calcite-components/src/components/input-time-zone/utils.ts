@@ -209,6 +209,15 @@ function getTimeZoneLabel(timeZone: string, messages: InputTimeZoneMessages): st
   return messages[timeZone] || getCity(timeZone);
 }
 
+export function getSelectedRegionTimeZoneLabel(city: string, country: string, messages: InputTimeZoneMessages): string {
+  const template = messages.timeZoneRegionLabel;
+  return template.replace("{city}", city).replace("{country}", getMessageOrKeyFallback(messages, country));
+}
+
+export function getMessageOrKeyFallback(messages: InputTimeZoneMessages, key: string): string {
+  return messages[key] || key;
+}
+
 /**
  * Exported for testing purposes only
  *

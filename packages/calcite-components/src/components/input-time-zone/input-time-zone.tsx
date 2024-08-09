@@ -51,6 +51,8 @@ import { CSS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
+  getMessageOrKeyFallback,
+  getSelectedRegionTimeZoneLabel,
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
@@ -341,13 +343,32 @@ export class InputTimeZone
     this.comboboxEl = el;
   };
 
+  /**
+   * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
+   *
+   * @param open
+   * @private
+   */
+  private overrideSelectedLabelForRegion(open: boolean): void {
+    if (this.mode !== "region" || !this.selectedTimeZoneItem) {
+      return;
+    }
+
+    const { label, metadata } = this.selectedTimeZoneItem;
+    this.comboboxEl.selectedItems[0].textLabel = open
+      ? label
+      : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+  }
+
   private onComboboxBeforeClose = (event: CustomEvent): void => {
     event.stopPropagation();
+    this.overrideSelectedLabelForRegion(false);
     this.calciteInputTimeZoneBeforeClose.emit();
   };
 
   private onComboboxBeforeOpen = (event: CustomEvent): void => {
     event.stopPropagation();
+    this.overrideSelectedLabelForRegion(true);
     this.calciteInputTimeZoneBeforeOpen.emit();
   };
 
@@ -465,6 +486,7 @@ export class InputTimeZone
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.overrideSelectedLabelForRegion(this.open);
   }
 
   componentDidRender(): void {
@@ -535,7 +557,10 @@ export class InputTimeZone
 
   private renderRegionItems(): VNode[] {
     return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
-      <calcite-combobox-item-group key={label} label={this.messages[label] || label}>
+      <calcite-combobox-item-group
+        key={label}
+        label={getMessageOrKeyFallback(this.messages, label)}
+      >
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, value } = item;
@@ -543,7 +568,7 @@ export class InputTimeZone
           return (
             <calcite-combobox-item
               data-value={value}
-              description={this.messages[item.metadata.country] || item.metadata.country}
+              description={getMessageOrKeyFallback(this.messages, item.metadata.country)}
               key={label}
               metadata={item.metadata}
               selected={selected}
