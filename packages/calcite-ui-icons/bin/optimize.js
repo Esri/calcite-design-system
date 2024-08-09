@@ -1,49 +1,56 @@
-const fs = require("fs-extra");
+const { readFile, writeFile } = require("fs/promises");
 const { glob } = require("glob");
-const SVGO = require("svgo");
+const { optimize } = require("svgo");
 const progress = require("cli-progress");
 
 let options = {
-  plugins: [
-    { cleanupIDs: { remove: false } },
-    { removeStyleElement: true },
-    { removeUselessDefs: true },
-    { removeUselessStrokeAndFill: false },
-    { removeHiddenElems: true },
-    { removeEmptyText: true },
-    { convertShapeToPath: { convertArcs: true } },
-    { convertPathData: { noSpaceAfterFlags: false } },
-    { removeEmptyAttrs: true },
-    { removeEmptyContainers: true },
-    { mergePaths: false },
-    { removeTitle: true },
-    { removeDesc: true },
-    { removeDimensions: true },
-    { removeAttrs: { attrs: ["class", "(stroke)"] } },
-  ],
   multipass: true,
+  plugins: [
+    { name: "cleanupIds", params: { remove: false } },
+    { name: "removeAttrs", params: { attrs: ["class", "(stroke)"] } },
+    "removeDimensions",
+    "removeStyleElement",
+    {
+      name: "preset-default",
+      params: {
+        overrides: {
+          removeUselessDefs: true,
+          removeUselessStrokeAndFill: false,
+          removeHiddenElems: true,
+          removeEmptyText: true,
+          convertShapeToPath: { convertArcs: true },
+          convertPathData: { noSpaceAfterFlags: false },
+          removeEmptyAttrs: true,
+          removeEmptyContainers: true,
+          mergePaths: false,
+          removeTitle: true,
+          removeDesc: true,
+        },
+      },
+    },
+  ],
 };
 
 /**
  * Reads an icon file off disk and optimizes it, saving to same location
  * @param {string[]}           filePaths  array of relative file paths
- * @param {SVGO}               svgo       SVGO instance with correct options
+ * @param {boolean}            remove     remove id attributes from output
  * @param {SingleBar}          bar        progress bar instance
  * @return {Promise}
  */
-function optimizeIcons(filePaths, svgo, bar) {
-  var num = 0;
+function optimizeIcons(filePaths, remove, bar) {
+  let num = 0;
+  options.plugins[0].params.remove = remove;
   return Promise.all(
-    filePaths.map((path) => {
-      return fs
-        .readFile(path, "utf-8")
-        .then((svg) => svgo.optimize(svg, { path }))
+    filePaths.map((path) =>
+      readFile(path, "utf-8")
+        .then((svg) => optimize(svg, { path, ...options }))
         .then((result) => {
           num++;
           bar.update(num);
-          return fs.writeFile(path, result.data, "utf-8");
-        });
-    }),
+          return writeFile(path, result.data, "utf-8");
+        }),
+    ),
   );
 }
 
@@ -57,13 +64,14 @@ module.exports = function (files, remove) {
   if (!files) {
     return Promise.resolve(true);
   }
-  options.plugins[0] = { cleanupIDs: { remove } };
-  svgo = new SVGO(options);
   return glob(files).then((iconPaths) => {
     const format = "  \x1b[32m {bar} {percentage}% | {value}/{total} \x1b[0m";
-    const bar = new progress.SingleBar({ format }, progress.Presets.shades_classic);
+    const bar = new progress.SingleBar(
+      { format },
+      progress.Presets.shades_classic,
+    );
     bar.start(iconPaths.length, 0);
-    return optimizeIcons(iconPaths, svgo, bar).then(() => {
+    return optimizeIcons(iconPaths, remove, bar).then(() => {
       bar.stop();
       console.log("");
     });
