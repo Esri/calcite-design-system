@@ -5,6 +5,8 @@ import { getElementXY, skipAnimations } from "../../tests/utils";
 import { openClose } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 
+const animationDurationInMs = 400;
+
 describe("defaults", () => {
   defaults("calcite-alert", [
     {
@@ -129,10 +131,9 @@ describe("calcite-alert", () => {
     expect(await alert2.isVisible()).toBe(true);
 
     await page.waitForTimeout(alertSpeedFastMs);
+    await page.waitForTimeout(animationDurationInMs);
     expect(await alert2.isVisible()).not.toBe(true);
   });
-
-  const animationDurationInMs = 400;
 
   it("opens and then closes a single alert", async () => {
     const page = await newE2EPage();
