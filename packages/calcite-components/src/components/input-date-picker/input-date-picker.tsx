@@ -554,7 +554,7 @@ export class InputDatePicker
     };
 
     return (
-      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler}>
+      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler} onKeyUp={this.keyUpHandler}>
         <InteractiveContainer disabled={this.disabled}>
           {this.localeData && (
             <div class={CSS.inputContainer}>
@@ -851,10 +851,12 @@ export class InputDatePicker
   }
 
   onBeforeOpen(): void {
+    console.log("onBeforeOpen");
     this.calciteInputDatePickerBeforeOpen.emit();
   }
 
   onOpen(): void {
+    console.log("onOpen");
     activateFocusTrap(this, {
       onActivate: () => {
         if (this.focusOnOpen) {
@@ -867,15 +869,21 @@ export class InputDatePicker
   }
 
   onBeforeClose(): void {
+    console.log("onBeforeClose");
     this.calciteInputDatePickerBeforeClose.emit();
   }
 
   onClose(): void {
+    console.log("onClose");
     this.calciteInputDatePickerClose.emit();
     deactivateFocusTrap(this);
     this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
+  }
+
+  onFocusTrapDeactivate(): void {
+    this.open = false;
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
@@ -961,10 +969,26 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape") {
-      this.open = false;
-      event.preventDefault();
-      this.restoreInputFocus();
+    }
+  };
+
+  keyUpHandler = (event: KeyboardEvent): void => {
+    const { key, shiftKey } = event;
+
+    if (key === "ArrowDown") {
+      console.log("Focused Element:", document.activeElement);
+      const focusedElement = this.el.shadowRoot?.activeElement;
+      console.log("Focused Element Tag Name:", focusedElement?.tagName);
+    } else if (key === "Tab" && shiftKey) {
+      console.log("Shift + Tab pressed");
+      console.log("Focused Element:", document.activeElement);
+      const focusedElementShiftTab = this.el.shadowRoot?.activeElement;
+      console.log("Focused Element Tag Name:", focusedElementShiftTab?.tagName);
+    } else if (key === "Tab") {
+      console.log("Tab pressed");
+      console.log("Focused Element:", document.activeElement);
+      const focusedElementTab = this.el.shadowRoot?.activeElement;
+      console.log("Focused Element Tag Name:", focusedElementTab?.tagName);
     }
   };
 
@@ -994,8 +1018,9 @@ export class InputDatePicker
   setDatePickerRef = (el: HTMLCalciteDatePickerElement): void => {
     this.datePickerEl = el;
     connectFocusTrap(this, {
-      focusTrapEl: el,
+      focusTrapEl: this.el,
       focusTrapOptions: {
+        clickOutsideDeactivates: () => !event.composedPath().includes(this.el),
         initialFocus: false,
         setReturnFocus: false,
       },

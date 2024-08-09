@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   State,
@@ -53,7 +54,6 @@ import {
 } from "../../utils/locale";
 import {
   activateFocusTrap,
-  connectFocusTrap,
   deactivateFocusTrap,
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
@@ -382,8 +382,6 @@ export class InputTimePicker
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
 
-  private focusOnOpen = false;
-
   focusTrap: FocusTrap;
 
   private dialogId = `time-picker-dialog--${guid()}`;
@@ -446,6 +444,11 @@ export class InputTimePicker
 
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteInputTimePickerOpen: EventEmitter<void>;
+
+  @Listen("calcitePopoverClose")
+  calcitePopoverCloseHandler(): void {
+    this.open = false;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -575,6 +578,10 @@ export class InputTimePicker
     this.calciteInputTimePickerClose.emit();
   }
 
+  onFocusTrapDeactivate(): void {
+    this.open = false;
+  }
+
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput("time", this, input);
   }
@@ -685,27 +692,6 @@ export class InputTimePicker
     return timeString;
   }
 
-  private popoverCloseHandler = () => {
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      },
-    });
-    this.open = false;
-  };
-
-  private popoverOpenHandler = () => {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
-  };
-
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -742,12 +728,7 @@ export class InputTimePicker
       }
     } else if (key === "ArrowDown") {
       this.open = true;
-      this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape" && this.open) {
-      this.open = false;
-      event.preventDefault();
-      this.calciteInputEl.setFocus();
     }
   };
 
@@ -867,20 +848,13 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
+  private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
+    this.calciteTimePickerEl = el;
+  };
+
   private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
     this.transitionEl = el;
-  };
-
-  private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
-    this.calciteTimePickerEl = el;
-    connectFocusTrap(this, {
-      focusTrapEl: el,
-      focusTrapOptions: {
-        initialFocus: false,
-        setReturnFocus: false,
-      },
-    });
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -1042,12 +1016,10 @@ export class InputTimePicker
             {!this.readOnly && this.renderToggleIcon(this.open)}
           </div>
           <calcite-popover
-            focusTrapDisabled={true}
+            focusTrapDisabled={false}
             id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
-            onCalcitePopoverClose={this.popoverCloseHandler}
-            onCalcitePopoverOpen={this.popoverOpenHandler}
             open={this.open}
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
