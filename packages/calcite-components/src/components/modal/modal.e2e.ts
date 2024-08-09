@@ -420,13 +420,16 @@ describe("calcite-modal", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal open></calcite-modal>`);
     await skipAnimations(page);
+
     const modal = await page.find("calcite-modal");
     await page.waitForChanges();
     await page.waitForEvent("calciteModalOpen");
+    await page.waitForChanges();
     expect(modal).toHaveAttribute("open");
-    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    await page.waitForChanges();
 
-    await page.waitForEvent("calciteModalClose");
+    await page.keyboard.press("Escape");
     await page.waitForChanges();
     expect(modal).not.toHaveAttribute("open");
 
