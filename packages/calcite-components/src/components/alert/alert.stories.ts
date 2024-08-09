@@ -1,9 +1,68 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { menuPlacements } from "../../utils/floating-ui";
+import { Alert } from "./Alert";
+const { scale, duration, kind, numberingSystem } = ATTRIBUTES;
+
+interface AlertStoryArgs
+  extends Pick<
+    Alert,
+    | "autoClose"
+    | "autoCloseDuration"
+    | "icon"
+    | "iconFlipRtl"
+    | "kind"
+    | "label"
+    | "numberingSystem"
+    | "open"
+    | "placement"
+    | "scale"
+    | "urgent"
+  > {}
 
 export default {
   title: "Components/Alert",
+  args: {
+    autoClose: false,
+    autoCloseDuration: duration.defaultValue,
+    icon: "",
+    iconFlipRtl: false,
+    kind: kind.defaultValue,
+    label: "Alert",
+    numberingSystem: numberingSystem[2],
+    open: true,
+    placement: menuPlacements[4],
+    scale: "m",
+    urgent: false,
+  },
+  argTypes: {
+    autoCloseDuration: {
+      options: duration.values,
+      control: { type: "select" },
+    },
+    icon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    kind: {
+      options: kind.values.filter((option) => option !== "inverse" && option !== "neutral"),
+      control: { type: "select" },
+    },
+    numberingSystem: {
+      options: numberingSystem,
+      control: { type: "select" },
+    },
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 500,
@@ -21,6 +80,29 @@ const wrapperStyles = html`
       max-width: 100%;
     }
   </style>
+`;
+
+export const simple = (args: AlertStoryArgs): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert
+      ${boolean("auto-close", args.autoClose)}
+      ${boolean("open", args.open)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${boolean("urgent", args.urgent)}
+      auto-close-duration="${args.autoCloseDuration}"
+      scale="${args.scale}"
+      kind="${args.kind}"
+      icon="${args.icon}"
+      label="${args.label}"
+      numbering-system="${args.numberingSystem}"
+      placement="${args.placement}"
+    >
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action">Take action</calcite-link>
+    </calcite-alert>
+  </div>
 `;
 
 export const titleMessageLink = (): string => html`
@@ -197,6 +279,24 @@ export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => h
       <div slot="title">Trail Camera Report</div>
       <div slot="message">We thought you might want to take a look</div>
       <calcite-link slot="link">Take action</calcite-link>
+    </calcite-alert>
+  </div>
+`;
+
+export const withUrgent = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert kind="brand" open label="A normal alert">
+      <div slot="title">Normal Alert</div>
+      <div slot="message">We thought you might want to take a look</div>
+    </calcite-alert>
+    <calcite-alert urgent kind="danger" open label="An urgent alert">
+      <div slot="title">Urgent Alert</div>
+      <div slot="message">We thought you might want to take a look</div>
+    </calcite-alert>
+    <calcite-alert kind="brand" open label="A normal alert">
+      <div slot="title">Normal Alert</div>
+      <div slot="message">We thought you might want to take a look</div>
     </calcite-alert>
   </div>
 `;

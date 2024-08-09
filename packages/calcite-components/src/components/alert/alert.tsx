@@ -93,6 +93,17 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
+  @Watch("autoCloseDuration")
+  updateDuration(): void {
+    if (this.autoClose && this.autoCloseTimeoutId) {
+      this.clearAutoCloseTimeout();
+      this.autoCloseTimeoutId = window.setTimeout(
+        () => this.closeAlert(),
+        DURATIONS[this.autoCloseDuration],
+      );
+    }
+  }
+
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
@@ -147,17 +158,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  @Watch("autoCloseDuration")
-  updateDuration(): void {
-    if (this.autoClose && this.autoCloseTimeoutId) {
-      this.clearAutoCloseTimeout();
-      this.autoCloseTimeoutId = window.setTimeout(
-        () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration],
-      );
-    }
   }
 
   /** Specifies the priority of the component. urgent alerts will be shown first. */

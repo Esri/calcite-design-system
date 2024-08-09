@@ -26,6 +26,7 @@ import { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
 import { DisplayMode } from "../src/components/sheet/interfaces.ts";
 import { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
 import { OverlayPositioning } from "../src/components";
+import { AlertDuration } from "../src/components/alert/interfaces";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -35,6 +36,7 @@ interface AttributeMetadata<T> {
 interface CommonAttributes {
   alignment: AttributeMetadata<Alignment>;
   appearance: AttributeMetadata<Appearance>;
+  duration: AttributeMetadata<AlertDuration>;
   scale: AttributeMetadata<Scale>;
   logicalFlowPosition: AttributeMetadata<LogicalFlowPosition>;
   position: AttributeMetadata<Position>;
@@ -60,11 +62,13 @@ interface CommonAttributes {
   selectionAppearance: AttributeMetadata<SelectionAppearance>;
   shellDisplayMode: AttributeMetadata<ShellDisplayMode>;
   overlayPositioning: AttributeMetadata<OverlayPositioning>;
+  numberingSystem: AttributeMetadata<string>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
 const positionOptions: Position[] = ["start", "end", "top", "bottom"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
+const durationOptions: AlertDuration[] = ["slow", "medium", "fast"];
 const alignmentOptions: Alignment[] = ["start", "center", "end"];
 const appearanceOptions: Appearance[] = ["solid", "outline", "outline-fill", "transparent"];
 const statusOptions: Status[] = ["invalid", "valid", "idle"];
@@ -93,6 +97,7 @@ const layoutOptions: Layout[] = [
   "none",
   "horizontal-single",
 ];
+const numberingSystems = ["arab", "arabext", "latn"];
 const dirOptions: Dir[] = ["ltr", "rtl"];
 const buttonTypeOptions: TileSelectType[] = ["radio", "checkbox"];
 const interactionModeOptions: TableInteractionMode[] = ["interactive", "static"];
@@ -127,6 +132,10 @@ export const ATTRIBUTES: CommonAttributes = {
   appearance: {
     values: appearanceOptions,
     defaultValue: appearanceOptions[0],
+  },
+  duration: {
+    values: durationOptions,
+    defaultValue: durationOptions[1],
   },
   logicalFlowPosition: {
     values: logicalFlowPositionOptions,
@@ -227,5 +236,9 @@ export const ATTRIBUTES: CommonAttributes = {
   shellDisplayMode: {
     values: shellDisplayModeOptions,
     defaultValue: shellDisplayModeOptions[0],
+  },
+  numberingSystem: {
+    values: numberingSystems,
+    defaultValue: numberingSystems[2],
   },
 };
