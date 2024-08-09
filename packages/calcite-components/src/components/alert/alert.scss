@@ -224,7 +224,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([open]) {
-  .container:not(.container--queued) {
+  .container--active {
     @apply border-t-2 opacity-100;
     pointer-events: initial;
     &[class*="bottom"] {

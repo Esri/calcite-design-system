@@ -15,7 +15,7 @@ import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n
 import { Columns } from "./components/action-group/interfaces";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-import { AlertDuration, Sync } from "./components/alert/interfaces";
+import { AlertDuration } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
 import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
@@ -111,7 +111,7 @@ export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n
 export { Columns } from "./components/action-group/interfaces";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-export { AlertDuration, Sync } from "./components/alert/interfaces";
+export { AlertDuration } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
 export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
@@ -510,6 +510,14 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     interface CalciteAlert {
+        /**
+          * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
+         */
+        "active": boolean;
+        /**
+          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
+         */
+        "activeAlertCount": number;
         /**
           * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
@@ -6326,8 +6334,6 @@ declare global {
         "calciteAlertClose": void;
         "calciteAlertBeforeOpen": void;
         "calciteAlertOpen": void;
-        "calciteInternalAlertSync": Sync;
-        "calciteInternalAlertRegister": void;
     }
     interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(type: K, listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8390,6 +8396,14 @@ declare namespace LocalJSX {
     }
     interface CalciteAlert {
         /**
+          * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
+         */
+        "active"?: boolean;
+        /**
+          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
+         */
+        "activeAlertCount"?: number;
+        /**
           * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose"?: boolean;
@@ -8448,14 +8462,6 @@ declare namespace LocalJSX {
           * Fires when the component is open and animation is complete.
          */
         "onCalciteAlertOpen"?: (event: CalciteAlertCustomEvent<void>) => void;
-        /**
-          * Fires when the component is added to DOM - used to receive initial queue.
-         */
-        "onCalciteInternalAlertRegister"?: (event: CalciteAlertCustomEvent<void>) => void;
-        /**
-          * Fires to sync queue when opened or closed.
-         */
-        "onCalciteInternalAlertSync"?: (event: CalciteAlertCustomEvent<Sync>) => void;
         /**
           * When `true`, displays and positions the component.
          */

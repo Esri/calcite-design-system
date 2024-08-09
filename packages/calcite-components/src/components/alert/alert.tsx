@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -44,8 +43,11 @@ import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { AlertMessages } from "./assets/alert/t9n";
-import { AlertDuration, Sync, Unregister } from "./interfaces";
+import { AlertDuration } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
+import AlertManager from "./AlertManager";
+
+const manager = new AlertManager();
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -72,18 +74,43 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //---------------------------------------------------------------------------
 
+  /**
+   * This internal property, managed by the AlertManager, is used
+   * to inform the component if it is the active open Alert.
+   *
+   * @internal
+   */
+  @Prop() active = false;
+
+  @Watch("active")
+  handleActiveChange(): void {
+    if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
+      this.initialOpenTime = Date.now();
+      this.autoCloseTimeoutId = window.setTimeout(
+        () => this.closeAlert(),
+        DURATIONS[this.autoCloseDuration],
+      );
+    }
+  }
+
+  /**
+   * This internal property, managed by the AlertManager, is used
+   * to inform the component of how many alerts are currently open.
+   *
+   * @internal
+   */
+  @Prop() activeAlertCount = 0;
+
   /** When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(): void {
     onToggleOpenCloseComponent(this);
-    if (this.open && !this.queued) {
-      this.calciteInternalAlertRegister.emit();
-    }
-    if (!this.open) {
-      this.queue = this.queue.filter((el) => el !== this.el);
-      this.calciteInternalAlertSync.emit({ queue: this.queue });
+    if (this.open) {
+      manager.registerElement(this.el);
+    } else {
+      manager.unregisterElement(this.el);
     }
   }
 
@@ -166,8 +193,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Watch("urgent")
   handleUrgentChange(): void {
     if (this.open && this.urgent) {
-      this.unregisterAlert();
-      this.calciteInternalAlertRegister.emit();
+      manager.unregisterElement(this.el);
+      manager.registerElement(this.el);
     }
   }
 
@@ -182,8 +209,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     connectMessages(this);
 
     const open = this.open;
-    if (open && !this.queued) {
-      this.calciteInternalAlertRegister.emit();
+
+    if (open) {
+      manager.registerElement(this.el);
     }
 
     this.numberStringFormatter.numberFormatOptions = {
@@ -206,18 +234,19 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   disconnectedCallback(): void {
-    this.unregisterAlert();
+    manager.unregisterElement(this.el);
+    this.clearAutoCloseTimeout();
     disconnectLocalized(this);
     disconnectMessages(this);
     this.embedded = false;
   }
 
   render(): VNode {
-    const { open, autoClose, label, placement, queued } = this;
+    const { open, autoClose, label, placement, active, activeAlertCount } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-    const hasQueuedAlerts = this.queueLength > 1;
+    const hasQueuedAlerts = activeAlertCount > 1;
 
     return (
       <Host
@@ -229,7 +258,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerQueued]: queued,
+            [CSS.containerActive]: active,
             [`${CSS.container}--${placement}`]: true,
             [CSS.containerEmbedded]: this.embedded,
             [CSS.focused]: this.isFocused,
@@ -251,7 +280,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           {this.renderActionsEnd()}
           {hasQueuedAlerts ? this.renderQueueCount() : null}
           {this.renderCloseButton()}
-          {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
+          {open && active && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
     );
@@ -287,14 +316,15 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   private renderQueueCount(): VNode {
-    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
+    const { activeAlertCount } = this;
+    const queueNumber = activeAlertCount > 2 ? activeAlertCount - 1 : 1;
     const queueText = this.numberStringFormatter.numberFormatter.format(queueNumber);
 
     return (
       <div
         class={{
           [CSS.queueCount]: true,
-          [CSS.queueCountActive]: this.queueLength > 1,
+          [CSS.queueCountActive]: activeAlertCount > 1,
         }}
         key="queue-count"
       >
@@ -338,59 +368,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteAlertOpen: EventEmitter<void>;
-
-  /**
-   * Fires to sync queue when opened or closed.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAlertSync: EventEmitter<Sync>;
-
-  /**
-   * Fires when the component is added to DOM - used to receive initial queue.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAlertRegister: EventEmitter<void>;
-
-  // when an alert is opened or closed, update queue and determine active alert
-  @Listen("calciteInternalAlertSync", { target: "window" })
-  alertSync(event: CustomEvent): void {
-    if (this.queue !== event.detail.queue) {
-      this.queue = event.detail.queue;
-    }
-    this.queueLength = this.queue.length;
-    this.determineActiveAlert();
-    event.stopPropagation();
-  }
-
-  // when an alert is first registered, trigger a queue sync
-  @Listen("calciteInternalAlertRegister", { target: "window" })
-  alertRegister(): void {
-    if (this.open && !this.queue.includes(this.el)) {
-      this.queued = true;
-      if (this.urgent) {
-        this.queue.unshift(this.el);
-      } else {
-        this.queue.push(this.el);
-      }
-    }
-    this.calciteInternalAlertSync.emit({ queue: this.queue });
-    this.determineActiveAlert();
-  }
-
-  // Event is dispatched on the window because the element is not in the DOM so bubbling won't occur.
-  @Listen("calciteInternalAlertUnregister", { target: "window" })
-  alertUnregister(event: CustomEvent<Unregister>): void {
-    const queue = this.queue.filter((el) => el !== event.detail.alert);
-    this.queue = queue;
-
-    window.dispatchEvent(
-      new CustomEvent<Sync>("calciteInternalAlertSync", {
-        detail: { queue },
-      }),
-    );
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -449,15 +426,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @State() hasEndActions = false;
 
-  /** the list of queued alerts */
-  @State() queue: HTMLCalciteAlertElement[] = [];
-
-  /** the count of queued alerts */
-  @State() queueLength = 0;
-
-  /** is the alert queued */
-  @State() queued = false;
-
   @State() isFocused = false;
 
   private autoCloseTimeoutId: number = null;
@@ -467,8 +435,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   private initialOpenTime: number;
 
   private lastMouseOverBegin: number;
-
-  private queueTimeoutId: number = null;
 
   private totalOpenTime = 0;
 
@@ -491,54 +457,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     this.autoCloseTimeoutId = null;
   };
 
-  private clearQueueTimeout = (): void => {
-    window.clearTimeout(this.queueTimeoutId);
-    this.queueTimeoutId = null;
-  };
-
-  private unregisterAlert = (): void => {
-    this.queued = false;
-
-    window.dispatchEvent(
-      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
-        detail: { alert: this.el },
-      }),
-    );
-
-    this.clearAutoCloseTimeout();
-    this.clearQueueTimeout();
-  };
-
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
-  /** determine which alert is active */
-  private determineActiveAlert(): void {
-    if (this.queue?.[0] === this.el) {
-      this.openAlert();
-      if (this.autoClose && !this.autoCloseTimeoutId) {
-        this.initialOpenTime = Date.now();
-        this.autoCloseTimeoutId = window.setTimeout(
-          () => this.closeAlert(),
-          DURATIONS[this.autoCloseDuration],
-        );
-      }
-    } else {
-      this.clearAutoCloseTimeout();
-      this.clearQueueTimeout();
-      this.queued = this.open;
-    }
-  }
-
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
   private closeAlert = (): void => {
-    this.autoCloseTimeoutId = null;
-    this.queued = false;
     this.open = false;
-    this.queue = this.queue.filter((el) => el !== this.el);
-    this.determineActiveAlert();
-    this.calciteInternalAlertSync.emit({ queue: this.queue });
+    this.clearAutoCloseTimeout();
   };
 
   onBeforeOpen(): void {
@@ -555,12 +481,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   onClose(): void {
     this.calciteAlertClose.emit();
-  }
-
-  /** remove queued class after animation completes */
-  private openAlert(): void {
-    this.clearQueueTimeout();
-    this.queueTimeoutId = window.setTimeout(() => (this.queued = false), 300);
   }
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
