@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.8...@esri/calcite-components@2.12.0-next.9) (2024-08-09)
+
+### Bug Fixes
+
+- **stepper-item:** update component to take full width when parent's layout is "vertical" ([#10009](https://github.com/Esri/calcite-design-system/issues/10009)) ([03a5a30](https://github.com/Esri/calcite-design-system/commit/03a5a3020bb7629a425edea4fb7bccb3a2687649)), closes [#8930](https://github.com/Esri/calcite-design-system/issues/8930)
+
 ## [2.12.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.7...@esri/calcite-components@2.12.0-next.8) (2024-08-07)
 
 ### Bug Fixes
