@@ -292,7 +292,23 @@ export class Popover
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapEl: this.el,
+      focusTrapOptions: {
+        clickOutsideDeactivates: (event: MouseEvent) => {
+          const isClickOutside = !event.composedPath().includes(this.el);
+          const isReferenceElementInPath =
+            this.referenceElement instanceof EventTarget &&
+            event.composedPath().includes(this.referenceElement);
+
+          if (this.triggerDisabled && isReferenceElementInPath) {
+            return false;
+          }
+
+          return isClickOutside;
+        },
+      },
+    });
 
     // we set up the ref element in the next frame to ensure PopoverManager
     // event handlers are invoked after connect (mainly for `components` output target)

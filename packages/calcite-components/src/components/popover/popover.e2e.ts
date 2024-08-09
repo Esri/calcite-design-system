@@ -524,33 +524,24 @@ describe("calcite-popover", () => {
     );
 
     const popover = await page.find("calcite-popover");
-
     expect(await popover.getProperty("open")).toBe(true);
 
     const ref = await page.find("#ref");
-
     await ref.click();
-
     await page.waitForChanges();
-
     expect(await popover.getProperty("open")).toBe(true);
+    await page.waitForChanges();
 
     const outsideNode = await page.find("#outsideNode");
-
     await outsideNode.click();
-
     await page.waitForChanges();
-
+    await page.waitForChanges();
     expect(await popover.getProperty("open")).toBe(true);
 
     popover.setProperty("triggerDisabled", false);
-
     await page.waitForChanges();
-
     await ref.click();
-
     await page.waitForChanges();
-
     expect(await popover.getProperty("open")).toBe(false);
   });
 
