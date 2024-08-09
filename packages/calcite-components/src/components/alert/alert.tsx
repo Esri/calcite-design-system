@@ -152,7 +152,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Watch("autoCloseDuration")
   updateDuration(): void {
     if (this.autoClose && this.autoCloseTimeoutId) {
-      window.clearTimeout(this.autoCloseTimeoutId);
+      this.clearAutoCloseTimeout();
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
         DURATIONS[this.autoCloseDuration],
@@ -470,7 +470,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private lastMouseOverBegin: number;
 
-  private queueTimeout: number;
+  private queueTimeoutId: number = null;
 
   private totalOpenTime = 0;
 
@@ -488,6 +488,16 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
+  private clearAutoCloseTimeout = (): void => {
+    window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
+  };
+
+  private clearQueueTimeout = (): void => {
+    window.clearTimeout(this.queueTimeoutId);
+    this.queueTimeoutId = null;
+  };
+
   private unregisterAlert = (): void => {
     this.queued = false;
 
@@ -497,9 +507,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       }),
     );
 
-    window.clearTimeout(this.autoCloseTimeoutId);
-    this.autoCloseTimeoutId = null;
-    window.clearTimeout(this.queueTimeout);
+    this.clearAutoCloseTimeout();
+    this.clearQueueTimeout();
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
@@ -518,7 +527,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         );
       }
     } else {
-      window.clearTimeout(this.queueTimeout);
+      this.clearAutoCloseTimeout();
+      this.clearQueueTimeout();
       this.queued = this.open;
     }
   }
@@ -551,8 +561,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   /** remove queued class after animation completes */
   private openAlert(): void {
-    window.clearTimeout(this.queueTimeout);
-    this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
+    this.clearQueueTimeout();
+    this.queueTimeoutId = window.setTimeout(() => (this.queued = false), 300);
   }
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
@@ -572,8 +582,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   };
 
   private handleFocus = (): void => {
-    window.clearTimeout(this.autoCloseTimeoutId);
-    this.autoCloseTimeoutId = null;
+    this.clearAutoCloseTimeout();
     this.totalOpenTime = Date.now() - this.initialOpenTime;
     this.lastMouseOverBegin = Date.now();
   };
