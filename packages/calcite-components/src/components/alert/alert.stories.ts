@@ -260,7 +260,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
     <script>
       setTimeout(() => {
         document.querySelector("#two").open = true;
-      }, "1000");
+      }, 250);
     </script>
   </div>
 `;
@@ -286,17 +286,25 @@ export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => h
 export const withUrgent = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
-    <calcite-alert kind="brand" open label="A normal alert">
-      <div slot="title">Normal Alert</div>
+    <calcite-alert id="one" kind="brand" open>
+      <div slot="title">Open by default</div>
       <div slot="message">We thought you might want to take a look</div>
     </calcite-alert>
-    <calcite-alert urgent kind="danger" open label="An urgent alert">
+    <calcite-alert id="two" urgent kind="danger">
       <div slot="title">Urgent Alert</div>
       <div slot="message">We thought you might want to take a look</div>
     </calcite-alert>
-    <calcite-alert kind="brand" open label="A normal alert">
-      <div slot="title">Normal Alert</div>
+    <calcite-alert id="three" kind="success">
+      <div slot="title">Third Alert</div>
       <div slot="message">We thought you might want to take a look</div>
     </calcite-alert>
+    <script>
+      setTimeout(() => {
+        document.querySelector("#two").open = true;
+      }, 100);
+      setTimeout(() => {
+        document.querySelector("#three").open = true;
+      }, 250);
+    </script>
   </div>
 `;
