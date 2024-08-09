@@ -328,7 +328,9 @@ describe("calcite-dialog", () => {
 
       dialog.setProperty("open", true);
       await page.waitForChanges();
+      await page.waitForChanges();
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
+      await page.waitForChanges();
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
