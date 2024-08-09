@@ -1,4 +1,4 @@
-const fs = require("fs-extra");
+const { readFile, writeFile } = require("fs/promises");
 const { glob } = require("glob");
 const SVGO = require("svgo");
 const progress = require("cli-progress");
@@ -32,18 +32,17 @@ let options = {
  * @return {Promise}
  */
 function optimizeIcons(filePaths, svgo, bar) {
-  var num = 0;
+  let num = 0;
   return Promise.all(
-    filePaths.map((path) => {
-      return fs
-        .readFile(path, "utf-8")
+    filePaths.map((path) =>
+      readFile(path, "utf-8")
         .then((svg) => svgo.optimize(svg, { path }))
         .then((result) => {
           num++;
           bar.update(num);
-          return fs.writeFile(path, result.data, "utf-8");
-        });
-    }),
+          return writeFile(path, result.data, "utf-8");
+        }),
+    ),
   );
 }
 
@@ -58,7 +57,7 @@ module.exports = function (files, remove) {
     return Promise.resolve(true);
   }
   options.plugins[0] = { cleanupIDs: { remove } };
-  svgo = new SVGO(options);
+  let svgo = new SVGO(options);
   return glob(files).then((iconPaths) => {
     const format = "  \x1b[32m {bar} {percentage}% | {value}/{total} \x1b[0m";
     const bar = new progress.SingleBar({ format }, progress.Presets.shades_classic);
