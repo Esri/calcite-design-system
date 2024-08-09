@@ -30,43 +30,46 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  * @example
  * describe("theme", () => {
  *   const tokens: ComponentTestTokens = {
- *      "--calcite-action-menu-border-color": [
+ *      "--calcite-token-test-style-prop-on-host": {
+ *          targetProp: "backgroundColor",
+ *      },
+ *      "--calcite-token-test-style-prop-on-selector": {
+ *        selector: "calcite-action",
+ *        targetProp: "backgroundColor",
+ *      },
+ *      "--calcite-token-test-style-prop-on-sub-element": {
+ *        shadowSelector: ".${CSS.actionText}",
+ *        targetProp: "backgroundColor",
+ *      },
+ *      "--calcite-token-test-tokens-applied-on-state-active": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ *      },
+ *      "--calcite-token-test-tokens-applied-on-state-focus": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "focus",
+ *      },
+ *      "--calcite-token-test-tokens-applied-on-state-hover": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "hover",
+ *      },
+ *      "--calcite-token-test-for-expected-override-value": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "backgroundColor",
+ *        expectOverride: "rgb(0, 191, 255)",
+ *      },
+ *      "--calcite-token-test-multiple-applications-of-token": [
  *        {
  *          targetProp: "borderLeftColor",
  *        },
  *        {
  *          shadowSelector: "calcite-action",
  *          targetProp: "--calcite-action-border-color",
- *        },
- *        {
- *          // added to demonstrate pseudo-element support
- *          shadowSelector: "calcite-action::after",
- *          targetProp: "borderColor",
- *        },
+ *        }
  *     ],
- *     "--calcite-action-menu-background-color": {
- *          targetProp: "backgroundColor",
- *          shadowSelector: ".container",
- *     },
- *     "--calcite-action-menu-trigger-background-color-active": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
- *      },
- *      "--calcite-action-menu-trigger-background-color-focus": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: "focus",
- *      },
- *      "--calcite-action-menu-trigger-background-color-hover": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: "hover",
- *      },
- *      "--calcite-action-menu-trigger-background-color": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *      },
  *   };
  *   themed(`calcite-action-bar`, tokens);
  * });
@@ -107,7 +110,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
       // Set up styleTargets and testTargets
       for (let i = 0; i < selectors.length; i++) {
-        const { shadowSelector, targetProp, state } = selectors[i];
+        const { shadowSelector, targetProp, state, expectOverride } = selectors[i];
         const selector = selectors[i].selector || tag;
 
         if (selector.includes(">>>")) {
@@ -151,7 +154,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           targetProp,
           contextSelector,
           state: stateName,
-          expectedValue: setTokens[token],
+          expectedValue: expectOverride || setTokens[token],
           token: token as CalciteCSSCustomProp,
         });
       }
@@ -231,6 +234,11 @@ type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
  * Describes a test selector for themed components.
  */
 export type TestSelectToken = {
+  /**
+   * The overridden value of the CSS custom property.
+   */
+  expectOverride?: string;
+
   /**
    * The selector of the target element. When not provided, the component tag is used.
    */
