@@ -1,0 +1,45 @@
+"use strict";(globalThis.webpackChunk_esri_calcite_components=globalThis.webpackChunk_esri_calcite_components||[]).push([[2843],{"./src/components/stack/stack.stories.ts":(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{__webpack_require__.r(__webpack_exports__),__webpack_require__.d(__webpack_exports__,{__namedExportsOrder:()=>__namedExportsOrder,default:()=>__WEBPACK_DEFAULT_EXPORT__,disabled_TestOnly:()=>disabled_TestOnly,panelFooter_TestOnly:()=>panelFooter_TestOnly,simple:()=>simple,simpleDarkMode_TestOnly:()=>simpleDarkMode_TestOnly,stretchSlottedContent:()=>stretchSlottedContent});var _storybook_utils__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__("./.storybook/utils.ts"),_storybook_placeholderImage__WEBPACK_IMPORTED_MODULE_2__=__webpack_require__("./.storybook/placeholderImage.ts"),_support_formatting__WEBPACK_IMPORTED_MODULE_1__=__webpack_require__("./support/formatting.ts");const __WEBPACK_DEFAULT_EXPORT__={title:"Components/Support/Stack"},thumbnailImage=(0,_storybook_placeholderImage__WEBPACK_IMPORTED_MODULE_2__.j)({width:44,height:44}),simpleHTML=_support_formatting__WEBPACK_IMPORTED_MODULE_1__.q`<calcite-stack>
+  <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
+  Hello World
+  <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
+  <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+  <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
+</calcite-stack>`,simple=()=>simpleHTML,stretchSlottedContent=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_1__.q`
+  <calcite-stack>
+    <calcite-handle slot="actions-start"></calcite-handle>
+    <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
+    Hello World
+    <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
+    <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+    <calcite-action-menu slot="actions-end" appearance="transparent">
+      <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
+      <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
+      <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
+    </calcite-action-menu>
+    <calcite-dropdown slot="actions-end">
+      <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
+      <calcite-dropdown-group selection-mode="single" group-title="Sort by">
+        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+        <calcite-dropdown-item>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item>Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </calcite-stack>
+`,simpleDarkMode_TestOnly=()=>simpleHTML;simpleDarkMode_TestOnly.parameters={themes:_storybook_utils__WEBPACK_IMPORTED_MODULE_0__.At};const disabled_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_1__.q`<calcite-stack disabled>
+    <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
+    Hello World
+    <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
+    <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+    <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
+  </calcite-stack>`,panelFooter_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_1__.q`<calcite-panel>
+    <div slot="header-content">My Panel</div>
+    <p>My content</p>
+    <calcite-stack slot="footer">
+      <calcite-action text="select" icon="check" slot="actions-start"></calcite-action>
+      <calcite-input disabled></calcite-input>
+      <calcite-avatar slot="content-start" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
+      <calcite-chip slot="content-end" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+      <calcite-action text="delete" icon="trash" slot="actions-end"></calcite-action>
+    </calcite-stack>
+  </calcite-panel>`,__namedExportsOrder=["simple","stretchSlottedContent","simpleDarkMode_TestOnly","disabled_TestOnly","panelFooter_TestOnly"];simple.parameters={...simple.parameters,docs:{...simple.parameters?.docs,source:{originalSource:"(): string => simpleHTML",...simple.parameters?.docs?.source}}},stretchSlottedContent.parameters={...stretchSlottedContent.parameters,docs:{...stretchSlottedContent.parameters?.docs,source:{originalSource:'(): string => html`\n  <calcite-stack>\n    <calcite-handle slot="actions-start"></calcite-handle>\n    <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>\n    Hello World\n    <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>\n    <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>\n    <calcite-action-menu slot="actions-end" appearance="transparent">\n      <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>\n      <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>\n      <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>\n    </calcite-action-menu>\n    <calcite-dropdown slot="actions-end">\n      <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>\n      <calcite-dropdown-group selection-mode="single" group-title="Sort by">\n        <calcite-dropdown-item>Relevance</calcite-dropdown-item>\n        <calcite-dropdown-item>Date modified</calcite-dropdown-item>\n        <calcite-dropdown-item>Title</calcite-dropdown-item>\n      </calcite-dropdown-group>\n    </calcite-dropdown>\n  </calcite-stack>\n`',...stretchSlottedContent.parameters?.docs?.source}}},simpleDarkMode_TestOnly.parameters={...simpleDarkMode_TestOnly.parameters,docs:{...simpleDarkMode_TestOnly.parameters?.docs,source:{originalSource:"(): string => simpleHTML",...simpleDarkMode_TestOnly.parameters?.docs?.source}}},disabled_TestOnly.parameters={...disabled_TestOnly.parameters,docs:{...disabled_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`<calcite-stack disabled>\n    <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>\n    Hello World\n    <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>\n    <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>\n    <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>\n  </calcite-stack>`',...disabled_TestOnly.parameters?.docs?.source}}},panelFooter_TestOnly.parameters={...panelFooter_TestOnly.parameters,docs:{...panelFooter_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`<calcite-panel>\n    <div slot="header-content">My Panel</div>\n    <p>My content</p>\n    <calcite-stack slot="footer">\n      <calcite-action text="select" icon="check" slot="actions-start"></calcite-action>\n      <calcite-input disabled></calcite-input>\n      <calcite-avatar slot="content-start" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>\n      <calcite-chip slot="content-end" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>\n      <calcite-action text="delete" icon="trash" slot="actions-end"></calcite-action>\n    </calcite-stack>\n  </calcite-panel>`',...panelFooter_TestOnly.parameters?.docs?.source}}}},"./.storybook/placeholderImage.ts":(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{function placeholderImage({width=300,height=150,text=`${width}×${height}`,fontFamily="sans-serif",fontWeight="bold",fontSize=Math.floor(.2*Math.min(width,height)),dy=.35*fontSize,bgColor="#ddd",textColor="rgba(0,0,0,0.5)",dataUri=!0,charset="UTF-8"}){const cleaned=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n    <rect fill="${bgColor}" width="${width}" height="${height}"/>\n    <text fill="${textColor}" font-family="${fontFamily}" font-size="${fontSize}" dy="${dy}" font-weight="${fontWeight}" x="50%" y="50%" text-anchor="middle">${text}</text>\n  </svg>`.replace(/[\t\n\r]/gim,"").replace(/\s\s+/g," ").replace(/'/gim,"\\i");if(dataUri){return`data:image/svg+xml;charset=${charset},${encodeURIComponent(cleaned).replace(/\(/g,"%28").replace(/\)/g,"%29")}`}return cleaned}__webpack_require__.d(__webpack_exports__,{j:()=>placeholderImage})}}]);
+//# sourceMappingURL=components-stack-stack-stories.5a1f07b1.iframe.bundle.js.map

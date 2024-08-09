@@ -1,0 +1,17 @@
+/* Shared styles for header elements */
+.header {
+  @apply text-color-2
+    fill-color-2
+    m-0
+    flex
+    content-between
+    items-center;
+}
+
+.heading {
+  @apply m-0 p-0 font-medium;
+}
+
+.header .heading {
+  @apply flex-auto p-2;
+}

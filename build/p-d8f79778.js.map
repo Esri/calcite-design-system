@@ -1,0 +1,1 @@
+{"version":3,"names":["getRoundRobinIndex","index","total"],"sources":["src/utils/array.ts"],"sourcesContent":["export function getRoundRobinIndex(index: number, total: number): number {\n  return (index + total) % total;\n}\n"],"mappings":";;;;;SAAgBA,EAAmBC,EAAeC,GAChD,OAAQD,EAAQC,GAASA,CAC3B,Q","ignoreList":[]}

@@ -1,0 +1,7 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.
+ * v2.12.0-next.9
+ */
+import{d as _}from"./p-bf4cbdd1.js";import"./p-a1b5fdc3.js";import"./p-31ba8b4a.js";import"./p-0f876258.js";import"./p-9f70dbd5.js";import"./p-073dd2e4.js";import"./p-591f823e.js";import"./p-b19ebab6.js";import"./p-addb3d6d.js";import"./p-7d49a415.js";import"./p-4496b454.js";import"./p-11bacf84.js";import"./p-5e998251.js";import"./p-5dcc4f52.js";import"./p-f333ee4d.js";import"./p-a9daa695.js";import"./p-c91b59fa.js";import"./p-83cd0151.js";import"./p-4bf075dd.js";import"./p-5ca02998.js";import"./p-730035a7.js";var p={name:"th",weekdays:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัสบดี_ศุกร์_เสาร์".split("_"),weekdaysShort:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัส_ศุกร์_เสาร์".split("_"),weekdaysMin:"อา._จ._อ._พ._พฤ._ศ._ส.".split("_"),months:"มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม".split("_"),monthsShort:"ม.ค._ก.พ._มี.ค._เม.ย._พ.ค._มิ.ย._ก.ค._ส.ค._ก.ย._ต.ค._พ.ย._ธ.ค.".split("_"),formats:{LT:"H:mm",LTS:"H:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY เวลา H:mm",LLLL:"วันddddที่ D MMMM YYYY เวลา H:mm"},relativeTime:{future:"อีก %s",past:"%sที่แล้ว",s:"ไม่กี่วินาที",m:"1 นาที",mm:"%d นาที",h:"1 ชั่วโมง",hh:"%d ชั่วโมง",d:"1 วัน",dd:"%d วัน",M:"1 เดือน",MM:"%d เดือน",y:"1 ปี",yy:"%d ปี"},ordinal:function _(p){return p+"."}};_.locale(p,null,true);export{p as default};
+//# sourceMappingURL=p-6dd31eda.js.map

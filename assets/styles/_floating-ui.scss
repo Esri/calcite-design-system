@@ -1,0 +1,126 @@
+$floating-ui-transition-offset: 5px;
+
+@mixin floatingUIOffsetBottom {
+  inset-block-start: -$floating-ui-transition-offset;
+}
+
+@mixin floatingUIOffsetTop {
+  inset-block-start: $floating-ui-transition-offset;
+}
+
+@mixin floatingUIOffsetLeft {
+  left: $floating-ui-transition-offset;
+}
+
+@mixin floatingUIOffsetRight {
+  left: -$floating-ui-transition-offset;
+}
+
+@mixin floating-ui-base {
+  --calcite-floating-ui-transition: var(--calcite-animation-timing);
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+}
+
+@mixin floatingUIAnim {
+  .calcite-floating-ui-anim {
+    position: relative;
+    transition: var(--calcite-floating-ui-transition);
+    transition-property: inset, left, opacity;
+    opacity: 0;
+    box-shadow: $shadow-2;
+    @apply rounded z-default;
+  }
+}
+
+@mixin floatingUIAnimActive {
+  opacity: 1;
+  inset-block: 0;
+  left: 0;
+}
+
+@mixin floatingUIElemAnim($selector) {
+  #{$selector} {
+    @include floatingUIAnim();
+
+    &[data-placement^="bottom"] .calcite-floating-ui-anim {
+      @include floatingUIOffsetBottom();
+    }
+
+    &[data-placement^="top"] .calcite-floating-ui-anim {
+      @include floatingUIOffsetTop();
+    }
+
+    &[data-placement^="left"] .calcite-floating-ui-anim {
+      @include floatingUIOffsetLeft();
+    }
+
+    &[data-placement^="right"] .calcite-floating-ui-anim {
+      @include floatingUIOffsetRight();
+    }
+
+    &[data-placement] .calcite-floating-ui-anim--active {
+      @include floatingUIAnimActive();
+    }
+  }
+}
+
+@mixin floatingUIHostAnim {
+  @include floatingUIAnim();
+
+  :host([data-placement^="bottom"]) .calcite-floating-ui-anim {
+    @include floatingUIOffsetBottom();
+  }
+
+  :host([data-placement^="top"]) .calcite-floating-ui-anim {
+    @include floatingUIOffsetTop();
+  }
+
+  :host([data-placement^="left"]) .calcite-floating-ui-anim {
+    @include floatingUIOffsetLeft();
+  }
+
+  :host([data-placement^="right"]) .calcite-floating-ui-anim {
+    @include floatingUIOffsetRight();
+  }
+
+  :host([data-placement]) .calcite-floating-ui-anim--active {
+    @include floatingUIAnimActive();
+  }
+}
+
+@mixin floatingUIContainer() {
+  display: block;
+  position: absolute;
+  z-index: var(--calcite-floating-ui-z-index);
+}
+
+@mixin floatingUIWrapper {
+  visibility: hidden;
+}
+
+@mixin floatingUIWrapperActive {
+  visibility: visible;
+}
+
+@mixin floatingUIHost() {
+  :host {
+    @include floatingUIContainer();
+  }
+
+  @include floatingUIHostAnim();
+
+  @include calciteHydratedHidden();
+}
+
+@mixin floatingUIArrow {
+  .calcite-floating-ui-arrow {
+    @apply -z-default
+    absolute
+    pointer-events-none
+    fill-background-foreground-1;
+  }
+
+  .calcite-floating-ui-arrow__stroke {
+    stroke: theme("borderColor.color.3");
+  }
+}
