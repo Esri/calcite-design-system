@@ -17,6 +17,10 @@ export const CSS = {
   footerEndSlotOnly: "footer--end-only",
 };
 
+export const IDS = {
+  validationMessage: "textAreaValidationMessage",
+};
+
 export const SLOTS = {
   footerStart: "footer-start",
   footerEnd: "footer-end",

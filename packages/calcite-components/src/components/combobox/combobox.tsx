@@ -71,7 +71,7 @@ import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -1634,8 +1634,10 @@ export class Combobox
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={`${listboxUidPrefix}${guid}`}
+          aria-errormessage={IDS.validationMessage}
           aria-expanded={toAriaBoolean(open)}
           aria-haspopup="listbox"
+          aria-invalid={this.status === "invalid"}
           aria-label={getLabelText(this)}
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
@@ -1811,6 +1813,7 @@ export class Combobox
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

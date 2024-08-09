@@ -12,3 +12,7 @@ export const CSS = {
   placeholderIcon: "placeholder-icon",
   selectedIcon: "selected-icon",
 };
+
+export const IDS = {
+  validationMessage: "comboboxValidationMessage",
+};
