@@ -160,6 +160,17 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
   }
 
+  /** Specifies the priority of the component. urgent alerts will be shown first. */
+  @Prop({ reflect: true }) urgent = false;
+
+  @Watch("urgent")
+  handleUrgentChange(): void {
+    if (this.open && this.urgent) {
+      this.unregisterAlert();
+      this.calciteInternalAlertRegister.emit();
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -195,14 +206,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   disconnectedCallback(): void {
-    window.dispatchEvent(
-      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
-        detail: { alert: this.el },
-      }),
-    );
-    window.clearTimeout(this.autoCloseTimeoutId);
-    this.autoCloseTimeoutId = null;
-    window.clearTimeout(this.queueTimeout);
+    this.unregisterAlert();
     disconnectLocalized(this);
     disconnectMessages(this);
     this.embedded = false;
@@ -363,9 +367,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
-    if (this.open && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
+    if (this.open && !this.queue.includes(this.el)) {
       this.queued = true;
-      this.queue.push(this.el as HTMLCalciteAlertElement);
+      if (this.urgent) {
+        this.queue.unshift(this.el);
+      } else {
+        this.queue.push(this.el);
+      }
     }
     this.calciteInternalAlertSync.emit({ queue: this.queue });
     this.determineActiveAlert();
@@ -441,9 +449,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @State() hasEndActions = false;
 
+  // todo: this queue stack is maintained as a state on every alert instance? Should we refactor this?
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];
 
+  // todo: this queue length is maintained on every alert instance?
   /** the count of queued alerts */
   @State() queueLength = 0;
 
@@ -478,6 +488,20 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
+  private unregisterAlert = (): void => {
+    this.queued = false;
+
+    window.dispatchEvent(
+      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
+        detail: { alert: this.el },
+      }),
+    );
+
+    window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
+    window.clearTimeout(this.queueTimeout);
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
@@ -494,7 +518,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         );
       }
     } else {
-      return;
+      window.clearTimeout(this.queueTimeout);
+      this.queued = this.open;
     }
   }
 

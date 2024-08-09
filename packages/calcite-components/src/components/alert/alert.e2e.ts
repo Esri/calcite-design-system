@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
+import { getElementXY, skipAnimations } from "../../tests/utils";
 import { openClose } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 
@@ -14,6 +14,19 @@ describe("defaults", () => {
     {
       propertyName: "embedded",
       defaultValue: false,
+    },
+    {
+      propertyName: "urgent",
+      defaultValue: false,
+    },
+  ]);
+});
+
+describe("reflects", () => {
+  reflects("calcite-alert", [
+    {
+      propertyName: "urgent",
+      value: true,
     },
   ]);
 });
@@ -187,6 +200,61 @@ describe("calcite-alert", () => {
     expect(await alert1.isVisible()).not.toBe(true);
     expect(await alert2.isVisible()).not.toBe(true);
     expect(await alert3.isVisible()).toBe(true);
+  });
+
+  it("should handle urgent alerts", async () => {
+    const page = await newE2EPage();
+    await skipAnimations(page);
+    await page.setContent(`
+    <div>
+    <calcite-alert id="alert-1">
+    ${alertContent}
+    </calcite-alert>
+    <calcite-alert id="alert-2">
+    ${alertContent}
+    </calcite-alert>
+    <calcite-alert id="alert-3">
+    ${alertContent}
+    </calcite-alert>
+    </div>`);
+
+    const alert1 = await page.find("#alert-1");
+    const alert2 = await page.find("#alert-2");
+    const alert3 = await page.find("#alert-3");
+
+    expect(await alert1.isVisible()).toBe(false);
+    expect(await alert2.isVisible()).toBe(false);
+    expect(await alert3.isVisible()).toBe(false);
+
+    alert1.setProperty("open", true);
+    await page.waitForChanges();
+    alert2.setProperty("open", true);
+    await page.waitForChanges();
+    alert3.setProperty("urgent", true);
+    await page.waitForChanges();
+    alert3.setProperty("open", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    expect(await alert1.isVisible()).toBe(true);
+    expect(await alert2.isVisible()).toBe(true);
+    expect(await alert3.isVisible()).toBe(true);
+
+    const alert1Container = await page.find(`#alert-1 >>> .${CSS.container}`);
+    const alert2Container = await page.find(`#alert-2 >>> .${CSS.container}`);
+    const alert3Container = await page.find(`#alert-3 >>> .${CSS.container}`);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(true);
+
+    alert2.setProperty("urgent", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(true);
+    expect(await alert3Container.isVisible()).toBe(false);
   });
 
   it("correctly assigns a default placement class", async () => {
