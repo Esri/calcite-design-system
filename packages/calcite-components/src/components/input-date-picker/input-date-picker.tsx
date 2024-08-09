@@ -553,7 +553,7 @@ export class InputDatePicker
     };
 
     return (
-      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler}>
+      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler} onKeyUp={this.keyUpHandler}>
         <InteractiveContainer disabled={this.disabled}>
           {this.localeData && (
             <div class={CSS.inputContainer}>
@@ -954,6 +954,26 @@ export class InputDatePicker
     }
   };
 
+  keyUpHandler = (event: KeyboardEvent): void => {
+    const { key, shiftKey } = event;
+
+    if (key === "ArrowDown") {
+      console.log("Focused Element:", document.activeElement);
+      const focusedElement = this.el.shadowRoot?.activeElement;
+      console.log("Focused Element Tag Name:", focusedElement?.tagName);
+    } else if (key === "Tab" && shiftKey) {
+      console.log("Shift + Tab pressed");
+      console.log("Focused Element:", document.activeElement);
+      const focusedElementShiftTab = this.el.shadowRoot?.activeElement;
+      console.log("Focused Element Tag Name:", focusedElementShiftTab?.tagName);
+    } else if (key === "Tab") {
+      console.log("Tab pressed");
+      console.log("Focused Element:", document.activeElement);
+      const focusedElementTab = this.el.shadowRoot?.activeElement;
+      console.log("Focused Element Tag Name:", focusedElementTab?.tagName);
+    }
+  };
+
   startInputFocus = (): void => {
     this.focusedInput = "start";
   };
@@ -980,7 +1000,7 @@ export class InputDatePicker
   setDatePickerRef = (el: HTMLCalciteDatePickerElement): void => {
     this.datePickerEl = el;
     connectFocusTrap(this, {
-      focusTrapEl: el,
+      focusTrapEl: this.el,
       focusTrapOptions: {
         clickOutsideDeactivates: () => !event.composedPath().includes(this.el),
         initialFocus: false,
