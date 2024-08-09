@@ -165,7 +165,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Watch("urgent")
   handleUrgentChange(): void {
-    // todo
+    if (this.open && this.urgent) {
+      this.unregisterAlert();
+      this.calciteInternalAlertRegister.emit();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -203,14 +206,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   disconnectedCallback(): void {
-    window.dispatchEvent(
-      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
-        detail: { alert: this.el },
-      }),
-    );
-    window.clearTimeout(this.autoCloseTimeoutId);
-    this.autoCloseTimeoutId = null;
-    window.clearTimeout(this.queueTimeout);
+    this.unregisterAlert();
     disconnectLocalized(this);
     disconnectMessages(this);
     this.embedded = false;
@@ -371,12 +367,12 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
-    if (this.open && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
+    if (this.open && !this.queue.includes(this.el)) {
       this.queued = true;
       if (this.urgent) {
-        this.queue.unshift(this.el as HTMLCalciteAlertElement);
+        this.queue.unshift(this.el);
       } else {
-        this.queue.push(this.el as HTMLCalciteAlertElement);
+        this.queue.push(this.el);
       }
     }
     this.calciteInternalAlertSync.emit({ queue: this.queue });
@@ -492,6 +488,20 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
+  private unregisterAlert = (): void => {
+    this.queued = false;
+
+    window.dispatchEvent(
+      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
+        detail: { alert: this.el },
+      }),
+    );
+
+    window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
+    window.clearTimeout(this.queueTimeout);
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
@@ -508,8 +518,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         );
       }
     } else {
+      window.clearTimeout(this.queueTimeout);
       this.queued = this.open;
-      return;
     }
   }
 
