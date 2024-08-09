@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -314,20 +313,6 @@ export class Dialog
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -414,6 +399,10 @@ export class Dialog
     this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteDialogClose.emit();
     deactivateFocusTrap(this);
+  }
+
+  onFocusTrapDeactivate(): void {
+    this.open = false;
   }
 
   @Watch("open")

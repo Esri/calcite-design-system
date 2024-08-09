@@ -598,17 +598,17 @@ describe("calcite-dialog", () => {
 
     const dialog = await page.find("calcite-dialog");
     await page.waitForChanges();
+    await page.waitForChanges();
     expect(dialog).toHaveAttribute("open");
-    expect(dialog).toHaveAttribute("open");
+    await page.waitForChanges();
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(dialog).not.toHaveAttribute("open");
+    await page.waitForChanges();
     expect(dialog).not.toHaveAttribute("open");
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
     expect(dialog).toHaveAttribute("open");
   });
 
