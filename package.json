@@ -78,7 +78,7 @@
     "change-case": "4.1.2",
     "cheerio": "1.0.0-rc.12",
     "chokidar": "3.6.0",
-    "chromatic": "11.5.6",
+    "chromatic": "11.7.0",
     "concurrently": "8.2.2",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
