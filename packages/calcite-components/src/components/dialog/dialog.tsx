@@ -156,6 +156,9 @@ export class Dialog
   /** When `true`, displays and positions the component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
+  /** When `true`, disables the closing of the component when clicked outside. */
+  @Prop({ reflect: true }) outsideCloseDisabled = false;
+
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
@@ -461,6 +464,10 @@ export class Dialog
   }
 
   private handleOutsideClose = (): void => {
+    if (this.outsideCloseDisabled) {
+      return;
+    }
+
     this.open = false;
   };
 

@@ -19,6 +19,7 @@ type DialogStoryArgs = Pick<
   | "menuOpen"
   | "modal"
   | "overlayPositioning"
+  | "outsideCloseDisabled"
 >;
 
 export default {
@@ -36,6 +37,7 @@ export default {
     menuOpen: false,
     modal: false,
     overlayPositioning: overlayPositioning.defaultValue,
+    outsideCloseDisabled: false,
   },
   argTypes: {
     kind: {
@@ -90,6 +92,7 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("menu-open", args.menuOpen)}
     ${boolean("loading", args.loading)}
     ${boolean("close-disabled", args.closeDisabled)}
+    ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
