@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
   describe("renders", () => {
@@ -331,8 +331,9 @@ describe("calcite-tree-item", () => {
       </calcite-tree>
     `);
     const container = await page.find("calcite-tree-item >>> .node-container");
-    const label = await container.find("label");
-    const checkbox = await label.find("calcite-checkbox");
+    const checkbox = await container.find(`.${CSS.checkbox}`);
+    const host = await page.find("calcite-tree-item[role='treeitem']");
+    const label = await container.find(`label`);
 
     const icon = await container.find(`[data-test-id="icon"]`);
     await icon.click();
@@ -342,25 +343,61 @@ describe("calcite-tree-item", () => {
     expect(isVisible).toBe(true);
 
     await container.click();
-    expect(checkbox).toHaveAttribute("checked");
+    expect(host).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await container.click();
-    expect(checkbox).not.toHaveAttribute("checked");
+    expect(host).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
 
     await label.click();
-    expect(checkbox).toHaveAttribute("checked");
+    expect(host).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await label.click();
-    expect(checkbox).not.toHaveAttribute("checked");
+    expect(host).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
 
     await checkbox.click();
-    expect(checkbox).toHaveAttribute("checked");
+    expect(host).toEqualAttribute("aria-checked", true);
     expect(isVisible).toBe(true);
     await checkbox.click();
-    expect(checkbox).not.toHaveAttribute("checked");
+    expect(host).toEqualAttribute("aria-checked", false);
     expect(isVisible).toBe(true);
+  });
+
+  it('should contain aria-selected attribute when selectionMode is "single". Also applies to selectionMode: "children" and "single-persist"', async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree selection-mode="single" scale="m">
+        <calcite-tree-item>
+          <span>Child 1</span>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <span>Child 2</span>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
+
+    const host = await page.find("calcite-tree-item[role='treeitem']");
+
+    expect(host).toHaveAttribute("aria-selected");
+  });
+
+  it('should contain aria-checked attribute when selectionMode is "multiple". Also applies to selectionMode: "multichildren" and "ancestors"', async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree selection-mode="multiple" scale="m">
+        <calcite-tree-item>
+          <span>Child 1</span>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <span>Child 2</span>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
+
+    const host = await page.find("calcite-tree-item[role='treeitem']");
+
+    expect(host).toHaveAttribute("aria-checked");
   });
 
   it("displaying an expanded item is visible", async () => {

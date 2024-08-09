@@ -128,22 +128,28 @@
   .node-container {
     @apply focus-inset outline-none;
   }
+
+  .checkbox {
+    @apply outline-none;
+  }
 }
 
 .actions-end {
   @apply flex self-stretch flex-row items-center;
 }
 
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
 .checkbox {
   line-height: 0;
+  color: var(--calcite-color-border-input);
 }
 
 .checkbox-label {
   @apply pointer-events-none flex items-center;
-}
-
-.checkbox:focus {
-  @apply outline-none;
 }
 
 .children-container {
@@ -251,6 +257,15 @@
 :host([selected]) {
   .checkmark,
   .bullet-point {
+    color: var(--calcite-color-brand);
+  }
+  .checkbox {
+    color: var(--calcite-color-brand);
+  }
+}
+
+:host([has-children][indeterminate]) {
+  .checkbox {
     color: var(--calcite-color-brand);
   }
 }
