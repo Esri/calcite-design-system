@@ -456,8 +456,15 @@ export class InputTimePicker
 
   private hostBlurHandler = (): void => {
     // TODO: need to handle cases here where hour-cycle differs from the locale's default hour-cycle
-    const inputValue = this.calciteInputEl.value;
-    const delocalizedInputValue = this.delocalizeTimeString(inputValue);
+    let delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
+    if (this.hourCycle !== getLocaleHourCycle(this.effectiveLocale)) {
+      delocalizedInputValue =
+        this.hourCycle === "12"
+          ? this.delocalizeTimeString(this.calciteInputEl.value, "en")
+          : this.delocalizeTimeString(this.calciteInputEl.value, "fr");
+    } else {
+      delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
+    }
 
     if (!delocalizedInputValue) {
       this.setValue("");
@@ -570,9 +577,9 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private delocalizeTimeString(value: string): string {
+  private delocalizeTimeString(value: string, locale?: SupportedLocale): string {
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
-    dayjs.locale(this.effectiveLocale.toLowerCase());
+    dayjs.locale(locale || this.effectiveLocale.toLowerCase());
 
     const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
 
