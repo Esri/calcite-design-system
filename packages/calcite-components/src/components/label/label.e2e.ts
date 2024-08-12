@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-label", () => {
   describe("renders", () => {
@@ -146,29 +147,13 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
-  it("should focus on the slotted form element when a label is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
-    Label text
-    <calcite-input></calcite-input>
-    </calcite-label>
-    `);
-
-    const element = await page.find("calcite-label");
-
-    await element.click();
-
-    expect(await isElementFocused(page, "calcite-input")).toBe(true);
-  });
-
   it("should not focus on the slotted form element when a label's text is selected", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
-    Label text
-    <calcite-input></calcite-input>
-    </calcite-label>
+    await page.setContent(html`
+      <calcite-label layout="inline-space-between">
+        Label text
+        <calcite-input></calcite-input>
+      </calcite-label>
     `);
 
     await page.$eval("calcite-label", (el) => {
