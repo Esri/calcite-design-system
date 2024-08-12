@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.9...@esri/calcite-components@2.12.0-next.10) (2024-08-12)
+
+### Bug Fixes
+
+- **label:** prevent focusing and toggling elements slotted within a label when a text selection occurs ([#9990](https://github.com/Esri/calcite-design-system/issues/9990)) ([49d6ae1](https://github.com/Esri/calcite-design-system/commit/49d6ae180cf752da91d3966adf876d2247f0537c)), closes [#8867](https://github.com/Esri/calcite-design-system/issues/8867)
+
 ## [2.12.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.8...@esri/calcite-components@2.12.0-next.9) (2024-08-09)
 
 ### Bug Fixes
