@@ -100,7 +100,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    *
    * @internal
    */
-  @Prop() activeAlertCount = 0;
+  @Prop() openAlertCount = 0;
 
   /** When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -243,11 +243,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   render(): VNode {
-    const { open, autoClose, label, placement, active, activeAlertCount } = this;
+    const { open, autoClose, label, placement, active, openAlertCount } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-    const hasQueuedAlerts = activeAlertCount > 1;
+    const hasQueuedAlerts = openAlertCount > 1;
 
     return (
       <Host
@@ -317,15 +317,15 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   private renderQueueCount(): VNode {
-    const { activeAlertCount } = this;
-    const queueNumber = activeAlertCount > 2 ? activeAlertCount - 1 : 1;
+    const { openAlertCount } = this;
+    const queueNumber = openAlertCount > 2 ? openAlertCount - 1 : 1;
     const queueText = this.numberStringFormatter.numberFormatter.format(queueNumber);
 
     return (
       <div
         class={{
           [CSS.queueCount]: true,
-          [CSS.queueCountActive]: activeAlertCount > 1,
+          [CSS.queueCountActive]: openAlertCount > 1,
         }}
         key="queue-count"
       >

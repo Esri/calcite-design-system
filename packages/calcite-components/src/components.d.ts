@@ -515,10 +515,6 @@ export namespace Components {
          */
         "active": boolean;
         /**
-          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
-         */
-        "activeAlertCount": number;
-        /**
           * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose": boolean;
@@ -565,6 +561,10 @@ export namespace Components {
           * When `true`, displays and positions the component.
          */
         "open": boolean;
+        /**
+          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
+         */
+        "openAlertCount": number;
         /**
           * Specifies the placement of the component.
          */
@@ -8400,10 +8400,6 @@ declare namespace LocalJSX {
          */
         "active"?: boolean;
         /**
-          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
-         */
-        "activeAlertCount"?: number;
-        /**
           * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose"?: boolean;
@@ -8466,6 +8462,10 @@ declare namespace LocalJSX {
           * When `true`, displays and positions the component.
          */
         "open"?: boolean;
+        /**
+          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
+         */
+        "openAlertCount"?: number;
         /**
           * Specifies the placement of the component.
          */

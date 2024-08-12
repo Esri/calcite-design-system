@@ -52,7 +52,7 @@ export default class AlertManager {
 
   private updateAlerts(): void {
     this.registeredElements.forEach((alert, index) => {
-      alert.activeAlertCount = this.registeredElements.length;
+      alert.openAlertCount = this.registeredElements.length;
 
       if (index === 0) {
         window.clearTimeout(this.queueTimeoutId);

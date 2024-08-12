@@ -11,13 +11,13 @@ describe("AlertManager", () => {
     mockAlert1 = {
       active: false,
       urgent: false,
-      activeAlertCount: 0,
+      openAlertCount: 0,
     } as HTMLCalciteAlertElement;
 
     mockAlert2 = {
       active: false,
       urgent: false,
-      activeAlertCount: 0,
+      openAlertCount: 0,
     } as HTMLCalciteAlertElement;
   });
 
@@ -44,11 +44,11 @@ describe("AlertManager", () => {
     expect(mockAlert2.active).toBe(false);
   });
 
-  it("should set the activeAlertCount correctly", () => {
+  it("should set the openAlertCount correctly", () => {
     alertManager.registerElement(mockAlert1);
     alertManager.registerElement(mockAlert2);
 
-    expect(mockAlert1.activeAlertCount).toBe(2);
-    expect(mockAlert2.activeAlertCount).toBe(2);
+    expect(mockAlert1.openAlertCount).toBe(2);
+    expect(mockAlert2.openAlertCount).toBe(2);
   });
 });
