@@ -84,6 +84,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Watch("active")
   handleActiveChange(): void {
+    this.clearAutoCloseTimeout();
     if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
       this.initialOpenTime = Date.now();
       this.autoCloseTimeoutId = window.setTimeout(
