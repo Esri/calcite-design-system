@@ -747,7 +747,9 @@ export async function whenTransitionOrAnimationDone(
 
   function startEndImmediately(): void {
     onStart?.();
-    onEnd?.();
+
+    // the end callback is invoked in the next frame to simulate the shortest possible delay
+    requestAnimationFrame(() => onEnd?.());
   }
 
   if (duration === "0s") {
