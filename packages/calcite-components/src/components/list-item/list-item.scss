@@ -18,7 +18,8 @@
   @apply bg-foreground-1
   box-border
   flex
-  flex-1;
+  flex-1
+  overflow-hidden;
   * {
     @apply box-border;
   }

@@ -1643,3 +1643,30 @@ export const panelTopFloatVertical_TestOnly = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+export const resizeHandlePositioning = (): string =>
+  html` <calcite-shell>
+    <calcite-shell-panel id="panel-start" slot="panel-start" position="start" resizable>
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator></calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Panel 1">
+        <calcite-block heading="Block 1" collapsible></calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Main content"></calcite-panel>
+    <calcite-shell-panel id="panel-end" slot="panel-end" position="end" resizable>
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator></calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Panel 1">
+        <calcite-block heading="Block 1" collapsible></calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
