@@ -1,3 +1,5 @@
+export const alertQueueTimeoutMs = 300;
+
 export default class AlertManager {
   // --------------------------------------------------------------------------
   //
@@ -55,7 +57,7 @@ export default class AlertManager {
       if (index === 0) {
         window.clearTimeout(this.queueTimeoutId);
         this.queueTimeoutId = null;
-        this.queueTimeoutId = window.setTimeout(() => (alert.active = true), 300);
+        this.queueTimeoutId = window.setTimeout(() => (alert.active = true), alertQueueTimeoutMs);
         return;
       }
 
