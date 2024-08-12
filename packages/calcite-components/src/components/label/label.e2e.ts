@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
-import { labelClickEvent } from "../../utils/label";
+import { isElementFocused } from "../../tests/utils";
 
 describe("calcite-label", () => {
   describe("renders", () => {
@@ -146,7 +146,7 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
-  it(`should emit ${labelClickEvent} when a label is clicked`, async () => {
+  it("should focus on the slotted form element when a label is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
@@ -157,11 +157,19 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
 
-    const eventSpy = await element.spyOnEvent(labelClickEvent);
-
     await element.click();
 
-    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(await isElementFocused(page, "calcite-input")).toBe(true);
+  });
+
+  it("should not focus on the slotted form element when a label's text is selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
+    Label text
+    <calcite-input></calcite-input>
+    </calcite-label>
+    `);
 
     await page.$eval("calcite-label", (el) => {
       const selection = window.getSelection();
@@ -173,7 +181,7 @@ describe("calcite-label", () => {
     });
     await page.waitForChanges();
 
-    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(await isElementFocused(page, "calcite-input")).toBe(false);
   });
 
   // TODO: need shadow DOM equivalent update on helper
