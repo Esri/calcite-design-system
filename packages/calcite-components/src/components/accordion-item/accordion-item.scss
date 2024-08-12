@@ -58,6 +58,17 @@
   border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
 }
 
+.header-content,
+.content {
+  padding: var(
+    --calcite-accordion-item-space,
+    var(
+      --calcite-internal-accordion-item-padding,
+      var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
+    )
+  );
+}
+
 .header {
   @apply flex items-stretch;
 
@@ -72,7 +83,6 @@
 
 .header-content {
   @apply focus-base flex-grow cursor-pointer;
-  padding: var(--calcite-accordion-item-space);
   flex-direction: var(--calcite-internal-accordion-item-flex-direction);
 
   &:focus {
@@ -154,7 +164,6 @@
 .content {
   @apply hidden pt-0;
   text-align: initial;
-  padding: var(--calcite-accordion-item-space);
 }
 
 :host(:not(:focus):not(:hover):not([expanded])) {
