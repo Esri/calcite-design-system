@@ -136,7 +136,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop() shortHeading: string;
 
   /** The component's text. */
-  @Prop({ reflect: true }) heading: string;
+  @Prop() heading: string;
 
   /**
    * The component's text.
