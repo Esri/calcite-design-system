@@ -88,6 +88,7 @@ export type CalciteIconPath = string | CalciteMultiPathEntry[];
     .then((files) => files.map(formatSVG))
     .then((files) => {
       let icons = {};
+      let promises = [];
       let keywords = JSON.parse(readFileSync("docs/keywords.json", "utf-8"));
       files.forEach((file) => {
         // add to json file
@@ -123,15 +124,14 @@ export type CalciteIconPath = string | CalciteMultiPathEntry[];
           tsContents = `export const ${camelCaseName}: CalciteMultiPathEntry[];\n`;
         }
 
-        writeFile(`js/${camelCaseName}.js`, contents, "utf8");
-        writeFile(`js/${camelCaseName}.d.ts`, tsContents, "utf8");
-        writeFile(`js/${camelCaseName}.json`, JSON.stringify(paths), "utf8");
+        promises.push(writeFile(`js/${camelCaseName}.js`, contents, "utf8"));
+        promises.push(writeFile(`js/${camelCaseName}.d.ts`, tsContents, "utf8"));
+        promises.push(writeFile(`js/${camelCaseName}.json`, JSON.stringify(paths), "utf8"));
       });
-      let promises = [
-        writeFile("docs/icons.json", JSON.stringify({ version, icons }), "utf8"),
-        writeFile("index.d.ts", tsFile, "utf8"),
-        writeFile("index.js", jsFile, "utf8"),
-      ];
+      promises.push(writeFile("docs/icons.json", JSON.stringify({ version, icons }), "utf8"));
+      promises.push(writeFile("index.d.ts", tsFile, "utf8"));
+      promises.push(writeFile("index.js", jsFile, "utf8"));
+
       return Promise.all(promises);
     });
 };
