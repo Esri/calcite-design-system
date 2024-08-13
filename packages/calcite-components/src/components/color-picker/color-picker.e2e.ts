@@ -7,6 +7,7 @@ import {
   newProgrammaticE2EPage,
   toBeNumber,
   toBeInteger,
+  getElementRect,
 } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_SIZE } from "./resources";
@@ -805,6 +806,34 @@ describe("calcite-color-picker", () => {
     [hueScopeCenterX] = getScopeCenter(hueScopeX, hueScopeY);
 
     expect(hueScopeCenterX).toBe(hueSliderX + sliderWidth - DIMENSIONS.m.thumb.radius);
+  });
+
+  it("does not allow text selection when color field/sliders are used", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-color-picker alpha-channel></calcite-color-picker>`);
+    const { x: hueSliderX, y: hueSliderY } = await getElementRect(page, "calcite-color-picker", `.${CSS.hueSlider}`);
+    const { x: opacitySliderX, y: opacitySliderY } = await getElementRect(
+      page,
+      "calcite-color-picker",
+      `.${CSS.opacitySlider}`,
+    );
+    const { x: colorFieldX, y: colorFieldY } = await getElementRect(page, "calcite-color-picker", `.${CSS.colorField}`);
+
+    const dragStartPoints = [
+      [colorFieldX, colorFieldY],
+      [hueSliderX, hueSliderY],
+      [opacitySliderX, opacitySliderY],
+    ];
+
+    for (const [startingX, startingY] of dragStartPoints) {
+      await page.mouse.move(startingX, startingY);
+      await page.mouse.down();
+      await page.mouse.move(1000, 1000);
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
+    }
   });
 
   describe("unsupported value handling", () => {
