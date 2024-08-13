@@ -14,13 +14,13 @@ export const locales: Locale[] = [
     dir: "rtl",
   },
   {
-    name: "Arabic (Arab Numerals)",
+    name: "Arabic",
     locale: "ar",
     dir: "rtl",
     numberingSystem: "arab",
   },
   {
-    name: "Arabic (Arab Ext Numerals)",
+    name: "Arabic",
     locale: "ar",
     dir: "rtl",
     numberingSystem: "arabext",
@@ -50,11 +50,11 @@ export const locales: Locale[] = [
     locale: "de",
   },
   {
-    name: "German (Austria)",
+    name: "German - Austria",
     locale: "de-AT",
   },
   {
-    name: "German (Switzerland)",
+    name: "German - Switzerland",
     locale: "de-CH",
   },
   {
@@ -66,19 +66,19 @@ export const locales: Locale[] = [
     locale: "en",
   },
   {
-    name: "English (Australia)",
+    name: "English - Australia",
     locale: "en-AU",
   },
   {
-    name: "English (Canada)",
+    name: "English - Canada",
     locale: "en-CA",
   },
   {
-    name: "English (Great Britain)",
+    name: "English - Great Britain",
     locale: "en-GB",
   },
   {
-    name: "English (United States)",
+    name: "English - United States",
     locale: "en-US",
   },
   {
@@ -86,7 +86,7 @@ export const locales: Locale[] = [
     locale: "es",
   },
   {
-    name: "Spanish (Mexico)",
+    name: "Spanish - Mexico",
     locale: "es-MX",
   },
   {
@@ -102,7 +102,7 @@ export const locales: Locale[] = [
     locale: "fr",
   },
   {
-    name: "French (Switzerland)",
+    name: "French - Switzerland",
     locale: "fr-CH",
   },
   {
@@ -122,7 +122,7 @@ export const locales: Locale[] = [
     locale: "hu",
   },
   {
-    name: "Indonesian (ISO 3166)",
+    name: "Indonesian",
     locale: "id",
   },
   {
@@ -130,7 +130,7 @@ export const locales: Locale[] = [
     locale: "it",
   },
   {
-    name: "Italian (Switzerland)",
+    name: "Italian - Switzerland",
     locale: "it-CH",
   },
   {
@@ -170,11 +170,11 @@ export const locales: Locale[] = [
     locale: "pt",
   },
   {
-    name: "Portuguese (Brazil)",
+    name: "Portuguese - Brazil",
     locale: "pt-BR",
   },
   {
-    name: "Portuguese (Portugal)",
+    name: "Portuguese",
     locale: "pt-PT",
   },
   {
@@ -206,10 +206,6 @@ export const locales: Locale[] = [
     locale: "th",
   },
   {
-    name: "Thai (Thai digits)",
-    locale: "th",
-  },
-  {
     name: "Turkish",
     locale: "tr",
   },
@@ -222,15 +218,15 @@ export const locales: Locale[] = [
     locale: "vi",
   },
   {
-    name: "Chinese (China)",
+    name: "Chinese",
     locale: "zh-CN",
   },
   {
-    name: "Chinese (Hong Kong)",
+    name: "Chinese - Hong Kong",
     locale: "zh-HK",
   },
   {
-    name: "Chinese (Taiwan)",
+    name: "Chinese - Taiwan",
     locale: "zh-TW",
   },
 ];

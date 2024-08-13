@@ -22,10 +22,10 @@
       }
       .grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 1em;
         align-items: flex-start;
-        justify-items: center;
+        justify-items: start;
         padding: 1em;
       }
       .column {
@@ -49,6 +49,46 @@
       <script type="module">
         import { locales } from "./_assets/locales.js";
 
+        function createInputTimePicker({ dir, hourCycle, locale, name, numberingSystem, step }) {
+          const labelEl = document.createElement("calcite-label");
+          const inputTimePickerEl = document.createElement("calcite-input-time-picker");
+
+          let hourCycleLabel = "",
+            numberingSystemLabel = "",
+            stepLabel = "";
+
+          inputTimePickerEl.setAttribute("lang", locale);
+          if (dir) {
+            inputTimePickerEl.setAttribute("dir", dir);
+          }
+          if (hourCycle) {
+            inputTimePickerEl.setAttribute("hour-cycle", hourCycle);
+            hourCycleLabel = ` | ${hourCycle}-hour`;
+          }
+          if (numberingSystem) {
+            numberingSystemLabel = ` | ${numberingSystem}`;
+            inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+          }
+          if (step) {
+            inputTimePickerEl.setAttribute("step", step);
+            if (step >= 1 && step < 60) {
+              stepLabel = ` | seconds`;
+              inputTimePickerEl.setAttribute("value", "14:30:45");
+            } else if (step < 1) {
+              stepLabel = ` | milliseconds`;
+              inputTimePickerEl.setAttribute("value", "14:30:45.001");
+            }
+          } else {
+            inputTimePickerEl.setAttribute("value", "14:30");
+          }
+          labelEl.append(
+            document.createTextNode(`${name} (${locale})${numberingSystemLabel}${hourCycleLabel}${stepLabel}`),
+          );
+          labelEl.append(inputTimePickerEl);
+
+          return labelEl;
+        }
+
         (async () => {
           await customElements.whenDefined("calcite-label");
           await customElements.whenDefined("calcite-input-time-picker");
@@ -57,75 +97,72 @@
             console.log("calciteInputTimePickerChange", event.target.value);
           });
 
-          const mainEl = document.querySelector("main");
-          const currentDate = new Date();
-          const currentTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-
-          locales.forEach(({ locale, name, numberingSystem, hourCycle, dir }) => {
-            let labelEl = document.createElement("calcite-label");
-            let inputTimePickerEl = document.createElement("calcite-input-time-picker");
-
-            inputTimePickerEl.setAttribute("lang", locale);
-            if (numberingSystem) {
-              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
-            }
-            if (dir) {
-              inputTimePickerEl.setAttribute("dir", dir);
-            }
-            inputTimePickerEl.setAttribute("value", "10:00:00");
-            labelEl.append(document.createTextNode(`${name} (${locale})`));
-            labelEl.append(inputTimePickerEl);
-            mainEl.append(labelEl);
-
-            const localeObject = new Intl.Locale(locale);
+          locales.forEach((options) => {
+            const localeObject = new Intl.Locale(options.locale);
             if (localeObject.hourCycles[0] === "h12") {
-              h12.append(labelEl);
+              h12.append(createInputTimePicker(options));
+              h12.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ step: 1 },
+                }),
+              );
+              h12.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ step: 0.001 },
+                }),
+              );
+              h12.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ hourCycle: "24" },
+                }),
+              );
+              h12.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ hourCycle: "24", step: 1 },
+                }),
+              );
+              h12.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ hourCycle: "24", step: 0.001 },
+                }),
+              );
             } else {
-              h23.append(labelEl);
-            }
-
-            labelEl = document.createElement("calcite-label");
-            inputTimePickerEl = document.createElement("calcite-input-time-picker");
-
-            inputTimePickerEl.setAttribute("lang", locale);
-            if (numberingSystem) {
-              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
-            }
-            if (dir) {
-              inputTimePickerEl.setAttribute("dir", dir);
-            }
-            inputTimePickerEl.setAttribute("step", 1);
-            inputTimePickerEl.setAttribute("value", "10:00");
-            labelEl.append(document.createTextNode(`${name} (${locale}) (seconds)`));
-            labelEl.append(inputTimePickerEl);
-            mainEl.append(labelEl);
-
-            if (localeObject.hourCycles[0] === "h12") {
-              h12.append(labelEl);
-            } else {
-              h23.append(labelEl);
-            }
-
-            labelEl = document.createElement("calcite-label");
-            inputTimePickerEl = document.createElement("calcite-input-time-picker");
-
-            inputTimePickerEl.setAttribute("lang", locale);
-            if (numberingSystem) {
-              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
-            }
-            if (dir) {
-              inputTimePickerEl.setAttribute("dir", dir);
-            }
-            inputTimePickerEl.setAttribute("step", 0.001);
-            inputTimePickerEl.setAttribute("value", "10:00:00.001");
-            labelEl.append(document.createTextNode(`${name} (${locale}) (milliseconds)`));
-            labelEl.append(inputTimePickerEl);
-            mainEl.append(labelEl);
-
-            if (localeObject.hourCycles[0] === "h12") {
-              h12.append(labelEl);
-            } else {
-              h23.append(labelEl);
+              h23.append(createInputTimePicker(options));
+              h23.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ step: 1 },
+                }),
+              );
+              h23.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ step: 0.001 },
+                }),
+              );
+              h23.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ hourCycle: "12" },
+                }),
+              );
+              h23.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ hourCycle: "12", step: 1 },
+                }),
+              );
+              h23.append(
+                createInputTimePicker({
+                  ...options,
+                  ...{ hourCycle: "12", step: 0.001 },
+                }),
+              );
             }
           });
         })();
