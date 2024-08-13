@@ -8,7 +8,7 @@
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
  * @prop --calcite-action-background-color-pressed: Specifies the component's background color when active.
  * @prop --calcite-action-text-color: Specifies the text color of the component.
- * @prop --calcite-action-text-color-hover: Specifies the component's text color when hovered.
+ * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
  */
 
 :host {
@@ -52,7 +52,7 @@
   &:hover,
   &:focus {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-action-text-color-hover, var(--calcite-color-text-1));
+    color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
   }
 
   &:focus {
@@ -97,7 +97,7 @@
     &,
     &:hover,
     &:focus {
-      color: var(--calcite-action-text-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
       background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
     }
 
