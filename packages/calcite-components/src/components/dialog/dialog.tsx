@@ -555,10 +555,6 @@ export class Dialog
 
     const position = { x: 0, y: 0 };
 
-    const restrictToParent = interact.modifiers.restrictRect({
-      restriction: "parent",
-    });
-
     if (this.resizable || this.dragEnabled) {
       this.interaction = interact(this.transitionEl, { context: this.el.ownerDocument });
     }
@@ -571,7 +567,11 @@ export class Dialog
           bottom: true,
           right: true,
         },
-        modifiers: [restrictToParent],
+        modifiers: [
+          interact.modifiers.restrictSize({
+            min: { width: 275, height: 175 },
+          }),
+        ],
         listeners: {
           move: (event: ResizeEvent) => {
             this.dialogWidth = event.rect.width;
@@ -583,7 +583,11 @@ export class Dialog
 
     if (this.dragEnabled) {
       this.interaction.draggable({
-        modifiers: [restrictToParent],
+        modifiers: [
+          interact.modifiers.restrictRect({
+            restriction: "parent",
+          }),
+        ],
         listeners: {
           move: (event: DragEvent) => {
             position.x += event.dx;

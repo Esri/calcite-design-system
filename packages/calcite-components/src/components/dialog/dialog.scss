@@ -146,9 +146,6 @@ calcite-panel {
   --calcite-internal-dialog-hidden-position: 20px;
   --calcite-internal-dialog-shown-position: 0;
 
-  min-inline-size: 275px;
-  min-block-size: 175px;
-
   &--opening {
     &-idle {
       inset-block-start: var(--calcite-internal-dialog-hidden-position);
