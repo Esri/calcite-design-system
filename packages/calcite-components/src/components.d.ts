@@ -4472,6 +4472,10 @@ export namespace Components {
          */
         "fillPlacement": "start" | "none" | "end";
         /**
+          * Displays tick and thumb labels on the opposite side
+         */
+        "flipLabels": boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -4508,10 +4512,6 @@ export namespace Components {
           * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
          */
         "labelTicks": boolean;
-        /**
-          * Displays tick labels on the right side of the track and thumb label on the left
-         */
-        "labelsReversed": boolean;
         "layout": "horizontal" | "vertical";
         /**
           * The component's maximum selectable value.
@@ -12482,6 +12482,10 @@ declare namespace LocalJSX {
          */
         "fillPlacement"?: "start" | "none" | "end";
         /**
+          * Displays tick and thumb labels on the opposite side
+         */
+        "flipLabels"?: boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
@@ -12518,10 +12522,6 @@ declare namespace LocalJSX {
           * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
          */
         "labelTicks"?: boolean;
-        /**
-          * Displays tick labels on the right side of the track and thumb label on the left
-         */
-        "labelsReversed"?: boolean;
         "layout"?: "horizontal" | "vertical";
         /**
           * The component's maximum selectable value.

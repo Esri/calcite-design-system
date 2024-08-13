@@ -188,8 +188,8 @@ export class Slider
   /** Displays tick marks on the number line at a specified interval. */
   @Prop({ reflect: true }) ticks: number;
 
-  /** Displays tick labels on the right side of the track and thumb label on the left */
-  @Prop({ reflect: true }) labelsReversed = false;
+  /** Displays tick and thumb labels on the opposite side */
+  @Prop({ reflect: true }) flipLabels = false;
 
   @Watch("ticks")
   ticksWatcher(): void {
@@ -283,7 +283,7 @@ export class Slider
       type: thumbTypes,
       thumbPlacement:
         thumbTypes.includes("histogram") ||
-        (this.layout === "vertical" && !this.labelsReversed) ||
+        (this.layout === "vertical" && !this.flipLabels) ||
         !this.precise
           ? "below"
           : "above",
@@ -433,7 +433,7 @@ export class Slider
             class={{
               [thumbLabelClasses]: true,
               [CSS.handleLabelVertical]: this.layout === "vertical",
-              [CSS.handleLabelVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
+              [CSS.handleLabelVerticalReversed]: this.layout === "vertical" && this.flipLabels,
             }}
           >
             {displayedValue}
@@ -472,7 +472,7 @@ export class Slider
           [CSS.thumbPrecise]: isPrecise,
           [CSS.thumbMinValue]: isMinThumb,
           [CSS.thumbVertical]: this.layout === "vertical",
-          [CSS.thumbVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
+          [CSS.thumbVerticalReversed]: this.layout === "vertical" && this.flipLabels,
         }}
         data-value-prop={valueProp}
         key={type}
@@ -522,7 +522,7 @@ export class Slider
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
           [CSS.tickLabelVertical]: this.layout === "vertical",
-          [CSS.tickLabelVerticalReversed]: this.layout === "vertical" && this.labelsReversed,
+          [CSS.tickLabelVerticalReversed]: this.layout === "vertical" && this.flipLabels,
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
