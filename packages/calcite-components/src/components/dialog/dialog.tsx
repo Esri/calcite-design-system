@@ -243,7 +243,6 @@ export class Dialog
           ) : null}
           <div
             aria-description={description}
-            aria-grabbed={toAriaBoolean(this.dragEnabled || this.resizable)}
             aria-label={heading}
             aria-modal={toAriaBoolean(this.modal)}
             class={CSS.dialog}

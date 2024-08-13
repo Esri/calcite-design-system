@@ -82,31 +82,19 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-dialog-content-padding: var(--calcite-spacing-sm);
-  --calcite-internal-dialog-padding: theme("spacing.3");
-  --calcite-internal-dialog-padding-large: theme("spacing.4");
-  --calcite-internal-dialog-title-text: theme("fontSize.1h");
-  --calcite-internal-dialog-content-text: theme("fontSize.n1");
+  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-sm));
   --calcite-internal-dialog-min-size-x: 198px;
   --calcite-internal-dialog-min-size-y: 120px;
 }
 
 :host([scale="m"]) {
-  --calcite-internal-dialog-content-padding: var(--calcite-spacing-md);
-  --calcite-internal-dialog-padding: theme("spacing.4");
-  --calcite-internal-dialog-padding-large: theme("spacing.5");
-  --calcite-internal-dialog-title-text: theme("fontSize.2h");
-  --calcite-internal-dialog-content-text: theme("fontSize.0");
+  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-md));
   --calcite-internal-dialog-min-size-x: 288px;
   --calcite-internal-dialog-min-size-y: 140px;
 }
 
 :host([scale="l"]) {
-  --calcite-internal-dialog-content-padding: var(--calcite-spacing-lg);
-  --calcite-internal-dialog-padding: theme("spacing.5");
-  --calcite-internal-dialog-padding-large: theme("spacing.6");
-  --calcite-internal-dialog-title-text: theme("fontSize.3h");
-  --calcite-internal-dialog-content-text: theme("fontSize.1");
+  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-lg));
   --calcite-internal-dialog-min-size-x: 388px;
   --calcite-internal-dialog-min-size-y: 180px;
 }
@@ -130,7 +118,7 @@ calcite-panel {
 }
 
 .content {
-  padding: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
+  padding: var(--calcite-internal-dialog-content-padding);
 }
 
 .dialog {

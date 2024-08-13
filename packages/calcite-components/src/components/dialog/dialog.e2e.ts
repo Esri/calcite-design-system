@@ -9,6 +9,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
@@ -29,8 +30,8 @@ const dispatchDialogKeydown = async ({
   shiftKey?: boolean;
 }): Promise<void> => {
   await page.$eval(
-    "calcite-dialog",
-    (el: HTMLCalciteDialogElement, key, shiftKey) => {
+    `calcite-dialog >>> .${CSS.dialog}`,
+    (el: HTMLDivElement, key, shiftKey) => {
       el.dispatchEvent(new KeyboardEvent("keydown", { key, shiftKey, bubbles: true }));
     },
     key,
@@ -595,16 +596,21 @@ describe("calcite-dialog", () => {
 
   it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog></calcite-dialog>`);
-    const dialog = await page.find("calcite-dialog");
-    expect(dialog).toEqualAttribute("role", "dialog");
-    expect(dialog).toEqualAttribute("aria-modal", "false");
-
-    dialog.setProperty("modal", true);
+    await page.setContent(`<calcite-dialog open>Hello world!</calcite-dialog>`);
     await page.waitForChanges();
 
-    expect(dialog).toEqualAttribute("role", "dialog");
-    expect(dialog).toEqualAttribute("aria-modal", "true");
+    const dialog = await page.find("calcite-dialog");
+    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+
+    await page.waitForChanges();
+    expect(dialogContainer).toEqualAttribute("role", "dialog");
+    expect(dialogContainer).toEqualAttribute("aria-modal", "false");
+
+    dialog.setProperty("modal", true);
+
+    await page.waitForChanges();
+    expect(dialogContainer).toEqualAttribute("role", "dialog");
+    expect(dialogContainer).toEqualAttribute("aria-modal", "true");
   });
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
@@ -970,5 +976,47 @@ describe("calcite-dialog", () => {
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
     });
+  });
+
+  describe("theme", () => {
+    themed(
+      async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-dialog width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`);
+        // set large page to ensure test dialog isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+        return { page, tag: "calcite-dialog" };
+      },
+      {
+        "--calcite-dialog-scrim-background-color": {
+          shadowSelector: `.${CSS.scrim}`,
+          targetProp: "--calcite-scrim-background-color",
+        },
+        "--calcite-dialog-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-dialog-min-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "minInlineSize",
+        },
+        "--calcite-dialog-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "blockSize",
+        },
+        "--calcite-dialog-min-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "minBlockSize",
+        },
+        "--calcite-dialog-content-space": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "--calcite-internal-dialog-content-padding",
+        },
+        "--calcite-dialog-footer-space": {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-footer-padding",
+        },
+      },
+    );
   });
 });
