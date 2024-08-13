@@ -229,13 +229,7 @@ export class Dialog
   render(): VNode {
     const { assistiveText, description, heading, opened } = this;
     return (
-      <Host
-        aria-description={description}
-        aria-label={heading}
-        aria-modal={toAriaBoolean(this.modal)}
-        onKeyDown={this.handleKeyDown}
-        role="dialog"
-      >
+      <Host>
         <div
           class={{
             [CSS.container]: true,
@@ -248,8 +242,14 @@ export class Dialog
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           ) : null}
           <div
+            aria-description={description}
+            aria-grabbed={toAriaBoolean(this.dragEnabled || this.resizable)}
+            aria-label={heading}
+            aria-modal={toAriaBoolean(this.modal)}
             class={CSS.dialog}
+            onKeyDown={this.handleKeyDown}
             ref={this.setTransitionEl}
+            role="dialog"
             style={{
               inlineSize: `${this.dialogWidth}px`,
               blockSize: `${this.dialogHeight}px`,
@@ -567,11 +567,6 @@ export class Dialog
           bottom: true,
           right: true,
         },
-        modifiers: [
-          interact.modifiers.restrictSize({
-            min: { width: 275, height: 175 },
-          }),
-        ],
         listeners: {
           move: (event: ResizeEvent) => {
             this.dialogWidth = event.rect.width;
