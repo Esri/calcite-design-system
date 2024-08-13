@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.12...@esri/calcite-components@2.12.0-next.13) (2024-08-13)
+
+### Bug Fixes
+
+- **color-picker:** prevent text selection when using color sliders/field ([#10043](https://github.com/Esri/calcite-design-system/issues/10043)) ([ab33e4d](https://github.com/Esri/calcite-design-system/commit/ab33e4df41c723dda09b7f28bc7ee8e26b531750)), closes [#9977](https://github.com/Esri/calcite-design-system/issues/9977)
+
 ## [2.12.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.11...@esri/calcite-components@2.12.0-next.12) (2024-08-13)
 
 ### Features
