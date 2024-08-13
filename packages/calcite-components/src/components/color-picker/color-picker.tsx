@@ -651,8 +651,6 @@ export class ColorPicker
       return;
     }
 
-    event.preventDefault();
-
     window.addEventListener("pointermove", this.globalPointerMoveHandler);
     window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
