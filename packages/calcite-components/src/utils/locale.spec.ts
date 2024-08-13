@@ -8,7 +8,6 @@ import {
   numberingSystems,
   NumberStringFormatOptions,
   numberStringFormatter,
-  SupportedLocale,
 } from "./locale";
 
 describe("NumberStringFormat", () => {
@@ -184,7 +183,7 @@ describe("getDateTimeFormat()", () => {
 });
 
 describe("getSupportedLocale", () => {
-  function assertAllContexts(locale: SupportedLocale, expectedLocale: SupportedLocale): void {
+  function assertAllContexts(locale: string, expectedLocale: string): void {
     expect(getSupportedLocale(locale, "cldr")).toBe(expectedLocale);
     expect(getSupportedLocale(locale, "t9n")).toBe(expectedLocale);
   }
