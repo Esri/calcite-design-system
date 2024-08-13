@@ -8,9 +8,8 @@
     "url": "git+https://github.com/Esri/calcite-design-system.git",
     "directory": "examples/components/web-dev-server"
   },
-  "main": "index.js",
   "scripts": {
-    "start": "wds --open ./src/ --node-resolve --watch",
+    "start": "wds --open --node-resolve --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
