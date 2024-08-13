@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.11...@esri/calcite-components@2.12.0-next.12) (2024-08-13)
+
+### Features
+
+- **input-time-zone:** display selected time zone country in region mode selection ([#9988](https://github.com/Esri/calcite-design-system/issues/9988)) ([1575729](https://github.com/Esri/calcite-design-system/commit/1575729a5aeeda71f9034e242db17f445b292077)), closes [#9973](https://github.com/Esri/calcite-design-system/issues/9973)
+
+## [2.12.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.10...@esri/calcite-components@2.12.0-next.11) (2024-08-12)
+
+### Features
+
+- **combobox-item:** add `heading` property (deprecates `textLabel`) and add `label` property ([#9987](https://github.com/Esri/calcite-design-system/issues/9987)) ([90920a0](https://github.com/Esri/calcite-design-system/commit/90920a0b96ce6558a37623fde13c6c413106e666)), closes [#8737](https://github.com/Esri/calcite-design-system/issues/8737)
+
+### Bug Fixes
+
+- **tree,tree-item:** replace checkbox with div and a11y attributes ([#9849](https://github.com/Esri/calcite-design-system/issues/9849)) ([b1ac951](https://github.com/Esri/calcite-design-system/commit/b1ac9513e56cf0911a5585ff792fbc0a128b5d56)), closes [#5615](https://github.com/Esri/calcite-design-system/issues/5615)
+
+## [2.12.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.9...@esri/calcite-components@2.12.0-next.10) (2024-08-12)
+
+### Bug Fixes
+
+- **label:** prevent focusing and toggling elements slotted within a label when a text selection occurs ([#9990](https://github.com/Esri/calcite-design-system/issues/9990)) ([49d6ae1](https://github.com/Esri/calcite-design-system/commit/49d6ae180cf752da91d3966adf876d2247f0537c)), closes [#8867](https://github.com/Esri/calcite-design-system/issues/8867)
+
 ## [2.12.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.8...@esri/calcite-components@2.12.0-next.9) (2024-08-09)
 
 ### Bug Fixes

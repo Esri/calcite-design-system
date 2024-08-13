@@ -6,6 +6,11 @@ This is a monorepo containing Calcite Design System packages. Please see the pac
 
 We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for an overview of contribution guidelines.
 
+### Contributors
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
+
 ## License
 
 COPYRIGHT © 2024 Esri
