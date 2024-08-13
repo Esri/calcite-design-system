@@ -77,6 +77,10 @@ export class Label {
   //--------------------------------------------------------------------------
 
   labelClickHandler = (event: MouseEvent): void => {
+    if (window.getSelection()?.type === "Range") {
+      return;
+    }
+
     this.calciteInternalLabelClick.emit({
       sourceEvent: event,
     });
