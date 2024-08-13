@@ -1,10 +1,17 @@
 {
   "name": "calcite-webpack-starter",
   "private": true,
+  "description": "Starter application for @esri/calcite-commponents with Webpack",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "examples/components/webpack"
+  },
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack"
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
   },
   "dependencies": {
     "@esri/calcite-components": "^2.11.1"

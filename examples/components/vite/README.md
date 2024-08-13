@@ -1,67 +1,64 @@
 # Vite
 
-This repo contains a bare-bones example of how to create an application using Vite and Calcite Components. It was generated with [Vite](https://vitejs.dev/).
-
-To get started using this project, use:
+To install dependencies and start the development server, run:
 
 ```sh
 npm install
 npm run dev
 ```
 
-This will install dependencies and then start up a development server on [localhost:3000](http://localhost:3000).
+## Developer info
 
-## Calcite Components with Vite
-
-To install Calcite Components, first run:
+To install `@esri/calcite-components`, run:
 
 ```sh
-npm install --save @esri/calcite-components
+npm install @esri/calcite-components
 ```
 
-After Calcite Components is installed, import the components you will use in the app as well as the global CSS:
+### Setup components
+
+Import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
 
 ```js
-// main.js
-import '@esri/calcite-components/dist/components/calcite-button';
-import '@esri/calcite-components/dist/components/calcite-icon';
-import '@esri/calcite-components/dist/components/calcite-date-picker';
-import '@esri/calcite-components/dist/calcite/calcite.css';
-import { setAssetPath } from '@esri/calcite-components/dist/components';
+// src/main.ts
+import { setAssetPath } from "@esri/calcite-components/dist/components";
 
 setAssetPath(location.href);
 ```
 
-Using `setAssetPath` will ensure that Calcite Components look for assets like icons in the correct location (more on copying assets below).
-
-## Configuring Vite
-
-There are a few more steps we need to take so that Vite can successfully bundle our application. In addition to the basic configuration provided by Vite, we need to:
-
-- copy over icons
-
-To that end, at the top of your config, add the following import:
+Next, import the components used in your application:
 
 ```js
-import { defineConfig } from 'vite';
-import copy from 'rollup-plugin-copy';
+// src/components/HelloWorld.vue
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-date-picker";
 ```
 
-### Copying Icons
-
-You can use the `rollup-plugin-copy` package to copy Calcite Components' assets to your app:
+Lastly, import the global Calcite components stylesheet (only do this once):
 
 ```js
+import "@esri/calcite-components/dist/calcite/calcite.css";
+```
+
+### Copy the assets
+
+You can use the `rollup-plugin-copy` package to copy Calcite components' assets to your application:
+
+```ts
+import { defineConfig } from "vite";
+import copy from "rollup-plugin-copy";
+
 export default defineConfig({
   plugins: [
     copy({
       targets: [
         {
-          src: 'node_modules/@esri/calcite-components/dist/calcite/assets/',
-          dest: 'public/'
-        }
-      ]
-    })
-  ]
+          src: "node_modules/@esri/calcite-components/dist/calcite/assets/",
+          dest: "public/",
+        },
+      ],
+    }),
+  ],
 });
 ```

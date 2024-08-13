@@ -1,84 +1,102 @@
 # Rollup
 
-This repo contains a bare-bones example of how to create an application using Rollup and calcite-components. It was generated with [rollup-starter-app](https://github.com/rollup/rollup-starter-lib).
+To install dependencies and start the development server, run:
 
-To get started using this project, use:
-
-```
+```sh
 npm install
 npm run dev
 ```
 
-This will install dependencies and then start up a development server on [localhost:5000](http://localhost:5000).
+## Developer info
 
-## Calcite Components with Rollup
+To install `@esri/calcite-components`, run:
 
-To install calcite components, first run:
-
-```
-npm install --save @esri/calcite-components
+```sh
+npm install @esri/calcite-components
 ```
 
-After calcite-components is installed, import the components you will use in the app as well as the global CSS:
+### Setup components
+
+Import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
 
 ```js
-// src/main.js
-import { setAssetPath } from '@esri/calcite-components/dist/components';
-import '@esri/calcite-components/dist/components/calcite-button';
-import '@esri/calcite-components/dist/components/calcite-icon';
-import '@esri/calcite-components/dist/components/calcite-date-picker';
-import '@esri/calcite-components/dist/calcite/calcite.css';
+// src/main.ts
+import { setAssetPath } from "@esri/calcite-components/dist/components";
 
 setAssetPath(document.currentScript.src);
 ```
 
-Using `setAssetPath` will ensure that calcite components look for assets like icons in the correct location (more on copying assets below).
-
-## Configuring Rollup
-
-There are a few more steps we need to take so that rollup can successfully bundle our application. In addition to the basic configuration provided by rollup-starter-app, we need to:
-
-- copy over icons
-- enable importing css into our bundle
-- set the output format to `es`
-
-To that end, at the top of your config, add the following imports:
+Next, import the components used in your application:
 
 ```js
-import copy from 'rollup-plugin-copy';
-import postcss from 'rollup-plugin-postcss';
-import path from 'path';
+// src/components/HelloWorld.vue
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-date-picker";
 ```
 
-### Set the Format to ES
-
-For the module to bundle properly you'll need to use the `es` output format. _**Note**: This will not work if you need to support legacy browsers like IE11_. To set the output format, add the following to the `output` property:
+Lastly, import the global Calcite components stylesheet (only do this once):
 
 ```js
+import "@esri/calcite-components/dist/calcite/calcite.css";
+```
+
+### Configure Rollup
+
+There are a few more steps required so that rollup can successfully bundle our application:
+
+- copy over the assets
+- enable importing CSS into our bundle
+- set the output format to `es`
+
+First, add the following imports to your config:
+
+```js
+// rollup.config.js
+import copy from "rollup-plugin-copy";
+import postcss from "rollup-plugin-postcss";
+import path from "path";
+```
+
+#### Set the format to ES
+
+For the module to bundle properly, you'll need to use the `es` output format:
+
+```js
+// rollup.config.js
 output: [{ dir: path.resolve('public'), format: 'es' }],
 ```
 
-### Enable CSS Import
+> [!WARNING]
+> This will not work if you need to support legacy browsers like IE11
 
-Simply add the postcss plugin to the plugins array:
+#### Enable CSS import
+
+Add the `postcss` to the plugins array in your config:
 
 ```js
-postcss({
-  extensions: ['.css']
-}),
+// rollup.config.js
+plugins: [
+  postcss({
+    extensions: ['.css']
+  }),
+],
 ```
 
-### Copying Icons
+#### Copy the assets
 
-To copy the icon assets over, you can use the `rollup-plugin-copy` package, adding it the the same plugins array:
+You can use the `rollup-plugin-copy` package to copy Calcite components' assets to your application:
 
 ```js
-copy({
-  targets: [
-    {
-      src: path.resolve(__dirname, 'node_modules/@esri/calcite-components/dist/calcite/assets'),
-      dest: path.resolve(__dirname, 'public')
-    },
-  ]
-}),
+// rollup.config.js
+plugins: [
+  copy({
+    targets: [
+      {
+        src: path.resolve(__dirname, 'node_modules/@esri/calcite-components/dist/calcite/assets'),
+        dest: path.resolve(__dirname, 'public')
+      },
+    ],
+  }),
+],
 ```

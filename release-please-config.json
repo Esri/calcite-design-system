@@ -7,13 +7,59 @@
   "packages": {
     "packages/calcite-components": {
       "component": "@esri/calcite-components",
-      "extra-files": ["readme.md"]
+      "extra-files": [
+        "readme.md",
+        {
+          "type": "json",
+          "path": "examples/components/preact/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components"
+        },
+        {
+          "type": "json",
+          "path": "examples/components/rollup/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components"
+        },
+        {
+          "type": "json",
+          "path": "examples/components/vite/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components"
+        },
+        {
+          "type": "json",
+          "path": "examples/components/vue/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components"
+        },
+        {
+          "type": "json",
+          "path": "examples/components/web-dev-server/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components"
+        },
+        {
+          "type": "json",
+          "path": "examples/components/webpack/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components"
+        }
+      ]
     },
     "packages/calcite-components-react": {
-      "component": "@esri/calcite-components-react"
+      "component": "@esri/calcite-components-react",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "examples/components/react/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components-react"
+        }
+      ]
     },
     "packages/calcite-components-angular/projects/component-library": {
-      "component": "@esri/calcite-components-angular"
+      "component": "@esri/calcite-components-angular",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "examples/components/angular/package.json",
+          "jsonpath": "$.dependencies.@esri/calcite-components-angular"
+        }
+      ]
     },
     "packages/calcite-design-tokens": {
       "component": "@esri/calcite-design-tokens"

@@ -1,59 +1,48 @@
 # Vue
 
-## Project setup
-
-To install dependences, run:
+To install dependencies and start the development server, run:
 
 ```sh
 npm install
-```
-
-## Compile and hot-reload for development
-
-```sh
 npm run dev
 ```
 
-## Compile and minify for production
+## Developer info
+
+To install `@esri/calcite-components`, run:
 
 ```sh
-npm run build
+npm install @esri/calcite-components
 ```
 
-## Calcite Components with Vue
+### Setup components
 
-To install calcite components, first run:
-
-```sh
-npm install --save @esri/calcite-components
-```
-
-After Calcite Components is installed, import and call `setAssetPath` to load the assets:
+Import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
 
 ```js
-// src/main.js
-import { setAssetPath } from '@esri/calcite-components/dist/components';
+// src/main.ts
+import { setAssetPath } from "@esri/calcite-components/dist/components";
+
 setAssetPath(location.href);
 ```
 
-Import the Calcite Components when they are used:
+Next, import the components used in your application:
 
 ```js
 // src/components/HelloWorld.vue
-import '@esri/calcite-components/dist/components/calcite-button';
-import '@esri/calcite-components/dist/components/calcite-icon';
-import '@esri/calcite-components/dist/components/calcite-date-picker';
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-date-picker";
 ```
 
-### Adding the CSS
-
-The global Calcite Components CSS can be added with a `<style>` tag in `HelloWorld.vue`:
+Lastly, add the global Calcite components stylesheet (only do this once):
 
 ```html
+<!-- src/components/HelloWorld.vue -->
 <style src="@esri/calcite-components/dist/calcite/calcite.css"></style>
 ```
 
-### Adding the assets
+### Copy the assets
 
 Static assets must be copied over to the public folder manually. A `copy` script has been created to make this process easier:
 

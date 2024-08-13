@@ -1,6 +1,13 @@
 {
   "name": "calcite-angular-starter",
   "private": true,
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "description": "Starter application for @esri/calcite-commponents-angular",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "examples/components/angular"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -1,7 +1,5 @@
 # Webpack
 
-## Project setup
-
 To install dependencies and start the development server, run:
 
 ```sh
@@ -9,7 +7,7 @@ npm install
 npm start
 ```
 
-## Usage
+## Developer info
 
 To install `@esri/calcite-components`, run:
 
@@ -17,7 +15,17 @@ To install `@esri/calcite-components`, run:
 npm install @esri/calcite-components
 ```
 
-Then, import the components used in your application:
+### Setup components
+
+Import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
+
+```js
+import { setAssetPath } from "@esri/calcite-components/dist/components";
+
+setAssetPath(location.href);
+```
+
+Next, import the components used in your application:
 
 ```js
 // src/index.js
@@ -26,24 +34,16 @@ import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-date-picker";
 ```
 
-Next, import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
+Lastly, import the global Calcite components stylesheet (only do this once):
 
 ```js
-import { setAssetPath } from "@esri/calcite-components/dist/components";
-
-setAssetPath(location.href);
-```
-
-Lastly, import Calcite's global stylesheet (only do this once):
-
-```css
 import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 
 > [!NOTE]
 > This requires setting up a CSS loader in your Webpack config (see [Config > CSS](#css) below)
 
-## Config
+### Configure Webpack
 
 Calcite components need to be copied to your output directory so Stencil can load them from the client. The easiest way to do this is with [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First, install the package:
 
@@ -73,7 +73,7 @@ module.exports = {
 
 This will ensure the library is available to your application.
 
-### CSS
+#### Add CSS loader
 
 While we imported CSS file above, we need to output a CSS file in the final bundle. To do this, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
 

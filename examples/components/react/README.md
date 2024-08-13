@@ -1,17 +1,17 @@
 # React and TypeScript
 
-This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) and uses [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), which provides React wrappers for Calcite components.
+This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). The example uses [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), which provides React wrappers for Calcite components.
 
-To start the development server, run the following commands from the example's directory:
+To install dependencies and start the development server, run:
 
 ```sh
 npm install
 npm run dev
 ```
 
-## Calcite Components React
+## Developer info
 
-To install [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), run:
+To install `@esri/calcite-components-react`, run:
 
 ```sh
 npm install @esri/calcite-components-react
@@ -19,12 +19,13 @@ npm install @esri/calcite-components-react
 
 This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.
 
-## Use
+### Setup components
 
-[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when using frontend frameworks, such as React. To use this build, you will need to set the path to the `calcite-components` assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN. This example uses local assets.
+[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when using frontend frameworks, such as React. First, import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below). You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN. This example uses local assets.
 
-```jsx
+```ts
 import { setAssetPath } from "@esri/calcite-components/dist/components";
+
 // Local assets
 setAssetPath(window.location.href);
 
@@ -34,7 +35,7 @@ setAssetPath(window.location.href);
 
 Next, import the components used in your application:
 
-```jsx
+```tsx
 // define the custom elements on the browser
 import "@esri/calcite-components/dist/components/calcite-button.js";
 import "@esri/calcite-components/dist/components/calcite-icon.js";
@@ -44,15 +45,13 @@ import "@esri/calcite-components/dist/components/calcite-slider.js";
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 ```
 
-### Import stylesheet
+Lastly, import the global Calcite components stylesheet (only do this once):
 
-Import the global stylesheet into your app (only do this once):
-
-```js
+```ts
 import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 
-### Copy local assets
+### Copy the assets
 
 Calcite components' assets need to be copied from `node_modules` to your application (unless you use a CDN). This example leverages the [`vite-plugin-static-copy`](https://github.com/sapphi-red/vite-plugin-static-copy) package. Alternatively, you could use a CLI tool to copy the assets on `postinstall`. For example:
 
