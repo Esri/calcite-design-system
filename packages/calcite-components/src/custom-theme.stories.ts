@@ -23,7 +23,7 @@ interface CustomThemeArgs {
   calciteColorBorder2: string;
   calciteColorBorder3: string;
   calciteColorBorderInput: string;
-  calciteUiIconColor: string;
+  calciteIconColor: string;
 }
 
 export default {
@@ -51,7 +51,7 @@ export default {
     calciteColorBorder2: "#d4d4d4",
     calciteColorBorder3: "#dfdfdf",
     calciteColorBorderInput: "#949494",
-    calciteUiIconColor: "currentColor",
+    calciteIconColor: "currentColor",
   },
 };
 
@@ -80,7 +80,7 @@ export const themingInteractive = (args: CustomThemeArgs): string => {
       --calcite-color-border-2: ${args.calciteColorBorder2};
       --calcite-color-border-3: ${args.calciteColorBorder3};
       --calcite-color-border-input: ${args.calciteColorBorderInput};
-      --calcite-ui-icon-color: ${args.calciteUiIconColor};
+      --calcite-icon-color: ${args.calciteIconColor};
     "
   >
     <style>

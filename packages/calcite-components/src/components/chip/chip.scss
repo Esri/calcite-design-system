@@ -401,7 +401,7 @@ slot[name="image"]::slotted(*) {
     color: var(--calcite-color-text-3);
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-icon-color, var(--calcite-color-text-3));
   }
 }
 
@@ -415,7 +415,7 @@ slot[name="image"]::slotted(*) {
     @apply text-color-inverse;
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
+    color: var(--calcite-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
@@ -429,7 +429,7 @@ slot[name="image"]::slotted(*) {
     @apply text-color-inverse;
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
+    color: var(--calcite-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
@@ -440,7 +440,7 @@ slot[name="image"]::slotted(*) {
     @apply text-color-3;
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-icon-color, var(--calcite-color-text-3));
   }
 }
 
