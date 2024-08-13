@@ -70,8 +70,6 @@ export const clearable = (): string => html`
   <calcite-input-time-zone mode="region" clearable value=""></calcite-input-time-zone>
 `;
 
-clearable.parameters = { chromatic: { delay: 500 } };
-
 export const timeZoneNameMode_TestOnly = (): string => html`
   <calcite-input-time-zone mode="name" open></calcite-input-time-zone>
 `;

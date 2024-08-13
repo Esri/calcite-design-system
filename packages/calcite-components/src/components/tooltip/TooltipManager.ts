@@ -148,6 +148,11 @@ export default class TooltipManager {
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
 
+    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
+      this.clearHoverTimeout();
+      return;
+    }
+
     this.closeTooltipIfNotActive(tooltip);
 
     if (!tooltip) {

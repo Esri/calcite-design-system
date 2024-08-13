@@ -38,13 +38,12 @@
 }
 
 // focus styles
-:host .header-content {
+.header-content {
   @apply focus-base;
 }
 
-:host(:focus) .header-content {
-  @apply focus-inset
-  outline-none;
+.header-content:focus {
+  @apply focus-inset;
 }
 
 :host([expanded]) {
@@ -58,11 +57,11 @@
 }
 
 // .header / content
-:host .header {
+.header {
   @apply flex items-stretch;
 }
 
-:host .icon {
+.icon {
   @apply text-color-3
     relative
     m-0
@@ -92,12 +91,12 @@
   padding: var(--calcite-accordion-item-padding);
 }
 
-:host .content,
-:host .header {
+.content,
+.header {
   border-block-end: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
 }
 
-:host .header * {
+.header * {
   @apply inline-flex
     items-center
     duration-150
@@ -105,13 +104,13 @@
   @include word-break();
 }
 
-:host .content {
+.content {
   @apply text-color-3 hidden pt-0;
   text-align: initial;
 }
 
 // accordion item icon
-:host .expand-icon {
+.expand-icon {
   @apply text-color-3;
   margin-inline-start: var(--calcite-accordion-item-icon-spacing-start);
   margin-inline-end: var(--calcite-accordion-item-icon-spacing-end);
@@ -132,26 +131,26 @@
 }
 
 // accordion item title
-:host .header-text {
+.header-text {
   @apply my-0 flex-grow flex-col py-0;
   text-align: initial;
   margin-inline-end: theme("margin.auto");
 }
 
-:host .heading,
-:host .description {
+.heading,
+.description {
   @apply flex w-full;
 }
 
-:host .heading {
+.heading {
   @apply text-color-2 font-medium;
 }
-:host .description {
+.description {
   @apply text-color-3 mt-1;
 }
 
-:host(:focus),
-:host(:hover) {
+.header-content:focus,
+.header-content:hover {
   & .heading {
     @apply text-color-1;
   }
@@ -167,8 +166,8 @@
   }
 }
 
-:host(:focus),
-:host(:active),
+.header-content:focus,
+.header-content:active,
 :host([expanded]) {
   & .heading {
     @apply text-color-1;
@@ -202,8 +201,8 @@
       font-weight: bolder;
     }
   }
-  :host(:hover),
-  :host(:focus) {
+  .header-content:hover,
+  .header-content:focus {
     & .heading {
       /** give visual indicator of expandability/click-ability since subtle color changes can't be done **/
       text-decoration: underline;

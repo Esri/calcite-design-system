@@ -1395,6 +1395,10 @@ export namespace Components {
          */
         "guid": string;
         /**
+          * The component's text.
+         */
+        "heading": string;
+        /**
           * Specifies an icon to display.
          */
         "icon": IconNameOrString;
@@ -1402,6 +1406,10 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * The component's label.
+         */
+        "label": any;
         /**
           * Provides additional metadata to the component used in filtering.
          */
@@ -1427,6 +1435,7 @@ export namespace Components {
         "shortHeading": string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -5751,6 +5760,10 @@ export namespace Components {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
         "lines": boolean;
         "parentExpanded": boolean;
         "scale": Scale;
@@ -6574,6 +6587,7 @@ declare global {
     };
     interface HTMLCalciteComboboxItemElementEventMap {
         "calciteComboboxItemChange": void;
+        "calciteInternalComboboxItemChange": void;
     }
     interface HTMLCalciteComboboxItemElement extends Components.CalciteComboboxItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteComboboxItemElementEventMap>(type: K, listener: (this: HTMLCalciteComboboxItemElement, ev: CalciteComboboxItemCustomEvent<HTMLCalciteComboboxItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9348,6 +9362,10 @@ declare namespace LocalJSX {
          */
         "guid"?: string;
         /**
+          * The component's text.
+         */
+        "heading"?: string;
+        /**
           * Specifies an icon to display.
          */
         "icon"?: IconNameOrString;
@@ -9356,6 +9374,10 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
+          * The component's label.
+         */
+        "label"?: any;
+        /**
           * Provides additional metadata to the component used in filtering.
          */
         "metadata"?: Record<string, unknown>;
@@ -9363,6 +9385,10 @@ declare namespace LocalJSX {
           * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
+        /**
+          * Fires whenever a property the parent combobox needs to know about is changed.
+         */
+        "onCalciteInternalComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
@@ -9384,6 +9410,7 @@ declare namespace LocalJSX {
         "shortHeading"?: string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -13911,6 +13938,10 @@ declare namespace LocalJSX {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
         "lines"?: boolean;
         "onCalciteInternalTreeItemSelect"?: (event: CalciteTreeItemCustomEvent<TreeItemSelectDetail>) => void;
         "parentExpanded"?: boolean;

@@ -65,6 +65,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
+  getDateFormatSupportedLocale,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -738,6 +739,8 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
+  private dateTimeFormat: Intl.DateTimeFormat;
+
   @State() datePickerActiveDate: Date;
 
   @State() defaultMessages: InputDatePickerMessages;
@@ -748,6 +751,21 @@ export class InputDatePicker
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
     this.loadLocaleData();
+  }
+
+  @Watch("effectiveLocale")
+  @Watch("numberingSystem")
+  handleDateTimeFormatChange(): void {
+    const formattingOptions: Intl.DateTimeFormatOptions = {
+      // we explicitly set numberingSystem to prevent the browser-inferred value
+      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
+    };
+
+    this.dateTimeFormat = new Intl.DateTimeFormat(
+      getDateFormatSupportedLocale(this.effectiveLocale),
+      formattingOptions,
+    );
   }
 
   @State() focusedInput: "start" | "end" = "start";
@@ -1066,18 +1084,8 @@ export class InputDatePicker
         )
       : null;
 
-    const formattingOptions = {
-      // we explicitly set numberingSystem to prevent the browser-inferred value
-      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
-      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
-    };
-
-    const localizedDate = date && date.toLocaleDateString(this.effectiveLocale, formattingOptions);
-    const localizedEndDate =
-      endDate && endDate.toLocaleDateString(this.effectiveLocale, formattingOptions);
-
-    this.setInputValue(localizedDate ?? "", "start");
-    this.setInputValue((this.range && localizedEndDate) ?? "", "end");
+    this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
+    this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
 
   private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
