@@ -204,7 +204,7 @@ export const theming_TestOnly = (): string =>
         "--calcite-action-background-color-hover",
         "--calcite-action-background-color-pressed",
         "--calcite-action-text-color",
-        "--calcite-action-text-color-hover",
+        "--calcite-action-text-color-pressed",
       ])}
       }
     </style>
