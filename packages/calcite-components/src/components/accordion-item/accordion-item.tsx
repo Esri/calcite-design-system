@@ -163,7 +163,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
       <calcite-icon
-        class={CSS.iconStart}
+        class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
@@ -172,7 +172,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
     ) : null;
     const iconEndEl = this.iconEnd ? (
       <calcite-icon
-        class={CSS.iconEnd}
+        class={{ [CSS.iconEnd]: true, [CSS.icon]: true }}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
