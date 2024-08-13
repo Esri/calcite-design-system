@@ -609,12 +609,21 @@ export class ColorPicker
   };
 
   private handleColorFieldPointerDown = (event: PointerEvent): void => {
-    this.handleCanvasControlPointerDown(
-      event,
-      this.colorFieldRenderingContext,
-      this.captureColorFieldColor,
-      this.colorFieldScopeNode,
-    );
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    const { offsetX, offsetY } = event;
+
+    window.addEventListener("pointermove", this.globalPointerMoveHandler);
+    window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
+
+    this.activeCanvasInfo = {
+      context: this.colorFieldRenderingContext,
+      bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect(),
+    };
+    this.captureColorFieldColor(offsetX, offsetY);
+    this.focusScope(this.colorFieldScopeNode);
   };
 
   private focusScope(focusEl: HTMLElement): void {
@@ -624,44 +633,40 @@ export class ColorPicker
   }
 
   private handleHueSliderPointerDown = (event: PointerEvent): void => {
-    this.handleCanvasControlPointerDown(
-      event,
-      this.hueSliderRenderingContext,
-      this.captureHueSliderColor,
-      this.hueScopeNode,
-    );
-  };
-
-  private handleOpacitySliderPointerDown = (event: PointerEvent): void => {
-    this.handleCanvasControlPointerDown(
-      event,
-      this.opacitySliderRenderingContext,
-      this.captureOpacitySliderValue,
-      this.opacityScopeNode,
-    );
-  };
-
-  private handleCanvasControlPointerDown(
-    event: PointerEvent,
-    renderingContext: CanvasRenderingContext2D,
-    captureValue: (offsetX: number, offsetY?: number) => void,
-    scopeNode: HTMLElement,
-  ): void {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+
+    const { offsetX } = event;
 
     window.addEventListener("pointermove", this.globalPointerMoveHandler);
     window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
     this.activeCanvasInfo = {
-      context: renderingContext,
-      bounds: renderingContext.canvas.getBoundingClientRect(),
+      context: this.hueSliderRenderingContext,
+      bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect(),
     };
+    this.captureHueSliderColor(offsetX);
+    this.focusScope(this.hueScopeNode);
+  };
 
-    captureValue.call(this, event.offsetX, event.offsetY);
-    this.focusScope(scopeNode);
-  }
+  private handleOpacitySliderPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    const { offsetX } = event;
+
+    window.addEventListener("pointermove", this.globalPointerMoveHandler);
+    window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
+
+    this.activeCanvasInfo = {
+      context: this.opacitySliderRenderingContext,
+      bounds: this.opacitySliderRenderingContext.canvas.getBoundingClientRect(),
+    };
+    this.captureOpacitySliderValue(offsetX);
+    this.focusScope(this.opacityScopeNode);
+  };
 
   private globalPointerUpHandler = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
