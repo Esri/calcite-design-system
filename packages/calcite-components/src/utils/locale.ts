@@ -292,7 +292,7 @@ function getLocale(component: LocalizedComponent): string {
 
 export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
   numberingSystem: NumberingSystem;
-  locale: string;
+  locale: SupportedLocale;
 }
 
 /**
@@ -459,7 +459,7 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  *
  * @internal
  */
-export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+export function getDateTimeFormat(locale: SupportedLocale, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   locale = getSupportedLocale(locale);
 
   if (!dateTimeFormatCache) {

@@ -1,8 +1,8 @@
-import { NumberingSystem } from "../../utils/locale";
+import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 
 interface Locale {
   name: string;
-  locale: string;
+  locale: SupportedLocale;
   dir?: "ltr" | "rtl";
   numberingSystem?: NumberingSystem;
 }
