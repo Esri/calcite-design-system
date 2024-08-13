@@ -1,27 +1,12 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-action-text-color: Specifies the text color of the component.
- * @prop --calcite-action-group-border-color: Specifies the border color of slotted action groups.
- */
-
 :host {
   @apply text-1
   box-border
   flex
   flex-col;
-
-  color: var(--calcite-action-text-color, var(--calcite-color-text-3));
 }
 
 ::slotted(calcite-action-group) {
-  border-block-end: 1px var(--calcite-action-group-border-color, var(--calcite-color-border-3));
-}
-
-::slotted(calcite-action-group:last-child) {
-  border-block-end: 0;
+  border-block-end-width: 1px;
 }
 
 .default-trigger {

@@ -17,6 +17,14 @@
   @apply flex
   flex-col
   p-0;
+
+  border-color: var(--calcite-action-group-border-color);
+  border-style: solid;
+  border-width: 0;
+}
+
+:host(:last-child) {
+  border: none;
 }
 
 .container {

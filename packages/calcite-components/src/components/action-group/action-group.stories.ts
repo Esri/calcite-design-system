@@ -113,9 +113,20 @@ export const theming_TestOnly = (): string =>
           ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
           <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
         ></calcite-action-group>
-        <calcite-action-group layout="grid"
+        <calcite-action-group
           ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
           <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
         ></calcite-action-group>
       </calcite-action-bar>
+      <calcite-action-group layout="grid">
+        <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
+        <calcite-action text="Save" icon="chevron-up"></calcite-action>
+        <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>
+        <calcite-action text="Basemaps" icon="chevron-left"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Basemaps" icon="chevron-right"></calcite-action>
+        <calcite-action text="Basemaps" icon="arrow-down-left"></calcite-action>
+        <calcite-action text="Layers" icon="chevron-down"></calcite-action>
+        <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
+      </calcite-action-group>
     </div>`;
