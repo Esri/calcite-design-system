@@ -567,8 +567,6 @@ export class InputText
     this.childEl = el;
   };
 
-  // todo: I don't think we should be doing this. Users should manage setting slotted actions to disabled.
-  // should we open an issue to remove this functionality?
   private setDisabledAction(): void {
     const slottedActionEl = getSlotted(this.el, "action");
 
