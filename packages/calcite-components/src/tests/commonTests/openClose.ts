@@ -196,7 +196,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 
     expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
 
-    const delayDeltaThreshold = 10;
+    const delayDeltaThreshold = 100; // smallest internal animation timing used
     const delayBetweenBeforeOpenAndOpen = timestamps.open - timestamps.beforeOpen;
     const delayBetweenBeforeCloseAndClose = timestamps.close - timestamps.beforeClose;
 
