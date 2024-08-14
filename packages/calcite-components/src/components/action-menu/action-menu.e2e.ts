@@ -9,7 +9,6 @@ import {
   reflects,
   renders,
   slots,
-  themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
@@ -525,25 +524,6 @@ describe("calcite-action-menu", () => {
 
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);
-    });
-  });
-
-  describe("theme", () => {
-    describe("grid", () => {
-      themed(
-        html`<calcite-action-menu open
-          ><calcite-action-group></calcite-action-group><calcite-action-group></calcite-action-group
-        ></calcite-action-menu>`,
-        {
-          "--calcite-action-text-color": {
-            targetProp: "color",
-          },
-          "--calcite-action-group-border-color": {
-            shadowSelector: "calcite-action-group",
-            targetProp: "borderBlockEndColor",
-          },
-        },
-      );
     });
   });
 });

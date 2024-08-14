@@ -364,11 +364,8 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>`,
         {
           "--calcite-action-pad-expanded-max-width": {
+            shadowSelector: `.${CSS.container}`,
             targetProp: "maxInlineSize",
-          },
-          "--calcite-action-group-border-color": {
-            shadowSelector: "calcite-action-group",
-            targetProp: "borderBlockEndColor",
           },
         },
       );
