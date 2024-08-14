@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.15...@esri/calcite-components@2.12.0-next.16) (2024-08-14)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.12.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.14...@esri/calcite-components@2.12.0-next.15) (2024-08-14)
+
+### Features
+
+- **dialog:** add CSS variables to offset the position ([#9904](https://github.com/Esri/calcite-design-system/issues/9904)) ([660f0c5](https://github.com/Esri/calcite-design-system/commit/660f0c5e4c67769fa2b8f1bd02210cd9474ef847)), closes [#9879](https://github.com/Esri/calcite-design-system/issues/9879)
+
+## [2.12.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.13...@esri/calcite-components@2.12.0-next.14) (2024-08-13)
+
+### Features
+
+- **accordion, accordion-item:** add component tokens ([#9861](https://github.com/Esri/calcite-design-system/issues/9861)) ([48f7f08](https://github.com/Esri/calcite-design-system/commit/48f7f08627fbba6deb4434431a16ca5de0d37a29)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** no longer set focus when a validation message is clicked ([#10008](https://github.com/Esri/calcite-design-system/issues/10008)) ([529bb5a](https://github.com/Esri/calcite-design-system/commit/529bb5a4863f73b29e2fad86030fc0589a4d269a)), closes [#10006](https://github.com/Esri/calcite-design-system/issues/10006)
+
+### Reverts
+
+- "build(deps): remove unused cheerio package ([#10049](https://github.com/Esri/calcite-design-system/issues/10049))" ([#10057](https://github.com/Esri/calcite-design-system/issues/10057)) ([d271ab1](https://github.com/Esri/calcite-design-system/commit/d271ab18498126d05e2cf746516c707d1fb42c47))
+
 ## [2.12.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.12...@esri/calcite-components@2.12.0-next.13) (2024-08-13)
 
 ### Bug Fixes

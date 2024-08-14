@@ -405,6 +405,10 @@ export class InputNumber
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 
+  private inputWrapperEl: HTMLDivElement;
+
+  private actionWrapperEl: HTMLDivElement;
+
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
 
@@ -672,10 +676,16 @@ export class InputNumber
       return;
     }
 
-    const slottedActionEl = getSlotted(this.el, "action");
-    if (event.target !== slottedActionEl) {
-      this.setFocus();
+    const composedPath = event.composedPath();
+
+    if (
+      !composedPath.includes(this.inputWrapperEl) ||
+      composedPath.includes(this.actionWrapperEl)
+    ) {
+      return;
     }
+
+    this.setFocus();
   };
 
   private inputNumberFocusHandler = (): void => {
@@ -1108,7 +1118,10 @@ export class InputNumber
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
-          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <div
+            class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+            ref={(el) => (this.inputWrapperEl = el)}
+          >
             {this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalDown
               : null}
@@ -1119,7 +1132,7 @@ export class InputNumber
               {this.requestedIcon ? iconEl : null}
               {this.loading ? loader : null}
             </div>
-            <div class={CSS.actionWrapper}>
+            <div class={CSS.actionWrapper} ref={(el) => (this.actionWrapperEl = el)}>
               <slot name={SLOTS.action} />
             </div>
             {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
