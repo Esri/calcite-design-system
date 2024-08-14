@@ -187,6 +187,7 @@ export class InputTimePicker
       return;
     }
 
+    // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
     this.popoverEl.open = this.open;
   }
 
@@ -859,7 +860,7 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
-  private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
+  private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
   };
 
@@ -1022,7 +1023,7 @@ export class InputTimePicker
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
               onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
               readOnly={readOnly}
-              ref={this.setInputAndTransitionEl}
+              ref={this.setInputEl}
               role="combobox"
               scale={this.scale}
               status={this.status}
