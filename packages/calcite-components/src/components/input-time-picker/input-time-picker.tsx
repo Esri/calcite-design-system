@@ -177,7 +177,6 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   /** When `true`, displays the `calcite-time-picker` component. */
-
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
@@ -985,6 +984,8 @@ export class InputTimePicker
         }),
       );
     }
+
+    this.openHandler();
   }
 
   disconnectedCallback() {

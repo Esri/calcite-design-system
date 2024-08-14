@@ -101,6 +101,10 @@ describe("calcite-input-time-picker", () => {
 
   describe("openClose", () => {
     openClose("calcite-input-time-picker");
+
+    describe("initially open", () => {
+      openClose("calcite-input-time-picker", { initialToggleValue: true });
+    });
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
