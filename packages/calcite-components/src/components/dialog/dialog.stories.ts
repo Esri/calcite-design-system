@@ -356,9 +356,9 @@ export const footerSlot = (): string => html`
   </calcite-dialog>
 `;
 
-const themedStyle = html` --calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
+const themedStyle = html`--calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
 --calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;
---calcite-dialog-content-space: 50px;`;
+--calcite-dialog-content-space: 50px; --calcite-dialog-offset-x: 50px; --calcite-dialog-offset-y: -30px;`;
 
 export const themed = (): string =>
   html`<calcite-dialog

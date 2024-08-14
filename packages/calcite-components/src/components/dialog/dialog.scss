@@ -11,6 +11,8 @@
  * @prop --calcite-dialog-content-space: Specifies the padding of the component's content.
  * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
  * @prop --calcite-dialog-border-color: Specifies the component's border color.
+ * @prop --calcite-dialog-offset-x: Specifies the horizontal offset of the component.
+ * @prop --calcite-dialog-offset-y: Specifies the vertical offset of the component.
  */
 
 :host {
@@ -144,6 +146,9 @@ calcite-panel {
 
   --calcite-internal-dialog-hidden-position: 20px;
   --calcite-internal-dialog-shown-position: 0;
+
+  inset-inline-start: var(--calcite-dialog-offset-x);
+  inset-block-start: var(--calcite-dialog-offset-y);
 
   &--opening {
     &-idle {

@@ -3,6 +3,7 @@ import { html } from "../../support/formatting";
 import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
 import { AnimationEventDispatcher, createAnimationEventDispatcher } from "../tests/spec-helpers/animationEvents";
 import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
+import { waitForAnimationFrame } from "../tests/utils";
 import { guidPattern } from "./guid.spec";
 import {
   ensureId,
@@ -724,7 +725,9 @@ describe("dom", () => {
       const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
       element.style.opacity = "0";
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
@@ -750,7 +753,9 @@ describe("dom", () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
     });
   });
@@ -821,7 +826,9 @@ describe("dom", () => {
       const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
       element.style.animationName = "none";
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
@@ -847,7 +854,9 @@ describe("dom", () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
     });
   });

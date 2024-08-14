@@ -1,5 +1,7 @@
 name: Semantic PR
-on: pull_request
+on:
+  pull_request:
+    types: [edited, opened, synchronize]
 jobs:
   semantic:
     runs-on: ubuntu-latest

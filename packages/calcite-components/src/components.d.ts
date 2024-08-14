@@ -1395,6 +1395,10 @@ export namespace Components {
          */
         "guid": string;
         /**
+          * The component's text.
+         */
+        "heading": string;
+        /**
           * Specifies an icon to display.
          */
         "icon": IconNameOrString;
@@ -1402,6 +1406,10 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * The component's label.
+         */
+        "label": any;
         /**
           * Provides additional metadata to the component used in filtering.
          */
@@ -1427,6 +1435,7 @@ export namespace Components {
         "shortHeading": string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -5759,6 +5768,10 @@ export namespace Components {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
         "lines": boolean;
         "parentExpanded": boolean;
         "scale": Scale;
@@ -9357,6 +9370,10 @@ declare namespace LocalJSX {
          */
         "guid"?: string;
         /**
+          * The component's text.
+         */
+        "heading"?: string;
+        /**
           * Specifies an icon to display.
          */
         "icon"?: IconNameOrString;
@@ -9364,6 +9381,10 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * The component's label.
+         */
+        "label"?: any;
         /**
           * Provides additional metadata to the component used in filtering.
          */
@@ -9397,6 +9418,7 @@ declare namespace LocalJSX {
         "shortHeading"?: string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -13932,6 +13954,10 @@ declare namespace LocalJSX {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
         "lines"?: boolean;
         "onCalciteInternalTreeItemSelect"?: (event: CalciteTreeItemCustomEvent<TreeItemSelectDetail>) => void;
         "parentExpanded"?: boolean;
