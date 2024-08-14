@@ -8880,5 +8880,10 @@
     "alias": ["3.29.1", "media", "captions", "text", "video", "display", "speech"],
     "category": "Media",
     "release": "3.29.1"
+  },
+  "layer-connection": {
+    "alias": ["3.29.2", "layers", "plug", "top", "connection", "network", "properties"],
+    "category": "Layers",
+    "release": "3.29.2"
   }
 }

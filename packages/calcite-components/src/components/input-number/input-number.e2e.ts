@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import {
@@ -1663,6 +1663,29 @@ describe("calcite-input-number", () => {
 
       expect(cursorHomeCount).toBe(0);
     });
+  });
+
+  it("should not focus when clicking validation message", async () => {
+    const page = await newE2EPage();
+    const componentTag = "calcite-input-number";
+    await page.setContent(
+      html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
+    );
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+      element.click();
+    });
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(true);
   });
 
   it("allows disabling slotted action", async () => {
