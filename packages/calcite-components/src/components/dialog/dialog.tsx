@@ -336,6 +336,12 @@ export class Dialog
 
   @State() assistiveText: string | null = "";
 
+  @Watch("resizable")
+  @Watch("dragEnabled")
+  handleInteractionChange(): void {
+    this.setInteraction();
+  }
+
   @Watch("messages")
   @Watch("dragEnabled")
   @Watch("resizable")
