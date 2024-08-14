@@ -14,8 +14,7 @@ export const CSS = {
   // this helps avoid a positioning issue for any floating-ui-owning children
   openingIdle: "dialog--opening-idle",
   openingActive: "dialog--opening-active",
-  closingIdle: "dialog--closing-idle",
-  closingActive: "dialog--closing-active",
+  openingDone: "dialog--opening-done",
 };
 
 export const SLOTS = {

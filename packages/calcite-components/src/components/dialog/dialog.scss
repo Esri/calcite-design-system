@@ -138,17 +138,16 @@ calcite-panel {
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
   transition:
-    inset var(--calcite-internal-animation-timing-slow) $easing-function,
+    inset-block var(--calcite-internal-animation-timing-slow) $easing-function,
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 
   min-inline-size: var(--calcite-dialog-min-size-x, var(--calcite-internal-dialog-min-size-x));
   min-block-size: var(--calcite-dialog-min-size-y, var(--calcite-internal-dialog-min-size-y));
 
-  --calcite-internal-dialog-hidden-position: 20px;
-  --calcite-internal-dialog-shown-position: 0;
+  --calcite-internal-dialog-hidden-position: calc(var(--calcite-dialog-offset-y, 0px) + 20px);
+  --calcite-internal-dialog-shown-position: var(--calcite-dialog-offset-y, 0);
 
-  inset-inline-start: var(--calcite-dialog-offset-x);
-  inset-block-start: var(--calcite-dialog-offset-y);
+  inset-inline-start: var(--calcite-dialog-offset-x, 0);
 
   &--opening {
     &-idle {
@@ -157,14 +156,8 @@ calcite-panel {
     &-active {
       inset-block-start: var(--calcite-internal-dialog-shown-position);
     }
-  }
-
-  &--closing {
-    &-idle {
+    &-done {
       inset-block-start: var(--calcite-internal-dialog-shown-position);
-    }
-    &-active {
-      inset-block-start: var(--calcite-internal-dialog-hidden-position);
     }
   }
 }
@@ -188,7 +181,7 @@ calcite-panel {
       visible
       opacity-100;
     transition:
-      inset var(--calcite-internal-animation-timing-slow) $easing-function,
+      inset-block var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function;
     transition-delay: 0ms;
   }
