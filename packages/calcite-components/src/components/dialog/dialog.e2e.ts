@@ -830,15 +830,16 @@ describe("calcite-dialog", () => {
   });
 
   it("should set embedded on slotted alerts", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-dialog open>
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog open>
         test
         <calcite-alert slot="alerts" open label="this is a default alert">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
       </calcite-dialog>`,
-    });
+    );
     await page.waitForChanges();
 
     const alert = await page.find("calcite-alert");
@@ -848,11 +849,10 @@ describe("calcite-dialog", () => {
 
   describe("keyboard movement", () => {
     it("should move properly via arrow keys", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open
-          >Hello world!</calcite-dialog
-        >`,
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open>Hello world!</calcite-dialog>`,
+      );
       await skipAnimations(page);
       await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
@@ -875,9 +875,10 @@ describe("calcite-dialog", () => {
 
   describe("keyboard assistive text", () => {
     it("should not have assistive text by default", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
+      );
       await skipAnimations(page);
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
@@ -885,53 +886,55 @@ describe("calcite-dialog", () => {
     });
 
     it("should have assistive text when resizable", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
+      );
       await skipAnimations(page);
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
       expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
       const messages = await import(`./assets/dialog/t9n/messages.json`);
-      expect(assistiveTextElement.textContent).toBe(messages.resizeEnabled);
+      expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
     });
 
     it("should have assistive text when dragEnabled", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open
-          >Hello world!</calcite-dialog
-        >`,
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
+      );
       await skipAnimations(page);
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
       expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
       const messages = await import(`./assets/dialog/t9n/messages.json`);
-      expect(assistiveTextElement.textContent).toBe(messages.dragEnabled);
+      expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
     });
 
     it("should have assistive text when resizable and dragEnabled", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
           >Hello world!</calcite-dialog
         >`,
-      });
+      );
       await skipAnimations(page);
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
       expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
       const messages = await import(`./assets/dialog/t9n/messages.json`);
-      expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`.trim());
+      expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
     });
   });
 
   describe("keyboard resize", () => {
     it("should resize properly via shift and arrow keys", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
           ><p>
             Lorem ipsum odor amet, consectetuer adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
             Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
@@ -940,7 +943,7 @@ describe("calcite-dialog", () => {
             fermentum tellus quis ad facilisis ultrices eros imperdiet.
           </p></calcite-dialog
         >`,
-      });
+      );
       await skipAnimations(page);
       await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
