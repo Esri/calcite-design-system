@@ -559,11 +559,6 @@ export class InputTimePicker
   private popoverOpenHandler = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.calciteInputTimePickerOpen.emit();
-  };
-
-  private popoverBeforeCloseHandler = (event: CustomEvent<void>): void => {
-    event.stopPropagation();
-    this.calciteInputTimePickerBeforeClose.emit();
 
     activateFocusTrap(this, {
       onActivate: () => {
@@ -573,6 +568,11 @@ export class InputTimePicker
         }
       },
     });
+  };
+
+  private popoverBeforeCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteInputTimePickerBeforeClose.emit();
   };
 
   private popoverCloseHandler = (event: CustomEvent<void>): void => {
