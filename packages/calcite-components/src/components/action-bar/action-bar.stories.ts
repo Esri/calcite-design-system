@@ -208,7 +208,7 @@ export const theming_TestOnly = (): string =>
       }
     </style>
     <div class="container">
-      <calcite-action-bar open lang="bs">
+      <calcite-action-bar layout="vertical" expanded lang="bs">
         <calcite-action text="Information" icon="information"></calcite-action>
         <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
       </calcite-action-bar>
