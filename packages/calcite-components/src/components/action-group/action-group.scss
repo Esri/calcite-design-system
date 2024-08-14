@@ -61,18 +61,18 @@
 
 :host([layout="grid"]) {
   @apply grid;
-}
 
-:host([layout="grid"]) .container {
-  @apply grid
-  place-content-stretch;
-  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
-  gap: var(--calcite-action-group-gap, theme("gap.px"));
-  padding: var(--calcite-action-group-gap, theme("gap.px"));
-  grid-template-columns: repeat(
-    var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
-    auto
-  );
+  .container {
+    @apply grid
+    place-content-stretch;
+    background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+    gap: var(--calcite-action-group-gap, theme("gap.px"));
+    padding: var(--calcite-action-group-gap, theme("gap.px"));
+    grid-template-columns: repeat(
+      var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
+      auto
+    );
+  }
 }
 
 @include base-component();

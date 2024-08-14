@@ -77,20 +77,20 @@ describe("calcite-action-group", () => {
   describe("theme", () => {
     describe("grid", () => {
       themed(
-        html`<calcite-action-group layout="grid"
-          ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
-          <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
-        ></calcite-action-group>`,
+        html`<div className="container" style="max-width: 50px">
+          <calcite-action-group layout="grid"
+            ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+            <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
+          ></calcite-action-group>
+        </div>`,
         {
           "--calcite-action-background-color": {
+            selector: "calcite-action-group",
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-action-group-columns": {
-            targetProp: "gridTemplateColumns",
-            shadowSelector: `.${CSS.container}`,
-          },
           "--calcite-action-group-gap": {
+            selector: "calcite-action-group",
             targetProp: "gap",
             shadowSelector: `.${CSS.container}`,
           },
