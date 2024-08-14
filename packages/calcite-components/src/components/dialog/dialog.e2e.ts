@@ -985,6 +985,7 @@ describe("calcite-dialog", () => {
         await page.setContent(html`<calcite-dialog width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`);
         // set large page to ensure test dialog isn't becoming fullscreen
         await page.setViewport({ width: 1440, height: 1440 });
+        await skipAnimations(page);
         return { page, tag: "calcite-dialog" };
       },
       {
@@ -1015,6 +1016,14 @@ describe("calcite-dialog", () => {
         "--calcite-dialog-footer-space": {
           shadowSelector: `.${CSS.panel}`,
           targetProp: "--calcite-panel-footer-padding",
+        },
+        "--calcite-dialog-offset-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "insetInlineStart",
+        },
+        "--calcite-dialog-offset-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "insetBlockStart",
         },
       },
     );
