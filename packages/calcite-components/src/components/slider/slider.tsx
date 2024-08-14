@@ -256,9 +256,17 @@ export class Slider
 
   componentDidRender(): void {
     if (this.labelHandles) {
-      this.adjustHostObscuredHandleLabel("value");
+      if (this.layout === "vertical") {
+        this.adjustHandleLabelVertical("value");
+      } else {
+        this.adjustHostObscuredHandleLabel("value");
+      }
       if (isRange(this.value)) {
-        this.adjustHostObscuredHandleLabel("minValue");
+        if (this.layout === "vertical") {
+          this.adjustHandleLabelVertical("minValue");
+        } else {
+          this.adjustHostObscuredHandleLabel("minValue");
+        }
         if (!(this.precise && !this.hasHistogram)) {
           this.hyphenateCollidingRangeHandleLabels();
         }
@@ -298,7 +306,10 @@ export class Slider
       this.renderThumb({
         type: minThumbTypes,
         thumbPlacement:
-          minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
+          minThumbTypes.includes("histogram") ||
+          minThumbTypes.includes("precise") ||
+          (this.layout === "vertical" && !this.flipLabels) ||
+          !this.precise
             ? "below"
             : "above",
         maxInterval,
@@ -1048,6 +1059,21 @@ export class Slider
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
 
+  private adjustHandleLabelVertical(name: "value" | "minValue"): void {
+    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
+      `.handle__label--${name}.handle__label--vertical`,
+    );
+    const labelBounds = label.getBoundingClientRect();
+    const handle: DOMRect = this.el.shadowRoot
+      .querySelector(`.thumb--${name} .handle`)
+      .getBoundingClientRect();
+    let offset: number;
+    if (labelBounds.left < handle.right) {
+      offset = handle.right - labelBounds.left + 6;
+    }
+    label.style.transform = `rotate(90deg) translateX(${offset}px)`;
+  }
+
   private hyphenateCollidingRangeHandleLabels(): void {
     const { shadowRoot } = this.el;
 
@@ -1159,9 +1185,9 @@ export class Slider
       }
     } else {
       hyphenLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
-      leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
+      leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px) ${this.layout === "vertical" ? "rotate(90deg)" : ""}`;
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
-      rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
+      rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px) ${this.layout === "vertical" ? "rotate(90deg)" : ""}`;
       rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
     }
   }
@@ -1228,8 +1254,8 @@ export class Slider
    * @param rightBounds
    * @internal
    */
-  private getHostOffset(leftBounds: number, rightBounds: number): number {
-    const hostBounds = this.el.getBoundingClientRect();
+  private getHostOffset(leftBounds: number, rightBounds: number, el: HTMLElement = null): number {
+    const hostBounds = el ? el.getBoundingClientRect() : this.el.getBoundingClientRect();
     const buffer = 7;
 
     if (leftBounds + buffer < hostBounds.left) {

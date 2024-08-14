@@ -374,6 +374,11 @@
     .container {
       padding-block-start: calc(var(--calcite-slider-full-handle-height) + 4px);
     }
+    .container--range {
+      .handle__label--vertical {
+        transform: rotate(90deg) translateX(10px);
+      }
+    }
   }
   &:host([label-handles][precise]) {
     .container {
