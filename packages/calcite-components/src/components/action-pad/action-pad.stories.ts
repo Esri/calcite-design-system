@@ -107,11 +107,7 @@ export const romanianMoldovaLocale_TestOnly = (): string =>
 export const theming_TestOnly = (): string =>
   html` <style>
       .container {
-        ${setCSSVariables([
-        "--calcite-action-pad-corner-radius",
-        "--calcite-action-pad-expanded-max-width",
-        "--calcite-action-group-border-color",
-      ])}
+        ${setCSSVariables(["--calcite-action-pad-corner-radius", "--calcite-action-pad-expanded-max-width"])}
       }
     </style>
     <div class="container">
