@@ -22,6 +22,7 @@
     inset-0
     z-overlay
     pointer-events-none;
+  --calcite-internal-dialog-animation-offset: 20px;
 }
 
 :host([modal]) {
@@ -144,19 +145,16 @@ calcite-panel {
   min-inline-size: var(--calcite-dialog-min-size-x, var(--calcite-internal-dialog-min-size-x));
   min-block-size: var(--calcite-dialog-min-size-y, var(--calcite-internal-dialog-min-size-y));
 
-  --calcite-internal-dialog-hidden-position: calc(var(--calcite-dialog-offset-y, 0px) + 20px);
+  --calcite-internal-dialog-hidden-position: calc(
+    var(--calcite-dialog-offset-y, 0px) + var(--calcite-internal-dialog-animation-offset)
+  );
   --calcite-internal-dialog-shown-position: var(--calcite-dialog-offset-y, 0);
 
   inset-inline-start: var(--calcite-dialog-offset-x, 0);
+  inset-block-start: var(--calcite-internal-dialog-hidden-position);
 
   &--opening {
-    &-idle {
-      inset-block-start: var(--calcite-internal-dialog-hidden-position);
-    }
     &-active {
-      inset-block-start: var(--calcite-internal-dialog-shown-position);
-    }
-    &-done {
       inset-block-start: var(--calcite-internal-dialog-shown-position);
     }
   }
@@ -206,6 +204,13 @@ calcite-panel {
           max-h-full
           w-full
           max-w-full;
+        inset-inline-start: 0;
+        inset-block-start: var(--calcite-internal-dialog-animation-offset);
+        &--opening {
+          &-active {
+            inset-block-start: 0;
+          }
+        }
       }
     }
   }

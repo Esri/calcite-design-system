@@ -448,14 +448,10 @@ export class Dialog
   //--------------------------------------------------------------------------
 
   onBeforeOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingDone);
-    this.transitionEl.classList.add(CSS.openingActive);
     this.calciteDialogBeforeOpen.emit();
   }
 
   onOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
-    this.transitionEl.classList.add(CSS.openingDone);
     this.calciteDialogOpen.emit();
     activateFocusTrap(this);
   }
@@ -484,11 +480,7 @@ export class Dialog
 
   @Watch("opened")
   handleOpenedChange(value: boolean): void {
-    if (value) {
-      this.transitionEl.classList.add(CSS.openingIdle);
-    } else {
-      this.transitionEl.classList.remove(CSS.openingDone);
-    }
+    this.transitionEl.classList.toggle(CSS.openingActive, value);
     onToggleOpenCloseComponent(this);
   }
 
