@@ -61,16 +61,18 @@ interface OpenCloseOptions {
  *      }
  *   });
  *
- *  openClose("calcite-combobox", {
- *        initialToggleValue: true,
- *        beforeToggle: {
- *          close: async (page) => {
- *            await page.keyboard.press("Tab");
- *            await page.waitForChanges();
- *        },
- *      }
- *    }
- * })
+ *   describe("initially open", () => {
+ *     openClose("calcite-combobox", {
+ *           initialToggleValue: true,
+ *           beforeToggle: {
+ *             close: async (page) => {
+ *               await page.keyboard.press("Tab");
+ *               await page.waitForChanges();
+ *           },
+ *         }
+ *       }
+ *   });
+ * });
  *
  * @param componentTagOrHTML - The component tag or HTML markup to test against.
  * @param {object} [options] - Additional options to assert.

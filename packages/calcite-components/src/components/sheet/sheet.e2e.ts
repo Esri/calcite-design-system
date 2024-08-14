@@ -80,9 +80,7 @@ describe("calcite-sheet properties", () => {
   });
 
   describe("openClose", () => {
-    describe("default", () => {
-      openClose("calcite-sheet");
-    });
+    openClose("calcite-sheet");
 
     describe("initially open", () => {
       openClose("calcite-sheet", {
