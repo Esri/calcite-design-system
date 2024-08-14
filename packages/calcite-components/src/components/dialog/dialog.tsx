@@ -548,7 +548,7 @@ export class Dialog
   };
 
   private setInteraction = (): void => {
-    this.interaction?.unset();
+    this.unsetInteraction();
 
     if (!this.transitionEl) {
       return;
