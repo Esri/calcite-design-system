@@ -111,6 +111,12 @@
   }
 }
 
+:host(:hover:not([highlighted]):not([selected]).outside-range--hover) {
+  .day {
+    @apply focus-inset;
+  }
+}
+
 @media (forced-colors: active) {
   .day {
     @apply rounded-none;

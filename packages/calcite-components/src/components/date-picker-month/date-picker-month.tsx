@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import {
   dateFromRange,
+  getFirstValidDateInMonth,
   hasSameMonthAndYear,
   HoverRange,
   inRange,
@@ -624,10 +625,11 @@ export class DatePickerMonth {
     position: "start" | "end" = "start",
   ): Day[] => {
     let month = this.activeDate.getMonth();
-    const year = this.activeDate.getFullYear();
+    month = position === "end" ? month + 1 : month;
     let dayInWeek = 0;
     const getDayInWeek = () => dayInWeek++ % 7;
-    month = position === "end" ? month + 1 : month;
+    const year = this.activeDate.getFullYear();
+
     const days: Day[] = [
       ...prevMonthDays.map((day) => {
         return {
@@ -695,16 +697,15 @@ export class DatePickerMonth {
 
   private updateFocusableDate(date: Date): void {
     if (!this.selectedDate || !this.range) {
-      this.focusedDate = date;
+      this.focusedDate = this.getFirstValidDateOfMonth(date);
     } else if (this.selectedDate && this.range) {
-      if (!hasSameMonthAndYear(this.activeDate, date)) {
-        if (
-          !hasSameMonthAndYear(date, this.activeDate) &&
-          !hasSameMonthAndYear(date, nextMonth(this.activeDate))
-        ) {
-          this.focusedDate = date;
-        }
+      if (!hasSameMonthAndYear(this.startDate, date) || !hasSameMonthAndYear(this.endDate, date)) {
+        this.focusedDate = this.getFirstValidDateOfMonth(date);
       }
     }
+  }
+
+  private getFirstValidDateOfMonth(date: Date): Date {
+    return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
   }
 }

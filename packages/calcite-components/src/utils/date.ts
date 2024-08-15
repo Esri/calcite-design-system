@@ -215,6 +215,19 @@ export function activeDateInMonth(date: Date, month: number): Date {
 }
 
 /**
+ * Get First Valid date in a month.
+ *
+ * @param date
+ * @param month
+ * @param min
+ * @param max
+ */
+export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
+  date.setDate(1);
+  return inRange(date, min, max) ? date : dateFromRange(date, min, max);
+}
+
+/**
  * Get a date one month in the future
  *
  * @param date
