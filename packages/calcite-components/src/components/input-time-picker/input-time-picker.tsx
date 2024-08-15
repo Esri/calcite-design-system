@@ -75,7 +75,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { getSupportedLocale } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
@@ -169,7 +168,6 @@ export class InputTimePicker
     LabelableComponent,
     LoadableComponent,
     LocalizedComponent,
-    OpenCloseComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -179,19 +177,17 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   /** When `true`, displays the `calcite-time-picker` component. */
-
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(): void {
-    onToggleOpenCloseComponent(this);
-
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
 
-    this.reposition(true);
+    // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
+    this.popoverEl.open = this.open;
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -395,10 +391,6 @@ export class InputTimePicker
 
   private referenceElementId = `input-time-picker-${guid()}`;
 
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLCalciteInputElement;
-
   //--------------------------------------------------------------------------
   //
   //  State
@@ -559,21 +551,42 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
-  onBeforeOpen(): void {
+  private popoverBeforeOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeOpen.emit();
-  }
+  };
 
-  onOpen(): void {
+  private popoverOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerOpen.emit();
-  }
 
-  onBeforeClose(): void {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.calciteTimePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      },
+    });
+  };
+
+  private popoverBeforeCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeClose.emit();
-  }
+  };
 
-  onClose(): void {
+  private popoverCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerClose.emit();
-  }
+
+    deactivateFocusTrap(this, {
+      onDeactivate: () => {
+        this.calciteInputEl.setFocus();
+        this.focusOnOpen = false;
+      },
+    });
+    this.open = false;
+  };
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput("time", this, input);
@@ -684,27 +697,6 @@ export class InputTimePicker
     }
     return timeString;
   }
-
-  private popoverCloseHandler = () => {
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      },
-    });
-    this.open = false;
-  };
-
-  private popoverOpenHandler = () => {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
-  };
 
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
@@ -867,9 +859,8 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
-  private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
+  private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
-    this.transitionEl = el;
   };
 
   private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
@@ -978,9 +969,6 @@ export class InputTimePicker
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await Promise.all([setUpMessages(this), this.loadDateTimeLocaleData()]);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   componentDidLoad() {
@@ -996,6 +984,8 @@ export class InputTimePicker
         }),
       );
     }
+
+    this.openHandler();
   }
 
   disconnectedCallback() {
@@ -1034,7 +1024,7 @@ export class InputTimePicker
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
               onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
               readOnly={readOnly}
-              ref={this.setInputAndTransitionEl}
+              ref={this.setInputEl}
               role="combobox"
               scale={this.scale}
               status={this.status}
@@ -1046,9 +1036,10 @@ export class InputTimePicker
             id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
+            onCalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
+            onCalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
             onCalcitePopoverClose={this.popoverCloseHandler}
             onCalcitePopoverOpen={this.popoverOpenHandler}
-            open={this.open}
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
             ref={this.setCalcitePopoverEl}

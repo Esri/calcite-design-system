@@ -51,12 +51,13 @@ describe("calcite-dialog", () => {
   });
 
   describe("openClose", () => {
-    const openCloseOptions = {
-      initialToggleValue: true,
-    };
-
     openClose("calcite-dialog");
-    openClose("calcite-dialog", openCloseOptions);
+
+    describe("initially open", () => {
+      openClose("calcite-dialog", {
+        initialToggleValue: true,
+      });
+    });
   });
 
   describe("slots", () => {

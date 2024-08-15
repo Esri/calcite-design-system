@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.15...@esri/calcite-components@2.12.0-next.16) (2024-08-14)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.12.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.14...@esri/calcite-components@2.12.0-next.15) (2024-08-14)
+
+### Features
+
+- **dialog:** add CSS variables to offset the position ([#9904](https://github.com/Esri/calcite-design-system/issues/9904)) ([660f0c5](https://github.com/Esri/calcite-design-system/commit/660f0c5e4c67769fa2b8f1bd02210cd9474ef847)), closes [#9879](https://github.com/Esri/calcite-design-system/issues/9879)
+
 ## [2.12.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.13...@esri/calcite-components@2.12.0-next.14) (2024-08-13)
 
 ### Features
