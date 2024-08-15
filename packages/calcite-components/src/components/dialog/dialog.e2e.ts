@@ -295,20 +295,25 @@ describe("calcite-dialog", () => {
 
   it("escapeDisabled", async () => {
     const page = await newE2EPage();
-
-    await page.setContent(html`<calcite-dialog heading="My Dialog" open>Some content</calcite-dialog> `);
+    await page.setContent(html`<calcite-dialog open escape-disabled heading="My Dialog">Some content</calcite-dialog>`);
     await skipAnimations(page);
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
     expect(await dialog.getProperty("open")).toBe(true);
-    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
 
     expect(await dialog.getProperty("open")).toBe(true);
-    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
+
+    dialog.setProperty("escapeDisabled", false);
+    await page.waitForChanges();
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+
+    expect(await dialog.getProperty("open")).toBe(false);
   });
 
   describe("beforeClose()", () => {

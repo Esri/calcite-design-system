@@ -103,7 +103,13 @@ export class Dialog
    */
   @Prop({ mutable: true }) embedded = false;
 
-  /** When `true`, disables the default close on escape behavior. */
+  /**
+   * When `true`, disables the default close on escape behavior.
+   *
+   * By default, an open dialog can be dismissed by pressing the Esc key. Depending on what the dialog represents, it may not be desired for this behavior.
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility
+   */
   @Prop({ reflect: true }) escapeDisabled = false;
 
   /**
