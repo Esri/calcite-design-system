@@ -54,7 +54,7 @@ describe("calcite-dialog", () => {
       },
       {
         propertyName: "escapeDisabled",
-        value: false,
+        value: true,
       },
       {
         propertyName: "placement",
@@ -296,9 +296,8 @@ describe("calcite-dialog", () => {
   it("escapeDisabled", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`
-      <calcite-dialog open></calcite-dialog>
-    `);
+    await page.setContent(html`<calcite-dialog heading="My Dialog" open>Some content</calcite-dialog> `);
+    await skipAnimations(page);
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
