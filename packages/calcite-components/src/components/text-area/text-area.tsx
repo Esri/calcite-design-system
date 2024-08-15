@@ -311,9 +311,9 @@ export class TextArea
           <textarea
             aria-describedby={this.guid}
             aria-errormessage={IDS.validationMessage}
-            aria-invalid={
-              this.status === "invalid" || toAriaBoolean(this.isCharacterLimitExceeded())
-            }
+            aria-invalid={toAriaBoolean(
+              this.status === "invalid" || this.isCharacterLimitExceeded(),
+            )}
             aria-label={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{

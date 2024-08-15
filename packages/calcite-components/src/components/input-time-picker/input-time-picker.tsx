@@ -78,7 +78,7 @@ import { getSupportedLocale } from "../../utils/locale";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { focusFirstTabbable } from "../../utils/dom";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { CSS, IDS } from "./resources";
@@ -1017,7 +1017,7 @@ export class InputTimePicker
               aria-autocomplete="none"
               aria-errormessage={IDS.validationMessage}
               aria-haspopup="dialog"
-              aria-invalid={this.status === "invalid"}
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               disabled={disabled}
               icon="clock"
               id={this.referenceElementId}

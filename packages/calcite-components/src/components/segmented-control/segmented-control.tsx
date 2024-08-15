@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -204,7 +204,7 @@ export class SegmentedControl
       <Host onClick={this.handleClick} role="radiogroup">
         <div
           aria-errormessage={IDS.validationMessage}
-          aria-invalid={this.status === "invalid"}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
           class={CSS.itemWrapper}
         >
           <InteractiveContainer disabled={this.disabled}>
