@@ -106,9 +106,9 @@ export class Dialog
   /**
    * When `true`, disables the default close on escape behavior.
    *
-   * By default, an open dialog can be dismissed by pressing the Esc key. Depending on what the dialog represents, this behavior may not be desired.
+   * By default, an open dialog can be dismissed by pressing the Esc key.
    *
-   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility
+   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
    */
   @Prop({ reflect: true }) escapeDisabled = false;
 
