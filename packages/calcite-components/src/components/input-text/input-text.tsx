@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import {
   connectForm,
   disconnectForm,
@@ -674,7 +674,7 @@ export class InputText
     const childEl = (
       <input
         aria-errormessage={IDS.validationMessage}
-        aria-invalid={this.status === "invalid"}
+        aria-invalid={toAriaBoolean(this.status === "invalid")}
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus ? true : null}

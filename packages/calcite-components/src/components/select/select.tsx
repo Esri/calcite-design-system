@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -422,7 +422,7 @@ export class Select
           <div class={CSS.wrapper}>
             <select
               aria-errormessage={IDS.validationMessage}
-              aria-invalid={this.status === "invalid"}
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               aria-label={getLabelText(this)}
               class={CSS.select}
               disabled={disabled}

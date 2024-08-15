@@ -13,6 +13,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
+import { toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale, Status } from "../interfaces";
 import {
   componentFocusable,
@@ -209,7 +210,7 @@ export class RadioButtonGroup implements LoadableComponent {
       <Host role="radiogroup">
         <div
           aria-errormessage={IDS.validationMessage}
-          aria-invalid={this.status === "invalid"}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
           class={CSS.itemWrapper}
         >
           <slot />
