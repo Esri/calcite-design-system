@@ -14,3 +14,7 @@ export const CSS = {
   verticalArrowContainer: "vertical-arrow-container",
   chevronIcon: "chevron-icon",
 };
+
+export const IDS = {
+  validationMessage: "inputDatePickerValidationMessage",
+};

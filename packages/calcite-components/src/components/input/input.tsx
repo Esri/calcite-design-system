@@ -71,7 +71,7 @@ import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 
 /**
@@ -1182,6 +1182,8 @@ export class Input
       this.type === "number" ? (
         <input
           accept={this.accept}
+          aria-errormessage={IDS.validationMessage}
+          aria-invalid={this.status === "invalid"}
           aria-label={getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
@@ -1213,6 +1215,8 @@ export class Input
         ? [
             <this.childElType
               accept={this.accept}
+              aria-errormessage={IDS.validationMessage}
+              aria-invalid={this.status === "invalid"}
               aria-label={getLabelText(this)}
               autocomplete={this.autocomplete}
               autofocus={autofocus}
@@ -1289,6 +1293,7 @@ export class Input
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

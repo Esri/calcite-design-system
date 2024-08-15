@@ -81,7 +81,7 @@ import { Validation } from "../functional/Validation";
 import { focusFirstTabbable } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
@@ -1015,7 +1015,9 @@ export class InputTimePicker
           <div class="input-wrapper" onClick={this.onInputWrapperClick}>
             <calcite-input-text
               aria-autocomplete="none"
+              aria-errormessage={IDS.validationMessage}
               aria-haspopup="dialog"
+              aria-invalid={this.status === "invalid"}
               disabled={disabled}
               icon="clock"
               id={this.referenceElementId}
@@ -1062,6 +1064,7 @@ export class InputTimePicker
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}
