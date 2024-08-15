@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.16...@esri/calcite-components@2.12.0-next.17) (2024-08-15)
+
+### Bug Fixes
+
+- ensure `beforeOpen`/`open` and `beforeClose`/`close` events emit properly ([#9958](https://github.com/Esri/calcite-design-system/issues/9958)) ([7e2764f](https://github.com/Esri/calcite-design-system/commit/7e2764f13a95cbf6488596a1f11a9964970883c2)), closes [#9641](https://github.com/Esri/calcite-design-system/issues/9641) [#9315](https://github.com/Esri/calcite-design-system/issues/9315)
+- **input, combobox, input-date-picker, input-number, input-text, input-time-picker, radio-button-group, segmented-control, select, text-area:** provide clear field error messaging for AT ([#9880](https://github.com/Esri/calcite-design-system/issues/9880)) ([46ad7d2](https://github.com/Esri/calcite-design-system/commit/46ad7d2a1362019efed0cfb621f46117739ea691)), closes [#7792](https://github.com/Esri/calcite-design-system/issues/7792)
+
+### Performance Improvements
+
+- **input-time-zone:** improve memory footprint by leveraging browser cache and releasing utils after their use ([#9945](https://github.com/Esri/calcite-design-system/issues/9945)) ([a3d2141](https://github.com/Esri/calcite-design-system/commit/a3d2141f1d38c7ac36af98ea57ffcf402f63b39c))
+
 ## [2.12.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.15...@esri/calcite-components@2.12.0-next.16) (2024-08-14)
 
 **Note:** Version bump only for package @esri/calcite-components
