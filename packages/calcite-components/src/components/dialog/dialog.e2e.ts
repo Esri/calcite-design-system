@@ -53,6 +53,10 @@ describe("calcite-dialog", () => {
         value: true,
       },
       {
+        propertyName: "escapeDisabled",
+        value: false,
+      },
+      {
         propertyName: "placement",
         value: "center",
       },
@@ -104,6 +108,10 @@ describe("calcite-dialog", () => {
       {
         propertyName: "description",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "escapeDisabled",
+        defaultValue: false,
       },
       {
         propertyName: "closeDisabled",
@@ -283,6 +291,25 @@ describe("calcite-dialog", () => {
     const style = await internalDialog.getComputedStyle();
     expect(style.width).toEqual("800px");
     expect(style.height).toEqual("800px");
+  });
+
+  it("escapeDisabled", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-dialog open></calcite-dialog>
+    `);
+    await page.waitForChanges();
+
+    const dialog = await page.find("calcite-dialog");
+    expect(await dialog.getProperty("open")).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+
+    expect(await dialog.getProperty("open")).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
   });
 
   describe("beforeClose()", () => {

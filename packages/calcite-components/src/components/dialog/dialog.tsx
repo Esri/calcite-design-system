@@ -103,6 +103,9 @@ export class Dialog
    */
   @Prop({ mutable: true }) embedded = false;
 
+  /** When `true`, disables the default close on escape behavior. */
+  @Prop({ reflect: true }) escapeDisabled = false;
+
   /**
    * The component header text.
    */
@@ -320,7 +323,7 @@ export class Dialog
 
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
-    if (this.open && event.key === "Escape" && !event.defaultPrevented) {
+    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
       this.open = false;
       event.preventDefault();
     }
