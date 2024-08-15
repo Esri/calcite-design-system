@@ -378,6 +378,9 @@
       .handle__label--vertical {
         transform: rotate(90deg) translateX(10px);
       }
+      .handle__label--vertical.handle__label--vertical-reversed {
+        transform: rotate(90deg) translateX(-30px);
+      }
     }
   }
   &:host([label-handles][precise]) {
