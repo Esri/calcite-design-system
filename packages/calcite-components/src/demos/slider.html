@@ -41,7 +41,7 @@
   <body>
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Slider</h1>
-
+      <!-- 
       <div class="parent">
         <div class="child right-aligned-text"></div>
         <div class="child">single value</div>
@@ -480,8 +480,8 @@
         </div>
       </div>
 
-      <hr />
-
+      <hr /> -->
+      <!-- 
       <div class="parent">
         <div class="child right-aligned-text">range handles</div>
 
@@ -1542,9 +1542,15 @@
             scale="l"
           ></calcite-slider>
         </div>
-      </div>
+      </div> -->
 
-      <div class="parent">
+      <!-- TEST -->
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <div class="parent" style="margin-top: 200px">
         <div class="child right-aligned-text">range labeled ticks with precise labeled handles with a decimal step</div>
 
         <div class="child">
@@ -1552,17 +1558,19 @@
             min="10000"
             max="100000"
             min-value="30000"
-            max-value="80000"
-            step="10000.12"
-            ticks="10000"
+            max-value="100000"
+            step="10000"
             min-label="Temperature"
-            precise
+            layout="vertical"
+            flip-labels
+            scale="m"
             label-handles
             label-ticks
+            ticks="10000"
           ></calcite-slider>
         </div>
 
-        <div class="child">
+        <!-- <div class="child">
           <calcite-slider
             mirrored
             min="10000"
@@ -1576,10 +1584,11 @@
             label-handles
             label-ticks
           ></calcite-slider>
-        </div>
+        </div> -->
       </div>
+      <!-- END TEST -->
 
-      <hr />
+      <!-- <hr />
 
       <div class="parent">
         <div class="child right-aligned-text">histogram</div>
@@ -2596,7 +2605,7 @@
               [0, 0],
             ]),
         );
-      </script>
+      </script> -->
     </demo-dom-swapper>
   </body>
 </html>
