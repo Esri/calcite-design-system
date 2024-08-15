@@ -1637,7 +1637,7 @@ export class Combobox
           aria-errormessage={IDS.validationMessage}
           aria-expanded={toAriaBoolean(open)}
           aria-haspopup="listbox"
-          aria-invalid={this.status === "invalid"}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
           aria-label={getLabelText(this)}
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{

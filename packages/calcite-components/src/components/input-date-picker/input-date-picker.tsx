@@ -572,7 +572,7 @@ export class InputDatePicker
                   aria-errormessage={IDS.validationMessage}
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
-                  aria-invalid={this.status === "invalid"}
+                  aria-invalid={toAriaBoolean(this.status === "invalid")}
                   class={{
                     [CSS.input]: true,
                     [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
@@ -667,7 +667,7 @@ export class InputDatePicker
                     aria-errormessage={IDS.validationMessage}
                     aria-expanded={toAriaBoolean(this.open)}
                     aria-haspopup="dialog"
-                    aria-invalid={this.status === "invalid"}
+                    aria-invalid={toAriaBoolean(this.status === "invalid")}
                     class={{
                       [CSS.input]: true,
                       [CSS.inputBorderTopColorOne]: this.layout === "vertical" && this.range,

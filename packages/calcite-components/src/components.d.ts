@@ -1728,6 +1728,10 @@ export namespace Components {
          */
         "open": boolean;
         /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled": boolean;
+        /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning1;
@@ -9747,6 +9751,10 @@ declare namespace LocalJSX {
           * When `true`, displays and positions the component.
          */
         "open"?: boolean;
+        /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled"?: boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
