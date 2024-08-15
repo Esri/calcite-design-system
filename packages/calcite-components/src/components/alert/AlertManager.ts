@@ -51,17 +51,17 @@ export default class AlertManager {
   // --------------------------------------------------------------------------
 
   private updateAlerts(): void {
+    window.clearTimeout(this.queueTimeoutId);
+    this.queueTimeoutId = null;
+
     this.registeredElements.forEach((alert, index) => {
       alert.openAlertCount = this.registeredElements.length;
 
       if (index === 0) {
-        window.clearTimeout(this.queueTimeoutId);
-        this.queueTimeoutId = null;
         this.queueTimeoutId = window.setTimeout(() => (alert.active = true), alertQueueTimeoutMs);
-        return;
+      } else {
+        alert.active = false;
       }
-
-      alert.active = false;
     });
   }
 }
