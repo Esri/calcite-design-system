@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.20...@esri/calcite-components@2.12.0-next.21) (2024-08-15)
+
+### Features
+
+- **dialog:** add outsideCloseDisabled property ([#9978](https://github.com/Esri/calcite-design-system/issues/9978)) ([f1d89b9](https://github.com/Esri/calcite-design-system/commit/f1d89b9554f194b82cd243f7decc9b935d82cb3a)), closes [#9986](https://github.com/Esri/calcite-design-system/issues/9986)
+
 ## [2.12.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.19...@esri/calcite-components@2.12.0-next.20) (2024-08-15)
 
 ### Bug Fixes
