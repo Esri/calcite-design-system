@@ -66,8 +66,10 @@ function createLocaleDateTimeFormatter({
     minute: "2-digit",
     timeZone: "UTC",
     numberingSystem: getSupportedNumberingSystem(numberingSystem),
-    hour12,
   };
+  if (hour12 === true || hour12 === false) {
+    options.hour12 = hour12;
+  }
   if (includeSeconds) {
     options.second = "2-digit";
     if (fractionalSecondDigits) {

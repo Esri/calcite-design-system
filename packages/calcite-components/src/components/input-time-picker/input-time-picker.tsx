@@ -455,16 +455,7 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   private hostBlurHandler = (): void => {
-    // TODO: need to handle cases here where hour-cycle differs from the locale's default hour-cycle
-    let delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
-    if (this.hourCycle !== getLocaleHourCycle(this.effectiveLocale)) {
-      delocalizedInputValue =
-        this.hourCycle === "12"
-          ? this.delocalizeTimeString(this.calciteInputEl.value, "en")
-          : this.delocalizeTimeString(this.calciteInputEl.value, "fr");
-    } else {
-      delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
-    }
+    const delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
 
     if (!delocalizedInputValue) {
       this.setValue("");
@@ -630,16 +621,67 @@ export class InputTimePicker
     localizedTimeString: string,
     fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
-    const ltsFormatString = this.localeConfig?.formats?.LTS;
-    const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
+    let ltFormatString = this.localeConfig.formats.LT;
+    let ltsFormatString = this.localeConfig.formats.LTS;
 
+    const fractionalSecondTokenMatch = this.localeConfig.formats.LTS.match(/ss\.*(S+)/g);
     if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
       const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
-      this.localeConfig.formats.LTS = fractionalSecondTokenMatch
-        ? ltsFormatString.replace(fractionalSecondTokenMatch[0], secondFormatToken)
-        : ltsFormatString.replace("ss", secondFormatToken);
+      ltsFormatString = fractionalSecondTokenMatch
+        ? this.localeConfig.formats.LTS.replace(fractionalSecondTokenMatch[0], secondFormatToken)
+        : this.localeConfig.formats.LTS.replace("ss", secondFormatToken);
     } else if (fractionalSecondTokenMatch) {
-      this.localeConfig.formats.LTS = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
+      ltsFormatString = this.localeConfig.formats.LTS.replace(fractionalSecondTokenMatch[0], "ss");
+    }
+
+    const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
+    const ltHourTokenMatch = this.localeConfig.formats.LT.match(/(h+)|(H+)/g);
+    const ltsHourTokenMatch = this.localeConfig.formats.LTS.match(/(h+)|(H+)/g);
+
+    if (this.hourCycle === "12" && localeDefaultHourCycle === "24") {
+      if (ltHourTokenMatch) {
+        ltFormatString = this.localeConfig.formats.LT.replace(
+          ltHourTokenMatch[0],
+          "".padStart(ltHourTokenMatch[0].length, "h"),
+        );
+      }
+      if (ltsHourTokenMatch) {
+        ltsFormatString = this.localeConfig.formats.LTS.replace(
+          ltsHourTokenMatch[0],
+          "".padStart(ltsHourTokenMatch[0].length, "h"),
+        );
+      }
+    } else if (this.hourCycle === "24" && localeDefaultHourCycle === "12") {
+      const ltMeridiemTokenMatch = this.localeConfig.formats.LT.match(/(a)|(A)/g);
+      const ltsMeridiemTokenMatch = this.localeConfig.formats.LTS.match(/(a)|(A)/g);
+
+      if (ltMeridiemTokenMatch) {
+        ltFormatString = ltFormatString.replace(ltMeridiemTokenMatch[0], "");
+      }
+      if (ltsMeridiemTokenMatch) {
+        ltsFormatString = ltsFormatString.replace(ltsMeridiemTokenMatch[0], "");
+      }
+      if (ltHourTokenMatch) {
+        ltFormatString = ltFormatString.replace(
+          ltHourTokenMatch[0],
+          "".padStart(ltHourTokenMatch[0].length, "H"),
+        );
+      }
+      if (ltsHourTokenMatch) {
+        ltsFormatString = ltsFormatString.replace(
+          ltsHourTokenMatch[0],
+          "".padStart(ltsHourTokenMatch[0].length, "H"),
+        );
+      }
+    }
+
+    // TODO: handle special case for macedonia (mk) locale
+
+    if (ltFormatString) {
+      this.localeConfig.formats.LT = ltFormatString;
+    }
+    if (ltsFormatString) {
+      this.localeConfig.formats.LTS = ltsFormatString;
     }
 
     dayjs.updateLocale(
@@ -766,18 +808,18 @@ export class InputTimePicker
   }
 
   private getExtendedLocaleConfig(
-    locale: string,
+    locale: SupportedLocale,
   ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
         meridiem: (hour: number) => (hour > 12 ? "م" : "ص"),
         formats: {
-          LT: "HH:mm A",
-          LTS: "HH:mm:ss A",
+          LT: "h:mm a",
+          LTS: "h:mm:ss a",
           L: "DD/MM/YYYY",
           LL: "D MMMM YYYY",
-          LLL: "D MMMM YYYY HH:mm A",
-          LLLL: "dddd D MMMM YYYY HH:mm A",
+          LLL: "D MMMM YYYY h:mm a",
+          LLLL: "dddd D MMMM YYYY h:mm a",
         },
       };
     }
