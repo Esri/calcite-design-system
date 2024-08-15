@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.18...@esri/calcite-components@2.12.0-next.19) (2024-08-15)
+
+### Bug Fixes
+
+- **slider:** prevent text selection when using the slider ([#10073](https://github.com/Esri/calcite-design-system/issues/10073)) ([04bf325](https://github.com/Esri/calcite-design-system/commit/04bf325e584f6d61818b5ee3159b2670405cfd62)), closes [#9522](https://github.com/Esri/calcite-design-system/issues/9522)
+
 ## [2.12.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.17...@esri/calcite-components@2.12.0-next.18) (2024-08-15)
 
 **Note:** Version bump only for package @esri/calcite-components
