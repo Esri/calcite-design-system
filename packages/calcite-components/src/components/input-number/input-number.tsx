@@ -75,7 +75,7 @@ import {
   TextualInputComponent,
 } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 
 /**
@@ -1091,6 +1091,8 @@ export class InputNumber
 
     const childEl = (
       <input
+        aria-errormessage={IDS.validationMessage}
+        aria-invalid={this.status === "invalid"}
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus ? true : null}
@@ -1145,6 +1147,7 @@ export class InputNumber
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}
