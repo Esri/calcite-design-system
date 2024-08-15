@@ -20,3 +20,7 @@ export const CSS = {
   verticalChevronContainer: "vertical-chevron-container",
   chevronIcon: "chevron-icon",
 };
+
+export const IDS = {
+  validationMessage: "inputDatePickerValidationMessage",
+};

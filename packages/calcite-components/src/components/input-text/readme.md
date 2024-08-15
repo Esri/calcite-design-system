@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input-text`, refer
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-input-text placeholder="Enter your region"></calcite-input-text>
-```
-
 ## Properties
 
 | Property            | Attribute            | Description                                                                                                                                             | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |

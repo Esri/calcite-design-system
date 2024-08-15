@@ -4,32 +4,6 @@ For comprehensive guidance on using and implementing `calcite-loader`, refer to 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-You can use the `active` attribute to toggle visibility:
-
-```html
-<calcite-loader text="Fetching data..."></calcite-loader>
-```
-
-### Compact
-
-For instances when you don't have room for the full loader, you can use the smaller `inline` version of the loader. The inline version is meant to sit to the left of text:
-
-```html
-<p><calcite-loader inline></calcite-loader>Inline loader</p>
-```
-
-### Determinate
-
-If you can calculate your progress, it's best to use the determinate version of the loader. Update the `value` of the element when progress is made. This will display a progress bar along the perimeter of the loader showing 32% complete:
-
-```html
-<calcite-loader type="determinate" value="32"></calcite-loader>
-```
-
 ## Properties
 
 | Property             | Attribute | Description                                                                                         | Type                               | Default     |

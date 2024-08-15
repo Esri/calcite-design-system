@@ -4,66 +4,6 @@ For comprehensive guidance on using and implementing `calcite-block`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Always-open
-
-Renders a header and content that remains open - no collapsible option.
-
-```html
-<calcite-block heading="Dogs" open>
-  <ul>
-    <li>The first species to be domesticated</li>
-    <li>Domesticated from wolves over 15,000 years ago</li>
-    <li>Adapted to human behavior performing many roles such as hunting, protection, military, therapy, etc.</li>
-  </ul>
-</calcite-block>
-```
-
-### Basic
-
-Renders a basic, non-collapsible block.
-
-```html
-<calcite-block heading="Fruit" description="It's nature's candy"> </calcite-block>
-```
-
-### Collapsible
-
-Renders a header with a clickable icon to toggle the block open and closed.
-
-```html
-<calcite-block heading="Domestic pets" open collapsible>
-  <calcite-block-section text="Dogs" open>
-    <ul>
-      <li>The first species to be domesticated</li>
-      <li>Domesticated from wolves over 15,000 years ago</li>
-      <li>Adapted to human behavior performing many roles such as hunting, protection, military, therapy, etc.</li>
-    </ul>
-  </calcite-block-section>
-</calcite-block>
-```
-
-### Header-with-control
-
-Renders a header and control with a slot for adding a single HTML element (in the header).
-
-```html
-<calcite-block heading="A fantastic heading" description="Add a control, such as an editing action">
-  <calcite-action icon="pencil" text="edit" slot="control"></calcite-action>
-</calcite-block>
-```
-
-### Header-with-icon
-
-Renders a header and icon with the icon.
-
-```html
-<calcite-block heading="Dogs">
-  <div slot="icon">🐕</div>
-</calcite-block>
-```
-
 ## Properties
 
 | Property               | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                             | Default      |

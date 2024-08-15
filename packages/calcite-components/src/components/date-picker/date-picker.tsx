@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -44,6 +43,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
+import { isBrowser } from "../../utils/browser";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
@@ -352,7 +352,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
-    if (!Build.isBrowser) {
+    if (!isBrowser()) {
       return;
     }
 

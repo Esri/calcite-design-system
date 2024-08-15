@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -38,8 +37,9 @@ import {
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
+import { CSS, IDS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-segmented-control-item`s.
@@ -137,7 +137,7 @@ export class SegmentedControl
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -202,7 +202,11 @@ export class SegmentedControl
   render(): VNode {
     return (
       <Host onClick={this.handleClick} role="radiogroup">
-        <div class={CSS.itemWrapper}>
+        <div
+          aria-errormessage={IDS.validationMessage}
+          aria-invalid={this.status === "invalid"}
+          class={CSS.itemWrapper}
+        >
           <InteractiveContainer disabled={this.disabled}>
             <slot />
             <HiddenFormInputSlot component={this} />
@@ -211,6 +215,7 @@ export class SegmentedControl
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
+            id={IDS.validationMessage}
             message={this.validationMessage}
             scale={this.scale}
             status={this.status}
@@ -239,7 +244,10 @@ export class SegmentedControl
   @Listen("calciteInternalSegmentedControlItemChange")
   protected handleSelected(event: Event): void {
     event.preventDefault();
-    this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement);
+    const el = event.target as HTMLCalciteSegmentedControlItemElement;
+    if (el.checked) {
+      this.selectItem(el);
+    }
     event.stopPropagation();
   }
 
@@ -387,7 +395,7 @@ export class SegmentedControl
     });
 
     this.selectedItem = match;
-    if (Build.isBrowser && match) {
+    if (isBrowser() && match) {
       match.focus();
     }
   }

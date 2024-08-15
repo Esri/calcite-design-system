@@ -4,45 +4,6 @@ For comprehensive guidance on using and implementing `calcite-popover`, refer to
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-popover reference-element="popover-button">Hello! I am some popover content!</calcite-popover>
-
-<calcite-button id="popover-button">Clickable popover</calcite-button>
-```
-
-### Virtual
-
-```html
-<!-- virtually positioned popover -->
-<calcite-popover id="virtual-popover" label="Hello world!" open>
-  <p>Hello! I am some virtual popover content!</p>
-</calcite-popover>
-
-<script>
-  function generateGetBoundingClientRect() {
-    return () => ({
-      width: 0,
-      height: 0,
-      top: 100,
-      right: 100,
-      bottom: 100,
-      left: 600,
-    });
-  }
-
-  const virtualElement = {
-    getBoundingClientRect: generateGetBoundingClientRect(),
-  };
-
-  const popover = document.getElementById("virtual-popover");
-  popover.referenceElement = virtualElement;
-</script>
-```
-
 ## Properties
 
 | Property                        | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                       | Type                                                                                                                                                                                                                                                                                                              | Default                   |

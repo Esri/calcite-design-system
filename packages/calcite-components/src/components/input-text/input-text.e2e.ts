@@ -11,7 +11,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { selectText } from "../../tests/utils";
+import { isElementFocused, selectText } from "../../tests/utils";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
@@ -406,6 +406,29 @@ describe("calcite-input-text", () => {
       page,
       componentTag: "calcite-input-text",
     });
+  });
+
+  it("should not focus when clicking validation message", async () => {
+    const page = await newE2EPage();
+    const componentTag = "calcite-input-text";
+    await page.setContent(
+      html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
+    );
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+      element.click();
+    });
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(true);
   });
 
   it("allows disabling slotted action", async () => {

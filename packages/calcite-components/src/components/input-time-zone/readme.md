@@ -4,24 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input-time-zone`, 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-Displays options to select a time zone offset (in minutes).
-
-```html
-<calcite-input-time-zone value="-360"></calcite-input-time-zone>
-```
-
-### TimeZoneNames
-
-Displays options to select a IANA time zone name.
-
-```html
-<calcite-input-time-zone mode="name" value="America/Ciudad_Juarez"></calcite-input-time-zone>
-```
-
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |
@@ -31,7 +13,7 @@ Displays options to select a IANA time zone name.
 | `form`               | `form`                | The `id` of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                                                                                                                                                                                                                     | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `maxItems`           | `max-items`           | Specifies the component's maximum number of options to display before displaying a scrollbar.                                                                                                                                                                                                                                                                               | `number`                                                                                                                                                                                                                                            | `0`                                                                                                                                                                                                                                                                         |
 | `messageOverrides`   | `message-overrides`   | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `InputTimeZoneMessages`                                                                                                                                                                                                                             | `undefined`                                                                                                                                                                                                                                                                 |
-| `mode`               | `mode`                | This specifies the type of `value` and the associated options presented to the user: Using `"offset"` will provide options that show timezone offsets. Using `"name"` will provide options that show the IANA time zone names.                                                                                                                                              | `"name" \| "offset"`                                                                                                                                                                                                                                | `"offset"`                                                                                                                                                                                                                                                                  |
+| `mode`               | `mode`                | This specifies the type of `value` and the associated options presented to the user: Using `"offset"` will provide options that show timezone offsets. Using `"name"` will provide options that show the IANA time zone names.                                                                                                                                              | `"name" \| "offset" \| "region"`                                                                                                                                                                                                                    | `"offset"`                                                                                                                                                                                                                                                                  |
 | `name`               | `name`                | Specifies the name of the component. Required to pass the component's `value` on form submission.                                                                                                                                                                                                                                                                           | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `offsetStyle`        | `offset-style`        | Specifies how the offset will be displayed, where `"user"` uses `UTC` or `GMT` depending on the user's locale, `"gmt"` always uses `GMT`, and `"utc"` always uses `UTC`. This only applies to the `offset` mode.                                                                                                                                                            | `"gmt" \| "user" \| "utc"`                                                                                                                                                                                                                          | `"user"`                                                                                                                                                                                                                                                                    |
 | `open`               | `open`                | When `true`, displays and positions the component.                                                                                                                                                                                                                                                                                                                          | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
@@ -69,6 +51,7 @@ Type: `Promise<void>`
 
 - [calcite-combobox](../combobox)
 - [calcite-combobox-item](../combobox-item)
+- [calcite-combobox-item-group](../combobox-item-group)
 
 ### Graph
 
@@ -76,6 +59,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-input-time-zone --> calcite-combobox
   calcite-input-time-zone --> calcite-combobox-item
+  calcite-input-time-zone --> calcite-combobox-item-group
   calcite-combobox --> calcite-combobox-item
   calcite-combobox --> calcite-chip
   calcite-combobox --> calcite-icon

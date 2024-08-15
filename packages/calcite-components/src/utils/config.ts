@@ -2,7 +2,9 @@
  * This module allows custom configuration for components.
  */
 
+import { Build } from "@stencil/core";
 import { FocusTrap } from "./focusTrapComponent";
+import { LogLevel } from "./logger";
 
 export interface CalciteConfig {
   /**
@@ -15,6 +17,11 @@ export interface CalciteConfig {
   focusTrapStack: FocusTrap[];
 
   /**
+   * Defines the global log level to use when logging messages.
+   */
+  logLevel: LogLevel;
+
+  /**
    * Contains the version of the Calcite components.
    *
    * @readonly
@@ -22,24 +29,29 @@ export interface CalciteConfig {
   version?: string;
 }
 
-const customConfig: CalciteConfig = globalThis["calciteConfig"];
+const existingConfig: CalciteConfig = globalThis["calciteConfig"];
 
-export const focusTrapStack: FocusTrap[] = customConfig?.focusTrapStack || [];
+export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
 
-const version = "__CALCITE_VERSION__"; // version number is set by build
+const runningInE2ETest = Build.isTesting && Build.isBrowser;
+export const logLevel: LogLevel = existingConfig?.logLevel || (runningInE2ETest ? "error" : "info");
+
+// the following placeholders are replaced by the build
+const version = "__CALCITE_VERSION__";
+const buildDate = "__CALCITE_BUILD_DATE__";
+const revision = "__CALCITE_REVISION__";
 
 /**
  * Stamp the version onto the global config.
  */
 export function stampVersion(): void {
-  if (customConfig && customConfig.version) {
-    console.warn(
-      `[calcite-components] while initializing v${version}, an existing configuration with version "${customConfig.version}" was found. This may cause unexpected behavior. The version will not be added to the existing global configuration.`,
-    );
+  if (existingConfig && existingConfig.version) {
     return;
   }
 
-  const target = customConfig || globalThis["calciteConfig"] || {};
+  console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
+
+  const target = existingConfig || globalThis["calciteConfig"] || {};
 
   Object.defineProperty(target, "version", {
     value: version,

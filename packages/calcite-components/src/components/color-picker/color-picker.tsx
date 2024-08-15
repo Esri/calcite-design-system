@@ -13,7 +13,12 @@ import {
 } from "@stencil/core";
 import Color from "color";
 import { throttle } from "lodash-es";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import {
+  Direction,
+  focusFirstTabbable,
+  getElementDir,
+  isPrimaryPointerButton,
+} from "../../utils/dom";
 import { Scale } from "../interfaces";
 import {
   connectInteractive,
@@ -79,9 +84,7 @@ const throttleFor60FpsInMs = 16;
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
+  shadow: true,
   assetsDirs: ["assets"],
 })
 export class ColorPicker
@@ -328,6 +331,8 @@ export class ColorPicker
 
   private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
 
+  private isActiveChannelInputEmpty: boolean = false;
+
   private isClearable: boolean;
 
   private mode: SupportedMode = CSSColorMode.HEX;
@@ -339,6 +344,8 @@ export class ColorPicker
   private previousColor: InternalColor | null;
 
   private shiftKeyChannelAdjustment = 0;
+
+  private upOrDownArrowKeyTracker: "down" | "up" | null = null;
 
   @State() channelMode: ColorMode = "rgb";
 
@@ -476,8 +483,11 @@ export class ColorPicker
 
     let inputValue: string;
 
-    if (this.isClearable && !input.value) {
+    if (!input.value) {
       inputValue = "";
+      this.isActiveChannelInputEmpty = true;
+      // reset this to allow typing in new value, when channel input is cleared after ArrowUp or ArrowDown have been pressed
+      this.upOrDownArrowKeyTracker = null;
     } else {
       const value = Number(input.value);
       const adjustedValue = value + this.shiftKeyChannelAdjustment;
@@ -491,7 +501,25 @@ export class ColorPicker
     if (inputValue !== "" && this.shiftKeyChannelAdjustment !== 0) {
       // we treat nudging as a change event since the input won't emit when modifying the value directly
       this.handleChannelChange(event);
+    } else if (inputValue !== "") {
+      this.handleChannelChange(event);
     }
+  };
+
+  private handleChannelBlur = (event: CustomEvent): void => {
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
+    const channelIndex = Number(input.getAttribute("data-channel-index"));
+    const channels = [...this.channels] as this["channels"];
+    const restoreValueDueToEmptyInput = !input.value && !this.isClearable;
+
+    if (restoreValueDueToEmptyInput) {
+      input.value = channels[channelIndex]?.toString();
+    }
+  };
+
+  handleChannelFocus = (event: Event): void => {
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
+    input.selectText();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -526,6 +554,19 @@ export class ColorPicker
         : key === "ArrowDown" && shiftKey
           ? -complementaryBump
           : 0;
+
+    if (key === "ArrowUp") {
+      this.upOrDownArrowKeyTracker = "up";
+    }
+    if (key === "ArrowDown") {
+      this.upOrDownArrowKeyTracker = "down";
+    }
+  }
+
+  private getChannelInputLimit(channelIndex: number): number {
+    return this.channelMode === "rgb"
+      ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
+      : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
   }
 
   private handleChannelChange = (event: CustomEvent): void => {
@@ -542,7 +583,19 @@ export class ColorPicker
     }
 
     const isAlphaChannel = channelIndex === 3;
-    const value = Number(input.value);
+
+    if (this.isActiveChannelInputEmpty && this.upOrDownArrowKeyTracker) {
+      input.value =
+        this.upOrDownArrowKeyTracker === "up"
+          ? (channels[channelIndex] + 1 <= this.getChannelInputLimit(channelIndex)
+              ? channels[channelIndex] + 1
+              : this.getChannelInputLimit(channelIndex)
+            ).toString()
+          : (channels[channelIndex] - 1 >= 0 ? channels[channelIndex] - 1 : 0).toString();
+      this.isActiveChannelInputEmpty = false;
+      this.upOrDownArrowKeyTracker = null;
+    }
+    const value = input.value ? Number(input.value) : channels[channelIndex];
 
     channels[channelIndex] = isAlphaChannel ? opacityToAlpha(value) : value;
     this.updateColorFromChannels(channels);
@@ -556,58 +609,59 @@ export class ColorPicker
   };
 
   private handleColorFieldPointerDown = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    const { offsetX, offsetY } = event;
-
-    window.addEventListener("pointermove", this.globalPointerMoveHandler);
-    window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
-
-    this.activeCanvasInfo = {
-      context: this.colorFieldRenderingContext,
-      bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect(),
-    };
-    this.captureColorFieldColor(offsetX, offsetY);
-    this.colorFieldScopeNode.focus();
+    this.handleCanvasControlPointerDown(
+      event,
+      this.colorFieldRenderingContext,
+      this.captureColorFieldColor,
+      this.colorFieldScopeNode,
+    );
   };
 
+  private focusScope(focusEl: HTMLElement): void {
+    requestAnimationFrame(() => {
+      focusEl.focus();
+    });
+  }
+
   private handleHueSliderPointerDown = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    const { offsetX } = event;
-
-    window.addEventListener("pointermove", this.globalPointerMoveHandler);
-    window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
-
-    this.activeCanvasInfo = {
-      context: this.hueSliderRenderingContext,
-      bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect(),
-    };
-    this.captureHueSliderColor(offsetX);
-    this.hueScopeNode.focus();
+    this.handleCanvasControlPointerDown(
+      event,
+      this.hueSliderRenderingContext,
+      this.captureHueSliderColor,
+      this.hueScopeNode,
+    );
   };
 
   private handleOpacitySliderPointerDown = (event: PointerEvent): void => {
+    this.handleCanvasControlPointerDown(
+      event,
+      this.opacitySliderRenderingContext,
+      this.captureOpacitySliderValue,
+      this.opacityScopeNode,
+    );
+  };
+
+  private handleCanvasControlPointerDown(
+    event: PointerEvent,
+    renderingContext: CanvasRenderingContext2D,
+    captureValue: (offsetX: number, offsetY?: number) => void,
+    scopeNode: HTMLElement,
+  ): void {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
-
-    const { offsetX } = event;
 
     window.addEventListener("pointermove", this.globalPointerMoveHandler);
     window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
     this.activeCanvasInfo = {
-      context: this.opacitySliderRenderingContext,
-      bounds: this.opacitySliderRenderingContext.canvas.getBoundingClientRect(),
+      context: renderingContext,
+      bounds: renderingContext.canvas.getBoundingClientRect(),
     };
-    this.captureOpacitySliderValue(offsetX);
-    this.opacityScopeNode.focus();
-  };
+
+    captureValue.call(this, event.offsetX, event.offsetY);
+    this.focusScope(scopeNode);
+  }
 
   private globalPointerUpHandler = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
@@ -679,7 +733,8 @@ export class ColorPicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+
+    focusFirstTabbable(this.el);
   }
 
   //--------------------------------------------------------------------------
@@ -1050,6 +1105,8 @@ export class ColorPicker
         numberingSystem={this.numberingSystem}
         onCalciteInputNumberChange={this.handleChannelChange}
         onCalciteInputNumberInput={this.handleChannelInput}
+        onCalciteInternalInputNumberBlur={this.handleChannelBlur}
+        onCalciteInternalInputNumberFocus={this.handleChannelFocus}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired

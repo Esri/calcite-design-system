@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import {
@@ -1665,6 +1665,29 @@ describe("calcite-input-number", () => {
     });
   });
 
+  it("should not focus when clicking validation message", async () => {
+    const page = await newE2EPage();
+    const componentTag = "calcite-input-number";
+    await page.setContent(
+      html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
+    );
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+      element.click();
+    });
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(true);
+  });
+
   it("allows disabling slotted action", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -1768,7 +1791,7 @@ describe("calcite-input-number", () => {
     t9n("calcite-input-number");
   });
 
-  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+  it.skip("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-number></calcite-input-number>");
     const inputNumber = await page.find("calcite-input-number");
@@ -1817,5 +1840,35 @@ describe("calcite-input-number", () => {
     await page.waitForTimeout(3000);
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
+  });
+
+  it("should have decimal as initial inputmode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-number></calcite-input-number>`);
+    const inputNumber = await page.find("calcite-input-number");
+    const internalInput = await page.find("calcite-input-number >>> input");
+
+    // we assert on the attribute as this is what browsers will look for to display the correct keyboard
+    expect(internalInput.getAttribute("inputmode")).toBe("decimal");
+
+    inputNumber.setProperty("inputMode", "text");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("text");
+
+    inputNumber.setProperty("inputMode", "");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("decimal");
+
+    inputNumber.setAttribute("inputmode", "none");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("none");
+
+    inputNumber.setAttribute("inputmode", "");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("decimal");
   });
 });

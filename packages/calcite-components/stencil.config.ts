@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
@@ -39,6 +40,7 @@ export const create: () => Config = () => ({
         "calcite-date-picker-month-header",
       ],
     },
+    { components: ["calcite-dialog"] },
     { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
     { components: ["calcite-fab"] },
     { components: ["calcite-flow"] },
@@ -146,6 +148,8 @@ export const create: () => Config = () => ({
     before: [
       replace({
         values: {
+          __CALCITE_BUILD_DATE__: () => new Date().toISOString().split("T")[0],
+          __CALCITE_REVISION__: execSync("git rev-parse HEAD", { encoding: "utf-8" }).trim().slice(0, 7),
           __CALCITE_VERSION__: version,
         },
         include: ["src/utils/config.ts"],

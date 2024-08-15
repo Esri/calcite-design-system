@@ -1,3 +1,4 @@
+// @ts-check
 // When the "ready for dev" label is added to an issue:
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
@@ -6,21 +7,31 @@
 // The secret is formatted like so: person1, person2, person3
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
-const { issueWorkflow, planning } = require("./support/resources");
+const {
+  labels: { issueWorkflow, planning },
+} = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
-  const { managers } = process.env;
-  const { label } = context.payload;
+  const { repo, owner } = context.repo;
 
-  if (label && label.name === "ready for dev") {
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
+  const {
+    issue: { number },
+    label,
+  } = payload;
+
+  const { MANAGERS } = process.env;
+
+  if (label?.name === "ready for dev") {
     // Add a "@" character to notify the user
-    const calcite_managers = managers.split(",").map((v) => " @" + v.trim());
+    const calcite_managers = MANAGERS?.split(",").map((v) => " @" + v.trim());
 
     const issueProps = {
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      owner,
+      repo,
+      issue_number: number,
     };
 
     /* Modify labels */

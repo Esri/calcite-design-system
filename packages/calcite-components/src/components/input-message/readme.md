@@ -4,21 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input-message`, re
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-label>
-  Desired subdomain
-  <calcite-input suffix-text=".city-of-acme.gov" placeholder="Enter your subdomain" value="big-map-fan">
-  </calcite-input>
-  <calcite-input-message icon="check-circle" status="valid">
-    Excellent news - this domain is available.
-  </calcite-input-message>
-</calcite-label>
-```
-
 ## Properties
 
 | Property      | Attribute       | Description                                                                                  | Type                             | Default     |

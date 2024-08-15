@@ -4,25 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input-number`, ref
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-input-number placeholder="Offset distance" step="0.25" suffix-text="miles"></calcite-input-number>
-```
-
-### Integer
-
-Restrict the component to integer numbers only with `integer`, which will disable exponential notation.
-
-```html
-<calcite-label layout="inline">
-  Birds observed
-  <calcite-input-number placeholder="Number of birds" step="1" min="0" integer></calcite-input-number>
-</calcite-label>
-```
-
 ## Properties
 
 | Property            | Attribute            | Description                                                                                                                                                            | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |

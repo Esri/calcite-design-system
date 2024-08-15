@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -35,7 +34,8 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
 import { CSS, ICONS } from "./resources";
 
@@ -83,13 +83,13 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /**
    * @internal
@@ -172,7 +172,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       this.updateHasText();
     }
     if (this.tab && this.selected) {
@@ -220,9 +220,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         <InteractiveContainer disabled={this.disabled}>
           <div
             class={{
-              container: true,
+              [CSS.container]: true,
+              [CSS.containerBottom]: this.position === "bottom",
               [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
-              [`scale-${this.scale}`]: true,
+              [CSS.scale(this.scale)]: true,
             }}
             hidden={closed}
             ref={(el) => this.resizeObserver?.observe(el)}
@@ -233,6 +234,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
               {this.iconEnd ? iconEndEl : null}
             </div>
             {this.renderCloseButton()}
+            <div class={CSS.selectedIndicator} />
           </div>
         </InteractiveContainer>
       </Host>

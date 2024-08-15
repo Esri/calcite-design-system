@@ -4,31 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input-date-picker`
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<div style="width: 400px">
-  <calcite-label layout="inline">
-    Date
-    <calcite-input-date-picker min="2016-08-09" max="2023-12-18" lang="en"></calcite-input-date-picker>
-  </calcite-label>
-</div>
-```
-
-### Range
-
-Add a `range` to the component. To set the component's value use the JavaScript `value` property with an array of strings:
-
-```html
-<calcite-input-date-picker min="2016-08-09" max="2023-12-18" lang="en" range></calcite-input-date-picker>
-```
-
-```js
-document.querySelector("calcite-input-date-picker").value = ["2023-10-01", "2023-11-30"];
-```
-
 ## Properties
 
 | Property                     | Attribute                      | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |
@@ -41,7 +16,7 @@ document.querySelector("calcite-input-date-picker").value = ["2023-10-01", "2023
 | `layout`                     | `layout`                       | Defines the layout of the component.                                                                                                                                                                                                                                                                                                                                        | `"horizontal" \| "vertical"`                                                                                                                                                                                                                        | `"horizontal"`                                                                                                                                                                                                                                                              |
 | `max`                        | `max`                          | Specifies the latest allowed date ("yyyy-mm-dd").                                                                                                                                                                                                                                                                                                                           | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `maxAsDate`                  | --                             | Specifies the latest allowed date as a full date object.                                                                                                                                                                                                                                                                                                                    | `Date`                                                                                                                                                                                                                                              | `undefined`                                                                                                                                                                                                                                                                 |
-| `messageOverrides`           | --                             | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `{ [x: string]: any; }`                                                                                                                                                                                                                             | `undefined`                                                                                                                                                                                                                                                                 |
+| `messageOverrides`           | `message-overrides`            | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `any`                                                                                                                                                                                                                                               | `undefined`                                                                                                                                                                                                                                                                 |
 | `min`                        | `min`                          | Specifies the earliest allowed date ("yyyy-mm-dd").                                                                                                                                                                                                                                                                                                                         | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `minAsDate`                  | --                             | Specifies the earliest allowed date as a full date object.                                                                                                                                                                                                                                                                                                                  | `Date`                                                                                                                                                                                                                                              | `undefined`                                                                                                                                                                                                                                                                 |
 | `name`                       | `name`                         | Specifies the name of the component. Required to pass the component's `value` on form submission.                                                                                                                                                                                                                                                                           | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
@@ -79,13 +54,15 @@ Updates the position of the component.
 
 #### Parameters
 
-| Name      | Type      | Description |
-| --------- | --------- | ----------- |
-| `delayed` | `boolean` |             |
+| Name      | Type      | Description                            |
+| --------- | --------- | -------------------------------------- |
+| `delayed` | `boolean` | If true, the repositioning is delayed. |
 
 #### Returns
 
 Type: `Promise<void>`
+
+void
 
 ### `setFocus() => Promise<void>`
 
