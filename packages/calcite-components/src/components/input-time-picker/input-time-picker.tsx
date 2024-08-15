@@ -763,8 +763,6 @@ export class InputTimePicker
         return;
       }
 
-      // TODO: need to handle cases here where hour-cycle differs from the locale's default hour-cycle
-
       const newValue = this.delocalizeTimeString(this.calciteInputEl.value);
 
       if (isValidTime(newValue)) {

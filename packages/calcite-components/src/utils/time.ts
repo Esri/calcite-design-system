@@ -48,19 +48,21 @@ export type TimePart =
 
 export const maxTenthForMinuteAndSecond = 5;
 
+interface DateTimeFormatterOptions {
+  locale: SupportedLocale;
+  numberingSystem?: NumberingSystem;
+  includeSeconds?: boolean;
+  fractionalSecondDigits?: FractionalSecondDigits;
+  hour12?: boolean;
+}
+
 function createLocaleDateTimeFormatter({
   locale,
   numberingSystem,
   includeSeconds = true,
   fractionalSecondDigits,
   hour12,
-}: {
-  locale: SupportedLocale;
-  numberingSystem?: NumberingSystem;
-  includeSeconds?: boolean;
-  fractionalSecondDigits?: FractionalSecondDigits;
-  hour12?: boolean;
-}): Intl.DateTimeFormat {
+}: DateTimeFormatterOptions): Intl.DateTimeFormat {
   const options: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
     minute: "2-digit",
@@ -124,7 +126,13 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
 }
 
 export function getLocaleHourCycle(locale: SupportedLocale): HourCycle {
-  const formatter = createLocaleDateTimeFormatter({ locale });
+  const options: DateTimeFormatterOptions = { locale };
+  if (locale === "mk") {
+    // Chromium's Intl.DateTimeFormat incorrectly formats mk time to 12-hour cycle so we need to force hour12 to false
+    // @link https://issues.chromium.org/issues/40676973
+    options.hour12 = false;
+  }
+  const formatter = createLocaleDateTimeFormatter(options);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
