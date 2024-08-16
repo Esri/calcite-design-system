@@ -624,36 +624,36 @@ export class InputTimePicker
     let ltFormatString = this.localeConfig.formats.LT;
     let ltsFormatString = this.localeConfig.formats.LTS;
 
-    const fractionalSecondTokenMatch = this.localeConfig.formats.LTS.match(/ss\.*(S+)/g);
+    const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
     if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
       const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
       ltsFormatString = fractionalSecondTokenMatch
-        ? this.localeConfig.formats.LTS.replace(fractionalSecondTokenMatch[0], secondFormatToken)
-        : this.localeConfig.formats.LTS.replace("ss", secondFormatToken);
+        ? ltsFormatString.replace(fractionalSecondTokenMatch[0], secondFormatToken)
+        : ltsFormatString.replace("ss", secondFormatToken);
     } else if (fractionalSecondTokenMatch) {
-      ltsFormatString = this.localeConfig.formats.LTS.replace(fractionalSecondTokenMatch[0], "ss");
+      ltsFormatString = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
     }
 
     const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
-    const ltHourTokenMatch = this.localeConfig.formats.LT.match(/(h+)|(H+)/g);
-    const ltsHourTokenMatch = this.localeConfig.formats.LTS.match(/(h+)|(H+)/g);
+    const ltHourTokenMatch = ltFormatString.match(/(h+)|(H+)/g);
+    const ltsHourTokenMatch = ltsFormatString.match(/(h+)|(H+)/g);
 
     if (this.hourCycle === "12" && localeDefaultHourCycle === "24") {
       if (ltHourTokenMatch) {
-        ltFormatString = this.localeConfig.formats.LT.replace(
+        ltFormatString = ltFormatString.replace(
           ltHourTokenMatch[0],
           "".padStart(ltHourTokenMatch[0].length, "h"),
         );
       }
       if (ltsHourTokenMatch) {
-        ltsFormatString = this.localeConfig.formats.LTS.replace(
+        ltsFormatString = ltsFormatString.replace(
           ltsHourTokenMatch[0],
           "".padStart(ltsHourTokenMatch[0].length, "h"),
         );
       }
     } else if (this.hourCycle === "24" && localeDefaultHourCycle === "12") {
-      const ltMeridiemTokenMatch = this.localeConfig.formats.LT.match(/(a)|(A)/g);
-      const ltsMeridiemTokenMatch = this.localeConfig.formats.LTS.match(/(a)|(A)/g);
+      const ltMeridiemTokenMatch = ltFormatString.match(/(a)|(A)/g);
+      const ltsMeridiemTokenMatch = ltsFormatString.match(/(a)|(A)/g);
 
       if (ltMeridiemTokenMatch) {
         ltFormatString = ltFormatString.replace(ltMeridiemTokenMatch[0], "");
@@ -677,12 +677,8 @@ export class InputTimePicker
 
     // TODO: handle special case for macedonia (mk) locale
 
-    if (ltFormatString) {
-      this.localeConfig.formats.LT = ltFormatString;
-    }
-    if (ltsFormatString) {
-      this.localeConfig.formats.LTS = ltsFormatString;
-    }
+    this.localeConfig.formats.LT = ltFormatString;
+    this.localeConfig.formats.LTS = ltsFormatString;
 
     dayjs.updateLocale(
       this.getSupportedDayjsLocale(getSupportedLocale(this.effectiveLocale)),
