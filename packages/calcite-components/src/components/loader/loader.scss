@@ -78,13 +78,11 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__percentage {
-  @apply text-color-1 absolute block text-center;
+  @apply block text-center text-color-1;
   font-size: var(--calcite-loader-font-size);
   inline-size: var(--calcite-loader-size);
-  inset-inline-start: 50%;
-  margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
   line-height: var(--calcite-internal-loader-value-line-height);
-  transform: scale(1, 1);
+  align-self: center;
 }
 
 .loader__svgs {
@@ -97,6 +95,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   animation-timing-function: linear;
   animation-duration: scaleDuration(--calcite-internal-animation-timing-slow, 6.66);
   animation-name: loader-clockwise;
+  display: flex;
 }
 
 .loader__svg {

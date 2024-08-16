@@ -41,10 +41,35 @@ export const inline_TestOnly = (): string => html`
 `;
 
 export const determinate = (): string => html`
+  <style>
+    .scales {
+      display: flex;
+      flex-direction: row;
+      gap: 50px;
+    }
+  </style>
   <h1>determinate</h1>
-  <calcite-loader type="determinate" value="50" /></calcite-loader>
+  <div class="scales">
+    <h2>s</h2>
+    <calcite-loader scale="s" type="determinate" value="50"></calcite-loader>
+    <h2>m</h2>
+    <calcite-loader scale="m" type="determinate" value="50"></calcite-loader>
+    <h2>l</h2>
+    <calcite-loader scale="l" type="determinate" value="50"></calcite-loader>
+  </div>
+  <br>
   <h1>determinate-value</h1>
-  <calcite-loader type="determinate-value" value="50" /></calcite-loader>
+  <div class="scales">
+    <h2>s</h2>
+    <calcite-loader scale="s" type="determinate-value" value="50" />
+    </calcite-loader>
+    <h2>m</h2>
+    <calcite-loader scale="m" type="determinate-value" value="50" />
+    </calcite-loader>
+    <h2>l</h2>
+    <calcite-loader scale="l" type="determinate-value" value="50" />
+    </calcite-loader>
+  </div>
 `;
 
 export const customTheme_TestOnly = (): string => html`

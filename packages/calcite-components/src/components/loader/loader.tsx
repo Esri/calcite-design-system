@@ -98,9 +98,9 @@ export class Loader implements LocalizedComponent {
               <circle {...svgAttributes} />
             </svg>
           ))}
+          {isDeterminate && <div class={CSS.loaderPercentage}>{this.formatValue()}</div>}
         </div>
         {text && <div class={CSS.loaderText}>{text}</div>}
-        {isDeterminate && <div class={CSS.loaderPercentage}>{this.formatValue()}</div>}
       </Host>
     );
   }
