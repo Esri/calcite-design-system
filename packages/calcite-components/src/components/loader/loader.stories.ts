@@ -47,6 +47,12 @@ export const determinate = (): string => html`
       flex-direction: row;
       gap: 50px;
     }
+    
+    calcite-loader {
+      /* provide dimensions for consistent screenshots */
+      height: 100px;
+      width: 100px;
+    }
   </style>
   <h1>determinate</h1>
   <div class="scales">
