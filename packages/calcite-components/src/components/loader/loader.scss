@@ -36,10 +36,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([scale="s"]) {
-  --calcite-loader-font-size: theme("fontSize.n2");
+  --calcite-loader-font-size: var(--calcite-font-size--3);
   --calcite-loader-size: theme("spacing.8");
   --calcite-loader-size-inline: theme("spacing.3");
-  --calcite-internal-loader-value-line-height: 1.03125rem; // 16.5px
+  --calcite-internal-loader-value-line-height: 0.625rem; // 10px
 }
 
 :host([scale="m"]) {
@@ -54,11 +54,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   --calcite-loader-size: theme("spacing.24");
   --calcite-loader-size-inline: theme("spacing.6");
   --calcite-internal-loader-value-line-height: 1.71875rem; // 27.5px
-}
-
-:host([type="determinate-value"][scale="s"]) {
-  --calcite-loader-font-size: var(--calcite-font-size--3);
-  --calcite-internal-loader-value-line-height: 0.625rem; // 10px
 }
 
 :host([no-padding]) {
