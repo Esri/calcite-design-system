@@ -1,6 +1,5 @@
 const camelCase = require("camelcase");
-const { readFileSync } = require("fs");
-const { writeFile, readFile } = require("graceful-fs");
+const { writeFile, readFile, readFileSync } = require("fs-extra");
 const { glob } = require("glob");
 const { parse } = require("svgson");
 const path = require("path");

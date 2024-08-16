@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const { mkdirSync, writeFileSync, existsSync } = require("fs");
-const { readdir, writeFile, readFile } = require("graceful-fs");
+const { readdir, writeFile, readFile, mkdirSync, writeFileSync, existsSync } = require("fs-extra");
 const svg2img = require("svg2img");
 const path = require("path");
 const yargs = require("yargs");

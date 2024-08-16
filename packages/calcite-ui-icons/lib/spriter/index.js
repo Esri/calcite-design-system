@@ -1,7 +1,6 @@
 "use strict";
 
-const { readdir, mkdir, writeFile, readFile } = require("graceful-fs");
-const { lstatSync } = require("fs")
+const { readdir, mkdir, writeFile, readFile, lstatSync } = require("fs-extra");
 const path = require("path");
 
 const ICONS = path.resolve(path.dirname(process.argv[1]), "../icons");
