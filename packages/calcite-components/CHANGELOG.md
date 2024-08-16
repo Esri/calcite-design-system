@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.21...@esri/calcite-components@2.12.0-next.22) (2024-08-16)
+
+### Features
+
+- **dialog:** add escapeDisabled property ([#10081](https://github.com/Esri/calcite-design-system/issues/10081)) ([1ca8fba](https://github.com/Esri/calcite-design-system/commit/1ca8fba592b9657e5c0f0fc34dfb086a97908303)), closes [#10080](https://github.com/Esri/calcite-design-system/issues/10080)
+
 ## [2.12.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.20...@esri/calcite-components@2.12.0-next.21) (2024-08-15)
 
 ### Features
