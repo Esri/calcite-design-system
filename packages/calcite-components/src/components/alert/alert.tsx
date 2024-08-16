@@ -486,17 +486,17 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  private clearAutoCloseTimeout = (): void => {
+  private clearAutoCloseTimeout(): void {
     window.clearTimeout(this.autoCloseTimeoutId);
     this.autoCloseTimeoutId = null;
-  };
+  }
 
-  private clearQueueTimeout = (): void => {
+  private clearQueueTimeout(): void {
     window.clearTimeout(this.queueTimeoutId);
     this.queueTimeoutId = null;
-  };
+  }
 
-  private unregisterAlert = (): void => {
+  private unregisterAlert(): void {
     this.queued = false;
 
     window.dispatchEvent(
@@ -507,7 +507,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
     this.clearAutoCloseTimeout();
     this.clearQueueTimeout();
-  };
+  }
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
