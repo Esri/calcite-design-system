@@ -459,10 +459,7 @@ export class InputTimePicker
 
     if (!delocalizedInputValue) {
       this.setValue("");
-      return;
-    }
-
-    if (delocalizedInputValue !== this.value) {
+    } else if (delocalizedInputValue !== this.value) {
       this.setValue(delocalizedInputValue);
       this.setLocalizedInputValue();
     }
