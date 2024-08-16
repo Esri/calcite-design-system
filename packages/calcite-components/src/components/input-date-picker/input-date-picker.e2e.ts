@@ -598,7 +598,7 @@ describe("calcite-input-date-picker", () => {
       await inputDatePicker.click();
       await calciteInputDatePickerOpenEvent;
 
-      await selectDayInMonth(page, 1);
+      await selectDayInMonthByIndex(page, 1);
       await inputDatePicker.callMethod("blur");
 
       expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
@@ -616,7 +616,7 @@ describe("calcite-input-date-picker", () => {
       await inputDatePicker.click();
       await calciteInputDatePickerOpenEvent;
 
-      await selectDayInMonth(page, 1);
+      await selectDayInMonthByIndex(page, 1);
       await inputDatePicker.callMethod("blur");
 
       expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
@@ -1373,7 +1373,7 @@ describe("calcite-input-date-picker", () => {
       expect(await isCalendarVisible(page)).toBe(true);
 
       const value = await inputDatePickerEl.getProperty("value");
-      expect(value).toEqual(["2024-03-25", "2024-06-20"]);
+      expect(value).toEqual(["2024-03-01", "2024-06-20"]);
     });
   });
 

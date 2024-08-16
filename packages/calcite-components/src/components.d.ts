@@ -37,6 +37,7 @@ import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { HoverRange } from "./utils/date";
 import { DateLocaleData } from "./components/date-picker/utils";
+import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 import { OverlayPositioning as OverlayPositioning1 } from "./components";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -132,6 +133,7 @@ export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { HoverRange } from "./utils/date";
 export { DateLocaleData } from "./components/date-picker/utils";
+export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 export { OverlayPositioning as OverlayPositioning1 } from "./components";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -1722,6 +1724,11 @@ export namespace Components {
          */
         "embedded": boolean;
         /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key.
+          * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+         */
+        "escapeDisabled": boolean;
+        /**
           * The component header text.
          */
         "heading": string;
@@ -1757,6 +1764,10 @@ export namespace Components {
           * When `true`, displays and positions the component.
          */
         "open": boolean;
+        /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled": boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -9769,6 +9780,11 @@ declare namespace LocalJSX {
          */
         "embedded"?: boolean;
         /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key.
+          * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+         */
+        "escapeDisabled"?: boolean;
+        /**
           * The component header text.
          */
         "heading"?: string;
@@ -9824,6 +9840,10 @@ declare namespace LocalJSX {
           * When `true`, displays and positions the component.
          */
         "open"?: boolean;
+        /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled"?: boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
