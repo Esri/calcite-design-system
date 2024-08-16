@@ -160,7 +160,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     /* wired up by t9n util */
   }
 
-  /** Specifies the urgency of the component when opened. */
+  /** Specifies the ordering priority of the component when opened. */
   @Prop({ reflect: true }) queue: AlertQueue = "last";
 
   @Watch("queue")
