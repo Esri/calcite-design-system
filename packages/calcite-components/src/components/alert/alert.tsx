@@ -44,7 +44,7 @@ import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { AlertMessages } from "./assets/alert/t9n";
-import { AlertDuration, Sync, Unregister } from "./interfaces";
+import { AlertDuration, AlertQueue, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
@@ -82,8 +82,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       this.calciteInternalAlertRegister.emit();
     }
     if (!this.open) {
-      this.queue = this.queue.filter((el) => el !== this.el);
-      this.calciteInternalAlertSync.emit({ queue: this.queue });
+      this.queueList = this.queueList.filter((el) => el !== this.el);
+      this.calciteInternalAlertSync.emit({ queueList: this.queueList });
     }
   }
 
@@ -160,12 +160,12 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     /* wired up by t9n util */
   }
 
-  /** Specifies the priority of the component. urgent alerts will be shown first. */
-  @Prop({ reflect: true }) urgent = false;
+  /** Specifies the urgency of the component when opened. */
+  @Prop({ reflect: true }) queue: AlertQueue = "last";
 
-  @Watch("urgent")
-  handleUrgentChange(): void {
-    if (this.open && this.urgent) {
+  @Watch("queue")
+  handleQueueChange(): void {
+    if (this.open) {
       this.unregisterAlert();
       this.calciteInternalAlertRegister.emit();
     }
@@ -356,10 +356,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteInternalAlertSync", { target: "window" })
   alertSync(event: CustomEvent): void {
-    if (this.queue !== event.detail.queue) {
-      this.queue = event.detail.queue;
+    if (this.queueList !== event.detail.queueList) {
+      this.queueList = event.detail.queueList;
     }
-    this.queueLength = this.queue.length;
+    this.queueLength = this.queueList.length;
     this.determineActiveAlert();
     event.stopPropagation();
   }
@@ -367,27 +367,33 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
-    if (this.open && !this.queue.includes(this.el)) {
+    if (this.open && !this.queueList.includes(this.el)) {
       this.queued = true;
-      if (this.urgent) {
-        this.queue.unshift(this.el);
-      } else {
-        this.queue.push(this.el);
+      switch (this.queue) {
+        case "immediate":
+          this.queueList.unshift(this.el);
+          break;
+        case "next":
+          this.queueList.splice(1, 0, this.el);
+          break;
+        case "last":
+          this.queueList.push(this.el);
+          break;
       }
     }
-    this.calciteInternalAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queueList: this.queueList });
     this.determineActiveAlert();
   }
 
   // Event is dispatched on the window because the element is not in the DOM so bubbling won't occur.
   @Listen("calciteInternalAlertUnregister", { target: "window" })
   alertUnregister(event: CustomEvent<Unregister>): void {
-    const queue = this.queue.filter((el) => el !== event.detail.alert);
-    this.queue = queue;
+    const queueList = this.queueList.filter((el) => el !== event.detail.alert);
+    this.queueList = queueList;
 
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
-        detail: { queue },
+        detail: { queueList },
       }),
     );
   }
@@ -450,7 +456,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @State() hasEndActions = false;
 
   /** the list of queued alerts */
-  @State() queue: HTMLCalciteAlertElement[] = [];
+  @State() queueList: HTMLCalciteAlertElement[] = [];
 
   /** the count of queued alerts */
   @State() queueLength = 0;
@@ -515,7 +521,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   /** determine which alert is active */
   private determineActiveAlert(): void {
-    if (this.queue?.[0] === this.el) {
+    if (this.queueList?.[0] === this.el) {
       this.openAlert();
       if (this.autoClose && !this.autoCloseTimeoutId) {
         this.initialOpenTime = Date.now();
@@ -536,9 +542,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     this.autoCloseTimeoutId = null;
     this.queued = false;
     this.open = false;
-    this.queue = this.queue.filter((el) => el !== this.el);
+    this.queueList = this.queueList.filter((el) => el !== this.el);
     this.determineActiveAlert();
-    this.calciteInternalAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queueList: this.queueList });
   };
 
   onBeforeOpen(): void {

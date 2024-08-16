@@ -26,7 +26,7 @@ import { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
 import { DisplayMode } from "../src/components/sheet/interfaces.ts";
 import { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
 import { OverlayPositioning } from "../src/components";
-import { AlertDuration } from "../src/components/alert/interfaces";
+import { AlertDuration, AlertQueue } from "../src/components/alert/interfaces";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -42,6 +42,7 @@ interface CommonAttributes {
   position: AttributeMetadata<Position>;
   status: AttributeMetadata<Status>;
   kind: AttributeMetadata<Kind>;
+  queue: AttributeMetadata<AlertQueue>;
   width: AttributeMetadata<Width>;
   selectionMode: AttributeMetadata<SelectionMode>;
   arrowType: AttributeMetadata<ArrowType>;
@@ -73,6 +74,7 @@ const alignmentOptions: Alignment[] = ["start", "center", "end"];
 const appearanceOptions: Appearance[] = ["solid", "outline", "outline-fill", "transparent"];
 const statusOptions: Status[] = ["invalid", "valid", "idle"];
 const kindOptions: Kind[] = ["brand", "danger", "info", "inverse", "neutral", "warning", "success"];
+const queueOptions: AlertQueue[] = ["last", "next", "immediate"];
 const widthOptions: Width[] = ["auto", "half", "full"];
 const selectionModeOptions: SelectionMode[] = [
   "single",
@@ -156,6 +158,10 @@ export const ATTRIBUTES: CommonAttributes = {
   kind: {
     values: kindOptions,
     defaultValue: kindOptions[0],
+  },
+  queue: {
+    values: queueOptions,
+    defaultValue: queueOptions[0],
   },
   width: {
     values: widthOptions,
