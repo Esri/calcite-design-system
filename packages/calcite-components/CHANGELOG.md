@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.22...@esri/calcite-components@2.12.0-next.23) (2024-08-16)
+
+### Bug Fixes
+
+- **panel:** define heading and description line height ([#10085](https://github.com/Esri/calcite-design-system/issues/10085)) ([5478eb9](https://github.com/Esri/calcite-design-system/commit/5478eb943cb88c8df6bdefd2fdc6987e23fbe9ce)), closes [#10042](https://github.com/Esri/calcite-design-system/issues/10042)
+
 ## [2.12.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.21...@esri/calcite-components@2.12.0-next.22) (2024-08-16)
 
 ### Features
