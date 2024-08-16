@@ -3304,10 +3304,6 @@ export namespace Components {
          */
         "label": string;
         /**
-          * When `true`, and when the type is `determinate`, displays the progress value as a percentage
-         */
-        "percentage": boolean;
-        /**
           * Specifies the size of the component.
          */
         "scale": Scale;
@@ -3316,9 +3312,9 @@ export namespace Components {
          */
         "text": string;
         /**
-          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
+          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress.
          */
-        "type": "indeterminate" | "determinate";
+        "type": "indeterminate" | "determinate" | "determinate-value";
         /**
           * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
          */
@@ -11400,10 +11396,6 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * When `true`, and when the type is `determinate`, displays the progress value as a percentage
-         */
-        "percentage"?: boolean;
-        /**
           * Specifies the size of the component.
          */
         "scale"?: Scale;
@@ -11412,9 +11404,9 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         /**
-          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
+          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress.
          */
-        "type"?: "indeterminate" | "determinate";
+        "type"?: "indeterminate" | "determinate" | "determinate-value";
         /**
           * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
          */

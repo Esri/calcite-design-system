@@ -39,18 +39,26 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   --calcite-loader-font-size: theme("fontSize.n2");
   --calcite-loader-size: theme("spacing.8");
   --calcite-loader-size-inline: theme("spacing.3");
+  --calcite-internal-loader-value-line-height: 1.03125rem; // 16.5px
 }
 
 :host([scale="m"]) {
   --calcite-loader-font-size: theme("fontSize.0");
   --calcite-loader-size: theme("spacing.16");
   --calcite-loader-size-inline: theme("spacing.4");
+  --calcite-internal-loader-value-line-height: 1.375rem; // 22px
 }
 
 :host([scale="l"]) {
   --calcite-loader-font-size: theme("fontSize.2");
   --calcite-loader-size: theme("spacing.24");
   --calcite-loader-size-inline: theme("spacing.6");
+  --calcite-internal-loader-value-line-height: 1.71875rem; // 27.5px
+}
+
+:host([type="determinate-value"][scale="s"]) {
+  --calcite-loader-font-size: var(--calcite-font-size--3);
+  --calcite-internal-loader-value-line-height: 0.625rem; // 10px
 }
 
 :host([no-padding]) {
@@ -75,7 +83,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   inline-size: var(--calcite-loader-size);
   inset-inline-start: 50%;
   margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
-  line-height: 0.25;
+  line-height: var(--calcite-internal-loader-value-line-height);
   transform: scale(1, 1);
 }
 
@@ -110,7 +118,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-:host([type="determinate"]) {
+:host([type="determinate"]),
+:host([type="determinate-value"]) {
   @apply animate-none;
   stroke: var(--calcite-color-border-3);
   .loader__svgs {

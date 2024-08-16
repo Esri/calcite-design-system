@@ -22,19 +22,16 @@ export class Loader implements LocalizedComponent {
   /** Accessible name for the component. */
   @Prop() label!: string;
 
-  /** When `true`, and when the type is `determinate`, displays the progress value as a percentage */
-  @Prop({ reflect: true }) percentage = false;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component type.
    *
-   * Use `"indeterminate"` if finding actual progress value is impossible.
+   * Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress.
    *
    */
-  @Prop({ reflect: true }) type: "indeterminate" | "determinate";
+  @Prop({ reflect: true }) type: "indeterminate" | "determinate" | "determinate-value";
 
   /** The component's value. Valid only for `"determinate"` indicators. Percent complete of 100. */
   @Prop() value = 0;
@@ -66,7 +63,7 @@ export class Loader implements LocalizedComponent {
     const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
     const radius = size * radiusRatio;
     const viewbox = `0 0 ${size} ${size}`;
-    const isDeterminate = type === "determinate";
+    const isDeterminate = type?.startsWith("determinate");
     const circumference = 2 * radius * Math.PI;
     const progress = (value / 100) * circumference;
     const remaining = circumference - progress;
@@ -109,7 +106,7 @@ export class Loader implements LocalizedComponent {
   }
 
   private formatValue = (): string => {
-    if (!this.percentage) {
+    if (this.type !== "determinate-value") {
       return `${this.value}`;
     }
 
@@ -127,7 +124,6 @@ export class Loader implements LocalizedComponent {
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  @Watch("percentage")
   @Watch("type")
   formatterPropsChange(): void {
     this.updateFormatter();
@@ -164,8 +160,7 @@ export class Loader implements LocalizedComponent {
 
   private updateFormatter(): void {
     if (
-      this.type !== "determinate" ||
-      !this.percentage ||
+      this.type !== "determinate-value" ||
       this.formatter?.resolvedOptions().locale === this.effectiveLocale
     ) {
       return;
