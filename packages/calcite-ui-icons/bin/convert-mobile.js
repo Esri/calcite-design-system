@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
+const { mkdirSync, writeFileSync, existsSync } = require("fs");
+const { readdir, writeFile, readFile } = require("graceful-fs");
 const svg2img = require("svg2img");
 const path = require("path");
 const yargs = require("yargs");
@@ -41,8 +42,8 @@ const options = yargs
  */
 function convertSingleIconToPng(svgFilePath, width, height, outputBasePath, outputName, outputSuffix = null) {
   // make sure output base path exists
-  if (!fs.existsSync(outputBasePath)) {
-    fs.mkdirSync(outputBasePath, {
+  if (!existsSync(outputBasePath)) {
+    mkdirSync(outputBasePath, {
       recursive: true,
     });
   }
@@ -58,7 +59,7 @@ function convertSingleIconToPng(svgFilePath, width, height, outputBasePath, outp
       console.log(error);
       process.exit(1);
     }
-    fs.writeFileSync(real_output_path, buffer);
+    writeFileSync(real_output_path, buffer);
   });
 }
 
@@ -81,14 +82,14 @@ function convertIconToXcodeImageSet(svgFilePath, width, height, outputBasePath, 
   // read template
   const imagesetTemplatePath = path.join(__dirname, "templates", "imageset.json");
   // create Contents.json for asset catalog asset
-  fs.readFile(imagesetTemplatePath, "utf8", function (error, buffer) {
+  readFile(imagesetTemplatePath, "utf8", function (error, buffer) {
     if (error) {
       console.log(error);
       process.exit(1);
     }
     const contentsJsonBuffer = buffer.replace(/\$\{NAME\}/g, outputName);
     const contentsJsonOutputPath = path.join(outputImagesetPath, "Contents.json");
-    fs.writeFileSync(contentsJsonOutputPath, contentsJsonBuffer);
+    writeFileSync(contentsJsonOutputPath, contentsJsonBuffer);
   });
 }
 
@@ -99,7 +100,7 @@ function convertIconToXcodeImageSet(svgFilePath, width, height, outputBasePath, 
 async function indexCalciteIcons(baseIconPath) {
   return new Promise((resolve) => {
     var iconIndex = {};
-    fs.readdir(baseIconPath, function (error, files) {
+    readdir(baseIconPath, function (error, files) {
       if (error) {
         console.log(error);
         process.exit(1);
@@ -138,21 +139,21 @@ async function createCalciteXCAssets(xcAssetsBaseDirectory) {
     // Put in .xcassets folder
     var directory = path.join(xcAssetsBaseDirectory, "calcite.xcassets");
     // Make sure dir exists
-    if (!fs.existsSync(directory)) {
-      fs.mkdirSync(directory, {
+    if (!existsSync(directory)) {
+      mkdirSync(directory, {
         recursive: true,
       });
     }
     // read contents.json template
     let template_path = path.join(__dirname, "templates", "xcassets.json");
     // write out file
-    fs.readFile(template_path, "utf8", function (error, buffer) {
+    readFile(template_path, "utf8", function (error, buffer) {
       if (error) {
         console.log(error);
         process.exit(1);
       }
       const contents_output_path = path.join(directory, "Contents.json");
-      fs.writeFile(contents_output_path, buffer, function (error) {
+      writeFile(contents_output_path, buffer, function (error) {
         resolve(directory);
       });
     });

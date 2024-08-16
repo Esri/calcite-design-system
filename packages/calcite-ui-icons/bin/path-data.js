@@ -1,8 +1,6 @@
 const camelCase = require("camelcase");
-const {
-  promises: { writeFile, readFile },
-  readFileSync,
-} = require("fs");
+const { readFileSync } = require("fs");
+const { writeFile, readFile } = require("graceful-fs");
 const { glob } = require("glob");
 const { parse } = require("svgson");
 const path = require("path");

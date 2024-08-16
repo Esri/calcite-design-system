@@ -1,6 +1,7 @@
 "use strict";
 
-const { readdir, mkdir, writeFile, readFile } = require("fs/promises");
+const { readdir, mkdir, writeFile, readFile } = require("graceful-fs");
+const { lstatSync } = require("fs")
 const path = require("path");
 
 const ICONS = path.resolve(path.dirname(process.argv[1]), "../icons");
@@ -11,7 +12,7 @@ const SIZES = [16, 24, 32];
 const OUTLINE = "outline";
 const FILL = "fill";
 
-const isDir = (file) => fs.lstatSync(`${ICONS}/${file}`).isDirectory();
+const isDir = (file) => lstatSync(`${ICONS}/${file}`).isDirectory();
 const readSVG = (icon) => readFile(`${ICONS}/${icon.fileName}`, { encoding: "utf-8" });
 const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 
