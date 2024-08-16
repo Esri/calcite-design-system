@@ -562,7 +562,7 @@ export namespace Components {
          */
         "placement": MenuPlacement;
         /**
-          * Specifies the urgency of the component when opened.
+          * Specifies the ordering priority of the component when opened.
          */
         "queue": AlertQueue;
         /**
@@ -8465,7 +8465,7 @@ declare namespace LocalJSX {
          */
         "placement"?: MenuPlacement;
         /**
-          * Specifies the urgency of the component when opened.
+          * Specifies the ordering priority of the component when opened.
          */
         "queue"?: AlertQueue;
         /**

@@ -249,6 +249,8 @@ describe("calcite-alert", () => {
     expect(await alert2Container.isVisible()).toBe(false);
     expect(await alert3Container.isVisible()).toBe(true);
 
+    alert3.setProperty("queue", "immediate");
+    await page.waitForChanges();
     alert2.setProperty("queue", "immediate");
     await page.waitForChanges();
     await page.waitForTimeout(animationDurationInMs);
@@ -269,6 +271,25 @@ describe("calcite-alert", () => {
     // queue: [1, 3]
     expect(await alert1Container.isVisible()).toBe(true);
     expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert2.setProperty("queue", "next");
+    alert2.setProperty("open", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    // queue: [1, 2, 3]
+    expect(await alert1Container.isVisible()).toBe(true);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert1.setProperty("open", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    // queue: [2, 3]
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(true);
     expect(await alert3Container.isVisible()).toBe(false);
   });
 
