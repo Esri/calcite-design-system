@@ -36,7 +36,7 @@ jobs:
       - if: steps.diff-check.outputs.SKIP == 'true'
         name: Skip visual snapshots for non-testable changes
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           gh pr edit "$PR_NUMBER" --add-label "skip visual snapshots"
