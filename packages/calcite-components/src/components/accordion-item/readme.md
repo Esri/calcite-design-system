@@ -33,6 +33,16 @@ Type: `Promise<void>`
 | `"actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component's header.   |
 | `"actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component's header. |
 
+## CSS Custom Properties
+
+| Name                                     | Description                                             |
+| ---------------------------------------- | ------------------------------------------------------- |
+| `--calcite-accordion-border-color`       | Specifies the component's border color.                 |
+| `--calcite-accordion-item-content-space` | Specifies the component's padding.                      |
+| `--calcite-accordion-text-color`         | Specifies the component's text color.                   |
+| `--calcite-accordion-text-color-hover`   | Specifies the component's main text color on hover.     |
+| `--calcite-accordion-text-color-pressed` | Specifies the component's main text color when pressed. |
+
 ## Dependencies
 
 ### Depends on
