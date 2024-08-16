@@ -13,6 +13,7 @@ type DialogStoryArgs = Pick<
   | "widthScale"
   | "heading"
   | "description"
+  | "escapeDisabled"
   | "closeDisabled"
   | "placement"
   | "loading"
@@ -27,6 +28,7 @@ export default {
   args: {
     open: true,
     kind: "",
+    escapeDisabled: false,
     scale: scale.defaultValue,
     widthScale: scale.values[0],
     placement: "center",
@@ -92,6 +94,7 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("menu-open", args.menuOpen)}
     ${boolean("loading", args.loading)}
     ${boolean("close-disabled", args.closeDisabled)}
+    ${boolean("escape-disabled", args.escapeDisabled)}
     ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
     kind="${args.kind}"
     scale="${args.scale}"

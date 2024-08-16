@@ -1688,6 +1688,10 @@ export namespace Components {
          */
         "embedded": boolean;
         /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key. Depending on what the dialog represents, it may not be desired for this behavior.  See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility
+         */
+        "escapeDisabled": boolean;
+        /**
           * The component header text.
          */
         "heading": string;
@@ -9687,6 +9691,10 @@ declare namespace LocalJSX {
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "embedded"?: boolean;
+        /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key. Depending on what the dialog represents, it may not be desired for this behavior.  See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility
+         */
+        "escapeDisabled"?: boolean;
         /**
           * The component header text.
          */
