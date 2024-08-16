@@ -6,8 +6,6 @@
  * @prop --calcite-action-background-color: Specifies the component's background color.
  * @prop --calcite-action-group-border-color: Specifies the component's border color when used in a calcite-action-bar or calcite-action-menu.
  * @prop --calcite-action-group-columns: Specifies the component's grid-template-columns when the `layout` property is `"grid"`.
- * @prop --calcite-action-group-gap: [Deprecated] will be removed with the removal of 'layout'. Specifies the component's gap (gutters) between rows and columns and padding around the component, when the `layout` property is `"grid"`.
- * @prop --calcite-action-group-padding: [Deprecated]. Sets the padding when the `layout` property is `"grid"`.
  *
  */
 
@@ -66,8 +64,6 @@
     @apply grid
     place-content-stretch;
     background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
-    gap: var(--calcite-action-group-gap, theme("gap.px"));
-    padding: var(--calcite-action-group-gap, theme("gap.px"));
     grid-template-columns: repeat(
       var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
       auto

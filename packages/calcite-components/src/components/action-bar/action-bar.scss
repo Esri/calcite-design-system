@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-bar-expanded-max-width: Specifies the maximum width of the component when it's `layout` is `"vertical"`.
+ * @prop --calcite-action-bar-items-space: Specifies the space between slotted components in the component.
  */
 
 :host {
@@ -11,6 +12,8 @@
   @apply pointer-events-auto
     inline-flex
     self-stretch;
+
+  gap: var(--calcite-action-bar-items-space, 0);
 }
 
 :host([layout="vertical"]) {

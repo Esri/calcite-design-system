@@ -5,6 +5,7 @@
  *
  * @prop --calcite-action-pad-corner-radius: Specifies the component's border radius.
  * @prop --calcite-action-pad-expanded-max-width: Specifies the component's maximum width when `expanded` and the `layout` is `"vertical"`.
+ * @prop --calcite-action-pad-items-space" Specifies the space between slotted components in the component.
  */
 
 :host {
@@ -32,6 +33,7 @@
   flex-col
   overflow-y-auto;
 
+  gap: var(--calcite-action-pad-items-space, 0);
   border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2) /* 4px */;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
 }
