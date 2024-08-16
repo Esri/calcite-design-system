@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { menuPlacements } from "../../utils/floating-ui";
 import { Alert } from "./Alert";
-const { scale, duration, kind, numberingSystem } = ATTRIBUTES;
+const { scale, duration, kind, numberingSystem, queue } = ATTRIBUTES;
 
 interface AlertStoryArgs
   extends Pick<
@@ -19,7 +19,7 @@ interface AlertStoryArgs
     | "open"
     | "placement"
     | "scale"
-    | "urgent"
+    | "queue"
   > {}
 
 export default {
@@ -35,7 +35,7 @@ export default {
     open: true,
     placement: menuPlacements[4],
     scale: "m",
-    urgent: false,
+    queue: "last",
   },
   argTypes: {
     autoCloseDuration: {
@@ -56,6 +56,10 @@ export default {
     },
     placement: {
       options: menuPlacements,
+      control: { type: "select" },
+    },
+    queue: {
+      options: queue.values,
       control: { type: "select" },
     },
     scale: {
@@ -89,7 +93,7 @@ export const simple = (args: AlertStoryArgs): string => html`
       ${boolean("auto-close", args.autoClose)}
       ${boolean("open", args.open)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
-      ${boolean("urgent", args.urgent)}
+      queue="${args.queue}"
       auto-close-duration="${args.autoCloseDuration}"
       scale="${args.scale}"
       kind="${args.kind}"
@@ -283,15 +287,15 @@ export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => h
   </div>
 `;
 
-export const withUrgent = (): string => html`
+export const withQueue = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert id="one" kind="brand" open>
       <div slot="title">Open by default</div>
       <div slot="message">We thought you might want to take a look</div>
     </calcite-alert>
-    <calcite-alert id="two" urgent kind="danger">
-      <div slot="title">Urgent Alert</div>
+    <calcite-alert id="two" queue="immediate" kind="danger">
+      <div slot="title">Immediate Alert</div>
       <div slot="message">We thought you might want to take a look</div>
     </calcite-alert>
     <calcite-alert id="three" kind="success">

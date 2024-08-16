@@ -21,10 +21,16 @@ export default class AlertManager {
     const { registeredElements } = this;
 
     if (!registeredElements.includes(alert)) {
-      if (alert.urgent) {
-        registeredElements.unshift(alert);
-      } else {
-        registeredElements.push(alert);
+      switch (alert.queue) {
+        case "immediate":
+          registeredElements.unshift(alert);
+          break;
+        case "next":
+          registeredElements.splice(1, 0, alert);
+          break;
+        case "last":
+          registeredElements.push(alert);
+          break;
       }
 
       this.updateAlerts();

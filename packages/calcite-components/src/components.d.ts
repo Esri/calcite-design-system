@@ -15,7 +15,7 @@ import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n
 import { Columns } from "./components/action-group/interfaces";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-import { AlertDuration } from "./components/alert/interfaces";
+import { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
 import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
@@ -111,7 +111,7 @@ export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n
 export { Columns } from "./components/action-group/interfaces";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-export { AlertDuration } from "./components/alert/interfaces";
+export { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
 export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
@@ -570,6 +570,10 @@ export namespace Components {
          */
         "placement": MenuPlacement;
         /**
+          * Specifies the ordering priority of the component when opened.
+         */
+        "queue": AlertQueue;
+        /**
           * Specifies the size of the component.
          */
         "scale": Scale;
@@ -577,10 +581,6 @@ export namespace Components {
           * Sets focus on the component's "close" button, the first focusable item.
          */
         "setFocus": () => Promise<void>;
-        /**
-          * Specifies the priority of the component. urgent alerts will be shown first.
-         */
-        "urgent": boolean;
     }
     interface CalciteAvatar {
         /**
@@ -8471,13 +8471,13 @@ declare namespace LocalJSX {
          */
         "placement"?: MenuPlacement;
         /**
+          * Specifies the ordering priority of the component when opened.
+         */
+        "queue"?: AlertQueue;
+        /**
           * Specifies the size of the component.
          */
         "scale"?: Scale;
-        /**
-          * Specifies the priority of the component. urgent alerts will be shown first.
-         */
-        "urgent"?: boolean;
     }
     interface CalciteAvatar {
         /**

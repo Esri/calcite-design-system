@@ -43,7 +43,7 @@ import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { AlertMessages } from "./assets/alert/t9n";
-import { AlertDuration } from "./interfaces";
+import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 import AlertManager from "./AlertManager";
 
@@ -188,12 +188,12 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     /* wired up by t9n util */
   }
 
-  /** Specifies the priority of the component. urgent alerts will be shown first. */
-  @Prop({ reflect: true }) urgent = false;
+  /** Specifies the ordering priority of the component when opened. */
+  @Prop({ reflect: true }) queue: AlertQueue = "last";
 
-  @Watch("urgent")
-  handleUrgentChange(): void {
-    if (this.open && this.urgent) {
+  @Watch("queue")
+  handleQueueChange(): void {
+    if (this.open) {
       manager.unregisterElement(this.el);
       manager.registerElement(this.el);
     }
@@ -453,10 +453,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  private clearAutoCloseTimeout = (): void => {
+  private clearAutoCloseTimeout(): void {
     window.clearTimeout(this.autoCloseTimeoutId);
     this.autoCloseTimeoutId = null;
-  };
+  }
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;

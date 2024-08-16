@@ -18,8 +18,8 @@ describe("defaults", () => {
       defaultValue: false,
     },
     {
-      propertyName: "urgent",
-      defaultValue: false,
+      propertyName: "queue",
+      defaultValue: "last",
     },
   ]);
 });
@@ -27,8 +27,8 @@ describe("defaults", () => {
 describe("reflects", () => {
   reflects("calcite-alert", [
     {
-      propertyName: "urgent",
-      value: true,
+      propertyName: "queue",
+      value: "last",
     },
   ]);
 });
@@ -203,7 +203,7 @@ describe("calcite-alert", () => {
     expect(await alert3.isVisible()).toBe(true);
   });
 
-  it("should handle urgent alerts", async () => {
+  it("should queue alerts", async () => {
     const page = await newE2EPage();
     await skipAnimations(page);
     await page.setContent(`
@@ -231,7 +231,7 @@ describe("calcite-alert", () => {
     await page.waitForChanges();
     alert2.setProperty("open", true);
     await page.waitForChanges();
-    alert3.setProperty("urgent", true);
+    alert3.setProperty("queue", "immediate");
     await page.waitForChanges();
     alert3.setProperty("open", true);
     await page.waitForChanges();
@@ -245,16 +245,31 @@ describe("calcite-alert", () => {
     const alert2Container = await page.find(`#alert-2 >>> .${CSS.container}`);
     const alert3Container = await page.find(`#alert-3 >>> .${CSS.container}`);
 
+    // queue: [3, 1, 2]
     expect(await alert1Container.isVisible()).toBe(false);
     expect(await alert2Container.isVisible()).toBe(false);
     expect(await alert3Container.isVisible()).toBe(true);
 
-    alert2.setProperty("urgent", true);
+    alert2.setProperty("queue", "immediate");
     await page.waitForChanges();
     await page.waitForTimeout(animationDurationInMs);
 
+    // queue: [2, 3, 1]
     expect(await alert1Container.isVisible()).toBe(false);
     expect(await alert2Container.isVisible()).toBe(true);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert1.setProperty("queue", "next");
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    alert2.setProperty("open", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    // queue: [1, 3]
+    expect(await alert1Container.isVisible()).toBe(true);
+    expect(await alert2Container.isVisible()).toBe(false);
     expect(await alert3Container.isVisible()).toBe(false);
   });
 

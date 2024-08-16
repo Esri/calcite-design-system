@@ -10,13 +10,13 @@ describe("AlertManager", () => {
 
     mockAlert1 = {
       active: false,
-      urgent: false,
+      queue: "last",
       openAlertCount: 0,
     } as HTMLCalciteAlertElement;
 
     mockAlert2 = {
       active: false,
-      urgent: false,
+      queue: "last",
       openAlertCount: 0,
     } as HTMLCalciteAlertElement;
   });
