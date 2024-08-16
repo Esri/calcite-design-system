@@ -79,6 +79,14 @@
     inline-size var(--calcite-animation-timing);
 }
 
+.container:focus {
+  @apply focus-inset z-default;
+
+  .header {
+    @apply -z-default;
+  }
+}
+
 .container[hidden] {
   @apply hidden;
 }
@@ -163,6 +171,10 @@
   bg-background
   overflow-auto
   h-full;
+}
+
+.content-wrapper:focus {
+  @apply focus-inset;
 }
 
 .content-top,

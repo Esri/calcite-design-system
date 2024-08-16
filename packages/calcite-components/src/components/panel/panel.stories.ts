@@ -579,3 +579,36 @@ export const scalesFontAndPadding = (): string => html`
     ${footerHTML}
   </calcite-panel>
 `;
+
+export const focusStyling = (): string => html`
+  <calcite-panel
+    closable
+    heading="This is a heading"
+    description="And that's a description"
+    style="height: 220px; margin: 50px;"
+  >
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div slot="content-top">Content Top</div>
+    <p>
+      Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae;
+      leo semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula purus porta ante
+      lacus habitasse libero cubilia purus! In quis congue arcu maecenas felis cursus pellentesque nascetur porta donec
+      non. Quisque, rutrum ligula pharetra justo habitasse facilisis rutrum neque. Magnis nostra nec nulla dictumst
+      taciti consectetur. Non porttitor tempor orci dictumst magna porta vitae.
+    </p>
+    <p>
+      Ipsum nostra tempus etiam augue ullamcorper scelerisque sapien potenti erat nisi gravida. Vehicula sem tristique
+      sed. Nullam, sociis imperdiet ullamcorper? Dapibus fames primis ridiculus vulputate, habitant inceptos! Nunc
+      torquent lorem urna vehicula volutpat donec nec. Orci massa eu nec donec enim fames, faucibus quam aenean. Laoreet
+      tellus tempor quisque ornare lobortis praesent erat senectus natoque consectetur donec imperdiet. Quis sem cum
+      gravida dictumst a pretium purus aptent amet id. Orci habitasse, praesent facilisis condimentum. Nec elit turpis
+      leo.
+    </p>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+  <script>
+    document.querySelector("calcite-panel").setFocus();
+  </script>
+`;
