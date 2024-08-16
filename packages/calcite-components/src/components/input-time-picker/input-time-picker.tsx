@@ -401,6 +401,10 @@ export class InputTimePicker
 
   private localeConfig: ILocale;
 
+  private localeDefaultLTFormat: string;
+
+  private localeDefaultLTSFormat: string;
+
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
 
@@ -514,6 +518,8 @@ export class InputTimePicker
       this.hourCycle = getLocaleHourCycle(locale);
     }
     this.setLocalizedInputValue({ locale });
+    this.localeDefaultLTFormat = this.localeConfig.formats.LT;
+    this.localeDefaultLTSFormat = this.localeConfig.formats.LTS;
   }
 
   // --------------------------------------------------------------------------
@@ -618,86 +624,50 @@ export class InputTimePicker
     localizedTimeString: string,
     fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
-    let ltFormatString = this.localeConfig.formats.LT;
-    let ltsFormatString = this.localeConfig.formats.LTS;
-
-    const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
-    if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
-      const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
-      ltsFormatString = fractionalSecondTokenMatch
-        ? ltsFormatString.replace(fractionalSecondTokenMatch[0], secondFormatToken)
-        : ltsFormatString.replace("ss", secondFormatToken);
-    } else if (fractionalSecondTokenMatch) {
-      ltsFormatString = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
-    }
-
     const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
-    const ltHourTokenMatch = ltFormatString.match(/(h+)|(H+)/g);
-    const ltsHourTokenMatch = ltsFormatString.match(/(h+)|(H+)/g);
+    this.setLocaleTimeFormat({ fractionalSecondFormatToken, hourCycle: localeDefaultHourCycle });
+    const defaultHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
 
-    if (this.hourCycle === "12" && localeDefaultHourCycle === "24") {
-      if (ltHourTokenMatch) {
-        ltFormatString = ltFormatString.replace(
-          ltHourTokenMatch[0],
-          "".padStart(ltHourTokenMatch[0].length, "h"),
-        );
-      }
-      if (ltsHourTokenMatch) {
-        ltsFormatString = ltsFormatString.replace(
-          ltsHourTokenMatch[0],
-          "".padStart(ltsHourTokenMatch[0].length, "h"),
-        );
-      }
-    } else if (this.hourCycle === "24" && localeDefaultHourCycle === "12") {
-      const ltMeridiemTokenMatch = ltFormatString.match(/(a)|(A)/g);
-      const ltsMeridiemTokenMatch = ltsFormatString.match(/(a)|(A)/g);
-
-      if (ltMeridiemTokenMatch) {
-        ltFormatString = ltFormatString.replace(ltMeridiemTokenMatch[0], "");
-      }
-      if (ltsMeridiemTokenMatch) {
-        ltsFormatString = ltsFormatString.replace(ltsMeridiemTokenMatch[0], "");
-      }
-      if (ltHourTokenMatch) {
-        ltFormatString = ltFormatString.replace(
-          ltHourTokenMatch[0],
-          "".padStart(ltHourTokenMatch[0].length, "H"),
-        );
-      }
-      if (ltsHourTokenMatch) {
-        ltsFormatString = ltsFormatString.replace(
-          ltsHourTokenMatch[0],
-          "".padStart(ltsHourTokenMatch[0].length, "H"),
-        );
-      }
-    }
-
-    // TODO: handle special case for macedonia (mk) locale
-
-    this.localeConfig.formats.LT = ltFormatString;
-    this.localeConfig.formats.LTS = ltsFormatString;
-
-    dayjs.updateLocale(
-      this.getSupportedDayjsLocale(getSupportedLocale(this.effectiveLocale)),
-      this.localeConfig as Record<string, any>,
-    );
-
-    const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
-
-    if (dayjsParseResult.isValid()) {
+    if (defaultHourCycleParseResult.isValid()) {
       return {
-        hour: dayjsParseResult.get("hour"),
-        minute: dayjsParseResult.get("minute"),
-        second: dayjsParseResult.get("second"),
-        millisecond: dayjsParseResult.get("millisecond"),
+        hour: defaultHourCycleParseResult.get("hour"),
+        minute: defaultHourCycleParseResult.get("minute"),
+        second: defaultHourCycleParseResult.get("second"),
+        millisecond: defaultHourCycleParseResult.get("millisecond"),
       };
     }
+
+    this.setLocaleTimeFormat({
+      fractionalSecondFormatToken,
+      hourCycle: this.getLocaleOppositeHourFormat(),
+    });
+    const oppositeHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
+
+    if (oppositeHourCycleParseResult.isValid()) {
+      return {
+        hour: oppositeHourCycleParseResult.get("hour"),
+        minute: oppositeHourCycleParseResult.get("minute"),
+        second: oppositeHourCycleParseResult.get("second"),
+        millisecond: oppositeHourCycleParseResult.get("millisecond"),
+      };
+    }
+
     return {
       hour: null,
       minute: null,
       second: null,
       millisecond: null,
     };
+  }
+
+  getLocaleOppositeHourFormat(): HourCycle {
+    const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
+    if (localeDefaultHourCycle === "12") {
+      return "24";
+    }
+    if (localeDefaultHourCycle === "24") {
+      return "12";
+    }
   }
 
   private getTimeStringFromParts(parts: DayjsTimeParts): string {
@@ -921,6 +891,80 @@ export class InputTimePicker
       },
     });
   };
+
+  private setLocaleTimeFormat({
+    fractionalSecondFormatToken,
+    hourCycle,
+  }: {
+    fractionalSecondFormatToken?: "S" | "SS" | "SSS";
+    hourCycle: HourCycle;
+  }): void {
+    const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
+
+    let ltFormatString = this.localeConfig.formats.LT;
+    const ltHourTokenMatch = ltFormatString.match(/(h+)|(H+)/g);
+
+    let ltsFormatString = this.localeConfig.formats.LTS;
+    const ltsHourTokenMatch = ltsFormatString.match(/(h+)|(H+)/g);
+
+    if (hourCycle === "12" && localeDefaultHourCycle === "24") {
+      if (ltHourTokenMatch) {
+        ltFormatString = ltFormatString.replace(
+          ltHourTokenMatch[0],
+          "".padStart(ltHourTokenMatch[0].length, "h"),
+        );
+      }
+      if (ltsHourTokenMatch) {
+        ltsFormatString = ltsFormatString.replace(
+          ltsHourTokenMatch[0],
+          "".padStart(ltsHourTokenMatch[0].length, "h"),
+        );
+      }
+    } else if (hourCycle === "24" && localeDefaultHourCycle === "12") {
+      const ltMeridiemTokenMatch = ltFormatString.match(/(a)|(A)/g);
+      const ltsMeridiemTokenMatch = ltsFormatString.match(/(a)|(A)/g);
+
+      if (ltMeridiemTokenMatch) {
+        ltFormatString = ltFormatString.replace(ltMeridiemTokenMatch[0], "");
+      }
+      if (ltsMeridiemTokenMatch) {
+        ltsFormatString = ltsFormatString.replace(ltsMeridiemTokenMatch[0], "");
+      }
+      if (ltHourTokenMatch) {
+        ltFormatString = ltFormatString.replace(
+          ltHourTokenMatch[0],
+          "".padStart(ltHourTokenMatch[0].length, "H"),
+        );
+      }
+      if (ltsHourTokenMatch) {
+        ltsFormatString = ltsFormatString.replace(
+          ltsHourTokenMatch[0],
+          "".padStart(ltsHourTokenMatch[0].length, "H"),
+        );
+      }
+    } else {
+      ltFormatString = this.localeDefaultLTFormat;
+      ltsFormatString = this.localeDefaultLTSFormat;
+    }
+
+    const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
+    if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
+      const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
+      ltsFormatString = fractionalSecondTokenMatch
+        ? ltsFormatString.replace(fractionalSecondTokenMatch[0], secondFormatToken)
+        : ltsFormatString.replace("ss", secondFormatToken);
+    } else if (fractionalSecondTokenMatch) {
+      ltsFormatString = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
+    }
+
+    this.localeConfig.formats.LT = ltFormatString;
+    this.localeConfig.formats.LTS = ltsFormatString;
+
+    dayjs.updateLocale(
+      this.getSupportedDayjsLocale(getSupportedLocale(this.effectiveLocale)),
+      this.localeConfig as Record<string, any>,
+    );
+  }
 
   private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
     if (!this.calciteInputEl) {
