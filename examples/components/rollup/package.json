@@ -1,0 +1,31 @@
+{
+  "name": "calcite-rollup-starter",
+  "description": "Starter application for @esri/calcite-commponents with Rollup",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "examples/components/rollup"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "dev": "npm-run-all --parallel start watch",
+    "start": "serve public"
+  },
+  "dependencies": {
+    "@esri/calcite-components": "^2.11.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@stencil/core": "^4.20.0",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^4.20.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "serve": "^14.2.3"
+  }
+}

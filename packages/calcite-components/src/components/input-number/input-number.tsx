@@ -17,6 +17,7 @@ import {
   getSlotted,
   isPrimaryPointerButton,
   setRequestedIcon,
+  toAriaBoolean,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -1092,7 +1093,7 @@ export class InputNumber
     const childEl = (
       <input
         aria-errormessage={IDS.validationMessage}
-        aria-invalid={this.status === "invalid"}
+        aria-invalid={toAriaBoolean(this.status === "invalid")}
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus ? true : null}
