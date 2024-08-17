@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.23...@esri/calcite-components@2.12.0-next.24) (2024-08-17)
+
+### Features
+
+- **alert:** add 'queue' property to prioritize the ordering of alerts when opened ([#10029](https://github.com/Esri/calcite-design-system/issues/10029)) ([3aa47a4](https://github.com/Esri/calcite-design-system/commit/3aa47a46739f76ce2abf9d1bf5fdb5d5ad09edfa)), closes [#8705](https://github.com/Esri/calcite-design-system/issues/8705) [#8316](https://github.com/Esri/calcite-design-system/issues/8316)
+
+### Bug Fixes
+
+- **dialog:** fix escapeDisabled when the escape key is pressed on the panel ([#10097](https://github.com/Esri/calcite-design-system/issues/10097)) ([9a5f1f1](https://github.com/Esri/calcite-design-system/commit/9a5f1f1463d84bce33dd121163c85d3edbc43151)), closes [#10080](https://github.com/Esri/calcite-design-system/issues/10080)
+
 ## [2.12.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.22...@esri/calcite-components@2.12.0-next.23) (2024-08-16)
 
 ### Bug Fixes
