@@ -68,6 +68,13 @@ export class Slider
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   *
+   * Range mode will always display the fill between the min and max handles.
+   */
+  @Prop({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
+
+  /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
@@ -83,16 +90,9 @@ export class Slider
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /**
-   * Used to configure where the fill is placed along the slider track in relation to the value handle.
-   *
-   * Range mode will always display the fill between the min and max handles.
-   */
-  @Prop({ reflect: true }) highlightPlacement: "start" | "none" | "end" = "start";
-
-  /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
    */
   @Prop() histogram: DataSeries;
 
@@ -289,14 +289,14 @@ export class Slider
         mirror,
       });
 
-    const { highlightPlacement } = this;
+    const fillPlacement = valueIsRange ? "start" : this.fillPlacement;
     const trackRangePlacementStyles =
-      highlightPlacement === "none"
+      fillPlacement === "none"
         ? {
             left: `unset`,
             right: `unset`,
           }
-        : highlightPlacement === "end"
+        : fillPlacement === "end"
           ? {
               left: `${mirror ? minInterval : maxInterval}%`,
               right: `${mirror ? maxInterval : minInterval}%`,
@@ -319,11 +319,7 @@ export class Slider
             }}
           >
             {this.renderGraph()}
-            <div
-              class={CSS.track}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.storeTrackRef}
-            >
+            <div class={CSS.track} ref={this.storeTrackRef}>
               <div
                 class={CSS.trackRange}
                 onPointerDown={this.onTrackPointerDown}
@@ -332,9 +328,17 @@ export class Slider
               <div class={CSS.ticks}>
                 {this.tickValues.map((tick) => {
                   const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-                  let activeTicks = tick >= min && tick <= value;
-                  if (useMinValue) {
-                    activeTicks = tick >= this.minValue && tick <= this.maxValue;
+
+                  let activeTicks: boolean = false;
+
+                  if (fillPlacement === "start" || fillPlacement === "end") {
+                    if (useMinValue) {
+                      activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                    } else {
+                      const rangeStart = fillPlacement === "start" ? min : value;
+                      const rangeEnd = fillPlacement === "start" ? value : this.max;
+                      activeTicks = tick >= rangeStart && tick <= rangeEnd;
+                    }
                   }
 
                   return (
@@ -447,11 +451,10 @@ export class Slider
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
+        ref={this.storeThumbRef}
         role="slider"
         style={thumbStyle}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.storeThumbRef}
       >
         {thumbContent}
       </div>

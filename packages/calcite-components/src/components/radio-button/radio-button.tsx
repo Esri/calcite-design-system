@@ -505,10 +505,9 @@ export class RadioButton implements LabelableComponent, InteractiveComponent, Lo
             class={CSS.container}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
+            ref={this.setContainerEl}
             role="radio"
             tabIndex={tabIndex}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setContainerEl}
           >
             <div class="radio" />
           </div>

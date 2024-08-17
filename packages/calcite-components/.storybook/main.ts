@@ -2,6 +2,7 @@ module.exports = {
   addons: [
     "@storybook/addon-a11y",
     "@storybook/addon-docs",
+    "@storybook/addon-controls",
     "@storybook/addon-interactions",
     "@storybook/addon-mdx-gfm",
     "@storybook/addon-themes",
@@ -56,7 +57,7 @@ module.exports = {
           closable
           kind="warning"
           scale="l"
-          style="font-family: var(--calcite-sans-family)"
+          style="font-family: var(--calcite-font-family)"
         >
           <div slot="title">
             This storybook is on the current @next version and is meant for internal, testing purposes only.

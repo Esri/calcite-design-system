@@ -34,8 +34,9 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
+import { DEBOUNCE } from "../../utils/resources";
 import { FilterMessages } from "./assets/filter/t9n";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
+import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-filter",
@@ -80,6 +81,16 @@ export class Filter
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: object[] = [];
+
+  /**
+   * Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched.
+   */
+  @Prop() filterProps: string[];
+
+  @Watch("filterProps")
+  filterPropsHandler(): void {
+    this.filterDebounced(this.value);
+  }
 
   /**
    * Specifies placeholder text for the input element.
@@ -159,7 +170,7 @@ export class Filter
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     if (this.items.length) {
-      this.updateFiltered(filter(this.items, this.value));
+      this.updateFiltered(filter(this.items, this.value, this.filterProps));
     }
     await setUpMessages(this);
   }
@@ -223,8 +234,9 @@ export class Filter
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
-    DEBOUNCE_TIMEOUT,
+      this.items.length &&
+      this.updateFiltered(filter(this.items, value, this.filterProps), emit, onFilter),
+    DEBOUNCE.filter,
   );
 
   inputHandler = (event: CustomEvent): void => {
@@ -284,13 +296,12 @@ export class Filter
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
-              scale={scale}
-              type="text"
-              value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el): void => {
                 this.textInput = el;
               }}
+              scale={scale}
+              type="text"
+              value={this.value}
             />
           </label>
         </div>

@@ -4,22 +4,6 @@ For comprehensive guidance on using and implementing `calcite-icon`, refer to th
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Custom-icon-color
-
-To use a custom color for the icon fill, you can supply your desired color to the `--calcite-ui-icon-color` CSS variable:
-
-```html
-<calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
-```
-
-```css
-.my-icon-color-class {
-  --calcite-ui-icon-color: #007ac2;
-}
-```
-
 ## Properties
 
 | Property    | Attribute    | Description                                                                                      | Type                | Default     |
@@ -47,6 +31,7 @@ To use a custom color for the icon fill, you can supply your desired color to th
 - [calcite-block-section](../block-section)
 - [calcite-button](../button)
 - [calcite-card](../card)
+- [calcite-carousel](../carousel)
 - [calcite-chip](../chip)
 - [calcite-combobox](../combobox)
 - [calcite-combobox-item](../combobox-item)
@@ -94,6 +79,7 @@ graph TD;
   calcite-block-section --> calcite-icon
   calcite-button --> calcite-icon
   calcite-card --> calcite-icon
+  calcite-carousel --> calcite-icon
   calcite-chip --> calcite-icon
   calcite-combobox --> calcite-icon
   calcite-combobox-item --> calcite-icon

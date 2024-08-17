@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-progress`, refer t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-progress type="indeterminate"></calcite-progress>
-```
-
 ## Properties
 
 | Property   | Attribute  | Description                                                                                         | Type                               | Default         |
@@ -26,6 +18,7 @@ For comprehensive guidance on using and implementing `calcite-progress`, refer t
 
 ### Used by
 
+- [calcite-carousel](../carousel)
 - [calcite-input](../input)
 - [calcite-input-number](../input-number)
 - [calcite-input-text](../input-text)
@@ -34,6 +27,7 @@ For comprehensive guidance on using and implementing `calcite-progress`, refer t
 
 ```mermaid
 graph TD;
+  calcite-carousel --> calcite-progress
   calcite-input --> calcite-progress
   calcite-input-number --> calcite-progress
   calcite-input-text --> calcite-progress

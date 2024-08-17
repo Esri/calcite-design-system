@@ -1,10 +1,68 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { Stepper } from "../stepper/stepper";
+import { StepperItem } from "../stepper-item/stepper-item";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { layout, scale } = ATTRIBUTES;
+
+type StepperArgs = Pick<Stepper, "layout" | "scale" | "numbered" | "icon">;
+
+type StepperItemArgs1 = {
+  heading1: StepperItem["heading"];
+  description1: StepperItem["description"];
+};
+
+type StepperItemArgs2 = {
+  heading2: StepperItem["heading"];
+  description2: StepperItem["description"];
+};
+
+type StepperItemArgs3 = {
+  heading3: StepperItem["heading"];
+  description3: StepperItem["description"];
+};
+
+type StepperItemArgs4 = {
+  heading4: StepperItem["heading"];
+  description4: StepperItem["description"];
+};
+
+type StepperStoryArgs = StepperArgs & StepperItemArgs1 & StepperItemArgs2 & StepperItemArgs3 & StepperItemArgs4;
 
 export default {
   title: "Components/Stepper",
+  args: {
+    layout: layout.defaultValue,
+    scale: scale.defaultValue,
+    numbered: true,
+    icon: true,
+    heading1: "Choose method",
+    description1: "Add members without sending invitations",
+    heading2: "Compile member list",
+    description2: "",
+    heading3: "Set member properties",
+    description3: "",
+    heading4: "Confirm and complete",
+    description4: "Disabled example",
+  },
+  argTypes: {
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none",
+      ),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 500,
@@ -12,119 +70,83 @@ export default {
   },
 };
 
-export const simple = (): string => html`
+export const simple = (args: StepperStoryArgs): string => html`
   <h1>Default</h1>
   <calcite-stepper
-    layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("numbered", true)}
-    ${boolean("icon", true)}
+    layout="${args.layout}"
+    scale="${args.scale}"
+    ${boolean("numbered", args.numbered)}
+    ${boolean("icon", args.icon)}
   >
-    <calcite-stepper-item
-      heading="${text("heading-1", "Choose method")}"
-      description="${text("description-1", "Add members without sending invitations")}"
-      complete
-    >
+    <calcite-stepper-item heading="${args.heading1}" description="${args.description1}" complete>
       <calcite-notice open width="full"><div slot="message">Step 1 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-2", "Compile member list")}"
-      description="${text("description-2", "")}"
-      complete
-      error
-    >
+    <calcite-stepper-item heading="${args.heading2}" description="${args.description2}" complete error>
       <calcite-notice open width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-3", "Set member properties")}"
-      description="${text("description-3", "")}"
-      selected
-    >
+    <calcite-stepper-item heading="${args.heading3}" description="${args.description3}" selected>
       <calcite-notice open width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-4", "Confirm and complete")}"
-      description="${text("description-4", "Disabled example")}"
-      disabled
-    >
+    <calcite-stepper-item heading="${args.heading4}" description="${args.description4}" disabled>
       <calcite-notice open width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
   </calcite-stepper>
   <h1>No Content</h1>
   <calcite-stepper
-    layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("numbered", true)}
-    ${boolean("icon", true)}
+    layout="${args.layout}"
+    scale="${args.scale}"
+    ${boolean("numbered", args.numbered)}
+    ${boolean("icon", args.icon)}
   >
-    <calcite-stepper-item
-      heading="${text("heading-1", "Choose method")}"
-      description="${text("description-1", "Add members without sending invitations")}"
-      complete
-    >
+    <calcite-stepper-item heading="${args.heading1}" description="${args.description1}" complete>
     </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-2", "Compile member list")}"
-      description="${text("description-2", "")}"
-      complete
-      error
-    >
+    <calcite-stepper-item heading="${args.heading2}" description="${args.description2}" complete error>
     </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-3", "Set member properties")}"
-      description="${text("description-3", "")}"
-      selected
-    >
+    <calcite-stepper-item heading="${args.heading3}" description="${args.description3}" selected>
     </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-4", "Confirm and complete")}"
-      description="${text("description-4", "Disabled example")}"
-      disabled
-    >
+    <calcite-stepper-item heading="${args.heading4}" description="${args.description4}" disabled>
     </calcite-stepper-item>
   </calcite-stepper>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-<div dir="rtl">
-  <calcite-stepper
-  class="calcite-mode-dark"
-    layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("numbered", true)}
-    ${boolean("icon", true)}
-  >
-    <calcite-stepper-item
-      heading="${text("heading-1", "Choose method")}"
-      description="${text("description-1", "Add members without sending invitations")}"
-      complete
+  <div dir="rtl">
+    <calcite-stepper
+    class="calcite-mode-dark"
+      layout="horizontal"
+      scale="m"
+      numbered
+      icon
     >
-      <calcite-notice open width="full"><div slot=message">Step 1 Content Goes Here</div></calcite-notice>
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-2", "Compile member list")}"
-      description="${text("description-2", "")}"
-      complete
-      error
-    >
-      <calcite-notice open width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-3", "Set member properties")}"
-      description="${text("description-3", "")}"
-      selected
-    >
-      <calcite-notice open width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="${text("heading-4", "Confirm and complete")}"
-      description="${text("description-4", "Disabled example")}"
-      disabled
-    >
-      <calcite-notice open width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
-    </calcite-stepper-item>
-  </calcite-stepper>
-</div>
+      <calcite-stepper-item
+        heading="Choose method"
+        description="Add members without sending invitations"
+        complete
+      >
+        <calcite-notice open width="full"><div slot=message">Step 1 Content Goes Here</div></calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item
+        heading="Compile member list"
+        complete
+        error
+      >
+        <calcite-notice open width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item
+        heading="Set member properties"
+        selected
+      >
+        <calcite-notice open width="full"><div slot="message">Step 3 Constent Goes Here</div></calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item
+        heading="Confirm and complete"
+        description="Disabled example"
+        disabled
+      >
+        <calcite-notice open width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
+      </calcite-stepper-item>
+    </calcite-stepper>
+  </div>
 `;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
@@ -141,12 +163,12 @@ export const overriddenWidth_TestOnly = (): string =>
         <div slot="message">Step 2 Content Goes Here</div>
       </calcite-notice>
     </calcite-stepper-item>
-    <calcite-stepper-item heading="Set member properties" description="" selected>
+    <calcite-stepper-item heading="Set member properties" selected>
       <calcite-notice open width="full">
         <div slot="message">Step 3 Content Goes Here</div>
       </calcite-notice>
     </calcite-stepper-item>
-    <calcite-stepper-item heading="Confirm and complete" description="Disabled example" disabled="">
+    <calcite-stepper-item heading="Confirm and complete" description="Disabled example" disabled>
       <calcite-notice open width="full">
         <div slot="message">Step 4 Content Goes Here</div>
       </calcite-notice>
@@ -274,3 +296,22 @@ export const horizontalSingleLayout_TestOnly = (): string => html`
     </calcite-stepper>
   </div>
 `;
+
+export const verticalLayoutFullWidth = (): string =>
+  html`<calcite-stepper layout="vertical" scale="s" style="width: 1000px;">
+      <calcite-stepper-item heading="Scale s" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper layout="vertical">
+      <calcite-stepper-item heading="Scale m" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper layout="vertical" scale="l">
+      <calcite-stepper-item heading="Scale l" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>`;

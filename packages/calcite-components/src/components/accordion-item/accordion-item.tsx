@@ -6,6 +6,7 @@ import {
   h,
   Host,
   Listen,
+  Method,
   Prop,
   VNode,
 } from "@stencil/core";
@@ -22,7 +23,14 @@ import {
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
+import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
+import { IconNameOrString } from "../icon/interfaces";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 
@@ -36,7 +44,7 @@ import { RequestedItem } from "./interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true,
 })
-export class AccordionItem implements ConditionalSlotComponent {
+export class AccordionItem implements ConditionalSlotComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -53,10 +61,10 @@ export class AccordionItem implements ConditionalSlotComponent {
   @Prop() description: string;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
@@ -66,13 +74,13 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @internal
    */
-  @Prop() iconPosition: Position;
+  @Prop() iconPosition: Extract<"start" | "end", Position>;
 
   /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *
    * @internal
    */
-  @Prop() iconType: "chevron" | "caret" | "plus-minus";
+  @Prop() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * The containing `accordion` element.
@@ -114,6 +122,14 @@ export class AccordionItem implements ConditionalSlotComponent {
     connectConditionalSlotComponent(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
   }
@@ -147,7 +163,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
       <calcite-icon
-        class={CSS.iconStart}
+        class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
@@ -156,7 +172,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     ) : null;
     const iconEndEl = this.iconEnd ? (
       <calcite-icon
-        class={CSS.iconEnd}
+        class={{ [CSS.iconEnd]: true, [CSS.icon]: true }}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
@@ -180,6 +196,7 @@ export class AccordionItem implements ConditionalSlotComponent {
               class={CSS.headerContent}
               id={IDS.sectionToggle}
               onClick={this.itemHeaderClickHandler}
+              ref={this.storeHeaderEl}
               role="button"
               tabindex="0"
             >
@@ -286,11 +303,30 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteAccordionItemElement;
 
+  private headerEl: HTMLDivElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.headerEl.focus();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private storeHeaderEl = (el: HTMLDivElement): void => {
+    this.headerEl = el;
+  };
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();

@@ -58,6 +58,14 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "overlay";
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop() embedded = false;
+
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
 
@@ -120,14 +128,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
   /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop() slottedInShell: boolean;
-
-  /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    */
   @Prop({ reflect: true }) widthScale: Scale = "m";
@@ -159,7 +159,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     deactivateFocusTrap(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -175,17 +175,17 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
-            [CSS.containerSlottedInShell]: this.slottedInShell,
+            [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
+          ref={this.setTransitionEl}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           <div
             class={{
               [CSS.content]: true,
             }}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setTransitionEl}
+            ref={this.setContentId}
           >
             <slot />
           </div>
@@ -298,9 +298,12 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     deactivateFocusTrap(this);
   }
 
+  private setContentId = (el: HTMLDivElement): void => {
+    this.contentId = ensureId(el);
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.contentId = ensureId(el);
   };
 
   private openEnd = (): void => {
@@ -311,7 +314,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private openSheet(): void {
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
     this.opened = true;
-    if (!this.slottedInShell) {
+    if (!this.embedded) {
       this.initialOverflowCSS = document.documentElement.style.overflow;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");

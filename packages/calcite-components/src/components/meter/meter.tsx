@@ -27,7 +27,7 @@ import {
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "./resources";
-import { MeterLabelType } from "./interfaces";
+import { MeterFillType, MeterLabelType } from "./interfaces";
 
 @Component({
   tag: "calcite-meter",
@@ -50,7 +50,7 @@ export class Meter implements LoadableComponent, LocalizedComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
-  @Prop({ reflect: true }) fillType: "single" | "range" = "range";
+  @Prop({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
    * The `id` of the form that will be associated with the component.
@@ -378,7 +378,6 @@ export class Meter implements LoadableComponent, LocalizedComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelValue]: true }}
         key="low-label-line"
-        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.valueLabelEl = el)}
       >
         {label}
@@ -400,9 +399,8 @@ export class Meter implements LoadableComponent, LocalizedComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="min-label-line"
-        style={style}
-        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.minLabelEl = el)}
+        style={style}
       >
         {labelMin}
         {unitLabel && rangeLabelType !== "percent" && (
@@ -425,9 +423,8 @@ export class Meter implements LoadableComponent, LocalizedComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="low-label-line"
-        style={style}
-        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.lowLabelEl = el)}
+        style={style}
       >
         {label}
       </div>
@@ -446,9 +443,8 @@ export class Meter implements LoadableComponent, LocalizedComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="high-label-line"
-        style={style}
-        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.highLabelEl = el as HTMLDivElement)}
+        style={style}
       >
         {label}
       </div>
@@ -466,9 +462,8 @@ export class Meter implements LoadableComponent, LocalizedComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="max-label-line"
-        style={style}
-        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.maxLabelEl = el as HTMLDivElement)}
+        style={style}
       >
         {labelMax}
       </div>
@@ -517,9 +512,8 @@ export class Meter implements LoadableComponent, LocalizedComponent {
             [CSS.valueVisible]: valueLabel,
             [appearance]: appearance !== "outline-fill",
           }}
-          role="meter"
-          // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.meterContainerEl = el as HTMLDivElement)}
+          role="meter"
         >
           {this.renderMeterFill()}
           {valueLabel && this.renderValueLabel()}

@@ -36,19 +36,26 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
  * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
- * @slot footer - A slot for adding custom content to the component's footer.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 @Component({
   tag: "calcite-flow-item",
@@ -81,7 +88,7 @@ export class FlowItem
    *
    * @internal
    */
-  @Prop() collapseDirection: "down" | "up" = "down";
+  @Prop() collapseDirection: CollapseDirection = "down";
 
   /**
    * When `true`, the component is collapsible.
@@ -92,6 +99,9 @@ export class FlowItem
    * When provided, the method will be called before it is removed from its parent `calcite-flow`.
    */
   @Prop() beforeBack: () => Promise<void>;
+
+  /** Passes a function to run before the component closes. */
+  @Prop() beforeClose: () => Promise<void>;
 
   /** A description for the component. */
   @Prop() description: string;
@@ -149,6 +159,9 @@ export class FlowItem
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, displays a back button in the component's header.
@@ -289,6 +302,7 @@ export class FlowItem
 
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.closed = true;
     this.calciteFlowItemClose.emit();
   };
 
@@ -331,12 +345,11 @@ export class FlowItem
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
+        ref={this.setBackRef}
         scale="s"
         slot="header-actions-start"
         text={label}
         title={label}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setBackRef}
       />
     ) : null;
   }
@@ -356,11 +369,13 @@ export class FlowItem
       menuOpen,
       messages,
       overlayPositioning,
+      beforeClose,
     } = this;
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
           <calcite-panel
+            beforeClose={beforeClose}
             closable={closable}
             closed={closed}
             collapseDirection={collapseDirection}
@@ -377,18 +392,23 @@ export class FlowItem
             onCalcitePanelScroll={this.handlePanelScroll}
             onCalcitePanelToggle={this.handlePanelToggle}
             overlayPositioning={overlayPositioning}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setContainerRef}
+            scale={this.scale}
           >
             {this.renderBackButton()}
             <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+            <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
             <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
             <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
             <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
             <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
             <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-            <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
+            <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+            <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+            <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
             <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+            <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+            <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
             <slot />
           </calcite-panel>
         </InteractiveContainer>

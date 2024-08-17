@@ -4,20 +4,6 @@ For comprehensive guidance on using and implementing `calcite-alert`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-A single instance of an alert. Multiple alerts will aggregate in a queue.
-
-```html
-<calcite-alert open>
-  <div slot="title">Title of alert</div>
-  <div slot="message">Message text of the alert</div>
-  <a slot="link" href="#">Retry</a>
-</calcite-alert>
-```
-
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                           | Type                                                                              | Default     |

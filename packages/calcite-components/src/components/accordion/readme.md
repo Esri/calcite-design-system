@@ -4,18 +4,6 @@ For comprehensive guidance on using and implementing `calcite-accordion`, refer 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-accordion>
-  <calcite-accordion-item heading="Accordion Item">Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item heading="Accordion Item 2" expanded>Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item heading="Accordion Item 3">Accordion Section Content </calcite-accordion-item>
-</calcite-accordion>
-```
-
 ## Properties
 
 | Property        | Attribute        | Description                                                                                                                                                                                                      | Type                                         | Default      |
@@ -31,6 +19,13 @@ For comprehensive guidance on using and implementing `calcite-accordion`, refer 
 | Slot | Description                                                                                                               |
 | ---- | ------------------------------------------------------------------------------------------------------------------------- |
 |      | A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. |
+
+## CSS Custom Properties
+
+| Name                                   | Description                                 |
+| -------------------------------------- | ------------------------------------------- |
+| `--calcite-accordion-background-color` | Specifies the component's background color. |
+| `--calcite-accordion-border-color`     | Specifies the component's border color.     |
 
 ---
 

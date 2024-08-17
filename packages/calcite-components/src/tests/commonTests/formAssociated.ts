@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
 import { html } from "../../../support/formatting";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { GlobalTestProps } from "./../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
@@ -136,7 +137,6 @@ export function formAssociated(
   }
 
   async function testRequiredPropertyValidation(): Promise<void> {
-    const requiredValidationMessage = "Please fill out this field.";
     const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
     const tag = getTag(tagOrHTML);
     const componentHtml = ensureUnchecked(
@@ -158,9 +158,36 @@ export function formAssociated(
     const component = await page.find(tag);
 
     const submitButton = await page.find("#submitButton");
+    const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
+    const spyInvalidEvent = await page.spyOnEvent("calciteInvalid");
+
+    const requiredValidationMessage =
+      options?.inputType === "radio" ? "Please select one of these options." : "Please fill out this field.";
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
+    expect(spyInvalidEvent).toHaveReceivedEventTimes(1);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
+
+    await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
+    expect(spyInvalidEvent).toHaveReceivedEventTimes(1);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", false);
+
     await assertUserMessageNotOverridden(page, component, submitButton);
+    expect(spyInvalidEvent).toHaveReceivedEventTimes(2);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
+  }
+
+  // puppeteer wasn't properly serializing the validity object, so we have to do it manually
+  async function serializeValidityProperty(page: E2EPage, tag: string): Promise<MutableValidityState> {
+    return await page.$eval(tag, (component: HTMLElement) => {
+      const validity = {};
+
+      for (const key in (component as HTMLInputElement).validity) {
+        validity[key] = (component as HTMLInputElement).validity[key];
+      }
+
+      return validity as MutableValidityState;
+    });
   }
 
   function ensureName(html: string, componentTag: string): string {
@@ -343,7 +370,35 @@ export function formAssociated(
     await submitButton.click();
     await page.waitForChanges();
 
-    await expectValidationInvalid(component, message);
+    await expectValidationProps(page, component, { message, icon: "", status: "invalid" });
+  }
+
+  async function assertClearsValidationOnValueChange(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions,
+    event: EventSpy,
+    tag: string,
+  ) {
+    if (options?.changeValueKeys) {
+      for (const key of options.changeValueKeys) {
+        await page.keyboard.press(key);
+      }
+    } else {
+      await page.keyboard.type(options?.validUserInputTestValue ?? options.testValue);
+      await page.keyboard.press("Tab");
+    }
+
+    await page.waitForChanges();
+
+    // components with an Input event will emit multiple times depending on the length of testValue
+    if (componentsWithInputEvent.includes(tag)) {
+      expect(event.length).toBeGreaterThanOrEqual(1);
+    } else {
+      expect(event).toHaveReceivedEventTimes(1);
+    }
+
+    await expectValidationProps(page, component);
   }
 
   async function assertUserMessageNotOverridden(page: E2EPage, component: E2EElement, submitButton: E2EElement) {
@@ -359,7 +414,11 @@ export function formAssociated(
     await submitButton.click();
     await page.waitForChanges();
 
-    await expectValidationInvalid(component, customValidationMessage, customValidationIcon);
+    await expectValidationProps(page, component, {
+      message: customValidationMessage,
+      icon: customValidationIcon,
+      status: "invalid",
+    });
   }
 
   async function expectValidationInvalid(element: E2EElement, message: string, icon: string = "") {

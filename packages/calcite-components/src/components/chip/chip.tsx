@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -38,6 +37,8 @@ import {
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ChipMessages } from "./assets/chip/t9n";
 import { CSS, SLOTS, ICONS } from "./resources";
 
@@ -73,7 +74,7 @@ export class Chip
   @Prop({ reflect: true }) closable = false;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -102,6 +103,14 @@ export class Chip
   /** When `true`, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
+  @Watch("selected")
+  watchSelected(selected: boolean): void {
+    if (this.selectionMode === "none") {
+      return;
+    }
+    this.handleSelectionPropertyChange(selected);
+  }
+
   /**
    * Use this property to override individual strings used by the component.
    */
@@ -128,6 +137,11 @@ export class Chip
    * @internal
    */
   @Prop() interactive = false;
+
+  /**
+   * @internal
+   */
+  @Prop() parentChipGroup: HTMLCalciteChipGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -175,6 +189,16 @@ export class Chip
    */
   @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<KeyboardEvent>;
 
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalChipSelect: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalSyncSelectedChips: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -189,6 +213,9 @@ export class Chip
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    if (this.selectionMode !== "none" && this.interactive && this.selected) {
+      this.handleSelectionPropertyChange(this.selected);
+    }
   }
 
   componentDidRender(): void {
@@ -203,7 +230,7 @@ export class Chip
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       await setUpMessages(this);
       this.updateHasText();
     }
@@ -295,6 +322,19 @@ export class Chip
     }
   };
 
+  private handleSelectionPropertyChange(selected: boolean): void {
+    if (this.selectionMode === "single") {
+      this.calciteInternalSyncSelectedChips.emit();
+    }
+    const selectedInParent = this.parentChipGroup.selectedItems.includes(this.el);
+
+    if (!selectedInParent && selected && this.selectionMode !== "multiple") {
+      this.calciteInternalChipSelect.emit();
+    }
+    if (this.selectionMode !== "single") {
+      this.calciteInternalSyncSelectedChips.emit();
+    }
+  }
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -311,13 +351,13 @@ export class Chip
 
   renderSelectionIcon(): VNode {
     const icon =
-      this.selectionMode === "multiple" && this.selected
-        ? ICONS.checked
-        : this.selectionMode === "multiple"
-          ? ICONS.unchecked
-          : this.selected
-            ? ICONS.checkedSingle
-            : undefined;
+      this.selectionMode === "multiple"
+        ? this.selected
+          ? ICONS.checkedMultiple
+          : ICONS.uncheckedMultiple
+        : this.selected
+          ? ICONS.checkedSingle
+          : undefined;
 
     return (
       <div
@@ -338,9 +378,8 @@ export class Chip
         class={CSS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
-        tabIndex={this.disabled ? -1 : 0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
+        tabIndex={this.disabled ? -1 : 0}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
@@ -386,6 +425,9 @@ export class Chip
               [CSS.imageSlotted]: this.hasImage,
               [CSS.selectable]: this.selectionMode !== "none",
               [CSS.multiple]: this.selectionMode === "multiple",
+              [CSS.single]:
+                this.selectionMode === "single" || this.selectionMode === "single-persist",
+              [CSS.selected]: this.selected,
               [CSS.closable]: this.closable,
               [CSS.nonInteractive]: !this.interactive,
               [CSS.isCircle]:
@@ -396,10 +438,9 @@ export class Chip
                   (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
             }}
             onClick={this.handleEmittingEvent}
+            ref={(el) => (this.containerEl = el)}
             role={role}
             tabIndex={disableInteraction ? -1 : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.containerEl = el)}
           >
             {this.selectionMode !== "none" && this.renderSelectionIcon()}
             {this.renderChipImage()}

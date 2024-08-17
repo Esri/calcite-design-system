@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-time-picker`, refe
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-time-picker scale="l" value="14:00"></calcite-time-picker>
-```
-
 ## Properties
 
 | Property           | Attribute           | Description                                                                  | Type                            | Default     |

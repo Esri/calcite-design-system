@@ -1,10 +1,9 @@
 export const ICON = {
   chevronRight: "chevron-right",
   chevronLeft: "chevron-left",
-};
+} as const;
 
 export const CSS = {
-  activeIndicatorContainer: "tab-nav-active-indicator-container",
   container: "tab-nav",
   containerHasEndTabTitleOverflow: "tab-nav--end-overflow",
   containerHasStartTabTitleOverflow: "tab-nav--start-overflow",

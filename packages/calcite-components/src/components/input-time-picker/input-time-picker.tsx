@@ -60,13 +60,21 @@ import {
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
 import { getSupportedLocale } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { CSS } from "./resources";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { IconNameOrString } from "../icon/interfaces";
+import { syncHiddenFormInput } from "../input/common/input";
+import { CSS, IDS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
@@ -153,7 +161,6 @@ export class InputTimePicker
     LabelableComponent,
     LoadableComponent,
     LocalizedComponent,
-    OpenCloseComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -163,19 +170,17 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   /** When `true`, displays the `calcite-time-picker` component. */
-
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(): void {
-    onToggleOpenCloseComponent(this);
-
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
 
-    this.reposition(true);
+    // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
+    this.popoverEl.open = this.open;
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -218,6 +223,20 @@ export class InputTimePicker
   }
 
   /**
+   * Specifies the maximum value.
+   *
+   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+   */
+  @Prop({ reflect: true }) max: string;
+
+  /**
+   * Specifies the minimum value.
+   *
+   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+   */
+  @Prop({ reflect: true }) min: string;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -240,7 +259,28 @@ export class InputTimePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
@@ -344,10 +384,6 @@ export class InputTimePicker
 
   private referenceElementId = `input-time-picker-${guid()}`;
 
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLCalciteInputElement;
-
   //--------------------------------------------------------------------------
   //
   //  State
@@ -360,7 +396,8 @@ export class InputTimePicker
 
   @Watch("effectiveLocale")
   async effectiveLocaleWatcher(locale: SupportedLocale): Promise<void> {
-    await this.loadDateTimeLocaleData();
+    await Promise.all([this.loadDateTimeLocaleData(), updateMessages(this, this.effectiveLocale)]);
+
     this.setInputValue(
       localizeTimeString({
         value: this.value,
@@ -490,13 +527,13 @@ export class InputTimePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed If true, delay the repositioning.
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -509,20 +546,45 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
-  onBeforeOpen(): void {
+  private popoverBeforeOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeOpen.emit();
-  }
+  };
 
-  onOpen(): void {
+  private popoverOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerOpen.emit();
-  }
 
-  onBeforeClose(): void {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.calciteTimePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      },
+    });
+  };
+
+  private popoverBeforeCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeClose.emit();
-  }
+  };
 
-  onClose(): void {
+  private popoverCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerClose.emit();
+
+    deactivateFocusTrap(this, {
+      onDeactivate: () => {
+        this.calciteInputEl.setFocus();
+        this.focusOnOpen = false;
+      },
+    });
+    this.open = false;
+  };
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("time", this, input);
   }
 
   private delocalizeTimeString(value: string): string {
@@ -531,7 +593,7 @@ export class InputTimePicker
 
     const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
 
-    let delocalizedTimeString;
+    let delocalizedTimeString: string;
 
     if (this.shouldIncludeFractionalSeconds()) {
       const stepPrecision = decimalPlaces(this.step);
@@ -631,27 +693,6 @@ export class InputTimePicker
     return timeString;
   }
 
-  private popoverCloseHandler = () => {
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      },
-    });
-    this.open = false;
-  };
-
-  private popoverOpenHandler = () => {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
-  };
-
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -726,7 +767,7 @@ export class InputTimePicker
   ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
-        meridiem: (hour) => (hour > 12 ? "م" : "ص"),
+        meridiem: (hour: number) => (hour > 12 ? "م" : "ص"),
         formats: {
           LT: "HH:mm A",
           LTS: "HH:mm:ss A",
@@ -740,19 +781,19 @@ export class InputTimePicker
 
     if (locale === "en-au") {
       return {
-        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
+        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "en-ca") {
       return {
-        meridiem: (hour) => (hour > 12 ? "p.m." : "a.m."),
+        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
       };
     }
 
     if (locale === "el") {
       return {
-        meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ."),
+        meridiem: (hour: number) => (hour > 12 ? "μ.μ." : "π.μ."),
       };
     }
 
@@ -766,13 +807,13 @@ export class InputTimePicker
           LLL: "D MMMM YYYY, h:mm A",
           LLLL: "dddd, D MMMM YYYY, h:mm A",
         },
-        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
+        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "ko") {
       return {
-        meridiem: (hour) => (hour > 12 ? "오후" : "오전"),
+        meridiem: (hour: number) => (hour > 12 ? "오후" : "오전"),
       };
     }
 
@@ -791,7 +832,7 @@ export class InputTimePicker
           LT: "AHH:mm",
           LTS: "AHH:mm:ss",
         },
-        meridiem: (hour) => (hour > 12 ? "下午" : "上午"),
+        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
       };
     }
   }
@@ -812,9 +853,8 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
-  private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
+  private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
-    this.transitionEl = el;
   };
 
   private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
@@ -839,7 +879,7 @@ export class InputTimePicker
    * Sets the value and emits a change event.
    * This is used to update the value as a result of user interaction.
    *
-   * @param value
+   * @param value The new value
    */
   private setValue = (value: string): void => {
     const oldValue = this.value;
@@ -874,7 +914,7 @@ export class InputTimePicker
    * Sets the value directly without emitting a change event.
    * This is used to update the value on initial load and when props change that are not the result of user interaction.
    *
-   * @param value
+   * @param value The new value
    */
   private setValueDirectly = (value: string): void => {
     const includeSeconds = this.shouldIncludeSeconds();
@@ -923,9 +963,6 @@ export class InputTimePicker
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await Promise.all([setUpMessages(this), this.loadDateTimeLocaleData()]);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   componentDidLoad() {
@@ -941,6 +978,8 @@ export class InputTimePicker
         }),
       );
     }
+
+    this.openHandler();
   }
 
   disconnectedCallback() {
@@ -969,7 +1008,9 @@ export class InputTimePicker
           <div class="input-wrapper" onClick={this.onInputWrapperClick}>
             <calcite-input-text
               aria-autocomplete="none"
+              aria-errormessage={IDS.validationMessage}
               aria-haspopup="dialog"
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               disabled={disabled}
               icon="clock"
               id={this.referenceElementId}
@@ -978,11 +1019,10 @@ export class InputTimePicker
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
               onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
               readOnly={readOnly}
+              ref={this.setInputEl}
               role="combobox"
               scale={this.scale}
               status={this.status}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setInputAndTransitionEl}
             />
             {!this.readOnly && this.renderToggleIcon(this.open)}
           </div>
@@ -991,32 +1031,32 @@ export class InputTimePicker
             id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
+            onCalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
+            onCalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
             onCalcitePopoverClose={this.popoverCloseHandler}
             onCalcitePopoverOpen={this.popoverOpenHandler}
-            open={this.open}
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
+            ref={this.setCalcitePopoverEl}
             referenceElement={this.referenceElementId}
             triggerDisabled={true}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setCalcitePopoverEl}
           >
             <calcite-time-picker
               lang={this.effectiveLocale}
               messageOverrides={this.messageOverrides}
               numberingSystem={this.numberingSystem}
               onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
+              ref={this.setCalciteTimePickerEl}
               scale={this.scale}
               step={this.step}
               tabIndex={this.open ? undefined : -1}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setCalciteTimePickerEl}
             />
           </calcite-popover>
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

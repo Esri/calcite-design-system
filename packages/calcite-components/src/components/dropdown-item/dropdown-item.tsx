@@ -26,6 +26,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -59,10 +60,10 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Accessible name for the component. */
   @Prop() label: string;
@@ -125,7 +126,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
    *
    * @internal
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -151,7 +152,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   }
 
   render(): VNode {
-    const { href, selectionMode, label, iconFlipRtl, scale } = this;
+    const { href, selectionMode, label, iconFlipRtl } = this;
 
     const iconStartEl = (
       <calcite-icon
@@ -191,11 +192,10 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
         aria-label={label}
         class={CSS.link}
         href={href}
+        ref={(el) => (this.childLink = el)}
         rel={this.rel}
         tabIndex={-1}
         target={this.target}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.childLink = el)}
       >
         {slottedContent}
       </a>
@@ -223,10 +223,6 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
           <div
             class={{
               [CSS.container]: true,
-              [CSS.containerLink]: !!href,
-              [`${CSS.container}--${scale}`]: true,
-              [CSS.containerMulti]: selectionMode === "multiple",
-              [CSS.containerSingle]: selectionMode === "single",
               [CSS.containerNone]: selectionMode === "none",
             }}
           >

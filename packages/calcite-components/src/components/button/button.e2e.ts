@@ -1,5 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -587,63 +587,18 @@ describe("calcite-button", () => {
     });
   });
 
-  describe("when loading changes", () => {
-    it("should render loader with loading-in class when new value is true", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-button id="one-icon" icon-start='plus'></calcite-button>
-        <calcite-button id="two-icons" icon-start='arrow-right' icon-end='download'></calcite-button>
-        <calcite-button id="icons-and-text" icon-start='arrow-right' icon-end='download'>Go!</calcite-button>
-      `);
-      const button1 = await page.find("calcite-button[id='one-icon']");
-      const button2 = await page.find("calcite-button[id='two-icons']");
-      const button3 = await page.find("calcite-button[id='icons-and-text']");
-      await button1.setProperty("loading", true);
-      await button2.setProperty("loading", true);
-      await button3.setProperty("loading", true);
-      await page.waitForChanges();
-      const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
-      expect(loader1).toHaveClass(CSS.loadingIn);
-      expect(loader2).toHaveClass(CSS.loadingIn);
-      expect(loader3).toHaveClass(CSS.loadingIn);
-    });
+  it("should remove calcite-loader from dom when `loading` is false", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
+    const element = await page.find("calcite-button");
+    const loaderSelector = `calcite-button >>> .${CSS.buttonLoader}`;
 
-    it("should render loader with loading-out class when new value is false", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-button loading id="one-icon" icon-start='plus'></calcite-button>
-        <calcite-button loading id="two-icons" icon-start='arrow-right' icon-end='download'></calcite-button>
-        <calcite-button loading id="icons-and-text" icon-start='arrow-right' icon-end='download'>Go!</calcite-button>
-      `);
-      await page.waitForChanges();
-      const button1 = await page.find("calcite-button[id='one-icon']");
-      const button2 = await page.find("calcite-button[id='two-icons']");
-      const button3 = await page.find("calcite-button[id='icons-and-text']");
-      const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
-      await button1.setProperty("loading", false);
-      await button2.setProperty("loading", false);
-      await button3.setProperty("loading", false);
-      await page.waitForChanges();
-      expect(loader1).toHaveClass(CSS.loadingOut);
-      expect(loader2).toHaveClass(CSS.loadingOut);
-      expect(loader3).toHaveClass(CSS.loadingOut);
-    });
+    expect(await page.find(loaderSelector)).toBeTruthy();
 
-    it("should remove calcite-loader from dom when new value is false", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
-      const animationDurationInMs = 300;
-      const element = await page.find("calcite-button");
-      await element.setProperty("loading", false);
-      await page.waitForChanges();
-      await page.waitForTimeout(animationDurationInMs);
-      const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-      expect(loader).toBeNull();
-    });
+    await element.setProperty("loading", false);
+    await page.waitForChanges();
+
+    expect(await page.find(loaderSelector)).toBeNull();
   });
 
   describe("form integration", () => {
@@ -746,5 +701,16 @@ describe("calcite-button", () => {
     await page.waitForChanges();
     expect(button.getAttribute("aria-expanded")).toBe("true");
     expect(calciteButton.getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("renders child element with same width as host", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button width="full">Continue</calcite-button>`);
+    const elementHost = await page.find("calcite-button");
+    const elementAsButton = await page.find("calcite-button >>> button");
+    expect(elementHost).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
+    expect(elementHost).toEqualAttribute("width", "full");
+    expect(await elementAsButton.getComputedStyle()["width"]).toEqual(await elementHost.getComputedStyle()["width"]);
   });
 });

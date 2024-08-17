@@ -1,5 +1,3 @@
-@import "~@esri/calcite-design-tokens/dist/scss/core";
-
 /**
  * CSS Custom Properties
  *
@@ -15,9 +13,6 @@
 
 :host {
   --calcite-modal-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
-}
-
-:host {
   @apply absolute flex inset-0 opacity-0 z-overlay;
   visibility: hidden !important;
   transition:
@@ -411,7 +406,7 @@ slot[name="primary"] {
  * Conditional styles for when Modal is slotted in Shell
  */
 
-.container.slotted-in-shell {
+.container--embedded {
   position: absolute;
   pointer-events: auto;
   calcite-scrim {

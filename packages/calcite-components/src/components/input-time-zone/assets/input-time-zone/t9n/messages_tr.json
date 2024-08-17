@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Zaman dilimi seç.",
+  "offsetPlaceholder": "Şehir, bölge veya ofsete göre ara",
+  "namePlaceholder": "Saat dilimine göre ara",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Akra",

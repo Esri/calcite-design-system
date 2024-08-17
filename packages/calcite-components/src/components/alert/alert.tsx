@@ -42,8 +42,9 @@ import {
 } from "../../utils/t9n";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
+import { IconNameOrString } from "../icon/interfaces";
 import { AlertMessages } from "./assets/alert/t9n";
-import { AlertDuration, Sync, Unregister } from "./interfaces";
+import { AlertDuration, AlertQueue, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
@@ -81,8 +82,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       this.calciteInternalAlertRegister.emit();
     }
     if (!this.open) {
-      this.queue = this.queue.filter((el) => el !== this.el);
-      this.calciteInternalAlertSync.emit({ queue: this.queue });
+      this.queueList = this.queueList.filter((el) => el !== this.el);
+      this.calciteInternalAlertSync.emit({ queueList: this.queueList });
     }
   }
 
@@ -91,6 +92,25 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
+
+  @Watch("autoCloseDuration")
+  updateDuration(): void {
+    if (this.autoClose && this.autoCloseTimeoutId) {
+      this.clearAutoCloseTimeout();
+      this.autoCloseTimeoutId = window.setTimeout(
+        () => this.closeAlert(),
+        DURATIONS[this.autoCloseDuration],
+      );
+    }
+  }
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) embedded = false;
 
   /** Specifies the kind of the component, which will apply to top border and icon. */
   @Prop({ reflect: true }) kind: Extract<
@@ -102,7 +122,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -140,22 +160,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     /* wired up by t9n util */
   }
 
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) slottedInShell: boolean;
+  /** Specifies the ordering priority of the component when opened. */
+  @Prop({ reflect: true }) queue: AlertQueue = "last";
 
-  @Watch("autoCloseDuration")
-  updateDuration(): void {
-    if (this.autoClose && this.autoCloseTimeoutId) {
-      window.clearTimeout(this.autoCloseTimeoutId);
-      this.autoCloseTimeoutId = window.setTimeout(
-        () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration],
-      );
+  @Watch("queue")
+  handleQueueChange(): void {
+    if (this.open) {
+      this.unregisterAlert();
+      this.calciteInternalAlertRegister.emit();
     }
   }
 
@@ -194,16 +206,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   disconnectedCallback(): void {
-    window.dispatchEvent(
-      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
-        detail: { alert: this.el },
-      }),
-    );
-    window.clearTimeout(this.autoCloseTimeoutId);
-    window.clearTimeout(this.queueTimeout);
+    this.unregisterAlert();
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -225,15 +231,19 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [CSS.container]: true,
             [CSS.containerQueued]: queued,
             [`${CSS.container}--${placement}`]: true,
-            [CSS.containerSlottedInShell]: this.slottedInShell,
+            [CSS.containerEmbedded]: this.embedded,
+            [CSS.focused]: this.isFocused,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
-          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+          onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
           ref={this.setTransitionEl}
         >
           {effectiveIcon && this.renderIcon(effectiveIcon)}
-          <div class={CSS.textContainer}>
+          <div
+            class={CSS.textContainer}
+            onFocusin={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
+            onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
+          >
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
@@ -247,6 +257,18 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
   }
 
+  private handleKeyBoardFocus = (): void => {
+    this.isFocused = true;
+    this.handleFocus();
+  };
+
+  private handleKeyBoardBlur = (): void => {
+    this.isFocused = false;
+    if (!this.isHovered) {
+      this.handleBlur();
+    }
+  };
+
   private renderCloseButton(): VNode {
     return (
       <button
@@ -254,9 +276,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         class={CSS.close}
         key="close"
         onClick={this.closeAlert}
-        type="button"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        onFocusin={this.autoClose ? this.handleKeyBoardFocus : null}
+        onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
         ref={(el) => (this.closeButton = el)}
+        type="button"
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
@@ -290,7 +313,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
   }
 
-  private renderIcon(icon: string): VNode {
+  private renderIcon(icon: IconNameOrString): VNode {
     return (
       <div class={CSS.icon}>
         <calcite-icon flipRtl={this.iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />
@@ -333,10 +356,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteInternalAlertSync", { target: "window" })
   alertSync(event: CustomEvent): void {
-    if (this.queue !== event.detail.queue) {
-      this.queue = event.detail.queue;
+    if (this.queueList !== event.detail.queueList) {
+      this.queueList = event.detail.queueList;
     }
-    this.queueLength = this.queue.length;
+    this.queueLength = this.queueList.length;
     this.determineActiveAlert();
     event.stopPropagation();
   }
@@ -344,23 +367,33 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
-    if (this.open && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
+    if (this.open && !this.queueList.includes(this.el)) {
       this.queued = true;
-      this.queue.push(this.el as HTMLCalciteAlertElement);
+      switch (this.queue) {
+        case "immediate":
+          this.queueList.unshift(this.el);
+          break;
+        case "next":
+          this.queueList.splice(1, 0, this.el);
+          break;
+        case "last":
+          this.queueList.push(this.el);
+          break;
+      }
     }
-    this.calciteInternalAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queueList: this.queueList });
     this.determineActiveAlert();
   }
 
   // Event is dispatched on the window because the element is not in the DOM so bubbling won't occur.
   @Listen("calciteInternalAlertUnregister", { target: "window" })
   alertUnregister(event: CustomEvent<Unregister>): void {
-    const queue = this.queue.filter((el) => el !== event.detail.alert);
-    this.queue = queue;
+    const queueList = this.queueList.filter((el) => el !== event.detail.alert);
+    this.queueList = queueList;
 
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
-        detail: { queue },
+        detail: { queueList },
       }),
     );
   }
@@ -423,13 +456,15 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @State() hasEndActions = false;
 
   /** the list of queued alerts */
-  @State() queue: HTMLCalciteAlertElement[] = [];
+  @State() queueList: HTMLCalciteAlertElement[] = [];
 
   /** the count of queued alerts */
   @State() queueLength = 0;
 
   /** is the alert queued */
   @State() queued = false;
+
+  @State() isFocused = false;
 
   private autoCloseTimeoutId: number = null;
 
@@ -439,11 +474,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private lastMouseOverBegin: number;
 
-  private queueTimeout: number;
+  private queueTimeoutId: number = null;
 
   private totalOpenTime = 0;
 
   private totalHoverTime = 0;
+
+  private isHovered: boolean;
 
   openTransitionProp = "opacity";
 
@@ -455,13 +492,36 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
+  private clearAutoCloseTimeout(): void {
+    window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
+  }
+
+  private clearQueueTimeout(): void {
+    window.clearTimeout(this.queueTimeoutId);
+    this.queueTimeoutId = null;
+  }
+
+  private unregisterAlert(): void {
+    this.queued = false;
+
+    window.dispatchEvent(
+      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
+        detail: { alert: this.el },
+      }),
+    );
+
+    this.clearAutoCloseTimeout();
+    this.clearQueueTimeout();
+  }
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
   /** determine which alert is active */
   private determineActiveAlert(): void {
-    if (this.queue?.[0] === this.el) {
+    if (this.queueList?.[0] === this.el) {
       this.openAlert();
       if (this.autoClose && !this.autoCloseTimeoutId) {
         this.initialOpenTime = Date.now();
@@ -471,7 +531,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         );
       }
     } else {
-      return;
+      this.clearAutoCloseTimeout();
+      this.clearQueueTimeout();
+      this.queued = this.open;
     }
   }
 
@@ -480,9 +542,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     this.autoCloseTimeoutId = null;
     this.queued = false;
     this.open = false;
-    this.queue = this.queue.filter((el) => el !== this.el);
+    this.queueList = this.queueList.filter((el) => el !== this.el);
     this.determineActiveAlert();
-    this.calciteInternalAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queueList: this.queueList });
   };
 
   onBeforeOpen(): void {
@@ -503,8 +565,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   /** remove queued class after animation completes */
   private openAlert(): void {
-    window.clearTimeout(this.queueTimeout);
-    this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
+    this.clearQueueTimeout();
+    this.queueTimeoutId = window.setTimeout(() => (this.queued = false), 300);
   }
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
@@ -512,12 +574,24 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   };
 
   private handleMouseOver = (): void => {
-    window.clearTimeout(this.autoCloseTimeoutId);
+    this.isHovered = true;
+    this.handleFocus();
+  };
+
+  private handleMouseLeave = (): void => {
+    this.isHovered = false;
+    if (!this.isFocused) {
+      this.handleBlur();
+    }
+  };
+
+  private handleFocus = (): void => {
+    this.clearAutoCloseTimeout();
     this.totalOpenTime = Date.now() - this.initialOpenTime;
     this.lastMouseOverBegin = Date.now();
   };
 
-  private handleMouseLeave = (): void => {
+  private handleBlur = (): void => {
     const hoverDuration = Date.now() - this.lastMouseOverBegin;
     const timeRemaining =
       DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;

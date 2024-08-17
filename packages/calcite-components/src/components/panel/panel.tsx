@@ -42,19 +42,26 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
- * @slot footer - A slot for adding custom content to the footer.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+ * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 @Component({
   tag: "calcite-panel",
@@ -71,8 +78,16 @@ export class Panel
   //
   // --------------------------------------------------------------------------
 
+  /** Passes a function to run before the component closes. */
+  @Prop() beforeClose: () => Promise<void>;
+
   /** When `true`, the component will be hidden. */
   @Prop({ mutable: true, reflect: true }) closed = false;
+
+  @Watch("closed")
+  toggleDialog(value: boolean): void {
+    value ? this.close() : this.open();
+  }
 
   /**
    *  When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -92,7 +107,7 @@ export class Panel
    *
    * @internal
    */
-  @Prop() collapseDirection: "down" | "up" = "down";
+  @Prop() collapseDirection: CollapseDirection = "down";
 
   /**
    * When `true`, the component is collapsible.
@@ -151,6 +166,9 @@ export class Panel
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -197,6 +215,8 @@ export class Panel
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
+  @State() isClosed = false;
+
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -207,11 +227,19 @@ export class Panel
 
   @State() hasActionBar = false;
 
-  @State() hasFooterContent = false;
+  @State() hasContentBottom = false;
+
+  @State() hasContentTop = false;
+
+  @State() hasFab = false;
 
   @State() hasFooterActions = false;
 
-  @State() hasFab = false;
+  @State() hasFooterContent = false;
+
+  @State() hasFooterEndContent = false;
+
+  @State() hasFooterStartContent = false;
 
   @State() defaultMessages: PanelMessages;
 
@@ -271,14 +299,34 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.close();
+      this.handleUserClose();
       event.preventDefault();
     }
   };
 
-  close = (): void => {
+  private handleUserClose = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
+  };
+
+  open = (): void => {
+    this.isClosed = false;
+  };
+
+  close = async (): Promise<void> => {
+    const beforeClose = this.beforeClose ?? (() => Promise.resolve());
+
+    try {
+      await beforeClose();
+    } catch (_error) {
+      // close prevented
+      requestAnimationFrame(() => {
+        this.closed = false;
+      });
+      return;
+    }
+
+    this.isClosed = true;
   };
 
   collapse = (): void => {
@@ -316,16 +364,32 @@ export class Panel
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
   };
 
-  handleFooterSlotChange = (event: Event): void => {
-    this.hasFooterContent = slotChangeHasAssignedElement(event);
+  handleFabSlotChange = (event: Event): void => {
+    this.hasFab = slotChangeHasAssignedElement(event);
   };
 
   handleFooterActionsSlotChange = (event: Event): void => {
     this.hasFooterActions = slotChangeHasAssignedElement(event);
   };
 
-  handleFabSlotChange = (event: Event): void => {
-    this.hasFab = slotChangeHasAssignedElement(event);
+  handleFooterEndSlotChange = (event: Event): void => {
+    this.hasFooterEndContent = slotChangeHasAssignedElement(event);
+  };
+
+  handleFooterStartSlotChange = (event: Event): void => {
+    this.hasFooterStartContent = slotChangeHasAssignedElement(event);
+  };
+
+  handleFooterSlotChange = (event: Event): void => {
+    this.hasFooterContent = slotChangeHasAssignedElement(event);
+  };
+
+  private contentBottomSlotChangeHandler = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
+  };
+
+  private contentTopSlotChangeHandler = (event: Event): void => {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
@@ -442,6 +506,7 @@ export class Panel
         data-test="collapse"
         icon={collapsed ? icons[0] : icons[1]}
         onClick={this.collapse}
+        scale={this.scale}
         text={collapse}
         title={collapsed ? expand : collapse}
       />
@@ -452,7 +517,8 @@ export class Panel
         aria-label={close}
         data-test="close"
         icon={ICONS.close}
-        onClick={this.close}
+        onClick={this.handleUserClose}
+        scale={this.scale}
         text={close}
         title={close}
       />
@@ -493,6 +559,7 @@ export class Panel
       >
         <calcite-action
           icon={ICONS.menu}
+          scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />
@@ -540,23 +607,35 @@ export class Panel
           {this.renderHeaderActionsEnd()}
         </div>
         {this.renderActionBar()}
+        {this.renderContentTop()}
       </header>
     );
   }
 
   renderFooterNode(): VNode {
-    const { hasFooterContent, hasFooterActions } = this;
+    const { hasFooterEndContent, hasFooterStartContent, hasFooterContent, hasFooterActions } = this;
 
-    const showFooter = hasFooterContent || hasFooterActions;
+    const showFooter =
+      hasFooterStartContent || hasFooterEndContent || hasFooterContent || hasFooterActions;
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
-        <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
-        <slot
-          key="footer-actions-slot"
-          name={SLOTS.footerActions}
-          onSlotchange={this.handleFooterActionsSlotChange}
-        />
+        <div class={CSS.footerContent} hidden={!hasFooterContent}>
+          <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+        </div>
+        <div class={CSS.footerStart} hidden={hasFooterContent || !hasFooterStartContent}>
+          <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+        </div>
+        <div class={CSS.footerEnd} hidden={hasFooterContent || !hasFooterEndContent}>
+          <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
+        </div>
+        <div class={CSS.footerActions} hidden={hasFooterContent || !hasFooterActions}>
+          <slot
+            key="footer-actions-slot"
+            name={SLOTS.footerActions}
+            onSlotchange={this.handleFooterActionsSlotChange}
+          />
+        </div>
       </footer>
     );
   }
@@ -577,11 +656,26 @@ export class Panel
         class={CSS.contentWrapper}
         hidden={this.collapsible && this.collapsed}
         onScroll={this.panelScrollHandler}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setPanelScrollEl}
       >
         <slot />
         {this.renderFab()}
+      </div>
+    );
+  }
+
+  renderContentBottom(): VNode {
+    return (
+      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
+        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  renderContentTop(): VNode {
+    return (
+      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
       </div>
     );
   }
@@ -594,21 +688,30 @@ export class Panel
     );
   }
 
+  handleAlertsSlotChange = (event: Event): void => {
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-ALERT") {
+        (el as HTMLCalciteAlertElement).embedded = true;
+      }
+    });
+  };
+
   render(): VNode {
-    const { disabled, loading, panelKeyDownHandler, closed, closable } = this;
+    const { disabled, loading, panelKeyDownHandler, isClosed, closable } = this;
 
     const panelNode = (
       <article
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
-        hidden={closed}
-        tabIndex={closable ? 0 : -1}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        hidden={isClosed}
         ref={this.setContainerRef}
+        tabIndex={closable ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
+        {this.renderContentBottom()}
         {this.renderFooterNode()}
+        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
       </article>
     );
 

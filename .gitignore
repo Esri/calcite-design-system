@@ -17,14 +17,12 @@ $RECYCLE.BIN/
 *~
 .*cache*
 .DS_Store
-.DS_Store
 .Spotlight-V100
 .Trashes
 ._*
 .env
 .idea/
 .sass-cache/
-.stencil/
 .turbo
 .versions/
 Dockerfile

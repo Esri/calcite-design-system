@@ -17,7 +17,7 @@
         flex: 0 0 40%;
         margin: 0 25px;
         color: var(--calcite-color-text-3);
-        font-family: var(--calcite-sans-family);
+        font-family: var(--calcite-font-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
         padding: 18px 0;
@@ -61,11 +61,11 @@
         </div>
       </div>
 
-      <!-- with action bar -->
+      <!-- with action bar and content top-->
       <div class="parent">
-        <div class="child right-aligned-text">Slotted Action Bar</div>
+        <div class="child right-aligned-text">Slotted Action Bar + Slotted Content Top</div>
         <div class="child">
-          <div style="height: 200px; display: flex">
+          <div style="height: 300px; width: 400px; display: flex">
             <calcite-panel height-scale="s">
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
@@ -74,6 +74,7 @@
                   <calcite-action text="Layers" icon="layers"> </calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
+              <div slot="content-top">Slot for a content-top.</div>
               <div slot="header-content">Header!</div>
               <p>Slotted content!</p>
               <p style="height: 400px">Hello world!</p>
@@ -124,15 +125,78 @@
         </div>
       </div>
 
-      <!-- footer -->
       <div class="parent">
-        <div class="child right-aligned-text">footer</div>
+        <div class="child right-aligned-text">footer-start, footer-end, and content bottom</div>
         <div class="child">
-          <calcite-panel>
-            <div slot="header-content">header-content slot</div>
-            <p>I have a footer.</p>
-            <div slot="footer">panel Footer</div>
-          </calcite-panel>
+          <div style="height: 180px; display: flex">
+            <calcite-panel>
+              <div slot="header-content">header-content slot</div>
+              <p>Slotted content!</p>
+              <div slot="content-bottom">Slot for a content-bottom.</div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-2" icon-start="stairs">
+                </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-3" icon-start="ellipsis">
+                </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="neutral" icon-start="caret-down">
+                  </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-panel>
+          </div>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">footer slot precedence</div>
+        <div class="child">
+          <div style="height: 180px; display: flex">
+            <calcite-panel>
+              <div slot="header-content">header-content slot</div>
+              <p>Slotted content!</p>
+              <div slot="content-bottom">Slot for a content-bottom.</div>
+              <calcite-button
+                type="button"
+                slot="footer"
+                kind="neutral"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+                width="full"
+              ></calcite-button>
+              <calcite-button
+                type="button"
+                slot="footer"
+                kind="neutral"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+                width="full"
+              ></calcite-button>
+              <calcite-button type="button" slot="footer-start"></calcite-button>
+              <calcite-button type="button" slot="footer-start"></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" slot="footer-end"></calcite-button>
+              </div>
+              <div slot="footer-end">
+                <calcite-button type="button" slot="footer-end"></calcite-button>
+              </div>
+            </calcite-panel>
+          </div>
         </div>
       </div>
 

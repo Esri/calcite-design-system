@@ -2,32 +2,41 @@ name: E2E
 on:
   workflow_dispatch:
   pull_request:
-    branches: [main, rc]
+    branches: [main, rc, dev]
 jobs:
   e2e:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: skip for markdown only prs
-        id: markdown-check
+      - name: Check diff for testable changes
+        id: diff-check
         run: |
-          current_branch="$(git rev-parse --abbrev-ref HEAD)"
-          # diff of branch excluding md
-          testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/main) -- . ':(exclude)*.md*')
+          testable_changes="$(
+            git diff --name-only HEAD "$(
+              git merge-base HEAD origin/${{ github.base_ref }}
+            )" -- . ':!*.md*' ':!**/calcite-ui-icons/**'
+          )"
+
           echo "changed files: $testable_changes"
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
-            echo "skip e2e"
-            echo "SKIP=true" >> $GITHUB_OUTPUT
+            echo "SKIP=true" >> "$GITHUB_OUTPUT"
           else
-            echo "run e2e"
-            echo "SKIP=false" >> $GITHUB_OUTPUT
+            echo "SKIP=false" >> "$GITHUB_OUTPUT"
           fi
-      - if: steps.markdown-check.outputs.SKIP == 'false'
-        uses: actions/setup-node@v3
+      - if: steps.diff-check.outputs.SKIP == 'false'
+        uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-      - if: steps.markdown-check.outputs.SKIP == 'false'
+      - if: steps.diff-check.outputs.SKIP == 'false'
+        name: Run tests for testable changes
         run: npm install && npm run build && npm run test
+      - if: steps.diff-check.outputs.SKIP == 'true'
+        name: Skip visual snapshots for non-testable changes
+        env:
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr edit "$PR_NUMBER" --add-label "skip visual snapshots"

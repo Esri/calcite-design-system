@@ -26,8 +26,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { LogicalFlowPosition } from "../interfaces";
-import { SelectionMode } from "../interfaces";
+import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -36,6 +35,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { CardMessages } from "./assets/card/t9n";
 
@@ -277,7 +277,7 @@ export class Card
   }
 
   private renderSelectionIcon(): VNode {
-    const icon =
+    const icon: IconNameOrString =
       this.selectionMode === "multiple" && this.selected
         ? ICONS.selected
         : this.selectionMode === "multiple"
@@ -348,10 +348,9 @@ export class Card
             class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
             onClick={this.cardBodyClickHandler}
             onKeyDown={this.keyDownHandler}
+            ref={(el) => (this.containerEl = el)}
             role={role}
             tabIndex={!this.selectable || this.disabled ? 0 : -1}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={(el) => (this.containerEl = el)}
           >
             {this.loading ? (
               <div aria-live="polite" class="calcite-card-loader-container">

@@ -46,6 +46,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
 import { StepperItemMessages } from "./assets/stepper-item/t9n";
 
@@ -199,13 +200,12 @@ export class StepperItem
    * @internal
    */
   @Event({ cancelable: false })
-  calciteInternalUserRequestedStepperItemSelect: EventEmitter<StepperItemChangeEventDetail>;
+  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   /**
-   * @internal
+   * Fires when the active `calcite-stepper-item` changes.
    */
-  @Event({ cancelable: false })
-  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
+  @Event({ cancelable: false }) calciteStepperItemSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -262,12 +262,11 @@ export class StepperItem
             )}
             <div
               class={CSS.stepperItemHeader}
+              ref={(el) => (this.headerEl = el)}
               tabIndex={
                 /* additional tab index logic needed because of display: contents */
                 this.layout === "horizontal" && !this.disabled ? 0 : null
               }
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.headerEl = el)}
             >
               {this.icon ? this.renderIcon() : null}
               {this.numbered ? (
@@ -363,7 +362,7 @@ export class StepperItem
   };
 
   private renderIcon(): VNode {
-    let path = "circle";
+    let path: IconNameOrString = "circle";
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
       path = "circleF";
@@ -405,11 +404,7 @@ export class StepperItem
   private emitUserRequestedItem = (): void => {
     this.emitRequestedItem();
     if (!this.disabled) {
-      const position = this.itemPosition;
-
-      this.calciteInternalUserRequestedStepperItemSelect.emit({
-        position,
-      });
+      this.calciteStepperItemSelect.emit();
     }
   };
 

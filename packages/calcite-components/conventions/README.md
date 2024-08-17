@@ -142,6 +142,12 @@ There are a few ways to add event listeners within our components:
 
 Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
 
+### Property values
+
+Property values should be meaningful. Avoid using values such as "default" for default values. Instead, use a more descriptive value.
+
+For instance: `placement: "start" | "end" = "start";` is preferred to `placement: "default" | "end" = "default";`
+
 ### Reflecting to attributes
 
 It is recommended to reflect properties that fit the following criteria:
@@ -152,20 +158,6 @@ It is recommended to reflect properties that fit the following criteria:
 - required for internal styling or would make internal styling easier
 
 Doing so will give developers more flexibility when querying the DOM. This is important in framework environments where we can't safely assume components will have their attributes set vs properties.
-
-### `ref` usage
-
-Due to a [bug in Stencil](https://github.com/ionic-team/stencil/issues/4074), `ref` should be set as the last property in JSX to ensure the node's attributes/properties are up to date.
-
-```jsx
-<div
-  class={CSS.foo}
-  // ...
-  tabIndex={0}
-  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-  ref={this.storeSomeElementRef}
-/>
-```
 
 ## Focus support
 
@@ -186,7 +178,9 @@ Examples:
 - [`calcite-color`](https://github.com/Esri/calcite-design-system/blob/78a70a805324689d516130816a69f031e39c5338/src/components/color/color.tsx#L409-L413)
 - [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-design-system/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/panel/panel.tsx#L298-L311)
 
-## CSS Class Names
+## CSS
+
+### Class Names
 
 Because most components utilize shadow DOM, there is far less concern over naming collisions in a global CSS namespace. In addition, it's better for file transfer times and easier to write if class names are shorter. For these reasons, full BEM is not necessary. Instead, we can omit the "Block", and use the host instead. Consider the following BEM markup:
 
@@ -234,6 +228,65 @@ This builds a nice symmetry between the styling and the public API of a componen
 - <https://github.com/ArcGIS/calcite-components/pull/24#discussion_r287462934>
 - <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-495788683>
 - <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497962263>
+
+### CSS lookup object
+
+To enhance maintainability and facilitate easier refactoring, it's beneficial to use a CSS lookup object for storing class names instead of hardcoding them within components.
+This approach not only helps prevent errors, such as typos in class names but also simplifies global updates to styling by centralizing class names in one location.
+Additionally, it proves useful in testing scenarios involving shadow DOM selectors.
+
+Here’s how you can implement a CSS lookup object:
+
+```tsx
+// resources.ts
+export const CSS = {
+  card: "card",
+  title: "title",
+  titleLarge: "title--large",
+  text: "text",
+};
+```
+
+Usage in a component:
+
+```tsx
+<div class={CSS.card}>
+  <h3 class={{ [CSS.title]: true, [CSS.titleLarge]: this.largeTitle }}>Title</h3>
+  <p class={CSS.text}>Text</p>
+</div>
+```
+
+For dynamic class generation, useful for mutually exclusive classes (e.g., `scale`), the object can also include functions:
+
+```tsx
+// resources.ts
+export const CSS = {
+  card: "card",
+  title: "title",
+  titleLarge: "title--large",
+  text: "text",
+  titleScale: (scale: Scale) => `title--scale-${scale}` as const,
+};
+```
+
+Using dynamic classes:
+
+```tsx
+<div class={CSS.card}>
+  <h3
+    class={{
+      [CSS.title]: true,
+      [CSS.titleLarge]: this.largeTitle,
+      [CSS.titleScale(this.scale)]: true,
+    }}
+  >
+    Title
+  </h3>
+  <p class={CSS.text}>Text</p>
+</div>
+```
+
+**Note**: Ensure that class-generating functions are strongly typed to avoid runtime errors.
 
 ## assets
 
@@ -320,9 +373,9 @@ This generates a `hydrate` directory which exposes `renderToString()` (for the s
 Since many of the same lifecycle methods are called on the client and server you may need to differentiate any code that relies on browser APIs like so:
 
 ```ts
-import { Build } from "@stencil/core";
+import { isBrowser } from "../utils/browser";
 
-if (Build.isBrowser) {
+if (isBrowser()) {
   // client side
 } else {
   // server side
@@ -370,7 +423,7 @@ Watching global attributes on components is now possible with Stencil v4. Please
 
 ### BigDecimal
 
-`BigDecimal` is a [number util](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).
+`BigDecimal` is a [number util](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).
 
 ### Custom child element support
 

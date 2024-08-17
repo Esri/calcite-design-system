@@ -1,0 +1,8 @@
+{
+  "previous": "Anterior",
+  "next": "Seguinte",
+  "play": "Reproduzir",
+  "pause": "Pausa",
+  "carousel": "Carrossel",
+  "carouselItemProgress": "Indicador de progresso para item de Carrossel"
+}

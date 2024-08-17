@@ -1,5 +1,4 @@
 <!doctype html>
-<!--  updated version of https://codepen.io/jcfranco/pen/vYmoKYq -->
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -29,6 +28,44 @@
         background-color: var(--calcite-color-background);
       }
 
+      /* Mode Switcher */
+      #mode-container {
+        position: fixed;
+        top: var(--calcite-spacing-xxl);
+        right: var(--calcite-spacing-xxl);
+        z-index: 2;
+        border: var(--calcite-border-width-sm) solid;
+        background-color: var(--calcite-color-background);
+        border-color: var(--calcite-color-border-1);
+        border-radius: var(--calcite-corner-radius-round);
+      }
+
+      #mode-container > calcite-label {
+        --calcite-label-margin-bottom: 0;
+      }
+
+      #mode-container calcite-icon {
+        padding: var(--calcite-spacing-md);
+      }
+
+      #when {
+        display: flex;
+      }
+
+      #whenDate,
+      #whenTime {
+        align-self: center;
+        width: 50%;
+      }
+
+      /* Progress bar */
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: var(--calcite-z-index-overlay);
+      }
+
       /* Form */
       ol {
         margin: var(--calcite-spacing-xl) 0;
@@ -54,7 +91,7 @@
 
       /* custom styling of invalid elements */
       [status="invalid"] {
-        --calcite-color-foreground-1: rgb(255 0 0 / 5%);
+        --calcite-color-foreground-1: #f4c4d3;
       }
     </style>
   </head>
@@ -62,6 +99,21 @@
   <body>
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Form Validation</h1>
+
+      <!-- Switch, mode -->
+      <div id="mode-container">
+        <calcite-label layout="inline">
+          <calcite-icon icon="brightness" scale="s" class="mode-switch-icon"> </calcite-icon>
+          <calcite-switch id="mode"></calcite-switch>
+          <calcite-icon icon="moon" scale="s" class="mode-switch-icon"> </calcite-icon>
+        </calcite-label>
+      </div>
+
+      <!-- Notice -->
+      <calcite-notice icon="information" open closable>
+        <div slot="title">Please fill out our questionnaire</div>
+        <div slot="message">Help us develop better Calcite components.</div>
+      </calcite-notice>
 
       <!-- Form -->
       <form id="form">
@@ -105,11 +157,24 @@
               </calcite-label>
             </li>
 
-            <!-- Date picker -->
+            <!-- Date and time pickers -->
             <li>
               <calcite-label>
                 When did you hear about Calcite components?
-                <calcite-input-date-picker id="when" name="when" required></calcite-input-date-picker>
+                <div id="when">
+                  <calcite-input-date-picker
+                    id="whenDate"
+                    name="whenDate"
+                    max="2024-07-01"
+                    required
+                  ></calcite-input-date-picker>
+                  <calcite-input-time-picker
+                    id="whenTime"
+                    name="whenTime"
+                    max="23:11"
+                    required
+                  ></calcite-input-time-picker>
+                </div>
               </calcite-label>
             </li>
 
@@ -117,7 +182,7 @@
             <li>
               <calcite-label>
                 How useful is the Calcite Design System?
-                <calcite-segmented-control layout="horizontal" name="usefulness">
+                <calcite-segmented-control layout="horizontal" name="usefulness" required>
                   <calcite-segmented-control-item value="0">😴&nbsp;Very useless</calcite-segmented-control-item>
                   <calcite-segmented-control-item value="1">🥱&nbsp;Somewhat useless</calcite-segmented-control-item>
                   <calcite-segmented-control-item value="2" checked>🤔&nbsp;Undecided</calcite-segmented-control-item>
@@ -131,7 +196,7 @@
             <li>
               <calcite-label>
                 Will you be using Calcite components in an upcoming project?
-                <calcite-radio-button-group name="using">
+                <calcite-radio-button-group name="using" required>
                   <calcite-label layout="inline">
                     Yes
                     <calcite-radio-button value="yes"></calcite-radio-button>
@@ -242,18 +307,126 @@
 
           <!-- Button -->
           <calcite-button id="submit" type="submit">Submit</calcite-button>
+          <calcite-button id="reset" type="reset">Reset</calcite-button>
         </fieldset>
       </form>
+
+      <!-- Alert -->
+      <calcite-alert id="alert" icon auto-close auto-close-duration="fast" kind="success" label="success">
+        <div slot="message">
+          <strong>Success!</strong>
+          Thank you for your feedback.
+        </div>
+      </calcite-alert>
+
+      <!-- Progress -->
+      <calcite-progress id="progress" type="indeterminate" hidden></calcite-progress>
     </demo-dom-swapper>
   </body>
 
   <script>
-    window.onload = () => {
-      const form = document.getElementById("form");
-      console.log(form.elements);
+    // Set this to false to only show validation messages after submitting the form
+    const SHOW_VALIDATION_MESSAGES_ON_BLUR = true;
 
-      document.addEventListener("invalid", (event) => {
-        console.log(event);
+    // https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
+    const VALIDITY_STATES = [
+      "badInput",
+      "customError",
+      "patternMismatch",
+      "rangeOverflow",
+      "rangeUnderflow",
+      "stepMismatch",
+      "tooLong",
+      "tooShort",
+      "typeMismatch",
+      "valueMissing",
+    ];
+
+    // extension of the pattern used in MDN's constraint validation tutorials for use with multiple elements and constraints:
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation#complex_constraints_using_the_constraint_validation_api
+    const ELEMENT_CONSTRAINTS = [
+      {
+        id: "fullName",
+        patternMismatch: {
+          message: "First and last name are required.",
+        },
+        tooShort: {
+          message: "Please enter at least 3 characters.",
+        },
+        tooLong: {
+          message: "Please enter no more than 69 characters.",
+        },
+        valueMissing: {
+          message: "Please enter your name.",
+        },
+      },
+      {
+        id: "numberSeen",
+        rangeUnderflow: {
+          message: "There are 21 Calcite components used in this form, which is the minimum number you've seen.",
+          icon: "minimum",
+        },
+        rangeOverflow: {
+          message: "There are 108 Calcite components, which is the maximum number you've seen.",
+          icon: "maximum",
+        },
+      },
+      {
+        id: "favoriteApp",
+        patternMismatch: {
+          message: "The URL must start with https://",
+          icon: "web",
+        },
+        tooShort: {
+          message: "The URL must contain least 11 characters.",
+          icon: "arrow-right-left",
+        },
+      },
+    ];
+
+    function checkElementConstraints(el, constraints) {
+      // clear custom validation message if all constraints are met
+      if (el?.validity?.valid) {
+        el.validationMessage = "";
+        el.validationIcon = false;
+        el.status = "idle";
+        return;
+      }
+
+      // iterate through the validity states and set the custom validation message/icon
+      for (const state of VALIDITY_STATES) {
+        if (el?.validity[state] && Object.hasOwn(constraints, state)) {
+          el.validationMessage = constraints[state]?.message ?? "";
+          el.validationIcon = constraints[state]?.icon ?? true;
+
+          if (SHOW_VALIDATION_MESSAGES_ON_BLUR) {
+            el.status = "invalid";
+          }
+
+          return;
+        }
+      }
+    }
+
+    window.onload = () => {
+      if (SHOW_VALIDATION_MESSAGES_ON_BLUR) {
+        /* blur event listeners to check validation constraints of elements with custom messages */
+        ELEMENT_CONSTRAINTS.forEach((data) => {
+          document
+            .querySelector(`#${data.id}`)
+            ?.addEventListener("blur", ({ target }) => checkElementConstraints(target, data));
+        });
+      } else {
+        /* use `calciteInvalid` if you only want to set custom messages on form submission */
+        document.addEventListener("calciteInvalid", ({ target }) => {
+          const constraints = ELEMENT_CONSTRAINTS.find((x) => x.id === target.id);
+          checkElementConstraints(target, constraints);
+        });
+      }
+
+      // Mode Switcher
+      document.getElementById("mode")?.addEventListener("calciteSwitchChange", () => {
+        document.body.classList.toggle("calcite-mode-dark");
       });
 
       // Combobox
@@ -299,13 +472,26 @@
       });
 
       // Date picker
-      const datePicker = document.getElementById("when");
+      const datePicker = document.getElementById("whenDate");
       datePicker.maxAsDate = new Date();
       datePicker.min = "2021-01-01";
 
+      // Form submission
+      const form = document.getElementById("form");
+      const submit = document.getElementById("submit");
+      const progress = document.getElementById("progress");
+      const alert = document.getElementById("alert");
+
       form.onsubmit = (event) => {
         event.preventDefault();
-        console.log(new FormData(form));
+        submit.loading = true;
+        progress.removeAttribute("hidden");
+
+        setTimeout(() => {
+          submit.loading = false;
+          progress.setAttribute("hidden", "");
+          alert.open = true;
+        }, 2500);
       };
     };
   </script>

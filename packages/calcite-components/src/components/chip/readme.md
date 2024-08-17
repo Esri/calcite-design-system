@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-chip`, refer to th
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-chip value="Global" closable icon="globe" appearance="outline" kind="brand">Global</calcite-chip>
-```
-
 ## Properties
 
 | Property             | Attribute           | Description                                                                                                               | Type                                     | Default     |

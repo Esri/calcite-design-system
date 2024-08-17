@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Calcite UI Icons</title>
+    <meta name="description" content="Searchable library of SVG icons for the Calcite design system" />
+    <link rel="stylesheet" href="./resources/calcite-web.min.css" />
+    <style>
+      .icon-select * {
+        pointer-events: none;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .icon-select {
+        border: 1px solid #efefef;
+        background-color: #fff;
+        color: #000;
+        transition: all 100ms linear;
+      }
+      .icon-select:hover,
+      .icon-select:focus {
+        border: 1px solid #007ac2;
+        color: #000;
+        text-decoration: none;
+        background-color: #fff;
+      }
+      .icon-select--name {
+        word-wrap: break-word;
+        text-align: center;
+        margin-top: 0.5rem;
+        white-space: normal;
+        font-size: 12px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper panel panel-no-border panel-no-padding">
+      <!-- header -->
+      <header class="panel-blue" role="banner">
+        <div class="grid-container">
+          <div class="column-24">
+            <h1 class="sub-nav-title leader-3">Calcite UI Icons</h1>
+          </div>
+          <div class="column-24">
+            <div class="column-12">
+              <p class="trailer-half">
+                <!-- x-release-please-start-version -->
+                Version <span class="js-version margin-right-2">3.30.0</span>
+                <!-- x-release-please-end -->
+                <a href="https://github.com/esri/calcite-ui-icons/" class="link-white"
+                  >View on GitHub
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    width="16"
+                    height="15"
+                    class="margin-left-quarter"
+                  >
+                    <path d="M14 8h1v7H1V1h7v1H2v12h12zm-4-7v1h3.29L7.62 7.67l.71.71L14 2.71V6h1V1z" /></svg
+                ></a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="third-nav js-sticky">
+        <div class="third-nav-container">
+          <div class="grid-container">
+            <div class="column-24">
+              <div class="column-12 pre-12">
+                <label class="trailer-0">
+                  <input
+                    type="search"
+                    class="js-search input-search leader-quarter trailer-quarter"
+                    placeholder="Search icons"
+                    aria-label="Search icons"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-container padding-trailer-4 padding-leader-2">
+        <div class="js-app-content column-24 leader-0">
+          <div class="js-loader loader is-active padding-leader-6 leader-3 padding-trailer-3">
+            <div class="loader-bars"></div>
+            <div class="loader-text">Loading icons...</div>
+          </div>
+          <div class="js-icons block-group block-group-6-up tablet-block-group-4-up phone-block-group-2-up"></div>
+        </div>
+      </div>
+
+      <div class="js-modal modal-overlay" data-modal="iconDetail">
+        <div class="modal-content column-12" role="dialog">
+          <button class="js-modal-toggle right btn-link leader-quarter" aria-label="Close icon detail view">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                d="M13.207 12.5l7.778 7.778-.707.707-7.778-7.778-7.778 7.778-.707-.707 7.778-7.778-7.778-7.778.707-.707 7.778 7.778 7.778-7.778.707.707z"
+              />
+            </svg>
+          </button>
+          <h2 class="trailer-half js-detail-name"></h2>
+          <div class="block-group block-group-2-up leader-half">
+            <div class="block">
+              <h3 class="font-size-1 trailer-0">Aliases</h3>
+              <p class="js-detail-aliases leader-quarter"></p>
+            </div>
+            <div class="block">
+              <h3 class="font-size-1 trailer-0">Category</h3>
+              <p class="js-detail-category font-size-2"></p>
+            </div>
+          </div>
+
+          <h3 class="font-size-1">Sizes</h3>
+          <div class="block-group block-group-3-up">
+            <a
+              class="js-link-16 block padding-leader-1 padding-trailer-2 icon-select btn btn-transparent"
+              href="#"
+              target="_blank"
+            >
+              <div class="text-center trailer-1">
+                <span class="label label-blue">16</span>
+              </div>
+              <div class="js-detail-16 text-center"></div>
+            </a>
+            <a
+              class="js-link-24 block padding-leader-1 padding-trailer-2 icon-select btn btn-transparent"
+              href="#"
+              target="_blank"
+            >
+              <div class="text-center trailer-1">
+                <span class="label label-blue">24</span>
+              </div>
+              <div class="js-detail-24 text-center"></div>
+            </a>
+            <a
+              class="js-link-32 block padding-leader-1 padding-trailer-2 icon-select btn btn-transparent"
+              href="#"
+              target="_blank"
+            >
+              <div class="text-center trailer-1">
+                <span class="label label-blue">32</span>
+              </div>
+              <div class="js-detail-32 text-center"></div>
+            </a>
+          </div>
+          <p class="leader-1 trailer-0 font-size--1 avenir-italic">
+            Released in v<span class="js-detail-release"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- get calcite-web js from the cdn (use latest version) -->
+    <script src="./resources/calcite-web.min.js"></script>
+
+    <!-- start up app -->
+    <script src="./app.js"></script>
+  </body>
+</html>

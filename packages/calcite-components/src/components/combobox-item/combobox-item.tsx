@@ -27,10 +27,12 @@ import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { CSS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
+ * @slot content-end - A slot for adding non-actionable elements after the component's content.
  */
 @Component({
   tag: "calcite-combobox-item",
@@ -44,25 +46,43 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * When `true`, the component is selected.
-   */
-  @Prop({ reflect: true, mutable: true }) selected = false;
-
   /** When `true`, the component is active. */
   @Prop({ reflect: true }) active = false;
 
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
+  /**
+   * A description for the component, which displays below the label.
+   */
+  @Prop() description: string;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  @Watch("textLabel")
+  handleComboboxItemPropsChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
+
+  /**
+   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   */
+  @Prop({ reflect: true }) filterDisabled: boolean;
+
+  /**
+   * Pattern for highlighting filter text matches.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
+
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true }) guid = guid();
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -72,16 +92,22 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.calciteComboboxItemChange.emit();
   }
 
-  /** The component's text. */
-  @Prop({ reflect: true }) textLabel!: string;
-
-  /** The component's value. */
-  @Prop() value!: any;
+  /**
+   * Provides additional metadata to the component used in filtering.
+   */
+  @Prop() metadata: Record<string, unknown>;
 
   /**
-   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) filterDisabled: boolean;
+  @Prop() scale: Scale = "m";
+
+  /**
+   * When `true`, the component is selected.
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
    * Specifies the selection mode of the component, where:
@@ -102,11 +128,29 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   > = "multiple";
 
   /**
-   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   * The component's short heading.
    *
-   * @internal
+   * When provided, the short heading will be displayed in the component's selection.
+   *
+   * It is recommended to use 5 characters or fewer.
    */
-  @Prop() scale: Scale = "m";
+  @Prop() shortHeading: string;
+
+  /** The component's text. */
+  @Prop() heading: string;
+
+  /**
+   * The component's text.
+   *
+   * @deprecated Use `heading` instead.
+   */
+  @Prop({ reflect: true }) textLabel!: string;
+
+  /** The component's value. */
+  @Prop() value!: any;
+
+  /** The component's label. */
+  @Prop() label: any;
 
   // --------------------------------------------------------------------------
   //
@@ -149,6 +193,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
 
+  /**
+   * Fires whenever a property the parent combobox needs to know about is changed.
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalComboboxItemChange: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -175,13 +226,12 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(iconPath: string): VNode {
+  renderIcon(iconPath: IconNameOrString): VNode {
     return this.icon ? (
       <calcite-icon
         class={{
           [CSS.custom]: !!this.icon,
           [CSS.iconActive]: this.icon && this.selected,
-          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -191,13 +241,14 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     ) : null;
   }
 
-  renderSelectIndicator(showDot: boolean, iconPath: string): VNode {
+  renderSelectIndicator(showDot: boolean): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): VNode {
     return showDot ? (
       <span
         class={{
           [CSS.icon]: true,
           [CSS.dot]: true,
-          [CSS.iconIndent]: true,
         }}
       />
     ) : (
@@ -205,7 +256,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.iconActive]: this.selected,
-          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={iconPath}
@@ -228,11 +278,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, heading, label, textLabel, value } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
+    const defaultIcon = isSingleSelect ? undefined : "check";
+    const headingText = heading || textLabel;
+    const iconPath = disabled ? undefined : defaultIcon;
+    const itemLabel = label || value;
     const showDot = isSingleSelect && !disabled;
-    const defaultIcon = isSingleSelect ? "dot" : "check";
-    const iconPath = disabled ? "" : defaultIcon;
 
     const classes = {
       [CSS.label]: true,
@@ -240,24 +292,53 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-    const depth = getDepth(this.el);
+    const depth = getDepth(this.el) + 1;
 
     return (
-      <Host aria-hidden="true">
+      <Host aria-hidden="true" aria-label={itemLabel}>
         <InteractiveContainer disabled={disabled}>
           <div
-            class={`container scale--${this.scale}`}
+            class={{
+              [CSS.container]: true,
+              [CSS.scale(this.scale)]: true,
+            }}
             style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
           >
             <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
-              <span class="title">{this.textLabel}</span>
+              <div class={CSS.centerContent}>
+                <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
+                {this.description ? (
+                  <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
+                ) : null}
+              </div>
+              {this.shortHeading ? (
+                <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
+              ) : null}
+              <slot name={SLOTS.contentEnd} />
             </li>
             {this.renderChildren()}
           </div>
         </InteractiveContainer>
       </Host>
     );
+  }
+
+  private renderTextContent(text: string): string | (string | VNode)[] {
+    const pattern = this.filterTextMatchPattern;
+
+    if (!pattern || !text) {
+      return text;
+    }
+
+    const parts: (string | VNode)[] = text.split(pattern);
+
+    if (parts.length > 1) {
+      // we only highlight the first match
+      parts[1] = <mark class={CSS.filterMatch}>{parts[1]}</mark>;
+    }
+
+    return parts;
   }
 }

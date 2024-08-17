@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
+import { getElementXY, skipAnimations } from "../../tests/utils";
 import { openClose } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 
@@ -10,6 +10,23 @@ describe("defaults", () => {
     {
       propertyName: "autoCloseDuration",
       defaultValue: "medium",
+    },
+    {
+      propertyName: "embedded",
+      defaultValue: false,
+    },
+    {
+      propertyName: "queue",
+      defaultValue: "last",
+    },
+  ]);
+});
+
+describe("reflects", () => {
+  reflects("calcite-alert", [
+    {
+      propertyName: "queue",
+      value: "last",
     },
   ]);
 });
@@ -183,6 +200,85 @@ describe("calcite-alert", () => {
     expect(await alert1.isVisible()).not.toBe(true);
     expect(await alert2.isVisible()).not.toBe(true);
     expect(await alert3.isVisible()).toBe(true);
+  });
+
+  it("should queue alerts", async () => {
+    const page = await newE2EPage();
+    await skipAnimations(page);
+    await page.setContent(html`
+      <calcite-alert id="alert-1"> ${alertContent} </calcite-alert>
+      <calcite-alert id="alert-2"> ${alertContent} </calcite-alert>
+      <calcite-alert id="alert-3"> ${alertContent} </calcite-alert>
+    `);
+
+    const alert1 = await page.find("#alert-1");
+    const alert2 = await page.find("#alert-2");
+    const alert3 = await page.find("#alert-3");
+
+    expect(await alert1.isVisible()).toBe(false);
+    expect(await alert2.isVisible()).toBe(false);
+    expect(await alert3.isVisible()).toBe(false);
+
+    alert1.setProperty("open", true);
+    await page.waitForChanges();
+    alert2.setProperty("open", true);
+    await page.waitForChanges();
+    alert3.setProperty("queue", "immediate");
+    await page.waitForChanges();
+    alert3.setProperty("open", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    expect(await alert1.isVisible()).toBe(true);
+    expect(await alert2.isVisible()).toBe(true);
+    expect(await alert3.isVisible()).toBe(true);
+
+    const alert1Container = await page.find(`#alert-1 >>> .${CSS.container}`);
+    const alert2Container = await page.find(`#alert-2 >>> .${CSS.container}`);
+    const alert3Container = await page.find(`#alert-3 >>> .${CSS.container}`);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(true);
+
+    alert3.setProperty("queue", "immediate");
+    await page.waitForChanges();
+    alert2.setProperty("queue", "immediate");
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(true);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert1.setProperty("queue", "next");
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    alert2.setProperty("open", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    expect(await alert1Container.isVisible()).toBe(true);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert2.setProperty("queue", "next");
+    alert2.setProperty("open", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    expect(await alert1Container.isVisible()).toBe(true);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert1.setProperty("open", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(animationDurationInMs);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(true);
+    expect(await alert3Container.isVisible()).toBe(false);
   });
 
   it("correctly assigns a default placement class", async () => {
@@ -454,6 +550,20 @@ describe("calcite-alert", () => {
 
       await page.mouse.move(0, 0);
 
+      await page.waitForTimeout(DURATIONS.medium + animationDurationInMs);
+      await page.waitForSelector("#alert", { visible: false });
+    });
+
+    it("pauses on focus and resumes on blur", async () => {
+      await button.click();
+      expect(await alert.isVisible()).toBe(true);
+      expect(await alert.getProperty("autoCloseDuration")).toEqual("medium");
+      expect(playState).toEqual("running");
+      buttonClose = await page.find(`#alert >>> .${CSS.close}`);
+      buttonClose.focus();
+      await page.waitForTimeout(DURATIONS.medium);
+      expect(await alert.isVisible()).toBe(true);
+      await button.focus();
       await page.waitForTimeout(DURATIONS.medium + animationDurationInMs);
       await page.waitForSelector("#alert", { visible: false });
     });

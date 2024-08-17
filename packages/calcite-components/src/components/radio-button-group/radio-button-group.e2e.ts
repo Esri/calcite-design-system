@@ -382,6 +382,37 @@ describe("calcite-radio-button-group", () => {
     expect(await second.getProperty("checked")).toBe(false);
   });
 
+  it("clicking outside of radio button or label text won't update checked status", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-radio-button-group name="radio" layout="vertical">
+        <calcite-label>
+          1
+          <calcite-radio-button id="first" value="one"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
+          <calcite-radio-button id="second" value="two" checked></calcite-radio-button>
+        </calcite-label>
+      </calcite-radio-button-group>
+    `);
+
+    const first = await page.find("calcite-radio-button#first");
+    const second = await page.find("calcite-radio-button#second");
+
+    await page.mouse.click(0, 0);
+    await page.waitForChanges();
+
+    expect(await first.getProperty("checked")).toBe(false);
+    expect(await second.getProperty("checked")).toBe(true);
+
+    await page.mouse.click(10, 10);
+    await page.waitForChanges();
+
+    expect(await first.getProperty("checked")).toBe(true);
+    expect(await second.getProperty("checked")).toBe(false);
+  });
+
   it("programmatically checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
     await page.setContent(html`

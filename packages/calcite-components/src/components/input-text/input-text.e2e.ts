@@ -11,8 +11,13 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { selectText } from "../../tests/utils";
-import { testHiddenInputSyncing, testPostValidationFocusing } from "../input/common/tests";
+import { isElementFocused, selectText } from "../../tests/utils";
+import {
+  testHiddenInputSyncing,
+  testPostValidationFocusing,
+  testWorkaroundForGlobalPropRemoval,
+} from "../input/common/tests";
+import { assertCaretPosition } from "../../tests/utils";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -376,14 +381,6 @@ describe("calcite-input-text", () => {
   });
 
   it("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", async () => {
-    const determineCaretIndex = (position?: number): Promise<boolean> => {
-      return page.evaluate((position) => {
-        const element = document.querySelector("calcite-input-text") as HTMLCalciteInputTextElement;
-        const el = element.shadowRoot.querySelector("input");
-        return el.selectionStart === (position !== undefined ? position : el.value.length);
-      }, position);
-    };
-
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-text></calcite-input-text>`);
     const element = await page.find("calcite-input-text");
@@ -396,12 +393,42 @@ describe("calcite-input-text", () => {
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(await determineCaretIndex(0)).toBeTruthy();
+    await assertCaretPosition({
+      page,
+      componentTag: "calcite-input-text",
+      position: 0,
+    });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(await determineCaretIndex()).toBeTruthy();
+    await assertCaretPosition({
+      page,
+      componentTag: "calcite-input-text",
+    });
+  });
+
+  it("should not focus when clicking validation message", async () => {
+    const page = await newE2EPage();
+    const componentTag = "calcite-input-text";
+    await page.setContent(
+      html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
+    );
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+      element.click();
+    });
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(true);
   });
 
   it("allows disabling slotted action", async () => {
@@ -468,6 +495,8 @@ describe("calcite-input-text", () => {
 
     testHiddenInputSyncing("calcite-input-text");
   });
+
+  testWorkaroundForGlobalPropRemoval("calcite-input-text");
 
   describe("translation support", () => {
     t9n("calcite-input-text");
