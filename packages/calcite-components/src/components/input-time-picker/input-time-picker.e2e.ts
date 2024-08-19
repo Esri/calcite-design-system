@@ -114,6 +114,33 @@ describe("calcite-input-time-picker", () => {
     openClose("calcite-input-time-picker");
   });
 
+  describe("prevent default", () => {
+    it("resets to previous value when default event behavior is prevented", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
+
+      const inputTimePicker = await page.find("calcite-input-time-picker");
+
+      await page.evaluate(() => {
+        const inputTimePicker = document.querySelector("calcite-input-time-picker");
+        inputTimePicker.addEventListener("calciteInputTimePickerChange", (event) => {
+          event.preventDefault();
+        });
+      });
+
+      expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+
+      await inputTimePicker.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("5");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+    });
+  });
+
   describe("readonly", () => {
     it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
       const page = await newE2EPage();
@@ -602,31 +629,6 @@ describe("calcite-input-time-picker", () => {
         expect(await inputTimePicker.getProperty("value")).toBe("02:03:04");
       });
     });
-  });
-
-  it("resets to previous value when default event behavior is prevented", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
-
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-
-    await page.evaluate(() => {
-      const inputTimePicker = document.querySelector("calcite-input-time-picker");
-      inputTimePicker.addEventListener("calciteInputTimePickerChange", (event) => {
-        event.preventDefault();
-      });
-    });
-
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
-
-    await inputTimePicker.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Backspace");
-    await page.keyboard.press("5");
-    await page.keyboard.press("Enter");
-    await page.waitForChanges();
-
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
   });
 
   describe("is form-associated", () => {
