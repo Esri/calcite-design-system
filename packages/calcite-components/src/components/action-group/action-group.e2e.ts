@@ -89,11 +89,6 @@ describe("calcite-action-group", () => {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-action-group-gap": {
-            selector: "calcite-action-group",
-            targetProp: "gap",
-            shadowSelector: `.${CSS.container}`,
-          },
         },
       );
     });

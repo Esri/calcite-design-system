@@ -550,6 +550,9 @@ describe("calcite-action-bar", () => {
         "--calcite-action-bar-expanded-max-width": {
           targetProp: "maxInlineSize",
         },
+        "--calcite-action-bar-items-space": {
+          targetProp: "gap",
+        },
       },
     );
   });

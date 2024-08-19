@@ -40,20 +40,6 @@ export const withoutDefinedGridGap_TestOnly = (): string =>
     <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
   </calcite-action-group>`;
 
-export const withDefinedGridGap_TestOnly = (): string => html`
-  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0; --calcite-action-group-padding:0;">
-    <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
-    <calcite-action text="Save" icon="chevron-up"></calcite-action>
-    <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>
-    <calcite-action text="Basemaps" icon="chevron-left"></calcite-action>
-    <calcite-action text="Layers" icon="layers"></calcite-action>
-    <calcite-action text="Basemaps" icon="chevron-right"></calcite-action>
-    <calcite-action text="Basemaps" icon="arrow-down-left"></calcite-action>
-    <calcite-action text="Layers" icon="chevron-down"></calcite-action>
-    <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
-  </calcite-action-group>
-`;
-
 export const arabicLocale_TestOnly = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="ar">
@@ -103,7 +89,6 @@ export const theming_TestOnly = (): string =>
         "--calcite-action-background-color",
         "--calcite-action-group-border-color",
         "--calcite-action-group-columns",
-        "--calcite-action-group-gap",
       ])}
       }
     </style>
