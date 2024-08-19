@@ -624,10 +624,12 @@ export class InputTimePicker
     localizedTimeString: string,
     fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
-    const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
-    this.setLocaleTimeFormat({ fractionalSecondFormatToken, hourCycle: localeDefaultHourCycle });
-    const defaultHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
+    this.setLocaleTimeFormat({
+      fractionalSecondFormatToken,
+      hourCycle: getLocaleHourCycle(this.effectiveLocale),
+    });
 
+    const defaultHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
     if (defaultHourCycleParseResult.isValid()) {
       return {
         hour: defaultHourCycleParseResult.get("hour"),
@@ -641,8 +643,8 @@ export class InputTimePicker
       fractionalSecondFormatToken,
       hourCycle: this.getLocaleOppositeHourFormat(),
     });
-    const oppositeHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
 
+    const oppositeHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
     if (oppositeHourCycleParseResult.isValid()) {
       return {
         hour: oppositeHourCycleParseResult.get("hour"),
