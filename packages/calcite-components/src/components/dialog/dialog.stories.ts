@@ -361,7 +361,7 @@ const themedStyle = html`--calcite-dialog-scrim-background-color: purple; --calc
 --calcite-dialog-content-space: 50px; --calcite-dialog-offset-x: 50px; --calcite-dialog-offset-y: -30px;`;
 
 export const withShellInside = (): string =>
-  html`<calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
+  html`<calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="m">
     <calcite-shell>
       <calcite-shell-panel slot="panel-start">
         <calcite-action-bar slot="action-bar" expanded>
