@@ -80,11 +80,7 @@
 }
 
 .container:focus {
-  @apply focus-inset z-default;
-
-  > * {
-    @apply -z-default;
-  }
+  @apply focus-inset;
 }
 
 .container[hidden] {
