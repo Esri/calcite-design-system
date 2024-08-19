@@ -51,7 +51,6 @@ describe("calcite-date-picker-month-header", () => {
         prevMonth: "Previous month",
         monthMenu: "Month menu",
         yearMenu: "Year menu",
-        year: "Year",
       };
 
       document.body.innerHTML = "";
