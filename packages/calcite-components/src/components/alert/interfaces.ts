@@ -1,7 +1,8 @@
 export type AlertDuration = "fast" | "medium" | "slow";
+export type AlertQueue = "immediate" | "next" | "last";
 
 export interface Sync {
-  queue: HTMLCalciteAlertElement[];
+  queueList: HTMLCalciteAlertElement[];
 }
 
 export interface Unregister {

@@ -24,11 +24,11 @@
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.n1h");
+      @apply text-n1h;
     }
 
     .description {
-      font-size: theme("fontSize.n2h");
+      @apply text-n2h;
     }
   }
 }
@@ -39,11 +39,11 @@
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.0h");
+      @apply text-0h;
     }
 
     .description {
-      font-size: theme("fontSize.n1h");
+      @apply text-n1h;
     }
   }
 }
@@ -54,11 +54,11 @@
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.1h");
+      @apply text-1h;
     }
 
     .description {
-      font-size: theme("fontSize.0h");
+      @apply text-0h;
     }
   }
 }
