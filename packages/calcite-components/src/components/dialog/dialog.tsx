@@ -286,6 +286,7 @@ export class Dialog
                 messageOverrides={this.messageOverrides}
                 onCalcitePanelClose={this.handleCloseClick}
                 onCalcitePanelScroll={this.handleScroll}
+                onKeyDown={this.handlePanelKeyDown}
                 overlayPositioning={this.overlayPositioning}
                 ref={(el) => (this.panelEl = el)}
                 scale={this.scale}
@@ -622,8 +623,14 @@ export class Dialog
     this.calciteDialogScroll.emit();
   };
 
-  private handleCloseClick = () => {
+  private handleCloseClick = (): void => {
     this.open = false;
+  };
+
+  private handlePanelKeyDown = (event: KeyboardEvent): void => {
+    if (this.escapeDisabled) {
+      event.preventDefault();
+    }
   };
 
   private async openDialog(): Promise<void> {

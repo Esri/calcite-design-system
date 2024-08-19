@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.25...@esri/calcite-components@2.12.0-next.26) (2024-08-19)
+
+### Bug Fixes
+
+- **alert:** properly form a queue of alerts ([#10032](https://github.com/Esri/calcite-design-system/issues/10032)) ([b24d6ac](https://github.com/Esri/calcite-design-system/commit/b24d6ac68fda9c578b2fe5fd825f12edf76971a1)), closes [#9340](https://github.com/Esri/calcite-design-system/issues/9340)
+
+## [2.12.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.24...@esri/calcite-components@2.12.0-next.25) (2024-08-19)
+
+### Features
+
+- **loader:** add `determinate-value` type ([#9957](https://github.com/Esri/calcite-design-system/issues/9957)) ([7f21726](https://github.com/Esri/calcite-design-system/commit/7f21726a500596a0aa22c11c2e4d97da9b5d2f25)), closes [#8678](https://github.com/Esri/calcite-design-system/issues/8678)
+
+## [2.12.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.23...@esri/calcite-components@2.12.0-next.24) (2024-08-17)
+
+### Features
+
+- **alert:** add 'queue' property to prioritize the ordering of alerts when opened ([#10029](https://github.com/Esri/calcite-design-system/issues/10029)) ([3aa47a4](https://github.com/Esri/calcite-design-system/commit/3aa47a46739f76ce2abf9d1bf5fdb5d5ad09edfa)), closes [#8705](https://github.com/Esri/calcite-design-system/issues/8705) [#8316](https://github.com/Esri/calcite-design-system/issues/8316)
+
+### Bug Fixes
+
+- **dialog:** fix escapeDisabled when the escape key is pressed on the panel ([#10097](https://github.com/Esri/calcite-design-system/issues/10097)) ([9a5f1f1](https://github.com/Esri/calcite-design-system/commit/9a5f1f1463d84bce33dd121163c85d3edbc43151)), closes [#10080](https://github.com/Esri/calcite-design-system/issues/10080)
+
+## [2.12.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.22...@esri/calcite-components@2.12.0-next.23) (2024-08-16)
+
+### Bug Fixes
+
+- **panel:** define heading and description line height ([#10085](https://github.com/Esri/calcite-design-system/issues/10085)) ([5478eb9](https://github.com/Esri/calcite-design-system/commit/5478eb943cb88c8df6bdefd2fdc6987e23fbe9ce)), closes [#10042](https://github.com/Esri/calcite-design-system/issues/10042)
+
 ## [2.12.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.21...@esri/calcite-components@2.12.0-next.22) (2024-08-16)
 
 ### Features
