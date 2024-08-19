@@ -82,7 +82,7 @@
 .container:focus {
   @apply focus-inset z-default;
 
-  .header {
+  > * {
     @apply -z-default;
   }
 }
