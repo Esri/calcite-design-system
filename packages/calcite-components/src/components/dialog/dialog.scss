@@ -120,6 +120,7 @@ calcite-panel {
 }
 
 .content {
+  @apply relative flex-auto;
   padding: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
 }
 
