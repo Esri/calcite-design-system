@@ -48,15 +48,25 @@ describe("calcite-alert", () => {
   });
 
   describe("accessible", () => {
-    accessible(html` <calcite-alert open active open-alert-count="4" label="test"> ${alertContent} </calcite-alert> `);
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
+      await skipAnimations(page);
+      await page.waitForTimeout(alertQueueTimeoutMs);
+      return { page, tag: "calcite-alert" };
+    });
   });
 
   describe("accessible with auto-close", () => {
-    accessible(html`
-      <calcite-alert open active open-alert-count="4" auto-close auto-close-duration="slow" label="test">
-        ${alertContent}
-      </calcite-alert>
-    `);
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
+      `);
+      await skipAnimations(page);
+      await page.waitForTimeout(alertQueueTimeoutMs);
+      return { page, tag: "calcite-alert" };
+    });
   });
 
   describe("openClose", () => {
