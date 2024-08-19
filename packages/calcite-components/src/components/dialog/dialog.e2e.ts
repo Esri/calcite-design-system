@@ -29,12 +29,13 @@ describe("calcite-dialog", () => {
   });
 
   describe("openClose", () => {
-    const openCloseOptions = {
-      initialToggleValue: true,
-    };
-
     openClose("calcite-dialog");
-    openClose("calcite-dialog", openCloseOptions);
+
+    describe("initially open", () => {
+      openClose("calcite-dialog", {
+        initialToggleValue: true,
+      });
+    });
   });
 
   describe("slots", () => {
@@ -49,6 +50,10 @@ describe("calcite-dialog", () => {
     reflects("calcite-dialog", [
       {
         propertyName: "closeDisabled",
+        value: true,
+      },
+      {
+        propertyName: "escapeDisabled",
         value: true,
       },
       {
@@ -80,6 +85,10 @@ describe("calcite-dialog", () => {
         value: true,
       },
       {
+        propertyName: "outsideCloseDisabled",
+        value: true,
+      },
+      {
         propertyName: "overlayPositioning",
         value: "fixed",
       },
@@ -103,6 +112,10 @@ describe("calcite-dialog", () => {
       {
         propertyName: "description",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "escapeDisabled",
+        defaultValue: false,
       },
       {
         propertyName: "closeDisabled",
@@ -142,6 +155,10 @@ describe("calcite-dialog", () => {
       },
       {
         propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "outsideCloseDisabled",
         defaultValue: false,
       },
       {
@@ -200,6 +217,28 @@ describe("calcite-dialog", () => {
       messageOverrides.close,
     );
     expect(await panel.getProperty("beforeClose")).toBeDefined();
+  });
+
+  it("outsideCloseDisabled", async () => {
+    const page = await newE2EPage();
+    // set large page to ensure test dialog isn't becoming fullscreen
+    await page.setViewport({ width: 1440, height: 1440 });
+    await skipAnimations(page);
+    await page.setContent(`<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`);
+    await page.waitForChanges();
+
+    const dialog = await page.find("calcite-dialog");
+
+    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+    await page.waitForChanges();
+    expect(await dialog.getProperty("open")).toBe(true);
+
+    dialog.setProperty("outsideCloseDisabled", false);
+    await page.waitForChanges();
+
+    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+    await page.waitForChanges();
+    expect(await dialog.getProperty("open")).toBe(false);
   });
 
   it("sets custom width correctly", async () => {
@@ -282,6 +321,30 @@ describe("calcite-dialog", () => {
     const style = await internalDialog.getComputedStyle();
     expect(style.width).toEqual("800px");
     expect(style.height).toEqual("800px");
+  });
+
+  it("escapeDisabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-dialog open escape-disabled heading="My Dialog">Some content</calcite-dialog>`);
+    await skipAnimations(page);
+    await page.waitForChanges();
+
+    const dialog = await page.find("calcite-dialog");
+    const panel = await page.find(`calcite-dialog >>> calcite-panel`);
+    expect(await dialog.getProperty("open")).toBe(true);
+
+    await panel.press("Escape");
+    await page.waitForChanges();
+
+    expect(await dialog.getProperty("open")).toBe(true);
+
+    dialog.setProperty("escapeDisabled", false);
+    await page.waitForChanges();
+
+    await panel.press("Escape");
+    await page.waitForChanges();
+
+    expect(await dialog.getProperty("open")).toBe(false);
   });
 
   describe("beforeClose()", () => {

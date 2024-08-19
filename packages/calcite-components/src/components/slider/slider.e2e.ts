@@ -610,6 +610,34 @@ describe("calcite-slider", () => {
       expect(inputEvent).toHaveReceivedEventTimes(6);
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
+
+    it("does not allow text selection when slider is used", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-slider 
+          value="30" 
+          label-handles 
+          label-ticks 
+          max-label="100" 
+          ticks="10" 
+          min="0" 
+          max="100" 
+          value="50" 
+          step="1"
+        >
+        </calcite-slider>`,
+      });
+      await page.waitForChanges();
+
+      const thumbRect = await getElementRect(page, "calcite-slider", ".thumb");
+
+      await page.mouse.move(thumbRect.x, thumbRect.y);
+      await page.mouse.down();
+      await page.mouse.move(thumbRect.x + 500, thumbRect.y + 200);
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
+    });
   });
 
   describe("histogram", () => {

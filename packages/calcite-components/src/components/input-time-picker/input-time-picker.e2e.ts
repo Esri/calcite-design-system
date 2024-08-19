@@ -101,6 +101,10 @@ describe("calcite-input-time-picker", () => {
 
   describe("openClose", () => {
     openClose("calcite-input-time-picker");
+
+    describe("initially open", () => {
+      openClose("calcite-input-time-picker", { initialToggleValue: true });
+    });
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
@@ -859,8 +863,8 @@ describe("calcite-input-time-picker", () => {
         html`<calcite-input-time-picker></calcite-input-time-picker>
           <div id="next-sibling" tabindex="0">next sibling</div>`,
       );
+      await skipAnimations(page);
       const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
-      const stopgapDelayUntilOpenCloseEventsAreImplemented = 500;
 
       type InputTimePickerEventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
@@ -872,10 +876,6 @@ describe("calcite-input-time-picker", () => {
           sheet.addEventListener(eventType, (event) => receivedEvents.push(event.type));
         });
       });
-
-      const inputTimePicker = await page.find("calcite-input-time-picker");
-      const openSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerOpen");
-      const closeSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerClose");
 
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
@@ -891,8 +891,6 @@ describe("calcite-input-time-picker", () => {
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
-      expect(openSpy).toHaveReceivedEventTimes(1);
 
       expect(await popover.isVisible()).toBe(true);
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
@@ -907,8 +905,6 @@ describe("calcite-input-time-picker", () => {
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
-      expect(closeSpy).toHaveReceivedEventTimes(1);
 
       expect(await popover.isVisible()).toBe(false);
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");

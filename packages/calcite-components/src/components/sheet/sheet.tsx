@@ -177,13 +177,14 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
+          ref={this.setTransitionEl}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           <div
             class={{
               [CSS.content]: true,
             }}
-            ref={this.setTransitionEl}
+            ref={this.setContentId}
           >
             <slot />
           </div>
@@ -286,9 +287,12 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.open = false;
   }
 
+  private setContentId = (el: HTMLDivElement): void => {
+    this.contentId = ensureId(el);
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.contentId = ensureId(el);
   };
 
   private openEnd = (): void => {

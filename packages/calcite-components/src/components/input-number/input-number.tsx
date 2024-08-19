@@ -17,6 +17,7 @@ import {
   getSlotted,
   isPrimaryPointerButton,
   setRequestedIcon,
+  toAriaBoolean,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -74,8 +75,8 @@ import {
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
-import { CSS, SLOTS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS, SLOTS } from "./resources";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 
 /**
@@ -171,7 +172,7 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @Prop({ reflect: true }) icon: IconName | boolean;
+  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -254,7 +255,7 @@ export class InputNumber
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -405,6 +406,10 @@ export class InputNumber
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 
+  private inputWrapperEl: HTMLDivElement;
+
+  private actionWrapperEl: HTMLDivElement;
+
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
 
@@ -423,7 +428,7 @@ export class InputNumber
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: IconName;
+  private requestedIcon?: IconNameOrString;
 
   private nudgeNumberValueIntervalId: number;
 
@@ -672,10 +677,16 @@ export class InputNumber
       return;
     }
 
-    const slottedActionEl = getSlotted(this.el, "action");
-    if (event.target !== slottedActionEl) {
-      this.setFocus();
+    const composedPath = event.composedPath();
+
+    if (
+      !composedPath.includes(this.inputWrapperEl) ||
+      composedPath.includes(this.actionWrapperEl)
+    ) {
+      return;
     }
+
+    this.setFocus();
   };
 
   private inputNumberFocusHandler = (): void => {
@@ -1081,6 +1092,8 @@ export class InputNumber
 
     const childEl = (
       <input
+        aria-errormessage={IDS.validationMessage}
+        aria-invalid={toAriaBoolean(this.status === "invalid")}
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus ? true : null}
@@ -1108,7 +1121,10 @@ export class InputNumber
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
-          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <div
+            class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+            ref={(el) => (this.inputWrapperEl = el)}
+          >
             {this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalDown
               : null}
@@ -1119,7 +1135,7 @@ export class InputNumber
               {this.requestedIcon ? iconEl : null}
               {this.loading ? loader : null}
             </div>
-            <div class={CSS.actionWrapper}>
+            <div class={CSS.actionWrapper} ref={(el) => (this.actionWrapperEl = el)}>
               <slot name={SLOTS.action} />
             </div>
             {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
@@ -1132,6 +1148,7 @@ export class InputNumber
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

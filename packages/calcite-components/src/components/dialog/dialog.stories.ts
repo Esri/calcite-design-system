@@ -13,12 +13,14 @@ type DialogStoryArgs = Pick<
   | "widthScale"
   | "heading"
   | "description"
+  | "escapeDisabled"
   | "closeDisabled"
   | "placement"
   | "loading"
   | "menuOpen"
   | "modal"
   | "overlayPositioning"
+  | "outsideCloseDisabled"
 >;
 
 export default {
@@ -26,6 +28,7 @@ export default {
   args: {
     open: true,
     kind: "",
+    escapeDisabled: false,
     scale: scale.defaultValue,
     widthScale: scale.values[0],
     placement: "center",
@@ -36,6 +39,7 @@ export default {
     menuOpen: false,
     modal: false,
     overlayPositioning: overlayPositioning.defaultValue,
+    outsideCloseDisabled: false,
   },
   argTypes: {
     kind: {
@@ -90,6 +94,8 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("menu-open", args.menuOpen)}
     ${boolean("loading", args.loading)}
     ${boolean("close-disabled", args.closeDisabled)}
+    ${boolean("escape-disabled", args.escapeDisabled)}
+    ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
@@ -350,9 +356,9 @@ export const footerSlot = (): string => html`
   </calcite-dialog>
 `;
 
-const themedStyle = html` --calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
+const themedStyle = html`--calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
 --calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;
---calcite-dialog-content-space: 50px;`;
+--calcite-dialog-content-space: 50px; --calcite-dialog-offset-x: 50px; --calcite-dialog-offset-y: -30px;`;
 
 export const themed = (): string =>
   html`<calcite-dialog

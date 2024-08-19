@@ -75,14 +75,13 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { getSupportedLocale } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { focusFirstTabbable } from "../../utils/dom";
-import { IconName } from "../icon/interfaces";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
@@ -169,7 +168,6 @@ export class InputTimePicker
     LabelableComponent,
     LoadableComponent,
     LocalizedComponent,
-    OpenCloseComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -179,19 +177,17 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   /** When `true`, displays the `calcite-time-picker` component. */
-
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(): void {
-    onToggleOpenCloseComponent(this);
-
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
 
-    this.reposition(true);
+    // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
+    this.popoverEl.open = this.open;
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -270,7 +266,7 @@ export class InputTimePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -392,10 +388,6 @@ export class InputTimePicker
   private userChangedValue = false;
 
   private referenceElementId = `input-time-picker-${guid()}`;
-
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLCalciteInputElement;
 
   //--------------------------------------------------------------------------
   //
@@ -562,21 +554,42 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
-  onBeforeOpen(): void {
+  private popoverBeforeOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeOpen.emit();
-  }
+  };
 
-  onOpen(): void {
+  private popoverOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerOpen.emit();
-  }
 
-  onBeforeClose(): void {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.calciteTimePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      },
+    });
+  };
+
+  private popoverBeforeCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeClose.emit();
-  }
+  };
 
-  onClose(): void {
+  private popoverCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerClose.emit();
-  }
+
+    deactivateFocusTrap(this, {
+      onDeactivate: () => {
+        this.calciteInputEl.setFocus();
+        this.focusOnOpen = false;
+      },
+    });
+    this.open = false;
+  };
 
   onFocusTrapDeactivate(): void {
     this.open = false;
@@ -852,9 +865,8 @@ export class InputTimePicker
     this.calciteTimePickerEl = el;
   };
 
-  private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
+  private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
-    this.transitionEl = el;
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -952,9 +964,6 @@ export class InputTimePicker
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await Promise.all([setUpMessages(this), this.loadDateTimeLocaleData()]);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   componentDidLoad() {
@@ -970,6 +979,8 @@ export class InputTimePicker
         }),
       );
     }
+
+    this.openHandler();
   }
 
   disconnectedCallback() {
@@ -999,7 +1010,9 @@ export class InputTimePicker
           <div class="input-wrapper" onClick={this.onInputWrapperClick}>
             <calcite-input-text
               aria-autocomplete="none"
+              aria-errormessage={IDS.validationMessage}
               aria-haspopup="dialog"
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               disabled={disabled}
               icon="clock"
               id={this.referenceElementId}
@@ -1008,7 +1021,7 @@ export class InputTimePicker
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
               onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
               readOnly={readOnly}
-              ref={this.setInputAndTransitionEl}
+              ref={this.setInputEl}
               role="combobox"
               scale={this.scale}
               status={this.status}
@@ -1020,7 +1033,10 @@ export class InputTimePicker
             id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
-            open={this.open}
+            onCalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
+            onCalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
+            onCalcitePopoverClose={this.popoverCloseHandler}
+            onCalcitePopoverOpen={this.popoverOpenHandler}
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
             ref={this.setCalcitePopoverEl}
@@ -1043,6 +1059,7 @@ export class InputTimePicker
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

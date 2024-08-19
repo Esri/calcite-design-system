@@ -99,7 +99,10 @@ Type: `Promise<void>`
 | Name                                      | Description                                                                                                                                                    |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--calcite-dialog-border-color`           | Specifies the component's border color.                                                                                                                        |
+| `--calcite-dialog-content-space`          | Specifies the padding of the component's content.                                                                                                              |
 | `--calcite-dialog-footer-space`           | Specifies the padding of the component's footer.                                                                                                               |
+| `--calcite-dialog-offset-x`               | Specifies the horizontal offset of the component.                                                                                                              |
+| `--calcite-dialog-offset-y`               | Specifies the vertical offset of the component.                                                                                                                |
 | `--calcite-dialog-scrim-background-color` | Specifies the background color of the component's scrim.                                                                                                       |
 | `--calcite-dialog-size-x`                 | Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Does not exceed the viewport's width - applies when `placement="cover"` is set.   |
 | `--calcite-dialog-size-y`                 | Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Does not exceed the viewport's height - applies when `placement="cover"` is set. |

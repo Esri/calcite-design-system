@@ -20,42 +20,45 @@
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-padding: var(--calcite-spacing-sm);
+  --calcite-internal-panel-header-vertical-padding: 10px; // this should use a spacing token once made available
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.n1h");
+      @apply text-n1h;
     }
 
     .description {
-      font-size: theme("fontSize.n2h");
+      @apply text-n2h;
     }
   }
 }
 
 :host([scale="m"]) {
   --calcite-internal-panel-default-padding: var(--calcite-spacing-md);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-lg);
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.0h");
+      @apply text-0h;
     }
 
     .description {
-      font-size: theme("fontSize.n1h");
+      @apply text-n1h;
     }
   }
 }
 
 :host([scale="l"]) {
   --calcite-internal-panel-default-padding: var(--calcite-spacing-xl);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xxl);
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.1h");
+      @apply text-1h;
     }
 
     .description {
-      font-size: theme("fontSize.0h");
+      @apply text-0h;
     }
   }
 }
@@ -163,9 +166,13 @@
 }
 
 .content-top,
-.content-bottom,
-.header-content {
+.content-bottom {
   padding: var(--calcite-internal-panel-default-padding);
+}
+
+.header-content {
+  padding-block: var(--calcite-internal-panel-header-vertical-padding);
+  padding-inline: var(--calcite-internal-panel-default-padding);
 }
 
 .footer {
