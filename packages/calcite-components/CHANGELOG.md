@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.24...@esri/calcite-components@2.12.0-next.25) (2024-08-19)
+
+### Features
+
+- **loader:** add `determinate-value` type ([#9957](https://github.com/Esri/calcite-design-system/issues/9957)) ([7f21726](https://github.com/Esri/calcite-design-system/commit/7f21726a500596a0aa22c11c2e4d97da9b5d2f25)), closes [#8678](https://github.com/Esri/calcite-design-system/issues/8678)
+
 ## [2.12.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.23...@esri/calcite-components@2.12.0-next.24) (2024-08-17)
 
 ### Features
