@@ -166,7 +166,8 @@
   items-stretch
   bg-background
   overflow-auto
-  h-full;
+  h-full
+  focus-base;
 }
 
 .content-wrapper:focus {
