@@ -579,6 +579,7 @@ export namespace Components {
         "scale": Scale;
         /**
           * Sets focus on the component's "close" button, the first focusable item.
+          * @returns
          */
         "setFocus": () => Promise<void>;
     }
@@ -1407,6 +1408,10 @@ export namespace Components {
          */
         "guid": string;
         /**
+          * The component's text.
+         */
+        "heading": string;
+        /**
           * Specifies an icon to display.
          */
         "icon": IconNameOrString;
@@ -1414,6 +1419,10 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * The component's label.
+         */
+        "label": any;
         /**
           * Provides additional metadata to the component used in filtering.
          */
@@ -1439,6 +1448,7 @@ export namespace Components {
         "shortHeading": string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -1691,6 +1701,11 @@ export namespace Components {
          */
         "embedded": boolean;
         /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key.
+          * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+         */
+        "escapeDisabled": boolean;
+        /**
           * The component header text.
          */
         "heading": string;
@@ -1726,6 +1741,10 @@ export namespace Components {
           * When `true`, displays and positions the component.
          */
         "open": boolean;
+        /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled": boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -5763,6 +5782,10 @@ export namespace Components {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
         "lines": boolean;
         "parentExpanded": boolean;
         "scale": Scale;
@@ -9363,6 +9386,10 @@ declare namespace LocalJSX {
          */
         "guid"?: string;
         /**
+          * The component's text.
+         */
+        "heading"?: string;
+        /**
           * Specifies an icon to display.
          */
         "icon"?: IconNameOrString;
@@ -9370,6 +9397,10 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * The component's label.
+         */
+        "label"?: any;
         /**
           * Provides additional metadata to the component used in filtering.
          */
@@ -9403,6 +9434,7 @@ declare namespace LocalJSX {
         "shortHeading"?: string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -9676,6 +9708,11 @@ declare namespace LocalJSX {
          */
         "embedded"?: boolean;
         /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key.
+          * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+         */
+        "escapeDisabled"?: boolean;
+        /**
           * The component header text.
          */
         "heading"?: string;
@@ -9731,6 +9768,10 @@ declare namespace LocalJSX {
           * When `true`, displays and positions the component.
          */
         "open"?: boolean;
+        /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled"?: boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -13930,6 +13971,10 @@ declare namespace LocalJSX {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
         "lines"?: boolean;
         "onCalciteInternalTreeItemSelect"?: (event: CalciteTreeItemCustomEvent<TreeItemSelectDetail>) => void;
         "parentExpanded"?: boolean;

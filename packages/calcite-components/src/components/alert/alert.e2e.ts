@@ -206,18 +206,11 @@ describe("calcite-alert", () => {
   it("should queue alerts", async () => {
     const page = await newE2EPage();
     await skipAnimations(page);
-    await page.setContent(`
-    <div>
-    <calcite-alert id="alert-1">
-    ${alertContent}
-    </calcite-alert>
-    <calcite-alert id="alert-2">
-    ${alertContent}
-    </calcite-alert>
-    <calcite-alert id="alert-3">
-    ${alertContent}
-    </calcite-alert>
-    </div>`);
+    await page.setContent(html`
+      <calcite-alert id="alert-1"> ${alertContent} </calcite-alert>
+      <calcite-alert id="alert-2"> ${alertContent} </calcite-alert>
+      <calcite-alert id="alert-3"> ${alertContent} </calcite-alert>
+    `);
 
     const alert1 = await page.find("#alert-1");
     const alert2 = await page.find("#alert-2");
@@ -245,7 +238,6 @@ describe("calcite-alert", () => {
     const alert2Container = await page.find(`#alert-2 >>> .${CSS.container}`);
     const alert3Container = await page.find(`#alert-3 >>> .${CSS.container}`);
 
-    // queue: [3, 1, 2]
     expect(await alert1Container.isVisible()).toBe(false);
     expect(await alert2Container.isVisible()).toBe(false);
     expect(await alert3Container.isVisible()).toBe(true);
@@ -256,7 +248,6 @@ describe("calcite-alert", () => {
     await page.waitForChanges();
     await page.waitForTimeout(animationDurationInMs);
 
-    // queue: [2, 3, 1]
     expect(await alert1Container.isVisible()).toBe(false);
     expect(await alert2Container.isVisible()).toBe(true);
     expect(await alert3Container.isVisible()).toBe(false);
@@ -269,7 +260,6 @@ describe("calcite-alert", () => {
     await page.waitForChanges();
     await page.waitForTimeout(animationDurationInMs);
 
-    // queue: [1, 3]
     expect(await alert1Container.isVisible()).toBe(true);
     expect(await alert2Container.isVisible()).toBe(false);
     expect(await alert3Container.isVisible()).toBe(false);
@@ -279,7 +269,6 @@ describe("calcite-alert", () => {
     await page.waitForChanges();
     await page.waitForTimeout(animationDurationInMs);
 
-    // queue: [1, 2, 3]
     expect(await alert1Container.isVisible()).toBe(true);
     expect(await alert2Container.isVisible()).toBe(false);
     expect(await alert3Container.isVisible()).toBe(false);
@@ -288,7 +277,6 @@ describe("calcite-alert", () => {
     await page.waitForChanges();
     await page.waitForTimeout(animationDurationInMs);
 
-    // queue: [2, 3]
     expect(await alert1Container.isVisible()).toBe(false);
     expect(await alert2Container.isVisible()).toBe(true);
     expect(await alert3Container.isVisible()).toBe(false);

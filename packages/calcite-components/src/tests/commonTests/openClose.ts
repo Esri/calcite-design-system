@@ -1,6 +1,6 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../utils";
+import { GlobalTestProps, newProgrammaticE2EPage } from "../utils";
 import { getTag, simplePageSetup } from "./utils";
 import { TagOrHTML } from "./interfaces";
 
@@ -33,6 +33,11 @@ interface OpenCloseOptions {
    * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
    */
   beforeToggle?: BeforeToggle;
+
+  /**
+   * When `true`, the test will assert that the delays match those used when animation is disabled
+   */
+  willUseFallback?: boolean;
 }
 
 /**
@@ -56,16 +61,18 @@ interface OpenCloseOptions {
  *      }
  *   });
  *
- *  openClose("calcite-combobox", {
- *        initialToggleValue: true,
- *        beforeToggle: {
- *          close: async (page) => {
- *            await page.keyboard.press("Tab");
- *            await page.waitForChanges();
- *        },
- *      }
- *    }
- * })
+ *   describe("initially open", () => {
+ *     openClose("calcite-combobox", {
+ *           initialToggleValue: true,
+ *           beforeToggle: {
+ *             close: async (page) => {
+ *               await page.keyboard.press("Tab");
+ *               await page.waitForChanges();
+ *           },
+ *         }
+ *       }
+ *   });
+ * });
  *
  * @param componentTagOrHTML - The component tag or HTML markup to test against.
  * @param {object} [options] - Additional options to assert.
@@ -75,6 +82,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   const defaultOptions: OpenCloseOptions = {
     initialToggleValue: false,
     openPropName: "open",
+    willUseFallback: false,
   };
   const customizedOptions = { ...defaultOptions, ...options };
 
@@ -117,17 +125,50 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     );
   }
 
-  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
+  type OpenCloseName = "beforeOpen" | "open" | "beforeClose" | "close";
+
+  function toOpenCloseName(eventName: string): OpenCloseName {
+    return eventName.includes("BeforeOpen")
+      ? "beforeOpen"
+      : eventName.includes("Open")
+        ? "open"
+        : eventName.includes("BeforeClose")
+          ? "beforeClose"
+          : "close";
+  }
+
+  async function testOpenCloseEvents(
+    componentTagOrHTML: TagOrHTML,
+    page: E2EPage,
+    animationsEnabled = true,
+  ): Promise<void> {
     const tag = getTag(componentTagOrHTML);
     const element = await page.find(tag);
 
-    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
-      page.waitForEvent(event),
-    );
+    const timestamps: Record<OpenCloseName, number> = {
+      beforeOpen: undefined,
+      open: undefined,
+      beforeClose: undefined,
+      close: undefined,
+    };
+
+    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) => {
+      return page.waitForEvent(event).then((spy) => {
+        timestamps[toOpenCloseName(event)] = Date.now();
+        return spy;
+      });
+    });
 
     const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
       eventSequence.map(async (event) => await element.spyOnEvent(event)),
     );
+
+    function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
+      expect(beforeOpenSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
+      expect(openSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
+      expect(beforeCloseSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[2]);
+      expect(closeSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[3]);
+    }
 
     await page.waitForChanges();
 
@@ -138,14 +179,10 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     }
 
     await page.waitForChanges();
-
     await beforeOpenEvent;
     await openEvent;
 
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(openSpy).toHaveReceivedEventTimes(1);
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
-    expect(closeSpy).toHaveReceivedEventTimes(0);
+    assertEventSequence([1, 1, 0, 0]);
 
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.close(page);
@@ -154,29 +191,31 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     }
 
     await page.waitForChanges();
-
     await beforeCloseEvent;
     await closeEvent;
 
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
-    expect(closeSpy).toHaveReceivedEventTimes(1);
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(openSpy).toHaveReceivedEventTimes(1);
+    assertEventSequence([1, 1, 1, 1]);
 
     expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
-  }
 
-  /**
-   * `skipAnimations` utility sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
-   * Because this still leaves a very small duration, we can still test the animation events, but faster.
-   */
+    const delayDeltaThreshold = 100; // smallest internal animation timing used
+    const delayBetweenBeforeOpenAndOpen = timestamps.open - timestamps.beforeOpen;
+    const delayBetweenBeforeCloseAndClose = timestamps.close - timestamps.beforeClose;
+
+    const matcherName = animationsEnabled ? "toBeGreaterThan" : ("toBeLessThanOrEqual" as const);
+
+    expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
+    expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
+  }
 
   if (customizedOptions.initialToggleValue === true) {
     it("emits on initialization with animations enabled", async () => {
       const page = await newProgrammaticE2EPage();
-      await skipAnimations(page);
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 2; }`,
+      });
       await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
     });
 
     it("emits on initialization with animations disabled", async () => {
@@ -185,14 +224,16 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
         content: `:root { --calcite-duration-factor: 0; }`,
       });
       await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page, false);
     });
   } else {
     it(`emits with animations enabled`, async () => {
       const page = await simplePageSetup(componentTagOrHTML);
-      await skipAnimations(page);
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 2; }`,
+      });
       await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
     });
 
     it(`emits with animations disabled`, async () => {
@@ -201,7 +242,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
         content: `:root { --calcite-duration-factor: 0; }`,
       });
       await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page, false);
     });
   }
 }
