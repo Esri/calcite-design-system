@@ -13,7 +13,6 @@ import { segmentedControl } from "./custom-theme/segmentedControl";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
-import styles from "./custom-theme/global.css";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -62,7 +61,20 @@ export default {
 export const themingInteractive = (args: Record<string, string>): string => {
   return `<div style="${addTokens(args)}">
     <style>
-      ${styles}
+      .demo {
+        display: flex;
+        align-items: flex-start;
+      }
+      .demo-column {
+        flex: 0;
+        width: 320px;
+      }
+      .demo-column + .demo-column {
+        margin-left: 4rem;
+      }
+      .demo-column > * {
+        margin-bottom: 2rem;
+      }
     </style>
     <div class="demo">
       <div class="demo-column">
