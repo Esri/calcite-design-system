@@ -1,7 +1,7 @@
 import { placeholderImage } from "../../.storybook/placeholderImage";
 import { html } from "../../support/formatting";
 
-export const tokens = {
+export const cardTokens = {
   calciteCardAccentColorSelected: "",
   calciteCardBackgroundColor: "",
   calciteCardBorderColor: "",
@@ -12,12 +12,7 @@ export const tokens = {
 };
 
 export const card = html`<calcite-card selected selectable>
-  <img
-    alt="thumbnail"
-    slot="thumbnail"
-    style="width:260px"
-    src="${placeholderImage({ width: 260, height: 160 })}"
-  />
+  <img alt="thumbnail" slot="thumbnail" style="width:260px" src="${placeholderImage({ width: 260, height: 160 })}" />
   <h3 slot="title">Selectable card</h3>
   <calcite-link slot="footer-start">Lead füt</calcite-link>
   <calcite-link slot="footer-end">Trail füt</calcite-link>
