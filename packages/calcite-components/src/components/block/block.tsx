@@ -224,7 +224,7 @@ export class Block
 
   @State() hasEndActions = false;
 
-  openTransitionProp = "opacity";
+  openTransitionProp = "margin-top";
 
   transitionEl: HTMLElement;
 
@@ -239,6 +239,8 @@ export class Block
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+
+    this.transitionEl = this.el;
   }
 
   disconnectedCallback(): void {
@@ -299,10 +301,6 @@ export class Block
   onHeaderClick = (): void => {
     this.open = !this.open;
     this.calciteBlockToggle.emit();
-  };
-
-  private setTransitionEl = (el: HTMLElement): void => {
-    this.transitionEl = el;
   };
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
@@ -490,7 +488,6 @@ export class Block
               class={CSS.content}
               hidden={!open}
               id={IDS.content}
-              ref={this.setTransitionEl}
             >
               {this.renderScrim()}
             </section>

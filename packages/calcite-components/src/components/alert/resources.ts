@@ -18,7 +18,7 @@ export const CSS = {
   containerBottom: "container--bottom",
   containerBottomEnd: "container--bottom-end",
   containerBottomStart: "container--bottom-start",
-  containerQueued: "container--queued",
+  containerActive: "container--active",
   containerTop: "container--top",
   containerTopEnd: "container--top-end",
   containerTopStart: "container--top-start",

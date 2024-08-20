@@ -104,6 +104,15 @@ export class Dialog
   @Prop({ mutable: true }) embedded = false;
 
   /**
+   * When `true`, disables the default close on escape behavior.
+   *
+   * By default, an open dialog can be dismissed by pressing the Esc key.
+   *
+   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+   */
+  @Prop({ reflect: true }) escapeDisabled = false;
+
+  /**
    * The component header text.
    */
   @Prop() heading: string;
@@ -155,6 +164,9 @@ export class Dialog
 
   /** When `true`, displays and positions the component. */
   @Prop({ mutable: true, reflect: true }) open = false;
+
+  /** When `true`, disables the closing of the component when clicked outside. */
+  @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -246,6 +258,7 @@ export class Dialog
                 messageOverrides={this.messageOverrides}
                 onCalcitePanelClose={this.handleCloseClick}
                 onCalcitePanelScroll={this.handleScroll}
+                onKeyDown={this.handlePanelKeyDown}
                 overlayPositioning={this.overlayPositioning}
                 ref={(el) => (this.panelEl = el)}
                 scale={this.scale}
@@ -320,7 +333,7 @@ export class Dialog
 
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
-    if (this.open && event.key === "Escape" && !event.defaultPrevented) {
+    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
       this.open = false;
       event.preventDefault();
     }
@@ -449,8 +462,14 @@ export class Dialog
     this.calciteDialogScroll.emit();
   };
 
-  private handleCloseClick = () => {
+  private handleCloseClick = (): void => {
     this.open = false;
+  };
+
+  private handlePanelKeyDown = (event: KeyboardEvent): void => {
+    if (this.escapeDisabled) {
+      event.preventDefault();
+    }
   };
 
   private async openDialog(): Promise<void> {
@@ -461,6 +480,10 @@ export class Dialog
   }
 
   private handleOutsideClose = (): void => {
+    if (this.outsideCloseDisabled) {
+      return;
+    }
+
     this.open = false;
   };
 

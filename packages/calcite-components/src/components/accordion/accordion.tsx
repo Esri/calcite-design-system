@@ -12,6 +12,7 @@ import {
 import { Appearance, Position, IconType, Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
+import { CSS } from "./resources";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
  */
@@ -93,8 +94,8 @@ export class Accordion {
     return (
       <div
         class={{
-          "accordion--transparent": transparent,
-          accordion: !transparent,
+          [CSS.transparent]: transparent,
+          [CSS.accordion]: !transparent,
         }}
       >
         <slot />

@@ -49,6 +49,7 @@
   );
   touch-action: none;
   // disable browser swipe navigation to prevent interference with the slide thumb following a touch gesture
+  user-select: none;
 }
 
 @include disabled() {

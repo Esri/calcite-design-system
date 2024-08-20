@@ -61,7 +61,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
-  handleDisabledChange(): void {
+  @Watch("textLabel")
+  handleComboboxItemPropsChange(): void {
     this.calciteInternalComboboxItemChange.emit();
   }
 
@@ -136,10 +137,20 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop() shortHeading: string;
 
   /** The component's text. */
+  @Prop() heading: string;
+
+  /**
+   * The component's text.
+   *
+   * @deprecated Use `heading` instead.
+   */
   @Prop({ reflect: true }) textLabel!: string;
 
   /** The component's value. */
   @Prop() value!: any;
+
+  /** The component's label. */
+  @Prop() label: any;
 
   // --------------------------------------------------------------------------
   //
@@ -267,11 +278,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, heading, label, textLabel, value } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const showDot = isSingleSelect && !disabled;
     const defaultIcon = isSingleSelect ? undefined : "check";
+    const headingText = heading || textLabel;
     const iconPath = disabled ? undefined : defaultIcon;
+    const itemLabel = label || value;
+    const showDot = isSingleSelect && !disabled;
 
     const classes = {
       [CSS.label]: true,
@@ -282,7 +295,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     const depth = getDepth(this.el) + 1;
 
     return (
-      <Host aria-hidden="true">
+      <Host aria-hidden="true" aria-label={itemLabel}>
         <InteractiveContainer disabled={disabled}>
           <div
             class={{
@@ -295,7 +308,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
               <div class={CSS.centerContent}>
-                <div class={CSS.title}>{this.renderTextContent(this.textLabel)}</div>
+                <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
                 {this.description ? (
                   <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
                 ) : null}

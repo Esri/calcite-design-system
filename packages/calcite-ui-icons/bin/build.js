@@ -1,9 +1,11 @@
-const fs = require("fs-extra");
+const { existsSync, mkdirSync } = require("fs-extra");
 const optimize = require("./optimize");
 const generatePathFile = require("./path-data");
 
 module.exports = function () {
-  fs.ensureDirSync("js");
+  if (!existsSync("js")) {
+    mkdirSync("js");
+  }
 
   return optimize("*.svg")
     .then(() => optimize("icons/*.svg", true))

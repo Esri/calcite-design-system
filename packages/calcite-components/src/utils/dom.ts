@@ -737,7 +737,7 @@ export async function whenTransitionOrAnimationDone(
   const allProps = type === "transition" ? style.transitionProperty : style.animationName;
 
   const allDurationsArray = allDurations.split(",");
-  const allPropsArray = allProps.split(",");
+  const allPropsArray = allProps.split(",").map((prop) => prop.trim());
   const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
   const duration =
     allDurationsArray[propIndex] ??
@@ -745,13 +745,17 @@ export async function whenTransitionOrAnimationDone(
             so we fall back to it if there's no matching prop duration */
     allDurationsArray[0];
 
-  function startEndImmediately(): void {
-    onStart?.();
-    onEnd?.();
+  function triggerFallbackStartEnd(): void {
+    // offset callbacks by a frame to simulate event counterparts
+    requestAnimationFrame(() => {
+      onStart?.();
+
+      requestAnimationFrame(() => onEnd?.());
+    });
   }
 
   if (duration === "0s") {
-    startEndImmediately();
+    triggerFallbackStartEnd();
     return;
   }
 
@@ -765,7 +769,7 @@ export async function whenTransitionOrAnimationDone(
         targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
         targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
         targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-        startEndImmediately();
+        triggerFallbackStartEnd();
         resolve();
       },
       parseFloat(duration) * 1000,
