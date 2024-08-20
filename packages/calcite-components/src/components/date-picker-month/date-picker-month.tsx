@@ -31,6 +31,7 @@ const DAYS_MAXIMUM_INDEX = 6;
 interface Day {
   active: boolean;
   currentMonth?: boolean;
+  currentDay?: boolean;
   date: Date;
   day: number;
   dayInWeek?: number;
@@ -490,9 +491,12 @@ export class DatePickerMonth {
    * @param active.dayInWeek
    * @param active.ref
    * @param key
+   * @param active.currentDay
    */
-  private renderDateDay({ active, currentMonth, date, day, dayInWeek, ref }: Day, key: number) {
-    const isFocusedOnStart = this.isFocusedOnStart();
+  private renderDateDay(
+    { active, currentMonth, currentDay, date, day, dayInWeek, ref }: Day,
+    key: number,
+  ) {
     const isDateInRange = inRange(date, this.min, this.max);
     const isHoverInRange =
       this.isHoverInRange() ||
@@ -503,10 +507,9 @@ export class DatePickerMonth {
         <calcite-date-picker-day
           active={active}
           class={{
+            "current-day": currentDay,
             "inside-range--hover": this.startDate && isHoverInRange,
             "outside-range--hover": this.startDate && !isHoverInRange,
-            "focused--start": isFocusedOnStart,
-            "focused--end": !isFocusedOnStart,
             noncurrent: this.range && !currentMonth,
           }}
           currentMonth={currentMonth}
@@ -641,16 +644,17 @@ export class DatePickerMonth {
       }),
       ...currMonthDays.map((day) => {
         const date = new Date(year, month, day);
+        const isCurrentDay = sameDate(date, new Date());
         const active =
-          this.focusedDate &&
-          this.focusedDate !== this.startDate &&
-          this.focusedDate !== this.endDate
-            ? sameDate(date, this.focusedDate)
-            : sameDate(date, this.startDate) || sameDate(date, this.endDate);
+          (sameDate(date, this.focusedDate) && !hasSameMonthAndYear(date, new Date())) ||
+          sameDate(date, this.startDate) ||
+          sameDate(date, this.endDate) ||
+          (isCurrentDay && !this.isCurrentDayInRange());
 
         return {
           active,
           currentMonth: true,
+          currentDay: isCurrentDay,
           day,
           dayInWeek: getDayInWeek(),
           date,
@@ -707,5 +711,9 @@ export class DatePickerMonth {
 
   private getFirstValidDateOfMonth(date: Date): Date {
     return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
+  }
+
+  private isCurrentDayInRange(): boolean {
+    return !!this.startDate && !!this.endDate && inRange(new Date(), this.startDate, this.endDate);
   }
 }

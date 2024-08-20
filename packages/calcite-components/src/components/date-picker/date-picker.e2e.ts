@@ -621,73 +621,160 @@ describe("calcite-date-picker", () => {
       await assertCenturyDateValue(1750, "Europe/Zurich");
     });
   });
+
+  describe("month & year select menu", () => {
+    it("should allow selecting last valid month from month select menu in start calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range max="2024-10-21"></calcite-date-picker>`);
+
+      await setActiveDate(page, "07-01-2024");
+      await page.waitForChanges();
+
+      const [monthSelectStart, monthSelectEnd] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
+      );
+      const [yearSelectStart, yearSelectEnd] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
+      );
+      expect(await yearSelectStart.getProperty("value")).toBe("2024");
+      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+      expect(await monthSelectStart.getProperty("value")).toBe("July");
+      expect(await monthSelectEnd.getProperty("value")).toBe("August");
+
+      await monthSelectStart.click();
+      await page.waitForChanges();
+
+      await page.select(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select >>> select",
+        "October",
+      );
+      await page.waitForChanges();
+
+      expect(await monthSelectStart.getProperty("value")).toBe("October");
+      expect(await monthSelectEnd.getProperty("value")).toBe("November");
+      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+      expect(await yearSelectStart.getProperty("value")).toBe("2024");
+    });
+
+    it("should allow selecting first valid month from month select menu in end calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range min="2024-01-21"></calcite-date-picker>`);
+
+      await setActiveDate(page, "01-01-2024");
+      await page.waitForChanges();
+
+      const [monthSelectStart, monthSelectEnd] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
+      );
+      const [yearSelectStart, yearSelectEnd] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
+      );
+      expect(await yearSelectStart.getProperty("value")).toBe("2024");
+      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+      expect(await monthSelectStart.getProperty("value")).toBe("January");
+      expect(await monthSelectEnd.getProperty("value")).toBe("February");
+
+      await monthSelectEnd.click();
+      await page.waitForChanges();
+
+      await page.select(
+        `calcite-date-picker >>> [data-test-calendar="end"] >>> calcite-select.month-select >>> select`,
+        "January",
+      );
+      await page.waitForChanges();
+      await page.waitForTimeout(2000);
+      expect(await monthSelectStart.getProperty("value")).toBe("December");
+      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+      expect(await yearSelectStart.getProperty("value")).toBe("2023");
+    });
+  });
+
+  it("should have current-day class for current day only", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+
+    const activeDate = await page.find(
+      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
+    );
+    expect(activeDate.classList.contains("current-day")).toBe(true);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    const firstDayInPreviousMonth = await page.find(
+      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
+    );
+    expect(firstDayInPreviousMonth.classList.contains("current-day")).toBe(false);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    const firstDayInNextMonth = await page.find(
+      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
+    );
+    expect(firstDayInNextMonth.classList.contains("current-day")).toBe(false);
+  });
 });
 
-describe("month & year select menu", () => {
-  it("should allow selecting last valid month from month select menu in start calendar", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-date-picker range max="2024-10-21"></calcite-date-picker>`);
+it("should have current-day class for current day when in view", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
 
-    await setActiveDate(page, "07-01-2024");
-    await page.waitForChanges();
+  const activeDate = await page.find(
+    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
+  );
+  expect(activeDate.classList.contains("current-day")).toBe(true);
 
-    const [monthSelectStart, monthSelectEnd] = await page.findAll(
-      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
-    );
-    const [yearSelectStart, yearSelectEnd] = await page.findAll(
-      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
-    );
-    expect(await yearSelectStart.getProperty("value")).toBe("2024");
-    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
-    expect(await monthSelectStart.getProperty("value")).toBe("July");
-    expect(await monthSelectEnd.getProperty("value")).toBe("August");
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Enter");
+  await page.waitForChanges();
+  const focusableDates = await page.findAll(
+    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
+  );
+  expect(focusableDates[0].classList.contains("current-day")).toBe(false);
+  expect(focusableDates[1].classList.contains("current-day")).toBe(true);
 
-    await monthSelectStart.click();
-    await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
 
-    await page.select(
-      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select >>> select",
-      "October",
-    );
-    await page.waitForChanges();
+  await page.keyboard.press("Enter");
+  await page.waitForChanges();
+  await page.keyboard.press("Enter");
+  await page.waitForChanges();
 
-    expect(await monthSelectStart.getProperty("value")).toBe("October");
-    expect(await monthSelectEnd.getProperty("value")).toBe("November");
-    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
-    expect(await yearSelectStart.getProperty("value")).toBe("2024");
-  });
-
-  it("should allow selecting first valid month from month select menu in end calendar", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-date-picker range min="2024-01-21"></calcite-date-picker>`);
-
-    await setActiveDate(page, "01-01-2024");
-    await page.waitForChanges();
-
-    const [monthSelectStart, monthSelectEnd] = await page.findAll(
-      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
-    );
-    const [yearSelectStart, yearSelectEnd] = await page.findAll(
-      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
-    );
-    expect(await yearSelectStart.getProperty("value")).toBe("2024");
-    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
-    expect(await monthSelectStart.getProperty("value")).toBe("January");
-    expect(await monthSelectEnd.getProperty("value")).toBe("February");
-
-    await monthSelectEnd.click();
-    await page.waitForChanges();
-
-    await page.select(
-      `calcite-date-picker >>> [data-test-calendar="end"] >>> calcite-select.month-select >>> select`,
-      "January",
-    );
-    await page.waitForChanges();
-    await page.waitForTimeout(2000);
-    expect(await monthSelectStart.getProperty("value")).toBe("December");
-    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
-    expect(await yearSelectStart.getProperty("value")).toBe("2023");
-  });
+  const firstDayInNextMonth = await page.find(
+    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
+  );
+  expect(firstDayInNextMonth.classList.contains("current-day")).toBe(true);
 });
 
 async function setActiveDate(page: E2EPage, date: string): Promise<void> {
