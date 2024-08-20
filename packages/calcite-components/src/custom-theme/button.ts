@@ -4,7 +4,7 @@ const buttonProps: [args: string, content: string] = ["", ""];
 
 export const button = (props: { kind?: string; appearance?: string }): string => {
   const [buttonArgs, content] = Object.entries(props)
-    .filter((a) => a && a[0] && a[1] && a[1] !== "")
+    .filter(([key, value]) => key && value && value !== "")
     .reduce(([args, content], [key, value]) => {
       args += `${key}="${value}" `;
       content += `${value} `;

@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";

@@ -1,4 +1,4 @@
-import { placeholderImage } from "../../.storybook/placeholderImage";
+import { placeholderImage } from "../../.storybook/placeholder-image";
 import { html } from "../../support/formatting";
 
 export const accordionItem = (idx: number): string =>
