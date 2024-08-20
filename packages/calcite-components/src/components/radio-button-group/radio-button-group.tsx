@@ -13,6 +13,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
+import { toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale, Status } from "../interfaces";
 import {
   componentFocusable,
@@ -22,7 +23,7 @@ import {
 } from "../../utils/loadable";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-radio-button`s.
@@ -207,12 +208,17 @@ export class RadioButtonGroup implements LoadableComponent {
   render(): VNode {
     return (
       <Host role="radiogroup">
-        <div class={CSS.itemWrapper}>
+        <div
+          aria-errormessage={IDS.validationMessage}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
+          class={CSS.itemWrapper}
+        >
           <slot />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
+            id={IDS.validationMessage}
             message={this.validationMessage}
             scale={this.scale}
             status={this.status}
