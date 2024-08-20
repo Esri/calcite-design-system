@@ -713,8 +713,4 @@ export class DatePickerMonth {
   private getFirstValidDateOfMonth(date: Date): Date {
     return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
   }
-
-  private isCurrentDayInRange(): boolean {
-    return !!this.startDate && !!this.endDate && inRange(new Date(), this.startDate, this.endDate);
-  }
 }

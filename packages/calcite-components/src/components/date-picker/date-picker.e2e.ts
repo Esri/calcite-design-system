@@ -704,7 +704,7 @@ describe("calcite-date-picker", () => {
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
     );
     expect(firstDayInPreviousMonth.classList.contains("current-day")).toBe(false);
-    const currentDay = await page.find(
+    let currentDay = await page.find(
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.current-day",
     );
     expect(currentDay).toBeTruthy();
@@ -731,7 +731,10 @@ describe("calcite-date-picker", () => {
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
     );
     expect(firstDayInNextMonth.classList.contains("current-day")).toBe(false);
-    expect(currentDay.classList.contains("current-day")).toBe(true);
+    currentDay = await page.find(
+      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.current-day",
+    );
+    expect(currentDay).toBeFalsy();
   });
 });
 
