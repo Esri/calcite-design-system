@@ -212,7 +212,7 @@ export type TestTarget = {
   /**
    * The associated component token.
    */
-  token?: CalciteCSSCustomProp;
+  token: CalciteCSSCustomProp;
 };
 
 /**
