@@ -646,10 +646,11 @@ export class DatePickerMonth {
         const date = new Date(year, month, day);
         const isCurrentDay = sameDate(date, new Date());
         const active =
-          (sameDate(date, this.focusedDate) && !hasSameMonthAndYear(date, new Date())) ||
-          sameDate(date, this.startDate) ||
-          sameDate(date, this.endDate) ||
-          (isCurrentDay && !this.isCurrentDayInRange());
+          this.focusedDate &&
+          this.focusedDate !== this.startDate &&
+          this.focusedDate !== this.endDate
+            ? sameDate(date, this.focusedDate)
+            : sameDate(date, this.startDate) || sameDate(date, this.endDate);
 
         return {
           active,

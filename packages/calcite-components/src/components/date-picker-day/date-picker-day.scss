@@ -67,7 +67,7 @@
   }
 }
 
-:host([active]:not([range]):not([selected]).current-day) {
+:host(:not([range]):not([selected]).current-day) {
   & .day {
     color: var(--calcite-color-text-1);
     font-weight: var(--calcite-font-weight-medium);

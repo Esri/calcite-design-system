@@ -405,7 +405,6 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      await page.waitForTimeout(4000);
       expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2023-12-25"]);
 
       await page.keyboard.press("PageDown");
@@ -414,7 +413,6 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      await page.waitForTimeout(4000);
       expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2024-01-25"]);
 
       await page.keyboard.press("ArrowDown");
@@ -682,7 +680,6 @@ describe("calcite-date-picker", () => {
         "January",
       );
       await page.waitForChanges();
-      await page.waitForTimeout(2000);
       expect(await monthSelectStart.getProperty("value")).toBe("December");
       expect(await yearSelectEnd.getProperty("value")).toBe("2024");
       expect(await yearSelectStart.getProperty("value")).toBe("2023");
@@ -702,10 +699,15 @@ describe("calcite-date-picker", () => {
     await page.waitForChanges();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
+
     const firstDayInPreviousMonth = await page.find(
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
     );
     expect(firstDayInPreviousMonth.classList.contains("current-day")).toBe(false);
+    const currentDay = await page.find(
+      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.current-day",
+    );
+    expect(currentDay).toBeTruthy();
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -729,52 +731,8 @@ describe("calcite-date-picker", () => {
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
     );
     expect(firstDayInNextMonth.classList.contains("current-day")).toBe(false);
+    expect(currentDay.classList.contains("current-day")).toBe(true);
   });
-});
-
-it("should have current-day class for current day when in view", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
-
-  const activeDate = await page.find(
-    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
-  );
-  expect(activeDate.classList.contains("current-day")).toBe(true);
-
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await page.keyboard.press("Enter");
-  await page.waitForChanges();
-  const focusableDates = await page.findAll(
-    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
-  );
-  expect(focusableDates[0].classList.contains("current-day")).toBe(false);
-  expect(focusableDates[1].classList.contains("current-day")).toBe(true);
-
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-
-  await page.keyboard.press("Enter");
-  await page.waitForChanges();
-  await page.keyboard.press("Enter");
-  await page.waitForChanges();
-
-  const firstDayInNextMonth = await page.find(
-    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
-  );
-  expect(firstDayInNextMonth.classList.contains("current-day")).toBe(true);
 });
 
 async function setActiveDate(page: E2EPage, date: string): Promise<void> {
