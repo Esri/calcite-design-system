@@ -10,6 +10,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
+import { skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -522,6 +523,7 @@ describe("calcite-popover", () => {
         <calcite-popover trigger-disabled reference-element="ref" open> Hello World </calcite-popover>
         <div id="ref">Button</div>`,
     );
+    await skipAnimations(page);
 
     const popover = await page.find("calcite-popover");
     expect(await popover.getProperty("open")).toBe(true);
@@ -534,7 +536,6 @@ describe("calcite-popover", () => {
 
     const outsideNode = await page.find("#outsideNode");
     await outsideNode.click();
-    await page.waitForChanges();
     await page.waitForChanges();
     expect(await popover.getProperty("open")).toBe(true);
 
@@ -620,8 +621,7 @@ describe("calcite-popover", () => {
       <div id="transfer"></div>
       <div id="ref">referenceElement</div>`,
     );
-
-    await page.waitForChanges();
+    await skipAnimations(page);
 
     const popover = await page.find(`calcite-popover`);
     const ref = await page.find("#ref");
