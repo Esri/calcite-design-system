@@ -1,6 +1,6 @@
 import { accordion } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
-import { card, tokens as cardTokens } from "./custom-theme/card";
+import { card, cardTokens } from "./custom-theme/card";
 import { checkbox } from "./custom-theme/checkbox";
 import { chips } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/datePicker";
