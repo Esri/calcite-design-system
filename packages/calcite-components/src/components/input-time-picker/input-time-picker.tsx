@@ -378,6 +378,8 @@ export class InputTimePicker
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
 
+  private focusOnOpen: false;
+
   focusTrap: FocusTrap;
 
   private dialogId = `time-picker-dialog--${guid()}`;

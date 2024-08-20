@@ -295,17 +295,10 @@ export class Popover
     connectFocusTrap(this, {
       focusTrapEl: this.el,
       focusTrapOptions: {
+        allowOutsideClick: true,
         clickOutsideDeactivates: (event: MouseEvent) => {
-          const isClickOutside = !event.composedPath().includes(this.el);
-          const isReferenceElementInPath =
-            this.referenceElement instanceof EventTarget &&
-            event.composedPath().includes(this.referenceElement);
-
-          if (this.triggerDisabled && isReferenceElementInPath) {
-            return false;
-          }
-
-          return isClickOutside;
+          const outsideClick = !event.composedPath().includes(this.el);
+          return this.autoClose && outsideClick;
         },
       },
     });
