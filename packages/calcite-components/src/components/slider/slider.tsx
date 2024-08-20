@@ -291,7 +291,7 @@ export class Slider
       type: thumbTypes,
       thumbPlacement:
         thumbTypes.includes("histogram") ||
-        (this.layout === "vertical" && !this.flipLabels) ||
+        (this.layout === "vertical" && !this.flipLabels && !valueIsRange) ||
         !this.precise
           ? "below"
           : "above",
@@ -1067,9 +1067,17 @@ export class Slider
     const handle: DOMRect = this.el.shadowRoot
       .querySelector(`.thumb--${name} .handle`)
       .getBoundingClientRect();
+    const rangeContainer: HTMLDivElement = this.el.shadowRoot.querySelector(".container--range");
     let offset: number;
-    if (labelBounds.left < handle.right) {
-      offset = handle.right - labelBounds.left + 6;
+    if (!this.flipLabels) {
+      if (!rangeContainer && handle.right - labelBounds.left > 0) {
+        offset = handle.right - labelBounds.left + 12;
+      }
+      if (rangeContainer && name === "value" && this.precise) {
+        offset = -(labelBounds.right - handle.left + 4);
+      }
+    } else if (this.flipLabels && labelBounds.right - handle.left > 0) {
+      offset = -(labelBounds.right - handle.left) - labelBounds.width;
     }
     label.style.transform = `rotate(90deg) translateX(${offset}px)`;
   }
