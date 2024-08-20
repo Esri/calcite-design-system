@@ -2369,16 +2369,23 @@ describe("calcite-color-picker", () => {
 
         await hueScope.press("ArrowDown");
         expect(await picker.getProperty("value")).toBe("#007ec2");
-        await hueScope.press("ArrowRight");
+        await hueScope.press("ArrowUp");
         expect(await picker.getProperty("value")).toBe("#007bc2");
         await hueScope.press("ArrowLeft");
         expect(await picker.getProperty("value")).toBe("#007ec2");
+        await hueScope.press("ArrowRight");
+        expect(await picker.getProperty("value")).toBe("#007bc2");
 
-        await page.keyboard.press("Shift");
+        await page.keyboard.down("Shift");
         await hueScope.press("ArrowDown");
-        expect(await picker.getProperty("value")).toBe("#0081c2");
+        expect(await picker.getProperty("value")).toBe("#009bc2");
         await hueScope.press("ArrowUp");
-        expect(await picker.getProperty("value")).toBe("#007ec2");
+        expect(await picker.getProperty("value")).toBe("#007bc2");
+        await hueScope.press("ArrowLeft");
+        expect(await picker.getProperty("value")).toBe("#009bc2");
+        await hueScope.press("ArrowRight");
+        expect(await picker.getProperty("value")).toBe("#007bc2");
+        await page.keyboard.up("Shift");
       });
 
       it("positions the scope correctly when the color is 000", async () => {

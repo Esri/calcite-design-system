@@ -26,6 +26,7 @@ import { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
 import { DisplayMode } from "../src/components/sheet/interfaces.ts";
 import { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
 import { OverlayPositioning } from "../src/components";
+import { AlertDuration, AlertQueue } from "../src/components/alert/interfaces";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -35,11 +36,13 @@ interface AttributeMetadata<T> {
 interface CommonAttributes {
   alignment: AttributeMetadata<Alignment>;
   appearance: AttributeMetadata<Appearance>;
+  duration: AttributeMetadata<AlertDuration>;
   scale: AttributeMetadata<Scale>;
   logicalFlowPosition: AttributeMetadata<LogicalFlowPosition>;
   position: AttributeMetadata<Position>;
   status: AttributeMetadata<Status>;
   kind: AttributeMetadata<Kind>;
+  queue: AttributeMetadata<AlertQueue>;
   width: AttributeMetadata<Width>;
   selectionMode: AttributeMetadata<SelectionMode>;
   arrowType: AttributeMetadata<ArrowType>;
@@ -60,15 +63,18 @@ interface CommonAttributes {
   selectionAppearance: AttributeMetadata<SelectionAppearance>;
   shellDisplayMode: AttributeMetadata<ShellDisplayMode>;
   overlayPositioning: AttributeMetadata<OverlayPositioning>;
+  numberingSystem: AttributeMetadata<string>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
 const positionOptions: Position[] = ["start", "end", "top", "bottom"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
+const durationOptions: AlertDuration[] = ["slow", "medium", "fast"];
 const alignmentOptions: Alignment[] = ["start", "center", "end"];
 const appearanceOptions: Appearance[] = ["solid", "outline", "outline-fill", "transparent"];
 const statusOptions: Status[] = ["invalid", "valid", "idle"];
 const kindOptions: Kind[] = ["brand", "danger", "info", "inverse", "neutral", "warning", "success"];
+const queueOptions: AlertQueue[] = ["last", "next", "immediate"];
 const widthOptions: Width[] = ["auto", "half", "full"];
 const selectionModeOptions: SelectionMode[] = [
   "single",
@@ -93,6 +99,7 @@ const layoutOptions: Layout[] = [
   "none",
   "horizontal-single",
 ];
+const numberingSystems = ["arab", "arabext", "latn"];
 const dirOptions: Dir[] = ["ltr", "rtl"];
 const buttonTypeOptions: TileSelectType[] = ["radio", "checkbox"];
 const interactionModeOptions: TableInteractionMode[] = ["interactive", "static"];
@@ -128,6 +135,10 @@ export const ATTRIBUTES: CommonAttributes = {
     values: appearanceOptions,
     defaultValue: appearanceOptions[0],
   },
+  duration: {
+    values: durationOptions,
+    defaultValue: durationOptions[1],
+  },
   logicalFlowPosition: {
     values: logicalFlowPositionOptions,
     defaultValue: logicalFlowPositionOptions[2],
@@ -147,6 +158,10 @@ export const ATTRIBUTES: CommonAttributes = {
   kind: {
     values: kindOptions,
     defaultValue: kindOptions[0],
+  },
+  queue: {
+    values: queueOptions,
+    defaultValue: queueOptions[0],
   },
   width: {
     values: widthOptions,
@@ -227,5 +242,9 @@ export const ATTRIBUTES: CommonAttributes = {
   shellDisplayMode: {
     values: shellDisplayModeOptions,
     defaultValue: shellDisplayModeOptions[0],
+  },
+  numberingSystem: {
+    values: numberingSystems,
+    defaultValue: numberingSystems[2],
   },
 };

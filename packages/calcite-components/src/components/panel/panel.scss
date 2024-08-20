@@ -72,11 +72,15 @@
 }
 
 .container {
-  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  @apply focus-base relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
+}
+
+.container:focus {
+  @apply focus-inset;
 }
 
 .container[hidden] {
@@ -162,7 +166,12 @@
   items-stretch
   bg-background
   overflow-auto
-  h-full;
+  h-full
+  focus-base;
+}
+
+.content-wrapper:focus {
+  @apply focus-inset;
 }
 
 .content-top,
