@@ -6,16 +6,14 @@
  * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
  * @prop --calcite-card-background-color: Specifies the background color of the component.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
- * @prop --calcite-card-check-color-hover: Specifies the color of the selection check icon when hovered.
- * @prop --calcite-card-check-color: Specifies the color of the selection check icon.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-card-selection-background-color-active: [Deprecated] Specifies the background color of the component's selection element when active.
  * @prop --calcite-card-selection-background-color-hover: [Deprecated] Specifies the background color of the component's selection element when hovered.
  * @prop --calcite-card-selection-background-color-selected: [Deprecated] Specifies the icon color of the component's selection element when `selected`.
  * @prop --calcite-card-selection-background-color: [Deprecated] Specifies the background color of the component's selection element.
- * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Use --calcite-card-check-color-hover instead. Specifies the icon color of the component's selection element when hovered.
- * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Use --calcite-card-accent-color-selected instead. Specifies the icon color of the component's selection element when `selected`.
- * @prop --calcite-card-selection-icon-color: [Deprecated] Use --calcite-card-check-color instead. Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Specifies the icon color of the component's selection element when hovered.
+ * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-icon-color: [Deprecated] Specifies the icon color of the component's selection element.
  * @prop --calcite-card-shadow: Specifies the shadow of the component.
  *
  */
@@ -149,6 +147,7 @@
   @apply text-n2-wrap self-center;
 }
 
+// deprecated
 .checkbox-wrapper-deprecated {
   @apply absolute pointer-events-auto;
   inset-block-start: var(--calcite-spacing-sm);
@@ -163,14 +162,11 @@
   display: flex;
   align-items: center;
   justify-items: center;
-  color: var(--calcite-card-check-color, var(--calcite-card-selection-icon-color, var(--calcite-color-text-3)));
+  color: var(--calcite-color-text-3);
 
   &:hover {
     background-color: var(--calcite-color-transparent-hover);
-    color: var(
-      --calcite-card-check-color-hover,
-      var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
-    );
+    color: var(--calcite-color-text-2);
   }
   &:active {
     background-color: var(--calcite-color-transparent-press);
@@ -181,10 +177,7 @@
 }
 
 :host([selected]) .checkbox-wrapper {
-  color: var(
-    --calcite-card-accent-color-selected,
-    var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand))
-  );
+  color: var(--calcite-color-brand);
   background-color: var(--calcite-color-transparent);
 
   &:hover {
@@ -197,19 +190,14 @@
 
 :host(:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
   background-color: var(--calcite-color-transparent-hover);
-  color: var(
-    --calcite-card-check-color-hover,
-    var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
-  );
+  color: var(--calcite-color-text-2);
 }
 
 :host([selected]:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
   background-color: var(--calcite-color-transparent-press);
-  color: var(
-    --calcite-card-accent-color-selected,
-    var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand))
-  );
+  color: var(--calcite-color-brand);
 }
+/* end deprecated */
 
 .thumbnail-wrapper {
   @apply flex;

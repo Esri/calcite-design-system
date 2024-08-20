@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -115,5 +115,22 @@ describe("calcite-card", () => {
 
     const loaderContainer = await page.find("calcite-card >>> .calcite-card-loader-container");
     expect(loaderContainer.getAttribute("aria-live")).toBe("polite");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-card", {
+        "--calcite-card-background-color": {
+          shadowSelector: `.${CSS.contentWrapper}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-card-border-color": {
+          shadowSelector: `.${CSS.contentWrapper}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-card-corner-radius": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "borderRadius" },
+        "--calcite-card-shadow": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "boxShadow" },
+      });
+    });
   });
 });
