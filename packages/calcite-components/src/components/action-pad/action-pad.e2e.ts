@@ -355,6 +355,10 @@ describe("calcite-action-pad", () => {
         "--calcite-action-pad-corner-radius": {
           targetProp: "borderRadius",
         },
+        "--calcite-action-pad-items-space": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
       });
     });
     describe("grid", () => {
