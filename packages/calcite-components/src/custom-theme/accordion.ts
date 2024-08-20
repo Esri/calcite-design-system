@@ -1,5 +1,5 @@
 import { html } from "../../support/formatting";
-import { accordionItem } from "./accordionItem";
+import { accordionItem } from "./accordion-item";
 import { tree } from "./tree";
 
 export const accordion = html`<calcite-accordion>
