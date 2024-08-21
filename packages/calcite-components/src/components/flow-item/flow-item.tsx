@@ -296,7 +296,7 @@ export class FlowItem
   // --------------------------------------------------------------------------
 
   handlePanelScroll = (event: CustomEvent<void>): void => {
-    if (event.target !== this.containerEl || event.defaultPrevented) {
+    if (event.target !== this.containerEl) {
       return;
     }
 
@@ -305,7 +305,7 @@ export class FlowItem
   };
 
   handlePanelClose = (event: CustomEvent<void>): void => {
-    if (event.target !== this.containerEl || event.defaultPrevented) {
+    if (event.target !== this.containerEl) {
       return;
     }
 
@@ -315,7 +315,7 @@ export class FlowItem
   };
 
   handlePanelToggle = (event: CustomEvent<void>): void => {
-    if (event.target !== this.containerEl || event.defaultPrevented) {
+    if (event.target !== this.containerEl) {
       return;
     }
 

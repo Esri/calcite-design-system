@@ -459,7 +459,7 @@ export class Dialog
   };
 
   private handleScroll = (event: Event): void => {
-    if (event.target !== this.panelEl || event.defaultPrevented) {
+    if (event.target !== this.panelEl) {
       return;
     }
 
@@ -468,7 +468,7 @@ export class Dialog
   };
 
   private handleCloseClick = (event: Event): void => {
-    if (event.target !== this.panelEl || event.defaultPrevented) {
+    if (event.target !== this.panelEl) {
       return;
     }
 
