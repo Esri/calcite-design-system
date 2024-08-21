@@ -17,7 +17,7 @@ import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-table-header",
@@ -217,7 +217,12 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           : "col";
 
     const allSelected = this.selectedRowCount === this.bodyRowCount;
-    const selectionIcon = allSelected ? "check-square-f" : "check-square";
+    const selectionIcon = allSelected
+      ? ICONS.allSelected
+      : this.selectedRowCount > 0
+        ? ICONS.someSelected
+        : ICONS.noneSelected;
+
     const staticCell = this.interactionMode === "static" && !this.selectionCell;
     return (
       <Host>
