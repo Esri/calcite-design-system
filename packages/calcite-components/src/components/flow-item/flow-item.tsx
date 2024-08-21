@@ -296,17 +296,29 @@ export class FlowItem
   // --------------------------------------------------------------------------
 
   handlePanelScroll = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl || event.defaultPrevented) {
+      return;
+    }
+
     event.stopPropagation();
     this.calciteFlowItemScroll.emit();
   };
 
   handlePanelClose = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl || event.defaultPrevented) {
+      return;
+    }
+
     event.stopPropagation();
     this.closed = true;
     this.calciteFlowItemClose.emit();
   };
 
   handlePanelToggle = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl || event.defaultPrevented) {
+      return;
+    }
+
     event.stopPropagation();
     this.collapsed = (event.target as HTMLCalcitePanelElement).collapsed;
     this.calciteFlowItemToggle.emit();

@@ -458,11 +458,21 @@ export class Dialog
     this.el.removeEventListener("calciteDialogOpen", this.openEnd);
   };
 
-  private handleScroll = (): void => {
+  private handleScroll = (event: Event): void => {
+    if (event.target !== this.panelEl || event.defaultPrevented) {
+      return;
+    }
+
+    event.stopPropagation();
     this.calciteDialogScroll.emit();
   };
 
-  private handleCloseClick = (): void => {
+  private handleCloseClick = (event: Event): void => {
+    if (event.target !== this.panelEl || event.defaultPrevented) {
+      return;
+    }
+
+    event.stopPropagation();
     this.open = false;
   };
 
