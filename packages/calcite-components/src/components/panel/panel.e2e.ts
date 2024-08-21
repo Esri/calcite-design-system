@@ -13,7 +13,7 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -186,7 +186,7 @@ describe("calcite-panel", () => {
 
     const element = await page.find("calcite-panel");
     const container = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
-    const collapseButtonSelector = `calcite-panel >>> [data-test="collapse"]`;
+    const collapseButtonSelector = `calcite-panel >>> #${IDS.collapse}`;
     expect(await page.find(collapseButtonSelector)).toBeNull();
 
     await page.waitForChanges();
@@ -207,7 +207,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
-    const closeButton = await page.find("calcite-panel >>> calcite-action[data-test=close]");
+    const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
 
     await closeButton.click();
 
@@ -221,7 +221,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelToggle = await page.spyOnEvent("calcitePanelToggle", "window");
 
-    const toggleButton = await page.find("calcite-panel >>> [data-test=collapse]");
+    const toggleButton = await page.find(`calcite-panel >>> #${IDS.collapse}`);
 
     await toggleButton.click();
 
