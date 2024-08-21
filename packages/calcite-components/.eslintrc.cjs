@@ -143,6 +143,7 @@ module.exports = {
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/self-closing-comp": "error",
+    "unicorn/filename-case": "error",
     "unicorn/prefer-ternary": "error",
     "unicorn/prevent-abbreviations": [
       "error",
