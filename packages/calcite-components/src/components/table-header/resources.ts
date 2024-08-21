@@ -15,7 +15,7 @@ export const CSS = {
 };
 
 export const ICONS = {
-  allSelected: "check-square-f",
-  noneSelected: "square",
-  someSelected: "minus-square-f",
+  checked: "check-square-f",
+  indeterminate: "minus-square-f",
+  unchecked: "square",
 };

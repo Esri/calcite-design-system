@@ -216,13 +216,13 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           ? "row"
           : "col";
 
-    const allSelected = this.selectedRowCount === this.bodyRowCount;
-    const someSelected = this.selectedRowCount > 0;
-    const selectionIcon = allSelected
-      ? ICONS.allSelected
-      : someSelected
-        ? ICONS.someSelected
-        : ICONS.noneSelected;
+    const checked = this.selectedRowCount === this.bodyRowCount;
+    const indeterminate = this.selectedRowCount > 0;
+    const selectionIcon = checked
+      ? ICONS.checked
+      : indeterminate
+        ? ICONS.indeterminate
+        : ICONS.unchecked;
 
     const staticCell = this.interactionMode === "static" && !this.selectionCell;
     return (
@@ -255,7 +255,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           {this.description && <div class={CSS.description}>{this.description}</div>}
           {this.selectionCell && this.selectionMode === "multiple" && (
             <calcite-icon
-              class={{ [CSS.active]: allSelected || someSelected }}
+              class={{ [CSS.active]: indeterminate || checked }}
               icon={selectionIcon}
               scale={getIconScale(this.scale)}
             />
