@@ -1,6 +1,15 @@
 import { setCSSVariables } from "../src/tests/utils/cssTokenValues";
-// import {actions} from "./custom-theme/actions";
 import { html } from "../support/formatting";
+import {
+  actionBar,
+  actionMenu,
+  actionPad,
+  actionTokens,
+  actionBarTokens,
+  actionMenuTokens,
+  actionPadTokens,
+  actionGroupTokens,
+} from "./custom-theme/action";
 import { accordion } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { card, cardTokens } from "./custom-theme/card";
@@ -80,20 +89,36 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       }
     </style>
     <div class="demo">
-      <div class="demo-column">${accordion} ${notices} ${segmentedControl} ${icon}</div>
-      <div class="demo-column">
-        <div>${card}</div>
-        <div>${dropdown} ${buttons}</div>
-        <div>${checkbox}</div>
-        ${chips} ${pagination} ${slider}
+        <div class="demo-column">
+          ${accordion} ${actionBar} ${notices} ${segmentedControl}
+          <div style="display: flex">
+            ${actionPad}
+            <div style="width: 40px; height: 40px;">${actionMenu}</div>
+            ${icon}
+          </div>
+        </div>
+        <div class="demo-column">
+          <div>${card}</div>
+          <div>${dropdown} ${buttons}</div>
+          <div>${checkbox}</div>
+          ${chips} ${pagination} ${slider}
+        </div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
       </div>
-      <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
     </div>
   </div>`;
 
 export default {
   title: "Theming/Custom Theme",
-  args: { ...globalTokens, cardTokens },
+  args: {
+    ...globalTokens,
+    ...actionTokens,
+    ...actionBarTokens,
+    ...actionMenuTokens,
+    ...actionPadTokens,
+    ...actionGroupTokens,
+    ...cardTokens,
+  },
 };
 
 export const themingInteractive = (args: Record<string, string>): string => {
@@ -101,5 +126,15 @@ export const themingInteractive = (args: Record<string, string>): string => {
 };
 
 export const theming_TestOnly = (): string => {
-  return kitchenSink({ ...cardTokens }, true);
+  return kitchenSink(
+    {
+      ...actionTokens,
+      ...actionBarTokens,
+      ...actionMenuTokens,
+      ...actionPadTokens,
+      ...actionGroupTokens,
+      ...cardTokens,
+    },
+    true,
+  );
 };
