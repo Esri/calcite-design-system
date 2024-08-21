@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.26...@esri/calcite-components@2.12.0-next.27) (2024-08-21)
+
+### Features
+
+- **table:** Update multiple selection iconography ([#10125](https://github.com/Esri/calcite-design-system/issues/10125)) ([f2b2016](https://github.com/Esri/calcite-design-system/commit/f2b201613ea2e6342a2bc5ee2960432b89f50a10)), closes [#10123](https://github.com/Esri/calcite-design-system/issues/10123)
+
+### Reverts
+
+- Add stories ([#10131](https://github.com/Esri/calcite-design-system/issues/10131)) ([e3a6590](https://github.com/Esri/calcite-design-system/commit/e3a659088be08ca4e519f0d48d0dd300b8f5096c))
+
 ## [2.12.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.25...@esri/calcite-components@2.12.0-next.26) (2024-08-19)
 
 ### Bug Fixes
