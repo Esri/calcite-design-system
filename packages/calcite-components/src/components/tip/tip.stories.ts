@@ -1,5 +1,5 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { Tip } from "./tip";
 
