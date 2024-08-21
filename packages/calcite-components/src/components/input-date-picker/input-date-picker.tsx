@@ -856,12 +856,10 @@ export class InputDatePicker
   }
 
   onBeforeOpen(): void {
-    console.log("onBeforeOpen");
     this.calciteInputDatePickerBeforeOpen.emit();
   }
 
   onOpen(): void {
-    console.log("onOpen");
     activateFocusTrap(this, {
       onActivate: () => {
         if (this.focusOnOpen) {
@@ -874,12 +872,10 @@ export class InputDatePicker
   }
 
   onBeforeClose(): void {
-    console.log("onBeforeClose");
     this.calciteInputDatePickerBeforeClose.emit();
   }
 
   onClose(): void {
-    console.log("onClose");
     this.calciteInputDatePickerClose.emit();
     deactivateFocusTrap(this);
     this.restoreInputFocus();
