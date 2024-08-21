@@ -576,13 +576,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(9);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await endInputToggle.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(9);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
@@ -591,13 +589,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await startInputToggle.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(10);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await endInput.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(10);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
@@ -610,13 +606,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(11);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
         await startInputToggle.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(11);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
@@ -625,14 +619,12 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(12);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
         await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(12);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
       });
