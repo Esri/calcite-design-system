@@ -1,5 +1,4 @@
 import { html } from "../../../support/formatting";
-import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 
 export default {
   title: "Components/Action Menu",
@@ -97,25 +96,5 @@ export const openMaxHeight_TestOnly = (): string => html`
     <calcite-action text="Table" icon="table" text-enabled></calcite-action>
   </calcite-action-menu>
 `;
-
-export const theming_TestOnly = (): string =>
-  html` <style>
-      .container {
-        ${setCSSVariables(["--calcite-action-text-color", "--calcite-action-group-border-color"])}
-      }
-    </style>
-    <div class="container">
-      <calcite-action-menu open>
-        <calcite-action-group>
-          <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
-          <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
-          <calcite-action text="Minus" icon="minus" text-enabled></calcite-action>
-          <calcite-action text="Table" icon="table" text-enabled></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action text="Table" icon="table" text-enabled></calcite-action>
-        </calcite-action-group>
-      </calcite-action-menu>
-    </div>`;
 
 keyDownOpen_TestOnly.parameters = { chromatic: { delay: 1000 } };

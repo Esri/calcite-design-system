@@ -1,7 +1,6 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { ActionBar } from "./action-bar";
 const { position } = ATTRIBUTES;
 
@@ -108,23 +107,6 @@ export const horizontalOverflow_TestOnly = (): string => html`
   </div>
 `;
 
-export const withDefinedWidths = (): string => html`
-  <style>
-    calcite-action-bar {
-      --calcite-action-bar-expanded-max-width: 150px;
-    }
-  </style>
-  <calcite-action-bar expanded>
-    <calcite-action-group>
-      <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
-      <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
-    </calcite-action-group>
-    <calcite-action-group>
-      <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
-    </calcite-action-group>
-  </calcite-action-bar>
-`;
-
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>
@@ -200,16 +182,3 @@ export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expande
 <calcite-action text="Information" icon="information"></calcite-action>
 <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
-
-export const theming_TestOnly = (): string =>
-  html` <style>
-      .container {
-        ${setCSSVariables(["--calcite-action-bar-expanded-max-width"])}
-      }
-    </style>
-    <div class="container">
-      <calcite-action-bar layout="vertical" expanded lang="bs">
-        <calcite-action text="Information" icon="information"></calcite-action>
-        <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
-      </calcite-action-bar>
-    </div>`;
