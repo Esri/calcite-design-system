@@ -297,8 +297,15 @@ export class Popover
       focusTrapOptions: {
         allowOutsideClick: true,
         clickOutsideDeactivates: (event: MouseEvent) => {
+          const isReferenceElementInPath =
+            this.referenceElement instanceof EventTarget &&
+            event.composedPath().includes(this.referenceElement);
+
           const outsideClick = !event.composedPath().includes(this.el);
-          return this.autoClose && outsideClick;
+          return (
+            (this.autoClose && outsideClick && this.triggerDisabled) ||
+            (this.autoClose && outsideClick && isReferenceElementInPath)
+          );
         },
       },
     });
