@@ -1,6 +1,6 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { CalciteNavigationUser } from "./navigation-user";
 
 type NavigationUserStoryArgs = Pick<

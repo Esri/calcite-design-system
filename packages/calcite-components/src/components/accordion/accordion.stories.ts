@@ -1,7 +1,7 @@
 // import { getVariableTestValue } from "../../tests/utils";
 import { AccordionItem } from "../accordion-item/accordion-item";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";

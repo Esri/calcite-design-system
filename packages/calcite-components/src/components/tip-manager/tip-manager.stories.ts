@@ -1,4 +1,4 @@
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { TipManager } from "./tip-manager";
