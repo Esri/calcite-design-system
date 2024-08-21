@@ -238,11 +238,9 @@ describe("calcite-flow-item", () => {
     expect(await panel.getProperty("collapsed")).toBe(true);
     expect(await panel.getProperty("collapsible")).toBe(true);
 
-    await page.$eval("calcite-flow-item", (flowItem: HTMLCalciteFlowItemElement) => {
-      const panel = flowItem.shadowRoot.querySelector("calcite-panel");
-      const toggleButton = panel.shadowRoot.querySelector(`#${PanelIDS.collapse}`) as HTMLCalciteActionElement;
-      toggleButton.click();
-    });
+    const collapseButton = await page.find(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`);
+    await collapseButton.click();
+    await page.waitForChanges();
 
     await page.waitForChanges();
 
