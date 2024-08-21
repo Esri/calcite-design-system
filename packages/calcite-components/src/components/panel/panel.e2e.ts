@@ -11,6 +11,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
@@ -500,5 +501,14 @@ describe("calcite-panel", () => {
     expect(await panel.getProperty("closed")).toBe(false);
     expect(await container.isVisible()).toBe(true);
     expect(calcitePanelClose).toHaveReceivedEventTimes(0);
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-panel collapsible closable>scrolling content</calcite-panel>`, {
+      "--calcite-panel-content-space": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "padding",
+      },
+    });
   });
 });

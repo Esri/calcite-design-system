@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-content-space: Specifies the padding of the component's content.
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
  */
@@ -167,7 +168,9 @@
   bg-background
   overflow-auto
   h-full
-  focus-base;
+  focus-base
+  relative;
+  padding: var(--calcite-panel-content-space, 0);
 }
 
 .content-wrapper:focus {
