@@ -1,5 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
+import { isElementFocused } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-label", () => {
   describe("renders", () => {
@@ -143,6 +145,28 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("id", "do-not-duplicate-me");
     expect(childElement).not.toHaveAttribute("id");
     expect(element).toEqualAttribute("layout", "inline-space-between");
+  });
+
+  it("should not focus on the slotted form element when a label's text is selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-label layout="inline-space-between">
+        Label text
+        <calcite-input></calcite-input>
+      </calcite-label>
+    `);
+
+    await page.$eval("calcite-label", (el) => {
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      const range = document.createRange();
+      range.selectNode(el);
+      selection.addRange(range);
+      el.click();
+    });
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, "calcite-input")).toBe(false);
   });
 
   // TODO: need shadow DOM equivalent update on helper

@@ -9,6 +9,8 @@
  * @prop --calcite-dialog-content-space: Specifies the padding of the component's content.
  * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
  * @prop --calcite-dialog-border-color: Specifies the component's border color.
+ * @prop --calcite-dialog-offset-x: Specifies the horizontal offset of the component.
+ * @prop --calcite-dialog-offset-y: Specifies the vertical offset of the component.
  */
 
 :host {
@@ -113,12 +115,9 @@
 }
 
 calcite-panel {
+  --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-footer-padding: var(--calcite-dialog-footer-space);
   --calcite-panel-header-border-block-end: var(--calcite-border-width-sm) solid var(--calcite-dialog-border-color);
-}
-
-.content {
-  padding: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
 }
 
 .dialog {
@@ -132,7 +131,8 @@ calcite-panel {
     opacity-0
     shadow-2-sm
     z-modal
-    rounded;
+    rounded
+    relative;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
   transition:
@@ -142,6 +142,9 @@ calcite-panel {
 
   --calcite-internal-dialog-hidden-position: translate3d(0, 20px, 0);
   --calcite-internal-dialog-shown-position: translate3d(0, 0, 0);
+
+  inset-inline-start: var(--calcite-dialog-offset-x);
+  inset-block-start: var(--calcite-dialog-offset-y);
 
   &--opening {
     &-idle {

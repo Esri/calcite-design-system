@@ -4,6 +4,7 @@
   "regionPlaceholder": "Search by city, country, region or offset",
   "namePlaceholder": "Search by time zone",
   "timeZoneLabel": "({offset}) {cities}",
+  "timeZoneRegionLabel": "{city}, {country}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",
   "Africa/Addis_Ababa": "Addis Ababa",

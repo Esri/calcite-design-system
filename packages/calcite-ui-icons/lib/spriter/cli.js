@@ -1,7 +1,7 @@
 "use strict";
 
 const spriter = require("./index");
-const fs = require("fs");
+const { readFileSync } = require("fs");
 const args = process.argv.slice(2); // skip runtime & script args
 
 function hasArg(name, shorthand) {
@@ -31,7 +31,7 @@ function getConfig() {
 
   if (input) {
     try {
-      const configFileContents = fs.readFileSync(input);
+      const configFileContents = readFileSync(input);
       input = JSON.parse(configFileContents).input;
     } catch (error) {
       process.stderr.write(`config - could not read input: ${error}`);

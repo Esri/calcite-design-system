@@ -4,3 +4,7 @@ export const CSS = {
   select: "select",
   wrapper: "wrapper",
 };
+
+export const IDS = {
+  validationMessage: "selectValidationMessage",
+};

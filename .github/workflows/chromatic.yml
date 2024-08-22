@@ -4,7 +4,7 @@ on:
     branches: [rc, dev]
   pull_request:
     branches: [rc, dev]
-    types: [labeled, synchronize]
+    types: [opened, labeled, synchronize]
 jobs:
   run:
     if: |

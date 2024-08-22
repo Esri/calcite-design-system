@@ -1,7 +1,7 @@
 import { iconNames } from "../../../.storybook/helpers";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
 const { scale } = ATTRIBUTES;
