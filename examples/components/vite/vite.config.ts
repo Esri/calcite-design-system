@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import { defineConfig } from 'vite';
+import { defineConfig, normalizePath } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
@@ -7,15 +7,15 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: resolve(
+          src: normalizePath(resolve(
             'node_modules',
             '@esri',
             'calcite-components',
             'dist',
             'calcite',
             'assets'
-          ),
-          dest: '.'
+          )),
+          dest: normalizePath('.'),
         }
       ]
     })
