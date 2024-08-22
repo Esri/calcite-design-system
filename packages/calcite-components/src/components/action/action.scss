@@ -221,4 +221,18 @@
 }
 
 @include base-component();
-@include disabled();
+@include disabled {
+  .button,
+  .button:hover,
+  .button:focus {
+    @apply opacity-disabled bg-foreground-1 cursor-default;
+  }
+
+  &:host([active]) {
+    .button,
+    .button:hover,
+    .button:focus {
+      @apply opacity-disabled bg-foreground-3;
+    }
+  }
+}
