@@ -1076,7 +1076,7 @@ describe("calcite-dialog", () => {
           targetProp: "minBlockSize",
         },
         "--calcite-dialog-content-space": {
-          shadowSelector: `.${CSS.content}`,
+          shadowSelector: `.${CSS.panel}`,
           targetProp: "--calcite-internal-dialog-content-padding",
         },
         "--calcite-dialog-footer-space": {
