@@ -40,6 +40,10 @@
       {
         "ignoreTypes": ["/^calcite-/"]
       }
-    ]
+    ],
+    "at-function-pattern": ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"],
+    "dollar-variable-pattern": ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"],
+    "at-mixin-pattern": ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"],
+    "percent-placeholder-pattern": ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"]
   }
 }
