@@ -61,7 +61,7 @@ There are four labels that mean an issue is not ready for development:
 - `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, an additional label, `ready for dev` will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
-- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. The blocking issue should be linked to in the blocked issue's body or comment.
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas.
 
 ### Milestones
 
@@ -132,7 +132,7 @@ npm install
 Next, start the local Stencil development server on localhost:
 
 ```sh
-npm start
+npm run start:components
 ```
 
 The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](.packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/src/index.html`](./packages/calcite-components/src/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components`](packages/calcite-components/src/components`./src/components), and the changes will be reflected in the demos.

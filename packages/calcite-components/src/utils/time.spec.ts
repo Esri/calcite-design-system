@@ -1,4 +1,11 @@
-import { formatTimePart, isValidTime, localizeTimeStringToParts, parseTimeString, toISOTimeString } from "./time";
+import {
+  formatTimePart,
+  getMeridiemOrder,
+  isValidTime,
+  localizeTimeStringToParts,
+  parseTimeString,
+  toISOTimeString,
+} from "./time";
 
 describe("formatTimePart", () => {
   it("returns decimals less than 1 with leading and trailing zeros to match the provided length", () => {
@@ -23,6 +30,27 @@ describe("formatTimePart", () => {
     expect(formatTimePart(7)).toEqual("07");
     expect(formatTimePart(8)).toEqual("08");
     expect(formatTimePart(9)).toEqual("09");
+  });
+});
+
+describe("getMeridiemOrder", () => {
+  it("returns 0 for arabic lang", () => {
+    expect(getMeridiemOrder("ar")).toEqual(0);
+  });
+  it("returns 0 for chinese (hong kong) lang", () => {
+    expect(getMeridiemOrder("zh-HK")).toEqual(0);
+  });
+  it("returns 0 for hebrew lang", () => {
+    expect(getMeridiemOrder("he")).toEqual(0);
+  });
+  it("returns 0 for korean lang", () => {
+    expect(getMeridiemOrder("ko")).toEqual(0);
+  });
+  it("returns non-zero for ltr langs", () => {
+    expect(getMeridiemOrder("el")).not.toEqual(0);
+    expect(getMeridiemOrder("en")).not.toEqual(0);
+    expect(getMeridiemOrder("es")).not.toEqual(0);
+    expect(getMeridiemOrder("hi")).not.toEqual(0);
   });
 });
 

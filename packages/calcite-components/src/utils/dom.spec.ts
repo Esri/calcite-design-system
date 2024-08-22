@@ -3,6 +3,7 @@ import { html } from "../../support/formatting";
 import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
 import { AnimationEventDispatcher, createAnimationEventDispatcher } from "../tests/spec-helpers/animationEvents";
 import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
+import { waitForAnimationFrame } from "../tests/utils";
 import { guidPattern } from "./guid.spec";
 import {
   ensureId,
@@ -10,6 +11,7 @@ import {
   getElementProp,
   getModeName,
   getShadowRootNode,
+  getSlotAssignedElements,
   getSlotted,
   isBefore,
   isKeyboardTriggeredClick,
@@ -292,13 +294,11 @@ describe("dom", () => {
 
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
-      // @ts-expect-error -- unsupported icon names are used to make the test more readable
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
         "myCustomValue",
       ));
 
     it("returns the pre-defined icon name if custom value is not passed", () =>
-      // @ts-expect-error -- unsupported icon names are used to make the test more readable
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
         "exampleReturnedValue",
       ));
@@ -399,6 +399,39 @@ describe("dom", () => {
       expect(isPrimaryPointerButton({ button: 1, isPrimary: true } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({ button: 0, isPrimary: false } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({} as PointerEvent)).toBe(false);
+    });
+  });
+
+  describe("getSlotAssignedElements()", () => {
+    it("returns slotted elements with no selector", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
+    });
+    it("returns no slotted elements", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [];
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
+    });
+    it("returns slotted elements with direct element selector", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [
+        document.createElement("span"),
+        document.createElement("div"),
+        document.createElement("span"),
+      ];
+      expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
+    });
+    it("returns slotted elements with class selector", () => {
+      const slotEl = document.createElement("slot");
+      const spanEl = document.createElement("span");
+      spanEl.className = "my-span";
+      const divEl = document.createElement("div");
+      divEl.className = "my-div";
+      slotEl.assignedElements = () => [document.createElement("span"), spanEl, document.createElement("div"), divEl];
+      expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
     });
   });
 
@@ -692,7 +725,9 @@ describe("dom", () => {
       const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
       element.style.opacity = "0";
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
@@ -718,7 +753,9 @@ describe("dom", () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
     });
   });
@@ -789,7 +826,9 @@ describe("dom", () => {
       const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
       element.style.animationName = "none";
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
@@ -815,7 +854,9 @@ describe("dom", () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
     });
   });

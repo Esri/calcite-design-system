@@ -75,14 +75,13 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { getSupportedLocale } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { focusFirstTabbable } from "../../utils/dom";
-import { IconName } from "../icon/interfaces";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
@@ -169,7 +168,6 @@ export class InputTimePicker
     LabelableComponent,
     LoadableComponent,
     LocalizedComponent,
-    OpenCloseComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -179,19 +177,17 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   /** When `true`, displays the `calcite-time-picker` component. */
-
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(): void {
-    onToggleOpenCloseComponent(this);
-
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
 
-    this.reposition(true);
+    // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
+    this.popoverEl.open = this.open;
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -270,7 +266,7 @@ export class InputTimePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -394,10 +390,6 @@ export class InputTimePicker
   private userChangedValue = false;
 
   private referenceElementId = `input-time-picker-${guid()}`;
-
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLCalciteInputElement;
 
   //--------------------------------------------------------------------------
   //
@@ -546,7 +538,7 @@ export class InputTimePicker
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed If true, delay the repositioning.
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -559,21 +551,42 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
-  onBeforeOpen(): void {
+  private popoverBeforeOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeOpen.emit();
-  }
+  };
 
-  onOpen(): void {
+  private popoverOpenHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerOpen.emit();
-  }
 
-  onBeforeClose(): void {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.calciteTimePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      },
+    });
+  };
+
+  private popoverBeforeCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerBeforeClose.emit();
-  }
+  };
 
-  onClose(): void {
+  private popoverCloseHandler = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
     this.calciteInputTimePickerClose.emit();
-  }
+
+    deactivateFocusTrap(this, {
+      onDeactivate: () => {
+        this.calciteInputEl.setFocus();
+        this.focusOnOpen = false;
+      },
+    });
+    this.open = false;
+  };
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput("time", this, input);
@@ -585,7 +598,7 @@ export class InputTimePicker
 
     const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
 
-    let delocalizedTimeString;
+    let delocalizedTimeString: string;
 
     if (this.shouldIncludeFractionalSeconds()) {
       const stepPrecision = decimalPlaces(this.step);
@@ -685,27 +698,6 @@ export class InputTimePicker
     return timeString;
   }
 
-  private popoverCloseHandler = () => {
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      },
-    });
-    this.open = false;
-  };
-
-  private popoverOpenHandler = () => {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
-  };
-
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -781,7 +773,7 @@ export class InputTimePicker
   ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
-        meridiem: (hour) => (hour > 12 ? "م" : "ص"),
+        meridiem: (hour: number) => (hour > 12 ? "م" : "ص"),
         formats: {
           LT: "HH:mm A",
           LTS: "HH:mm:ss A",
@@ -795,19 +787,19 @@ export class InputTimePicker
 
     if (locale === "en-au") {
       return {
-        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
+        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "en-ca") {
       return {
-        meridiem: (hour) => (hour > 12 ? "p.m." : "a.m."),
+        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
       };
     }
 
     if (locale === "el") {
       return {
-        meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ."),
+        meridiem: (hour: number) => (hour > 12 ? "μ.μ." : "π.μ."),
       };
     }
 
@@ -821,13 +813,13 @@ export class InputTimePicker
           LLL: "D MMMM YYYY, h:mm A",
           LLLL: "dddd, D MMMM YYYY, h:mm A",
         },
-        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
+        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "ko") {
       return {
-        meridiem: (hour) => (hour > 12 ? "오후" : "오전"),
+        meridiem: (hour: number) => (hour > 12 ? "오후" : "오전"),
       };
     }
 
@@ -846,7 +838,7 @@ export class InputTimePicker
           LT: "AHH:mm",
           LTS: "AHH:mm:ss",
         },
-        meridiem: (hour) => (hour > 12 ? "下午" : "上午"),
+        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
       };
     }
   }
@@ -867,9 +859,8 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
-  private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
+  private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
-    this.transitionEl = el;
   };
 
   private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
@@ -894,7 +885,7 @@ export class InputTimePicker
    * Sets the value and emits a change event.
    * This is used to update the value as a result of user interaction.
    *
-   * @param value
+   * @param value The new value
    */
   private setValue = (value: string): void => {
     const oldValue = this.value;
@@ -928,7 +919,7 @@ export class InputTimePicker
    * Sets the value directly without emitting a change event.
    * This is used to update the value on initial load and when props change that are not the result of user interaction.
    *
-   * @param value
+   * @param value The new value
    */
   private setValueDirectly = (value: string): void => {
     const includeSeconds = this.shouldIncludeSeconds();
@@ -978,9 +969,6 @@ export class InputTimePicker
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await Promise.all([setUpMessages(this), this.loadDateTimeLocaleData()]);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   componentDidLoad() {
@@ -996,6 +984,8 @@ export class InputTimePicker
         }),
       );
     }
+
+    this.openHandler();
   }
 
   disconnectedCallback() {
@@ -1025,7 +1015,9 @@ export class InputTimePicker
           <div class="input-wrapper" onClick={this.onInputWrapperClick}>
             <calcite-input-text
               aria-autocomplete="none"
+              aria-errormessage={IDS.validationMessage}
               aria-haspopup="dialog"
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               disabled={disabled}
               icon="clock"
               id={this.referenceElementId}
@@ -1034,7 +1026,7 @@ export class InputTimePicker
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
               onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
               readOnly={readOnly}
-              ref={this.setInputAndTransitionEl}
+              ref={this.setInputEl}
               role="combobox"
               scale={this.scale}
               status={this.status}
@@ -1046,9 +1038,10 @@ export class InputTimePicker
             id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
+            onCalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
+            onCalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
             onCalcitePopoverClose={this.popoverCloseHandler}
             onCalcitePopoverOpen={this.popoverOpenHandler}
-            open={this.open}
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
             ref={this.setCalcitePopoverEl}
@@ -1071,6 +1064,7 @@ export class InputTimePicker
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

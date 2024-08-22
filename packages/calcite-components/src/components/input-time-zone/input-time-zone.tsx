@@ -46,15 +46,18 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
+  getMessageOrKeyFallback,
+  getSelectedRegionTimeZoneLabel,
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { OffsetStyle, TimeZoneItem, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -155,7 +158,7 @@ export class InputTimeZone
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -324,7 +327,7 @@ export class InputTimeZone
 
   private selectedTimeZoneItem: TimeZoneItem;
 
-  private timeZoneItems: TimeZoneItem[];
+  private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
 
   //--------------------------------------------------------------------------
   //
@@ -340,13 +343,32 @@ export class InputTimeZone
     this.comboboxEl = el;
   };
 
+  /**
+   * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
+   *
+   * @param open
+   * @private
+   */
+  private overrideSelectedLabelForRegion(open: boolean): void {
+    if (this.mode !== "region" || !this.selectedTimeZoneItem) {
+      return;
+    }
+
+    const { label, metadata } = this.selectedTimeZoneItem;
+    this.comboboxEl.selectedItems[0].textLabel = open
+      ? label
+      : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+  }
+
   private onComboboxBeforeClose = (event: CustomEvent): void => {
     event.stopPropagation();
+    this.overrideSelectedLabelForRegion(false);
     this.calciteInputTimeZoneBeforeClose.emit();
   };
 
   private onComboboxBeforeOpen = (event: CustomEvent): void => {
     event.stopPropagation();
+    this.overrideSelectedLabelForRegion(true);
     this.calciteInputTimeZoneBeforeOpen.emit();
   };
 
@@ -410,7 +432,7 @@ export class InputTimeZone
       this.findTimeZoneItem(valueToMatch) || this.findTimeZoneItem(fallbackValue);
   }
 
-  private async createTimeZoneItems(): Promise<TimeZoneItem[]> {
+  private async createTimeZoneItems(): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
     if (!this.effectiveLocale || !this.messages) {
       return [];
     }
@@ -464,6 +486,7 @@ export class InputTimeZone
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.overrideSelectedLabelForRegion(this.open);
   }
 
   componentDidRender(): void {
@@ -488,8 +511,13 @@ export class InputTimeZone
             open={this.open}
             overlayPositioning={this.overlayPositioning}
             placeholder={
-              this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder
+              this.mode === "name"
+                ? this.messages.namePlaceholder
+                : this.mode === "offset"
+                  ? this.messages.offsetPlaceholder
+                  : this.messages.regionPlaceholder
             }
+            placeholderIcon="search"
             readOnly={this.readOnly}
             ref={this.setComboboxRef}
             scale={this.scale}
@@ -498,24 +526,62 @@ export class InputTimeZone
             validation-icon={this.validationIcon}
             validation-message={this.validationMessage}
           >
-            {this.timeZoneItems.map((group) => {
-              const selected = this.selectedTimeZoneItem === group;
-              const { label, value } = group;
-
-              return (
-                <calcite-combobox-item
-                  data-value={value}
-                  key={label}
-                  selected={selected}
-                  textLabel={label}
-                  value={`${group.filterValue}`}
-                />
-              );
-            })}
+            {this.renderItems()}
           </calcite-combobox>
           <HiddenFormInputSlot component={this} />
         </InteractiveContainer>
       </Host>
     );
+  }
+
+  private renderItems(): VNode[] {
+    if (this.mode === "region") {
+      return this.renderRegionItems();
+    }
+
+    return this.timeZoneItems.map((group) => {
+      const selected = this.selectedTimeZoneItem === group;
+      const { label, value } = group;
+
+      return (
+        <calcite-combobox-item
+          data-value={value}
+          key={label}
+          selected={selected}
+          textLabel={label}
+          value={`${group.filterValue}`}
+        />
+      );
+    });
+  }
+
+  private renderRegionItems(): VNode[] {
+    return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
+      <calcite-combobox-item-group
+        key={label}
+        label={getMessageOrKeyFallback(this.messages, label)}
+      >
+        {items.map((item) => {
+          const selected = this.selectedTimeZoneItem === item;
+          const { label, value } = item;
+
+          return (
+            <calcite-combobox-item
+              data-value={value}
+              description={getMessageOrKeyFallback(this.messages, item.metadata.country)}
+              key={label}
+              metadata={item.metadata}
+              selected={selected}
+              textLabel={label}
+              value={`${item.filterValue}`}
+            >
+              <span class={CSS.offset} slot="content-end">
+                {item.metadata.offset}
+              </span>
+            </calcite-combobox-item>
+          );
+        })}
+      </calcite-combobox-item-group>
+    ));
   }
 }

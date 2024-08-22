@@ -1,7 +1,20 @@
-$floating-ui-transform-bottom: translateY(-5px);
-$floating-ui-transform-top: translateY(5px);
-$floating-ui-transform-left: translateX(5px);
-$floating-ui-transform-right: translateX(-5px);
+$floating-ui-transition-offset: 5px;
+
+@mixin floatingUIOffsetBottom {
+  inset-block-start: -$floating-ui-transition-offset;
+}
+
+@mixin floatingUIOffsetTop {
+  inset-block-start: $floating-ui-transition-offset;
+}
+
+@mixin floatingUIOffsetLeft {
+  left: $floating-ui-transition-offset;
+}
+
+@mixin floatingUIOffsetRight {
+  left: -$floating-ui-transition-offset;
+}
 
 @mixin floating-ui-base {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
@@ -12,7 +25,7 @@ $floating-ui-transform-right: translateX(-5px);
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
-    transition-property: transform, visibility, opacity;
+    transition-property: inset, left, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
     @apply rounded z-default;
@@ -21,7 +34,8 @@ $floating-ui-transform-right: translateX(-5px);
 
 @mixin floatingUIAnimActive {
   opacity: 1;
-  transform: translate(0);
+  inset-block: 0;
+  left: 0;
 }
 
 @mixin floatingUIElemAnim($selector) {
@@ -29,19 +43,19 @@ $floating-ui-transform-right: translateX(-5px);
     @include floatingUIAnim();
 
     &[data-placement^="bottom"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-bottom;
+      @include floatingUIOffsetBottom();
     }
 
     &[data-placement^="top"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-top;
+      @include floatingUIOffsetTop();
     }
 
     &[data-placement^="left"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-left;
+      @include floatingUIOffsetLeft();
     }
 
     &[data-placement^="right"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-right;
+      @include floatingUIOffsetRight();
     }
 
     &[data-placement] .calcite-floating-ui-anim--active {
@@ -54,19 +68,19 @@ $floating-ui-transform-right: translateX(-5px);
   @include floatingUIAnim();
 
   :host([data-placement^="bottom"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-bottom;
+    @include floatingUIOffsetBottom();
   }
 
   :host([data-placement^="top"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-top;
+    @include floatingUIOffsetTop();
   }
 
   :host([data-placement^="left"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-left;
+    @include floatingUIOffsetLeft();
   }
 
   :host([data-placement^="right"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-right;
+    @include floatingUIOffsetRight();
   }
 
   :host([data-placement]) .calcite-floating-ui-anim--active {

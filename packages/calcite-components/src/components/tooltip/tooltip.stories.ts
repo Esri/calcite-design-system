@@ -1,6 +1,7 @@
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { Tooltip } from "./tooltip";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
@@ -93,3 +94,11 @@ export const transparentBG_TestOnly = (): string => html`
     <calcite-tooltip reference-element="reference-element" placement="auto" open> ${contentHTML} </calcite-tooltip>
   </div>
 `;
+
+export const withInteractiveContent = (): string =>
+  html`<div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-tooltip reference-element="reference-element" placement="auto" open
+      ><img width="100%" src="${placeholderImage({ width: 360, height: 90 })}" /> <p>${contentHTML}</p> <calcite-button>Click me</calcite-button
+    </calcite-tooltip>
+  </div>`;

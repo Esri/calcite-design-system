@@ -6,7 +6,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 @Component({
@@ -30,7 +30,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconName;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;

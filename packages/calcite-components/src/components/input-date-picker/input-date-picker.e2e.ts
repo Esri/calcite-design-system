@@ -707,6 +707,42 @@ describe("calcite-input-date-picker", () => {
 
       expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
     });
+
+    it("parses/formats bosnian calendar locales when date is selected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker lang="bs" value="2023-05-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+
+      await inputDatePicker.click();
+      await calciteInputDatePickerOpenEvent;
+
+      await selectDayInMonth(page, 1);
+      await inputDatePicker.callMethod("blur");
+
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
+
+      const inputText = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await inputText.getProperty("value")).toBe("01.05.2023.");
+    });
+
+    it("parses/formats italian (Switzerland) calendar locales when date is selected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker lang="it-CH" value="2023-05-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+
+      await inputDatePicker.click();
+      await calciteInputDatePickerOpenEvent;
+
+      await selectDayInMonth(page, 1);
+      await inputDatePicker.callMethod("blur");
+
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
+
+      const inputText = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await inputText.getProperty("value")).toBe("1.5.2023");
+    });
   });
 
   describe("clicking in the calendar popup", () => {
@@ -775,6 +811,23 @@ describe("calcite-input-date-picker", () => {
         inputType: "date",
       });
     });
+  });
+
+  it("ensures initial value is in range", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-input-date-picker
+        value="2017-07-22"
+        min="2018-01-01"
+        max="2018-12-31"
+      ></calcite-input-date-picker>`,
+    );
+
+    const element = await page.find("calcite-input-date-picker");
+
+    expect(await element.getProperty("value")).toEqual("2018-01-01");
+    expect(await getDateInputValue(page)).toEqual("1/1/2018");
   });
 
   it("updates internally when min attribute is updated after initialization", async () => {
