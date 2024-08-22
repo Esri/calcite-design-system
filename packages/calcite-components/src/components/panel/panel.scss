@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-content-space: Specifies the padding of the component's content.
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
  */
@@ -24,11 +25,11 @@
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.n1h");
+      @apply text-n1h;
     }
 
     .description {
-      font-size: theme("fontSize.n2h");
+      @apply text-n2h;
     }
   }
 }
@@ -39,11 +40,11 @@
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.0h");
+      @apply text-0h;
     }
 
     .description {
-      font-size: theme("fontSize.n1h");
+      @apply text-n1h;
     }
   }
 }
@@ -54,11 +55,11 @@
 
   .header-content {
     .heading {
-      font-size: theme("fontSize.1h");
+      @apply text-1h;
     }
 
     .description {
-      font-size: theme("fontSize.0h");
+      @apply text-0h;
     }
   }
 }
@@ -72,11 +73,15 @@
 }
 
 .container {
-  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  @apply focus-base relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
+}
+
+.container:focus {
+  @apply focus-inset;
 }
 
 .container[hidden] {
@@ -162,7 +167,14 @@
   items-stretch
   bg-background
   overflow-auto
-  h-full;
+  h-full
+  focus-base
+  relative;
+  padding: var(--calcite-panel-content-space, 0);
+}
+
+.content-wrapper:focus {
+  @apply focus-inset;
 }
 
 .content-top,

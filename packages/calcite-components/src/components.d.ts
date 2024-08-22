@@ -15,7 +15,7 @@ import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n
 import { Columns } from "./components/action-group/interfaces";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-import { AlertDuration, Sync } from "./components/alert/interfaces";
+import { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
 import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
@@ -111,7 +111,7 @@ export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n
 export { Columns } from "./components/action-group/interfaces";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-export { AlertDuration, Sync } from "./components/alert/interfaces";
+export { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
 export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
@@ -511,6 +511,10 @@ export namespace Components {
     }
     interface CalciteAlert {
         /**
+          * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
+         */
+        "active": boolean;
+        /**
           * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose": boolean;
@@ -558,15 +562,24 @@ export namespace Components {
          */
         "open": boolean;
         /**
+          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
+         */
+        "openAlertCount": number;
+        /**
           * Specifies the placement of the component.
          */
         "placement": MenuPlacement;
+        /**
+          * Specifies the ordering priority of the component when opened.
+         */
+        "queue": AlertQueue;
         /**
           * Specifies the size of the component.
          */
         "scale": Scale;
         /**
           * Sets focus on the component's "close" button, the first focusable item.
+          * @returns
          */
         "setFocus": () => Promise<void>;
     }
@@ -1395,6 +1408,10 @@ export namespace Components {
          */
         "guid": string;
         /**
+          * The component's text.
+         */
+        "heading": string;
+        /**
           * Specifies an icon to display.
          */
         "icon": IconNameOrString;
@@ -1402,6 +1419,10 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * The component's label.
+         */
+        "label": any;
         /**
           * Provides additional metadata to the component used in filtering.
          */
@@ -1427,6 +1448,7 @@ export namespace Components {
         "shortHeading": string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -1679,6 +1701,11 @@ export namespace Components {
          */
         "embedded": boolean;
         /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key.
+          * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+         */
+        "escapeDisabled": boolean;
+        /**
           * The component header text.
          */
         "heading": string;
@@ -1714,6 +1741,10 @@ export namespace Components {
           * When `true`, displays and positions the component.
          */
         "open": boolean;
+        /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled": boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -1967,7 +1998,6 @@ export namespace Components {
     interface CalciteFlow {
         /**
           * Removes the currently active `calcite-flow-item`.
-          * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
          */
         "back": () => Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>;
         /**
@@ -1976,7 +2006,6 @@ export namespace Components {
         "customItemSelectors": string;
         /**
           * Sets focus on the component.
-          * @returns Promise<void>
          */
         "setFocus": () => Promise<void>;
     }
@@ -2056,10 +2085,6 @@ export namespace Components {
           * @returns - promise that resolves once the content is scrolled to.
          */
         "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
-        /**
-          * When true, flow-item is displayed within a parent flow.
-         */
-        "selected": boolean;
         /**
           * Sets focus on the component.
           * @returns promise.
@@ -3318,9 +3343,9 @@ export namespace Components {
          */
         "text": string;
         /**
-          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
+          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress.
          */
-        "type": "indeterminate" | "determinate";
+        "type": "indeterminate" | "determinate" | "determinate-value";
         /**
           * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
          */
@@ -5757,6 +5782,10 @@ export namespace Components {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
         "lines": boolean;
         "parentExpanded": boolean;
         "scale": Scale;
@@ -6328,8 +6357,6 @@ declare global {
         "calciteAlertClose": void;
         "calciteAlertBeforeOpen": void;
         "calciteAlertOpen": void;
-        "calciteInternalAlertSync": Sync;
-        "calciteInternalAlertRegister": void;
     }
     interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(type: K, listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6788,7 +6815,6 @@ declare global {
         "calciteFlowItemScroll": void;
         "calciteFlowItemClose": void;
         "calciteFlowItemToggle": void;
-        "calciteInternalFlowItemChange": void;
     }
     interface HTMLCalciteFlowItemElement extends Components.CalciteFlowItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(type: K, listener: (this: HTMLCalciteFlowItemElement, ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8393,6 +8419,10 @@ declare namespace LocalJSX {
     }
     interface CalciteAlert {
         /**
+          * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
+         */
+        "active"?: boolean;
+        /**
           * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose"?: boolean;
@@ -8452,21 +8482,21 @@ declare namespace LocalJSX {
          */
         "onCalciteAlertOpen"?: (event: CalciteAlertCustomEvent<void>) => void;
         /**
-          * Fires when the component is added to DOM - used to receive initial queue.
-         */
-        "onCalciteInternalAlertRegister"?: (event: CalciteAlertCustomEvent<void>) => void;
-        /**
-          * Fires to sync queue when opened or closed.
-         */
-        "onCalciteInternalAlertSync"?: (event: CalciteAlertCustomEvent<Sync>) => void;
-        /**
           * When `true`, displays and positions the component.
          */
         "open"?: boolean;
         /**
+          * This internal property, managed by the AlertManager, is used to inform the component of how many alerts are currently open.
+         */
+        "openAlertCount"?: number;
+        /**
           * Specifies the placement of the component.
          */
         "placement"?: MenuPlacement;
+        /**
+          * Specifies the ordering priority of the component when opened.
+         */
+        "queue"?: AlertQueue;
         /**
           * Specifies the size of the component.
          */
@@ -9356,6 +9386,10 @@ declare namespace LocalJSX {
          */
         "guid"?: string;
         /**
+          * The component's text.
+         */
+        "heading"?: string;
+        /**
           * Specifies an icon to display.
          */
         "icon"?: IconNameOrString;
@@ -9363,6 +9397,10 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * The component's label.
+         */
+        "label"?: any;
         /**
           * Provides additional metadata to the component used in filtering.
          */
@@ -9396,6 +9434,7 @@ declare namespace LocalJSX {
         "shortHeading"?: string;
         /**
           * The component's text.
+          * @deprecated Use `heading` instead.
          */
         "textLabel": string;
         /**
@@ -9669,6 +9708,11 @@ declare namespace LocalJSX {
          */
         "embedded"?: boolean;
         /**
+          * When `true`, disables the default close on escape behavior.  By default, an open dialog can be dismissed by pressing the Esc key.
+          * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+         */
+        "escapeDisabled"?: boolean;
+        /**
           * The component header text.
          */
         "heading"?: string;
@@ -9724,6 +9768,10 @@ declare namespace LocalJSX {
           * When `true`, displays and positions the component.
          */
         "open"?: boolean;
+        /**
+          * When `true`, disables the closing of the component when clicked outside.
+         */
+        "outsideCloseDisabled"?: boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -10046,7 +10094,6 @@ declare namespace LocalJSX {
           * Fires when the collapse button is clicked.
          */
         "onCalciteFlowItemToggle"?: (event: CalciteFlowItemCustomEvent<void>) => void;
-        "onCalciteInternalFlowItemChange"?: (event: CalciteFlowItemCustomEvent<void>) => void;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -10055,10 +10102,6 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
-        /**
-          * When true, flow-item is displayed within a parent flow.
-         */
-        "selected"?: boolean;
         /**
           * When `true`, displays a back button in the component's header.
          */
@@ -11416,9 +11459,9 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         /**
-          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
+          * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress.
          */
-        "type"?: "indeterminate" | "determinate";
+        "type"?: "indeterminate" | "determinate" | "determinate-value";
         /**
           * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
          */
@@ -13928,6 +13971,10 @@ declare namespace LocalJSX {
           * In ancestor selection mode, show as indeterminate when only some children are selected.
          */
         "indeterminate"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
         "lines"?: boolean;
         "onCalciteInternalTreeItemSelect"?: (event: CalciteTreeItemCustomEvent<TreeItemSelectDetail>) => void;
         "parentExpanded"?: boolean;

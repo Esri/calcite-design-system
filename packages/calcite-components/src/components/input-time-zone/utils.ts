@@ -56,23 +56,6 @@ export function getUserTimeZoneName(): string {
   return dateFormatter.resolvedOptions().timeZone;
 }
 
-/**
- * The lazy-loaded timezone-groups lib to be used across instances.
- */
-let offsetGroupUtils: Promise<
-  [
-    typeof import("timezone-groups/dist/groupByOffset/index.mjs"),
-    typeof import("timezone-groups/dist/groupByOffset/strategy/native.mjs"),
-  ]
->;
-let regionGroupUtils: Promise<
-  [
-    typeof import("timezone-groups/dist/groupByRegion/index.mjs"),
-    typeof import("timezone-groups/dist/utils/country.mjs"),
-  ]
->;
-let nameGroupUtils: Promise<typeof import("timezone-groups/dist/groupByName/index.mjs")>;
-
 export async function createTimeZoneItems(
   locale: SupportedLocale,
   messages: InputTimeZoneMessages,
@@ -81,27 +64,22 @@ export async function createTimeZoneItems(
   standardTime: OffsetStyle,
 ): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
   if (mode === "name") {
-    if (!nameGroupUtils) {
-      nameGroupUtils = import("timezone-groups/dist/groupByName/index.mjs");
-    }
+    const { groupByName } = await import("timezone-groups/dist/groupByName/index.mjs");
+    const groups = await groupByName();
 
-    return nameGroupUtils.then(async ({ groupByName }) => {
-      const groups = await groupByName();
+    return groups
+      .map<TimeZoneItem<string>>(({ label: timeZone }) => {
+        const label = toUserFriendlyName(timeZone);
+        const value = timeZone;
 
-      return groups
-        .map<TimeZoneItem<string>>(({ label: timeZone }) => {
-          const label = toUserFriendlyName(timeZone);
-          const value = timeZone;
-
-          return {
-            label,
-            value,
-            filterValue: timeZone,
-          };
-        })
-        .filter((group) => !!group)
-        .sort();
-    });
+        return {
+          label,
+          value,
+          filterValue: timeZone,
+        };
+      })
+      .filter((group) => !!group)
+      .sort();
   }
 
   const effectiveLocale =
@@ -114,99 +92,99 @@ export async function createTimeZoneItems(
   const referenceDateInMs: number = referenceDate.getTime();
 
   if (mode === "region") {
-    if (!regionGroupUtils) {
-      regionGroupUtils = Promise.all([
-        import("timezone-groups/dist/groupByRegion/index.mjs"),
-        import("timezone-groups/dist/utils/country.mjs"),
-      ]);
-    }
-
-    return regionGroupUtils.then(async ([{ groupByRegion }, { getCountry }]) => {
-      const groups = await groupByRegion();
-
-      return groups
-        .map<TimeZoneItemGroup>(({ label: region, tzs }) => {
-          return {
-            label: region,
-            items: tzs.map((timeZone) => {
-              const decimalOffset = timeZoneOffsetToDecimal(
-                getTimeZoneShortOffset(timeZone, effectiveLocale, referenceDateInMs),
-              );
-
-              return {
-                label: getTimeZoneLabel(timeZone, messages),
-                value: timeZone,
-                filterValue: toUserFriendlyName(timeZone),
-                metadata: {
-                  offset: decimalOffset,
-                  country: getCountry(timeZone),
-                },
-              };
-            }),
-          };
-        })
-        .sort((groupA, groupB) => groupA.label.localeCompare(groupB.label));
-    });
-  }
-
-  if (!offsetGroupUtils) {
-    offsetGroupUtils = Promise.all([
-      import("timezone-groups/dist/groupByOffset/index.mjs"),
-      import("timezone-groups/dist/groupByOffset/strategy/native/index.mjs"),
+    const [{ groupByRegion }, { getCountry }] = await Promise.all([
+      import("timezone-groups/dist/groupByRegion/index.mjs"),
+      import("timezone-groups/dist/utils/country.mjs"),
     ]);
-  }
-
-  return offsetGroupUtils.then(async ([{ groupByOffset }, { DateEngine }]) => {
-    const groups = await groupByOffset({
-      dateEngine: new DateEngine(),
-      groupDateRange: 1,
-      startDate: new Date(referenceDateInMs).toISOString(),
-    });
-
-    const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
-
-    // we remove blocked entries from tzs and adjust label indices accordingly
-    groups.forEach((group) => {
-      const indexOffsets: number[] = [];
-      let removedSoFar = 0;
-
-      group.tzs.forEach((tz, index) => {
-        if (timeZoneNameBlockList.includes(tz)) {
-          removedSoFar++;
-        }
-        indexOffsets[index] = removedSoFar;
-      });
-
-      group.tzs = group.tzs.filter((tz) => !timeZoneNameBlockList.includes(tz));
-
-      group.labelTzIdx = group.labelTzIdx
-        .map((index) => index - indexOffsets[index])
-        .filter((index) => index >= 0 && index < group.tzs.length);
-    });
+    const groups = await groupByRegion();
 
     return groups
-      .map<TimeZoneItem<number>>(({ labelTzIdx, tzs }) => {
-        const groupRepTz = tzs[0];
-        const decimalOffset = timeZoneOffsetToDecimal(
-          getTimeZoneShortOffset(groupRepTz, effectiveLocale, referenceDateInMs),
-        );
-        const value = toOffsetValue(groupRepTz, referenceDateInMs);
-        const tzLabels = labelTzIdx.map((index: number) => getTimeZoneLabel(tzs[index], messages));
-        const label = createTimeZoneOffsetLabel(messages, decimalOffset, listFormatter.format(tzLabels));
-
+      .map<TimeZoneItemGroup>(({ label: region, tzs }) => {
         return {
-          label,
-          value,
-          filterValue: tzs.map((tz) => toUserFriendlyName(tz)),
+          label: region,
+          items: tzs.map((timeZone) => {
+            const decimalOffset = timeZoneOffsetToDecimal(
+              getTimeZoneShortOffset(timeZone, effectiveLocale, referenceDateInMs),
+            );
+
+            return {
+              label: getTimeZoneLabel(timeZone, messages),
+              value: timeZone,
+              filterValue: toUserFriendlyName(timeZone),
+              metadata: {
+                offset: decimalOffset,
+                country: getCountry(timeZone),
+              },
+            };
+          }),
         };
       })
-      .filter((group) => !!group)
-      .sort((groupA, groupB) => groupA.value - groupB.value);
+      .sort((groupA, groupB) => groupA.label.localeCompare(groupB.label));
+  }
+
+  const [{ groupByOffset }, { DateEngine }] = await Promise.all([
+    import("timezone-groups/dist/groupByOffset/index.mjs"),
+    import("timezone-groups/dist/groupByOffset/strategy/native/index.mjs"),
+  ]);
+
+  const groups = await groupByOffset({
+    dateEngine: new DateEngine(),
+    groupDateRange: 1,
+    startDate: new Date(referenceDateInMs).toISOString(),
   });
+
+  const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
+
+  // we remove blocked entries from tzs and adjust label indices accordingly
+  groups.forEach((group) => {
+    const indexOffsets: number[] = [];
+    let removedSoFar = 0;
+
+    group.tzs.forEach((tz, index) => {
+      if (timeZoneNameBlockList.includes(tz)) {
+        removedSoFar++;
+      }
+      indexOffsets[index] = removedSoFar;
+    });
+
+    group.tzs = group.tzs.filter((tz) => !timeZoneNameBlockList.includes(tz));
+
+    group.labelTzIdx = group.labelTzIdx
+      .map((index) => index - indexOffsets[index])
+      .filter((index) => index >= 0 && index < group.tzs.length);
+  });
+
+  return groups
+    .map<TimeZoneItem<number>>(({ labelTzIdx, tzs }) => {
+      const groupRepTz = tzs[0];
+      const decimalOffset = timeZoneOffsetToDecimal(
+        getTimeZoneShortOffset(groupRepTz, effectiveLocale, referenceDateInMs),
+      );
+      const value = toOffsetValue(groupRepTz, referenceDateInMs);
+      const tzLabels = labelTzIdx.map((index: number) => getTimeZoneLabel(tzs[index], messages));
+      const label = createTimeZoneOffsetLabel(messages, decimalOffset, listFormatter.format(tzLabels));
+
+      return {
+        label,
+        value,
+        filterValue: tzs.map((tz) => toUserFriendlyName(tz)),
+      };
+    })
+    .filter((group) => !!group)
+    .sort((groupA, groupB) => groupA.value - groupB.value);
 }
 
 function getTimeZoneLabel(timeZone: string, messages: InputTimeZoneMessages): string {
   return messages[timeZone] || getCity(timeZone);
+}
+
+export function getSelectedRegionTimeZoneLabel(city: string, country: string, messages: InputTimeZoneMessages): string {
+  const template = messages.timeZoneRegionLabel;
+  return template.replace("{city}", city).replace("{country}", getMessageOrKeyFallback(messages, country));
+}
+
+export function getMessageOrKeyFallback(messages: InputTimeZoneMessages, key: string): string {
+  return messages[key] || key;
 }
 
 /**

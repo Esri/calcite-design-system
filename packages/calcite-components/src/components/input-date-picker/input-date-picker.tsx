@@ -65,6 +65,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
+  getDateFormatSupportedLocale,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -92,7 +93,7 @@ import { syncHiddenFormInput } from "../input/common/input";
 import { isBrowser } from "../../utils/browser";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -568,8 +569,10 @@ export class InputDatePicker
                   aria-autocomplete="none"
                   aria-controls={this.dialogId}
                   aria-describedby={this.placeholderTextId}
+                  aria-errormessage={IDS.validationMessage}
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
+                  aria-invalid={toAriaBoolean(this.status === "invalid")}
                   class={{
                     [CSS.input]: true,
                     [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
@@ -661,8 +664,10 @@ export class InputDatePicker
                   <calcite-input-text
                     aria-autocomplete="none"
                     aria-controls={this.dialogId}
+                    aria-errormessage={IDS.validationMessage}
                     aria-expanded={toAriaBoolean(this.open)}
                     aria-haspopup="dialog"
+                    aria-invalid={toAriaBoolean(this.status === "invalid")}
                     class={{
                       [CSS.input]: true,
                       [CSS.inputBorderTopColorOne]: this.layout === "vertical" && this.range,
@@ -689,6 +694,7 @@ export class InputDatePicker
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}
@@ -738,6 +744,8 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
+  private dateTimeFormat: Intl.DateTimeFormat;
+
   @State() datePickerActiveDate: Date;
 
   @State() defaultMessages: InputDatePickerMessages;
@@ -748,6 +756,21 @@ export class InputDatePicker
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
     this.loadLocaleData();
+  }
+
+  @Watch("effectiveLocale")
+  @Watch("numberingSystem")
+  handleDateTimeFormatChange(): void {
+    const formattingOptions: Intl.DateTimeFormatOptions = {
+      // we explicitly set numberingSystem to prevent the browser-inferred value
+      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
+    };
+
+    this.dateTimeFormat = new Intl.DateTimeFormat(
+      getDateFormatSupportedLocale(this.effectiveLocale),
+      formattingOptions,
+    );
   }
 
   @State() focusedInput: "start" | "end" = "start";
@@ -1066,18 +1089,8 @@ export class InputDatePicker
         )
       : null;
 
-    const formattingOptions = {
-      // we explicitly set numberingSystem to prevent the browser-inferred value
-      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
-      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
-    };
-
-    const localizedDate = date && date.toLocaleDateString(this.effectiveLocale, formattingOptions);
-    const localizedEndDate =
-      endDate && endDate.toLocaleDateString(this.effectiveLocale, formattingOptions);
-
-    this.setInputValue(localizedDate ?? "", "start");
-    this.setInputValue((this.range && localizedEndDate) ?? "", "end");
+    this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
+    this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
 
   private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
