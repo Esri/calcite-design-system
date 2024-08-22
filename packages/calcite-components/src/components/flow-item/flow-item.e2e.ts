@@ -13,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
+import { IDS as PanelIDS } from "../panel/resources";
 import { CSS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
@@ -237,11 +238,9 @@ describe("calcite-flow-item", () => {
     expect(await panel.getProperty("collapsed")).toBe(true);
     expect(await panel.getProperty("collapsible")).toBe(true);
 
-    await page.$eval("calcite-flow-item", (flowItem: HTMLCalciteFlowItemElement) => {
-      const panel = flowItem.shadowRoot.querySelector("calcite-panel");
-      const toggleButton = panel.shadowRoot.querySelector("[data-test=collapse]") as HTMLCalciteActionElement;
-      toggleButton.click();
-    });
+    const collapseButton = await page.find(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`);
+    await collapseButton.click();
+    await page.waitForChanges();
 
     await page.waitForChanges();
 
@@ -347,5 +346,22 @@ describe("calcite-flow-item", () => {
     const alert = await page.find("calcite-alert");
 
     expect(await alert.getProperty("embedded")).toBe(true);
+  });
+
+  it("should not close when slotted panels are closed", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-flow-item closable>
+        <calcite-panel closable heading="test"></calcite-panel>
+      </calcite-flow-item>`,
+    });
+    await page.waitForChanges();
+
+    const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);
+
+    await closeButton.click();
+    await page.waitForChanges();
+
+    const flowItem = await page.find("calcite-flow-item");
+    expect(await flowItem.getProperty("closed")).toBe(false);
   });
 });
