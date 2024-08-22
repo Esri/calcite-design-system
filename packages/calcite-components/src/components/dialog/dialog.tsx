@@ -579,6 +579,7 @@ export class Dialog
           bottom: true,
           right: true,
         },
+        modifiers: [interact.modifiers.restrictSize({ max: "parent" })],
         listeners: {
           move: (event: ResizeEvent) => {
             this.dialogWidth = event.rect.width;
