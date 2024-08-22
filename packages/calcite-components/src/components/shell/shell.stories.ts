@@ -1,6 +1,6 @@
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { ShellCenterRow } from "../shell-center-row/shell-center-row";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";

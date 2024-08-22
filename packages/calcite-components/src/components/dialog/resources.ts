@@ -8,7 +8,6 @@ export const CSS = {
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
   assistiveText: "assistive-text",
-  content: "content",
   openingActive: "dialog--opening-active",
 };
 

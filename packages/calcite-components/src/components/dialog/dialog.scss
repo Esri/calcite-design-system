@@ -116,12 +116,9 @@
 }
 
 calcite-panel {
+  --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-footer-padding: var(--calcite-dialog-footer-space);
   --calcite-panel-header-border-block-end: var(--calcite-border-width-sm) solid var(--calcite-dialog-border-color);
-}
-
-.content {
-  padding: var(--calcite-internal-dialog-content-padding);
 }
 
 .dialog {
