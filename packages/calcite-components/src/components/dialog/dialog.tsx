@@ -256,8 +256,8 @@ export class Dialog
                 loading={this.loading}
                 menuOpen={this.menuOpen}
                 messageOverrides={this.messageOverrides}
-                onCalcitePanelClose={this.handleCloseClick}
-                onCalcitePanelScroll={this.handleScroll}
+                onCalcitePanelClose={this.handleInternalPanelCloseClick}
+                onCalcitePanelScroll={this.handleInternalPanelScroll}
                 onKeyDown={this.handlePanelKeyDown}
                 overlayPositioning={this.overlayPositioning}
                 ref={(el) => (this.panelEl = el)}
@@ -458,7 +458,7 @@ export class Dialog
     this.el.removeEventListener("calciteDialogOpen", this.openEnd);
   };
 
-  private handleScroll = (event: Event): void => {
+  private handleInternalPanelScroll = (event: CustomEvent<void>): void => {
     if (event.target !== this.panelEl) {
       return;
     }
@@ -467,7 +467,7 @@ export class Dialog
     this.calciteDialogScroll.emit();
   };
 
-  private handleCloseClick = (event: Event): void => {
+  private handleInternalPanelCloseClick = (event: CustomEvent<void>): void => {
     if (event.target !== this.panelEl) {
       return;
     }
