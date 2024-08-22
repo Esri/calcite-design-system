@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.28...@esri/calcite-components@2.12.0-next.29) (2024-08-22)
+
+### Bug Fixes
+
+- **dialog:** allow shell to be slotted inside ([#10118](https://github.com/Esri/calcite-design-system/issues/10118)) ([ea3a6de](https://github.com/Esri/calcite-design-system/commit/ea3a6dee87bb2f0476fa826f593453ba1c8b4d8b)), closes [#10095](https://github.com/Esri/calcite-design-system/issues/10095)
+
+## [2.12.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.27...@esri/calcite-components@2.12.0-next.28) (2024-08-21)
+
+### Features
+
+- **panel:** add '--calcite-panel-content-space' style ([#10117](https://github.com/Esri/calcite-design-system/issues/10117)) ([0e3ebcb](https://github.com/Esri/calcite-design-system/commit/0e3ebcbd91683917007f3ac5cbd0be34becb7b39)), closes [#10119](https://github.com/Esri/calcite-design-system/issues/10119)
+
 ## [2.12.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.26...@esri/calcite-components@2.12.0-next.27) (2024-08-21)
 
 ### Features
