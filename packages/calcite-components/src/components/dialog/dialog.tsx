@@ -46,7 +46,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { OverlayPositioning } from "../../components";
 import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, dialogStep, SLOTS } from "./resources";
-import { DialogPlacement } from "./interfaces";
+import { DialogPlacement, DialogResizePosition } from "./interfaces";
 
 let totalOpenDialogs: number = 0;
 let initialDocumentOverflowStyle: string = "";
@@ -262,9 +262,9 @@ export class Dialog
             ref={this.setTransitionEl}
             role="dialog"
             style={{
-              inlineSize: `${this.dialogWidth}px`,
-              blockSize: `${this.dialogHeight}px`,
-              transform: `translate(${this.dialogPositionX}px, ${this.dialogPositionY}px)`,
+              inlineSize: `${this.resizeWidth}px`,
+              blockSize: `${this.resizeHeight}px`,
+              transform: `translate(${this.dragX + this.resizeLeft + this.resizeRight}px, ${this.dragY + this.resizeTop + this.resizeBottom}px)`,
             }}
           >
             {assistiveText ? (
@@ -320,13 +320,21 @@ export class Dialog
 
   @Element() el: HTMLCalciteDialogElement;
 
-  @State() dialogWidth: number;
+  @State() resizeWidth: number;
 
-  @State() dialogHeight: number;
+  @State() resizeHeight: number;
 
-  @State() dialogPositionX = 0;
+  @State() resizeTop = 0;
 
-  @State() dialogPositionY = 0;
+  @State() resizeRight = 0;
+
+  @State() resizeBottom = 0;
+
+  @State() resizeLeft = 0;
+
+  @State() dragX = 0;
+
+  @State() dragY = 0;
 
   @State() opened = false;
 
@@ -517,37 +525,37 @@ export class Dialog
     switch (key) {
       case "ArrowUp":
         if (shiftKey && resizable) {
-          this.dialogHeight = transitionRect.height + dialogStep;
+          this.resizeHeight = transitionRect.height + dialogStep;
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dialogPositionY = Math.max(this.dialogPositionY + -dialogStep, -maxMoveY);
+          this.dragY = Math.max(this.dragY + -dialogStep, -maxMoveY);
           event.preventDefault();
         }
         break;
       case "ArrowDown":
         if (shiftKey && resizable) {
-          this.dialogHeight = transitionRect.height - dialogStep;
+          this.resizeHeight = transitionRect.height - dialogStep;
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dialogPositionY = Math.min(this.dialogPositionY + dialogStep, maxMoveY);
+          this.dragY = Math.min(this.dragY + dialogStep, maxMoveY);
           event.preventDefault();
         }
         break;
       case "ArrowLeft":
         if (shiftKey && resizable) {
-          this.dialogWidth = transitionRect.width - dialogStep;
+          this.resizeWidth = transitionRect.width - dialogStep;
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dialogPositionX = Math.max(this.dialogPositionX + -dialogStep, -maxMoveX);
+          this.dragX = Math.max(this.dragX + -dialogStep, -maxMoveX);
           event.preventDefault();
         }
         break;
       case "ArrowRight":
         if (shiftKey && resizable) {
-          this.dialogWidth = transitionRect.width + dialogStep;
+          this.resizeWidth = transitionRect.width + dialogStep;
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dialogPositionX = Math.min(this.dialogPositionX + dialogStep, maxMoveX);
+          this.dragX = Math.min(this.dragX + dialogStep, maxMoveX);
           event.preventDefault();
         }
         break;
@@ -565,31 +573,56 @@ export class Dialog
       return;
     }
 
-    const position = { x: 0, y: 0 };
-
     if (this.resizable || this.dragEnabled) {
       this.interaction = interact(this.transitionEl, { context: this.el.ownerDocument });
     }
 
     if (this.resizable) {
+      const resizePosition: DialogResizePosition = { top: 0, left: 0, right: 0, bottom: 0 };
+
       this.interaction.resizable({
         edges: {
           top: true,
-          left: true,
-          bottom: true,
           right: true,
+          bottom: true,
+          left: true,
         },
-        modifiers: [interact.modifiers.restrictSize({ max: "parent" })],
+        modifiers: [
+          interact.modifiers.restrict({
+            restriction: "parent",
+          }),
+        ],
         listeners: {
           move: (event: ResizeEvent) => {
-            this.dialogWidth = event.rect.width;
-            this.dialogHeight = event.rect.height;
+            resizePosition.top += event.deltaRect.top;
+            resizePosition.right += event.deltaRect.right;
+            resizePosition.bottom += event.deltaRect.bottom;
+            resizePosition.left += event.deltaRect.left;
+
+            // todo: add support for different placements
+
+            // center and cover
+            this.resizeTop = this.getResizeTop(resizePosition);
+            this.resizeRight = resizePosition.right / 2;
+            this.resizeBottom = this.getResizeBottom(resizePosition);
+            this.resizeLeft = resizePosition.left / 2;
+
+            // bottom-end
+            // this.resizeTop = 0;
+            // this.resizeRight = resizePosition.right;
+            // this.resizeBottom = resizePosition.bottom;
+            // this.resizeLeft = 0;
+
+            this.resizeWidth = event.rect.width;
+            this.resizeHeight = event.rect.height;
           },
         },
       });
     }
 
     if (this.dragEnabled) {
+      const dragPosition = { x: 0, y: 0 };
+
       this.interaction.draggable({
         modifiers: [
           interact.modifiers.restrictRect({
@@ -598,15 +631,49 @@ export class Dialog
         ],
         listeners: {
           move: (event: DragEvent) => {
-            position.x += event.dx;
-            position.y += event.dy;
-            this.dialogPositionX = position.x;
-            this.dialogPositionY = position.y;
+            dragPosition.x += event.dx;
+            dragPosition.y += event.dy;
+            this.dragX = dragPosition.x;
+            this.dragY = dragPosition.y;
           },
         },
       });
     }
   };
+
+  private getResizeTop({ top }: DialogResizePosition): number {
+    switch (this.placement) {
+      case "top":
+      case "top-start":
+      case "top-end":
+        return top;
+      case "bottom":
+      case "bottom-start":
+      case "bottom-end":
+        return 0;
+      case "cover":
+      case "center":
+      default:
+        return top / 2;
+    }
+  }
+
+  private getResizeBottom({ bottom }: DialogResizePosition): number {
+    switch (this.placement) {
+      case "top":
+      case "top-start":
+      case "top-end":
+        return 0;
+      case "bottom":
+      case "bottom-start":
+      case "bottom-end":
+        return bottom;
+      case "cover":
+      case "center":
+      default:
+        return bottom / 2;
+    }
+  }
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;

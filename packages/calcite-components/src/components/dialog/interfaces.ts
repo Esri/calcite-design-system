@@ -7,3 +7,5 @@ export type DialogPlacement =
   | "bottom-end"
   | "cover"
   | "center";
+
+export type DialogResizePosition = { top: number; right: number; bottom: number; left: number };
