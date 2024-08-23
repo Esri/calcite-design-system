@@ -223,7 +223,7 @@ export class Filter
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.el?.focus();
+    return this.textInput?.setFocus();
   }
 
   // --------------------------------------------------------------------------
