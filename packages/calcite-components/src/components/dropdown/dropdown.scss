@@ -18,7 +18,7 @@
   @include floatingUIWrapper();
 }
 
-@include floatingUIElemAnim(".calcite-dropdown-wrapper");
+@include floating-ui-elem-anim(".calcite-dropdown-wrapper");
 :host([open]) .calcite-dropdown-wrapper {
   @include floatingUIWrapperActive();
 }

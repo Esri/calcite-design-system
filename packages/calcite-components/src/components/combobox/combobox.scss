@@ -206,7 +206,7 @@
   @include floatingUIWrapper();
 }
 
-@include floatingUIElemAnim(".floating-ui-container");
+@include floating-ui-elem-anim(".floating-ui-container");
 
 .floating-ui-container--active {
   @include floatingUIWrapperActive();
