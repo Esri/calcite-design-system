@@ -242,7 +242,16 @@ export class Dialog
   }
 
   render(): VNode {
-    const { assistiveText, description, heading, opened } = this;
+    const {
+      assistiveText,
+      description,
+      heading,
+      opened,
+      resizeWidth,
+      resizeHeight,
+      dragPosition,
+      resizePosition,
+    } = this;
     return (
       <Host>
         <div
@@ -265,9 +274,9 @@ export class Dialog
             ref={this.setTransitionEl}
             role="dialog"
             style={{
-              inlineSize: this.getPixelSize(this.resizeWidth),
-              blockSize: this.getPixelSize(this.resizeHeight),
-              transform: this.getTransform(),
+              inlineSize: this.getPixelSize(resizeWidth),
+              blockSize: this.getPixelSize(resizeHeight),
+              transform: this.getTransform({ dragPosition, resizePosition }),
             }}
           >
             {assistiveText ? (
@@ -510,6 +519,7 @@ export class Dialog
     const {
       dragEnabled,
       resizable,
+      resizePosition: { top, right, bottom, left },
       dragPosition: { x, y },
     } = this;
 
@@ -526,7 +536,12 @@ export class Dialog
       case "ArrowUp":
         if (shiftKey && resizable) {
           this.resizeHeight = transitionRect.height + dialogStep;
-          //this.resizeBottom = dialogStep / 2; // todo
+          this.resizePosition = {
+            bottom: bottom + dialogStep / 2,
+            left,
+            right,
+            top,
+          };
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPosition = {
@@ -539,7 +554,12 @@ export class Dialog
       case "ArrowDown":
         if (shiftKey && resizable) {
           this.resizeHeight = transitionRect.height - dialogStep;
-          //this.resizeBottom = -(dialogStep / 2); // todo
+          this.resizePosition = {
+            bottom: bottom - dialogStep / 2,
+            left,
+            right,
+            top,
+          };
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPosition = {
@@ -552,6 +572,12 @@ export class Dialog
       case "ArrowLeft":
         if (shiftKey && resizable) {
           this.resizeWidth = transitionRect.width - dialogStep;
+          this.resizePosition = {
+            bottom,
+            left,
+            right: right - dialogStep / 2,
+            top,
+          };
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPosition = {
@@ -564,10 +590,16 @@ export class Dialog
       case "ArrowRight":
         if (shiftKey && resizable) {
           this.resizeWidth = transitionRect.width + dialogStep;
+          this.resizePosition = {
+            bottom,
+            left,
+            right: right + dialogStep / 2,
+            top,
+          };
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPosition = {
-            x: Math.max(x + dialogStep, maxMoveX),
+            x: Math.min(x + dialogStep, maxMoveX),
             y,
           };
           event.preventDefault();
@@ -580,9 +612,15 @@ export class Dialog
     return size === null ? null : `${size}px`;
   }
 
-  private getTransform(): string {
-    const x = this.dragPosition.x + this.resizePosition.left + this.resizePosition.right;
-    const y = this.dragPosition.y + this.resizePosition.top + this.resizePosition.bottom;
+  private getTransform({
+    dragPosition,
+    resizePosition,
+  }: {
+    dragPosition: DialogDragPosition;
+    resizePosition: DialogResizePosition;
+  }): string {
+    const x = dragPosition.x + resizePosition.left + resizePosition.right;
+    const y = dragPosition.y + resizePosition.top + resizePosition.bottom;
 
     return `translate(${x}px, ${y}px)`;
   }
@@ -666,8 +704,6 @@ export class Dialog
     const halfRight = right / 2;
     const halfBottom = bottom / 2;
     const halfLeft = left / 2;
-
-    console.log({ left, right, bottom, top, halfTop, halfRight, halfBottom, halfLeft });
 
     switch (this.placement) {
       case "top":
