@@ -227,7 +227,7 @@
   @apply bg-foreground-1
     max-h-menu
     overflow-y-auto;
-  inline-size: var(--calcite-dropdown-width);
+  inline-size: var(--calcite-dropdown-width, 100%);
 }
 
 .list {
