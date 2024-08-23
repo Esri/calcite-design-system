@@ -42,25 +42,25 @@
       }
     ],
     "scss/at-function-pattern": [
-      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
       {
         "message": "Expected class selector to be kebab-cased."
       }
     ],
     "scss/dollar-variable-pattern": [
-      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
       {
         "message": "Expected class selector to be kebab-cased."
       }
     ],
     "scss/at-mixin-pattern": [
-      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
       {
         "message": "Expected class selector to be kebab-cased."
       }
     ],
     "scss/percent-placeholder-pattern": [
-      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
       {
         "message": "Expected class selector to be kebab-cased."
       }
