@@ -212,7 +212,7 @@ describe("calcite-slider", () => {
     const slider = await page.find("calcite-slider");
 
     await page.waitForChanges();
-    expect((await slider.getProperty("value")).toString()).toBe("1.3");
+    expect((await slider.getProperty("value")).toString()).toBe("1.4");
   });
 
   it("only selects values on step interval when snap prop is passed", async () => {

@@ -967,7 +967,7 @@ export class Slider
     const { max, min, step } = this;
 
     // prevents floating point precision issues
-    const bigDecimalString = new BigDecimal(`${Math.floor((value - min) / step)}`)
+    const bigDecimalString = new BigDecimal(`${Math.round((value - min) / step)}`)
       .multiply(`${step}`)
       .add(`${min}`)
       .toString();
