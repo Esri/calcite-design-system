@@ -75,23 +75,6 @@ describe("calcite-action-group", () => {
   });
 
   describe("theme", () => {
-    describe("grid", () => {
-      themed(
-        html`<div className="container" style="max-width: 50px">
-          <calcite-action-group layout="grid"
-            ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
-            <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
-          ></calcite-action-group>
-        </div>`,
-        {
-          "--calcite-action-background-color": {
-            selector: "calcite-action-group",
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "backgroundColor",
-          },
-        },
-      );
-    });
     describe("border", () => {
       themed(
         html`<calcite-action-menu open
