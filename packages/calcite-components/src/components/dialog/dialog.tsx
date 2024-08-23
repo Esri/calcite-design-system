@@ -46,7 +46,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { OverlayPositioning } from "../../components";
 import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, dialogStep, SLOTS } from "./resources";
-import { DialogPlacement, DialogResizePosition } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 
 let totalOpenDialogs: number = 0;
 let initialDocumentOverflowStyle: string = "";
@@ -67,6 +67,9 @@ let initialDocumentOverflowStyle: string = "";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
+
+const initialDragPosition: DialogDragPosition = { x: 0, y: 0 };
+const initialResizePosition: DialogResizePosition = { top: 0, right: 0, bottom: 0, left: 0 };
 
 @Component({
   tag: "calcite-dialog",
@@ -262,9 +265,9 @@ export class Dialog
             ref={this.setTransitionEl}
             role="dialog"
             style={{
-              inlineSize: `${this.resizeWidth}px`,
-              blockSize: `${this.resizeHeight}px`,
-              transform: `translate(${this.dragX + this.resizeLeft + this.resizeRight}px, ${this.dragY + this.resizeTop + this.resizeBottom}px)`,
+              inlineSize: this.getPixelSize(this.resizeWidth),
+              blockSize: this.getPixelSize(this.resizeHeight),
+              transform: this.getTransform(),
             }}
           >
             {assistiveText ? (
@@ -320,21 +323,13 @@ export class Dialog
 
   @Element() el: HTMLCalciteDialogElement;
 
-  @State() resizeWidth: number;
+  @State() resizeWidth: number | null = null;
 
-  @State() resizeHeight: number;
+  @State() resizeHeight: number | null = null;
 
-  @State() resizeTop = 0;
+  @State() resizePosition: DialogResizePosition = initialResizePosition;
 
-  @State() resizeRight = 0;
-
-  @State() resizeBottom = 0;
-
-  @State() resizeLeft = 0;
-
-  @State() dragX = 0;
-
-  @State() dragY = 0;
+  @State() dragPosition: DialogDragPosition = initialDragPosition;
 
   @State() opened = false;
 
@@ -355,6 +350,7 @@ export class Dialog
 
   @State() assistiveText: string | null = "";
 
+  @Watch("placement")
   @Watch("resizable")
   @Watch("dragEnabled")
   handleInteractionChange(): void {
@@ -511,7 +507,11 @@ export class Dialog
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey, defaultPrevented } = event;
-    const { dragEnabled, resizable } = this;
+    const {
+      dragEnabled,
+      resizable,
+      dragPosition: { x, y },
+    } = this;
 
     if (defaultPrevented) {
       return;
@@ -526,18 +526,26 @@ export class Dialog
       case "ArrowUp":
         if (shiftKey && resizable) {
           this.resizeHeight = transitionRect.height + dialogStep;
+          //this.resizeBottom = dialogStep / 2; // todo
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragY = Math.max(this.dragY + -dialogStep, -maxMoveY);
+          this.dragPosition = {
+            x,
+            y: Math.max(y + -dialogStep, -maxMoveY),
+          };
           event.preventDefault();
         }
         break;
       case "ArrowDown":
         if (shiftKey && resizable) {
           this.resizeHeight = transitionRect.height - dialogStep;
+          //this.resizeBottom = -(dialogStep / 2); // todo
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragY = Math.min(this.dragY + dialogStep, maxMoveY);
+          this.dragPosition = {
+            x,
+            y: Math.min(y + dialogStep, maxMoveY),
+          };
           event.preventDefault();
         }
         break;
@@ -546,7 +554,10 @@ export class Dialog
           this.resizeWidth = transitionRect.width - dialogStep;
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragX = Math.max(this.dragX + -dialogStep, -maxMoveX);
+          this.dragPosition = {
+            x: Math.max(x + -dialogStep, -maxMoveX),
+            y,
+          };
           event.preventDefault();
         }
         break;
@@ -555,12 +566,26 @@ export class Dialog
           this.resizeWidth = transitionRect.width + dialogStep;
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragX = Math.min(this.dragX + dialogStep, maxMoveX);
+          this.dragPosition = {
+            x: Math.max(x + dialogStep, maxMoveX),
+            y,
+          };
           event.preventDefault();
         }
         break;
     }
   };
+
+  private getPixelSize(size: number | null): string {
+    return size === null ? null : `${size}px`;
+  }
+
+  private getTransform(): string {
+    const x = this.dragPosition.x + this.resizePosition.left + this.resizePosition.right;
+    const y = this.dragPosition.y + this.resizePosition.top + this.resizePosition.bottom;
+
+    return `translate(${x}px, ${y}px)`;
+  }
 
   private unsetInteraction = (): void => {
     this.interaction?.unset();
@@ -578,7 +603,10 @@ export class Dialog
     }
 
     if (this.resizable) {
-      const resizePosition: DialogResizePosition = { top: 0, left: 0, right: 0, bottom: 0 };
+      const resizePosition = { ...initialResizePosition };
+      this.resizePosition = resizePosition;
+      this.resizeWidth = null;
+      this.resizeHeight = null;
 
       this.interaction.resizable({
         edges: {
@@ -599,20 +627,7 @@ export class Dialog
             resizePosition.bottom += event.deltaRect.bottom;
             resizePosition.left += event.deltaRect.left;
 
-            // todo: add support for different placements
-
-            // center and cover
-            this.resizeTop = this.getResizeTop(resizePosition);
-            this.resizeRight = resizePosition.right / 2;
-            this.resizeBottom = this.getResizeBottom(resizePosition);
-            this.resizeLeft = resizePosition.left / 2;
-
-            // bottom-end
-            // this.resizeTop = 0;
-            // this.resizeRight = resizePosition.right;
-            // this.resizeBottom = resizePosition.bottom;
-            // this.resizeLeft = 0;
-
+            this.resizePosition = this.getAdjustedResizePosition(resizePosition);
             this.resizeWidth = event.rect.width;
             this.resizeHeight = event.rect.height;
           },
@@ -621,7 +636,8 @@ export class Dialog
     }
 
     if (this.dragEnabled) {
-      const dragPosition = { x: 0, y: 0 };
+      const dragPosition = { ...initialDragPosition };
+      this.dragPosition = dragPosition;
 
       this.interaction.draggable({
         modifiers: [
@@ -633,45 +649,48 @@ export class Dialog
           move: (event: DragEvent) => {
             dragPosition.x += event.dx;
             dragPosition.y += event.dy;
-            this.dragX = dragPosition.x;
-            this.dragY = dragPosition.y;
+            this.dragPosition = { x: dragPosition.x, y: dragPosition.y };
           },
         },
       });
     }
   };
 
-  private getResizeTop({ top }: DialogResizePosition): number {
-    switch (this.placement) {
-      case "top":
-      case "top-start":
-      case "top-end":
-        return top;
-      case "bottom":
-      case "bottom-start":
-      case "bottom-end":
-        return 0;
-      case "cover":
-      case "center":
-      default:
-        return top / 2;
-    }
-  }
+  private getAdjustedResizePosition({
+    top,
+    right,
+    bottom,
+    left,
+  }: DialogResizePosition): DialogResizePosition {
+    const halfTop = top / 2;
+    const halfRight = right / 2;
+    const halfBottom = bottom / 2;
+    const halfLeft = left / 2;
 
-  private getResizeBottom({ bottom }: DialogResizePosition): number {
+    console.log({ left, right, bottom, top, halfTop, halfRight, halfBottom, halfLeft });
+
     switch (this.placement) {
       case "top":
+        return { top, right: halfRight, bottom: 0, left: halfLeft };
       case "top-start":
+        return { top, right: 0, bottom: 0, left };
       case "top-end":
-        return 0;
+        return { top, right, bottom: 0, left: 0 };
       case "bottom":
+        return { top: 0, right: halfRight, bottom, left: halfLeft };
       case "bottom-start":
+        return { top: 0, right: 0, bottom, left };
       case "bottom-end":
-        return bottom;
+        return { top: 0, right, bottom, left: 0 };
       case "cover":
       case "center":
       default:
-        return bottom / 2;
+        return {
+          top: halfTop,
+          right: halfRight,
+          bottom: halfBottom,
+          left: halfLeft,
+        };
     }
   }
 

@@ -9,3 +9,5 @@ export type DialogPlacement =
   | "center";
 
 export type DialogResizePosition = { top: number; right: number; bottom: number; left: number };
+
+export type DialogDragPosition = { x: number; y: number };
