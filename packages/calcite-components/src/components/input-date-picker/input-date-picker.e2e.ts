@@ -14,7 +14,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { getFocusedElementProp, GlobalTestProps, skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 const animationDurationInMs = 200;
 
@@ -353,16 +353,6 @@ describe("calcite-input-date-picker", () => {
         await skipAnimations(page);
         await page.waitForChanges();
         inputDatePicker = await page.find("calcite-input-date-picker");
-        type InputDatePickerEventOrderWindow = GlobalTestProps<{ events: string[] }>;
-
-        await page.$eval("calcite-input-date-picker", (sheet: HTMLCalciteInputDatePickerElement) => {
-          const receivedEvents: string[] = [];
-          (window as InputDatePickerEventOrderWindow).events = receivedEvents;
-
-          ["calciteInputDatePickerOpen", "calciteInputDatePickerClose"].forEach((eventType) => {
-            sheet.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-          });
-        });
       });
 
       it("toggles the date picker when clicked", async () => {

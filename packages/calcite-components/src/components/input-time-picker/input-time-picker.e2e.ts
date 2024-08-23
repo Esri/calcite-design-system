@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, GlobalTestProps, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 
@@ -865,17 +865,6 @@ describe("calcite-input-time-picker", () => {
       );
       await skipAnimations(page);
       const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
-
-      type InputTimePickerEventOrderWindow = GlobalTestProps<{ events: string[] }>;
-
-      await page.$eval("calcite-input-time-picker", (sheet: HTMLCalciteInputTimePickerElement) => {
-        const receivedEvents: string[] = [];
-        (window as InputTimePickerEventOrderWindow).events = receivedEvents;
-
-        ["calciteInputTimePickerOpen", "calciteInputTimePickerClose"].forEach((eventType) => {
-          sheet.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-        });
-      });
 
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
