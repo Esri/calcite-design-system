@@ -107,7 +107,7 @@
   }
 }
 
-@mixin xButton() {
+@mixin x-button() {
   :host([scale="s"]) {
     .x-button {
       inline-size: theme("spacing.4");
