@@ -14,13 +14,13 @@
 
 :host .calcite-dropdown-wrapper {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floatingUIContainer();
-  @include floatingUIWrapper();
+  @include floating-ui-container();
+  @include floating-ui-wrapper();
 }
 
 @include floating-ui-elem-anim(".calcite-dropdown-wrapper");
 :host([open]) .calcite-dropdown-wrapper {
-  @include floatingUIWrapperActive();
+  @include floating-ui-wrapper-active();
 }
 
 :host .calcite-dropdown-content {

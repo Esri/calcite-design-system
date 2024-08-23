@@ -108,19 +108,19 @@
 
 .menu-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floatingUIContainer();
-  @include floatingUIWrapper();
+  @include floating-ui-container();
+  @include floating-ui-wrapper();
   @apply invisible;
 }
 
 @include floating-ui-elem-anim(".menu-container");
 
 :host([open]) .menu-container {
-  @include floatingUIWrapperActive();
+  @include floating-ui-wrapper-active();
 }
 
 .menu-container--active {
-  @include floatingUIWrapperActive();
+  @include floating-ui-wrapper-active();
 }
 
 .input .calcite-input__wrapper {

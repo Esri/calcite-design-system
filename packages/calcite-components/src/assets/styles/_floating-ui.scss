@@ -64,7 +64,7 @@ $floating-ui-transition-offset: 5px;
   }
 }
 
-@mixin floatingUIHostAnim {
+@mixin floating-ui-host-anim {
   @include floating-ui-anim();
 
   :host([data-placement^="bottom"]) .calcite-floating-ui-anim {
@@ -88,31 +88,31 @@ $floating-ui-transition-offset: 5px;
   }
 }
 
-@mixin floatingUIContainer() {
+@mixin floating-ui-container() {
   display: block;
   position: absolute;
   z-index: var(--calcite-floating-ui-z-index);
 }
 
-@mixin floatingUIWrapper {
+@mixin floating-ui-wrapper {
   visibility: hidden;
 }
 
-@mixin floatingUIWrapperActive {
+@mixin floating-ui-wrapper-active {
   visibility: visible;
 }
 
-@mixin floatingUIHost() {
+@mixin floating-ui-host() {
   :host {
-    @include floatingUIContainer();
+    @include floating-ui-container();
   }
 
-  @include floatingUIHostAnim();
+  @include floating-ui-host-anim();
 
-  @include calciteHydratedHidden();
+  @include calcite-hydrated-hidden();
 }
 
-@mixin floatingUIArrow {
+@mixin floating-ui-arrow {
   .calcite-floating-ui-arrow {
     @apply -z-default
     absolute
