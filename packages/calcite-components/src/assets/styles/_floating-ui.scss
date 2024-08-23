@@ -1,18 +1,18 @@
 $floating-ui-transition-offset: 5px;
 
-@mixin floatingUIOffsetBottom {
+@mixin floating-ui-offset-bottom {
   inset-block-start: -$floating-ui-transition-offset;
 }
 
-@mixin floatingUIOffsetTop {
+@mixin floating-ui-offset-top {
   inset-block-start: $floating-ui-transition-offset;
 }
 
-@mixin floatingUIOffsetLeft {
+@mixin floating-ui-offset-left {
   left: $floating-ui-transition-offset;
 }
 
-@mixin floatingUIOffsetRight {
+@mixin floating-ui-offset-right {
   left: -$floating-ui-transition-offset;
 }
 
@@ -21,7 +21,7 @@ $floating-ui-transition-offset: 5px;
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }
 
-@mixin floatingUIAnim {
+@mixin floating-ui-anim {
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
@@ -32,59 +32,59 @@ $floating-ui-transition-offset: 5px;
   }
 }
 
-@mixin floatingUIAnimActive {
+@mixin floating-ui-anim-active {
   opacity: 1;
   inset-block: 0;
   left: 0;
 }
 
-@mixin floatingUIElemAnim($selector) {
+@mixin floating-ui-elem-anim($selector) {
   #{$selector} {
-    @include floatingUIAnim();
+    @include floating-ui-anim();
 
     &[data-placement^="bottom"] .calcite-floating-ui-anim {
-      @include floatingUIOffsetBottom();
+      @include floating-ui-offset-bottom();
     }
 
     &[data-placement^="top"] .calcite-floating-ui-anim {
-      @include floatingUIOffsetTop();
+      @include floating-ui-offset-top();
     }
 
     &[data-placement^="left"] .calcite-floating-ui-anim {
-      @include floatingUIOffsetLeft();
+      @include floating-ui-offset-left();
     }
 
     &[data-placement^="right"] .calcite-floating-ui-anim {
-      @include floatingUIOffsetRight();
+      @include floating-ui-offset-right();
     }
 
     &[data-placement] .calcite-floating-ui-anim--active {
-      @include floatingUIAnimActive();
+      @include floating-ui-anim-active();
     }
   }
 }
 
 @mixin floatingUIHostAnim {
-  @include floatingUIAnim();
+  @include floating-ui-anim();
 
   :host([data-placement^="bottom"]) .calcite-floating-ui-anim {
-    @include floatingUIOffsetBottom();
+    @include floating-ui-offset-bottom();
   }
 
   :host([data-placement^="top"]) .calcite-floating-ui-anim {
-    @include floatingUIOffsetTop();
+    @include floating-ui-offset-top();
   }
 
   :host([data-placement^="left"]) .calcite-floating-ui-anim {
-    @include floatingUIOffsetLeft();
+    @include floating-ui-offset-left();
   }
 
   :host([data-placement^="right"]) .calcite-floating-ui-anim {
-    @include floatingUIOffsetRight();
+    @include floating-ui-offset-right();
   }
 
   :host([data-placement]) .calcite-floating-ui-anim--active {
-    @include floatingUIAnimActive();
+    @include floating-ui-anim-active();
   }
 }
 
