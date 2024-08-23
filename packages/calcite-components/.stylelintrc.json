@@ -41,28 +41,28 @@
         "ignoreTypes": ["/^calcite-/"]
       }
     ],
-    "at-function-pattern": [
-      ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"],
+    "scss/at-function-pattern": [
+      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
       {
-        "message": "Function names should be lowercase, and may contain hyphens."
+        "message": "Name should be kebab-cased."
       }
     ],
-    "dollar-variable-pattern": [
-      ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"],
+    "scss/dollar-variable-pattern": [
+      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
       {
-        "message": "Dollar variable names should be lowercase, and may contain hyphens."
+        "message": "Name should be kebab-cased."
       }
     ],
-    "at-mixin-pattern": [
-      ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"],
+    "scss/at-mixin-pattern": [
+      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
       {
-        "message": "Mixin names should be lowercase, and may contain hyphens."
+        "message": "Name should be kebab-cased."
       }
     ],
-    "percent-placeholder-pattern": [
-      ["/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/"],
+    "scss/percent-placeholder-pattern": [
+      "/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/",
       {
-        "message": "Percent placeholder names should be lowercase, and may contain hyphens."
+        "message": "Name should be kebab-cased."
       }
     ]
   }
