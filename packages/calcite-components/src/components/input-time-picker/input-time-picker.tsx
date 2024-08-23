@@ -378,8 +378,6 @@ export class InputTimePicker
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
 
-  private focusOnOpen: false;
-
   focusTrap: FocusTrap;
 
   private dialogId = `time-picker-dialog--${guid()}`;
@@ -567,10 +565,7 @@ export class InputTimePicker
 
     activateFocusTrap(this, {
       onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
+        this.calciteTimePickerEl.setFocus();
       },
     });
   };
@@ -587,7 +582,6 @@ export class InputTimePicker
     deactivateFocusTrap(this, {
       onDeactivate: () => {
         this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
       },
     });
     this.open = false;
