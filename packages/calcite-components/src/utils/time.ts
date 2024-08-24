@@ -137,6 +137,12 @@ export function getLocaleHourCycle(locale: SupportedLocale): HourCycle {
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
+export function getLocalizedMeridiem(locale: SupportedLocale, meridiem: Meridiem, numberingSystem: NumberingSystem = "latn") {
+  const formatter = createLocaleDateTimeFormatter({ hour12: true, locale, numberingSystem });
+  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, meridiem === "AM" ? 6 : 18, 0)));
+  return getLocalizedTimePart("meridiem" as TimePart, parts);
+}
+
 export function getLocalizedDecimalSeparator(locale: SupportedLocale, numberingSystem: NumberingSystem): string {
   numberStringFormatter.numberFormatOptions = {
     locale,
@@ -294,14 +300,14 @@ export interface LocalizeTimeStringParameters {
   includeSeconds?: boolean;
   fractionalSecondDigits?: FractionalSecondDigits;
   locale: SupportedLocale;
-  numberingSystem: NumberingSystem;
+  numberingSystem?: NumberingSystem;
   hour12?: boolean;
 }
 
 export function localizeTimeString({
   value,
   locale,
-  numberingSystem,
+  numberingSystem = "latn",
   includeSeconds = true,
   fractionalSecondDigits,
   hour12,
