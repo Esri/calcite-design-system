@@ -618,6 +618,12 @@ export class Dialog
 
   private unsetInteraction = (): void => {
     this.interaction?.unset();
+    this.dragPositionOffset = { ...initialDragPosition };
+    this.dragPosition = this.dragPositionOffset;
+    this.resizePositionOffset = { ...initialResizePosition };
+    this.resizePosition = this.resizePositionOffset;
+    this.resizeWidth = null;
+    this.resizeHeight = null;
   };
 
   private setInteraction = (): void => {
@@ -632,11 +638,6 @@ export class Dialog
     }
 
     if (this.resizable) {
-      this.resizePositionOffset = { ...initialResizePosition };
-      this.resizePosition = this.resizePositionOffset;
-      this.resizeWidth = null;
-      this.resizeHeight = null;
-
       this.interaction.resizable({
         edges: {
           top: true,
@@ -665,9 +666,6 @@ export class Dialog
     }
 
     if (this.dragEnabled) {
-      this.dragPositionOffset = { ...initialDragPosition };
-      this.dragPosition = this.dragPositionOffset;
-
       this.interaction.draggable({
         modifiers: [
           interact.modifiers.restrictRect({
