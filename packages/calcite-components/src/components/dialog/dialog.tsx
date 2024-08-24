@@ -528,8 +528,8 @@ export class Dialog
 
     const transitionRect = this.transitionEl.getBoundingClientRect();
     const containerRect = this.containerEl.getBoundingClientRect();
-    const maxMoveY = containerRect.height / 2 - transitionRect.height / 2;
-    const maxMoveX = containerRect.width / 2 - transitionRect.width / 2;
+    const maxMoveY = containerRect.height / 2 - transitionRect.height / 2; // todo: fix
+    const maxMoveX = containerRect.width / 2 - transitionRect.width / 2; // todo: fix
 
     switch (key) {
       case "ArrowUp":
@@ -540,9 +540,10 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.y -= dialogStep;
+          this.dragPositionOffset.y = Math.max(this.dragPositionOffset.y, -maxMoveY);
           this.dragPosition = {
             x: this.dragPositionOffset.x,
-            y: Math.max(this.dragPositionOffset.y, -maxMoveY),
+            y: this.dragPositionOffset.y,
           };
           event.preventDefault();
         }
@@ -555,9 +556,10 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.y += dialogStep;
+          this.dragPositionOffset.y = Math.min(this.dragPositionOffset.y, maxMoveY);
           this.dragPosition = {
             x: this.dragPositionOffset.x,
-            y: Math.min(this.dragPositionOffset.y, maxMoveY),
+            y: this.dragPositionOffset.y,
           };
           event.preventDefault();
         }
@@ -570,8 +572,9 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.x -= dialogStep;
+          this.dragPositionOffset.x = Math.max(this.dragPositionOffset.x, -maxMoveX);
           this.dragPosition = {
-            x: Math.max(this.dragPositionOffset.x, -maxMoveX),
+            x: this.dragPositionOffset.x,
             y: this.dragPositionOffset.y,
           };
           event.preventDefault();
@@ -585,8 +588,9 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.x += dialogStep;
+          this.dragPositionOffset.x = Math.min(this.dragPositionOffset.x, maxMoveX);
           this.dragPosition = {
-            x: Math.min(this.dragPositionOffset.x, maxMoveX),
+            x: this.dragPositionOffset.x,
             y: this.dragPositionOffset.y,
           };
           event.preventDefault();
