@@ -24,10 +24,6 @@
   border-width: 0;
 }
 
-:host(:last-child) {
-  border: none;
-}
-
 .container {
   @apply flex flex-col flex-grow;
 }

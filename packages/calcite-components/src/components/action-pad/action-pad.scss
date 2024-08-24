@@ -20,11 +20,8 @@
   max-inline-size: var(--calcite-action-pad-expanded-max-width, auto);
 }
 
-::slotted(calcite-action-group) {
-  @apply border-0
-  border-b
-  border-solid
-  pb-0 pt-0;
+::slotted(calcite-action-group:not(:last-of-type)) {
+  @apply border-b;
 }
 
 .container {
@@ -48,16 +45,10 @@
     .action-group--bottom {
       @apply p-0;
     }
-    ::slotted(calcite-action-group) {
-      @apply border-0
-      p-0;
+    ::slotted(calcite-action-group:not(:last-of-type)) {
       border-inline-end-width: theme("borderWidth.DEFAULT");
     }
   }
-}
-
-::slotted(calcite-action-group:last-child) {
-  @apply border-b-0;
 }
 
 @include base-component();

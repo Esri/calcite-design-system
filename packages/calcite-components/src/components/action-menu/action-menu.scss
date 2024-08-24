@@ -14,8 +14,8 @@
   flex-col;
 }
 
-::slotted(calcite-action-group) {
-  border-block-end-width: 1px;
+::slotted(calcite-action-group:not(:last-of-type)) {
+  border-block-end-width: var(--calcite-border-width-sm);
 }
 
 .default-trigger {

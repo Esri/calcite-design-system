@@ -31,7 +31,7 @@
     margin-block-start: auto;
   }
 
-  ::slotted(calcite-action-group) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
     border-block-end-width: var(--calcite-border-width-sm);
   }
 }
@@ -47,7 +47,7 @@
     @apply ms-auto;
   }
 
-  ::slotted(calcite-action-group) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
     border-inline-end-width: var(--calcite-border-width-sm);
   }
 }
