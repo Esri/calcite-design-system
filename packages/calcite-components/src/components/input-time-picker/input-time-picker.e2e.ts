@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage, E2EElement } from "@stencil/core/testing";
-import { localizeTimeString } from "../../utils/time";
+import { getLocaleHourCycle, getLocalizedTimePartSuffix, localizeTimeString } from "../../utils/time";
 import {
   accessible,
   defaults,
@@ -15,6 +15,7 @@ import {
 import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
+import { supportedLocales } from "../../utils/locale";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(
@@ -550,7 +551,7 @@ describe("calcite-input-time-picker", () => {
         expect(changeEvent).toHaveReceivedEventTimes(0);
 
         await page.keyboard.press("Tab");
-        await page.keyboard.type("26:0:0");
+        await page.keyboard.type("foo bar");
         await page.waitForChanges();
 
         expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -560,7 +561,7 @@ describe("calcite-input-time-picker", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(0);
         expect(await inputTimePicker.getProperty("value")).toBe("");
-        expect(await getInputValue(page)).toBe("26:0:0");
+        expect(await getInputValue(page)).toBe("foo bar");
 
         await page.keyboard.press("Enter");
         await page.waitForChanges();
@@ -571,7 +572,30 @@ describe("calcite-input-time-picker", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(0);
         expect(await inputTimePicker.getProperty("value")).toBe("");
-        expect(await getInputValue(page)).toBe("26:0:0");
+        expect(await getInputValue(page)).toBe("foo bar");
+      });
+
+      it("pressing enter on a cleared input sets the value to empty string", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-input-time-picker step="1" value="02:34:56"></calcite-input-time-picker>`);
+
+        const inputTimePicker = await page.find("calcite-input-time-picker");
+        const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+        expect(changeEvent).toHaveReceivedEventTimes(0);
+
+        const inputValue = await getInputValue(page);
+
+        await inputTimePicker.callMethod("setFocus");
+        inputValue.split("").forEach(async () => {
+          await page.keyboard.press("Backspace");
+        });
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+
+        expect(await getInputValue(page)).toBe("");
+        expect(await inputTimePicker.getProperty("value")).toBe("");
+        expect(changeEvent).toHaveReceivedEventTimes(1);
       });
 
       it("allows editing just a portion of the time value in the input for a 12-hour locale", async () => {
@@ -865,6 +889,88 @@ describe("calcite-input-time-picker", () => {
         expect(await getInputValue(page)).toBe("04:03:05 pm");
         expect(await inputTimePicker.getProperty("value")).toBe("16:03:05");
         expect(changeEvent).toHaveReceivedEventTimes(2);
+      });
+    });
+
+    supportedLocales.forEach((locale) => {
+      const localizedHourSuffix = getLocalizedTimePartSuffix("hour", locale);
+      const localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", locale);
+      const localizedSecondSuffix = getLocalizedTimePartSuffix("second", locale);
+      const localeHourCycle = getLocaleHourCycle(locale);
+
+      describe(`${locale} (${localeHourCycle}-hour): committing typed values`, () => {
+        describe("with enter key", () => {
+          it.only(`${locale} locale: allows typing in 24-hour format`, async () => {
+            const page = await newE2EPage();
+            await page.setContent(`<calcite-input-time-picker lang="${locale}" step="1"></calcite-input-time-picker><input>`);
+
+            const inputTimePicker = await page.find("calcite-input-time-picker");
+            const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+
+            await inputTimePicker.callMethod("setFocus");
+            await page.waitForChanges();
+            await page.keyboard.type("14");
+            await page.keyboard.type(localizedHourSuffix);
+            await page.keyboard.type("30");
+            await page.keyboard.type(localizedMinuteSuffix);
+            await page.keyboard.type("45");
+            if (localizedSecondSuffix) {
+              await page.keyboard.type(localizedSecondSuffix);
+            }
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+            let value = await inputTimePicker.getProperty("value");
+            expect(value).toBe("14:30:45");
+            const localizedTimeString = localizeTimeString({ includeSeconds: true, locale, value });
+            expect(await getInputValue(page)).toBe(localizedTimeString);
+
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+          });
+
+          it(`${locale} locale: allows typing in 12-hour format`, async () => {
+            const page = await newE2EPage();
+            await page.setContent(`<calcite-input-time-picker lang="${locale}" step="1"></calcite-input-time-picker><input>`);
+
+            const inputTimePicker = await page.find("calcite-input-time-picker");
+            const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+
+            await inputTimePicker.callMethod("setFocus");
+            await page.waitForChanges();
+            await page.keyboard.type("14");
+            await page.keyboard.type(localizedHourSuffix);
+            await page.keyboard.type("30");
+            await page.keyboard.type(localizedMinuteSuffix);
+            await page.keyboard.type("45");
+            if (localizedSecondSuffix) {
+              await page.keyboard.type(localizedSecondSuffix);
+            }
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+            let value = await inputTimePicker.getProperty("value");
+            expect(value).toBe("14:30:45");
+            expect(await getInputValue(page)).toBe(localizeTimeString({ includeSeconds: true, locale, value }));
+
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+          });
+        });
       });
     });
   });

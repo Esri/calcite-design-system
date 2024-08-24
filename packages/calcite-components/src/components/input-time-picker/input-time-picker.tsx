@@ -733,6 +733,8 @@ export class InputTimePicker
       if (isValidTime(newValue)) {
         this.setValue(newValue);
         this.setLocalizedInputValue();
+      } else {
+        this.setValue("");
       }
     } else if (key === "ArrowDown") {
       this.open = true;
