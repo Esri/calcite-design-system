@@ -338,7 +338,11 @@ export class Dialog
 
   @State() resizePosition: DialogResizePosition = initialResizePosition;
 
+  @State() resizePositionOffset: DialogResizePosition = initialResizePosition;
+
   @State() dragPosition: DialogDragPosition = initialDragPosition;
+
+  @State() dragPositionOffset: DialogDragPosition = initialDragPosition;
 
   @State() opened = false;
 
@@ -516,12 +520,7 @@ export class Dialog
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey, defaultPrevented } = event;
-    const {
-      dragEnabled,
-      resizable,
-      resizePosition: { top, right, bottom, left },
-      dragPosition: { x, y },
-    } = this;
+    const { dragEnabled, resizable } = this;
 
     if (defaultPrevented) {
       return;
@@ -536,17 +535,14 @@ export class Dialog
       case "ArrowUp":
         if (shiftKey && resizable) {
           this.resizeHeight = transitionRect.height + dialogStep;
-          this.resizePosition = {
-            bottom: bottom + dialogStep / 2,
-            left,
-            right,
-            top,
-          };
+          this.resizePositionOffset.bottom += dialogStep;
+          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
           event.preventDefault();
         } else if (dragEnabled) {
+          this.dragPositionOffset.y -= dialogStep;
           this.dragPosition = {
-            x,
-            y: Math.max(y + -dialogStep, -maxMoveY),
+            x: this.dragPositionOffset.x,
+            y: Math.max(this.dragPositionOffset.y, -maxMoveY),
           };
           event.preventDefault();
         }
@@ -554,17 +550,14 @@ export class Dialog
       case "ArrowDown":
         if (shiftKey && resizable) {
           this.resizeHeight = transitionRect.height - dialogStep;
-          this.resizePosition = {
-            bottom: bottom - dialogStep / 2,
-            left,
-            right,
-            top,
-          };
+          this.resizePositionOffset.bottom -= dialogStep;
+          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
           event.preventDefault();
         } else if (dragEnabled) {
+          this.dragPositionOffset.y += dialogStep;
           this.dragPosition = {
-            x,
-            y: Math.min(y + dialogStep, maxMoveY),
+            x: this.dragPositionOffset.x,
+            y: Math.min(this.dragPositionOffset.y, maxMoveY),
           };
           event.preventDefault();
         }
@@ -572,17 +565,14 @@ export class Dialog
       case "ArrowLeft":
         if (shiftKey && resizable) {
           this.resizeWidth = transitionRect.width - dialogStep;
-          this.resizePosition = {
-            bottom,
-            left,
-            right: right - dialogStep / 2,
-            top,
-          };
+          this.resizePositionOffset.right -= dialogStep;
+          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
           event.preventDefault();
         } else if (dragEnabled) {
+          this.dragPositionOffset.x -= dialogStep;
           this.dragPosition = {
-            x: Math.max(x + -dialogStep, -maxMoveX),
-            y,
+            x: Math.max(this.dragPositionOffset.x, -maxMoveX),
+            y: this.dragPositionOffset.y,
           };
           event.preventDefault();
         }
@@ -590,17 +580,14 @@ export class Dialog
       case "ArrowRight":
         if (shiftKey && resizable) {
           this.resizeWidth = transitionRect.width + dialogStep;
-          this.resizePosition = {
-            bottom,
-            left,
-            right: right + dialogStep / 2,
-            top,
-          };
+          this.resizePositionOffset.right += dialogStep;
+          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
           event.preventDefault();
         } else if (dragEnabled) {
+          this.dragPositionOffset.x += dialogStep;
           this.dragPosition = {
-            x: Math.min(x + dialogStep, maxMoveX),
-            y,
+            x: Math.min(this.dragPositionOffset.x, maxMoveX),
+            y: this.dragPositionOffset.y,
           };
           event.preventDefault();
         }
@@ -641,8 +628,8 @@ export class Dialog
     }
 
     if (this.resizable) {
-      const resizePosition = { ...initialResizePosition };
-      this.resizePosition = resizePosition;
+      this.resizePositionOffset = { ...initialResizePosition };
+      this.resizePosition = this.resizePositionOffset;
       this.resizeWidth = null;
       this.resizeHeight = null;
 
@@ -660,12 +647,12 @@ export class Dialog
         ],
         listeners: {
           move: (event: ResizeEvent) => {
-            resizePosition.top += event.deltaRect.top;
-            resizePosition.right += event.deltaRect.right;
-            resizePosition.bottom += event.deltaRect.bottom;
-            resizePosition.left += event.deltaRect.left;
+            this.resizePositionOffset.top += event.deltaRect.top;
+            this.resizePositionOffset.right += event.deltaRect.right;
+            this.resizePositionOffset.bottom += event.deltaRect.bottom;
+            this.resizePositionOffset.left += event.deltaRect.left;
 
-            this.resizePosition = this.getAdjustedResizePosition(resizePosition);
+            this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
             this.resizeWidth = event.rect.width;
             this.resizeHeight = event.rect.height;
           },
@@ -674,8 +661,8 @@ export class Dialog
     }
 
     if (this.dragEnabled) {
-      const dragPosition = { ...initialDragPosition };
-      this.dragPosition = dragPosition;
+      this.dragPositionOffset = { ...initialDragPosition };
+      this.dragPosition = this.dragPositionOffset;
 
       this.interaction.draggable({
         modifiers: [
@@ -685,9 +672,9 @@ export class Dialog
         ],
         listeners: {
           move: (event: DragEvent) => {
-            dragPosition.x += event.dx;
-            dragPosition.y += event.dy;
-            this.dragPosition = { x: dragPosition.x, y: dragPosition.y };
+            this.dragPositionOffset.x += event.dx;
+            this.dragPositionOffset.y += event.dy;
+            this.dragPosition = { x: this.dragPositionOffset.x, y: this.dragPositionOffset.y };
           },
         },
       });
