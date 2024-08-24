@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   VNode,
@@ -216,6 +217,20 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown", { target: "window" })
+  handleEscape(event: KeyboardEvent): void {
+    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
+      this.open = false;
+      event.preventDefault();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
