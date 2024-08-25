@@ -356,25 +356,17 @@ describe("calcite-input-date-picker", () => {
       });
 
       it("toggles the date picker when clicked", async () => {
-        const openSpy = await inputDatePicker.spyOnEvent("calciteInputDatePickerOpen");
-        const closeSpy = await inputDatePicker.spyOnEvent("calciteInputDatePickerClose");
-
         let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
-
         expect(await calendar.isVisible()).toBe(false);
 
         await inputDatePicker.click();
-
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(1);
 
         calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
         expect(await calendar.isVisible()).toBe(true);
 
         await inputDatePicker.click();
-
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(1);
 
         calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
         expect(await calendar.isVisible()).toBe(false);

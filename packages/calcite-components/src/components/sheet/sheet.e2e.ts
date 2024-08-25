@@ -198,8 +198,6 @@ describe("calcite-sheet properties", () => {
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await page.waitForChanges();
-    await page.waitForTimeout(500);
 
     expect(mockCallBack).toHaveBeenCalledTimes(1);
     expect(await sheet.getProperty("opened")).toBe(false);
