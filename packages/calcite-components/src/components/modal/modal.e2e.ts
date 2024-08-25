@@ -413,7 +413,6 @@ describe("calcite-modal", () => {
 
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await page.waitForChanges();
     expect(await modal.isVisible()).toBe(true);
   });
 
@@ -424,18 +423,13 @@ describe("calcite-modal", () => {
 
     const modal = await page.find("calcite-modal");
     await page.waitForChanges();
-    await page.waitForEvent("calciteModalOpen");
-    await page.waitForChanges();
     expect(modal).toHaveAttribute("open");
-    await page.waitForChanges();
-    await page.waitForChanges();
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     expect(modal).not.toHaveAttribute("open");
 
     await modal.setProperty("open", true);
-    await page.waitForChanges();
     await page.waitForChanges();
     expect(modal).toHaveAttribute("open");
   });

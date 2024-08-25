@@ -391,13 +391,11 @@ describe("calcite-dialog", () => {
 
       dialog.setProperty("open", true);
       await page.waitForChanges();
-      await page.waitForChanges();
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
-      await page.waitForChanges();
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      await page.waitForChanges();
+
       expect(mockCallBack).toHaveBeenCalledTimes(2);
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
     });
@@ -663,12 +661,10 @@ describe("calcite-dialog", () => {
 
     const dialog = await page.find("calcite-dialog");
     await page.waitForChanges();
-    await page.waitForChanges();
     expect(dialog).toHaveAttribute("open");
     await page.waitForChanges();
 
     await page.keyboard.press("Escape");
-    await page.waitForChanges();
     await page.waitForChanges();
     expect(dialog).not.toHaveAttribute("open");
 

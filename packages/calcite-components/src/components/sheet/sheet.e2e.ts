@@ -192,7 +192,6 @@ describe("calcite-sheet properties", () => {
         ).beforeClose),
     );
     await skipAnimations(page);
-    await page.waitForChanges();
     await page.waitForEvent("calciteSheetOpen");
     expect(await sheet.getProperty("opened")).toBe(true);
 
