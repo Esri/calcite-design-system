@@ -363,6 +363,7 @@ export class Dialog
 
   @State() assistiveText: string | null = "";
 
+  @Watch("open")
   @Watch("placement")
   @Watch("resizable")
   @Watch("dragEnabled")
@@ -527,9 +528,6 @@ export class Dialog
     }
 
     const transitionRect = this.transitionEl.getBoundingClientRect();
-    const containerRect = this.containerEl.getBoundingClientRect();
-    const maxMoveY = containerRect.height / 2 - transitionRect.height / 2; // todo: fix
-    const maxMoveX = containerRect.width / 2 - transitionRect.width / 2; // todo: fix
 
     switch (key) {
       case "ArrowUp":
@@ -540,7 +538,6 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.y -= dialogStep;
-          this.dragPositionOffset.y = Math.max(this.dragPositionOffset.y, -maxMoveY);
           this.dragPosition = {
             x: this.dragPositionOffset.x,
             y: this.dragPositionOffset.y,
@@ -556,7 +553,6 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.y += dialogStep;
-          this.dragPositionOffset.y = Math.min(this.dragPositionOffset.y, maxMoveY);
           this.dragPosition = {
             x: this.dragPositionOffset.x,
             y: this.dragPositionOffset.y,
@@ -572,7 +568,6 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.x -= dialogStep;
-          this.dragPositionOffset.x = Math.max(this.dragPositionOffset.x, -maxMoveX);
           this.dragPosition = {
             x: this.dragPositionOffset.x,
             y: this.dragPositionOffset.y,
@@ -588,7 +583,6 @@ export class Dialog
           event.preventDefault();
         } else if (dragEnabled) {
           this.dragPositionOffset.x += dialogStep;
-          this.dragPositionOffset.x = Math.min(this.dragPositionOffset.x, maxMoveX);
           this.dragPosition = {
             x: this.dragPositionOffset.x,
             y: this.dragPositionOffset.y,
@@ -629,7 +623,7 @@ export class Dialog
   private setInteraction = (): void => {
     this.unsetInteraction();
 
-    if (!this.transitionEl) {
+    if (!this.transitionEl || !this.open) {
       return;
     }
 
@@ -638,6 +632,10 @@ export class Dialog
     }
 
     if (this.resizable) {
+      const computedStyle = window.getComputedStyle(this.transitionEl);
+      const width = parseInt(computedStyle.minInlineSize);
+      const height = parseInt(computedStyle.minBlockSize);
+
       this.interaction.resizable({
         edges: {
           top: true,
@@ -646,6 +644,9 @@ export class Dialog
           left: true,
         },
         modifiers: [
+          interact.modifiers.restrictSize({
+            min: { width, height },
+          }),
           interact.modifiers.restrict({
             restriction: "parent",
           }),
