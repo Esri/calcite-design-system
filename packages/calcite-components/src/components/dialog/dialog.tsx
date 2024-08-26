@@ -513,6 +513,10 @@ export class Dialog
     });
   }
 
+  private getDOMRect(): DOMRect {
+    return this.transitionEl?.getBoundingClientRect() ?? new DOMRect();
+  }
+
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey, defaultPrevented } = event;
     const { dragEnabled, resizable, resizePosition, dragPosition } = this;
@@ -523,12 +527,10 @@ export class Dialog
       return;
     }
 
-    const transitionRect = this.transitionEl.getBoundingClientRect();
-
     switch (key) {
       case "ArrowUp":
         if (shiftKey && resizable) {
-          this.setSize({ size: transitionRect.height + dialogStep, type: "blockSize" });
+          this.setSize({ size: this.getDOMRect().height + dialogStep, type: "blockSize" });
           resizePosition.bottom += dialogStep;
           this.setTransform();
           this.reflowInteraction();
@@ -542,7 +544,7 @@ export class Dialog
         break;
       case "ArrowDown":
         if (shiftKey && resizable) {
-          this.setSize({ size: transitionRect.height - dialogStep, type: "blockSize" });
+          this.setSize({ size: this.getDOMRect().height - dialogStep, type: "blockSize" });
           resizePosition.bottom -= dialogStep;
           this.setTransform();
           this.reflowInteraction();
@@ -556,7 +558,7 @@ export class Dialog
         break;
       case "ArrowLeft":
         if (shiftKey && resizable) {
-          this.setSize({ size: transitionRect.width - dialogStep, type: "inlineSize" });
+          this.setSize({ size: this.getDOMRect().width - dialogStep, type: "inlineSize" });
           resizePosition.right -= dialogStep;
           this.setTransform();
           this.reflowInteraction();
@@ -570,7 +572,7 @@ export class Dialog
         break;
       case "ArrowRight":
         if (shiftKey && resizable) {
-          this.setSize({ size: transitionRect.width + dialogStep, type: "inlineSize" });
+          this.setSize({ size: this.getDOMRect().width + dialogStep, type: "inlineSize" });
           resizePosition.right += dialogStep;
           this.setTransform();
           this.reflowInteraction();
@@ -598,8 +600,8 @@ export class Dialog
 
     const { top, right, bottom, left } = this.getAdjustedResizePosition(resizePosition);
 
-    const translateX = x + left + right;
-    const translateY = y + top + bottom;
+    const translateX = Math.round(x + left + right);
+    const translateY = Math.round(y + top + bottom);
 
     transitionEl.style.transform = `translate(${translateX}px, ${translateY}px)`;
   }
@@ -611,7 +613,7 @@ export class Dialog
       return;
     }
 
-    transitionEl.style[type] = size !== null ? `${size}px` : null;
+    transitionEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
   }
 
   private unsetInteraction = (): void => {
@@ -626,7 +628,7 @@ export class Dialog
   private setInteraction = (): void => {
     this.unsetInteraction();
 
-    const { transitionEl, resizable, dragEnabled } = this;
+    const { transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
 
     if (!transitionEl || !this.open) {
       return;
@@ -658,11 +660,10 @@ export class Dialog
         ],
         listeners: {
           move: (event: ResizeEvent) => {
-            this.resizePosition.top += event.deltaRect.top;
-            this.resizePosition.right += event.deltaRect.right;
-            this.resizePosition.bottom += event.deltaRect.bottom;
-            this.resizePosition.left += event.deltaRect.left;
-
+            resizePosition.top += event.deltaRect.top;
+            resizePosition.right += event.deltaRect.right;
+            resizePosition.bottom += event.deltaRect.bottom;
+            resizePosition.left += event.deltaRect.left;
             this.setSize({ size: event.rect.width, type: "inlineSize" });
             this.setSize({ size: event.rect.height, type: "blockSize" });
             this.setTransform();
@@ -680,9 +681,8 @@ export class Dialog
         ],
         listeners: {
           move: (event: DragEvent) => {
-            this.dragPosition.x += event.dx;
-            this.dragPosition.y += event.dy;
-
+            dragPosition.x += event.dx;
+            dragPosition.y += event.dy;
             this.setTransform();
           },
         },
