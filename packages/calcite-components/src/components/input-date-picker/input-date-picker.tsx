@@ -1090,11 +1090,8 @@ export class InputDatePicker
         )
       : null;
 
-    this.setInputValue((date && this.dateTimeFormat?.format(date)) ?? "", "start");
-    this.setInputValue(
-      (this.range && endDate && this.dateTimeFormat?.format(endDate)) ?? "",
-      "end",
-    );
+    this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
+    this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
 
   private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
