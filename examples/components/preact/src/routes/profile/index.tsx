@@ -1,5 +1,5 @@
-import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
 
 interface Props {
   user: string;
@@ -23,7 +23,7 @@ const Profile = ({ user }: Props) => {
       <div>Current time: {new Date(time).toLocaleString()}</div>
 
       <p>
-        <calcite-button onClick={() => setCount((count) => count + 1)}>Click Me</calcite-button>{' '}
+        <calcite-button onClick={() => setCount((count) => count + 1)}>Click Me</calcite-button>{" "}
         Clicked {count} times.
       </p>
     </div>

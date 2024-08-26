@@ -43,7 +43,7 @@ import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 
 > [!NOTE]
-> This requires setting up a CSS loader in your Webpack config (see [Config > CSS](#css) below)
+> This requires setting up a CSS loader in your Webpack config (see [below](#add-css-loader))
 
 ### Configure Webpack
 

@@ -256,8 +256,9 @@ export class Dialog
                 loading={this.loading}
                 menuOpen={this.menuOpen}
                 messageOverrides={this.messageOverrides}
-                onCalcitePanelClose={this.handleCloseClick}
-                onCalcitePanelScroll={this.handleScroll}
+                onCalcitePanelClose={this.handleInternalPanelCloseClick}
+                onCalcitePanelScroll={this.handleInternalPanelScroll}
+                onKeyDown={this.handlePanelKeyDown}
                 overlayPositioning={this.overlayPositioning}
                 ref={(el) => (this.panelEl = el)}
                 scale={this.scale}
@@ -274,9 +275,7 @@ export class Dialog
                 <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
                 <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
                 <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-                <div class={CSS.content}>
-                  <slot />
-                </div>
+                <slot />
               </calcite-panel>
             </slot>
           </div>
@@ -457,12 +456,28 @@ export class Dialog
     this.el.removeEventListener("calciteDialogOpen", this.openEnd);
   };
 
-  private handleScroll = (): void => {
+  private handleInternalPanelScroll = (event: CustomEvent<void>): void => {
+    if (event.target !== this.panelEl) {
+      return;
+    }
+
+    event.stopPropagation();
     this.calciteDialogScroll.emit();
   };
 
-  private handleCloseClick = () => {
+  private handleInternalPanelCloseClick = (event: CustomEvent<void>): void => {
+    if (event.target !== this.panelEl) {
+      return;
+    }
+
+    event.stopPropagation();
     this.open = false;
+  };
+
+  private handlePanelKeyDown = (event: KeyboardEvent): void => {
+    if (this.escapeDisabled) {
+      event.preventDefault();
+    }
   };
 
   private async openDialog(): Promise<void> {

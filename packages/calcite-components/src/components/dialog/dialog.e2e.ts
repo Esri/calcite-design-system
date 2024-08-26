@@ -12,6 +12,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { IDS as PanelIDS } from "../panel/resources";
 import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -330,9 +331,10 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
+    const panel = await page.find(`calcite-dialog >>> calcite-panel`);
     expect(await dialog.getProperty("open")).toBe(true);
 
-    await page.keyboard.press("Escape");
+    await panel.press("Escape");
     await page.waitForChanges();
 
     expect(await dialog.getProperty("open")).toBe(true);
@@ -340,7 +342,7 @@ describe("calcite-dialog", () => {
     dialog.setProperty("escapeDisabled", false);
     await page.waitForChanges();
 
-    await page.keyboard.press("Escape");
+    await panel.press("Escape");
     await page.waitForChanges();
 
     expect(await dialog.getProperty("open")).toBe(false);
@@ -366,7 +368,7 @@ describe("calcite-dialog", () => {
       await page.waitForChanges();
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
 
-      const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
+      const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
       await closeButton.click();
       await page.waitForChanges();
       expect(mockCallBack).toHaveBeenCalledTimes(2);
@@ -685,7 +687,7 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
     expect(await container.isVisible()).toBe(true);
 
-    const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
+    const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
     await closeButton.click();
     await page.waitForChanges();
     expect(await container.isVisible()).toBe(false);
@@ -863,5 +865,22 @@ describe("calcite-dialog", () => {
     const alert = await page.find("calcite-alert");
 
     expect(await alert.getProperty("embedded")).toBe(true);
+  });
+
+  it("should not close when slotted panels are closed", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-dialog open>
+        <calcite-panel closable heading="test"></calcite-panel>
+      </calcite-dialog>`,
+    });
+    await page.waitForChanges();
+
+    const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);
+
+    await closeButton.click();
+    await page.waitForChanges();
+
+    const dialog = await page.find("calcite-dialog");
+    expect(await dialog.getProperty("open")).toBe(true);
   });
 });

@@ -1,7 +1,7 @@
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { Tooltip } from "./tooltip";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
