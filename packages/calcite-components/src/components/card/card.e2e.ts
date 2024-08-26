@@ -124,12 +124,113 @@ describe("calcite-card", () => {
           shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "backgroundColor",
         },
+        "--calcite-card-background-color-hover": [
+          {
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "backgroundColor",
+            state: "focus",
+          },
+        ],
+        "--calcite-card-background-color-press": {
+          shadowSelector: `.${CSS.checkboxWrapper}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.checkboxWrapper } },
+        },
         "--calcite-card-border-color": {
           shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "borderColor",
         },
         "--calcite-card-corner-radius": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "borderRadius" },
+        "--calcite-card-selection-color": {
+          shadowSelector: `.${CSS.checkboxWrapper}`,
+          targetProp: "color",
+        },
+        "--calcite-card-selection-color-hover": [
+          {
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "color",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "color",
+            state: "focus",
+          },
+        ],
         "--calcite-card-shadow": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "boxShadow" },
+      });
+    });
+    describe("selected", () => {
+      themed(html`<calcite-card label="example-label" selected></calcite-card>`, {
+        "--calcite-card-accent-color-selected": [
+          {
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "color",
+            state: "focus",
+          },
+        ],
+        "--calcite-card-background-color-press": {
+          shadowSelector: `.${CSS.checkboxWrapper}`,
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+      });
+    });
+    describe("deprecated", () => {
+      describe("default", () => {
+        themed("calcite-card", {
+          "--calcite-card-selection-icon-color-hover": [
+            {
+              shadowSelector: `.${CSS.checkboxWrapper}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.checkboxWrapper}`,
+              targetProp: "color",
+              state: "focus",
+            },
+          ],
+          "--calcite-card-selection-background-color-hover": [
+            {
+              shadowSelector: `.${CSS.checkboxWrapper}`,
+              targetProp: "backgroundColor",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.checkboxWrapper}`,
+              targetProp: "backgroundColor",
+              state: "focus",
+            },
+          ],
+          "--calcite-card-selection-background-color-active": {
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.checkboxWrapper } },
+          },
+        });
+      });
+      describe("selected", () => {
+        themed(html`<calcite-card label="example-label" selected></calcite-card>`, {
+          "--calcite-card-selection-icon-color-selected": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+          },
+          "--calcite-card-selection-background-color-active": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            state: "focus",
+          },
+        });
       });
     });
   });
