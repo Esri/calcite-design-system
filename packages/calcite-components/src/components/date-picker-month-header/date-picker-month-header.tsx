@@ -200,6 +200,7 @@ export class DatePickerMonthHeader {
         class={CSS.monthPicker}
         label="Month menu"
         onCalciteSelectChange={this.handleMonthChange}
+        onKeyDown={this.handleKeyDown}
         ref={(el) => (this.monthPickerEl = el)}
         width="auto"
       >
@@ -245,21 +246,21 @@ export class DatePickerMonthHeader {
   }
 
   private renderChevron(direction: "left" | "right"): VNode {
-    const activeMonth = this.activeDate.getMonth();
     const isDirectionRight = direction === "right";
+    const isDisabled =
+      hasSameMonthAndYear(
+        isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
+        this.activeDate,
+      ) || !inRange(this.activeDate, this.min, this.max);
+
     return (
       <calcite-action
         alignment="center"
-        aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
+        aria-disabled={`${isDisabled}`}
         aria-label={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
         compact={true}
-        disabled={
-          hasSameMonthAndYear(
-            isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
-            this.activeDate,
-          ) || !inRange(this.activeDate, this.min, this.max)
-        }
+        disabled={isDisabled}
         icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}
         iconFlipRtl={true}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
@@ -379,6 +380,10 @@ export class DatePickerMonthHeader {
     }
     this.calciteInternalDatePickerMonthHeaderSelect.emit(newDate);
     this.setSelectMenuWidth(this.monthPickerEl);
+  };
+
+  private handleKeyDown = (event: KeyboardEvent): void => {
+    event.stopPropagation();
   };
 
   private getInRangeDate({
