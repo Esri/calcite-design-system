@@ -1,8 +1,5 @@
 const camelCase = require("camelcase");
-const {
-  promises: { writeFile, readFile },
-  readFileSync,
-} = require("fs");
+const { writeFile, readFile, readFileSync } = require("fs-extra");
 const { glob } = require("glob");
 const { parse } = require("svgson");
 const path = require("path");

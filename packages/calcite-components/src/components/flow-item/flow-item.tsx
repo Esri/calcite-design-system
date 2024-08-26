@@ -295,18 +295,30 @@ export class FlowItem
   //
   // --------------------------------------------------------------------------
 
-  handlePanelScroll = (event: CustomEvent<void>): void => {
+  handleInternalPanelScroll = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl) {
+      return;
+    }
+
     event.stopPropagation();
     this.calciteFlowItemScroll.emit();
   };
 
-  handlePanelClose = (event: CustomEvent<void>): void => {
+  handleInternalPanelClose = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl) {
+      return;
+    }
+
     event.stopPropagation();
     this.closed = true;
     this.calciteFlowItemClose.emit();
   };
 
-  handlePanelToggle = (event: CustomEvent<void>): void => {
+  handleInternalPanelToggle = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl) {
+      return;
+    }
+
     event.stopPropagation();
     this.collapsed = (event.target as HTMLCalcitePanelElement).collapsed;
     this.calciteFlowItemToggle.emit();
@@ -388,9 +400,9 @@ export class FlowItem
             loading={loading}
             menuOpen={menuOpen}
             messageOverrides={messages}
-            onCalcitePanelClose={this.handlePanelClose}
-            onCalcitePanelScroll={this.handlePanelScroll}
-            onCalcitePanelToggle={this.handlePanelToggle}
+            onCalcitePanelClose={this.handleInternalPanelClose}
+            onCalcitePanelScroll={this.handleInternalPanelScroll}
+            onCalcitePanelToggle={this.handleInternalPanelToggle}
             overlayPositioning={overlayPositioning}
             ref={this.setContainerRef}
             scale={this.scale}

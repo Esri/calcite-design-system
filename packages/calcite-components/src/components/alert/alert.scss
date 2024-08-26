@@ -38,7 +38,6 @@ $border-style: 1px solid var(--calcite-color-border-3);
   inline-size: var(--calcite-alert-width);
   max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2));
   transition:
-    var(--calcite-internal-animation-timing-slow) $easing-function,
     opacity var(--calcite-internal-animation-timing-slow) $easing-function,
     all var(--calcite-animation-timing) ease-in-out;
 
@@ -224,7 +223,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([open]) {
-  .container:not(.container--queued) {
+  .container--active {
     @apply border-t-2 opacity-100;
     pointer-events: initial;
     &[class*="bottom"] {
@@ -259,16 +258,16 @@ $border-style: 1px solid var(--calcite-color-border-3);
   @apply text-color-link inline-flex;
 }
 
-$alertKinds:
+$alert-kinds:
   "brand" var(--calcite-color-brand),
   "info" var(--calcite-color-status-info),
   "danger" var(--calcite-color-status-danger),
   "success" var(--calcite-color-status-success),
   "warning" var(--calcite-color-status-warning);
 
-@each $alertKind in $alertKinds {
-  $name: nth($alertKind, 1);
-  $kind: nth($alertKind, 2);
+@each $alert-kind in $alert-kinds {
+  $name: nth($alert-kind, 1);
+  $kind: nth($alert-kind, 2);
 
   :host([kind="#{$name}"]) {
     .container {
@@ -281,14 +280,14 @@ $alertKinds:
   }
 }
 
-$alertDurations:
+$alert-durations:
   "fast" 6000ms,
   "medium" 10000ms,
   "slow" 14000ms;
 
-@each $alertDuration in $alertDurations {
-  $name: nth($alertDuration, 1);
-  $duration: nth($alertDuration, 2);
+@each $alert-duration in $alert-durations {
+  $name: nth($alert-duration, 1);
+  $duration: nth($alert-duration, 2);
 
   :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
@@ -320,4 +319,4 @@ $alertDurations:
 }
 
 @include base-component();
-@include calciteHydratedHidden();
+@include calcite-hydrated-hidden();

@@ -207,7 +207,7 @@ export type TestTarget = {
   /**
    * The expected value of the targetProp.
    */
-  expectedValue: string;
+  expectedValue?: string;
 
   /**
    * The associated component token.

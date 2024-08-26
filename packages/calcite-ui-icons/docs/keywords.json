@@ -8872,13 +8872,18 @@
     "release": "3.29.1"
   },
   "closed-caption": {
-    "alias": ["3.29.1", "media", "media", "audio", "video", "display", "text", "information"],
+    "alias": ["3.29.3", "media", "media", "audio", "video", "display", "text", "information"],
     "category": "Media",
-    "release": "3.29.1"
+    "release": "3.29.3"
   },
   "transcript": {
-    "alias": ["3.29.1", "media", "captions", "text", "video", "display", "speech"],
+    "alias": ["3.29.3", "media", "captions", "text", "video", "display", "speech"],
     "category": "Media",
-    "release": "3.29.1"
+    "release": "3.29.3"
+  },
+  "layer-connection": {
+    "alias": ["3.29.2", "layers", "plug", "top", "connection", "network", "properties"],
+    "category": "Layers",
+    "release": "3.29.2"
   }
 }
