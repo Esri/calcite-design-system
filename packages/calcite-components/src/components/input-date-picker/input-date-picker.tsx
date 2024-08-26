@@ -527,6 +527,7 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.handleDateTimeFormatChange();
     this.localizeInputValues();
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
@@ -1089,8 +1090,11 @@ export class InputDatePicker
         )
       : null;
 
-    this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
-    this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
+    this.setInputValue((date && this.dateTimeFormat?.format(date)) ?? "", "start");
+    this.setInputValue(
+      (this.range && endDate && this.dateTimeFormat?.format(endDate)) ?? "",
+      "end",
+    );
   }
 
   private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
