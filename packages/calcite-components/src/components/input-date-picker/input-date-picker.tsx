@@ -468,6 +468,7 @@ export class InputDatePicker
   connectedCallback(): void {
     connectInteractive(this);
     connectLocalized(this);
+    this.handleDateTimeFormatChange();
 
     const { open } = this;
     open && this.openHandler();
@@ -527,7 +528,6 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.handleDateTimeFormatChange();
     this.localizeInputValues();
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
