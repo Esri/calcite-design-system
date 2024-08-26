@@ -242,16 +242,7 @@ export class Dialog
   }
 
   render(): VNode {
-    const {
-      assistiveText,
-      description,
-      heading,
-      opened,
-      resizeWidth,
-      resizeHeight,
-      dragPosition,
-      resizePosition,
-    } = this;
+    const { assistiveText, description, heading, opened } = this;
     return (
       <Host>
         <div
@@ -273,11 +264,6 @@ export class Dialog
             onKeyDown={this.handleKeyDown}
             ref={this.setTransitionEl}
             role="dialog"
-            style={{
-              inlineSize: this.getPixelSize(resizeWidth),
-              blockSize: this.getPixelSize(resizeHeight),
-              transform: this.getTransform({ dragPosition, resizePosition }),
-            }}
           >
             {assistiveText ? (
               <div aria-live="polite" class={CSS.assistiveText} key="assistive-text">
@@ -332,18 +318,6 @@ export class Dialog
 
   @Element() el: HTMLCalciteDialogElement;
 
-  @State() resizeWidth: number | null = null;
-
-  @State() resizeHeight: number | null = null;
-
-  @State() resizePosition: DialogResizePosition = initialResizePosition;
-
-  @State() resizePositionOffset: DialogResizePosition = initialResizePosition;
-
-  @State() dragPosition: DialogDragPosition = initialDragPosition;
-
-  @State() dragPositionOffset: DialogDragPosition = initialDragPosition;
-
   @State() opened = false;
 
   @State() hasFooter = true;
@@ -389,6 +363,10 @@ export class Dialog
   containerEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
+
+  private resizePosition: DialogResizePosition = initialResizePosition;
+
+  private dragPosition: DialogDragPosition = initialDragPosition;
 
   private interaction: Interactable;
 
@@ -520,13 +498,17 @@ export class Dialog
   }
 
   private async reflowInteraction(): Promise<void> {
-    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const { interaction } = this;
 
-    await this.interaction?.reflow({
+    if (!interaction) {
+      return;
+    }
+
+    await interaction.reflow({
       name: "drag",
     });
 
-    await this.interaction?.reflow({
+    await interaction.reflow({
       name: "resize",
     });
   }
@@ -535,7 +517,9 @@ export class Dialog
     const { key, shiftKey, defaultPrevented } = event;
     const { dragEnabled, resizable } = this;
 
-    if (defaultPrevented) {
+    const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+
+    if (defaultPrevented || keys.indexOf(key) === -1) {
       return;
     }
 
@@ -544,68 +528,56 @@ export class Dialog
     switch (key) {
       case "ArrowUp":
         if (shiftKey && resizable) {
-          this.resizeHeight = transitionRect.height + dialogStep;
-          this.resizePositionOffset.bottom += dialogStep;
-          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
+          this.setSize({ size: transitionRect.height + dialogStep, type: "blockSize" });
+          this.resizePosition.bottom += dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPositionOffset.y -= dialogStep;
-          this.dragPosition = {
-            x: this.dragPositionOffset.x,
-            y: this.dragPositionOffset.y,
-          };
+          this.dragPosition.y -= dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         }
         break;
       case "ArrowDown":
         if (shiftKey && resizable) {
-          this.resizeHeight = transitionRect.height - dialogStep;
-          this.resizePositionOffset.bottom -= dialogStep;
-          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
+          this.setSize({ size: transitionRect.height - dialogStep, type: "blockSize" });
+          this.resizePosition.bottom -= dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPositionOffset.y += dialogStep;
-          this.dragPosition = {
-            x: this.dragPositionOffset.x,
-            y: this.dragPositionOffset.y,
-          };
+          this.dragPosition.y += dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         }
         break;
       case "ArrowLeft":
         if (shiftKey && resizable) {
-          this.resizeWidth = transitionRect.width - dialogStep;
-          this.resizePositionOffset.right -= dialogStep;
-          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
+          this.setSize({ size: transitionRect.width - dialogStep, type: "inlineSize" });
+          this.resizePosition.right -= dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPositionOffset.x -= dialogStep;
-          this.dragPosition = {
-            x: this.dragPositionOffset.x,
-            y: this.dragPositionOffset.y,
-          };
+          this.dragPosition.x -= dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         }
         break;
       case "ArrowRight":
         if (shiftKey && resizable) {
-          this.resizeWidth = transitionRect.width + dialogStep;
-          this.resizePositionOffset.right += dialogStep;
-          this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
+          this.setSize({ size: transitionRect.width + dialogStep, type: "inlineSize" });
+          this.resizePosition.right += dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPositionOffset.x += dialogStep;
-          this.dragPosition = {
-            x: this.dragPositionOffset.x,
-            y: this.dragPositionOffset.y,
-          };
+          this.dragPosition.x += dialogStep;
+          this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         }
@@ -613,31 +585,42 @@ export class Dialog
     }
   };
 
-  private getPixelSize(size: number | null): string {
-    return size === null ? null : `${size}px`;
+  private setTransform(): void {
+    const {
+      dragPosition: { x, y },
+      resizePosition,
+      transitionEl,
+    } = this;
+
+    if (!transitionEl) {
+      return;
+    }
+
+    const { top, right, bottom, left } = this.getAdjustedResizePosition(resizePosition);
+
+    const translateX = x + left + right;
+    const translateY = y + top + bottom;
+
+    transitionEl.style.transform = `translate(${translateX}px, ${translateY}px)`;
   }
 
-  private getTransform({
-    dragPosition,
-    resizePosition,
-  }: {
-    dragPosition: DialogDragPosition;
-    resizePosition: DialogResizePosition;
-  }): string {
-    const x = dragPosition.x + resizePosition.left + resizePosition.right;
-    const y = dragPosition.y + resizePosition.top + resizePosition.bottom;
+  private setSize({ type, size }: { type: "inlineSize" | "blockSize"; size: number | null }): void {
+    const { transitionEl } = this;
 
-    return `translate(${x}px, ${y}px)`;
+    if (!transitionEl) {
+      return;
+    }
+
+    transitionEl.style[type] = size !== null ? `${size}px` : null;
   }
 
   private unsetInteraction = (): void => {
     this.interaction?.unset();
-    this.dragPositionOffset = { ...initialDragPosition };
-    this.dragPosition = this.dragPositionOffset;
-    this.resizePositionOffset = { ...initialResizePosition };
-    this.resizePosition = this.resizePositionOffset;
-    this.resizeWidth = null;
-    this.resizeHeight = null;
+    this.setSize({ size: null, type: "inlineSize" });
+    this.setSize({ size: null, type: "blockSize" });
+    this.dragPosition = { ...initialDragPosition };
+    this.resizePosition = { ...initialResizePosition };
+    this.setTransform();
   };
 
   private setInteraction = (): void => {
@@ -673,14 +656,14 @@ export class Dialog
         ],
         listeners: {
           move: (event: ResizeEvent) => {
-            this.resizePositionOffset.top += event.deltaRect.top;
-            this.resizePositionOffset.right += event.deltaRect.right;
-            this.resizePositionOffset.bottom += event.deltaRect.bottom;
-            this.resizePositionOffset.left += event.deltaRect.left;
+            this.resizePosition.top += event.deltaRect.top;
+            this.resizePosition.right += event.deltaRect.right;
+            this.resizePosition.bottom += event.deltaRect.bottom;
+            this.resizePosition.left += event.deltaRect.left;
 
-            this.resizePosition = this.getAdjustedResizePosition(this.resizePositionOffset);
-            this.resizeWidth = event.rect.width;
-            this.resizeHeight = event.rect.height;
+            this.setSize({ size: event.rect.width, type: "inlineSize" });
+            this.setSize({ size: event.rect.height, type: "blockSize" });
+            this.setTransform();
           },
         },
       });
@@ -695,9 +678,10 @@ export class Dialog
         ],
         listeners: {
           move: (event: DragEvent) => {
-            this.dragPositionOffset.x += event.dx;
-            this.dragPositionOffset.y += event.dy;
-            this.dragPosition = { x: this.dragPositionOffset.x, y: this.dragPositionOffset.y };
+            this.dragPosition.x += event.dx;
+            this.dragPosition.y += event.dy;
+
+            this.setTransform();
           },
         },
       });
