@@ -5,15 +5,19 @@
  *
  * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
  * @prop --calcite-card-background-color: Specifies the background color of the component.
+ * @prop --calcite-card-background-color-hover: Specifies the background color of elements in the component when hovered.
+ * @prop --calcite-card-background-color-press: Specifies the background color of elements in the component when pressed.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-card-selection-background-color-active: [Deprecated] Specifies the background color of the component's selection element when active.
- * @prop --calcite-card-selection-background-color-hover: [Deprecated] Specifies the background color of the component's selection element when hovered.
- * @prop --calcite-card-selection-background-color-selected: [Deprecated] Specifies the icon color of the component's selection element when `selected`.
- * @prop --calcite-card-selection-background-color: [Deprecated] Specifies the background color of the component's selection element.
- * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Specifies the icon color of the component's selection element when hovered.
- * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Specifies the icon color of the component's selection element when `selected`.
- * @prop --calcite-card-selection-icon-color: [Deprecated] Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-selection-color: Specifies the color of the component's selection element.
+ * @prop --calcite-card-selection-color-hover: Specifies the color of the component's selection element when hovered or focused.
+ * @prop --calcite-card-selection-background-color-active: [Deprecated] Use --calcite-card-background-color-press. Specifies the background color of the component's selection element when active.
+ * @prop --calcite-card-selection-background-color-hover: [Deprecated] --calcite-card-background-color-hover. Specifies the background color of the component's selection element when hovered.
+ * @prop --calcite-card-selection-background-color-selected: [Deprecated] Use --calcite-card-background-color. Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-background-color: [Deprecated] Use --calcite-card-background-color. Specifies the background color of the component's selection element.
+ * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Use --calcite-card-selection-color-hover. Specifies the icon color of the component's selection element when hovered.
+ * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Use --calcite-card-accent-color-selected. Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-icon-color: [Deprecated] Use --calcite-card-selection-color. Specifies the icon color of the component's selection element.
  * @prop --calcite-card-shadow: Specifies the shadow of the component.
  *
  */
@@ -158,18 +162,26 @@
 
 .checkbox-wrapper {
   @apply m-2 p-2 focus-base cursor-pointer pointer-events-auto;
-  background-color: var(--calcite-color-transparent);
   display: flex;
   align-items: center;
   justify-items: center;
-  color: var(--calcite-color-text-3);
+  color: var(--calcite-card-selection-color, var(--calcite-color-text-3));
 
   &:hover {
-    background-color: var(--calcite-color-transparent-hover);
-    color: var(--calcite-color-text-2);
+    background-color: var(
+      --calcite-card-background-color-hover,
+      var(--calcite-card-selection-background-color-hover, var(--calcite-color-foreground-2))
+    );
+    color: var(
+      --calcite-card-selection-color-hover,
+      var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
+    );
   }
   &:active {
-    background-color: var(--calcite-color-transparent-press);
+    background-color: var(
+      --calcite-card-background-color-press,
+      var(--calcite-card-selection-background-color-active, var(--calcite-color-transparent-press))
+    );
   }
   & calcite-icon {
     pointer-events: none;
@@ -177,25 +189,32 @@
 }
 
 :host([selected]) .checkbox-wrapper {
-  color: var(--calcite-color-brand);
-  background-color: var(--calcite-color-transparent);
-
-  &:hover {
-    background-color: var(--calcite-color-transparent-hover);
-  }
-  &:active {
-    background-color: var(--calcite-color-transparent-press);
-  }
+  color: var(
+    --calcite-card-accent-color-selected,
+    var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand))
+  );
 }
 
 :host(:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
-  background-color: var(--calcite-color-transparent-hover);
-  color: var(--calcite-color-text-2);
+  background-color: var(
+    --calcite-card-background-color-hover,
+    var(--calcite-card-selection-background-color-hover, var(--calcite-color-foreground-2))
+  );
+  color: var(
+    --calcite-card-selection-color-hover,
+    var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
+  );
 }
 
 :host([selected]:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
-  background-color: var(--calcite-color-transparent-press);
-  color: var(--calcite-color-brand);
+  background-color: var(
+    --calcite-card-background-color-press,
+    var(--calcite-card-selection-background-color-active, var(--calcite-color-transparent-press))
+  );
+  color: var(
+    --calcite-card-accent-color-selected,
+    var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand))
+  );
 }
 /* end deprecated */
 
