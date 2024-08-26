@@ -1,4 +1,4 @@
-@mixin itemStyling {
+@mixin item-styling {
   @apply text-color-3
     relative
     flex
@@ -19,11 +19,11 @@
 }
 
 .container {
-  @include itemStyling;
+  @include item-styling;
   @apply text-start;
 
   & a {
-    @include itemStyling;
+    @include item-styling;
     @apply focus-base;
   }
 }

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.30...@esri/calcite-components@2.12.0-next.31) (2024-08-23)
+
+### Bug Fixes
+
+- **filter:** fix setFocus method ([#10149](https://github.com/Esri/calcite-design-system/issues/10149)) ([f4a959a](https://github.com/Esri/calcite-design-system/commit/f4a959ad07c27eeb8f9171e1eaa38e84fa9e41b1)), closes [#10136](https://github.com/Esri/calcite-design-system/issues/10136)
+
+## [2.12.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.29...@esri/calcite-components@2.12.0-next.30) (2024-08-22)
+
+### Bug Fixes
+
+- **dialog, flow-item:** slotted closable panels should not close the component ([#10130](https://github.com/Esri/calcite-design-system/issues/10130)) ([ce2513d](https://github.com/Esri/calcite-design-system/commit/ce2513dcc8310164696343d88c6e02f8066e3e8f)), closes [#10129](https://github.com/Esri/calcite-design-system/issues/10129)
+
 ## [2.12.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.28...@esri/calcite-components@2.12.0-next.29) (2024-08-22)
 
 ### Bug Fixes

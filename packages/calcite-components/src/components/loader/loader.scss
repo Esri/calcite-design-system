@@ -184,7 +184,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
               (size + growth should not exceed 100)
   - duration  how long the segment takes to rotate 360° (seconds)
 */
-@mixin generateSegment($i, $size, $growth, $duration) {
+@mixin generate-segment($i, $size, $growth, $duration) {
   $circumference: calc($loader-circumference / $loader-scale) * 100;
   $length: ($size * 0.01) * $circumference;
   $end: $length + ($growth * 0.01) * $circumference;
@@ -209,9 +209,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include generateSegment(1, 10, 40, scaleDuration(--calcite-internal-animation-timing-slow, 4.8));
-@include generateSegment(2, 20, 30, scaleDuration(--calcite-internal-animation-timing-slow, 6.4));
-@include generateSegment(3, 05, 45, scaleDuration(--calcite-internal-animation-timing-slow, 7.734));
+@include generate-segment(1, 10, 40, scaleDuration(--calcite-internal-animation-timing-slow, 4.8));
+@include generate-segment(2, 20, 30, scaleDuration(--calcite-internal-animation-timing-slow, 6.4));
+@include generate-segment(3, 05, 45, scaleDuration(--calcite-internal-animation-timing-slow, 7.734));
 
 @keyframes loader-color-shift {
   0% {

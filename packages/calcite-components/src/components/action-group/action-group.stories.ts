@@ -40,7 +40,7 @@ export const withoutDefinedGridGap_TestOnly = (): string =>
   </calcite-action-group>`;
 
 export const withDefinedGridGap_TestOnly = (): string => html`
-  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0; --calcite-action-group-padding:0;">
+  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0;">
     <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
     <calcite-action text="Save" icon="chevron-up"></calcite-action>
     <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>
@@ -94,3 +94,26 @@ export const TurkishLocale_TestOnly = (): string =>
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
+html`<div class="container">
+  <calcite-action-bar>
+    <calcite-action-group
+      ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+      <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
+    ></calcite-action-group>
+    <calcite-action-group
+      ><calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+      <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action
+    ></calcite-action-group>
+  </calcite-action-bar>
+  <calcite-action-group layout="grid">
+    <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
+    <calcite-action text="Save" icon="chevron-up"></calcite-action>
+    <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>
+    <calcite-action text="Basemaps" icon="chevron-left"></calcite-action>
+    <calcite-action text="Layers" icon="layers"></calcite-action>
+    <calcite-action text="Basemaps" icon="chevron-right"></calcite-action>
+    <calcite-action text="Basemaps" icon="arrow-down-left"></calcite-action>
+    <calcite-action text="Layers" icon="chevron-down"></calcite-action>
+    <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
+  </calcite-action-group>
+</div>`;
