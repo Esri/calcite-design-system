@@ -515,11 +515,11 @@ export class Dialog
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey, defaultPrevented } = event;
-    const { dragEnabled, resizable } = this;
+    const { dragEnabled, resizable, resizePosition, dragPosition } = this;
 
     const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
 
-    if (defaultPrevented || keys.indexOf(key) === -1) {
+    if (defaultPrevented || !keys.includes(key)) {
       return;
     }
 
@@ -529,12 +529,12 @@ export class Dialog
       case "ArrowUp":
         if (shiftKey && resizable) {
           this.setSize({ size: transitionRect.height + dialogStep, type: "blockSize" });
-          this.resizePosition.bottom += dialogStep;
+          resizePosition.bottom += dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPosition.y -= dialogStep;
+          dragPosition.y -= dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
@@ -543,12 +543,12 @@ export class Dialog
       case "ArrowDown":
         if (shiftKey && resizable) {
           this.setSize({ size: transitionRect.height - dialogStep, type: "blockSize" });
-          this.resizePosition.bottom -= dialogStep;
+          resizePosition.bottom -= dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPosition.y += dialogStep;
+          dragPosition.y += dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
@@ -557,12 +557,12 @@ export class Dialog
       case "ArrowLeft":
         if (shiftKey && resizable) {
           this.setSize({ size: transitionRect.width - dialogStep, type: "inlineSize" });
-          this.resizePosition.right -= dialogStep;
+          resizePosition.right -= dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPosition.x -= dialogStep;
+          dragPosition.x -= dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
@@ -571,12 +571,12 @@ export class Dialog
       case "ArrowRight":
         if (shiftKey && resizable) {
           this.setSize({ size: transitionRect.width + dialogStep, type: "inlineSize" });
-          this.resizePosition.right += dialogStep;
+          resizePosition.right += dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
         } else if (dragEnabled) {
-          this.dragPosition.x += dialogStep;
+          dragPosition.x += dialogStep;
           this.setTransform();
           this.reflowInteraction();
           event.preventDefault();
@@ -618,24 +618,26 @@ export class Dialog
     this.interaction?.unset();
     this.setSize({ size: null, type: "inlineSize" });
     this.setSize({ size: null, type: "blockSize" });
-    this.dragPosition = { ...initialDragPosition };
-    this.resizePosition = { ...initialResizePosition };
+    this.dragPosition = initialDragPosition;
+    this.resizePosition = initialResizePosition;
     this.setTransform();
   };
 
   private setInteraction = (): void => {
     this.unsetInteraction();
 
-    if (!this.transitionEl || !this.open) {
+    const { transitionEl, resizable, dragEnabled } = this;
+
+    if (!transitionEl || !this.open) {
       return;
     }
 
-    if (this.resizable || this.dragEnabled) {
-      this.interaction = interact(this.transitionEl, { context: this.el.ownerDocument });
+    if (resizable || dragEnabled) {
+      this.interaction = interact(transitionEl, { context: this.el.ownerDocument });
     }
 
-    if (this.resizable) {
-      const computedStyle = window.getComputedStyle(this.transitionEl);
+    if (resizable) {
+      const computedStyle = window.getComputedStyle(transitionEl);
       const width = parseInt(computedStyle.minInlineSize);
       const height = parseInt(computedStyle.minBlockSize);
 
@@ -669,7 +671,7 @@ export class Dialog
       });
     }
 
-    if (this.dragEnabled) {
+    if (dragEnabled) {
       this.interaction.draggable({
         modifiers: [
           interact.modifiers.restrictRect({
