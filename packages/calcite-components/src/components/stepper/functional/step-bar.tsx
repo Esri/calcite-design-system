@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 
 interface StepBarProps {
   active: boolean;
@@ -23,7 +23,7 @@ export const StepBar: FunctionalComponent<StepBarProps> = ({
   complete,
   error,
   key,
-}) => (
+}): VNode => (
   <svg
     class={{
       [CSS.stepBar]: true,
