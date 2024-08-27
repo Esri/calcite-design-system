@@ -45,7 +45,14 @@ import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import { OverlayPositioning } from "../../components";
 import { DialogMessages } from "./assets/dialog/t9n";
-import { CSS, dialogStep, SLOTS } from "./resources";
+import {
+  CSS,
+  dialogResizeStep,
+  dialogDragStep,
+  SLOTS,
+  initialDragPosition,
+  initialResizePosition,
+} from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 
 let totalOpenDialogs: number = 0;
@@ -67,9 +74,6 @@ let initialDocumentOverflowStyle: string = "";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-
-const initialDragPosition: DialogDragPosition = { x: 0, y: 0 };
-const initialResizePosition: DialogResizePosition = { top: 0, right: 0, bottom: 0, left: 0 };
 
 @Component({
   tag: "calcite-dialog",
@@ -228,7 +232,7 @@ export class Dialog
     connectLocalized(this);
     connectMessages(this);
     connectFocusTrap(this);
-    this.setInteraction();
+    this.setupInteractions();
   }
 
   disconnectedCallback(): void {
@@ -238,7 +242,7 @@ export class Dialog
     disconnectLocalized(this);
     disconnectMessages(this);
     this.embedded = false;
-    this.unsetInteraction();
+    this.cleanupInteractions();
   }
 
   render(): VNode {
@@ -251,7 +255,7 @@ export class Dialog
             [CSS.containerOpen]: opened,
             [CSS.containerEmbedded]: this.embedded,
           }}
-          ref={(el) => (this.containerEl = el)}
+          ref={this.setContainerEl}
         >
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -335,14 +339,14 @@ export class Dialog
 
   @State() defaultMessages: DialogMessages;
 
-  @State() assistiveText: string | null = "";
+  @State() assistiveText: string | null = null;
 
   @Watch("open")
   @Watch("placement")
   @Watch("resizable")
   @Watch("dragEnabled")
   handleInteractionChange(): void {
-    this.setInteraction();
+    this.setupInteractions();
   }
 
   @Watch("messages")
@@ -497,7 +501,7 @@ export class Dialog
     onToggleOpenCloseComponent(this);
   }
 
-  private async reflowInteraction(): Promise<void> {
+  private async triggerInteractModifiers(): Promise<void> {
     const { interaction } = this;
 
     if (!interaction) {
@@ -513,13 +517,13 @@ export class Dialog
     });
   }
 
-  private getDOMRect(): DOMRect {
-    return this.transitionEl?.getBoundingClientRect() ?? new DOMRect();
+  private getTransitionElDOMRect(): DOMRect {
+    return this.transitionEl.getBoundingClientRect();
   }
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey, defaultPrevented } = event;
-    const { dragEnabled, resizable, resizePosition, dragPosition } = this;
+    const { dragEnabled, resizable, resizePosition, dragPosition, transitionEl } = this;
 
     const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
 
@@ -529,65 +533,77 @@ export class Dialog
 
     switch (key) {
       case "ArrowUp":
-        if (shiftKey && resizable) {
-          this.setSize({ size: this.getDOMRect().height + dialogStep, type: "blockSize" });
-          resizePosition.bottom += dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().height + dialogResizeStep,
+            type: "blockSize",
+          });
+          resizePosition.bottom += dialogResizeStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y -= dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+          dragPosition.y -= dialogDragStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         }
         break;
       case "ArrowDown":
-        if (shiftKey && resizable) {
-          this.setSize({ size: this.getDOMRect().height - dialogStep, type: "blockSize" });
-          resizePosition.bottom -= dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().height - dialogResizeStep,
+            type: "blockSize",
+          });
+          resizePosition.bottom -= dialogResizeStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y += dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+          dragPosition.y += dialogDragStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         }
         break;
       case "ArrowLeft":
-        if (shiftKey && resizable) {
-          this.setSize({ size: this.getDOMRect().width - dialogStep, type: "inlineSize" });
-          resizePosition.right -= dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().width - dialogResizeStep,
+            type: "inlineSize",
+          });
+          resizePosition.right -= dialogResizeStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x -= dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+          dragPosition.x -= dialogDragStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         }
         break;
       case "ArrowRight":
-        if (shiftKey && resizable) {
-          this.setSize({ size: this.getDOMRect().width + dialogStep, type: "inlineSize" });
-          resizePosition.right += dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().width + dialogResizeStep,
+            type: "inlineSize",
+          });
+          resizePosition.right += dialogResizeStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x += dialogStep;
-          this.setTransform();
-          this.reflowInteraction();
+          dragPosition.x += dialogDragStep;
+          this.updateTransform();
+          this.triggerInteractModifiers();
           event.preventDefault();
         }
         break;
     }
   };
 
-  private setTransform(): void {
+  private updateTransform(): void {
     const {
       dragPosition: { x, y },
       resizePosition,
@@ -606,7 +622,13 @@ export class Dialog
     transitionEl.style.transform = `translate(${translateX}px, ${translateY}px)`;
   }
 
-  private setSize({ type, size }: { type: "inlineSize" | "blockSize"; size: number | null }): void {
+  private updateSize({
+    type,
+    size,
+  }: {
+    type: "inlineSize" | "blockSize";
+    size: number | null;
+  }): void {
     const { transitionEl } = this;
 
     if (!transitionEl) {
@@ -616,17 +638,17 @@ export class Dialog
     transitionEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
   }
 
-  private unsetInteraction = (): void => {
+  private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.setSize({ size: null, type: "inlineSize" });
-    this.setSize({ size: null, type: "blockSize" });
+    this.updateSize({ size: null, type: "inlineSize" });
+    this.updateSize({ size: null, type: "blockSize" });
     this.dragPosition = initialDragPosition;
     this.resizePosition = initialResizePosition;
-    this.setTransform();
-  };
+    this.updateTransform();
+  }
 
-  private setInteraction = (): void => {
-    this.unsetInteraction();
+  private setupInteractions(): void {
+    this.cleanupInteractions();
 
     const { transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
 
@@ -664,9 +686,9 @@ export class Dialog
             resizePosition.right += event.deltaRect.right;
             resizePosition.bottom += event.deltaRect.bottom;
             resizePosition.left += event.deltaRect.left;
-            this.setSize({ size: event.rect.width, type: "inlineSize" });
-            this.setSize({ size: event.rect.height, type: "blockSize" });
-            this.setTransform();
+            this.updateSize({ size: event.rect.width, type: "inlineSize" });
+            this.updateSize({ size: event.rect.height, type: "blockSize" });
+            this.updateTransform();
           },
         },
       });
@@ -683,12 +705,12 @@ export class Dialog
           move: (event: DragEvent) => {
             dragPosition.x += event.dx;
             dragPosition.y += event.dy;
-            this.setTransform();
+            this.updateTransform();
           },
         },
       });
     }
-  };
+  }
 
   private getAdjustedResizePosition({
     top,
@@ -726,9 +748,13 @@ export class Dialog
     }
   }
 
+  private setContainerEl = (el: HTMLDivElement): void => {
+    this.containerEl = el;
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.setInteraction();
+    this.setupInteractions();
   };
 
   private openEnd = (): void => {

@@ -1,4 +1,4 @@
-import { DialogPlacement } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 
 export const CSS = {
   dialog: "dialog",
@@ -38,4 +38,7 @@ export const dialogPlacements: DialogPlacement[] = [
   "center",
 ];
 
-export const dialogStep = 25;
+export const dialogResizeStep = 25;
+export const dialogDragStep = 25;
+export const initialDragPosition: DialogDragPosition = { x: 0, y: 0 };
+export const initialResizePosition: DialogResizePosition = { top: 0, right: 0, bottom: 0, left: 0 };

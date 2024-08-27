@@ -142,6 +142,7 @@ calcite-panel {
   min-inline-size: var(--calcite-dialog-min-size-x, var(--calcite-internal-dialog-min-size-x));
   min-block-size: var(--calcite-dialog-min-size-y, var(--calcite-internal-dialog-min-size-y));
 
+  // these internal vars allow handling the animation when an offset is being used.
   --calcite-internal-dialog-hidden-position: calc(
     var(--calcite-dialog-offset-y, 0px) + var(--calcite-internal-dialog-animation-offset)
   );
