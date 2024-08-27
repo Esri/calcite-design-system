@@ -1,251 +1,323 @@
-.container,
-.select-icon,
-.title {
-  padding-inline-start: var(--calcite-internal-chip-padding-start);
-  padding-inline-end: var(--calcite-internal-chip-padding-end);
-}
-
-.select-icon:not(.select-icon--active) {
-  padding-inline: 0;
-}
-
-:host([scale="s"]) {
-  @apply text-n2 h-6;
-
-  --calcite-chip-spacing-s-internal: theme("spacing[1]");
-  --calcite-chip-spacing-l-internal: theme("spacing[2]");
-
-  .close,
-  .select-icon--active {
-    @apply h-4 w-4;
-  }
-
-  .image-container {
-    @apply h-5 w-5;
-  }
-
-  .container.is-circle,
-  .container.is-circle.image--slotted {
-    @apply w-6 h-6;
-
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
-  }
-
-  .multiple {
-    .select-icon {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-    }
-
-    &.image--slotted {
-      .select-icon {
-        --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
-      }
-
-      &.text--slotted {
-        --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-      }
-    }
-  }
-
-  .container {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-
-    &.image--slotted {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-
-      &.closable {
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-      }
-    }
-  }
-
-  .container:not(.is-circle):not(.multiple) {
-    &:not(.image-slotted) .select-icon.select-icon--active {
-      padding-inline-start: 0;
-      padding-inline-end: var(--calcite-spacing-xs);
-    }
-
-    &.image--slotted .select-icon.select-icon--active {
-      padding-inline-start: var(--calcite-spacing-base);
-      padding-inline-end: var(--calcite-spacing-sm);
-    }
-  }
-}
-
-:host([scale="s"][closable]) .container {
-  --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-}
-
-:host([scale="m"]) {
-  @apply text-n1 h-8;
-  --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
-  --calcite-chip-spacing-l-internal: theme("spacing[2]");
-
-  .close,
-  .image-container,
-  .select-icon--active {
-    @apply h-6 w-6;
-
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-  }
-
-  .container.is-circle,
-  .container.is-circle.image--slotted {
-    @apply w-8 h-8;
-
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
-  }
-
-  .multiple {
-    .select-icon {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-base);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-base);
-    }
-
-    &.image--slotted {
-      .select-icon {
-        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
-      }
-
-      &.text--slotted {
-        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
-      }
-    }
-  }
-
-  .container {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
-
-    &.image--slotted {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
-
-      &.closable {
-        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-      }
-    }
-  }
-
-  .container:not(.is-circle):not(.multiple) {
-    &:not(.image-slotted) .select-icon.select-icon--active {
-      padding-inline-start: 0;
-      padding-inline-end: var(--calcite-spacing-px);
-    }
-
-    &.image--slotted .select-icon.select-icon--active {
-      padding-inline-start: 0;
-      padding-inline-end: var(--calcite-spacing-sm);
-    }
-  }
-}
-
-:host([scale="m"][closable]) .container {
-  --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-}
-
-:host([scale="l"]) {
-  @apply text-0 h-11;
-
-  --calcite-chip-spacing-s-internal: theme("spacing[2]");
-  --calcite-chip-spacing-l-internal: theme("spacing[3]");
-
-  .image-container,
-  .close,
-  .select-icon--active {
-    @apply h-8 w-8;
-
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-  }
-
-  .container.is-circle,
-  .container.is-circle.image--slotted {
-    @apply w-11 h-11;
-
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-  }
-
-  .multiple {
-    .select-icon {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-    }
-
-    &.image--slotted {
-      .select-icon {
-        --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-md);
-      }
-    }
-  }
-
-  .container {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-sm);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
-
-    &.image--slotted {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
-
-      &.closable {
-        --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-        --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
-      }
-    }
-  }
-
-  .container:not(.is-circle):not(.multiple) {
-    &:not(.image-slotted) .select-icon.select-icon--active {
-      padding-inline-start: 0;
-      padding-inline-end: var(--calcite-spacing-xxs);
-    }
-
-    &.image--slotted .select-icon.select-icon--active {
-      padding-inline-start: 0;
-      padding-inline-end: var(--calcite-spacing-md);
-    }
-  }
-}
-
-:host([scale="l"][closable]) .container {
-  --calcite-internal-chip-padding-start: var(--calcite-spacing-sm);
-  --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
-}
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-chip-background-color: Specifies
+ * @prop --calcite-chip-background-color-hover: Specifies
+ * @prop --calcite-chip-background-color-press: Specifies
+ * @prop --calcite-chip-border-color: Specifies
+ * @prop --calcite-chip-corner-radius: Specifies
+ * @prop --calcite-chip-text-color: Specifies
+ *
+ */
 
 :host {
   @apply inline-flex
-    cursor-default
-    rounded-full;
+    cursor-default;
 }
 
+/* Host Prop Variant styles */
+:host([closed]) {
+  display: none;
+}
+
+:host([appearance="outline"]),
+:host([appearance="outline-fill"]) {
+  .container {
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
+  }
+
+  &:host([kind="brand"]) .container {
+    border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
+  }
+
+  &:host([kind="inverse"]) .container {
+    border-color: var(--calcite-chip-border-color, var(--calcite-color-inverse));
+  }
+
+  &:host([kind="neutral"]) .container {
+    border-color: var(--calcite-chip-border-color, var(--calcite-color-border-1));
+  }
+
+  .close {
+    color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
+  }
+}
+:host([appearance="outline"]) .container {
+  @apply bg-transparent;
+
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-color-transparent-hover);
+  }
+  &:active {
+    background-color: var(--calcite-color-transparent-press);
+  }
+}
+:host([appearance="outline-fill"]) .container {
+  background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-1));
+
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-chip-background-color-hover, var(--calcite-color-foreground-2));
+  }
+  &:active {
+    background-color: var(--calcite-chip-background-color-press, var(--calcite-color-foreground-3));
+  }
+}
+:host([appearance="solid"]) {
+  .container {
+    border-color: transparent;
+  }
+
+  &:host([kind="brand"]),
+  &:host([kind="inverse"]) {
+    .container {
+      color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
+
+      // I think this only applies to .close. Maybe change the selector to .close?
+      button {
+        outline-color: var(--calcite-color-text-inverse);
+      }
+    }
+  }
+
+  &:host([kind="brand"]) {
+    .container {
+      background-color: var(--calcite-chip-background-color, var(--calcite-color-brand));
+
+      &:host(:hover),
+      &:host(:focus) {
+        background-color: var(--calcite-chip-background-color-hover, var(--calcite-color-brand-hover));
+      }
+      &:host(:active) {
+        background-color: var(--calcite-chip-background-color-press, var(--calcite-color-brand-press));
+      }
+    }
+  }
+
+  &:host([kind="inverse"]) {
+    .container {
+      background-color: var(--calcite-chip-background-color, var(--calcite-color-inverse));
+
+      &:host(:hover),
+      &:host(:focus) {
+        background-color: var(--calcite-chip-background-color-hover, var(--calcite-color-inverse-hover));
+      }
+      &:host(:active) {
+        background-color: var(--calcite-chip-background-color-press, var(--calcite-color-inverse-press));
+      }
+    }
+  }
+
+  &:host([kind="neutral"]) .container {
+    background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-2));
+  }
+}
+:host([kind="neutral"]) .container {
+  color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
+
+  .close {
+    color: var(--calcite-color-text-3);
+  }
+}
+
+:host([selected]) .select-icon {
+  opacity: 1;
+}
+
+:host([scale="s"]) {
+  .container {
+    --calcite-internal-chip-space-s: theme("spacing[1]");
+    --calcite-internal-chip-font-size: var(--calcite-font-size--2);
+    --calcite-internal-chip-block-size: 1.5rem /* 24px */;
+    --calcite-internal-chip-icon-size: 1rem /* 16px */;
+    --calcite-internal-chip-image-size: 1.25rem /* 20px */;
+    --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xxs);
+
+    &.image--slotted {
+      --calcite-internal-chip-container-padding-start: var(--calcite-spacing-px);
+
+      &.closable {
+        --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xxs);
+      }
+    }
+
+    &.is-circle,
+    &.is-circle.image--slotted {
+      --calcite-internal-chip-inline-size: 1.5rem /* 24px */;
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
+    }
+
+    &:not(.is-circle):not(.multiple) {
+      &.image--slotted {
+        --calcite-internal-chip-select-icon-padding-start: var(--calcite-spacing-base);
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-sm);
+      }
+      &:not(.image-slotted) {
+        --calcite-internal-chip-select-icon-padding-start: 0;
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-xs);
+      }
+    }
+
+    &.multiple {
+      --calcite-internal-chip-select-icon-padding-start: var(--calcite-spacing-xxs);
+      --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-xxs);
+
+      &.image--slotted {
+        --calcite-internal-chip-select-icon-padding-start: var(--calcite-spacing-xs);
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-sm);
+      }
+    }
+
+    &.selectable.single.image--slotted {
+      --calcite-internal-chip-container-padding-end: calc(theme("spacing[0.5]") / 2);
+    }
+    &:not(.selected):not(.multiple).image--slotted {
+      --calcite-internal-chip-container-padding-start: calc(theme("spacing[0.5]") / 2);
+    }
+  }
+}
+
+:host([scale="m"]) {
+  &:host([closable]) .container {
+    --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xxs);
+  }
+
+  .container {
+    --calcite-internal-chip-space-s: theme("spacing[1.5]");
+    --calcite-internal-chip-font-size: var(--calcite-font-size--1);
+    --calcite-internal-chip-block-size: 2rem /* 32px */;
+    --calcite-internal-chip-icon-size: 1.5rem /* 24px */;
+    --calcite-internal-chip-image-size: 1.5rem /* 24px */;
+    --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xs);
+    --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xs);
+
+    &.image--slotted {
+      --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xxs);
+
+      &.closable {
+        --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xxs);
+      }
+    }
+
+    &.is-circle,
+    &.is-circle.image--slotted {
+      --calcite-internal-chip-inline-size: 2rem /* 32px */;
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
+    }
+
+    &:not(.is-circle):not(.multiple) {
+      &.image--slotted {
+        --calcite-internal-chip-select-icon-padding-start: 0;
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-sm);
+      }
+      &:not(.image-slotted) {
+        --calcite-internal-chip-select-icon-padding-start: 0;
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-px);
+      }
+    }
+
+    &.multiple {
+      --calcite-internal-chip-container-padding-end: var(--calcite-spacing-base);
+      --calcite-internal-chip-container-padding-start: var(--calcite-spacing-base);
+      --calcite-internal-chip-select-icon-padding-start: var(--calcite-spacing-base);
+      --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-base);
+
+      &.image--slotted {
+        --calcite-internal-chip-select-icon-padding-start: var(--calcite-spacing-xxs);
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-sm);
+
+        &.text--slotted {
+          --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xxs);
+          --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xs);
+        }
+      }
+    }
+  }
+}
+
+:host([scale="l"]) {
+  &:host([closable]) .container {
+    --calcite-internal-chip-container-padding-start: var(--calcite-spacing-sm);
+    --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xs);
+  }
+
+  .container {
+    --calcite-internal-chip-space-s: theme("spacing[2]");
+    --calcite-internal-chip-font-size: var(--calcite-font-size-0);
+    --calcite-internal-chip-block-size: 2.75rem /* 44px */;
+    --calcite-internal-chip-icon-size: 2rem /* 32px */;
+    --calcite-internal-chip-image-size: 2rem /* 32px */;
+    --calcite-internal-chip-container-padding-start: var(--calcite-spacing-sm);
+    --calcite-internal-chip-container-padding-end: var(--calcite-spacing-sm);
+
+    &.image--slotted {
+      --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xs);
+      --calcite-internal-chip-container-padding-end: var(--calcite-spacing-sm);
+
+      &.closable {
+        --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xs);
+      }
+    }
+
+    &.is-circle,
+    &.is-circle.image--slotted {
+      --calcite-internal-chip-inline-size: 2.75rem /* 44px */;
+    }
+
+    &:not(.is-circle):not(.multiple) {
+      &.image--slotted {
+        --calcite-internal-chip-select-icon-padding-start: 0;
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-md);
+      }
+      &:not(.image-slotted) {
+        --calcite-internal-chip-select-icon-padding-start: 0;
+        --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-xxs);
+      }
+    }
+
+    &.multiple {
+      --calcite-internal-chip-select-icon-padding-start: var(--calcite-spacing-xxs);
+      --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-xxs);
+
+      &.image--slotted {
+        .select-icon {
+          --calcite-internal-chip-select-icon-padding-start: var(--calcite-spacing-xxs);
+          --calcite-internal-chip-select-icon-padding-end: var(--calcite-spacing-sm);
+        }
+      }
+    }
+  }
+}
+
+// Sub-element styles
 .container {
   @apply inline-flex
   h-full
   max-w-full
   items-center
-  rounded-full
   focus-base
   justify-center
-  border
-  border-solid
-  border-color-1
   box-border
   font-medium;
+
+  border-radius: var(--calcite-chip-corner-radius, 9999px);
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  font-size: var(--calcite-internal-chip-font-size, var(--calcite-font-size));
+  padding-inline-start: var(--calcite-internal-chip-container-padding-start);
+  padding-inline-end: var(--calcite-internal-chip-container-padding-end);
+  block-size: var(--calcite-internal-chip-block-size, auto);
+  inline-size: var(--calcite-internal-chip-inline-size, auto);
+
+  &:hover .select-icon--active {
+    opacity: 1;
+  }
 
   &.selectable {
     @apply cursor-pointer;
@@ -253,67 +325,65 @@
   &:not(.non-interactive):focus {
     @apply focus-outset;
   }
-}
 
-:host([scale="s"]) .container.selectable.single.image--slotted {
-  --calcite-internal-chip-padding-end: calc(theme("spacing[0.5]") / 2);
-}
-
-:host([scale="s"]) .container:not(.selected):not(.multiple).image--slotted {
-  --calcite-internal-chip-padding-start: calc(theme("spacing[0.5]") / 2);
-}
-
-.container.text--slotted .title {
-  @apply truncate;
-
-  --calcite-internal-chip-padding-start: var(--calcite-chip-spacing-s-internal);
-  --calcite-internal-chip-padding-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.text--slotted) .title {
-  display: none;
-}
-
-.container:not(.image--slotted) .image-container {
-  display: none;
-}
-
-.container:not(.is-circle) {
-  &.image--slotted .image-container {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  &.text--slotted .title {
+    @apply truncate;
   }
 
-  &.image--slotted .image-container ~ .chip-icon {
-    margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  &:not(.text--slotted) .title,
+  &:not(.image--slotted) .image-container {
+    display: none;
   }
 
-  &.selectable:not(.text--slotted) .chip-icon {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
+  &:not(.is-circle) {
+    &.image--slotted {
+      .image-container {
+        margin-inline-end: var(--calcite-internal-chip-space-s);
 
-  &:not(.selectable):not(.text--slotted) .chip-icon {
-    margin-inline-start: var(--calcite-chip-spacing-s-internal);
-  }
+        ~ .chip-icon {
+          margin-inline-start: var(--calcite-internal-chip-space-s);
+        }
+      }
+    }
 
-  &:not(.text--slotted) .chip-icon {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
+    &:not(.text--slotted) {
+      &.selectable .chip-icon {
+        margin-inline-end: var(--calcite-internal-chip-space-s);
+      }
 
-  &:not(.text-slotted).image--slotted .image-container {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
+      &:not(.selectable) .chip-icon {
+        margin-inline-start: var(--calcite-internal-chip-space-s);
+      }
 
-  &:not(.closable):not(.text--slotted).image--slotted.selectable .image-container {
-    margin-inline-end: 0;
-    ~ .chip-icon {
-      margin-inline-start: calc(var(--calcite-chip-spacing-s-internal) * 2);
+      &.image--slotted .image-container {
+        margin-inline-end: var(--calcite-internal-chip-space-s);
+      }
+
+      &:not(.closable).image--slotted.selectable .image-container {
+        margin-inline-end: 0;
+        ~ .chip-icon {
+          margin-inline-start: calc(var(--calcite-internal-chip-space-s) * 2);
+        }
+      }
     }
   }
 }
 
-.chip-icon {
-  @apply relative my-0 inline-flex duration-150 ease-in-out;
-  margin-inline: var(--calcite-chip-spacing-s-internal);
+.close,
+.select-icon--active {
+  @apply h-4 w-4;
+  block-size: var(--calcite-internal-chip-icon-size, 1rem);
+  inline-size: var(--calcite-internal-chip-icon-size, 1rem);
+}
+
+.select-icon--active {
+  padding-inline-start: var(--calcite-internal-chip-select-icon-padding-start);
+  padding-inline-end: var(--calcite-internal-chip-select-icon-padding-end);
+}
+
+.title {
+  padding-inline-start: var(--calcite-internal-chip-title-padding-start);
+  padding-inline-end: var(--calcite-internal-chip-title-padding-end);
 }
 
 .image-container {
@@ -321,37 +391,43 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  block-size: var(--calcite-internal-chip-image-size, 1.25rem /* 20px */);
+  inline-size: var(--calcite-internal-chip-image-size, 1.25rem /* 20px */);
+}
+
+.chip-icon {
+  @apply relative my-0 inline-flex duration-150 ease-in-out;
+  margin-inline: var(--calcite-internal-chip-space-s);
 }
 
 .close {
-  @apply focus-base
-    transition-default
-    text-color-1
-    m-0
-    cursor-pointer
-    items-center
+  @apply bg-transparent
     border-none
-    bg-transparent;
+    cursor-pointer
+    focus-base
+    items-center
+    m-0
+    rounded-half 
+    transition-default;
+
   -webkit-appearance: none;
   display: flex;
-  border-radius: 50%;
   align-content: center;
   justify-content: center;
-  --calcite-chip-transparent-hover: var(--calcite-color-transparent-hover);
-  --calcite-chip-transparent-press: var(--calcite-color-transparent-press);
-  --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+  color: var(--calcite-close-icon-color, var(--calcite-color-text-1));
+
   &:hover {
-    background-color: var(--calcite-chip-transparent-hover);
+    background-color: var(--calcite-color-transparent-hover);
   }
   &:focus {
-    background-color: var(--calcite-chip-transparent-hover);
+    background-color: var(--calcite-color-transparent-hover);
     @apply focus-inset;
   }
   &:active {
-    background-color: var(--calcite-chip-transparent-press);
+    background-color: var(--calcite-color-transparent-press);
   }
-  & calcite-icon {
+
+  calcite-icon {
     color: inherit;
   }
 }
@@ -375,107 +451,12 @@
   }
 }
 
-:host([selected]) .select-icon {
-  opacity: 1;
-}
-
-.container:hover .select-icon--active {
-  opacity: 1;
-}
-
 .multiple .select-icon {
   @apply flex justify-center items-center;
 }
 
 slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
-}
-
-:host([kind="neutral"]) {
-  background-color: var(--calcite-color-foreground-2);
-  color: var(--calcite-color-text-1);
-  .container {
-    border-color: transparent;
-  }
-  .close {
-    color: var(--calcite-color-text-3);
-  }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
-  }
-}
-
-:host([kind="inverse"]) {
-  background-color: var(--calcite-color-inverse);
-  @apply text-color-inverse;
-  .container {
-    border-color: transparent;
-  }
-  .close {
-    @apply text-color-inverse;
-  }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
-  }
-}
-
-:host([kind="brand"]) {
-  background-color: var(--calcite-color-brand);
-  color: var(--calcite-color-text-inverse);
-  .container {
-    border-color: transparent;
-  }
-  .close {
-    @apply text-color-inverse;
-  }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
-  }
-}
-
-:host([appearance="outline-fill"]),
-:host([appearance="outline"]) {
-  @apply text-color-1 bg-foreground-1;
-  .close {
-    @apply text-color-3;
-  }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
-  }
-}
-
-:host([appearance="outline-fill"]) {
-  @apply bg-foreground-1;
-}
-
-:host([appearance="outline"]) {
-  @apply bg-transparent;
-}
-
-:host([kind="neutral"][appearance="outline-fill"]) .container,
-:host([kind="neutral"][appearance="outline"]) .container {
-  border-color: var(--calcite-color-border-1);
-}
-
-:host([kind="inverse"][appearance="outline-fill"]) .container,
-:host([kind="inverse"][appearance="outline"]) .container {
-  border-color: var(--calcite-color-border-inverse);
-}
-
-:host([kind="brand"][appearance="outline-fill"]) .container,
-:host([kind="brand"][appearance="outline"]) .container {
-  border-color: var(--calcite-color-brand);
-}
-
-:host([kind="brand"][appearance="solid"]),
-:host([kind="inverse"][appearance="solid"]) {
-  button {
-    outline-color: var(--calcite-color-text-inverse);
-  }
-}
-
-:host([closed]) {
-  display: none;
 }
 
 @include disabled();
