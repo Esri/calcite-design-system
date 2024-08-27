@@ -1,3 +1,15 @@
+import { setCSSVariables } from "../src/tests/utils/cssTokenValues";
+import { html } from "../support/formatting";
+import {
+  actionBar,
+  actionMenu,
+  actionPad,
+  actionTokens,
+  actionBarTokens,
+  actionMenuTokens,
+  actionPadTokens,
+  actionGroupTokens,
+} from "./custom-theme/action";
 import { accordion } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { card, cardTokens } from "./custom-theme/card";
@@ -44,22 +56,22 @@ function convertToParamCase(str) {
   return str.replace(/([A-Z])/g, "-$1").toLowerCase();
 }
 
-function addTokens(args) {
-  return Object.entries(args)
-    .map(([tokenName, tokenValue]) =>
-      !!tokenValue && tokenValue !== "" ? `--${convertToParamCase(tokenName)}: ${tokenValue};` : null,
-    )
-    .filter((token) => token)
-    .join("");
+function customTheme(args: Record<string, string>, useTestValues = false) {
+  if (useTestValues) {
+    const tokensAsCSSVars = Object.keys(args).map((tokenName) => `--${convertToParamCase(tokenName)}`);
+    return setCSSVariables(tokensAsCSSVars, " ");
+  } else {
+    return Object.entries(args)
+      .map(([tokenName, tokenValue]) =>
+        !!tokenValue && tokenValue !== "" ? `--${convertToParamCase(tokenName)}: ${tokenValue};` : null,
+      )
+      .filter((token) => token)
+      .join("");
+  }
 }
 
-export default {
-  title: "Theming/Custom Theme",
-  args: { ...globalTokens, ...cardTokens },
-};
-
-export const themingInteractive = (args: Record<string, string>): string => {
-  return `<div style="${addTokens(args)}">
+const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
+  html`<div style="${customTheme(args, useTestValues)}">
     <style>
       .demo {
         display: flex;
@@ -77,33 +89,52 @@ export const themingInteractive = (args: Record<string, string>): string => {
       }
     </style>
     <div class="demo">
-      <div class="demo-column">
-        ${accordion}
-        ${notices}
-        ${segmentedControl}
-        ${icon}
-      </div>
-      <div class="demo-column">
-        <div>
-          ${card}
+        <div class="demo-column">
+          ${accordion} ${actionBar} ${notices} ${segmentedControl}
+          <div style="display: flex">
+            ${actionPad}
+            <div style="width: 40px; height: 40px;">${actionMenu}</div>
+            ${icon}
+          </div>
         </div>
-        <div>
-          ${dropdown}
-          ${buttons}
+        <div class="demo-column">
+          <div>${card}</div>
+          <div>${dropdown} ${buttons}</div>
+          <div>${checkbox}</div>
+          ${chips} ${pagination} ${slider}
         </div>
-        <div>
-          ${checkbox}
-        </div>
-        ${chips}
-        ${pagination}
-        ${slider}
-      </div>
-      <div class="demo-column">
-        ${datePicker}
-        ${tabs}
-        ${loader}
-        ${calciteSwitch}
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
       </div>
     </div>
   </div>`;
+
+export default {
+  title: "Theming/Custom Theme",
+  args: {
+    ...globalTokens,
+    ...actionTokens,
+    ...actionBarTokens,
+    ...actionMenuTokens,
+    ...actionPadTokens,
+    ...actionGroupTokens,
+    ...cardTokens,
+  },
+};
+
+export const themingInteractive = (args: Record<string, string>): string => {
+  return kitchenSink(args);
+};
+
+export const theming_TestOnly = (): string => {
+  return kitchenSink(
+    {
+      ...actionTokens,
+      ...actionBarTokens,
+      ...actionMenuTokens,
+      ...actionPadTokens,
+      ...actionGroupTokens,
+      ...cardTokens,
+    },
+    true,
+  );
 };

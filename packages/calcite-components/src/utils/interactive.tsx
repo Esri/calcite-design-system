@@ -218,7 +218,7 @@ export function disconnectInteractive(component: InteractiveComponent): void {
   restoreInteraction(component);
 }
 
-export interface InteractiveContainerOptions extends JSXAttributes {
+export interface InteractiveContainerProps extends JSXAttributes {
   disabled: boolean;
 }
 
@@ -226,13 +226,11 @@ export const CSS = {
   container: "interaction-container",
 };
 
-export function InteractiveContainer(
-  { disabled }: InteractiveContainerOptions,
+export const InteractiveContainer: FunctionalComponent<InteractiveContainerProps> = (
+  { disabled },
   children: VNode[],
-): FunctionalComponent {
-  return (
-    <div class={CSS.container} inert={disabled}>
-      {...children}
-    </div>
-  );
-}
+): VNode => (
+  <div class={CSS.container} inert={disabled}>
+    {...children}
+  </div>
+);
