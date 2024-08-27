@@ -15,7 +15,7 @@ import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
 import { IDS as PanelIDS } from "../panel/resources";
 import { DialogMessages } from "./assets/dialog/t9n";
-import { CSS, dialogStep, SLOTS } from "./resources";
+import { CSS, dialogDragStep, dialogResizeStep, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -924,13 +924,13 @@ describe("calcite-dialog", () => {
       expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
 
       await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogStep})`);
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogDragStep})`);
 
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
 
       await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${dialogStep}, 0)`);
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${dialogDragStep}, 0)`);
 
       await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
@@ -1022,7 +1022,7 @@ describe("calcite-dialog", () => {
       await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight - dialogStep}px`);
+      expect(computedStyle.blockSize).toBe(`${initialHeight - dialogResizeStep}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
 
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
@@ -1035,7 +1035,7 @@ describe("calcite-dialog", () => {
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth - dialogStep}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth - dialogResizeStep}px`);
 
       await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: true });
 
