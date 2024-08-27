@@ -142,12 +142,12 @@ describe("calcite-card", () => {
             </span>
           </calcite-card>`,
           {
-            "--calcite-card-background-color-hover": {
+            "--calcite-card-selection-background-color-hover": {
               shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
               targetProp: "backgroundColor",
               state: "hover",
             },
-            "--calcite-card-background-color-press": {
+            "--calcite-card-selection-background-color-press": {
               shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
               targetProp: "backgroundColor",
               state: { press: { attribute: "class", value: CSS.checkboxWrapperDeprecated } },
