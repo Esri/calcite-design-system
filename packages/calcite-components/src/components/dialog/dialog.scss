@@ -87,19 +87,19 @@
 :host([scale="s"]) {
   --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-sm));
   --calcite-internal-dialog-min-size-x: 198px;
-  --calcite-internal-dialog-min-size-y: 120px;
+  --calcite-internal-dialog-min-size-y: 140px;
 }
 
 :host([scale="m"]) {
   --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-md));
   --calcite-internal-dialog-min-size-x: 288px;
-  --calcite-internal-dialog-min-size-y: 140px;
+  --calcite-internal-dialog-min-size-y: 180px;
 }
 
 :host([scale="l"]) {
   --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-lg));
   --calcite-internal-dialog-min-size-x: 388px;
-  --calcite-internal-dialog-min-size-y: 180px;
+  --calcite-internal-dialog-min-size-y: 220px;
 }
 
 .scrim {
