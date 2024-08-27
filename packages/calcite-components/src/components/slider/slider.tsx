@@ -972,13 +972,16 @@ export class Slider
       .add(`${min}`)
       .toString();
 
-    let snappedValue = Math.min(Math.max(Number(bigDecimalString), min), max);
+    const clampedValue = this.clamp(Number(bigDecimalString));
+    let fixedValue = Number(clampedValue.toFixed(decimalPlaces(step)));
 
-    if (snappedValue > max) {
-      snappedValue -= step;
+    if (fixedValue > max) {
+      fixedValue -= step;
+    } else if (fixedValue < min) {
+      fixedValue += step;
     }
 
-    return snappedValue;
+    return fixedValue;
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {
