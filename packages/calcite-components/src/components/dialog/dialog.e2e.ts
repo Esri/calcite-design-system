@@ -1068,6 +1068,10 @@ describe("calcite-dialog", () => {
           shadowSelector: `.${CSS.dialog}`,
           targetProp: "minInlineSize",
         },
+        "--calcite-dialog-max-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "maxInlineSize",
+        },
         "--calcite-dialog-size-y": {
           shadowSelector: `.${CSS.dialog}`,
           targetProp: "blockSize",
@@ -1075,6 +1079,10 @@ describe("calcite-dialog", () => {
         "--calcite-dialog-min-size-y": {
           shadowSelector: `.${CSS.dialog}`,
           targetProp: "minBlockSize",
+        },
+        "--calcite-dialog-max-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "maxBlockSize",
         },
         "--calcite-dialog-content-space": {
           shadowSelector: `.${CSS.panel}`,
