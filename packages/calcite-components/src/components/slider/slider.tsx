@@ -972,7 +972,7 @@ export class Slider
       .add(`${min}`)
       .toString();
 
-    let snappedValue = Math.min(Math.max(Number(bigDecimalString), min), max);
+    let snappedValue = this.clamp(Number(bigDecimalString));
 
     if (snappedValue > max) {
       snappedValue -= step;
