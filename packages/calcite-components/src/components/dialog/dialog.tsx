@@ -535,10 +535,10 @@ export class Dialog
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height + dialogResizeStep,
+            size: this.getTransitionElDOMRect().height - dialogResizeStep,
             type: "blockSize",
           });
-          resizePosition.bottom += dialogResizeStep;
+          resizePosition.bottom -= dialogResizeStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -552,10 +552,10 @@ export class Dialog
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - dialogResizeStep,
+            size: this.getTransitionElDOMRect().height + dialogResizeStep,
             type: "blockSize",
           });
-          resizePosition.bottom -= dialogResizeStep;
+          resizePosition.bottom += dialogResizeStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();

@@ -1019,13 +1019,13 @@ describe("calcite-dialog", () => {
       const initialHeight = parseInt(initialBlockSize, 10);
       const initialWidth = parseInt(initialInlineSize, 10);
 
-      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
+      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${initialHeight - dialogResizeStep}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
 
-      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
+      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
