@@ -681,13 +681,15 @@ export class Dialog
           }),
         ],
         listeners: {
-          move: (event: ResizeEvent) => {
-            resizePosition.top += event.deltaRect.top;
-            resizePosition.right += event.deltaRect.right;
-            resizePosition.bottom += event.deltaRect.bottom;
-            resizePosition.left += event.deltaRect.left;
-            this.updateSize({ size: event.rect.width, type: "inlineSize" });
-            this.updateSize({ size: event.rect.height, type: "blockSize" });
+          move: ({ rect, deltaRect }: ResizeEvent) => {
+            if (deltaRect) {
+              resizePosition.top += deltaRect.top;
+              resizePosition.right += deltaRect.right;
+              resizePosition.bottom += deltaRect.bottom;
+              resizePosition.left += deltaRect.left;
+            }
+            this.updateSize({ size: rect.width, type: "inlineSize" });
+            this.updateSize({ size: rect.height, type: "blockSize" });
             this.updateTransform();
           },
         },
@@ -702,9 +704,9 @@ export class Dialog
           }),
         ],
         listeners: {
-          move: (event: DragEvent) => {
-            dragPosition.x += event.dx;
-            dragPosition.y += event.dy;
+          move: ({ dx, dy }: DragEvent) => {
+            dragPosition.x += dx;
+            dragPosition.y += dy;
             this.updateTransform();
           },
         },
