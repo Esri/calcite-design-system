@@ -6,14 +6,14 @@ For comprehensive guidance on using and implementing `calcite-loader`, refer to 
 
 ## Properties
 
-| Property             | Attribute | Description                                                                                         | Type                               | Default     |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
-| `inline`             | `inline`  | When `true`, displays smaller and appears to the left of the text.                                  | `boolean`                          | `false`     |
-| `label` *(required)* | `label`   | Accessible name for the component.                                                                  | `string`                           | `undefined` |
-| `scale`              | `scale`   | Specifies the size of the component.                                                                | `"l" \| "m" \| "s"`                | `"m"`       |
-| `text`               | `text`    | Text that displays under the component's indicator.                                                 | `string`                           | `""`        |
-| `type`               | `type`    | Specifies the component type. Use `"indeterminate"` if finding actual progress value is impossible. | `"determinate" \| "indeterminate"` | `undefined` |
-| `value`              | `value`   | The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.          | `number`                           | `0`         |
+| Property             | Attribute | Description                                                                                                                                                                                                                                               | Type                                                      | Default     |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `inline`             | `inline`  | When `true`, displays smaller and appears to the left of the text.                                                                                                                                                                                        | `boolean`                                                 | `false`     |
+| `label` *(required)* | `label`   | Accessible name for the component.                                                                                                                                                                                                                        | `string`                                                  | `undefined` |
+| `scale`              | `scale`   | Specifies the size of the component.                                                                                                                                                                                                                      | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| `text`               | `text`    | Text that displays under the component's indicator.                                                                                                                                                                                                       | `string`                                                  | `""`        |
+| `type`               | `type`    | Specifies the component type. Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress. | `"determinate" \| "determinate-value" \| "indeterminate"` | `undefined` |
+| `value`              | `value`   | The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.                                                                                                                                                                | `number`                                                  | `0`         |
 
 ## CSS Custom Properties
 
