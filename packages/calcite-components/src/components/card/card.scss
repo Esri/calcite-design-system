@@ -158,10 +158,27 @@
   inset-inline-end: var(--calcite-spacing-sm);
   margin: 0;
   padding: 0;
+  color: var(--calcite-card-selection-color, var(--calcite-color-text-3));
+
+  &:hover {
+    background-color: var(
+      --calcite-card-background-color-hover,
+      var(--calcite-card-selection-background-color-hover, var(--calcite-color-foreground-2))
+    );
+    color: var(
+      --calcite-card-selection-color-hover,
+      var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
+    );
+  }
+  &:active {
+    background-color: var(
+      --calcite-card-background-color-press,
+      var(--calcite-card-selection-background-color-active, var(--calcite-color-transparent-press))
+    );
+  }
 }
 
-.checkbox-wrapper,
-.checkbox-wrapper-deprecated {
+.checkbox-wrapper {
   @apply m-2 p-2 focus-base cursor-pointer pointer-events-auto;
   display: flex;
   align-items: center;
