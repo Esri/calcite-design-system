@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.32...@esri/calcite-components@2.12.0-next.33) (2024-08-27)
+
+### Features
+
+- **icon:** add component tokens ([#10062](https://github.com/Esri/calcite-design-system/issues/10062)) ([34d5689](https://github.com/Esri/calcite-design-system/commit/34d568971d31c1f915c37218ebf4cf8b018a56a1)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180) [#8549](https://github.com/Esri/calcite-design-system/issues/8549)
+
+## [2.12.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.31...@esri/calcite-components@2.12.0-next.32) (2024-08-27)
+
+### Features
+
+- **action, action-bar, action-group, action-menu, action-pad:** add component tokens ([#10058](https://github.com/Esri/calcite-design-system/issues/10058)) ([de96c24](https://github.com/Esri/calcite-design-system/commit/de96c24892f9d5467b037b837442c3cc346eb16d)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **input-date-picker:** prevent console error when using a lang ([#10162](https://github.com/Esri/calcite-design-system/issues/10162)) ([e7bf604](https://github.com/Esri/calcite-design-system/commit/e7bf604c9cb61f875b1fa42a223d29a46e153595)), closes [#9387](https://github.com/Esri/calcite-design-system/issues/9387)
+
 ## [2.12.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.30...@esri/calcite-components@2.12.0-next.31) (2024-08-23)
 
 ### Bug Fixes

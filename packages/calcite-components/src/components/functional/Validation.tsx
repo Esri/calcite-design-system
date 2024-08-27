@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
 import { Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -21,7 +21,7 @@ export const Validation: FunctionalComponent<ValidationProps> = ({
   id,
   icon,
   message,
-}) => (
+}): VNode => (
   <div class={CSS.validationContainer}>
     <calcite-input-message aria-live="polite" icon={icon} id={id} scale={scale} status={status}>
       {message}
