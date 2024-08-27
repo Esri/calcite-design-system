@@ -468,6 +468,7 @@ export class InputDatePicker
   connectedCallback(): void {
     connectInteractive(this);
     connectLocalized(this);
+    this.handleDateTimeFormatChange();
 
     const { open } = this;
     open && this.openHandler();
