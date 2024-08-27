@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.33...@esri/calcite-components@2.12.0-next.34) (2024-08-27)
+
+### Features
+
+- **dialog:** add resizable and dragEnabled properties ([#9804](https://github.com/Esri/calcite-design-system/issues/9804)) ([e3e499e](https://github.com/Esri/calcite-design-system/commit/e3e499e7a3309461e5deeaa0ca67f334950b0c10)), closes [#9875](https://github.com/Esri/calcite-design-system/issues/9875)
+
+### Bug Fixes
+
+- **slider:** resolve step & snap floating point precision ([#10148](https://github.com/Esri/calcite-design-system/issues/10148)) ([613bc47](https://github.com/Esri/calcite-design-system/commit/613bc4746bbb33348c286668bbf697c4df806b6a)), closes [#9684](https://github.com/Esri/calcite-design-system/issues/9684)
+
 ## [2.12.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.32...@esri/calcite-components@2.12.0-next.33) (2024-08-27)
 
 ### Features
