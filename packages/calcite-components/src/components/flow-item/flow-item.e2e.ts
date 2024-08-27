@@ -13,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
+import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { CSS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
@@ -123,7 +124,24 @@ describe("calcite-flow-item", () => {
   });
 
   describe("disabled", () => {
-    disabled(`<calcite-flow-item closable>scrolling content</calcite-flow-item>`);
+    disabled(html`<calcite-flow-item style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-flow-item>`, {
+      focusTarget: {
+        tab: "calcite-flow-item",
+        click: "body",
+      },
+    });
+
+    describe("closable", () => {
+      disabled(
+        html`<calcite-flow-item closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-flow-item>`,
+        {
+          focusTarget: {
+            tab: "calcite-flow-item",
+            click: "body",
+          },
+        },
+      );
+    });
   });
 
   describe("accessible", () => {

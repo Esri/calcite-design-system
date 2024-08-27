@@ -158,6 +158,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await page.waitForChanges();
     await expectToBeFocused(page, clickFocusTarget);
 
+    await resetFocusOrder();
     await component.callMethod("click");
     await page.waitForChanges();
     await expectToBeFocused(page, clickFocusTarget);
@@ -181,6 +182,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await page.keyboard.press("Tab");
     await expectToBeFocused(page, "body");
 
+    await resetFocusOrder();
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await expectToBeFocused(page, "body");
 
