@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
@@ -76,7 +76,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   tooltip,
   ref,
   scale,
-}) => {
+}): VNode => {
   const rtl = getElementDir(el) === "rtl";
 
   const text = expanded ? collapseText : expandText;

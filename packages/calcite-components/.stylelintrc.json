@@ -40,6 +40,34 @@
       {
         "ignoreTypes": ["/^calcite-/"]
       }
+    ],
+    "scss/at-function-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/dollar-variable-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/at-mixin-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/percent-placeholder-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
     ]
   }
 }

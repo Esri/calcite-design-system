@@ -15,10 +15,11 @@ export function getTokenValue(token: string): string {
     color$: "rgb(0, 191, 255)",
     hover$: "rgb(255, 105, 180)",
     pressed$: "rgb(44, 44, 44)",
+    selected$: "rgb(156, 89, 209)",
     shadow$:
       "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px",
-    "z-index$": "42",
-    "(size|space)$": "42px",
+    "(z-index)$": "42",
+    "(columns|gap|height|offset|radius|size|space|width)": "42px",
   } as const;
 
   const match = Object.entries(tokenValueMap).find(([regexStr]) => {
@@ -36,12 +37,13 @@ export function getTokenValue(token: string): string {
 /**
  *
  * @param tokens - an array of CSS variables
+ * @param join
  * @returns a string of CSS variables with their new values.
  */
-export function setCSSVariables(tokens: string[]): string {
+export function setCSSVariables(tokens: string[], join = "\n"): string {
   return tokens
     .map((token) => {
       return `${token}: ${getTokenValue(token)};`;
     })
-    .join("\n");
+    .join(join);
 }

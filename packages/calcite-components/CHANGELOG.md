@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.31...@esri/calcite-components@2.12.0-next.32) (2024-08-27)
+
+### Features
+
+- **action, action-bar, action-group, action-menu, action-pad:** add component tokens ([#10058](https://github.com/Esri/calcite-design-system/issues/10058)) ([de96c24](https://github.com/Esri/calcite-design-system/commit/de96c24892f9d5467b037b837442c3cc346eb16d)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **input-date-picker:** prevent console error when using a lang ([#10162](https://github.com/Esri/calcite-design-system/issues/10162)) ([e7bf604](https://github.com/Esri/calcite-design-system/commit/e7bf604c9cb61f875b1fa42a223d29a46e153595)), closes [#9387](https://github.com/Esri/calcite-design-system/issues/9387)
+
+## [2.12.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.30...@esri/calcite-components@2.12.0-next.31) (2024-08-23)
+
+### Bug Fixes
+
+- **filter:** fix setFocus method ([#10149](https://github.com/Esri/calcite-design-system/issues/10149)) ([f4a959a](https://github.com/Esri/calcite-design-system/commit/f4a959ad07c27eeb8f9171e1eaa38e84fa9e41b1)), closes [#10136](https://github.com/Esri/calcite-design-system/issues/10136)
+
+## [2.12.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.29...@esri/calcite-components@2.12.0-next.30) (2024-08-22)
+
+### Bug Fixes
+
+- **dialog, flow-item:** slotted closable panels should not close the component ([#10130](https://github.com/Esri/calcite-design-system/issues/10130)) ([ce2513d](https://github.com/Esri/calcite-design-system/commit/ce2513dcc8310164696343d88c6e02f8066e3e8f)), closes [#10129](https://github.com/Esri/calcite-design-system/issues/10129)
+
+## [2.12.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.28...@esri/calcite-components@2.12.0-next.29) (2024-08-22)
+
+### Bug Fixes
+
+- **dialog:** allow shell to be slotted inside ([#10118](https://github.com/Esri/calcite-design-system/issues/10118)) ([ea3a6de](https://github.com/Esri/calcite-design-system/commit/ea3a6dee87bb2f0476fa826f593453ba1c8b4d8b)), closes [#10095](https://github.com/Esri/calcite-design-system/issues/10095)
+
+## [2.12.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.27...@esri/calcite-components@2.12.0-next.28) (2024-08-21)
+
+### Features
+
+- **panel:** add '--calcite-panel-content-space' style ([#10117](https://github.com/Esri/calcite-design-system/issues/10117)) ([0e3ebcb](https://github.com/Esri/calcite-design-system/commit/0e3ebcbd91683917007f3ac5cbd0be34becb7b39)), closes [#10119](https://github.com/Esri/calcite-design-system/issues/10119)
+
 ## [2.12.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.26...@esri/calcite-components@2.12.0-next.27) (2024-08-21)
 
 ### Features

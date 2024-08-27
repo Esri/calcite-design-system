@@ -45,7 +45,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -510,8 +510,8 @@ export class Panel
       <calcite-action
         aria-expanded={toAriaBoolean(!collapsed)}
         aria-label={collapse}
-        data-test="collapse"
         icon={collapsed ? icons[0] : icons[1]}
+        id={IDS.collapse}
         onClick={this.collapse}
         scale={this.scale}
         text={collapse}
@@ -522,8 +522,8 @@ export class Panel
     const closeNode = closable ? (
       <calcite-action
         aria-label={close}
-        data-test="close"
         icon={ICONS.close}
+        id={IDS.close}
         onClick={this.handleUserClose}
         scale={this.scale}
         text={close}
