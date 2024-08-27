@@ -31,10 +31,6 @@
   @apply absolute;
 }
 
-:host([drag-enabled]) .dialog {
-  @apply select-none;
-}
-
 .container {
   @apply text-color-2
     pointer-events-auto

@@ -368,9 +368,9 @@ export class Dialog
 
   focusTrap: FocusTrap;
 
-  private resizePosition: DialogResizePosition = initialResizePosition;
+  private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
-  private dragPosition: DialogDragPosition = initialDragPosition;
+  private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
   private interaction: Interactable;
 
@@ -642,28 +642,27 @@ export class Dialog
     this.interaction?.unset();
     this.updateSize({ size: null, type: "inlineSize" });
     this.updateSize({ size: null, type: "blockSize" });
-    this.dragPosition = initialDragPosition;
-    this.resizePosition = initialResizePosition;
+    this.dragPosition = { ...initialDragPosition };
+    this.resizePosition = { ...initialResizePosition };
     this.updateTransform();
   }
 
   private setupInteractions(): void {
     this.cleanupInteractions();
 
-    const { transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
+    const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
 
     if (!transitionEl || !this.open) {
       return;
     }
 
     if (resizable || dragEnabled) {
-      this.interaction = interact(transitionEl, { context: this.el.ownerDocument });
+      this.interaction = interact(transitionEl, { context: el.ownerDocument });
     }
 
     if (resizable) {
-      const computedStyle = window.getComputedStyle(transitionEl);
-      const width = parseInt(computedStyle.minInlineSize);
-      const height = parseInt(computedStyle.minBlockSize);
+      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
+        window.getComputedStyle(transitionEl);
 
       this.interaction.resizable({
         edges: {
@@ -674,7 +673,18 @@ export class Dialog
         },
         modifiers: [
           interact.modifiers.restrictSize({
-            min: { width, height },
+            min: {
+              width: this.isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
+              height: this.isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+            },
+            max: {
+              width: this.isPixelValue(maxInlineSize)
+                ? parseInt(maxInlineSize, 10)
+                : window.innerWidth,
+              height: this.isPixelValue(maxBlockSize)
+                ? parseInt(maxBlockSize, 10)
+                : window.innerHeight,
+            },
           }),
           interact.modifiers.restrict({
             restriction: "parent",
@@ -712,6 +722,10 @@ export class Dialog
         },
       });
     }
+  }
+
+  private isPixelValue(value: string): boolean {
+    return value.indexOf("px") !== -1;
   }
 
   private getAdjustedResizePosition({
