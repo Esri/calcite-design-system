@@ -967,21 +967,18 @@ export class Slider
     const { max, min, step } = this;
 
     // prevents floating point precision issues
-    const bigDecimalString = new BigDecimal(`${Math.round((value - min) / step)}`)
+    const bigDecimalString = new BigDecimal(`${Math.floor((value - min) / step)}`)
       .multiply(`${step}`)
       .add(`${min}`)
       .toString();
 
-    const clampedValue = this.clamp(Number(bigDecimalString));
-    let fixedValue = Number(clampedValue.toFixed(decimalPlaces(step)));
+    let snappedValue = Math.min(Math.max(Number(bigDecimalString), min), max);
 
-    if (fixedValue > max) {
-      fixedValue -= step;
-    } else if (fixedValue < min) {
-      fixedValue += step;
+    if (snappedValue > max) {
+      snappedValue -= step;
     }
 
-    return fixedValue;
+    return snappedValue;
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {

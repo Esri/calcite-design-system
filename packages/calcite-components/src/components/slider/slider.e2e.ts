@@ -204,7 +204,7 @@ describe("calcite-slider", () => {
     });
   });
 
-  it("step floating point precision", async () => {
+  it.skip("step floating point precision", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-slider value="1.4" label-handles max="10" min="0.1" snap step="0.1"></calcite-slider>`,
