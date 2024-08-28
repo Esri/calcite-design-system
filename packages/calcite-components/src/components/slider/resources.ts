@@ -25,6 +25,7 @@ export const CSS = {
   tickLabel: "tick__label",
   tickLabelVertical: "tick__label--vertical",
   tickLabelVerticalReversed: "tick__label--vertical-reversed",
+  tickLabelHorizontalReversed: "tick__label--horizontal-reversed",
   tickMax: "tick__label--max",
   tickMin: "tick__label--min",
   ticks: "ticks",

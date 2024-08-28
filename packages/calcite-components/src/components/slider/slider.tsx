@@ -291,8 +291,9 @@ export class Slider
       type: thumbTypes,
       thumbPlacement:
         thumbTypes.includes("histogram") ||
-        (this.layout === "vertical" && !this.flipLabels && !valueIsRange) ||
-        !this.precise
+        (this.layout === "vertical" && this.flipLabels && !valueIsRange) ||
+        (this.layout === "vertical" && !this.precise) ||
+        (this.layout === "horizontal" && this.flipLabels)
           ? "below"
           : "above",
       maxInterval,
@@ -308,8 +309,9 @@ export class Slider
         thumbPlacement:
           minThumbTypes.includes("histogram") ||
           minThumbTypes.includes("precise") ||
-          (this.layout === "vertical" && !this.flipLabels) ||
-          !this.precise
+          (this.layout === "vertical" && (this.flipLabels || valueIsRange)) ||
+          (this.layout === "vertical" && !this.precise) ||
+          (this.layout === "horizontal" && this.flipLabels)
             ? "below"
             : "above",
         maxInterval,
@@ -533,7 +535,8 @@ export class Slider
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
           [CSS.tickLabelVertical]: this.layout === "vertical",
-          [CSS.tickLabelVerticalReversed]: this.layout === "vertical" && this.flipLabels,
+          // [CSS.tickLabelVerticalReversed]: this.layout === "vertical" && this.flipLabels,
+          // [CSS.tickLabelHorizontalReversed]: this.layout === "horizontal" && this.flipLabels,
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
@@ -1070,11 +1073,11 @@ export class Slider
     const rangeContainer: HTMLDivElement = this.el.shadowRoot.querySelector(".container--range");
     let offset: number;
     if (!this.flipLabels) {
-      if (!rangeContainer && handle.right - labelBounds.left > 0) {
-        offset = handle.right - labelBounds.left + 12;
+      if (!rangeContainer && labelBounds.right - handle.left > 0) {
+        offset = -(labelBounds.right - handle.left) - 8;
       }
-      if (rangeContainer && name === "value" && this.precise) {
-        offset = -(labelBounds.right - handle.left + 4);
+      if (rangeContainer && (!this.precise || (name === "value" && this.precise))) {
+        offset = -(labelBounds.right - handle.left);
       }
     } else if (this.flipLabels && labelBounds.right - handle.left > 0) {
       offset = -(labelBounds.right - handle.left) - labelBounds.width;

@@ -203,14 +203,14 @@
 :host([label-handles][precise]) {
   &:host(:not([has-histogram])) .scale--s .thumb--value {
     --calcite-slider-thumb-y-offset: -2.075rem;
-    &.thumb--vertical:not(.thumb--vertical-reversed) {
+    &.thumb--vertical.thumb--vertical-reversed {
       --calcite-slider-thumb-y-offset: -0.075rem;
     }
   }
   &:host(:not([has-histogram])) .scale--m {
     &:not(.container--range) .thumb--value {
       --calcite-slider-thumb-y-offset: -2.75rem;
-      &.thumb--vertical:not(.thumb--vertical-reversed) {
+      &.thumb--vertical.thumb--vertical-reversed {
         --calcite-slider-thumb-y-offset: 0;
       }
     }
@@ -220,7 +220,7 @@
   }
   &:host(:not([has-histogram])) .scale--l .thumb--value {
     --calcite-slider-thumb-y-offset: -3.0625rem;
-    &.thumb--vertical:not(.thumb--vertical-reversed) {
+    &.thumb--vertical.thumb--vertical-reversed {
       --calcite-slider-thumb-y-offset: -0.0625rem;
     }
   }
@@ -322,7 +322,7 @@
 }
 
 .tick__label--vertical {
-  transform: rotate(90deg) translateX(-40px);
+  transform: rotate(90deg) translateX(12px);
 
   &.tick__label--vertical-reversed {
     transform: rotate(90deg) translate(0);
