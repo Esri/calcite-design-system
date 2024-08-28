@@ -4,12 +4,10 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-accordion-border-color: [Deprecate] Use --calcite-accordion-item-border-color. Specifies the component's border color.
- * @prop --calcite-accordion-item-background-color-press: Specifies the component's background color when expanded.
- * @prop --calcite-accordion-item-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-accordion-item-background-color: Specifies the component's background color.
  * @prop --calcite-accordion-item-border-color: Specifies the component's border color.
  * @prop --calcite-accordion-item-content-space: Specifies the component's padding.
- * @prop --calcite-accordion-item-header-background-color-press: Specifies the component's header background color when expanded.
+ * @prop --calcite-accordion-item-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-accordion-item-text-color-hover: Specifies the component's main text color on hover.
  * @prop --calcite-accordion-item-text-color-press: Specifies the component's main text color when pressed.
  * @prop --calcite-accordion-item-text-color: Specifies the component's text color.
@@ -35,17 +33,9 @@
   color: var(--calcite-accordion-item-text-color, var(--calcite-accordion-text-color, var(--calcite-color-text-3)));
   background-color: var(--calcite-accordion-item-background-color);
   border-width: 0;
-}
-
-:host(:hover) {
-  background-color: var(--calcite-accordion-item-background-color-hover);
-}
-
-:host([expanded]) {
-  background-color: var(--calcite-accordion-item-background-color-press);
 
   .header {
-    background-color: var(--calcite-accordion-item-header-background-color-press);
+    background-color: var(--calcite-accordion-item-header-background-color);
   }
 }
 
