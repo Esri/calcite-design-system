@@ -12,7 +12,7 @@ import {
 } from "./custom-theme/action";
 import { accordion } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
-import { card, cardTokens } from "./custom-theme/card";
+import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox } from "./custom-theme/checkbox";
 import { chips, chipGroupTokens, chipTokens } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
@@ -99,6 +99,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         </div>
         <div class="demo-column">
           <div>${card}</div>
+          ${cardThumbnail}
           <div>${dropdown} ${buttons}</div>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}

@@ -31,7 +31,7 @@
   }
 
   &:host([kind="inverse"]) .container {
-    border-color: var(--calcite-chip-border-color, var(--calcite-color-inverse));
+    border-color: var(--calcite-chip-border-color, var(--calcite-color-border-inverse));
   }
 
   &:host([kind="neutral"]) .container {
@@ -57,11 +57,10 @@
   &:host([kind="inverse"]) {
     .container {
       color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
+    }
 
-      // I think this only applies to .close. Maybe change the selector to .close?
-      button {
-        outline-color: var(--calcite-color-text-inverse);
-      }
+    .close {
+      outline-color: var(--calcite-color-text-inverse);
     }
   }
 
@@ -417,6 +416,7 @@
   transition:
     opacity 0.15s ease-in-out,
     inline-size 0.15s ease-in-out;
+
   &.select-icon--active {
     visibility: visible;
     opacity: 0.5;
