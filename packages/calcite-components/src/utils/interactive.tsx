@@ -1,5 +1,5 @@
 import { JSXAttributes } from "@stencil/core/internal";
-import { FunctionalComponent, VNode } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 
 export interface InteractiveComponent {
   /**

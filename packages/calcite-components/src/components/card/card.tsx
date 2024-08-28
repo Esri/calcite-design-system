@@ -149,7 +149,6 @@ export class Card
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -163,7 +162,6 @@ export class Card
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
