@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
@@ -237,5 +238,33 @@ describe("calcite-chip", () => {
 
   describe("translation support", () => {
     t9n("calcite-chip");
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-chip`, {
+        "--calcite-chip-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-chip-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-chip-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+      });
+    });
+
+    describe("outline", () => {
+      themed(html`<calcite-chip appearance="outline" kind="neutral">Layers</calcite-chip>`, {
+        "--calcite-chip-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+      });
+    });
   });
 });
