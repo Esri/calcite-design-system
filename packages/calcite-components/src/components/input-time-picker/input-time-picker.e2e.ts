@@ -165,7 +165,7 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
       expect(await popover.getProperty("open")).toBe(false);
 
-      await component.type("atención atención");
+      await component.type("attention attention");
       await page.waitForChanges();
 
       expect(await input.getProperty("value")).toBe("");
@@ -898,11 +898,13 @@ describe("calcite-input-time-picker", () => {
       const localizedSecondSuffix = getLocalizedTimePartSuffix("second", locale);
       const localeHourCycle = getLocaleHourCycle(locale);
 
-      describe(`${locale} (${localeHourCycle}-hour): committing typed values`, () => {
+      describe(`${locale} (${localeHourCycle}-hour): committing localized time values`, () => {
         describe("with enter key", () => {
-          it.only(`${locale} locale: allows typing in 24-hour format`, async () => {
+          it("allows typing in 24-hour format", async () => {
             const page = await newE2EPage();
-            await page.setContent(`<calcite-input-time-picker lang="${locale}" step="1"></calcite-input-time-picker><input>`);
+            await page.setContent(
+              `<calcite-input-time-picker hour-cycle="24" lang="${locale}" step="1"></calcite-input-time-picker>`,
+            );
 
             const inputTimePicker = await page.find("calcite-input-time-picker");
             const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -927,9 +929,9 @@ describe("calcite-input-time-picker", () => {
             await page.waitForChanges();
 
             expect(changeEvent).toHaveReceivedEventTimes(1);
-            let value = await inputTimePicker.getProperty("value");
+            const value = await inputTimePicker.getProperty("value");
             expect(value).toBe("14:30:45");
-            const localizedTimeString = localizeTimeString({ includeSeconds: true, locale, value });
+            const localizedTimeString = localizeTimeString({ hour12: false, includeSeconds: true, locale, value });
             expect(await getInputValue(page)).toBe(localizedTimeString);
 
             await page.keyboard.press("Enter");
@@ -940,7 +942,9 @@ describe("calcite-input-time-picker", () => {
 
           it(`${locale} locale: allows typing in 12-hour format`, async () => {
             const page = await newE2EPage();
-            await page.setContent(`<calcite-input-time-picker lang="${locale}" step="1"></calcite-input-time-picker><input>`);
+            await page.setContent(
+              `<calcite-input-time-picker lang="${locale}" step="1"></calcite-input-time-picker><input>`,
+            );
 
             const inputTimePicker = await page.find("calcite-input-time-picker");
             const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -961,7 +965,7 @@ describe("calcite-input-time-picker", () => {
             await page.waitForChanges();
 
             expect(changeEvent).toHaveReceivedEventTimes(1);
-            let value = await inputTimePicker.getProperty("value");
+            const value = await inputTimePicker.getProperty("value");
             expect(value).toBe("14:30:45");
             expect(await getInputValue(page)).toBe(localizeTimeString({ includeSeconds: true, locale, value }));
 

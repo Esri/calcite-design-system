@@ -137,7 +137,11 @@ export function getLocaleHourCycle(locale: SupportedLocale): HourCycle {
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
-export function getLocalizedMeridiem(locale: SupportedLocale, meridiem: Meridiem, numberingSystem: NumberingSystem = "latn") {
+export function getLocalizedMeridiem(
+  locale: SupportedLocale,
+  meridiem: Meridiem,
+  numberingSystem: NumberingSystem = "latn",
+): string {
   const formatter = createLocaleDateTimeFormatter({ hour12: true, locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, meridiem === "AM" ? 6 : 18, 0)));
   return getLocalizedTimePart("meridiem" as TimePart, parts);
@@ -335,7 +339,12 @@ export function localizeTimeString({
     fractionalSecondDigits,
     hour12,
   });
-  return formatter.format(dateFromTimeString) || null;
+  let result = formatter.format(dateFromTimeString) || null;
+  // This is to fix a chromium bug that isn't formatting time values correctly for bg locale
+  if (result && locale === "bg" && !result.includes("ч.")) {
+    result += " ч.";
+  }
+  return result;
 }
 
 interface LocalizeTimeStringToPartsParameters {

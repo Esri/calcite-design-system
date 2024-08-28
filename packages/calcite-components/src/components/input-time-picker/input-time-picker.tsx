@@ -230,7 +230,7 @@ export class InputTimePicker
   /**
    * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
    */
-  @Prop({ reflect: true }) hourCycle: HourCycle;
+  @Prop({ mutable: true, reflect: true }) hourCycle: HourCycle;
 
   @Watch("hourCycle")
   hourCycleWatcher(hourCycle: HourCycle): void {
