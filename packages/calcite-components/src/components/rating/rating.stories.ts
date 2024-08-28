@@ -1,26 +1,39 @@
-import { number, select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Rating } from "./rating";
+const { scale } = ATTRIBUTES;
+
+type RatingStoryArgs = Pick<Rating, "scale" | "value" | "showChip" | "average" | "count" | "readOnly" | "disabled">;
 
 export default {
   title: "Components/Controls/Rating",
-  parameters: {
-    notes: readme,
+  args: {
+    scale: scale.defaultValue,
+    value: 1,
+    showChip: true,
+    average: 4.4,
+    count: 10,
+    readOnly: false,
+    disabled: false,
   },
-  ...storyFilters(),
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: RatingStoryArgs): string => html`
   <calcite-rating
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    value="${number("value", 1)}"
-    ${boolean("show-chip", true)}
-    average="${number("average", 4.4)}"
-    count="${number("count", 10)}"
-    ${boolean("read-only", false)}
-    ${boolean("disabled", false)}
+    scale="${args.scale}"
+    value="${args.value}"
+    ${boolean("show-chip", args.showChip)}
+    average="${args.average}"
+    count="${args.count}"
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("disabled", args.disabled)}
   ></calcite-rating>
 `;
 
@@ -28,17 +41,15 @@ export const darkModeRTL_TestOnly = (): string => html`
   <calcite-rating
     class="calcite-mode-dark"
     dir="rtl"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    value="${number("value", 2)}"
-    ${boolean("show-chip", true)}
-    average="${number("average", 4.4)}"
-    count="${number("count", 10)}"
-    ${boolean("read-only", false)}
-    ${boolean("disabled", false)}
+    scale="m"
+    value="2"
+    show-chip
+    average="4.4"
+    count="10"
   ></calcite-rating>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
 

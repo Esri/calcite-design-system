@@ -1,4 +1,5 @@
 import { tabbable } from "tabbable";
+import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
@@ -419,6 +420,17 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
 }
 
 /**
+ * Filters an array of HTML elements by the provided css selector string.
+ *
+ * @param {Element[]} elements An array of elements, such as one returned by HTMLSlotElement.assignedElements().
+ * @param {string} selector The CSS selector string to filter the returned elements by.
+ * @returns {Element[]} A filtered array of elements.
+ */
+export function filterElementsBySelector<T extends Element>(elements: Element[], selector: string): T[] {
+  return elements.filter((element): element is T => element.matches(selector));
+}
+
+/**
  * Set a default icon from a defined set or allow an override with an icon name string
  *
  * @param {Record<string, string>} iconObject The icon object.
@@ -427,10 +439,10 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
  * @returns {string|undefined} The resulting icon value.
  */
 export function setRequestedIcon(
-  iconObject: Record<string, string>,
-  iconValue: string | boolean,
+  iconObject: Record<string, IconNameOrString>,
+  iconValue: IconNameOrString | boolean | "",
   matchedValue: string,
-): string | undefined {
+): IconNameOrString | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
   } else if (iconValue === "") {
@@ -537,7 +549,7 @@ export function slotChangeHasAssignedNode(event: Event): boolean {
  * @returns {boolean} Whether the slot has any assigned nodes.
  */
 export function slotChangeGetAssignedNodes(event: Event): Node[] {
-  return (event.target as HTMLSlotElement).assignedNodes({
+  return (event.currentTarget as HTMLSlotElement).assignedNodes({
     flatten: true,
   });
 }
@@ -564,12 +576,25 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * ```
  *
  * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned elements.
+ * @param {string} selector The CSS selector string to filter the returned elements by.
+ * @returns {Element[]} An array of elements.
  */
-export function slotChangeGetAssignedElements(event: Event): Element[] {
-  return (event.target as HTMLSlotElement).assignedElements({
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
+  return getSlotAssignedElements(event.target as HTMLSlotElement, selector);
+}
+
+/**
+ * This helper returns the assigned elements on a `slot` element, filtered by an optional css selector.
+ *
+ * @param {HTMLSlotElement} slot The slot element.
+ * @param {string} selector CSS selector string to filter the returned elements by.
+ * @returns {Element[]} An array of elements.
+ */
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
+  const assignedElements = slot.assignedElements({
     flatten: true,
   });
+  return selector ? filterElementsBySelector<T>(assignedElements, selector) : (assignedElements as T[]);
 }
 
 /**
@@ -584,6 +609,19 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
 }
 
+/**
+ * This helper returns true if the mouse event was triggered by a keyboard click.
+ *
+ * @param {MouseEvent} event The mouse event.
+ * @returns {boolean} The value.
+ */
+export function isKeyboardTriggeredClick(event: MouseEvent): boolean {
+  // we assume event.detail = 0 is a keyboard click
+  // see https://www.w3.org/TR/uievents/#event-type-click
+  // see https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event#usage_notes
+  return event.detail === 0;
+}
+
 export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
 
 /**
@@ -595,12 +633,12 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
  * @returns {Element} The focused element
  */
-export const focusElementInGroup = (
+export const focusElementInGroup = <T extends Element = Element>(
   elements: Element[],
   currentElement: Element,
   destination: FocusElementInGroupDestination,
   cycle = true,
-): Element => {
+): T => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
@@ -639,4 +677,131 @@ export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
 
   const children = Array.from(a.parentNode.children);
   return children.indexOf(a) < children.indexOf(b);
+}
+
+/**
+ * This util helps determine when an animation has completed.
+ *
+ * @param targetEl The element to watch for the animation to complete.
+ * @param animationName The name of the animation to watch for completion.
+ * @param onStart A callback to run when the animation starts.
+ * @param onEnd A callback to run when the animation ends or is canceled.
+ */
+export async function whenAnimationDone(
+  targetEl: HTMLElement,
+  animationName: string,
+  onStart?: () => void,
+  onEnd?: () => void,
+): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, animationName, "animation", onStart, onEnd);
+}
+
+/**
+ * This util helps determine when a transition has completed.
+ *
+ * @param targetEl The element to watch for the transition to complete.
+ * @param transitionProp The name of the transition to watch for completion.
+ * @param onStart A callback to run when the transition starts.
+ * @param onEnd A callback to run when the transition ends or is canceled.
+ */
+export async function whenTransitionDone(
+  targetEl: HTMLElement,
+  transitionProp: string,
+  onStart?: () => void,
+  onEnd?: () => void,
+): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition", onStart, onEnd);
+}
+
+type TransitionOrAnimation = "transition" | "animation";
+type TransitionOrAnimationEvent = TransitionEvent | AnimationEvent;
+
+/**
+ * This util helps determine when a transition has completed.
+ *
+ * @param targetEl The element to watch for the transition or animation to complete.
+ * @param transitionPropOrAnimationName The transition or animation property to watch for completion.
+ * @param type The type of property to watch for completion. Defaults to "transition".
+ * @param onStart A callback to run when the transition or animation starts.
+ * @param onEnd A callback to run when the transition or animation ends or is canceled.
+ */
+export async function whenTransitionOrAnimationDone(
+  targetEl: HTMLElement,
+  transitionPropOrAnimationName: string,
+  type: TransitionOrAnimation,
+  onStart?: () => void,
+  onEnd?: () => void,
+): Promise<void> {
+  const style = window.getComputedStyle(targetEl);
+  const allDurations = type === "transition" ? style.transitionDuration : style.animationDuration;
+  const allProps = type === "transition" ? style.transitionProperty : style.animationName;
+
+  const allDurationsArray = allDurations.split(",");
+  const allPropsArray = allProps.split(",").map((prop) => prop.trim());
+  const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
+  const duration =
+    allDurationsArray[propIndex] ??
+    /* Safari will have a single duration value for the shorthand prop when multiple, separate names/props are defined,
+            so we fall back to it if there's no matching prop duration */
+    allDurationsArray[0];
+
+  function triggerFallbackStartEnd(): void {
+    // offset callbacks by a frame to simulate event counterparts
+    requestAnimationFrame(() => {
+      onStart?.();
+
+      requestAnimationFrame(() => onEnd?.());
+    });
+  }
+
+  if (duration === "0s") {
+    triggerFallbackStartEnd();
+    return;
+  }
+
+  const startEvent = type === "transition" ? "transitionstart" : "animationstart";
+  const endEvent = type === "transition" ? "transitionend" : "animationend";
+  const cancelEvent = type === "transition" ? "transitioncancel" : "animationcancel";
+
+  return new Promise<void>((resolve) => {
+    const fallbackTimeoutId = window.setTimeout(
+      (): void => {
+        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
+        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
+        triggerFallbackStartEnd();
+        resolve();
+      },
+      parseFloat(duration) * 1000,
+    );
+
+    targetEl.addEventListener(startEvent, onTransitionOrAnimationStart);
+    targetEl.addEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
+    targetEl.addEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
+
+    function onTransitionOrAnimationStart(event: TransitionOrAnimationEvent): void {
+      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
+        window.clearTimeout(fallbackTimeoutId);
+        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
+        onStart?.();
+      }
+    }
+
+    function onTransitionOrAnimationEndOrCancel(event: TransitionOrAnimationEvent): void {
+      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
+        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
+        onEnd?.();
+        resolve();
+      }
+    }
+  });
+}
+
+function isTransitionEvent(event: TransitionOrAnimationEvent): event is TransitionEvent {
+  return "propertyName" in event;
+}
+
+function getTransitionOrAnimationName(event: TransitionOrAnimationEvent): string {
+  return isTransitionEvent(event) ? event.propertyName : event.animationName;
 }

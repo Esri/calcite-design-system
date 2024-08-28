@@ -1,16 +1,8 @@
 # calcite-progress
 
-The `calcite-progress` component is used to show progress on some async task to the user.
+For comprehensive guidance on using and implementing `calcite-progress`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/progress/).
 
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<calcite-progress type="indeterminate"></calcite-progress>
-```
 
 ## Properties
 
@@ -26,6 +18,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 
 ### Used by
 
+- [calcite-carousel](../carousel)
 - [calcite-input](../input)
 - [calcite-input-number](../input-number)
 - [calcite-input-text](../input-text)
@@ -34,6 +27,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 
 ```mermaid
 graph TD;
+  calcite-carousel --> calcite-progress
   calcite-input --> calcite-progress
   calcite-input-number --> calcite-progress
   calcite-input-text --> calcite-progress

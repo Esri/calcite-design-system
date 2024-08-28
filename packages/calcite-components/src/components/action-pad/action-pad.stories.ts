@@ -1,132 +1,60 @@
-import { boolean, select } from "@storybook/addon-knobs";
-import {
-  Attributes,
-  Attribute,
-  filterComponentAttributes,
-  createComponentHTML as create,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ActionPad } from "./action-pad";
+const { position } = ATTRIBUTES;
+
+type ActionPadStoryArgs = Pick<ActionPad, "expandDisabled" | "expanded" | "position">;
 
 export default {
   title: "Components/Action Pad",
+  args: {
+    expandDisabled: false,
+    expanded: false,
+    position: position.defaultValue,
+  },
+  argTypes: {
+    position: {
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+  },
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 5000,
     },
   },
-  ...storyFilters(),
 };
 
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { position } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "expand-disabled",
-        commit(): Attribute {
-          this.value = boolean("expandDisabled", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "expanded",
-        commit(): Attribute {
-          this.value = boolean("expanded", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "position",
-        commit(): Attribute {
-          this.value = select("position", position.values, position.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
-
-export const simple = (): string =>
-  create(
-    "calcite-action-pad",
-    createAttributes(),
-    html`
-      <calcite-action-group>
-        <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
-        <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
-      </calcite-action-group>
-    `,
-  );
-
-export const withDefinedWidths = (): string => html`
-  <style>
-    calcite-action-pad {
-      --calcite-action-pad-expanded-max-width: 150px;
-    }
-  </style>
-  <calcite-action-pad expanded>
+export const simple = (args: ActionPadStoryArgs): string => html`
+  <calcite-action-pad
+    ${boolean("expand-disabled", args.expandDisabled)}
+    ${boolean("expanded", args.expanded)}
+    position="${args.position}"
+  >
     <calcite-action-group>
-      <calcite-action text="Add to my custom action pad application" icon="plus"></calcite-action>
-      <calcite-action text="Save to my custom action pad application" icon="save"></calcite-action>
+      <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
+      <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
     </calcite-action-group>
     <calcite-action-group>
-      <calcite-action text="Layers in my custom action pad application" icon="layers"></calcite-action>
+      <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
     </calcite-action-group>
   </calcite-action-pad>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-action-pad",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-    html`
-      <calcite-action-group>
-        <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
-        <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
-      </calcite-action-group>
-    `,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-action-pad position="start" dir="rtl" class="calcite-mode-dark">
+    <calcite-action-group>
+      <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+      <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-pad>
+`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
-
-export const withTooltip_NoTest = (): string =>
-  create(
-    "calcite-action-pad",
-    createAttributes(),
-    html`
-      <calcite-tooltip placement="bottom" slot="expand-tooltip">Expand</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    `,
-  );
-
-withTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const hebrewLocale_TestOnly = (): string =>
   html`<div style="width:400px">

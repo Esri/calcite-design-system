@@ -9,12 +9,13 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
   disconnectForm,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
@@ -31,6 +32,8 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale, Status } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-checkbox",
@@ -57,8 +60,7 @@ export class Checkbox
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
@@ -97,6 +99,27 @@ export class Checkbox
 
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /** The component's value. */
   @Prop() value: any;
@@ -251,21 +274,25 @@ export class Checkbox
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const rtl = getElementDir(this.el) === "rtl";
+
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-checked={toAriaBoolean(this.checked)}
             aria-label={getLabelText(this)}
-            class="toggle"
+            class={{
+              [CSS.toggle]: true,
+              [CSS_UTILITY.rtl]: rtl,
+            }}
             onBlur={this.onToggleBlur}
             onFocus={this.onToggleFocus}
+            ref={(toggleEl) => (this.toggleEl = toggleEl)}
             role="checkbox"
             tabIndex={this.disabled ? undefined : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(toggleEl) => (this.toggleEl = toggleEl)}
           >
-            <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
+            <svg aria-hidden="true" class={CSS.check} viewBox="0 0 16 16">
               <path d={this.getPath()} />
             </svg>
             <slot />

@@ -3,7 +3,13 @@
   "extends": "stylelint-config-recommended-scss",
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
-    "liberty/use-logical-spec": "always",
+    "length-zero-no-unit": true,
+    "liberty/use-logical-spec": [
+      "always",
+      {
+        "except": ["left", "right"]
+      }
+    ],
     "no-descending-specificity": [
       true,
       {
@@ -23,10 +29,44 @@
         "message": "selector is too complex, consider applying multiple classes dynamically during rendering"
       }
     ],
+    "selector-pseudo-element-colon-notation": [
+      "double",
+      {
+        "message": "Use double colons for pseudo-elements"
+      }
+    ],
     "selector-type-no-unknown": [
       true,
       {
         "ignoreTypes": ["/^calcite-/"]
+      }
+    ],
+    "scss/at-function-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/dollar-variable-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/at-mixin-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/percent-placeholder-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
       }
     ]
   }

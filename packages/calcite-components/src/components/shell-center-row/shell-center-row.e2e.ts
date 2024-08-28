@@ -1,5 +1,4 @@
 import { newE2EPage } from "@stencil/core/testing";
-
 import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
@@ -56,11 +55,10 @@ describe("calcite-shell-center-row", () => {
     `;
     await page.setContent(pageContent);
 
-    const element = await page.find("calcite-shell-center-row");
+    const element = await page.find("calcite-shell-center-row >>> div:first-of-type");
 
     await page.waitForChanges();
-
-    expect(element.shadowRoot.firstElementChild).toHaveClass(CSS.actionBarContainer);
+    expect(element).toHaveClass(CSS.actionBarContainer);
   });
 
   it("should render action bar container last when action bar has end position", async () => {

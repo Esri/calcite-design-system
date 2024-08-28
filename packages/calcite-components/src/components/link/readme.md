@@ -1,28 +1,8 @@
 # calcite-link
 
+For comprehensive guidance on using and implementing `calcite-link`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/link/).
+
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<div style="font-size: 16px; font-weight: 400;">
-  Checkout the
-  <calcite-link href="https://developers.arcgis.com/calcite-design-system/" icon-end="launch" target="_blank">
-    Calcite Design System
-  </calcite-link>
-  website for comprehensive information about Calcite
-</div>
-```
-
-### Focusing
-
-You can programmatically focus a `calcite-link` with the `setFocus()` method:
-
-```html
-<div onclick=document.querySelector('#my-link').setFocus()>Focus!</div>
-```
 
 ## Properties
 

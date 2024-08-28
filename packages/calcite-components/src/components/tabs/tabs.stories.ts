@@ -1,28 +1,45 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme3 from "../tab-nav/readme.md";
-import readme4 from "../tab-title/readme.md";
-import readme2 from "../tab/readme.md";
-import readme1 from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Tabs } from "./tabs";
+const { layout, position, scale } = ATTRIBUTES;
+
+type TabsStoryArgs = Pick<Tabs, "layout" | "position" | "scale">;
 
 export default {
   title: "Components/Tabs",
-  parameters: {
-    notes: [readme1, readme2, readme3, readme4],
+  args: {
+    layout: layout.values[3],
+    position: position.values[2],
+    scale: scale.defaultValue,
   },
-  ...storyFilters(),
+  argTypes: {
+    layout: {
+      options: layout.values.filter(
+        (option) => option !== "auto" && option !== "fixed" && option !== "none" && option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+    position: {
+      options: position.values.filter((option) => option !== "start" && option !== "end"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simpleDarkModeRTL_TestOnly = (): string => html`
+export const simpleDarkModeRTL_TestOnly = (args: TabsStoryArgs): string => html`
   <calcite-tabs
     dir="rtl"
     class="calcite-mode-dark"
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    layout="${args.layout}"
+    position="${args.position}"
+    scale="${args.scale}"
   >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -37,19 +54,14 @@ export const simpleDarkModeRTL_TestOnly = (): string => html`
   </calcite-tabs>
 `;
 simpleDarkModeRTL_TestOnly.parameters = {
-  modes: modesDarkDefault,
+  themes: modesDarkDefault,
   chromatic: {
     delay: 500,
   },
 };
 
 export const bordered = (): string => html`
-  <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    bordered
-  >
+  <calcite-tabs layout="inline" position="top" scale="m" bordered>
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
@@ -64,12 +76,7 @@ export const bordered = (): string => html`
 `;
 
 export const closable = (): string => html`
-  <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("bordered", false)}
-  >
+  <calcite-tabs layout="inline" position="top" scale="m">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1" closable> Tab 1 Title </calcite-tab-title>
       <calcite-tab-title tab="tab2" closable>Tab 2 Title</calcite-tab-title>
@@ -84,14 +91,7 @@ export const closable = (): string => html`
 `;
 
 export const borderedDarkModeRTL_TestOnly = (): string => html`
-  <calcite-tabs
-    layout="inline"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    bordered
-    dir="rtl"
-    class="calcite-mode-dark"
-  >
+  <calcite-tabs layout="inline" position="top" scale="m" bordered dir="rtl" class="calcite-mode-dark">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
@@ -104,27 +104,17 @@ export const borderedDarkModeRTL_TestOnly = (): string => html`
     <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-borderedDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+borderedDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 
 export const withIcons = (): string => html`
-  <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
+  <calcite-tabs layout="inline" position="top" scale="m">
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title selected icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
-        >Tab 1 Title</calcite-tab-title
-      >
-      <calcite-tab-title icon-end="${select("tab 2 icon-end", iconNames, selectedIcon)}">Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title
-        icon-start="${select("tab 3 icon-start", iconNames, selectedIcon)}"
-        icon-end="${select("tab 3 icon-end", iconNames, selectedIcon)}"
-        >Tab 3 Title</calcite-tab-title
-      >
-      <calcite-tab-title icon-start="${select("tab 4 icon-start", iconNames, selectedIcon)}"></calcite-tab-title>
+      <calcite-tab-title selected icon-start="${selectedIcon}">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title icon-end="${selectedIcon}">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="${selectedIcon}" icon-end="${selectedIcon}">Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="${selectedIcon}"></calcite-tab-title>
     </calcite-tab-nav>
 
     <calcite-tab selected><p>Tab 1 Content</p></calcite-tab>
@@ -137,9 +127,9 @@ export const withIcons = (): string => html`
 export const setWidth = (): string => html`
   <div style="width: 400px;">
     <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    layout="inline"
+    position="top"
+    scale="m"
     >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -374,26 +364,6 @@ Tab200PercentHeightWithVerticalScroll.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const updateIndicatorOffset_TestOnly = (): string =>
-  html`<calcite-tabs>
-      <calcite-tab-nav slot="title-group">
-        <calcite-tab-title id="tab-title">Boats</calcite-tab-title>
-        <calcite-tab-title selected>Ships</calcite-tab-title>
-        <calcite-tab-title>Yachts</calcite-tab-title>
-      </calcite-tab-nav>
-      <calcite-tab>Tab 1 content</calcite-tab>
-      <calcite-tab>Tab 2 content</calcite-tab>
-      <calcite-tab>Tab 3 content</calcite-tab>
-    </calcite-tabs>
-    <script>
-      const tabTitle = document.getElementById("tab-title");
-      setTimeout(() => (tabTitle.iconStart = "bullet-point"), 300);
-    </script>`;
-
-updateIndicatorOffset_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
-};
-
 export const fixedHeightNoVerticalScrollbar_TestOnly = (): string => html`
   <calcite-tabs style="height: 400px">
     <calcite-tab-nav slot="title-group">
@@ -462,6 +432,101 @@ export const noVerticalScrollbarInsideShellPanel_TestOnly = (): string => html`
   </calcite-shell>
 `;
 
+export const responsiveTabs = (): string =>
+  createBreakpointStories(html`
+    <style>
+      .breakpoint-story-container {
+        flex-direction: column;
+      }
+    </style>
+    <calcite-tabs scale="{scale}">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
+          <calcite-tab-title closable selected>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen">Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title closable>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab selected>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    </calcite-tabs>
+    
+    <calcite-tabs layout="center" scale="{scale}">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
+          <calcite-tab-title closable selected>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen">Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title closable>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab selected>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    </calcite-tabs>
+    
+    <calcite-tabs bordered scale="{scale}">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
+          <calcite-tab-title closable selected>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen">Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title closable>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab selected>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    </calcite-tabs>
+    
+    <calcite-tabs bordered layout="center" scale="{scale}">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
+          <calcite-tab-title closable selected>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen">Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title closable>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab >Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab selected>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    </calcite-tabs>
+  `);
 export const paddingPropOverrideAtRootLevel = (): string => html`
   <style>
     :root {

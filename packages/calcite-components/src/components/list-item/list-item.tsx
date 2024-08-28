@@ -25,13 +25,6 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
-import {
-  getDepth,
-  getListItemChildren,
-  getListItemChildLists,
-  updateListItemChildren,
-} from "./utils";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -40,12 +33,6 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { ListItemMessages } from "./assets/list-item/t9n";
-
-const focusMap = new Map<HTMLCalciteListElement, number>();
-
-const listSelector = "calcite-list";
-
 import {
   componentFocusable,
   LoadableComponent,
@@ -53,9 +40,20 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
+import { ListItemMessages } from "./assets/list-item/t9n";
+import {
+  getDepth,
+  getListItemChildren,
+  getListItemChildLists,
+  updateListItemChildren,
+} from "./utils";
+import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
+
+const focusMap = new Map<HTMLCalciteListElement, number>();
+const listSelector = "calcite-list";
 
 /**
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+ * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
  * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
@@ -96,6 +94,13 @@ export class ListItem
       this.focusCell(null, false);
     }
   }
+
+  /**
+   * Sets the item to display a border.
+   *
+   * @internal
+   */
+  @Prop() bordered = false;
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
@@ -161,6 +166,11 @@ export class ListItem
    * When `true`, the item is open to show child components.
    */
   @Prop({ mutable: true, reflect: true }) open = false;
+
+  @Watch("open")
+  handleOpenChange(): void {
+    this.emitCalciteInternalListItemToggle();
+  }
 
   /**
    * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
@@ -286,6 +296,12 @@ export class ListItem
    */
   @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
 
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalListItemToggle: EventEmitter<void>;
+
   @Listen("calciteInternalListItemGroupDefaultSlotChange")
   @Listen("calciteInternalListDefaultSlotChange")
   handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
@@ -311,8 +327,6 @@ export class ListItem
   @State() defaultMessages: ListItemMessages;
 
   @State() level: number = null;
-
-  @State() visualLevel: number = null;
 
   @State() parentListEl: HTMLCalciteListElement;
 
@@ -354,7 +368,6 @@ export class ListItem
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
-    this.visualLevel = getDepth(el, true);
     this.setSelectionDefaults();
   }
 
@@ -450,9 +463,8 @@ export class ListItem
         class={CSS.dragContainer}
         key="drag-handle-container"
         onFocusin={this.focusCellHandle}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.handleGridEl = el)}
+        role="gridcell"
       >
         <calcite-handle
           disabled={dragDisabled}
@@ -493,9 +505,8 @@ export class ListItem
         hidden={!hasActionsStart}
         key="actions-start-container"
         onFocusin={this.focusCellActionsStart}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsStartEl = el)}
+        role="gridcell"
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </td>
@@ -511,14 +522,14 @@ export class ListItem
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         onFocusin={this.focusCellActionsEnd}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsEndEl = el)}
+        role="gridcell"
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
         {closable ? (
           <calcite-action
             appearance="transparent"
+            class={CSS.close}
             icon={ICONS.close}
             key="close-action"
             label={messages.close}
@@ -558,13 +569,9 @@ export class ListItem
   }
 
   renderContentBottom(): VNode {
-    const { hasContentBottom, visualLevel } = this;
+    const { hasContentBottom } = this;
     return (
-      <div
-        class={CSS.contentBottom}
-        hidden={!hasContentBottom}
-        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
-      >
+      <div class={CSS.contentBottom} hidden={!hasContentBottom}>
         <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
       </div>
     );
@@ -575,7 +582,7 @@ export class ListItem
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerHidden]: this.openable && !this.open,
+          [CSS.nestedContainerOpen]: this.openable && this.open,
         }}
       >
         <slot
@@ -626,9 +633,8 @@ export class ListItem
         key="content-container"
         onClick={this.handleItemClick}
         onFocusin={this.focusCellContent}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
+        role="gridcell"
       >
         {content}
       </td>
@@ -648,7 +654,9 @@ export class ListItem
       selectionAppearance,
       selectionMode,
       closed,
-      visualLevel,
+      filterHidden,
+      bordered,
+      disabled,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -657,39 +665,39 @@ export class ListItem
 
     return (
       <Host>
-        <InteractiveContainer disabled={this.disabled}>
-          <tr
-            aria-expanded={openable ? toAriaBoolean(open) : null}
-            aria-label={label}
-            aria-level={level}
-            aria-posinset={setPosition}
-            aria-selected={toAriaBoolean(selected)}
-            aria-setsize={setSize}
-            class={{
-              [CSS.container]: true,
-              [CSS.containerHover]: true,
-              [CSS.containerBorder]: showBorder,
-              [CSS.containerBorderSelected]: borderSelected,
-              [CSS.containerBorderUnselected]: borderUnselected,
-            }}
-            hidden={closed}
-            onFocus={this.focusCellNull}
-            onFocusin={this.emitInternalListItemActive}
-            onKeyDown={this.handleItemKeyDown}
-            role="row"
-            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
-            tabIndex={active ? 0 : -1}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.containerEl = el)}
-          >
-            {this.renderDragHandle()}
-            {this.renderSelected()}
-            {this.renderOpen()}
-            {this.renderActionsStart()}
-            {this.renderContentContainer()}
-            {this.renderActionsEnd()}
-          </tr>
-          {this.renderContentBottom()}
+        <InteractiveContainer disabled={disabled}>
+          <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
+            <tr
+              aria-expanded={openable ? toAriaBoolean(open) : null}
+              aria-label={label}
+              aria-level={level}
+              aria-posinset={setPosition}
+              aria-selected={toAriaBoolean(selected)}
+              aria-setsize={setSize}
+              class={{
+                [CSS.container]: true,
+                [CSS.containerHover]: true,
+                [CSS.containerBorder]: showBorder,
+                [CSS.containerBorderSelected]: borderSelected,
+                [CSS.containerBorderUnselected]: borderUnselected,
+              }}
+              hidden={closed || filterHidden}
+              onFocus={this.focusCellNull}
+              onFocusin={this.emitInternalListItemActive}
+              onKeyDown={this.handleItemKeyDown}
+              ref={(el) => (this.containerEl = el)}
+              role="row"
+              tabIndex={active ? 0 : -1}
+            >
+              {this.renderDragHandle()}
+              {this.renderSelected()}
+              {this.renderOpen()}
+              {this.renderActionsStart()}
+              {this.renderContentContainer()}
+              {this.renderActionsEnd()}
+            </tr>
+            {this.renderContentBottom()}
+          </div>
           {this.renderDefaultContainer()}
         </InteractiveContainer>
       </Host>
@@ -727,6 +735,10 @@ export class ListItem
   private focusCellActionsEnd = (): void => {
     this.handleCellFocusIn(this.actionsEndEl);
   };
+
+  private emitCalciteInternalListItemToggle(): void {
+    this.calciteInternalListItemToggle.emit();
+  }
 
   private emitCalciteInternalListItemChange(): void {
     this.calciteInternalListItemChange.emit();

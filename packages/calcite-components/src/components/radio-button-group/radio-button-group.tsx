@@ -13,6 +13,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
+import { toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale, Status } from "../interfaces";
 import {
   componentFocusable,
@@ -21,7 +22,8 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Validation } from "../functional/Validation";
-import { CSS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-radio-button`s.
@@ -58,7 +60,8 @@ export class RadioButtonGroup implements LoadableComponent {
   }
 
   /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "horizontal";
 
   @Watch("layout")
   onLayoutChange(): void {
@@ -88,7 +91,7 @@ export class RadioButtonGroup implements LoadableComponent {
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   @Watch("scale")
   onScaleChange(): void {
@@ -205,12 +208,17 @@ export class RadioButtonGroup implements LoadableComponent {
   render(): VNode {
     return (
       <Host role="radiogroup">
-        <div class={CSS.itemWrapper}>
+        <div
+          aria-errormessage={IDS.validationMessage}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
+          class={CSS.itemWrapper}
+        >
           <slot />
         </div>
-        {this.validationMessage ? (
+        {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
+            id={IDS.validationMessage}
             message={this.validationMessage}
             scale={this.scale}
             status={this.status}

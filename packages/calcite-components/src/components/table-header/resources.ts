@@ -1,4 +1,5 @@
 export const CSS = {
+  contentCell: "content-cell",
   numberCell: "number-cell",
   selectionCell: "selection-cell",
   bodyRow: "body-row",
@@ -11,4 +12,10 @@ export const CSS = {
   selectedCell: "selected-cell",
   lastCell: "last-cell",
   staticCell: "static-cell",
+};
+
+export const ICONS = {
+  checked: "check-square-f",
+  indeterminate: "minus-square-f",
+  unchecked: "square",
 };

@@ -1,36 +1,61 @@
-import { number, select } from "@storybook/addon-knobs";
-import { locales, numberingSystems } from "../../utils/locale";
+import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from "../../utils/locale";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Pagination } from "./pagination";
+const { scale } = ATTRIBUTES;
+
+interface PaginationStoryArgs
+  extends Pick<Pagination, "scale" | "startItem" | "numberingSystem" | "totalItems" | "pageSize"> {
+  lang: string;
+}
 
 export default {
   title: "Components/Pagination",
+  args: {
+    scale: scale.defaultValue,
+    startItem: 1,
+    lang: defaultLocale,
+    numberingSystem: defaultNumberingSystem,
+    totalItems: 123456789,
+    pageSize: 10,
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    lang: {
+      options: locales,
+      control: { type: "select" },
+    },
+    numberingSystem: {
+      options: numberingSystems,
+      control: { type: "select" },
+    },
+  },
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
-export const simple = (): string => html`
+export const simple = (args: PaginationStoryArgs): string => html`
   <style>
-    .sb-show-main.sb-main-centered #root {
+    .sb-show-main.sb-main-centered #storybook-root {
       padding: 0 !important;
       flex: 1;
       width: 100%;
     }
   </style>
   <calcite-pagination
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    start-item="${number("start-item", 1)}"
-    lang="${select("lang", locales, "en")}"
-    numbering-system="${select("numbering-system", numberingSystems, "latn")}"
-    total-items="${number("total-items", 123456789)}"
-    page-size="${number("page-size", 10)}"
+    scale="${args.scale}"
+    start-item="${args.startItem}"
+    lang="${args.lang}"
+    numbering-system="${args.numberingSystem}"
+    total-items="${args.totalItems}"
+    page-size="${args.pageSize}"
   >
   </calcite-pagination>
 `;
@@ -46,8 +71,8 @@ const getResponsiveTemplate = ({
 }) => {
   return html`
     <calcite-pagination
-      lang="${select("locale", locales, "en")}"
-      numbering-system="${select("numbering-system", numberingSystems, "latn")}"
+      lang="${defaultLocale}"
+      numbering-system="${defaultNumberingSystem}"
       total-items="${totalItems}"
       page-size="${pageSize}"
       start-item="${type === "last"
@@ -100,7 +125,7 @@ export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): s
   </calcite-pagination>
 `;
 
-darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string =>
   html`<calcite-pagination

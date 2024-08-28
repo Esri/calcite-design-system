@@ -8,15 +8,14 @@ import {
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
-import { CSS } from "./resources";
 import {
   DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
-  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding sortable items.
@@ -63,7 +62,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   /**
    * Indicates the horizontal or vertical orientation of the component.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
@@ -100,19 +99,11 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     this.setUpSorting();
     this.beginObserving();
   }
 
   disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     disconnectSortableComponent(this);
     this.endObserving();
   }

@@ -3,13 +3,14 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-content-space: Specifies the padding of the component's content.
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
  */
 
 :host {
   @extend %component-host;
-  @apply relative flex w-full h-full flex-auto;
+  @apply relative flex w-full h-full flex-auto overflow-hidden;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
 }
@@ -18,12 +19,69 @@
 
 @import "../../assets/styles/header";
 
+:host([scale="s"]) {
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-sm);
+  --calcite-internal-panel-header-vertical-padding: 10px; // this should use a spacing token once made available
+
+  .header-content {
+    .heading {
+      @apply text-n1h;
+    }
+
+    .description {
+      @apply text-n2h;
+    }
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-md);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-lg);
+
+  .header-content {
+    .heading {
+      @apply text-0h;
+    }
+
+    .description {
+      @apply text-n1h;
+    }
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-xl);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xxl);
+
+  .header-content {
+    .heading {
+      @apply text-1h;
+    }
+
+    .description {
+      @apply text-0h;
+    }
+  }
+}
+
+.content-top,
+.content-bottom {
+  @apply flex items-start self-stretch;
+
+  border-block-start: 1px solid var(--calcite-color-border-3);
+  background-color: var(--calcite-color-foreground-1);
+}
+
 .container {
-  @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  @apply focus-base relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
+}
+
+.container:focus {
+  @apply focus-inset;
 }
 
 .container[hidden] {
@@ -31,8 +89,7 @@
 }
 
 .header {
-  @apply bg-foreground-1 flex flex-col
-    z-header;
+  @apply bg-foreground-1 flex flex-col z-header;
   border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
 }
 
@@ -61,21 +118,26 @@
     overflow-hidden
     px-3
     py-3.5;
+
   margin-inline-end: auto;
+
   .heading,
   .description {
     @apply block
       break-words
       p-0;
   }
+
   .heading {
-    @apply text-0h mx-0 mt-0 mb-1 font-medium;
+    @apply mx-0 mt-0 mb-1 font-medium text-color-1;
+
     &:only-child {
       @apply mb-0;
     }
   }
+
   .description {
-    @apply text-color-2 text-n1h;
+    @apply text-color-2;
   }
 }
 
@@ -105,18 +167,51 @@
   items-stretch
   bg-background
   overflow-auto
-  h-full;
+  h-full
+  focus-base
+  relative;
+  padding: var(--calcite-panel-content-space, 0);
+}
+
+.content-wrapper:focus {
+  @apply focus-inset;
+}
+
+.content-top,
+.content-bottom {
+  padding: var(--calcite-internal-panel-default-padding);
+}
+
+.header-content {
+  padding-block: var(--calcite-internal-panel-header-vertical-padding);
+  padding-inline: var(--calcite-internal-panel-default-padding);
 }
 
 .footer {
-  @apply bg-foreground-1
-  flex
-  w-full
-  justify-evenly;
-
-  flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding, theme("spacing.2"));
+  @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1 text-n2-wrap;
   border-block-start: 1px solid var(--calcite-color-border-3);
+  padding: var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-padding));
+}
+
+.footer-content {
+  @apply flex flex-row items-center justify-center flex-1;
+}
+
+.footer-actions {
+  @apply flex flex-row items-center justify-evenly flex-1;
+  gap: var(--calcite-internal-panel-default-padding);
+}
+
+.footer-start {
+  @apply flex flex-row items-center justify-start flex-1;
+  margin-inline-end: auto;
+  gap: var(--calcite-internal-panel-default-padding);
+}
+
+.footer-end {
+  @apply flex flex-row items-center justify-end flex-1;
+  margin-inline-start: auto;
+  gap: var(--calcite-internal-panel-default-padding);
 }
 
 .fab-container {

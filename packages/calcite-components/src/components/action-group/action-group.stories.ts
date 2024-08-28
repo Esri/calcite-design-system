@@ -1,14 +1,7 @@
-import { select, text } from "@storybook/addon-knobs";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Action Group",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const honorsFlexGrow = (): string =>
@@ -25,31 +18,10 @@ export const honorsFlexGrow = (): string =>
 
 export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
-    <calcite-action-group layout="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
-      <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
-        icon="${select("icon", iconNames, "polygon")}"
-        ${text("text", "polygon")}
-      >
-      </calcite-action>
-      <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
-        icon="${select("icon", iconNames, "rectangle")}"
-        ${text("text", "rectangle")}
-      >
-      </calcite-action>
-      <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
-        icon="${select("icon", iconNames, "trash")}"
-        ${text("text", "trash")}
-      >
-      </calcite-action>
+    <calcite-action-group layout="grid">
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="polygon"> </calcite-action>
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="rectangle"> </calcite-action>
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="trash"> </calcite-action>
     </calcite-action-group>
   </div>
 `;
@@ -68,7 +40,7 @@ export const withoutDefinedGridGap_TestOnly = (): string =>
   </calcite-action-group>`;
 
 export const withDefinedGridGap_TestOnly = (): string => html`
-  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0; --calcite-action-group-padding:0;">
+  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0;">
     <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
     <calcite-action text="Save" icon="chevron-up"></calcite-action>
     <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>

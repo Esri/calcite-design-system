@@ -11,20 +11,21 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -33,9 +34,10 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
-import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -89,7 +91,28 @@ export class Select
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -114,8 +137,7 @@ export class Select
 
   @Watch("value")
   valueHandler(value: string): void {
-    const items = this.el.querySelectorAll("calcite-option");
-    items.forEach((item) => (item.selected = item.value === value));
+    this.updateItemsFromValue(value);
   }
 
   /**
@@ -181,6 +203,10 @@ export class Select
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
+
+    if (typeof this.value === "string") {
+      this.updateItemsFromValue(this.value);
+    }
   }
 
   componentDidLoad(): void {
@@ -253,6 +279,12 @@ export class Select
     this.setFocus();
   }
 
+  private updateItemsFromValue(value: string): void {
+    this.el
+      .querySelectorAll("calcite-option")
+      .forEach((item) => (item.selected = item.value === value));
+  }
+
   private updateNativeElement(
     optionOrGroup: OptionOrGroup,
     nativeOptionOrGroup: NativeOptionOrGroup,
@@ -280,8 +312,8 @@ export class Select
 
     this.clearInternalSelect();
 
-    optionsAndGroups.forEach(
-      (optionOrGroup) => this.selectEl?.append(this.toNativeElement(optionOrGroup)),
+    optionsAndGroups.forEach((optionOrGroup) =>
+      this.selectEl?.append(this.toNativeElement(optionOrGroup)),
     );
   };
 
@@ -385,11 +417,12 @@ export class Select
         <InteractiveContainer disabled={disabled}>
           <div class={CSS.wrapper}>
             <select
+              aria-errormessage={IDS.validationMessage}
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               aria-label={getLabelText(this)}
               class={CSS.select}
               disabled={disabled}
               onChange={this.handleInternalSelectChange}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.storeSelectRef}
             >
               <slot />
@@ -397,9 +430,10 @@ export class Select
             {this.renderChevron()}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

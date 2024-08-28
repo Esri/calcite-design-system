@@ -12,6 +12,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Kind, Scale } from "../interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, ICONS } from "./resources";
 
 @Component({
@@ -47,7 +48,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    *
    * @default "plus"
    */
-  @Prop({ reflect: true }) icon: string = ICONS.plus;
+  @Prop({ reflect: true }) icon: IconNameOrString = ICONS.plus;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -152,15 +153,14 @@ export class Fab implements InteractiveComponent, LoadableComponent {
           kind={kind}
           label={label}
           loading={loading}
+          ref={(buttonEl): void => {
+            this.buttonEl = buttonEl;
+          }}
           round={true}
           scale={scale}
           title={title}
           type="button"
           width="auto"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(buttonEl): void => {
-            this.buttonEl = buttonEl;
-          }}
         >
           {this.textEnabled ? this.text : null}
         </calcite-button>

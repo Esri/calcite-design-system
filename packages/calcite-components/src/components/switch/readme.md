@@ -1,20 +1,8 @@
 # calcite-switch
 
-`calcite-switch` is used to toggle a value on or off.
+For comprehensive guidance on using and implementing `calcite-switch`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/switch/).
 
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<label>
-  Off
-  <calcite-switch checked></calcite-switch>
-  On
-</label>
-```
 
 ## Properties
 

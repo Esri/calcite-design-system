@@ -1,30 +1,65 @@
-import { number, select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputTimePicker } from "./input-time-picker";
+const { scale, status } = ATTRIBUTES;
+
+interface InputTimePickerStoryArgs
+  extends Pick<
+    InputTimePicker,
+    "disabled" | "name" | "placement" | "scale" | "status" | "step" | "validationMessage" | "validationIcon" | "value"
+  > {
+  hidden: boolean;
+}
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
-  parameters: {
-    notes: readme,
+  args: {
+    disabled: false,
+    hidden: false,
+    name: "simple",
+    placement: defaultMenuPlacement,
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    step: 1,
+    validationMessage: "",
+    validationIcon: "",
+    value: "10:37",
   },
-  ...storyFilters(),
+  argTypes: {
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InputTimePickerStoryArgs): string => html`
   <calcite-input-time-picker
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    name="${text("name", "simple")}"
-    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-    step="${number("step", 1)}"
-    validation-message="${text("validation-message", "")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
-    value="${text("value", "10:37")}"
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
+    name="${args.name}"
+    placement="${args.placement}"
+    scale="${args.scale}"
+    status="${args.status}"
+    step="${args.step}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
+    value="${args.value}"
   >
   </calcite-input-time-picker>
 `;
@@ -51,10 +86,16 @@ export const scales_TestOnly = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-input-time-picker class="calcite-mode-dark" value="22:37" step="1"> </calcite-input-time-picker>
+  <calcite-input-time-picker
+    class="calcite-mode-dark"
+    value="22:37"
+    step="1"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-input-time-picker>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const open_TestOnly = (): string => html`
   <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker>
@@ -110,3 +151,17 @@ export const validationMessageAllScales_TestOnly = (): string => html`
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(html`<calcite-input-time-picker scale="{scale}" value="12:34"></calcite-input-time-picker>`);
+
+export const Focus = (): string =>
+  html`<calcite-input-time-picker></calcite-input-time-picker>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-input-time-picker");
+        const inputDatePicker = await document.querySelector("calcite-input-time-picker").componentOnReady();
+        await inputDatePicker.setFocus();
+      })();
+    </script>`;
+
+Focus.parameters = {
+  chromatic: { delay: 2000 },
+};

@@ -1,14 +1,8 @@
 # calcite-navigation-user
 
+For comprehensive guidance on using and implementing `calcite-navigation-user`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/navigation-user/).
+
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<calcite-navigation-user full-name="Jhon Doe" user-id="Jhon123" active></calcite-navigation-user>
-```
 
 ## Properties
 

@@ -1,31 +1,69 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { locales } from "../../utils/locale";
+import { locales, defaultLocale } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputDatePicker } from "./input-date-picker";
+const { scale, status } = ATTRIBUTES;
+
+interface InputDatePickerStoryArgs
+  extends Pick<
+    InputDatePicker,
+    "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+  > {
+  lang: string;
+}
 
 export default {
   title: "Components/Controls/InputDatePicker",
-  parameters: {
-    notes: readme,
+  args: {
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    value: "2020-12-12",
+    min: "2016-08-09",
+    max: "2023-12-18",
+    lang: defaultLocale,
+    placement: defaultMenuPlacement,
+    validationMessage: "",
+    validationIcon: "",
   },
-  ...storyFilters(),
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    lang: {
+      options: locales,
+      control: { type: "select" },
+    },
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InputDatePickerStoryArgs): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      value="${text("value", "2020-12-12")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      lang="${select("locale", locales, "en")}"
-      placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      scale="${args.scale}"
+      status="${args.status}"
+      value="${args.value}"
+      min="${args.min}"
+      max="${args.max}"
+      lang="${args.lang}"
+      placement="${args.placement}"
+      validation-message="${args.validationMessage}"
+      validation-icon="${args.validationIcon}"
     ></calcite-input-date-picker
   </div>
 `;
@@ -33,17 +71,15 @@ export const simple = (): string => html`
 export const range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      lang="${select("locale", locales, "en")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
-      range="${boolean("range", true)}"
-      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      scale="m"
+      status="idle"
+      min="2016-08-09"
+      max="2023-12-18"
+      lang="en"
+      next-month-label="Next month"
+      prev-month-label="Previous month"
+      range
+      layout="horizontal"
     ></calcite-input-date-picker>
   </div>
 `;
@@ -79,7 +115,7 @@ export const mediumIconForLargeInput_TestOnly = (): string => html`
       scale="l"
       start="2020-12-12"
       end="2020-12-16"
-      range=""
+      range
       layout="horizontal"
     ></calcite-input-date-picker>
   </div>
@@ -187,12 +223,34 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
       value="2020-12-12"
       numbering-system="arab"
       lang="ar"
+      validation-message="This should not appear because the status is not 'invalid'"
     ></calcite-input-date-picker
   </div>
 `;
-arabicLocaleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );
+
+export const Focus = (): string =>
+  html`<calcite-input-date-picker></calcite-input-date-picker>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-input-date-picker");
+        const inputDatePicker = await document.querySelector("calcite-input-date-picker").componentOnReady();
+        await inputDatePicker.setFocus();
+      })();
+    </script>`;
+
+Focus.parameters = {
+  chromatic: { delay: 2000 },
+};
+
+export const localeFormatting = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker value="2020-12-12" lang="bs"></calcite-input-date-picker>
+    <calcite-input-date-picker value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
+  </div>
+`;

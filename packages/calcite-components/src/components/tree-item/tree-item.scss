@@ -9,7 +9,7 @@
   @apply flex;
 }
 
-@include calciteHydratedHidden();
+@include calcite-hydrated-hidden();
 @include disabled();
 
 :host([scale="s"]) {
@@ -19,13 +19,15 @@
     @apply min-h-[1.5rem];
     .node-container {
       .checkbox,
-      .chevron,
       .checkmark,
       .bullet-point {
         margin-inline: theme("margin.1");
       }
       .icon-start {
         margin-inline: theme("margin.3");
+      }
+      .chevron {
+        padding: theme("padding.1");
       }
     }
   }
@@ -38,13 +40,15 @@
     @apply min-h-[2rem];
     .node-container {
       .checkbox,
-      .chevron,
       .checkmark,
       .bullet-point {
         margin-inline: theme("margin.2");
       }
       .icon-start {
         margin-inline: theme("margin.3");
+      }
+      .chevron {
+        padding: theme("padding.2");
       }
     }
   }
@@ -57,7 +61,6 @@
     @apply min-h-[2.75rem];
     .node-container {
       .checkbox,
-      .chevron,
       .checkmark,
       .bullet-point {
         margin-inline: theme("margin.3");
@@ -65,12 +68,16 @@
       .icon-start {
         margin-inline: theme("margin.3");
       }
+      .chevron {
+        padding-inline: var(--calcite-size-md);
+        padding-block: var(--calcite-size-sm-plus);
+      }
     }
   }
 }
 
 :host([lines]) {
-  .children-container:after {
+  .children-container::after {
     @apply transition-default
         absolute
         top-0
@@ -84,7 +91,7 @@
   }
 }
 
-:host(:not([lines])) .node-container:after {
+:host(:not([lines])) .node-container::after {
   @apply hidden;
 }
 
@@ -121,22 +128,28 @@
   .node-container {
     @apply focus-inset outline-none;
   }
+
+  .checkbox {
+    @apply outline-none;
+  }
 }
 
 .actions-end {
   @apply flex self-stretch flex-row items-center;
 }
 
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
 .checkbox {
   line-height: 0;
+  color: var(--calcite-color-border-input);
 }
 
 .checkbox-label {
   @apply pointer-events-none flex items-center;
-}
-
-.checkbox:focus {
-  @apply outline-none;
 }
 
 .children-container {
@@ -244,6 +257,15 @@
 :host([selected]) {
   .checkmark,
   .bullet-point {
+    color: var(--calcite-color-brand);
+  }
+  .checkbox {
+    color: var(--calcite-color-brand);
+  }
+}
+
+:host([has-children][indeterminate]) {
+  .checkbox {
     color: var(--calcite-color-brand);
   }
 }

@@ -1,13 +1,15 @@
-import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-loader",
   styleUrl: "loader.scss",
   shadow: true,
 })
-export class Loader {
+export class Loader implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -26,10 +28,10 @@ export class Loader {
   /**
    * Specifies the component type.
    *
-   * Use `"indeterminate"` if finding actual progress value is impossible.
+   * Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress.
    *
    */
-  @Prop({ reflect: true }) type: "indeterminate" | "determinate";
+  @Prop({ reflect: true }) type: "indeterminate" | "determinate" | "determinate-value";
 
   /** The component's value. Valid only for `"determinate"` indicators. Percent complete of 100. */
   @Prop() value = 0;
@@ -43,6 +45,16 @@ export class Loader {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectLocalized(this);
+
+    this.updateFormatter();
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+  }
+
   render(): VNode {
     const { el, inline, label, scale, text, type, value } = this;
 
@@ -51,7 +63,7 @@ export class Loader {
     const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
     const radius = size * radiusRatio;
     const viewbox = `0 0 ${size} ${size}`;
-    const isDeterminate = type === "determinate";
+    const isDeterminate = type?.startsWith("determinate");
     const circumference = 2 * radius * Math.PI;
     const progress = (value / 100) * circumference;
     const remaining = circumference - progress;
@@ -71,27 +83,35 @@ export class Loader {
         role="progressbar"
         {...(isDeterminate ? hostAttributes : {})}
       >
-        <div class="loader__svgs">
-          <svg aria-hidden="true" class="loader__svg loader__svg--1" viewBox={viewbox}>
-            <circle {...svgAttributes} />
-          </svg>
-          <svg aria-hidden="true" class="loader__svg loader__svg--2" viewBox={viewbox}>
-            <circle {...svgAttributes} />
-          </svg>
-          <svg
-            aria-hidden="true"
-            class="loader__svg loader__svg--3"
-            viewBox={viewbox}
-            {...(isDeterminate ? { style: determinateStyle } : {})}
-          >
-            <circle {...svgAttributes} />
-          </svg>
+        <div class={CSS.loaderParts}>
+          {[1, 2, 3].map((index) => (
+            <svg
+              aria-hidden="true"
+              class={{
+                [CSS.loaderPart]: true,
+                [CSS.loaderPartId(index)]: true,
+              }}
+              key={index}
+              viewBox={viewbox}
+              {...(index === 3 && isDeterminate ? { style: determinateStyle } : {})}
+            >
+              <circle {...svgAttributes} />
+            </svg>
+          ))}
+          {isDeterminate && <div class={CSS.loaderPercentage}>{this.formatValue()}</div>}
         </div>
-        {text && <div class="loader__text">{text}</div>}
-        {isDeterminate && <div class="loader__percentage">{value}</div>}
+        {text && <div class={CSS.loaderText}>{text}</div>}
       </Host>
     );
   }
+
+  private formatValue = (): string => {
+    if (this.type !== "determinate-value") {
+      return `${this.value}`;
+    }
+
+    return this.formatter.format(this.value / 100);
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -100,6 +120,16 @@ export class Loader {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteLoaderElement;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  @Watch("type")
+  formatterPropsChange(): void {
+    this.updateFormatter();
+  }
+
+  private formatter: Intl.NumberFormat;
 
   //--------------------------------------------------------------------------
   //
@@ -126,5 +156,18 @@ export class Loader {
       m: 16,
       l: 20,
     }[scale];
+  }
+
+  private updateFormatter(): void {
+    if (
+      this.type !== "determinate-value" ||
+      this.formatter?.resolvedOptions().locale === this.effectiveLocale
+    ) {
+      return;
+    }
+
+    this.formatter = new Intl.NumberFormat(this.effectiveLocale, {
+      style: "percent",
+    });
   }
 }

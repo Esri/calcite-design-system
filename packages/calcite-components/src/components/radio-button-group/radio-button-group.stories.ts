@@ -1,58 +1,49 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { RadioButtonGroup } from "./radio-button-group";
+const { layout, scale } = ATTRIBUTES;
+
+interface RadioButtonGroupStoryArgs extends Pick<RadioButtonGroup, "disabled" | "layout" | "scale"> {
+  hidden: boolean;
+}
 
 export default {
   title: "Components/Controls/Radio/Radio Button Group",
-  parameters: {
-    notes: readme,
+  args: {
+    disabled: false,
+    hidden: false,
+    layout: layout.defaultValue,
+    scale: scale.defaultValue,
   },
-  ...storyFilters(),
+  argTypes: {
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none" &&
+          option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: RadioButtonGroupStoryArgs): string => html`
   <calcite-radio-button-group
     name="simple"
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    <calcite-label layout="inline">
-      <calcite-radio-button value="react"></calcite-radio-button>
-      React
-    </calcite-label>
-    <calcite-label layout="inline">
-      <calcite-radio-button value="ember"></calcite-radio-button>
-      Ember
-    </calcite-label>
-    <calcite-label layout="inline">
-      <calcite-radio-button value="angular"></calcite-radio-button>
-      Angular
-    </calcite-label>
-    <calcite-label layout="inline">
-      <calcite-radio-button value="vue"></calcite-radio-button>
-      Vue
-    </calcite-label>
-  </calcite-radio-button-group>
-`;
-
-// We created a separate story for validation-message because it is not possible
-// to set a text knob's value to undefined. Unfortunately, this makes the CSS
-// attribute selector truthy, which sets "--calcite-label-margin-bottom: 0;",
-// causing a Chromatic diff. See calcite-radio-button-group.scss.
-export const validationMessage_NoTest = (): string => html`
-  <calcite-radio-button-group
-    name="simple"
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    status="${select("status", ["idle", "invalid", "valid"], "invalid")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
-    validation-message="${text("validation-message", "Please fill out this field.")}"
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
+    layout="${args.layout}"
+    scale="${args.scale}"
   >
     <calcite-label layout="inline">
       <calcite-radio-button value="react"></calcite-radio-button>
@@ -79,9 +70,8 @@ export const darkModeRTL_TestOnly = (): string => html`
     dir="rtl"
     name="dark"
     layout="vertical"
-    status="valid"
     validation-icon
-    validation-message="Thanks for not selecting Ember"
+    validation-message="This should not appear because the status is not 'invalid'"
   >
     <calcite-label layout="inline">
       <calcite-radio-button value="react" checked></calcite-radio-button>
@@ -102,7 +92,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-radio-button-group>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const validationMessage_TestOnly = (): string => html`
   <style>

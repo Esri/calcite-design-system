@@ -20,18 +20,18 @@ describe("common input utils", () => {
       expect(hiddenFormInput.type).toBe(expectedType);
 
       if (minMaxStepTypes.includes(type)) {
-        expect(hiddenFormInput.min).toBe("0");
-        expect(hiddenFormInput.max).toBe("10");
-        expect(hiddenFormInput.step).toBe("1");
+        expect(hiddenFormInput.min).toBe(`${minMaxStepTestValues.min}`);
+        expect(hiddenFormInput.max).toBe(`${minMaxStepTestValues.max}`);
+        expect(hiddenFormInput.step).toBe(`${minMaxStepTestValues.step}`);
       }
 
       if (minMaxLengthTypes.includes(type)) {
-        expect(hiddenFormInput.minLength).toBe(0);
-        expect(hiddenFormInput.maxLength).toBe(10);
+        expect(hiddenFormInput.minLength).toBe(minMaxLengthTestValues.minLength);
+        expect(hiddenFormInput.maxLength).toBe(minMaxLengthTestValues.maxLength);
       }
 
       if (patternTypes.includes(type)) {
-        expect(hiddenFormInput.pattern).toBe("test");
+        expect(hiddenFormInput.pattern).toBe(patternTestValue.pattern);
       }
     });
   });

@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   forceUpdate,
@@ -34,10 +33,12 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
+import { toAriaBoolean } from "../../utils/dom";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
-import { toAriaBoolean } from "../../utils/dom";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -103,18 +104,25 @@ export class Button
   form: string;
 
   /**
+   * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
+   * Without a value, the browser will suggest a filename/extension
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+   */
+  @Prop({ reflect: true }) download: string | boolean = false;
+
+  /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    */
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /**
    * When `true`, a busy indicator is displayed and interaction is disabled.
@@ -171,18 +179,6 @@ export class Button
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
-  @Watch("loading")
-  loadingChanged(newValue: boolean, oldValue: boolean): void {
-    if (!!newValue && !oldValue) {
-      this.hasLoader = true;
-    }
-    if (!newValue && !!oldValue) {
-      window.setTimeout(() => {
-        this.hasLoader = false;
-      }, 300);
-    }
-  }
-
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /** referred in t9n util */
@@ -197,7 +193,6 @@ export class Button
   async connectedCallback(): Promise<void> {
     connectLocalized(this);
     connectMessages(this);
-    this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
@@ -214,7 +209,7 @@ export class Button
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       this.updateHasContent();
       await setUpMessages(this);
     }
@@ -232,7 +227,7 @@ export class Button
   render(): VNode {
     const childElType = this.href ? "a" : "button";
     const Tag = childElType;
-    const loaderNode = this.hasLoader ? (
+    const loaderNode = this.loading ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
@@ -283,16 +278,18 @@ export class Button
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
           disabled={childElType === "button" ? this.disabled || this.loading : null}
+          download={
+            childElType === "a" && (this.download === "" || this.download) ? this.download : null
+          }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
           onClick={this.handleClick}
+          ref={this.setChildEl}
           rel={childElType === "a" && this.rel}
           tabIndex={this.disabled ? -1 : null}
           target={childElType === "a" && this.target}
           title={this.tooltipText}
           type={childElType === "button" && this.type}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setChildEl}
         >
           {loaderNode}
           {this.iconStart ? iconStartEl : null}
@@ -337,9 +334,6 @@ export class Button
 
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
-
-  /** determine if loader present for styling purposes */
-  @State() private hasLoader = false;
 
   @State() effectiveLocale = "";
 

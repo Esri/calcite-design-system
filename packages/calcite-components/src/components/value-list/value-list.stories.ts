@@ -1,111 +1,51 @@
-import { boolean } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import itemReadme from "../value-list-item/readme.md";
-import readme from "./readme.md";
+import { ValueList } from "./value-list";
+
+type ValueListStoryArgs = Pick<
+  ValueList,
+  "disabled" | "dragEnabled" | "filterEnabled" | "loading" | "multiple" | "selectionFollowsFocus"
+>;
 
 export default {
   title: "Components/Value List",
-  parameters: {
-    notes: [readme, itemReadme],
+  args: {
+    disabled: false,
+    dragEnabled: false,
+    filterEnabled: false,
+    loading: false,
+    multiple: false,
+    selectionFollowsFocus: false,
   },
-  ...storyFilters(),
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "drag-enabled",
-        commit(): Attribute {
-          this.value = boolean("dragEnabled", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "filter-enabled",
-        commit(): Attribute {
-          this.value = boolean("filterEnabled", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "multiple",
-        commit(): Attribute {
-          this.value = boolean("multiple", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "selection-follows-focus",
-        commit(): Attribute {
-          this.value = boolean("selection-follows-focus", false);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
 };
 
 const action = html`
-  <calcite-action
-    slot="actions-end"
-    label="click-me"
-    onClick="console.log('clicked');"
-    appearance="outline"
-    scale="s"
-    icon="ellipsis"
-  ></calcite-action>
+  <calcite-action slot="actions-end" label="click-me" appearance="outline" scale="s" icon="ellipsis"></calcite-action>
 `;
 
-export const simple = (): string => html`
-  ${create(
-    "calcite-value-list",
-    createAttributes(),
-    html`
-      <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
-        ${action}
-      </calcite-value-list-item>
-      <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
-        ${action}
-      </calcite-value-list-item>
-      <calcite-value-list-item
-        label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
-        description="Easy to care for."
-        value="fish"
-      >
-        ${action}
-      </calcite-value-list-item>
-    `,
-  )}
+export const simple = (args: ValueListStoryArgs): string => html`
+  <calcite-value-list
+    ${boolean("disabled", args.disabled)}
+    ${boolean("drag-enabled", args.dragEnabled)}
+    ${boolean("filter-enabled", args.filterEnabled)}
+    ${boolean("loading", args.loading)}
+    ${boolean("multiple", args.multiple)}
+    ${boolean("selection-follows-focus", args.selectionFollowsFocus)}
+  >
+    <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
+      ${action}
+    </calcite-value-list-item>
+    <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
+      ${action}
+    </calcite-value-list-item>
+    <calcite-value-list-item
+      label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
+      description="Easy to care for."
+      value="fish"
+    >
+      ${action}
+    </calcite-value-list-item>
+  </calcite-value-list>
 `;
 
 export const disabled_TestOnly = (): string => html`
@@ -122,27 +62,39 @@ export const disabled_TestOnly = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  ${create(
-    "calcite-value-list",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-mode-dark" },
-    ]),
-    html`
-      <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
-        ${action}
-      </calcite-value-list-item>
-      <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
-        ${action}
-      </calcite-value-list-item>
-      <calcite-value-list-item
-        label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
-        description="Easy to care for."
-        value="fish"
-      >
-        ${action}
-      </calcite-value-list-item>
-    `,
-  )}
+  <calcite-value-list dir="rtl" class="calcite-mode-dark">
+    <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
+      <calcite-action
+        slot="actions-end"
+        label="click-me"
+        appearance="outline"
+        scale="s"
+        icon="ellipsis"
+      ></calcite-action>
+    </calcite-value-list-item>
+    <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
+      <calcite-action
+        slot="actions-end"
+        label="click-me"
+        appearance="outline"
+        scale="s"
+        icon="ellipsis"
+      ></calcite-action>
+    </calcite-value-list-item>
+    <calcite-value-list-item
+      label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
+      description="Easy to care for."
+      value="fish"
+    >
+      <calcite-action
+        slot="actions-end"
+        label="click-me"
+        appearance="outline"
+        scale="s"
+        icon="ellipsis"
+      ></calcite-action>
+    </calcite-value-list-item>
+  </calcite-value-list>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

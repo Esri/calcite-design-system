@@ -21,8 +21,6 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { CSS } from "./resources";
-import { MenuItemCustomEvent } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -31,8 +29,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { MenuItemMessages } from "./assets/menu-item/t9n";
 import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS } from "./resources";
+import { MenuItemCustomEvent } from "./interfaces";
+import { MenuItemMessages } from "./assets/menu-item/t9n";
 
 type Layout = "horizontal" | "vertical";
 
@@ -62,13 +63,13 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   @Prop() href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /**
    * @internal
@@ -269,6 +270,11 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     const { hasSubmenu, href, layout, open, submenuItems } = this;
     const key = event.key;
     const targetIsDropdown = event.target === this.dropdownActionEl;
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
     if (key === " " || key === "Enter") {
       if (hasSubmenu && (!href || (href && targetIsDropdown))) {
         this.open = !open;
@@ -398,9 +404,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         key={CSS.dropdownAction}
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
-        text={this.messages.open}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.dropdownActionEl = el)}
+        text={this.messages.open}
       />
     );
   }
@@ -472,12 +477,11 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               href={this.href}
               onClick={this.clickHandler}
               onKeyDown={this.keyDownHandler}
+              ref={(el) => (this.anchorEl = el)}
               rel={this.rel}
               role="menuitem"
               tabIndex={this.isTopLevelItem ? 0 : -1}
               target={this.target}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
             </a>

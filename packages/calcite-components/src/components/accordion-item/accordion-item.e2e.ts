@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden } from "../../tests/commonTests";
-import { CSS, IDS, SLOTS } from "./resources";
+import { accessible, renders, slots, hidden, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-accordion-item", () => {
   describe("renders", () => {
@@ -18,6 +18,71 @@ describe("calcite-accordion-item", () => {
 
   describe("slots", () => {
     slots("calcite-accordion-item", SLOTS);
+  });
+
+  describe("is focusable", () => {
+    focusable("calcite-accordion-item");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
+          >content</calcite-accordion-item
+        >`,
+        {
+          "--calcite-accordion-text-color": [
+            {
+              shadowSelector: `.${CSS.content}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.expandIcon}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.description}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-text-color-hover": [
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-border-color": [
+            {
+              shadowSelector: `.${CSS.content}`,
+              targetProp: "borderBlockEndColor",
+            },
+            {
+              shadowSelector: `.${CSS.header}`,
+              targetProp: "borderBlockEndColor",
+            },
+          ],
+        },
+      );
+    });
+    describe("expanded", () => {
+      themed(
+        html`<calcite-accordion-item heading="Heading" description="Description" expanded
+          >content</calcite-accordion-item
+        >`,
+        {
+          "--calcite-accordion-text-color-hover": [
+            {
+              shadowSelector: `.${CSS.description}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-text-color-pressed": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 
   it("properly uses ARIA and roles", async () => {

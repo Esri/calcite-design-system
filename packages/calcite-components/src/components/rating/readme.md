@@ -1,14 +1,8 @@
 # calcite-rating
 
+For comprehensive guidance on using and implementing `calcite-rating`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/rating/).
+
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<calcite-rating show-chip scale="m" value="0" average="4.4" count="10"></calcite-rating>
-```
 
 ## Properties
 

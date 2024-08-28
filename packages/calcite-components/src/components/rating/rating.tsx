@@ -33,10 +33,10 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
+import { focusFirstTabbable } from "../../utils/dom";
 import { RatingMessages } from "./assets/rating/t9n";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
-import { focusFirstTabbable } from "../../utils/dom";
 
 @Component({
   tag: "calcite-rating",
@@ -255,9 +255,8 @@ export class Rating
                       onKeyDown={this.handleLabelKeyDown}
                       onPointerDown={this.handleLabelPointerDown}
                       onPointerOver={this.handleLabelPointerOver}
-                      tabIndex={tabIndex}
-                      // eslint-disable-next-line react/jsx-sort-props
                       ref={this.setLabelEl}
+                      tabIndex={tabIndex}
                     >
                       <input
                         checked={checked}
@@ -345,7 +344,6 @@ export class Rating
           break;
         case "Tab":
           this.hoverValue = null;
-        default:
           break;
       }
     } else {

@@ -76,9 +76,9 @@ Make the following changes and submit a PR:
 
 1. Move devDependencies to the root directory (besides local packages). You will need to regenerate the `package-lock.json` if you copy and paste from `package.json` files.
 1. Move GitHub Actions, git hooks, or other CI to the root directory, if applicable. GitHub Actions should follow the the naming convention of `what-it-does_scope.yml`, e.g. `pr-tests_eslint-plugin-calcite-components.yml`
-1. Add the path to the package and its current version to [`.release-please-manifest.json`](https://github.com/Esri/calcite-design-system/blob/main/.release-please-manifest.json).
-1. In [`release-please-config.json`](https://github.com/Esri/calcite-design-system/blob/main/release-please-config.json) under the `packages` field, add the new package's path as well as any package-specific configurations. The only required field is the package's name, taken from the `name` field in its `package.json`.
-1. If the new package needs to be linked to Calcite Component's version, add its name to the `LINKED_VERSIONS_TRACKING_PACKAGES` array in [`support/syncLinkedPackageVersions.ts`](https://github.com/Esri/calcite-design-system/blob/main/support/syncLinkedPackageVersions.ts).
+1. Add the path to the package and its current version to [`.release-please-manifest.json`](https://github.com/Esri/calcite-design-system/blob/dev/.release-please-manifest.json).
+1. In [`release-please-config.json`](https://github.com/Esri/calcite-design-system/blob/dev/release-please-config.json) under the `packages` field, add the new package's path as well as any package-specific configurations. The only required field is the package's name, taken from the `name` field in its `package.json`.
+1. If the new package needs to be linked to Calcite Component's version, add its name to the `LINKED_VERSIONS_TRACKING_PACKAGES` array in [`support/syncLinkedPackageVersions.ts`](https://github.com/Esri/calcite-design-system/blob/dev/support/syncLinkedPackageVersions.ts).
 1. Potentially rename the new package's NPM scripts so they match the pipeline names in `turbo.json` (build, test, clean, etc.). Note: having all of the NPM scripts that are specified in `turbo.json` is not required.
 1. If present and when possible, the `test` NPM script should *not* build first. Turbo will make sure the `build` script runs first and will cache the results.
 1. Potentially rename directories for consistency with the other packages:
@@ -162,8 +162,8 @@ A `deploy-latest.yml` GitHub Action runs `release-please`, which creates the rel
 
 After installing the PR, the Action creates [git tags](#git-tags) and [GitHub releases](#github-releases) for each bumped package, and then deploys to NPM.
 
-A `remove-next-changelog-entries.yml` GitHub Action runs the `removeNextChangelogEntries.ts` script every time `release-please` pushes changes to its branch. This ensures all `next` changelog sections created by Lerna are removed before a dev installs the PR.
+A `remove-prerelease-changelog-entries.yml` GitHub Action runs the `removePrereleaseChangelogEntries.ts` script every time `release-please` pushes changes to its branch. This ensures all `next`, `hotfix`, and `rc` changelog sections created by Lerna are removed before a dev installs the PR.
 
 ### Steps to release
 
-For the most part the releases are automated in the CI (see the sections above). However, there are a few manual steps, which are described in the [releasing documentation](/Releasing.md).
+For the most part the releases are automated in the CI (see the sections above). However, there are a few manual steps, which are described in the [releasing documentation](./releasing.md).

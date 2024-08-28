@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
@@ -5,9 +6,10 @@ import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
 import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
+import stylelint from "stylelint";
+import replace from "@rollup/plugin-replace";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
-import stylelint from "stylelint";
 import { version } from "./package.json";
 
 export const create: () => Config = () => ({
@@ -23,6 +25,8 @@ export const create: () => Config = () => ({
     { components: ["calcite-block", "calcite-block-section"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-card-group"] },
+    { components: ["calcite-carousel", "calcite-carousel-item"] },
     { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-chip-group"] },
@@ -36,6 +40,7 @@ export const create: () => Config = () => ({
         "calcite-date-picker-month-header",
       ],
     },
+    { components: ["calcite-dialog"] },
     { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
     { components: ["calcite-fab"] },
     { components: ["calcite-flow"] },
@@ -78,6 +83,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
     { components: ["calcite-text-area"] },
     { components: ["calcite-tile"] },
+    { components: ["calcite-tile-group"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip"] },
@@ -138,6 +144,19 @@ export const create: () => Config = () => ({
       ],
     }),
   ],
+  rollupPlugins: {
+    before: [
+      replace({
+        values: {
+          __CALCITE_BUILD_DATE__: () => new Date().toISOString().split("T")[0],
+          __CALCITE_REVISION__: execSync("git rev-parse HEAD", { encoding: "utf-8" }).trim().slice(0, 7),
+          __CALCITE_VERSION__: version,
+        },
+        include: ["src/utils/config.ts"],
+        preventAssignment: true,
+      }),
+    ],
+  },
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
@@ -153,7 +172,7 @@ export const create: () => Config = () => ({
     selector: "attribute",
     name: "calcite-hydrated",
   },
-  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.\nv${version}`,
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.\nv${version}`,
   extras: {
     enableImportInjection: true,
     scriptDataOpts: true,

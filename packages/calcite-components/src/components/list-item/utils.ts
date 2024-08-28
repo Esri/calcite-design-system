@@ -1,4 +1,4 @@
-import { Build } from "@stencil/core";
+import { isBrowser } from "../../utils/browser";
 
 const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
@@ -19,8 +19,8 @@ export function getListItemChildren(slotEl: HTMLSlotElement): HTMLCalciteListIte
     .map((group) => Array.from(group.querySelectorAll(listItemSelector)))
     .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
-  const listItemChildren = assignedElements.filter(
-    (el) => el?.matches(listItemSelector),
+  const listItemChildren = assignedElements.filter((el) =>
+    el?.matches(listItemSelector),
   ) as HTMLCalciteListItemElement[];
 
   const listItemListChildren = (assignedElements.filter((el) => el?.matches(listSelector)) as HTMLCalciteListElement[])
@@ -38,7 +38,7 @@ export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElem
 }
 
 export function getDepth(element: HTMLElement, includeGroup = false): number {
-  if (!Build.isBrowser) {
+  if (!isBrowser()) {
     return 0;
   }
 

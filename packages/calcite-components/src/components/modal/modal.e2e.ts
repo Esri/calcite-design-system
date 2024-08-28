@@ -1,8 +1,8 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-modal", () => {
   describe("renders", () => {
@@ -14,12 +14,13 @@ describe("calcite-modal", () => {
   });
 
   describe("openClose", () => {
-    const openCloseOptions = {
-      initialToggleValue: true,
-    };
-
     openClose("calcite-modal");
-    openClose("calcite-modal", openCloseOptions);
+
+    describe("initially open", () => {
+      openClose("calcite-modal", {
+        initialToggleValue: true,
+      });
+    });
   });
 
   describe("slots", () => {

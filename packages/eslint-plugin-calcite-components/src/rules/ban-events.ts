@@ -37,7 +37,7 @@ const rule: Rule.RuleModule = {
     const bannedEventToMessageLookup = new Map<string, string | null>();
     context.options.forEach((option: string | { event: string; message?: string }) => {
       const event = typeof option === "string" ? option : option.event;
-      const message = typeof option === "string" ? null : option.message ?? null;
+      const message = typeof option === "string" ? null : (option.message ?? null);
       bannedEventToMessageLookup.set(event, message);
     });
 
@@ -60,7 +60,7 @@ const rule: Rule.RuleModule = {
         }
       },
       "CallExpression:matches([callee.property.name=addEventListener], [callee.property.name=removeEventListener])": (
-        node: CallExpression
+        node: CallExpression,
       ) => {
         if (stencil.isComponent()) {
           const eventName = (node.arguments[0] as Literal).value as string;

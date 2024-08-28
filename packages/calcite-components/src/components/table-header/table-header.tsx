@@ -14,10 +14,10 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { TableHeaderMessages } from "./assets/table-header/t9n";
-import { CSS } from "./resources";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
+import { TableHeaderMessages } from "./assets/table-header/t9n";
+import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-table-header",
@@ -57,10 +57,10 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop() numberCell = false;
 
   /** @internal */
-  @Prop() parentRowIsSelected: boolean;
+  @Prop() parentRowAlignment: Alignment = "start";
 
   /** @internal */
-  @Prop() parentRowPosition: number;
+  @Prop() parentRowIsSelected: boolean;
 
   /** @internal */
   @Prop() parentRowType: RowType;
@@ -146,6 +146,8 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   @State() defaultMessages: TableHeaderMessages;
 
+  @State() focused = false;
+
   @State() screenReaderText = "";
 
   @State() effectiveLocale = "";
@@ -191,6 +193,14 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     this.screenReaderText = text;
   }
 
+  private onContainerBlur = (): void => {
+    this.focused = false;
+  };
+
+  private onContainerFocus = (): void => {
+    this.focused = true;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -206,42 +216,56 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           ? "row"
           : "col";
 
-    const allSelected = this.selectedRowCount === this.bodyRowCount;
-    const selectionIcon = allSelected ? "check-square-f" : "check-square";
+    const checked = this.selectedRowCount === this.bodyRowCount;
+    const indeterminate = this.selectedRowCount > 0;
+    const selectionIcon = checked
+      ? ICONS.checked
+      : indeterminate
+        ? ICONS.indeterminate
+        : ICONS.unchecked;
+
     const staticCell = this.interactionMode === "static" && !this.selectionCell;
     return (
       <Host>
         <th
-          aria-colindex={this.parentRowType !== "body" ? this.positionInRow : ""}
+          aria-colindex={this.parentRowType === "head" ? this.positionInRow : undefined}
           class={{
             [CSS.bodyRow]: this.parentRowType === "body",
             [CSS.footerRow]: this.parentRowType === "foot",
+            [CSS.contentCell]: !this.numberCell && !this.selectionCell,
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
             [CSS.staticCell]: staticCell,
-            [CSS.lastCell]: this.lastCell,
+            [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
+            [this.parentRowAlignment]:
+              this.parentRowAlignment === "center" || this.parentRowAlignment === "end",
           }}
           colSpan={this.colSpan}
-          role="columnheader"
+          onBlur={this.onContainerBlur}
+          onFocus={this.onContainerFocus}
+          ref={(el) => (this.containerEl = el)}
+          role={this.parentRowType === "head" ? "columnheader" : "rowheader"}
           rowSpan={this.rowSpan}
           scope={scope}
           tabIndex={this.selectionCell ? 0 : staticCell ? -1 : 0}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.containerEl = el)}
         >
           {this.heading && <div class={CSS.heading}>{this.heading}</div>}
           {this.description && <div class={CSS.description}>{this.description}</div>}
           {this.selectionCell && this.selectionMode === "multiple" && (
             <calcite-icon
-              class={{ [CSS.active]: allSelected }}
+              class={{ [CSS.active]: indeterminate || checked }}
               icon={selectionIcon}
               scale={getIconScale(this.scale)}
             />
           )}
           {(this.selectionCell || this.numberCell) && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
+            <span
+              aria-hidden={true}
+              aria-live={this.focused ? "polite" : "off"}
+              class={CSS.assistiveText}
+            >
               {this.screenReaderText}
             </span>
           )}

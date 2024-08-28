@@ -20,11 +20,12 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Columns, Layout, Scale } from "../interfaces";
-import { ActionGroupMessages } from "./assets/action-group/t9n";
-import { ICONS, SLOTS, CSS } from "./resources";
+import { Layout, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { Columns } from "./interfaces";
+import { ActionGroupMessages } from "./assets/action-group/t9n";
+import { ICONS, SLOTS, CSS } from "./resources";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -68,7 +69,7 @@ export class ActionGroup
    *
    * @deprecated Use the `layout` property on the component's parent instead.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   /**
    * Indicates number of columns.

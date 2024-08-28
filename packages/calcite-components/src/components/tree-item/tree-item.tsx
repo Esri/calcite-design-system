@@ -30,9 +30,10 @@ import {
 } from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { getIconScale } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding text.
@@ -56,6 +57,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Accessible name for the component. */
+  @Prop() label: string;
+
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
@@ -68,7 +72,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
@@ -116,7 +120,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop({ reflect: true }) indeterminate = false;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- ignoring until https://github.com/stencil-community/stencil-eslint/issues/111 is fixed
+  @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
   /**
    * @internal
@@ -197,10 +202,14 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint = this.selectionMode === "single" || this.selectionMode === "children";
+    const showBulletPoint =
+      this.selectionMode === "single" ||
+      this.selectionMode === "children" ||
+      this.selectionMode === "single-persist";
     const showCheckmark =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
     const chevron = this.hasChildren ? (
       <calcite-icon
@@ -218,17 +227,20 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     const checkbox =
       this.selectionMode === "ancestors" ? (
-        <label class={CSS.checkboxLabel} key="checkbox-label">
-          <calcite-checkbox
-            checked={this.selected}
+        <div class={CSS.checkboxContainer}>
+          <calcite-icon
             class={CSS.checkbox}
-            data-test-id="checkbox"
-            indeterminate={this.hasChildren && this.indeterminate}
-            scale={this.scale}
-            tabIndex={-1}
+            icon={
+              this.selected
+                ? ICONS.checkSquareF
+                : checkboxIsIndeterminate
+                  ? ICONS.minusSquareF
+                  : ICONS.square
+            }
+            scale={getIconScale(this.scale)}
           />
-          {defaultSlotNode}
-        </label>
+          <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
+        </div>
       ) : null;
     const selectedIcon = showBulletPoint
       ? ICONS.bulletPoint
@@ -271,9 +283,23 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     return (
       <Host
+        aria-checked={
+          this.selectionMode === "multiple" ||
+          this.selectionMode === "multichildren" ||
+          this.selectionMode === "ancestors"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         aria-expanded={this.hasChildren ? toAriaBoolean(isExpanded) : undefined}
         aria-hidden={toAriaBoolean(hidden)}
-        aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
+        aria-live="polite"
+        aria-selected={
+          this.selectionMode === "single" ||
+          this.selectionMode === "children" ||
+          this.selectionMode === "single-persist"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         calcite-hydrated-hidden={hidden}
         role="treeitem"
         tabIndex={this.disabled ? -1 : 0}
@@ -287,7 +313,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
                   [CSS_UTILITY.rtl]: rtl,
                 }}
                 data-selection-mode={this.selectionMode}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
               >
                 {chevron}
@@ -369,7 +394,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         });
         event.preventDefault();
         break;
-      case "Enter":
+      case "Enter": {
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         const link = Array.from(this.el.children).find((el) =>
           el.matches("a"),
@@ -387,6 +412,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           });
         }
         event.preventDefault();
+      }
     }
   }
 

@@ -4,6 +4,7 @@ module.exports = {
     "jest/globals": true,
   },
   extends: [
+    "eslint:recommended",
     "plugin:@cspell/recommended",
     "plugin:@esri/calcite-components/recommended",
     "plugin:@stencil-community/recommended",
@@ -42,7 +43,8 @@ module.exports = {
         message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
       },
     ],
-    "@stencil-community/decorators-context": "off",
+    "@esri/calcite-components/enforce-ref-last-prop": "off",
+    "@esri/calcite-components/strict-boolean-attributes": "off",
     "@stencil-community/decorators-style": "warn",
     "@stencil-community/no-unused-watch": "off",
     "@stencil-community/own-methods-must-be-private": "off",
@@ -50,9 +52,6 @@ module.exports = {
     "@stencil-community/prefer-vdom-listener": "warn",
     "@stencil-community/required-jsdoc": "off",
     "@stencil-community/strict-boolean-conditions": "off",
-    "@stencil-community/reserved-member-names": "off",
-    "@stencil-community/ban-exported-const-enums": "off",
-    "@typescript-eslint/no-duplicate-enum-values": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
@@ -71,10 +70,13 @@ module.exports = {
         ],
       },
     ],
+    "@typescript-eslint/lines-between-class-members": ["error", "always"],
+    "@typescript-eslint/method-signature-style": ["error", "property"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
+    "import/order": ["error", { "newlines-between": "never" }],
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
@@ -83,7 +85,7 @@ module.exports = {
     "jsdoc/require-property-type": "off",
     "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
-    "lines-between-class-members": ["error", "always"],
+    "lines-between-class-members": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [
@@ -93,6 +95,18 @@ module.exports = {
       },
     ],
     "no-new-func": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["tests/commonTests/*"],
+            message:
+              "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
+          },
+        ],
+      },
+    ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
     "react/forbid-component-props": [
@@ -157,10 +171,16 @@ module.exports = {
       ignorePrivate: true,
     },
   },
-  overrides: [{
-    files: ["**/*.e2e.ts", "src/tests/**/*"],
-    rules: {
-      "@esri/calcite-components/no-dynamic-createelement": "off",
-    }
-  }]
+  overrides: [
+    {
+      files: ["**/*.e2e.ts", "src/tests/**/*"],
+      rules: {
+        "@esri/calcite-components/no-dynamic-createelement": "off",
+      },
+    },
+    {
+      extends: ["plugin:@typescript-eslint/disable-type-checked"],
+      files: ["*.cjs"],
+    },
+  ],
 };

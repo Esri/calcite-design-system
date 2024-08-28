@@ -1,11 +1,15 @@
+// @ts-check
+const { createLabelIfMissing } = require("./support/utils");
+
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
+  const { repo, owner } = context.repo;
+
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
-    repo: { owner, repo },
-    payload: {
-      action,
-      issue: { body, number: issue_number },
-    },
-  } = context;
+    action,
+    issue: { body, number: issue_number },
+  } = payload;
 
   if (!body) {
     console.log("could not determine the issue body");
@@ -19,7 +23,7 @@ module.exports = async ({ github, context }) => {
         "(?<=### Priority impact\r\n\r\n).+"
       : // otherwise it depends on the submitter's OS
         "(?<=### Priority impact[\r\n|\r|\n]{2}).+$",
-    "m"
+    "m",
   );
 
   const addPriorityRegexMatch = body.match(addPriorityRegex);
@@ -27,24 +31,14 @@ module.exports = async ({ github, context }) => {
   const addPriorityLabel = (addPriorityRegexMatch && addPriorityRegexMatch[0] ? addPriorityRegexMatch[0] : "").trim();
 
   if (addPriorityLabel && addPriorityLabel !== "N/A") {
-    /** Creates a label if it does not exist */
-    try {
-      await github.rest.issues.getLabel({
-        owner,
-        repo,
-        name: addPriorityLabel,
-      });
-    } catch (error) {
-      await github.rest.issues.createLabel({
-        owner,
-        repo,
-        name: addPriorityLabel,
-        color: "bb7fe0",
-        description: `User set priority status of ${addPriorityLabel}`,
-      });
-    }
+    await createLabelIfMissing({
+      github,
+      context,
+      label: addPriorityLabel,
+      color: "bb7fe0",
+      description: `User set priority status of ${addPriorityLabel}`,
+    });
 
-    /** add new priority label */
     await github.rest.issues.addLabels({
       issue_number,
       owner,

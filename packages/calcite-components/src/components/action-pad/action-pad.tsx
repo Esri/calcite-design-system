@@ -33,10 +33,10 @@ import {
 } from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
-import { ActionPadMessages } from "./assets/action-pad/t9n";
-import { CSS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { ActionPadMessages } from "./assets/action-pad/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -82,7 +82,7 @@ export class ActionPad
   /**
    * Indicates the layout of the component.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   @Watch("layout")
   layoutHandler(): void {
@@ -92,7 +92,7 @@ export class ActionPad
   /**
    * Arranges the component depending on the element's `dir` property.
    */
-  @Prop({ reflect: true }) position: Position;
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /**
    * Specifies the size of the expand `calcite-action`.
@@ -244,16 +244,16 @@ export class ActionPad
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-action-group"),
+    const groups = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-group"),
     ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-tooltip"),
+    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-tooltip"),
     ) as HTMLCalciteTooltipElement[];
 
     this.expandTooltip = tooltips[0];
@@ -281,16 +281,17 @@ export class ActionPad
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
+        collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
         el={el}
+        expandLabel={messages.expandLabel}
         expandText={messages.expand}
         expanded={expanded}
         position={position}
+        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setExpandToggleRef}
       />
     ) : null;
 

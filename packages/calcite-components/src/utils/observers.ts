@@ -1,8 +1,8 @@
-import { Build } from "@stencil/core";
+import { isBrowser } from "./browser";
 
 export interface ExtendedMutationObserver extends MutationObserver {
   new: () => ExtendedMutationObserver;
-  unobserve(target: Node): void;
+  unobserve: (target: Node) => void;
 }
 
 declare const ExtendedMutationObserver: {
@@ -50,7 +50,7 @@ export function createObserver<T extends ObserverType>(
   callback: ObserverCallbackType<T>,
   options?: ObserverOptions<T>,
 ): ObserverInstanceType<T> | undefined {
-  if (!Build.isBrowser) {
+  if (!isBrowser()) {
     return undefined;
   }
 

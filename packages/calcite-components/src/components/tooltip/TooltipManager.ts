@@ -1,4 +1,4 @@
-import { getShadowRootNode, isPrimaryPointerButton } from "../../utils/dom";
+import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
@@ -17,10 +17,6 @@ export default class TooltipManager {
   private hoverOpenTimeout: number = null;
 
   private hoverCloseTimeout: number = null;
-
-  private hoveredTooltip: HTMLCalciteTooltipElement = null;
-
-  private clickedTooltip: HTMLCalciteTooltipElement = null;
 
   private activeTooltip: HTMLCalciteTooltipElement = null;
 
@@ -96,76 +92,98 @@ export default class TooltipManager {
   private pointerMoveHandler = (event: PointerEvent): void => {
     const composedPath = event.composedPath();
     const { activeTooltip } = this;
-    const hoveringActiveTooltip = activeTooltip?.open && composedPath.includes(activeTooltip);
 
-    if (hoveringActiveTooltip) {
+    const tooltip = this.queryTooltip(composedPath);
+
+    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
 
-    const tooltip = this.queryTooltip(composedPath);
-    this.hoveredTooltip = tooltip;
-
-    if (this.isClosableClickedTooltip(tooltip)) {
-      return;
-    }
-
-    this.clickedTooltip = null;
-
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
-    } else if (activeTooltip) {
+    } else if (activeTooltip?.open) {
       this.closeHoveredTooltip();
     }
   };
 
-  private pointerDownHandler = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
+  private pathHasOpenTooltip(tooltip: HTMLCalciteTooltipElement, composedPath: EventTarget[]): boolean {
+    const { activeTooltip } = this;
+
+    return (
+      (activeTooltip?.open && composedPath.includes(activeTooltip)) || (tooltip?.open && composedPath.includes(tooltip))
+    );
+  }
+
+  private clickHandler = (event: Event): void => {
+    const composedPath = event.composedPath();
+    const tooltip = this.queryTooltip(composedPath);
+
+    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
+      this.clearHoverTimeout();
       return;
     }
 
-    const clickedTooltip = this.queryTooltip(event.composedPath());
+    this.closeActiveTooltip();
 
-    this.clickedTooltip = clickedTooltip;
-
-    if (clickedTooltip?.closeOnClick) {
-      this.toggleTooltip(clickedTooltip, false);
-      this.clearHoverTimeout();
+    if (!tooltip) {
+      return;
     }
+
+    this.clearHoverTimeout();
+
+    if (tooltip.closeOnClick) {
+      this.toggleTooltip(tooltip, false);
+      return;
+    }
+
+    this.toggleTooltip(tooltip, true);
+  };
+
+  private blurHandler = (): void => {
+    this.closeActiveTooltip();
   };
 
   private focusInHandler = (event: FocusEvent): void => {
-    this.queryFocusedTooltip(event, true);
-  };
+    const composedPath = event.composedPath();
+    const tooltip = this.queryTooltip(composedPath);
 
-  private focusOutHandler = (event: FocusEvent): void => {
-    this.queryFocusedTooltip(event, false);
+    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
+      this.clearHoverTimeout();
+      return;
+    }
+
+    this.closeTooltipIfNotActive(tooltip);
+
+    if (!tooltip) {
+      return;
+    }
+
+    this.toggleFocusedTooltip(tooltip, true);
   };
 
   private addShadowListeners(shadowRoot: ShadowRoot): void {
     shadowRoot.addEventListener("focusin", this.focusInHandler, { capture: true });
-    shadowRoot.addEventListener("focusout", this.focusOutHandler, { capture: true });
   }
 
   private removeShadowListeners(shadowRoot: ShadowRoot): void {
     shadowRoot.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    shadowRoot.removeEventListener("focusout", this.focusOutHandler, { capture: true });
   }
 
   private addListeners(): void {
     window.addEventListener("keydown", this.keyDownHandler, { capture: true });
     window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.addEventListener("pointerdown", this.pointerDownHandler, { capture: true });
+    window.addEventListener("click", this.clickHandler, { capture: true });
     window.addEventListener("focusin", this.focusInHandler, { capture: true });
-    window.addEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.addEventListener("blur", this.blurHandler);
   }
 
   private removeListeners(): void {
     window.removeEventListener("keydown", this.keyDownHandler, { capture: true });
     window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.removeEventListener("pointerdown", this.pointerDownHandler, { capture: true });
+    window.removeEventListener("click", this.clickHandler, { capture: true });
     window.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    window.removeEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.removeEventListener("blur", this.blurHandler);
   }
 
   private clearHoverOpenTimeout(): void {
@@ -183,6 +201,12 @@ export default class TooltipManager {
     this.clearHoverCloseTimeout();
   }
 
+  private closeTooltipIfNotActive(tooltip: HTMLCalciteTooltipElement): void {
+    if (this.activeTooltip !== tooltip) {
+      this.closeActiveTooltip();
+    }
+  }
+
   private closeActiveTooltip(): void {
     const { activeTooltip } = this;
 
@@ -192,8 +216,6 @@ export default class TooltipManager {
   }
 
   private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, open: boolean): void {
-    this.closeActiveTooltip();
-
     if (open) {
       this.clearHoverTimeout();
     }
@@ -215,20 +237,10 @@ export default class TooltipManager {
         }
 
         this.clearHoverCloseTimeout();
-
-        if (this.activeTooltip === this.hoveredTooltip) {
-          return;
-        }
-
-        this.closeActiveTooltip();
-
-        if (tooltip !== this.hoveredTooltip) {
-          return;
-        }
-
+        this.closeTooltipIfNotActive(tooltip);
         this.toggleTooltip(tooltip, true);
       },
-      this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS,
+      this.activeTooltip?.open ? 0 : TOOLTIP_OPEN_DELAY_MS,
     );
   };
 
@@ -242,24 +254,11 @@ export default class TooltipManager {
     }, TOOLTIP_CLOSE_DELAY_MS);
   };
 
-  private queryFocusedTooltip(event: FocusEvent, open: boolean): void {
-    const tooltip = this.queryTooltip(event.composedPath());
-
-    if (!tooltip || this.isClosableClickedTooltip(tooltip)) {
-      return;
-    }
-
-    this.toggleFocusedTooltip(tooltip, open);
-  }
-
-  private isClosableClickedTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
-    return tooltip?.closeOnClick && tooltip === this.clickedTooltip;
-  }
-
   private registerShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
 
-    const newCount = (registeredShadowRootCounts.get(shadowRoot) ?? 0) + 1;
+    const count = registeredShadowRootCounts.get(shadowRoot);
+    const newCount = Math.min((typeof count === "number" ? count : 0) + 1, 1);
 
     if (newCount === 1) {
       this.addShadowListeners(shadowRoot);
@@ -271,7 +270,8 @@ export default class TooltipManager {
   private unregisterShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
 
-    const newCount = registeredShadowRootCounts.get(shadowRoot) - 1;
+    const count = registeredShadowRootCounts.get(shadowRoot);
+    const newCount = Math.max((typeof count === "number" ? count : 1) - 1, 0);
 
     if (newCount === 0) {
       this.removeShadowListeners(shadowRoot);

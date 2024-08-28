@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
-import { CSS } from "./resources";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils";
+import { CSS } from "./resources";
 
 const letterKeys = [
   "a",
@@ -529,21 +529,21 @@ describe("calcite-time-picker", () => {
 
       await hour.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(hour.textContent).toBe("--");
       }
 
       await minute.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(minute.textContent).toBe("--");
       }
 
       await second.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(second.textContent).toBe("--");
       }
@@ -559,21 +559,21 @@ describe("calcite-time-picker", () => {
 
       await hour.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(hour.textContent).toBe("--");
       }
 
       await minute.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(minute.textContent).toBe("--");
       }
 
       await second.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(second.textContent).toBe("--");
       }
@@ -1163,6 +1163,15 @@ describe("calcite-time-picker", () => {
     it("meridiem is at the start of the time for arabic locale", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker lang="ar" dir="rtl"></calcite-time-picker>`,
+      });
+
+      const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
+      expect(meridiemStart).toBeTruthy();
+    });
+
+    it("meridiem is to the left of the time for korean locale", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker lang="ko"></calcite-time-picker>`,
       });
 
       const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);

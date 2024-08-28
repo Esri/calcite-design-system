@@ -1,97 +1,45 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import {
-  Attributes,
-  createComponentHTML as create,
-  Attribute,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import readme from "./readme.md";
-import { SLOTS } from "./resources";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { FlowItem } from "./flow-item";
+import { SLOTS } from "./resources";
+const { collapseDirection, scale } = ATTRIBUTES;
+
+interface FlowItemStoryArgs
+  extends Pick<
+    FlowItem,
+    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading" | "scale"
+  > {
+  heightScale: string;
+}
 
 export default {
   title: "Components/Flow Item",
-  parameters: {
-    notes: readme,
+  args: {
+    closed: false,
+    disabled: false,
+    closable: false,
+    collapsible: false,
+    collapsed: false,
+    collapseDirection: collapseDirection.defaultValue,
+    heightScale: scale.defaultValue,
+    scale: scale.defaultValue,
+    loading: false,
   },
-  ...storyFilters(),
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { scale } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "closed",
-        commit(): Attribute {
-          this.value = boolean("closed", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "closable",
-        commit(): Attribute {
-          this.value = boolean("closable", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapsible",
-        commit(): Attribute {
-          this.value = boolean("collapsible", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapsed",
-        commit(): Attribute {
-          this.value = boolean("collapsed", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapse-direction",
-        commit(): Attribute {
-          this.value = select("collapseDirection", ["down", "up"], "down");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "height-scale",
-        commit(): Attribute {
-          this.value = select("heightScale", scale.values, scale.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
+  argTypes: {
+    collapseDirection: {
+      options: collapseDirection.values,
+      control: { type: "select" },
+    },
+    heightScale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
 const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;
@@ -122,43 +70,48 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Footer start</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Footer end</calcite-button>
 `;
 
 const flowItemContent = `${headerHTML}
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
   ${contentHTML}
-  ${footerHTML}`;
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Footer</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half">Footer</calcite-button>
+  `;
 
-export const simple = (): string =>
-  create(
-    "calcite-flow-item",
-    createAttributes(),
-    html`
-      ${headerHTML}
-      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
-      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
-      ${contentHTML}
-      <calcite-fab slot="fab"></calcite-fab>
-      ${footerHTML}
-    `,
-  );
+export const simple = (args: FlowItemStoryArgs): string => html`
+  <calcite-flow-item
+    ${boolean("closed", args.closed)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("closable", args.closable)}
+    ${boolean("collapsible", args.collapsible)}
+    ${boolean("collapsed", args.collapsed)}
+    collapse-direction="${args.collapseDirection}"
+    height-scale="${args.heightScale}"
+    scale="${args.scale}"
+    ${boolean("loading", args.loading)}
+    heading="Heading"
+    description="A wonderful flow item description"
+  >
+    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
+    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
+    ${contentHTML}
+    <calcite-fab slot="fab"></calcite-fab>
+    <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Footer</calcite-button>
+    <calcite-button slot="${SLOTS.footer}" width="half">Footer</calcite-button>
+  </calcite-flow-item>
+`;
 
 export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-flow-item
       height-scale="s"
-      heading-level="${text("heading-level", "2")}"
-      description="${text(
-        "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-      )}"
-      heading="${text(
-        "heading",
-        "flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum",
-      )}"
+      heading-level="2"
+      description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+      heading="flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     />
   </div>
 `;
@@ -177,23 +130,13 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-flow-item>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-flow-item",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-    flowItemContent,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-flow-item collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
+    ${flowItemContent}
+  </calcite-flow-item>
+`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const noDoubleScrollbars_TestOnly = (): string => html`
   <style>
@@ -269,7 +212,7 @@ export const overflowContent_TestOnly = (): string =>
       </calcite-flow>
     </div>`;
 
-export const withActionBar_TestOnly = (): string =>
+export const withActionBarAndContentTop_TestOnly = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s">
       <calcite-action-bar slot="action-bar">
@@ -280,16 +223,41 @@ export const withActionBar_TestOnly = (): string =>
         </calcite-action-group>
       </calcite-action-bar>
       <div slot="header-content">Header!</div>
+      <div slot="content-top">Content Top!</div>
       <p>Slotted content!</p>
     </calcite-flow-item>
   </div>`;
 
-export const footerPadding_TestOnly = (): string =>
+export const footerPaddingAndContentBottom = (): string =>
+  html` <div style="width: 300px;">
+    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <div slot="content-bottom">Content bottom!</div>
+      <calcite-button slot="footer" width="half" appearance="outline">Footer 1</calcite-button>
+      <calcite-button slot="footer" width="half">Footer 2</calcite-button>
+    </calcite-flow-item>
+  </div>`;
+
+export const footerStartEndAndContentBottom = (): string =>
+  html`<div style="width: 300px; height: 300px;">
+    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <div slot="content-bottom">Content bottom!</div>
+      ${footerHTML}
+    </calcite-flow-item>
+  </div>`;
+
+export const footerSlot = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
-      <div slot="footer">Footer!</div>
+      <div slot="content-bottom">Content bottom!</div>
+      <calcite-button slot="footer" width="half" appearance="outline">Footer 1</calcite-button>
+      <calcite-button slot="footer" width="half">Footer 2</calcite-button>
+      ${footerHTML}
     </calcite-flow-item>
   </div>`;
 
@@ -297,3 +265,13 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   html`<calcite-flow-item style="--calcite-flow-item-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
+
+export const withAlertsSlot = (): string => html`
+  <calcite-flow-item height-scale="s" heading="My Panel" style="width: 500px; height:200px">
+    Slotted content!
+    <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
+      <div slot="title">Hello there!</div>
+      <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+    </calcite-alert>
+  </calcite-flow-item>
+`;

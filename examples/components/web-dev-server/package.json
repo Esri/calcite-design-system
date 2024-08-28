@@ -1,0 +1,21 @@
+{
+  "name": "calcite-web-dev-server-starter",
+  "private": true,
+  "description": "Starter application for @esri/calcite-commponents with a development server",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "examples/components/web-dev-server"
+  },
+  "scripts": {
+    "start": "wds --open --node-resolve --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@esri/calcite-components": "2.12.0"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.4.6"
+  }
+}

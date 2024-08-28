@@ -1,6 +1,6 @@
 # calcite-modal
 
-`calcite-modal` allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out.
+For comprehensive guidance on using and implementing `calcite-modal`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/modal/).
 
 <style>
   html {
@@ -8,50 +8,6 @@
   }
 </style>
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back. Notice below we use the `aria-labelledby` attribute, relating it to the title of the modal. In order to ensure good accessibility, it's recommended that you use either an `aria-label` or `aria-labelledby` attribute so screen readers can infer what the subject matter of your modal is.
-
-```html
-<calcite-modal aria-labelledby="modal-title" open>
-  <h3 slot="header" id="modal-title">Edit profile</h3>
-  <div slot="content">Please update your profile information below:</div>
-  <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
-    Back
-  </calcite-button>
-  <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-  <calcite-button slot="primary" width="full">Save changes</calcite-button>
-</calcite-modal>
-```
-
-### Open
-
-To open a modal, add the `open` prop. Once the opening animation is complete, the `calciteModalOpen` event will be fired.
-
-To close the modal, simply remove the attribute. This will run your before close method (if provided, see below) and fire the `calciteModalClose` event after the animation and teardown is complete.
-
-```html
-<calcite-modal open></calcite-modal>
-```
-
-### Reacting-before-close
-
-If you'd like to perform some actions prior to closing (ie. warning users they will lose their changes) you can pass a function to the `beforeClose` property. This method will be called prior to close and should return a [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise):
-
-```js
-function beforeClose() {
-  return new Promise((resolve) => {
-    // do something async
-    resolve(); // this will trigger the close animation
-  });
-}
-
-const modal = document.getElementById("my-modal");
-modal.beforeClose = beforeClose;
-```
 
 ## Properties
 
@@ -111,18 +67,6 @@ Updates the element(s) that are used within the focus-trap of the component.
 #### Returns
 
 Type: `Promise<void>`
-
-## Slots
-
-| Slot               | Description                                                                                                                                  |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `"back"`           | A slot for adding a back button.                                                                                                             |
-| `"content"`        | A slot for adding the component's content.                                                                                                   |
-| `"content-bottom"` | A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down. |
-| `"content-top"`    | A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.    |
-| `"header"`         | A slot for adding header text.                                                                                                               |
-| `"primary"`        | A slot for adding a primary button.                                                                                                          |
-| `"secondary"`      | A slot for adding a secondary button.                                                                                                        |
 
 ## CSS Custom Properties
 

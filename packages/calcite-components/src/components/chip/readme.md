@@ -1,14 +1,8 @@
 # calcite-chip
 
+For comprehensive guidance on using and implementing `calcite-chip`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/chip/).
+
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<calcite-chip value="Global" closable icon="globe" appearance="outline" kind="brand">Global</calcite-chip>
-```
 
 ## Properties
 

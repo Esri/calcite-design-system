@@ -9,7 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -23,6 +23,7 @@ import {
 } from "../../utils/loadable";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -83,6 +84,11 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) dropdownLabel: string;
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements: FlipPlacement[];
+
+  /**
     When `true`, a busy indicator is displayed on the primary button.
    */
   @Prop({ reflect: true }) loading = false;
@@ -97,14 +103,21 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /**
+   * Determines where the component will be positioned relative to the container element.
+   *
+   * @default "bottom-end"
+   */
+  @Prop({ reflect: true }) placement: MenuPlacement = "bottom-end";
+
   /** Specifies an icon to display at the end of the primary button. */
-  @Prop({ reflect: true }) primaryIconEnd: string;
+  @Prop({ reflect: true }) primaryIconEnd: IconNameOrString;
 
   /**  Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @Prop({ reflect: true }) primaryIconStart: string;
+  @Prop({ reflect: true }) primaryIconStart: IconNameOrString;
 
   /** Accessible name for the primary button. */
   @Prop({ reflect: true }) primaryLabel: string;
@@ -197,10 +210,11 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
           </div>
           <calcite-dropdown
             disabled={this.disabled}
+            flipPlacements={this.flipPlacements}
             onClick={this.calciteSplitButtonSecondaryClickHandler}
             open={this.active}
             overlayPositioning={this.overlayPositioning}
-            placement="bottom-end"
+            placement={this.placement}
             scale={this.scale}
             width-scale={this.scale}
           >

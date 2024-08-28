@@ -39,16 +39,11 @@ import {
 } from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
+import { OverlayPositioning } from "../../utils/floating-ui";
+import { DEBOUNCE } from "../../utils/resources";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
 import { CSS, SLOTS } from "./resources";
-import {
-  geActionDimensions,
-  getOverflowCount,
-  overflowActions,
-  overflowActionsDebounceInMs,
-  queryActions,
-} from "./utils";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
@@ -137,7 +132,7 @@ export class ActionBar
   /**
    * Arranges the component depending on the element's `dir` property.
    */
-  @Prop({ reflect: true }) position: Position;
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /**
    * Specifies the size of the expand `calcite-action`.
@@ -342,7 +337,7 @@ export class ActionBar
       expanded,
       overflowCount,
     });
-  }, overflowActionsDebounceInMs);
+  }, DEBOUNCE.resize);
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
@@ -378,8 +373,8 @@ export class ActionBar
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-tooltip"),
+    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-tooltip"),
     ) as HTMLCalciteTooltipElement[];
 
     this.expandTooltip = tooltips[0];
@@ -407,16 +402,17 @@ export class ActionBar
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
+        collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
         el={el}
+        expandLabel={messages.expandLabel}
         expandText={messages.expand}
         expanded={expanded}
         position={position}
+        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setExpandToggleRef}
       />
     ) : null;
 

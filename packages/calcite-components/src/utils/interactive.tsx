@@ -1,11 +1,11 @@
 import { JSXAttributes } from "@stencil/core/internal";
-import { FunctionalComponent, h, VNode } from "@stencil/core";
+import { FunctionalComponent, VNode } from "@stencil/core";
 
 export interface InteractiveComponent {
   /**
    * The host element.
    */
-  readonly el: HTMLElement;
+  readonly el: InteractiveHTMLElement;
 
   /**
    * When true, prevents user interaction.
@@ -45,11 +45,11 @@ function onPointerDown(event: PointerEvent): void {
 const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
 
 function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
-  const { disabled } = event.target as InteractiveHTMLElement;
+  const interactiveElement = event.target as InteractiveHTMLElement;
 
   // prevent disallowed mouse events from being emitted on the disabled host (per https://github.com/whatwg/html/issues/5886)
-  //⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
-  if (disabled) {
+  // ⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
+  if (interactiveElement.disabled) {
     event.stopImmediatePropagation();
     event.preventDefault();
   }
@@ -93,11 +93,6 @@ function blockInteraction(component: InteractiveComponent): void {
 }
 
 function addInteractionListeners(element: HTMLElement): void {
-  if (!element) {
-    // this path is only applicable to Firefox
-    return;
-  }
-
   element.addEventListener("pointerdown", onPointerDown, captureOnlyOptions);
   nonBubblingWhenDisabledMouseEvents.forEach((event) =>
     element.addEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions),
@@ -110,18 +105,13 @@ function restoreInteraction(component: InteractiveComponent): void {
 }
 
 function removeInteractionListeners(element: HTMLElement): void {
-  if (!element) {
-    // this path is only applicable to Firefox
-    return;
-  }
-
   element.removeEventListener("pointerdown", onPointerDown, captureOnlyOptions);
   nonBubblingWhenDisabledMouseEvents.forEach((event) =>
     element.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions),
   );
 }
 
-export interface InteractiveContainerOptions extends JSXAttributes {
+export interface InteractiveContainerProps extends JSXAttributes {
   disabled: boolean;
 }
 
@@ -129,13 +119,11 @@ export const CSS = {
   container: "interaction-container",
 };
 
-export function InteractiveContainer(
-  { disabled }: InteractiveContainerOptions,
+export const InteractiveContainer: FunctionalComponent<InteractiveContainerProps> = (
+  { disabled },
   children: VNode[],
-): FunctionalComponent {
-  return (
-    <div class={CSS.container} inert={disabled}>
-      {...children}
-    </div>
-  );
-}
+): VNode => (
+  <div class={CSS.container} inert={disabled}>
+    {...children}
+  </div>
+);

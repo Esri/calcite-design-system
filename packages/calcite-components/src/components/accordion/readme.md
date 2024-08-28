@@ -1,20 +1,8 @@
 # calcite-accordion
 
-`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (icon-position, scale, appearance), and selection functionality.
+For comprehensive guidance on using and implementing `calcite-accordion`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/accordion/).
 
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<calcite-accordion>
-  <calcite-accordion-item heading="Accordion Item">Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item heading="Accordion Item 2" expanded>Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item heading="Accordion Item 3">Accordion Section Content </calcite-accordion-item>
-</calcite-accordion>
-```
 
 ## Properties
 
@@ -31,6 +19,13 @@
 | Slot | Description                                                                                                               |
 | ---- | ------------------------------------------------------------------------------------------------------------------------- |
 |      | A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. |
+
+## CSS Custom Properties
+
+| Name                                   | Description                                 |
+| -------------------------------------- | ------------------------------------------- |
+| `--calcite-accordion-background-color` | Specifies the component's background color. |
+| `--calcite-accordion-border-color`     | Specifies the component's border color.     |
 
 ---
 

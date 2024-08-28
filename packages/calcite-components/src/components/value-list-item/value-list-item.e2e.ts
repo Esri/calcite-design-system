@@ -1,6 +1,6 @@
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { CSS as PICK_LIST_ITEM_CSS, SLOTS } from "../pick-list-item/resources";
 import { accessible, disabled, focusable, renders, slots, hidden } from "../../tests/commonTests";
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
 describe("calcite-value-list-item", () => {

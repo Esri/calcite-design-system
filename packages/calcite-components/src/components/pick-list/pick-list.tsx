@@ -19,6 +19,8 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
+import type { ValueUnion } from "../types";
+import { logger } from "../../utils/logger";
 import { ICON_TYPES } from "./resources";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -44,8 +46,14 @@ import {
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 
+logger.deprecated("component", {
+  name: "pick-list",
+  removalVersion: 3,
+  suggested: "list",
+});
+
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
@@ -102,7 +110,7 @@ export class PickList<
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
@@ -289,7 +297,7 @@ export class PickList<
   //
   // --------------------------------------------------------------------------
 
-  getIconType(): ICON_TYPES {
+  getIconType(): ValueUnion<typeof ICON_TYPES> {
     return this.multiple ? ICON_TYPES.square : ICON_TYPES.circle;
   }
 

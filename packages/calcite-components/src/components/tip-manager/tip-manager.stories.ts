@@ -1,38 +1,15 @@
-import { boolean } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+import { TipManager } from "./tip-manager";
+
+type TipManagerStoryArgs = Pick<TipManager, "closed">;
 
 export default {
   title: "Components/Tips/Tip Manager",
-  parameters: {
-    notes: readme,
+  args: {
+    closed: false,
   },
-  ...storyFilters(),
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      {
-        name: "closed",
-        commit(): Attribute {
-          this.value = boolean("closed", false);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
 };
 
 const tipContent = html`
@@ -79,18 +56,15 @@ const tipContent = html`
   </calcite-tip>
 `;
 
-export const simple = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
+export const simple = (args: TipManagerStoryArgs): string => html`
+  <calcite-tip-manager ${boolean("closed", args.closed)}> ${tipContent} </calcite-tip-manager>
+`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-tip-manager",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-mode-dark" },
-    ]),
-    tipContent,
-  );
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-tip-manager dir="rtl" class="calcite-mode-dark">${tipContent}</calcite-tip-manager>
+`;
+
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const tipWithoutGroup_TestOnly = (): string =>
   html`<calcite-tip-manager>

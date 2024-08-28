@@ -1,7 +1,7 @@
-import { CSS } from "./resources";
-import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
   describe("renders", () => {
@@ -172,20 +172,37 @@ describe("calcite-block-section", () => {
     const element = await page.find("calcite-block-section");
     const toggleSpy = await element.spyOnEvent("calciteBlockSectionToggle");
     const toggle = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
+    let expectedClickEvents = 1;
 
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
 
     await toggle.click();
 
-    expect(toggleSpy).toHaveReceivedEventTimes(1);
+    expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
     expect(await element.getProperty("open")).toBe(true);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
     await toggle.click();
 
-    expect(toggleSpy).toHaveReceivedEventTimes(2);
+    expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
+
+    if ((await element.getProperty("toggleDisplay")) === "switch") {
+      const switchToggle = await page.find(`calcite-block-section >>> .${CSS.switch}`);
+
+      await switchToggle.click();
+
+      expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
+      expect(await element.getProperty("open")).toBe(true);
+      expect(toggle.getAttribute("aria-expanded")).toBe("true");
+
+      await switchToggle.click();
+
+      expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
+      expect(await element.getProperty("open")).toBe(false);
+      expect(toggle.getAttribute("aria-expanded")).toBe("false");
+    }
 
     const keyboardToggleEmitter =
       toggle.tagName === "CALCITE-ACTION"
@@ -204,14 +221,14 @@ describe("calcite-block-section", () => {
     await keyboardToggleEmitter.press(" ");
     await page.waitForChanges();
 
-    expect(toggleSpy).toHaveReceivedEventTimes(3);
+    expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
     expect(await element.getProperty("open")).toBe(true);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
     await keyboardToggleEmitter.press("Enter");
     await page.waitForChanges();
 
-    expect(toggleSpy).toHaveReceivedEventTimes(4);
+    expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }

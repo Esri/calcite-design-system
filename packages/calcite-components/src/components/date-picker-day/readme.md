@@ -25,6 +25,16 @@
 | ------------------ | ---------------------------- | ------------------- |
 | `calciteDaySelect` | Fires when user selects day. | `CustomEvent<void>` |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
 
 ### Used by

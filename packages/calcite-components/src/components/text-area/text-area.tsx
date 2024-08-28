@@ -10,11 +10,18 @@ import {
   Method,
   Host,
   State,
+  forceUpdate,
 } from "@stencil/core";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import { throttle } from "lodash-es";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  MutableValidityState,
+} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
-import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -37,18 +44,19 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { TextAreaMessages } from "./assets/text-area/t9n";
-import { throttle } from "lodash-es";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { IconNameOrString } from "../icon/interfaces";
+import { CharacterLengthObj } from "./interfaces";
+import { TextAreaMessages } from "./assets/text-area/t9n";
+import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -74,16 +82,20 @@ export class TextArea
 {
   //--------------------------------------------------------------------------
   //
-  //  Properties
+  //  Global attributes
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-   *
-   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-   */
-  @Prop({ reflect: true }) autofocus = false;
+  @Watch("autofocus")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Specifies the component's number of columns.
@@ -143,7 +155,28 @@ export class TextArea
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -273,9 +306,12 @@ export class TextArea
         <InteractiveContainer disabled={this.disabled}>
           <textarea
             aria-describedby={this.guid}
-            aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
+            aria-errormessage={IDS.validationMessage}
+            aria-invalid={toAriaBoolean(
+              this.status === "invalid" || this.isCharacterLimitExceeded(),
+            )}
             aria-label={getLabelText(this)}
-            autofocus={this.autofocus}
+            autofocus={this.el.autofocus}
             class={{
               [CSS.readOnly]: this.readOnly,
               [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
@@ -289,13 +325,12 @@ export class TextArea
             onChange={this.handleChange}
             onInput={this.handleInput}
             placeholder={this.placeholder}
-            readonly={this.readOnly}
+            readOnly={this.readOnly}
+            ref={this.setTextAreaEl}
             required={this.required}
             rows={this.rows}
             value={this.value}
             wrap={this.wrap}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setTextAreaEl}
           />
           <span class={{ [CSS.content]: true }}>
             <slot onSlotchange={this.contentSlotChangeHandler} />
@@ -335,9 +370,10 @@ export class TextArea
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}
@@ -367,6 +403,7 @@ export class TextArea
     await componentLoaded(this);
     this.textAreaEl.select();
   }
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties/ State
@@ -511,7 +548,7 @@ export class TextArea
     const { height: textAreaHeight, width: textAreaWidth } =
       this.textAreaEl.getBoundingClientRect();
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } = this.footerEl?.getBoundingClientRect();
+    const { height: footerHeight, width: footerWidth } = this.footerEl.getBoundingClientRect();
 
     return {
       textAreaHeight,

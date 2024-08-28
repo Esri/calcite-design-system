@@ -61,7 +61,7 @@ There are four labels that mean an issue is not ready for development:
 - `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, an additional label, `ready for dev` will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
-- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. The blocking issue should be linked to in the blocked issue's body or comment.
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas.
 
 ### Milestones
 
@@ -132,7 +132,7 @@ npm install
 Next, start the local Stencil development server on localhost:
 
 ```sh
-npm start
+npm run start:components
 ```
 
 The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](.packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/src/index.html`](./packages/calcite-components/src/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components`](packages/calcite-components/src/components`./src/components), and the changes will be reflected in the demos.
@@ -214,29 +214,106 @@ johndoe/feature/add-something-to-modal
 
 ## Commit message format
 
-This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to automatically update the changelog.
+Calcite follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to generate the changelog automatically.
+
+Contributions should adhere to the `<type>(<scope>): <descriptive summary>` format and include the following:
+
+- [Convention type](#convention-type)
+- [Scope of change](#scope-of-change), *optional*
+- [Descriptive commit subject](#descriptive-commit-subject)
+
+Check out the [contribution example](#contribution-example) for a formatted example, and explore [breaking change formatting](#breaking-changes) for consideration during Calcite's breaking change releases.
+
+### Convention type
+
+Contributions must adhere to **one** of the following conventions:
+
+- **`chore`**: Adds a new build process, or auxiliary tool and libraries (e.g., documentation generation) 🤖
+- **`docs`**: Documentation only changes 📚
+- **`feat`**: Adds a new feature, or functionality ✨
+- **`fix`**: Fixes a bug 🐛
+- **`perf`**: A change improving performance 🚀
+- **`refactor`**: A change that neither fixes a bug or adds a feature 🔁
+- **`revert`**: Reverts a previous commit ↪️
+- **`test`**: Improves test coverage in updating a test or adding a new, or missing test 🧪
+
+### Scope of change
+
+*Optional*. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
+
+- `text-area`
+- `dropdown, dropdown-group, dropdown-item`
+- `common`
+
+Not all commits will contain a scope, however it is recommended to include scope when possible.
+
+### Descriptive commit subject
+
+The subject should contain a concise description of the proposed change, where contributors will:
+
+- **Be succinct, yet informative** to ensure the change's purpose is conveyed once added to the changelog
+- Describe the commit's purpose, not a related issue or how the change was mitigated
+- Use present tense, such as "update" instead of "updated" or "updates"
+- Not capitalize the first letter
+- Not insert a period `.` at the end
+
+### Contribution example
 
 For instance, if providing a bug fix to the Text Area component, which includes additional support to assistive technologies, you could use the following conventional commit:
 
-> fix(text-area): provide additional support to assistive technologies
+```text
+fix(text-area): provide additional support to assistive technologies
+```
 
-[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format) explains this in great detail. Please refer to the above link for more conventional commit details and examples, and visit [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main) to refer to additional examples.
+A more in-depth description can be added to the PR's body summary. For example:
+
+```text
+Related Issue: <Issue number>
+
+### Summary
+Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
+```
+
+For more information, explore [Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format). Please refer to the above link for more conventional commit details and examples, and visit [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main) to refer to additional examples.
 
 ## Breaking changes
 
 Calcite Core team members should be consulted prior to submitting breaking change pull requests. For stability and consistency, breaking change sprints are coordinated and communicated well in advance.
 
-When breaking changes are supported in a current sprint, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
+When breaking changes are supported in a current milestone, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax.
+
+The PR's details should be comprehensive, and when possible, include the following:
+
+- What the proposed breaking change includes
+- Why the breaking change is proposed
+- An example to support users migrating from the previous major version (e.g., `1.x` to `2.x`)
+
+For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
 
 ```text
-<type>!: <descriptive summary>
+<type>(<scope>)!: <descriptive summary>
 
 <optional info>
 
-BREAKING CHANGE: <details about the change and migration options (this can span multiple lines)>
+BREAKING CHANGE: <What the breaking change includes, why it is proposed, and migration support for users>
 ```
 
 When adding a `BREAKING CHANGE:` note to the summary block right before confirming a squash merge, remove all the info except the `BREAKING CHANGE:` note itself, or else everything ends up being added to the changelog.
+
+### Breaking change contribution example
+
+For instance, if adding a refactored breaking change to the Modal component, you could use the following conventional commit:
+
+```text
+refactor(modal)!: rename `width` property to `widthScale`
+```
+
+And a more in-depth, but succinct description for the PR's body summary could include:
+
+```text
+Related Issue: <Issue number>
+BREAKING CHANGE: For consistency, renames `width` property to `widthScale`.
+```
 
 See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0/) for more helpful information.
 
@@ -253,11 +330,3 @@ By default, the PR body will be used for the commit message when squash merging,
 If the PR includes visual changes, once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
 
 If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent re-running Chromatic after pushing minor cleanup changes before merging.
-
-### Low risk issues and Maintenance releases
-
-Sometimes a maintenance release and sprint may be added to address regressions and bug fixes. During maintenance releases, besides critical changes and regressions, new features and bug fixes can be added where PRs are identified as "low risk" to ensure stability of the upcoming release. Breaking changes should not be included in maintenance releases, and must be coordinated and communicated with Calcite team owners.
-
-When a maintenance release is listed as the current milestone and sprint, the associated PR should have a `low risk` label so reviewers can verify if the change is low risk. There is an action that checks if the current milestone is a maintenance release, and developers can also check by [sorting the open milestones by due date](https://github.com/Esri/calcite-design-system/milestones?direction=asc&sort=due_date&state=open).
-
-Once the proposed changes are accepted and the low risk is confirmed by Calcite's reviewers, the PR can be merged into the maintenance release.

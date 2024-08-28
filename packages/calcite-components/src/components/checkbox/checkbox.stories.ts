@@ -1,27 +1,43 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Checkbox } from "./checkbox";
+const { scale, status } = ATTRIBUTES;
+
+type CheckboxStoryArgs = Pick<Checkbox, "checked" | "disabled" | "indeterminate" | "scale" | "status" | "label">;
 
 export default {
   title: "Components/Controls/Checkbox",
-  parameters: {
-    notes: readme,
+  args: {
+    checked: true,
+    disabled: false,
+    indeterminate: false,
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    label: "Checkbox",
   },
-  ...storyFilters(),
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: CheckboxStoryArgs): string => html`
   <calcite-label layout="inline">
     <calcite-checkbox
-      ${boolean("checked", true)}
-      ${boolean("disabled", false)}
-      ${boolean("indeterminate", false)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+      ${boolean("checked", args.checked)}
+      ${boolean("disabled", args.disabled)}
+      ${boolean("indeterminate", args.indeterminate)}
+      scale="${args.scale}"
+      status="${args.status}"
     ></calcite-checkbox>
-    ${text("label", "Checkbox")}
+    ${args.label}
   </calcite-label>
 `;
 
@@ -29,14 +45,9 @@ export const disabled_TestOnly = (): string => html`<calcite-checkbox checked di
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-label dir="rtl" layout="inline" class="calcite-mode-dark">
-    <calcite-checkbox
-      ${boolean("checked", true)}
-      ${boolean("disabled", false)}
-      ${boolean("indeterminate", false)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    ></calcite-checkbox>
-    ${text("label", "Checkbox")}
+    <calcite-checkbox checked scale="m"></calcite-checkbox>
+    Checkbox
   </calcite-label>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
