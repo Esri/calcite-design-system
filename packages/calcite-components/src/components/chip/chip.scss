@@ -3,12 +3,10 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-chip-background-color: Specifies
- * @prop --calcite-chip-background-color-hover: Specifies
- * @prop --calcite-chip-background-color-press: Specifies
- * @prop --calcite-chip-border-color: Specifies
- * @prop --calcite-chip-corner-radius: Specifies
- * @prop --calcite-chip-text-color: Specifies
+ * @prop --calcite-chip-background-color: Specifies the background color of the component.
+ * @prop --calcite-chip-border-color: Specifies the border color of the component.
+ * @prop --calcite-chip-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-chip-text-color: Specifies the text color of the component.
  *
  */
 
@@ -46,25 +44,9 @@
 }
 :host([appearance="outline"]) .container {
   @apply bg-transparent;
-
-  &:hover,
-  &:focus {
-    background-color: var(--calcite-color-transparent-hover);
-  }
-  &:active {
-    background-color: var(--calcite-color-transparent-press);
-  }
 }
 :host([appearance="outline-fill"]) .container {
   background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-1));
-
-  &:hover,
-  &:focus {
-    background-color: var(--calcite-chip-background-color-hover, var(--calcite-color-foreground-2));
-  }
-  &:active {
-    background-color: var(--calcite-chip-background-color-press, var(--calcite-color-foreground-3));
-  }
 }
 :host([appearance="solid"]) {
   .container {
@@ -86,28 +68,12 @@
   &:host([kind="brand"]) {
     .container {
       background-color: var(--calcite-chip-background-color, var(--calcite-color-brand));
-
-      &:host(:hover),
-      &:host(:focus) {
-        background-color: var(--calcite-chip-background-color-hover, var(--calcite-color-brand-hover));
-      }
-      &:host(:active) {
-        background-color: var(--calcite-chip-background-color-press, var(--calcite-color-brand-press));
-      }
     }
   }
 
   &:host([kind="inverse"]) {
     .container {
       background-color: var(--calcite-chip-background-color, var(--calcite-color-inverse));
-
-      &:host(:hover),
-      &:host(:focus) {
-        background-color: var(--calcite-chip-background-color-hover, var(--calcite-color-inverse-hover));
-      }
-      &:host(:active) {
-        background-color: var(--calcite-chip-background-color-press, var(--calcite-color-inverse-press));
-      }
     }
   }
 
@@ -136,6 +102,8 @@
     --calcite-internal-chip-image-size: 1.25rem /* 20px */;
     --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xxs);
     --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-title-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-title-padding-end: var(--calcite-spacing-xxs);
 
     &.image--slotted {
       --calcite-internal-chip-container-padding-start: var(--calcite-spacing-px);
@@ -195,6 +163,8 @@
     --calcite-internal-chip-image-size: 1.5rem /* 24px */;
     --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xs);
     --calcite-internal-chip-container-padding-end: var(--calcite-spacing-xs);
+    --calcite-internal-chip-title-padding-start: var(--calcite-spacing-xs);
+    --calcite-internal-chip-title-padding-end: var(--calcite-spacing-xs);
 
     &.image--slotted {
       --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xxs);
@@ -255,6 +225,8 @@
     --calcite-internal-chip-image-size: 2rem /* 32px */;
     --calcite-internal-chip-container-padding-start: var(--calcite-spacing-sm);
     --calcite-internal-chip-container-padding-end: var(--calcite-spacing-sm);
+    --calcite-internal-chip-title-padding-start: var(--calcite-spacing-sm);
+    --calcite-internal-chip-title-padding-end: var(--calcite-spacing-sm);
 
     &.image--slotted {
       --calcite-internal-chip-container-padding-start: var(--calcite-spacing-xs);
