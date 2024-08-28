@@ -207,6 +207,7 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
     return 0;
   }
   const timeParts = getTimeParts({
+    hour12: true,
     value: "00:00:00",
     locale,
     numberingSystem: "latn",
@@ -389,18 +390,24 @@ export function localizeTimeStringToParts({
 }
 
 interface GetTimePartsParameters {
+  hour12?: boolean;
   value: string;
   locale: SupportedLocale;
   numberingSystem: NumberingSystem;
 }
-export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsParameters): Intl.DateTimeFormatPart[] {
+export function getTimeParts({
+  hour12,
+  value,
+  locale,
+  numberingSystem,
+}: GetTimePartsParameters): Intl.DateTimeFormatPart[] {
   if (!isValidTime(value)) {
     return null;
   }
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
+    const formatter = createLocaleDateTimeFormatter({ hour12, locale, numberingSystem });
     const parts = formatter.formatToParts(dateFromTimeString);
     return parts;
   }

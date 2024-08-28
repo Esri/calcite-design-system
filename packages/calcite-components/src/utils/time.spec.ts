@@ -36,15 +36,21 @@ describe("formatTimePart", () => {
 
 describe("getLocalizedMeridiem", () => {
   it("ar", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("ar", "AM")).toEqual("ص");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("ar", "PM")).toEqual("م");
   });
   it("bg", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("bg", "AM")).toEqual("пр.об.");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("bg", "PM")).toEqual("сл.об.");
   });
   it("bs", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("bs", "AM")).toEqual("prijepodne");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("bs", "PM")).toEqual("popodne");
   });
   it("ca", () => {
@@ -52,7 +58,9 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("ca", "PM")).toEqual("p. m.");
   });
   it("cs", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("cs", "AM")).toEqual("dop.");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("cs", "PM")).toEqual("odp.");
   });
   it("da", () => {
@@ -76,7 +84,9 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("en-GB", "PM")).toEqual("pm");
   });
   it("el", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("el", "AM")).toEqual("π.μ.");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("el", "PM")).toEqual("μ.μ.");
   });
   it("en-US", () => {
@@ -116,7 +126,9 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("fr-CH", "PM")).toEqual("PM");
   });
   it("he", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("he", "AM")).toEqual("לפנה״צ");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("he", "PM")).toEqual("אחה״צ");
   });
   it("hi", () => {
@@ -135,7 +147,7 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("id", "AM")).toEqual("AM");
     expect(getLocalizedMeridiem("id", "PM")).toEqual("PM");
   });
-  it("it", () => {
+  it("italian", () => {
     expect(getLocalizedMeridiem("it", "AM")).toEqual("AM");
     expect(getLocalizedMeridiem("it", "PM")).toEqual("PM");
   });
@@ -152,15 +164,21 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("ko", "PM")).toEqual("오후");
   });
   it("lt", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("lt", "AM")).toEqual("priešpiet");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("lt", "PM")).toEqual("popiet");
   });
   it("lv", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("lv", "AM")).toEqual("priekšpusdienā");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("lv", "PM")).toEqual("pēcpusdienā");
   });
   it("mk", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("mk", "AM")).toEqual("претпл.");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("mk", "PM")).toEqual("попл.");
   });
   it("no", () => {
@@ -180,7 +198,9 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("pt-BR", "PM")).toEqual("PM");
   });
   it("pt-PT", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("pt-PT", "AM")).toEqual("da manhã");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("pt-PT", "PM")).toEqual("da tarde");
   });
   it("ro", () => {
@@ -204,7 +224,9 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("sv", "PM")).toEqual("em");
   });
   it("th", () => {
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("th", "AM")).toEqual("ก่อนเที่ยง");
+    // eslint-disable-next-line @cspell/spellchecker -- localized characters
     expect(getLocalizedMeridiem("th", "PM")).toEqual("หลังเที่ยง");
   });
   it("tr", () => {
@@ -237,14 +259,26 @@ describe("getMeridiemOrder", () => {
   it("returns 0 for arabic lang", () => {
     expect(getMeridiemOrder("ar")).toEqual(0);
   });
+  it("returns 0 for chinese lang", () => {
+    expect(getMeridiemOrder("zh-CN")).toEqual(0);
+  });
   it("returns 0 for chinese (hong kong) lang", () => {
     expect(getMeridiemOrder("zh-HK")).toEqual(0);
   });
   it("returns 0 for hebrew lang", () => {
     expect(getMeridiemOrder("he")).toEqual(0);
   });
+  it("returns 0 for hungarian lang", () => {
+    expect(getMeridiemOrder("hu")).toEqual(0);
+  });
+  it("returns 0 for japanese lang", () => {
+    expect(getMeridiemOrder("ja")).toEqual(0);
+  });
   it("returns 0 for korean lang", () => {
     expect(getMeridiemOrder("ko")).toEqual(0);
+  });
+  it("returns 0 for turkish lang", () => {
+    expect(getMeridiemOrder("tr")).toEqual(0);
   });
   it("returns non-zero for ltr langs", () => {
     expect(getMeridiemOrder("el")).not.toEqual(0);
