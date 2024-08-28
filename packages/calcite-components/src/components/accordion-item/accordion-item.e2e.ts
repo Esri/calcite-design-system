@@ -31,7 +31,7 @@ describe("calcite-accordion-item", () => {
           >content</calcite-accordion-item
         >`,
         {
-          "--calcite-accordion-text-color": [
+          "--calcite-accordion-item-text-color": [
             {
               shadowSelector: `.${CSS.content}`,
               targetProp: "color",
@@ -45,13 +45,20 @@ describe("calcite-accordion-item", () => {
               targetProp: "color",
             },
           ],
-          "--calcite-accordion-text-color-hover": [
+          "--calcite-accordion-item-background-color": {
+            targetProp: "backgroundColor",
+          },
+          "--calcite-accordion-item-background-color-hover": {
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          "--calcite-accordion-item-text-color-hover": [
             {
               shadowSelector: `.${CSS.heading}`,
               targetProp: "color",
             },
           ],
-          "--calcite-accordion-border-color": [
+          "--calcite-accordion-item-border-color": [
             {
               shadowSelector: `.${CSS.content}`,
               targetProp: "borderBlockEndColor",
@@ -70,18 +77,86 @@ describe("calcite-accordion-item", () => {
           >content</calcite-accordion-item
         >`,
         {
-          "--calcite-accordion-text-color-hover": [
+          "--calcite-accordion-item-background-color-press": {
+            targetProp: "backgroundColor",
+          },
+          "--calcite-accordion-item-header-background-color-press": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.header}`,
+          },
+          "--calcite-accordion-item-text-color-hover": [
             {
               shadowSelector: `.${CSS.description}`,
               targetProp: "color",
             },
           ],
-          "--calcite-accordion-text-color-pressed": {
+          "--calcite-accordion-item-text-color-press": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
           },
         },
       );
+    });
+
+    describe("deprecated", () => {
+      describe("default", () => {
+        themed(
+          html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
+            >content</calcite-accordion-item
+          >`,
+          {
+            "--calcite-accordion-text-color": [
+              {
+                shadowSelector: `.${CSS.content}`,
+                targetProp: "color",
+              },
+              {
+                shadowSelector: `.${CSS.expandIcon}`,
+                targetProp: "color",
+              },
+              {
+                shadowSelector: `.${CSS.description}`,
+                targetProp: "color",
+              },
+            ],
+            "--calcite-accordion-text-color-hover": [
+              {
+                shadowSelector: `.${CSS.heading}`,
+                targetProp: "color",
+              },
+            ],
+            "--calcite-accordion-border-color": [
+              {
+                shadowSelector: `.${CSS.content}`,
+                targetProp: "borderBlockEndColor",
+              },
+              {
+                shadowSelector: `.${CSS.header}`,
+                targetProp: "borderBlockEndColor",
+              },
+            ],
+          },
+        );
+      });
+      describe("expanded", () => {
+        themed(
+          html`<calcite-accordion-item heading="Heading" description="Description" expanded
+            >content</calcite-accordion-item
+          >`,
+          {
+            "--calcite-accordion-text-color-hover": [
+              {
+                shadowSelector: `.${CSS.description}`,
+                targetProp: "color",
+              },
+            ],
+            "--calcite-accordion-text-color-pressed": {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
+          },
+        );
+      });
     });
   });
 
