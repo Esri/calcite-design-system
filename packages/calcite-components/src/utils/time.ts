@@ -137,6 +137,16 @@ export function getLocaleHourCycle(locale: SupportedLocale): HourCycle {
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
+export function getLocaleOppositeHourCycle(locale: SupportedLocale): HourCycle {
+  const localeDefaultHourCycle = getLocaleHourCycle(locale);
+  if (localeDefaultHourCycle === "12") {
+    return "24";
+  }
+  if (localeDefaultHourCycle === "24") {
+    return "12";
+  }
+}
+
 export function getLocalizedMeridiem(
   locale: SupportedLocale,
   meridiem: Meridiem,
@@ -201,6 +211,18 @@ export function getMeridiem(hour: string): Meridiem {
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
 }
 
+export function getMeridiemFormatToken(locale: SupportedLocale): "a " | " a" | " A" | "A " | " aa" {
+  const localizedAM = getLocalizedMeridiem(locale, "AM");
+  const localizedPM = getLocalizedMeridiem(locale, "PM");
+  const meridiemOrder = getMeridiemOrder(locale);
+  // TODO: research toLocaleLowerCase to determine if this should be used here instead
+  // @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase
+  if (localizedAM === localizedAM.toLowerCase() && localizedPM === localizedPM.toLowerCase()) {
+    return meridiemOrder === 0 ? "a " : " a";
+  }
+  return meridiemOrder === 0 ? "A " : " A";
+}
+
 export function getMeridiemOrder(locale: SupportedLocale): number {
   const isRtl = locale === "ar" || locale === "he";
   if (isRtl) {
@@ -213,6 +235,13 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
     numberingSystem: "latn",
   });
   return timeParts.findIndex((value) => value.type === "dayPeriod");
+}
+
+export function isLocaleHourCycleOpposite(hourCycle: HourCycle, locale: SupportedLocale): boolean {
+  if (!hourCycle) {
+    return false;
+  }
+  return hourCycle === getLocaleOppositeHourCycle(locale);
 }
 
 export function isValidTime(value: string): boolean {
