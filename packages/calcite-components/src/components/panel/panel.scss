@@ -25,11 +25,11 @@
 
   .header-content {
     .heading {
-      @apply text-n1h;
+      font-size: var(--calcite-font-size--1);
     }
 
     .description {
-      @apply text-n2h;
+      font-size: var(--calcite-font-size--2);
     }
   }
 }
@@ -40,11 +40,11 @@
 
   .header-content {
     .heading {
-      @apply text-0h;
+      font-size: var(--calcite-font-size-0);
     }
 
     .description {
-      @apply text-n1h;
+      font-size: var(--calcite-font-size--1);
     }
   }
 }
@@ -55,11 +55,11 @@
 
   .header-content {
     .heading {
-      @apply text-1h;
+      font-size: var(--calcite-font-size-1);
     }
 
     .description {
-      @apply text-0h;
+      font-size: var(--calcite-font-size-0);
     }
   }
 }
@@ -120,16 +120,19 @@
     py-3.5;
 
   margin-inline-end: auto;
+  justify-content: center;
 
   .heading,
   .description {
     @apply block
-      break-words
-      p-0;
+    flex-none
+    break-words
+    p-0;
+    line-height: var(--calcite-font-line-height-relative-snug);
   }
 
   .heading {
-    @apply mx-0 mt-0 mb-1 font-medium text-color-1;
+    @apply font-medium text-color-1;
 
     &:only-child {
       @apply mb-0;
