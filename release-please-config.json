@@ -11,33 +11,33 @@
         "readme.md",
         {
           "type": "json",
-          "path": "../../examples/components/preact/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components"
+          "path": "/examples/components/preact/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
         {
           "type": "json",
-          "path": "../../examples/components/rollup/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components"
+          "path": "/examples/components/rollup/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
         {
           "type": "json",
-          "path": "../../examples/components/vite/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components"
+          "path": "/examples/components/vite/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
         {
           "type": "json",
-          "path": "../../examples/components/vue/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components"
+          "path": "/examples/components/vue/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
         {
           "type": "json",
-          "path": "../../examples/components/web-dev-server/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components"
+          "path": "/examples/components/web-dev-server/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
         {
           "type": "json",
-          "path": "../../examples/components/webpack/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components"
+          "path": "/examples/components/webpack/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
         }
       ]
     },
@@ -46,7 +46,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": "../../examples/components/react/package.json",
+          "path": "/examples/components/react/package.json",
           "jsonpath": "$.dependencies.@esri/calcite-components-react"
         }
       ]
@@ -56,8 +56,8 @@
       "extra-files": [
         {
           "type": "json",
-          "path": "../../examples/components/angular/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components-angular"
+          "path": "/examples/components/angular/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components-angular']"
         }
       ]
     },
