@@ -2,8 +2,6 @@ import { placeholderImage } from "../../.storybook/placeholder-image";
 import { html } from "../../support/formatting";
 
 export const accordionItemTokens = {
-  calciteAccordionItemBackgroundColorPress: "",
-  calciteAccordionItemBackgroundColorHover: "",
   calciteAccordionItemBackgroundColor: "",
   calciteAccordionItemBorderColor: "",
   calciteAccordionItemContentSpace: "",
