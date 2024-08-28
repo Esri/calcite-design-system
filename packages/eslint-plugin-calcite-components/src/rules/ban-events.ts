@@ -37,7 +37,7 @@ const rule: Rule.RuleModule = {
     const bannedEventToMessageLookup = new Map<string, string | null>();
     context.options.forEach((option: string | { event: string; message?: string }) => {
       const event = typeof option === "string" ? option : option.event;
-      const message = typeof option === "string" ? null : (option.message ?? null);
+      const message = typeof option === "string" ? null : option.message ?? null;
       bannedEventToMessageLookup.set(event, message);
     });
 
