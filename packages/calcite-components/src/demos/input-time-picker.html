@@ -45,128 +45,128 @@
           <div id="h23" class="grid"></div>
         </main>
       </div>
-
-      <script type="module">
-        import { locales } from "./_assets/locales.js";
-
-        function createInputTimePicker({ dir, hourCycle, locale, name, numberingSystem, step }) {
-          const labelEl = document.createElement("calcite-label");
-          const inputTimePickerEl = document.createElement("calcite-input-time-picker");
-
-          let hourCycleLabel = "",
-            numberingSystemLabel = "",
-            stepLabel = "";
-
-          inputTimePickerEl.setAttribute("lang", locale);
-          if (dir) {
-            inputTimePickerEl.setAttribute("dir", dir);
-          }
-          if (hourCycle) {
-            inputTimePickerEl.setAttribute("hour-cycle", hourCycle);
-            hourCycleLabel = ` | ${hourCycle}-hour`;
-          }
-          if (numberingSystem) {
-            numberingSystemLabel = ` | ${numberingSystem}`;
-            inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
-          }
-          if (step) {
-            inputTimePickerEl.setAttribute("step", step);
-            if (step >= 1 && step < 60) {
-              stepLabel = ` | seconds`;
-              inputTimePickerEl.setAttribute("value", "14:30:45");
-            } else if (step < 1) {
-              stepLabel = ` | milliseconds`;
-              inputTimePickerEl.setAttribute("value", "14:30:45.001");
-            }
-          } else {
-            inputTimePickerEl.setAttribute("value", "14:30");
-          }
-          labelEl.append(
-            document.createTextNode(`${name} (${locale})${numberingSystemLabel}${hourCycleLabel}${stepLabel}`),
-          );
-          labelEl.append(inputTimePickerEl);
-
-          return labelEl;
-        }
-
-        (async () => {
-          await customElements.whenDefined("calcite-label");
-          await customElements.whenDefined("calcite-input-time-picker");
-
-          document.addEventListener("calciteInputTimePickerChange", (event) => {
-            console.log("calciteInputTimePickerChange", event.target.value);
-          });
-
-          locales.forEach((options) => {
-            const localeObject = new Intl.Locale(options.locale);
-            if (localeObject.hourCycles[0] === "h12") {
-              h12.append(createInputTimePicker(options));
-              h12.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ step: 1 },
-                }),
-              );
-              h12.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ step: 0.001 },
-                }),
-              );
-              h12.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ hourCycle: "24" },
-                }),
-              );
-              h12.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ hourCycle: "24", step: 1 },
-                }),
-              );
-              h12.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ hourCycle: "24", step: 0.001 },
-                }),
-              );
-            } else {
-              h23.append(createInputTimePicker(options));
-              h23.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ step: 1 },
-                }),
-              );
-              h23.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ step: 0.001 },
-                }),
-              );
-              h23.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ hourCycle: "12" },
-                }),
-              );
-              h23.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ hourCycle: "12", step: 1 },
-                }),
-              );
-              h23.append(
-                createInputTimePicker({
-                  ...options,
-                  ...{ hourCycle: "12", step: 0.001 },
-                }),
-              );
-            }
-          });
-        })();
-      </script>
     </demo-dom-swapper>
+    <script type="module">
+      import { locales } from "./_assets/locales.js";
+
+      function createInputTimePicker({ dir, hourCycle, locale, name, numberingSystem, step }) {
+        const labelEl = document.createElement("calcite-label");
+        const inputTimePickerEl = document.createElement("calcite-input-time-picker");
+
+        let hourCycleLabel = "",
+          numberingSystemLabel = "",
+          stepLabel = "";
+
+        inputTimePickerEl.setAttribute("lang", locale);
+        if (dir) {
+          inputTimePickerEl.setAttribute("dir", dir);
+        }
+        if (hourCycle) {
+          inputTimePickerEl.setAttribute("hour-cycle", hourCycle);
+          hourCycleLabel = ` | ${hourCycle}-hour`;
+        }
+        if (numberingSystem) {
+          numberingSystemLabel = ` | ${numberingSystem}`;
+          inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+        }
+        if (step) {
+          inputTimePickerEl.setAttribute("step", step);
+          if (step >= 1 && step < 60) {
+            stepLabel = ` | seconds`;
+            inputTimePickerEl.setAttribute("value", "14:30:45");
+          } else if (step < 1) {
+            stepLabel = ` | milliseconds`;
+            inputTimePickerEl.setAttribute("value", "14:30:45.001");
+          }
+        } else {
+          inputTimePickerEl.setAttribute("value", "14:30");
+        }
+        labelEl.append(
+          document.createTextNode(`${name} (${locale})${numberingSystemLabel}${hourCycleLabel}${stepLabel}`),
+        );
+        labelEl.append(inputTimePickerEl);
+
+        return labelEl;
+      }
+
+      (async () => {
+        await customElements.whenDefined("calcite-label");
+        await customElements.whenDefined("calcite-input-time-picker");
+
+        locales.forEach((options) => {
+          const localeObject = new Intl.Locale(options.locale);
+          if (localeObject.hourCycles[0] === "h12") {
+            h12.append(createInputTimePicker(options));
+            h12.append(
+              createInputTimePicker({
+                ...options,
+                ...{ step: 1 },
+              }),
+            );
+            h12.append(
+              createInputTimePicker({
+                ...options,
+                ...{ step: 0.001 },
+              }),
+            );
+            h12.append(
+              createInputTimePicker({
+                ...options,
+                ...{ hourCycle: "24" },
+              }),
+            );
+            h12.append(
+              createInputTimePicker({
+                ...options,
+                ...{ hourCycle: "24", step: 1 },
+              }),
+            );
+            h12.append(
+              createInputTimePicker({
+                ...options,
+                ...{ hourCycle: "24", step: 0.001 },
+              }),
+            );
+          } else {
+            h23.append(createInputTimePicker(options));
+            h23.append(
+              createInputTimePicker({
+                ...options,
+                ...{ step: 1 },
+              }),
+            );
+            h23.append(
+              createInputTimePicker({
+                ...options,
+                ...{ step: 0.001 },
+              }),
+            );
+            h23.append(
+              createInputTimePicker({
+                ...options,
+                ...{ hourCycle: "12" },
+              }),
+            );
+            h23.append(
+              createInputTimePicker({
+                ...options,
+                ...{ hourCycle: "12", step: 1 },
+              }),
+            );
+            h23.append(
+              createInputTimePicker({
+                ...options,
+                ...{ hourCycle: "12", step: 0.001 },
+              }),
+            );
+          }
+        });
+      })();
+    </script>
+    <script>
+      document.addEventListener("calciteInputTimePickerChange", (event) => {
+        console.log("calciteInputTimePickerChange", event.target.value);
+      });
+    </script>
   </body>
 </html>

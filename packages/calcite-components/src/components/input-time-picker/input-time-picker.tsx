@@ -904,12 +904,13 @@ export class InputTimePicker
     hourCycle: HourCycle;
   }): void {
     const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
+    const hourRegEx = /(h+)|(H+)/g;
 
     let ltFormatString = this.localeConfig.formats.LT;
-    const ltHourTokenMatch = ltFormatString.match(/(h+)|(H+)/g);
+    const ltHourTokenMatch = ltFormatString.match(hourRegEx);
 
     let ltsFormatString = this.localeConfig.formats.LTS;
-    const ltsHourTokenMatch = ltsFormatString.match(/(h+)|(H+)/g);
+    const ltsHourTokenMatch = ltsFormatString.match(hourRegEx);
 
     if (hourCycle === "12" && localeDefaultHourCycle === "24") {
       if (ltHourTokenMatch) {
@@ -925,27 +926,11 @@ export class InputTimePicker
         );
       }
     } else if (hourCycle === "24" && localeDefaultHourCycle === "12") {
-      const ltMeridiemTokenMatch = ltFormatString.match(/(a)|(A)/g);
-      const ltsMeridiemTokenMatch = ltsFormatString.match(/(a)|(A)/g);
-
-      if (ltMeridiemTokenMatch) {
-        ltFormatString = ltFormatString.replace(ltMeridiemTokenMatch[0], "");
-      }
-      if (ltsMeridiemTokenMatch) {
-        ltsFormatString = ltsFormatString.replace(ltsMeridiemTokenMatch[0], "");
-      }
-      if (ltHourTokenMatch) {
-        ltFormatString = ltFormatString.replace(
-          ltHourTokenMatch[0],
-          "".padStart(ltHourTokenMatch[0].length, "H"),
-        );
-      }
-      if (ltsHourTokenMatch) {
-        ltsFormatString = ltsFormatString.replace(
-          ltsHourTokenMatch[0],
-          "".padStart(ltsHourTokenMatch[0].length, "H"),
-        );
-      }
+      const meridiemRegEx = /( )|(a)|(A)|( )/g;
+      ltFormatString = ltFormatString.replaceAll(hourRegEx, "H");
+      ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
+      ltsFormatString = ltsFormatString.replaceAll(hourRegEx, "H");
+      ltsFormatString = ltsFormatString.replaceAll(meridiemRegEx, "");
     } else {
       ltFormatString = this.localeDefaultLTFormat;
       ltsFormatString = this.localeDefaultLTSFormat;
