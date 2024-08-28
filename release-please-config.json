@@ -47,7 +47,7 @@
         {
           "type": "json",
           "path": "/examples/components/react/package.json",
-          "jsonpath": "$.dependencies.@esri/calcite-components-react"
+          "jsonpath": "$.dependencies['@esri/calcite-components-react']"
         }
       ]
     },
