@@ -14,7 +14,7 @@ import { accordion } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { card, cardTokens } from "./custom-theme/card";
 import { checkbox } from "./custom-theme/checkbox";
-import { chips, chipTokens } from "./custom-theme/chips";
+import { chips, chipGroupTokens, chipTokens } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { icon } from "./custom-theme/icon";
@@ -119,6 +119,7 @@ export default {
     ...actionGroupTokens,
     ...cardTokens,
     ...chipTokens,
+    ...chipGroupTokens,
   },
 };
 
@@ -136,6 +137,7 @@ export const theming_TestOnly = (): string => {
       ...actionGroupTokens,
       ...cardTokens,
       ...chipTokens,
+      ...chipGroupTokens,
     },
     true,
   );

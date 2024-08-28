@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-chip-group-items-space: Specifies spacing between items in the component.
+ *
+ */
+
 :host {
   display: flex;
 }
@@ -6,7 +15,7 @@
   display: flex;
   inline-size: 100%;
   flex-wrap: wrap;
-  gap: theme("spacing.2");
+  gap: var(--calcite-chip-group-items-space, var(--calcite-internal-chip-group-items-space, theme("spacing.2")));
 }
 
 ::slotted(calcite-chip) {
@@ -14,11 +23,15 @@
 }
 
 :host([scale="s"]) .container {
-  gap: theme("spacing.1");
+  --calcite-internal-chip-group-items-space: theme("spacing.1");
+}
+
+:host([scale="m"]) .container {
+  --calcite-internal-chip-group-items-space: theme("spacing.2");
 }
 
 :host([scale="l"]) .container {
-  gap: theme("spacing.3");
+  --calcite-internal-chip-group-items-space: theme("spacing.3");
 }
 
 @include disabled();
