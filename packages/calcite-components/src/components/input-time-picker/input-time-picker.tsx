@@ -27,7 +27,6 @@ import {
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
-import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -380,14 +379,10 @@ export class InputTimePicker
 
   focusTrap: FocusTrap;
 
-  private dialogId = `time-picker-dialog--${guid()}`;
-
   private localeConfig: ILocale;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
-
-  private referenceElementId = `input-time-picker-${guid()}`;
 
   //--------------------------------------------------------------------------
   //
@@ -1004,7 +999,7 @@ export class InputTimePicker
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { disabled, messages, readOnly, dialogId } = this;
+    const { disabled, messages, readOnly } = this;
     return (
       <Host onBlur={this.hostBlurHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
@@ -1016,7 +1011,6 @@ export class InputTimePicker
               aria-invalid={toAriaBoolean(this.status === "invalid")}
               disabled={disabled}
               icon="clock"
-              id={this.referenceElementId}
               label={getLabelText(this)}
               lang={this.effectiveLocale}
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
@@ -1032,7 +1026,6 @@ export class InputTimePicker
           <calcite-popover
             autoClose={true}
             focusTrapDisabled={true}
-            id={dialogId}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
             onCalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
@@ -1042,7 +1035,7 @@ export class InputTimePicker
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
             ref={this.setCalcitePopoverEl}
-            referenceElement={this.referenceElementId}
+            referenceElement={this.calciteInputEl}
             triggerDisabled={true}
           >
             <calcite-time-picker
