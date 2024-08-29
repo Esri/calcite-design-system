@@ -305,8 +305,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
           aria-valuenow={
             layout == "horizontal"
-              ? contentHeight ?? initialContentHeight
-              : contentWidth ?? initialContentWidth
+              ? (contentHeight ?? initialContentHeight)
+              : (contentWidth ?? initialContentWidth)
           }
           class={CSS.separator}
           key="separator"
