@@ -364,6 +364,8 @@ export class InputTimePicker
 
   @Element() el: HTMLCalciteInputTimePickerElement;
 
+  @State() calciteInputEl: HTMLCalciteInputElement;
+
   defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
@@ -371,8 +373,6 @@ export class InputTimePicker
   labelEl: HTMLCalciteLabelElement;
 
   popoverEl: HTMLCalcitePopoverElement;
-
-  private calciteInputEl: HTMLCalciteInputElement;
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
 
