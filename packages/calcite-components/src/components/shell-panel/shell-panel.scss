@@ -115,7 +115,8 @@
   flex
   flex-auto
   items-stretch
-  bg-transparent;
+  bg-transparent
+  h-full;
 
   * {
     @apply box-border;
@@ -128,6 +129,7 @@
 }
 
 :host([layout="horizontal"]) .container {
+  @apply w-full;
   flex-direction: column;
 }
 
