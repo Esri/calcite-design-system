@@ -370,9 +370,9 @@ export function localizeTimeString({
     hour12,
   });
   let result = formatter.format(dateFromTimeString) || null;
-  // This is to fix a chromium bug that isn't formatting time values correctly for bg locale
-  if (result && locale === "bg" && !result.includes("ч.")) {
-    result += " ч.";
+  // Confirmed with i18n team that the bulgarian "ч." character (abbreviation for "hours") shouldn't display for short and medium time formats.
+  if (result && locale === "bg" && result.includes(" ч.")) {
+    result = result.replaceAll(" ч.", "");
   }
   return result;
 }
