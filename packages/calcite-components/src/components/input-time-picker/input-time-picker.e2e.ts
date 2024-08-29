@@ -900,7 +900,7 @@ describe("calcite-input-time-picker", () => {
 
       describe(`${locale} (${localeHourCycle}-hour): committing localized time values`, () => {
         describe("with enter key", () => {
-          it("allows typing in 24-hour format", async () => {
+          it("allows typing in 24-hour format when hour-cycle is 24", async () => {
             const page = await newE2EPage();
             await page.setContent(
               `<calcite-input-time-picker hour-cycle="24" lang="${locale}" step="1"></calcite-input-time-picker>`,
@@ -939,14 +939,16 @@ describe("calcite-input-time-picker", () => {
 
             expect(changeEvent).toHaveReceivedEventTimes(1);
           });
-
-          it(`${locale} locale: allows typing in 12-hour format`, async () => {
+        });
+        describe("when blurred", () => {
+          it("allows typing in 24-hour format when hour-cycle is 24", async () => {
             const page = await newE2EPage();
             await page.setContent(
-              `<calcite-input-time-picker lang="${locale}" step="1"></calcite-input-time-picker><input>`,
+              `<calcite-input-time-picker hour-cycle="24" lang="${locale}" step="1"></calcite-input-time-picker><input>`,
             );
 
             const inputTimePicker = await page.find("calcite-input-time-picker");
+            const input = await page.find("input");
             const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
             expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -961,13 +963,18 @@ describe("calcite-input-time-picker", () => {
             if (localizedSecondSuffix) {
               await page.keyboard.type(localizedSecondSuffix);
             }
-            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+
+            input.focus();
             await page.waitForChanges();
 
             expect(changeEvent).toHaveReceivedEventTimes(1);
             const value = await inputTimePicker.getProperty("value");
             expect(value).toBe("14:30:45");
-            expect(await getInputValue(page)).toBe(localizeTimeString({ includeSeconds: true, locale, value }));
+            const localizedTimeString = localizeTimeString({ hour12: false, includeSeconds: true, locale, value });
+            expect(await getInputValue(page)).toBe(localizedTimeString);
 
             await page.keyboard.press("Enter");
             await page.waitForChanges();
