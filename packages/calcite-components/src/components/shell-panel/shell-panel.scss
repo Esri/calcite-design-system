@@ -129,7 +129,7 @@
 }
 
 :host([layout="horizontal"]) .container {
-  @apply w-full;
+  @apply w-full h-auto;
   flex-direction: column;
 }
 
