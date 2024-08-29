@@ -1030,6 +1030,7 @@ export class InputTimePicker
             {!this.readOnly && this.renderToggleIcon(this.open)}
           </div>
           <calcite-popover
+            autoClose={true}
             focusTrapDisabled={true}
             id={dialogId}
             label={messages.chooseTime}
