@@ -617,10 +617,9 @@ describe("calcite-panel", () => {
       it("should close when Escape key is pressed and closable is true", async () => {
         const page = await newE2EPage();
         await page.setContent(html`<calcite-panel closable>non-scrolling content</calcite-panel>`);
-        await page.setViewport({ width: 1200, height: 800 });
         const panel = await page.find("calcite-panel");
         const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
-        const closeButton = await page.find(`calcite-panel >>> calcite-action[data-test="close"]`);
+        const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
         const container = await page.find(`calcite-panel >>> .${CSS.container}`);
         expect(await panel.getProperty("closed")).toBe(false);
         expect(await container.isVisible()).toBe(true);
