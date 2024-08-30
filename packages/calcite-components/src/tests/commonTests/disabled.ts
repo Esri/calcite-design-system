@@ -1,8 +1,9 @@
 import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
+import { SetFieldType } from "type-fest";
 import { IntrinsicElementsWithProp, skipAnimations } from "./../utils";
 import { getTagAndPage } from "./utils";
-import { ComponentTestSetup, DisabledOptions, FocusTarget } from "./interfaces";
+import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -70,18 +71,38 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
   }
 
+  type EffectiveTabAndClickFocusTargets = SetFieldType<
+    TabAndClickFocusTargets,
+    "click",
+    Exclude<TabAndClickFocusTargets["click"], string>
+  >;
+
   const getTabAndClickFocusTarget = async (
     page: E2EPage,
     tag: string,
     focusTarget: DisabledOptions["focusTarget"],
-  ): Promise<string[]> => {
+  ): Promise<EffectiveTabAndClickFocusTargets> => {
     if (typeof focusTarget === "object") {
-      return [focusTarget.tab, focusTarget.click];
+      return typeof focusTarget.click === "string"
+        ? {
+            tab: focusTarget.tab,
+            click: {
+              pointer: focusTarget.click,
+              method: "body",
+            },
+          }
+        : (focusTarget as EffectiveTabAndClickFocusTargets);
     }
 
     const sameClickAndTabFocusTarget = await getFocusTarget(page, tag, focusTarget);
 
-    return [sameClickAndTabFocusTarget, sameClickAndTabFocusTarget];
+    return {
+      tab: sameClickAndTabFocusTarget,
+      click: {
+        pointer: sameClickAndTabFocusTarget,
+        method: sameClickAndTabFocusTarget,
+      },
+    };
   };
 
   const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
@@ -136,14 +157,14 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     await page.keyboard.press("Tab");
 
-    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
+    const effectiveFocusTarget = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
 
-    expect(tabFocusTarget).not.toBe("body");
-    await expectToBeFocused(page, tabFocusTarget);
+    expect(effectiveFocusTarget.tab).not.toBe("body");
+    await expectToBeFocused(page, effectiveFocusTarget.tab);
 
     const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
       page,
-      tabFocusTarget,
+      effectiveFocusTarget.tab,
     );
 
     async function resetFocusOrder(): Promise<void> {
@@ -156,12 +177,14 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
-    await expectToBeFocused(page, clickFocusTarget);
+    await expectToBeFocused(page, effectiveFocusTarget.click.pointer);
 
     await resetFocusOrder();
+    await expectToBeFocused(page, "body");
+
     await component.callMethod("click");
     await page.waitForChanges();
-    await expectToBeFocused(page, clickFocusTarget);
+    await expectToBeFocused(page, effectiveFocusTarget.click.method);
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
@@ -179,10 +202,14 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
+    await expectToBeFocused(page, "body");
+
     await page.keyboard.press("Tab");
     await expectToBeFocused(page, "body");
 
     await resetFocusOrder();
+    await expectToBeFocused(page, "body");
+
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await expectToBeFocused(page, "body");
 
