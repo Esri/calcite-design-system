@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.1...@esri/calcite-components@2.13.0-next.2) (2024-08-30)
+
+### Bug Fixes
+
+- **list:** do not emit `calciteListChange` during a filter ([#10195](https://github.com/Esri/calcite-design-system/issues/10195)) ([ca4db32](https://github.com/Esri/calcite-design-system/commit/ca4db328adffba501a76a3e177e2cd4d5c90788d)), closes [#10192](https://github.com/Esri/calcite-design-system/issues/10192)
+
 ## [2.13.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.0...@esri/calcite-components@2.13.0-next.1) (2024-08-30)
 
 ### Bug Fixes

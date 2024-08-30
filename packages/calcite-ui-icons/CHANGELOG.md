@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.32.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.31.1-next.0...@esri/calcite-ui-icons@3.32.0-next.0) (2024-08-30)
+
+### Features
+
+- add trace path and trace path complete ([#10196](https://github.com/Esri/calcite-design-system/issues/10196)) ([c37ced5](https://github.com/Esri/calcite-design-system/commit/c37ced57fc08884639ed3cacafa2023104a33696))
+
 ## [3.31.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.31.0-next.4...@esri/calcite-ui-icons@3.31.1-next.0) (2024-08-28)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
