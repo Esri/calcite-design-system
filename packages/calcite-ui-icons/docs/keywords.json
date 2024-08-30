@@ -8885,5 +8885,15 @@
     "alias": ["3.29.2", "layers", "plug", "top", "connection", "network", "properties"],
     "category": "Layers",
     "release": "3.29.2"
+  },
+  "trace-path": {
+    "alias": ["3.29.4", "gis", "tracing", "lines", "points", "edges", "path", "copy"],
+    "category": "GIS",
+    "release": "3.29.4"
+  },
+  "trace-path-complete": {
+    "alias": ["3.29.4", "gis", "lines", "path", "completion", "edges", "points", "tracing"],
+    "category": "GIS",
+    "release": "3.29.4"
   }
 }
