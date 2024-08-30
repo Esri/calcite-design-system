@@ -7,10 +7,6 @@ export const chipTokens = {
   calciteChipTextColor: "",
 };
 
-export const chipGroupTokens = {
-  calciteChipGroupItemsSpace: "",
-};
-
 export const chips = html`<div>
     <calcite-chip>Neutral</calcite-chip>
     <calcite-chip kind="inverse">Inverse</calcite-chip>
@@ -21,8 +17,8 @@ export const chips = html`<div>
     <calcite-chip appearance="outline-fill" kind="inverse">Inverse</calcite-chip>
     <calcite-chip appearance="outline-fill" kind="brand">Brand</calcite-chip>
   </div>
-  <calcite-chip-group>
+  <div>
     <calcite-chip appearance="outline">Neutral</calcite-chip>
     <calcite-chip appearance="outline" kind="inverse">Inverse</calcite-chip>
     <calcite-chip appearance="outline" kind="brand">Brand</calcite-chip>
-  </calcite-chip-group>`;
+  </div>`;
