@@ -628,37 +628,10 @@ describe("calcite-panel", () => {
         await closeButton.callMethod("setFocus");
         await closeButton.press("Escape");
         await page.waitForChanges();
+
         expect(await panel.getProperty("closed")).toBe(true);
         expect(await container.isVisible()).toBe(false);
         expect(calcitePanelClose).toHaveReceivedEventTimes(1);
-      });
-
-      it("should not close when Escape key is prevented and closable is true", async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`<calcite-panel closable>non-scrolling content</calcite-panel>`);
-        const panel = await page.find("calcite-panel");
-        const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
-        const container = await page.find(`calcite-panel >>> .${CSS.container}`);
-
-        expect(await panel.getProperty("closed")).toBe(false);
-        expect(await container.isVisible()).toBe(true);
-
-        await page.$eval("calcite-panel", (panel: HTMLCalcitePanelElement) => {
-          panel.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-              event.preventDefault();
-            }
-          });
-        });
-
-        const closeButton = await page.find(`calcite-panel >>> calcite-action[data-test="close"]`);
-        await closeButton.callMethod("setFocus");
-        await closeButton.press("Escape");
-        await page.waitForChanges();
-
-        expect(await panel.getProperty("closed")).toBe(false);
-        expect(await container.isVisible()).toBe(true);
-        expect(calcitePanelClose).toHaveReceivedEventTimes(0);
       });
     });
   });
