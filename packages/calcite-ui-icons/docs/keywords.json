@@ -8887,12 +8887,12 @@
     "release": "3.29.2"
   },
   "trace-path": {
-    "alias": ["3.29.3", "gis", "tracing", "lines", "points", "edges", "path", "copy"],
+    "alias": ["3.29.4", "gis", "tracing", "lines", "points", "edges", "path", "copy"],
     "category": "GIS",
     "release": "3.29.4"
   },
   "trace-path-complete": {
-    "alias": ["3.29.3", "gis", "lines", "path", "completion", "edges", "points", "tracing"],
+    "alias": ["3.29.4", "gis", "lines", "path", "completion", "edges", "points", "tracing"],
     "category": "GIS",
     "release": "3.29.4"
   }
