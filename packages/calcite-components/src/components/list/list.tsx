@@ -15,8 +15,6 @@ import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -413,7 +411,6 @@ export class List
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
-    connectInteractive(this);
     this.setParentList();
   }
 
@@ -433,7 +430,6 @@ export class List
   disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }

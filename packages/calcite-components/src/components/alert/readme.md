@@ -18,6 +18,7 @@ For comprehensive guidance on using and implementing `calcite-alert`, refer to t
 | `numberingSystem`    | `numbering-system`    | Specifies the Unicode numeral system used by the component for localization.                                          | `"arab" \| "arabext" \| "latn"`                                                   | `undefined` |
 | `open`               | `open`                | When `true`, displays and positions the component.                                                                    | `boolean`                                                                         | `false`     |
 | `placement`          | `placement`           | Specifies the placement of the component.                                                                             | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`  |
+| `queue`              | `queue`               | Specifies the ordering priority of the component when opened.                                                         | `"immediate" \| "last" \| "next"`                                                 | `"last"`    |
 | `scale`              | `scale`               | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                                               | `"m"`       |
 
 ## Events

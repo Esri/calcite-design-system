@@ -29,8 +29,6 @@ import {
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -952,7 +950,6 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    connectInteractive(this);
     connectLocalized(this);
 
     if (isValidTime(this.value)) {
@@ -989,7 +986,6 @@ export class InputTimePicker
   }
 
   disconnectedCallback() {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
