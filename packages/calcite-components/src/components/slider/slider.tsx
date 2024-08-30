@@ -272,6 +272,9 @@ export class Slider
         }
       }
     }
+    if (this.flipLabels) {
+      this.flipTickLabels();
+    }
     this.hideObscuredBoundingTickLabels();
     updateHostInteraction(this);
   }
@@ -1062,6 +1065,19 @@ export class Slider
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
 
+  private flipTickLabels(): void {
+    const labels = this.el.shadowRoot.querySelectorAll<HTMLSpanElement>(`.tick__label`);
+    const trackBounds = this.trackEl.getBoundingClientRect();
+    labels.forEach((l) => {
+      const labelBounds = l.getBoundingClientRect();
+      let offset: number;
+      if (labelBounds.left > trackBounds.left) {
+        offset = -(labelBounds.left - trackBounds.left) - labelBounds.height - 12;
+      }
+      l.style.transform = `rotate(90deg) translateX(${offset}px)`;
+    });
+  }
+
   private adjustHandleLabelVertical(name: "value" | "minValue"): void {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.handle__label--vertical`,
@@ -1079,8 +1095,8 @@ export class Slider
       if (rangeContainer && (!this.precise || (name === "value" && this.precise))) {
         offset = -(labelBounds.right - handle.left);
       }
-    } else if (this.flipLabels && labelBounds.right - handle.left > 0) {
-      offset = -(labelBounds.right - handle.left) - labelBounds.width;
+    } else if (this.flipLabels && labelBounds.right < handle.right) {
+      offset = handle.right - labelBounds.right + 12;
     }
     label.style.transform = `rotate(90deg) translateX(${offset}px)`;
   }
