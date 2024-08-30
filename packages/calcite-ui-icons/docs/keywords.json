@@ -8895,5 +8895,25 @@
     "alias": ["3.29.4", "gis", "lines", "path", "completion", "edges", "points", "tracing"],
     "category": "GIS",
     "release": "3.29.4"
+  },
+  "connection-end-left": {
+    "alias": ["3.29.5", "generic", "line", "point", "connect", "end", "left"],
+    "category": "Generic",
+    "release": "3.29.5"
+  },
+  "connection-end-right": {
+    "alias": ["3.29.5", "generic", "line", "point", "connect", "right", "end"],
+    "category": "Generic",
+    "release": "3.29.5"
+  },
+  "connection-to-connection": {
+    "alias": ["3.29.5", "generic", "connect", "two points", "line"],
+    "category": "Generic",
+    "release": "3.29.5"
+  },
+  "connection-middle": {
+    "alias": ["3.29.5", "generic", "line", "point", "middle", "connect"],
+    "category": "Generic",
+    "release": "3.29.5"
   }
 }
