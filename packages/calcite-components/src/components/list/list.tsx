@@ -844,7 +844,7 @@ export class List
     }));
   };
 
-  private updateListItems = debounce((emit = false): void => {
+  private updateListItems = debounce((emitFilterChange = false): void => {
     const { selectionAppearance, selectionMode, dragEnabled, el } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -870,11 +870,11 @@ export class List
       }
     }
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.updateFilteredItems(emit);
+    this.updateFilteredItems(emitFilterChange);
     this.borderItems();
     this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
-    this.updateSelectedItems(emit);
+    this.updateSelectedItems();
     this.setUpSorting();
   }, debounceTimeout);
 
