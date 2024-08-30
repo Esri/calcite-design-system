@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.3...@esri/calcite-components@2.13.0-next.4) (2024-08-30)
+
+### Bug Fixes
+
+- **list-item:** decrease horizontal spacing between selection icon and content ([#9304](https://github.com/Esri/calcite-design-system/issues/9304)) ([#10199](https://github.com/Esri/calcite-design-system/issues/10199)) ([dce57f4](https://github.com/Esri/calcite-design-system/commit/dce57f46d0bf00777e998a6073203677df8f0c5a)), closes [#9290](https://github.com/Esri/calcite-design-system/issues/9290)
+
 ## [2.13.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.2...@esri/calcite-components@2.13.0-next.3) (2024-08-30)
 
 **Note:** Version bump only for package @esri/calcite-components
