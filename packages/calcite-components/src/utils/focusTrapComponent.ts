@@ -2,6 +2,10 @@ import { createFocusTrap, FocusTrap as _FocusTrap, Options as FocusTrapOptions }
 import { FocusableElement, focusElement, tabbableOptions } from "./dom";
 import { focusTrapStack } from "./config";
 
+// i'm not sure if this needs to be a map of all documents. Would the keydown event bubble up out of shadow dom elements? If so, then the map isn't necessary. Would need to test this.
+const focusTrapDocumentMap = new Map<Document, number>();
+// let focusTrapCount: number = 0; // this would be used if the keydown event doesn't bubble up out of shadow dom elements.
+
 /**
  * Defines interface for components with a focus trap. Focusable content is required for components implementing focus trapping with this interface.
  */
@@ -51,6 +55,7 @@ interface ConnectFocusTrapOptions {
  */
 export function connectFocusTrap(component: FocusTrapComponent, options?: ConnectFocusTrapOptions): void {
   const { el } = component;
+  const { ownerDocument } = el;
   const focusTrapNode = options?.focusTrapEl || el;
 
   if (!focusTrapNode) {
@@ -68,12 +73,28 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
     ...options?.focusTrapOptions,
 
     // the following options are not overridable
-    document: el.ownerDocument,
+    document: ownerDocument,
     tabbableOptions,
     trapStack: focusTrapStack,
   };
 
   component.focusTrap = createFocusTrap(focusTrapNode, focusTrapOptions);
+  const newCount = (focusTrapDocumentMap.get(ownerDocument) || 0) + 1;
+  if (newCount === 1) {
+    addEscapeListener(ownerDocument);
+  }
+  focusTrapDocumentMap.set(ownerDocument, newCount);
+}
+
+// would need to call this on disconnect of all focus trap components.
+export function disconnectFocusTrap(component: FocusTrapComponent): void {
+  const { el } = component;
+  const { ownerDocument } = el;
+  const newCount = (focusTrapDocumentMap.get(ownerDocument) || 1) - 1;
+  if (newCount === 0) {
+    removeEscapeListener(ownerDocument);
+  }
+  focusTrapDocumentMap.set(ownerDocument, newCount);
 }
 
 /**
@@ -118,4 +139,18 @@ export function deactivateFocusTrap(
  */
 export function updateFocusTrapElements(component: FocusTrapComponent): void {
   component.focusTrap?.updateContainerElements(component.el);
+}
+
+function escapeHandler(event: KeyboardEvent): void {
+  if (event.key === "Escape" && !event.defaultPrevented) {
+    focusTrapStack[focusTrapStack.length - 1]?.deactivate(); // deactivate the last active focus trap. This might be the 0 index. I'm not sure.
+  }
+}
+
+function addEscapeListener(document: Document): void {
+  document.addEventListener("keydown", escapeHandler);
+}
+
+function removeEscapeListener(document: Document): void {
+  document.removeEventListener("keydown", escapeHandler);
 }
