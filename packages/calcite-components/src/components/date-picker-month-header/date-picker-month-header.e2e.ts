@@ -37,25 +37,26 @@ describe("calcite-date-picker-month-header", () => {
       html: "<calcite-date-picker></calcite-date-picker>",
     });
     await page.waitForChanges();
+    const messages = await import(`../date-picker/assets/date-picker/t9n/messages.json`);
 
-    await page.evaluate((localeData) => {
-      const dateMonthHeader = document.createElement(
-        "calcite-date-picker-month-header",
-      ) as HTMLCalciteDatePickerMonthHeaderElement;
-      const now = new Date();
-      dateMonthHeader.activeDate = now;
-      dateMonthHeader.selectedDate = now;
-      dateMonthHeader.localeData = localeData;
-      dateMonthHeader.messages = {
-        nextMonth: "Next month",
-        prevMonth: "Previous month",
-        monthMenu: "Month menu",
-        yearMenu: "Year menu",
-      };
+    await page.evaluate(
+      (localeData, messages) => {
+        const dateMonthHeader = document.createElement(
+          "calcite-date-picker-month-header",
+        ) as HTMLCalciteDatePickerMonthHeaderElement;
+        const now = new Date();
+        dateMonthHeader.activeDate = now;
+        dateMonthHeader.selectedDate = now;
+        dateMonthHeader.localeData = localeData;
+        dateMonthHeader.messages = messages;
+        dateMonthHeader.monthStyle = "wide";
 
-      document.body.innerHTML = "";
-      document.body.append(dateMonthHeader);
-    }, localeDataFixture);
+        document.body.innerHTML = "";
+        document.body.append(dateMonthHeader);
+      },
+      localeDataFixture,
+      messages,
+    );
     await page.waitForChanges();
 
     const [prev, next] = await page.findAll("calcite-date-picker-month-header >>> .chevron");

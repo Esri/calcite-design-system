@@ -208,7 +208,7 @@ export function prevMonth(date: Date): Date {
  * @param date
  * @param month
  */
-export function activeDateInMonth(date: Date, month: number): Date {
+export function getDateInMonth(date: Date, month: number): Date {
   const nextDate = new Date(date);
   nextDate.setMonth(month);
   return nextDate;
@@ -308,5 +308,6 @@ export function setEndOfDay(date: Date): Date {
  * @returns {boolean}
  */
 export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
+  console.log(date1, date2, date1.getMonth() === date2.getMonth());
   return date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
 }

@@ -114,24 +114,21 @@ export const flipPlacements_TestOnly = (): string => html`
 `;
 
 export const mediumIconForLargeInput_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-input-date-picker
-      open
-      value="1/1/1"
-      lang="zh-CN"
-      scale="l"
-      start="2020-12-12"
-      end="2020-12-16"
-      range
-      layout="horizontal"
-    ></calcite-input-date-picker>
-  </div>
+  <calcite-input-date-picker
+    style="width: 400px"
+    open
+    value="1/1/1"
+    lang="zh-CN"
+    scale="l"
+    start="2020-12-12"
+    end="2020-12-16"
+    range
+    layout="horizontal"
+  ></calcite-input-date-picker>
 `;
 
 export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
-  </div>
+  <calcite-input-date-picker style="width: 400px" read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
 export const validationMessageAllScales_TestOnly = (): string => html`
@@ -223,8 +220,8 @@ export const scales_TestOnly = (): string => html`
 `;
 
 export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
-  <div style="width: 400px">
     <calcite-input-date-picker
+    style="width: 400px"
       class="calcite-mode-dark"
       dir="rtl"
       value="2020-12-12"
@@ -232,7 +229,6 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
       lang="ar"
       validation-message="This should not appear because the status is not 'invalid'"
     ></calcite-input-date-picker
-  </div>
 `;
 arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
@@ -310,8 +306,6 @@ Focus.parameters = {
 };
 
 export const localeFormatting = (): string => html`
-  <div style="width: 400px">
-    <calcite-input-date-picker value="2020-12-12" lang="bs"></calcite-input-date-picker>
-    <calcite-input-date-picker value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
-  </div>
+  <calcite-input-date-picker style="width: 400px" value="2020-12-12" lang="bs"></calcite-input-date-picker>
+  <calcite-input-date-picker style="width: 400px" value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
 `;

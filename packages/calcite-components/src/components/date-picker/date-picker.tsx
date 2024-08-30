@@ -149,9 +149,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   }
 
   /**
-   * Specifies if the month abbreviations are used by the component.
+   * Specifies the monthStyle used by the component.
    */
-  @Prop() monthAbbreviations: boolean = false;
+  @Prop() monthStyle: "abbreviated" | "wide" = "wide";
 
   /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
@@ -230,6 +230,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
@@ -382,6 +383,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeEndDate = nextMonth(date);
       }
     }
+    event.stopPropagation();
   };
 
   private monthActiveDateChange = (event: CustomEvent<Date>): void => {
@@ -405,6 +407,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         }
       }
     }
+    event.stopPropagation();
   };
 
   private monthHoverChange = (event: CustomEvent<Date>): void => {
@@ -481,10 +484,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     event.stopPropagation();
   };
 
-  monthMouseOutChange = (): void => {
+  monthMouseOutChange = (event: CustomEvent): void => {
     if (this.hoverRange) {
       this.hoverRange = undefined;
     }
+    event.stopPropagation();
   };
 
   /**
@@ -516,7 +520,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           max={maxDate}
           messages={this.messages}
           min={minDate}
-          monthAbbreviations={this.monthAbbreviations}
+          monthStyle={this.monthStyle}
           onCalciteInternalDatePickerDayHover={this.monthHoverChange}
           onCalciteInternalDatePickerDaySelect={this.monthDateChange}
           onCalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
@@ -639,6 +643,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         }
       }
     }
+    event.stopPropagation();
     this.calciteDatePickerChange.emit();
   };
 

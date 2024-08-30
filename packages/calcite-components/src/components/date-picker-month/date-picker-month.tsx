@@ -100,16 +100,15 @@ export class DatePickerMonth {
    *
    * @internal
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: DatePickerMessages;
+  @Prop() messages: DatePickerMessages;
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @Prop() min: Date;
 
   /**
-   * When `true`, month will be abbreviated.
+   * Specifies the monthStyle used by the component.
    */
-  @Prop() monthAbbreviations: boolean;
+  @Prop() monthStyle: "abbreviated" | "wide";
 
   /**
    * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
@@ -178,7 +177,6 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  /** current focused date */
   @State() focusedDate: Date;
 
   //--------------------------------------------------------------------------
@@ -194,6 +192,7 @@ export class DatePickerMonth {
 
     const isRTL = this.el.dir === "rtl";
     const dateValue = (event.target as HTMLCalciteDatePickerDayElement).value;
+
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
@@ -259,7 +258,7 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  componentWillLoad(): void {
     this.focusedDate = this.selectedDate || this.activeDate;
   }
 
@@ -317,7 +316,7 @@ export class DatePickerMonth {
    * @param step
    * @param targetDate
    */
-  private addMonths(step: number, targetDate: Date) {
+  private addMonths(step: number, targetDate: Date): void {
     const nextDate = new Date(targetDate);
     nextDate.setMonth(targetDate.getMonth() + step);
     this.calciteInternalDatePickerMonthActiveDateChange.emit(
@@ -334,7 +333,7 @@ export class DatePickerMonth {
    * @param step
    * @param targetDate
    */
-  private addDays(step = 0, targetDate: Date) {
+  private addDays(step = 0, targetDate: Date): void {
     const nextDate = new Date(targetDate);
     nextDate.setDate(targetDate.getDate() + step);
     this.calciteInternalDatePickerMonthActiveDateChange.emit(
@@ -496,7 +495,7 @@ export class DatePickerMonth {
   private renderDateDay(
     { active, currentMonth, currentDay, date, day, dayInWeek, ref }: Day,
     key: number,
-  ) {
+  ): VNode {
     const isDateInRange = inRange(date, this.min, this.max);
     const isHoverInRange =
       this.isHoverInRange() ||
@@ -554,7 +553,7 @@ export class DatePickerMonth {
           max={this.max}
           messages={this.messages}
           min={this.min}
-          monthAbbreviations={this.monthAbbreviations}
+          monthStyle={this.monthStyle}
           onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
           position={isEndCalendar ? "end" : this.range ? "start" : null}
           scale={this.scale}

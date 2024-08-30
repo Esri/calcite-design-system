@@ -261,9 +261,9 @@ export class InputDatePicker
   }
 
   /**
-   * When `true`, month will be abbreviated.
+   * Specifies the monthStyle used by the component.
    */
-  @Prop() monthAbbreviations: boolean = false;
+  @Prop() monthStyle: "abbreviated" | "wide" = "wide";
 
   /** When `true`, displays the `calcite-date-picker` component. */
   @Prop({ mutable: true, reflect: true }) open = false;
@@ -625,7 +625,7 @@ export class InputDatePicker
                       messageOverrides={this.messageOverrides}
                       min={this.min}
                       minAsDate={this.minAsDate}
-                      monthAbbreviations={this.monthAbbreviations}
+                      monthStyle={this.monthStyle}
                       numberingSystem={numberingSystem}
                       onCalciteDatePickerChange={this.handleDateChange}
                       onCalciteDatePickerRangeChange={this.handleDateRangeChange}

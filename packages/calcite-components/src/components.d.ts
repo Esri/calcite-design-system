@@ -1516,9 +1516,9 @@ export namespace Components {
          */
         "minAsDate": Date;
         /**
-          * Specifies if the month abbreviations are used by the component.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations": boolean;
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -1656,9 +1656,9 @@ export namespace Components {
          */
         "min": Date;
         /**
-          * When `true`, month will be abbreviated.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations": boolean;
+        "monthStyle": "abbreviated" | "wide";
         /**
           * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
          */
@@ -1703,9 +1703,9 @@ export namespace Components {
          */
         "min": Date;
         /**
-          * When `true`, month will be abbreviated.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations": boolean;
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the position of the component in a range date-picker.
          */
@@ -2503,9 +2503,9 @@ export namespace Components {
          */
         "minAsDate": Date;
         /**
-          * When `true`, month will be abbreviated.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations": boolean;
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -9546,9 +9546,9 @@ declare namespace LocalJSX {
          */
         "minAsDate"?: Date;
         /**
-          * Specifies if the month abbreviations are used by the component.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations"?: boolean;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -9690,9 +9690,9 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
-          * When `true`, month will be abbreviated.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations"?: boolean;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Fires when user hovers the date.
          */
@@ -9757,9 +9757,9 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
-          * When `true`, month will be abbreviated.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations"?: boolean;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Fires to active date
          */
@@ -10581,9 +10581,9 @@ declare namespace LocalJSX {
          */
         "minAsDate"?: Date;
         /**
-          * When `true`, month will be abbreviated.
+          * Specifies the monthStyle used by the component.
          */
-        "monthAbbreviations"?: boolean;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */

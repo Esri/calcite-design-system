@@ -275,6 +275,7 @@ describe("calcite-date-picker", () => {
       prevMonth: "Previous month",
       monthMenu: "Month menu",
       yearMenu: "Year menu",
+      year: "Year",
     });
   });
 

@@ -17,7 +17,7 @@ import {
   nextMonth,
   prevMonth,
   formatCalendarYear,
-  activeDateInMonth,
+  getDateInMonth,
   hasSameMonthAndYear,
   inRange,
 } from "../../utils/date";
@@ -91,13 +91,13 @@ export class DatePickerMonthHeader {
    * @internal
    * @readonly
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  // eslint-disable-next-line @stencil-community/strict-mutable
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
   /**
-   * When `true`, month will be abbreviated.
+   * Specifies the monthStyle used by the component.
    */
-  @Prop() monthAbbreviations: boolean;
+  @Prop() monthStyle: "abbreviated" | "wide";
 
   /**
    * Specifies the position of the component in a range date-picker.
@@ -194,11 +194,11 @@ export class DatePickerMonthHeader {
   }
 
   private renderMonthPicker(months: DateLocaleData["months"], activeMonth: number): VNode {
-    const monthData = this.monthAbbreviations ? months.abbreviated : months.wide;
+    const monthData = months[this.monthStyle];
     return (
       <calcite-select
         class={CSS.monthPicker}
-        label="Month menu"
+        label={this.messages.monthMenu}
         onCalciteSelectChange={this.handleMonthChange}
         onKeyDown={this.handleKeyDown}
         ref={(el) => (this.monthPickerEl = el)}
@@ -223,7 +223,7 @@ export class DatePickerMonthHeader {
     return (
       <calcite-select
         class={CSS.yearPicker}
-        label="Year menu"
+        label={this.messages.yearMenu}
         onCalciteSelectChange={this.handleYearChange}
         ref={(el) => (this.yearPickerEl = el)}
         width="auto"
@@ -372,9 +372,9 @@ export class DatePickerMonthHeader {
   private handleMonthChange = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteOptionElement;
     const { abbreviated, wide } = this.localeData.months;
-    const localeMonths = this.monthAbbreviations ? abbreviated : wide;
+    const localeMonths = this.monthStyle === "wide" ? wide : abbreviated;
     const monthIndex = localeMonths.indexOf(target.value);
-    let newDate = activeDateInMonth(this.activeDate, monthIndex);
+    let newDate = getDateInMonth(this.activeDate, monthIndex);
     if (!inRange(newDate, this.min, this.max)) {
       newDate = dateFromRange(newDate, this.min, this.max);
     }
@@ -383,7 +383,9 @@ export class DatePickerMonthHeader {
   };
 
   private handleKeyDown = (event: KeyboardEvent): void => {
-    event.stopPropagation();
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.stopPropagation();
+    }
   };
 
   private getInRangeDate({
@@ -453,27 +455,29 @@ export class DatePickerMonthHeader {
   private setSelectMenuWidth(select: HTMLCalciteSelectElement): void {
     const selectEl = select.shadowRoot.querySelector("select");
     let selectedOptionWidth: number;
+    const fontStyle = getComputedStyle(selectEl).font;
+
     if (select === this.monthPickerEl) {
       const { abbreviated, wide } = this.localeData.months;
-      const localeMonths = this.monthAbbreviations ? abbreviated : wide;
+      const localeMonths = this.monthStyle === "wide" ? wide : abbreviated;
       const activeMonthIndex = this.activeDate.getMonth();
-      selectedOptionWidth = getTextWidth(
-        localeMonths[activeMonthIndex],
-        getComputedStyle(selectEl).font,
-      );
+      selectedOptionWidth = getTextWidth(localeMonths[activeMonthIndex], fontStyle);
     } else {
       selectedOptionWidth = getTextWidth(
         numberStringFormatter.localize(
           `${parseCalendarYear(this.activeDate.getFullYear(), this.localeData)}`,
         ),
-        getComputedStyle(selectEl).font,
+        fontStyle,
       );
+      if (this.localeData?.year?.suffix) {
+        selectedOptionWidth += getTextWidth(this.localeData.year.suffix, fontStyle);
+      }
     }
     selectEl.style.width = `${selectedOptionWidth + this.selectMenuIconOffsetWidth}px`;
   }
 
   private isMonthInRange = (index: number): boolean => {
-    const newActiveDate = activeDateInMonth(this.activeDate, index);
+    const newActiveDate = getDateInMonth(this.activeDate, index);
     return (
       newActiveDate > (this.max || this.defaultMaxISOYear) ||
       newActiveDate < (this.min || this.defaultMinISOYear)

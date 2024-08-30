@@ -95,7 +95,7 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h px-2  font-normal;
+    @apply text-n2h px-2 font-normal;
     padding-block: var(--calcite-internal-action-padding-block, 0.25rem);
   }
   .button--text-visible .icon-container {
@@ -105,7 +105,7 @@
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h px-4 py-3 font-normal;
+    @apply text-n1h px-4 font-normal;
     padding-block: var(--calcite-internal-action-padding-block, 0.75rem);
   }
   .button--text-visible .icon-container {
