@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.13.0-next.2",
+  "version": "2.13.0-next.3",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -60,7 +60,7 @@
     "directory": "packages/calcite-components"
   },
   "dependencies": {
-    "@esri/calcite-ui-icons": "3.32.0-next.0",
+    "@esri/calcite-ui-icons": "3.32.0-next.1",
     "@floating-ui/dom": "1.6.10",
     "@stencil/core": "4.20.0",
     "@types/color": "3.0.6",

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.32.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.32.0-next.0...@esri/calcite-ui-icons@3.32.0-next.1) (2024-08-30)
+
+### Features
+
+- added connection end left, connection end right, connection middle, connection to connection ([#10198](https://github.com/Esri/calcite-design-system/issues/10198)) ([3d0f703](https://github.com/Esri/calcite-design-system/commit/3d0f703e552db63d4b44b67e7f2590336d227f7c))
+
 ## [3.32.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.31.1-next.0...@esri/calcite-ui-icons@3.32.0-next.0) (2024-08-30)
 
 ### Features
