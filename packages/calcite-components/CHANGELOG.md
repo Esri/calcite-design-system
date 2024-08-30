@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.0...@esri/calcite-components@2.13.0-next.1) (2024-08-30)
+
+### Bug Fixes
+
+- **shell-panel:** fill available space ([#10185](https://github.com/Esri/calcite-design-system/issues/10185)) ([3f963db](https://github.com/Esri/calcite-design-system/commit/3f963db861bee3638ddbd756764c8e58703b178f)), closes [#10176](https://github.com/Esri/calcite-design-system/issues/10176)
+- **switch:** fix focus state styling in Safari ([#10191](https://github.com/Esri/calcite-design-system/issues/10191)) ([f247976](https://github.com/Esri/calcite-design-system/commit/f2479767d83311376618998d1c5f94c132c7e7d7)), closes [#8617](https://github.com/Esri/calcite-design-system/issues/8617)
+
 ## [2.13.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.34...@esri/calcite-components@2.13.0-next.0) (2024-08-28)
 
 ### Features
