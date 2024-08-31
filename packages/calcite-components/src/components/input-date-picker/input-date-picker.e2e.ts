@@ -66,7 +66,15 @@ describe("calcite-input-date-picker", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-input-date-picker");
+    disabled("calcite-input-date-picker", {
+      focusTarget: {
+        tab: "calcite-input-date-picker",
+        click: {
+          pointer: "calcite-input-date-picker",
+          method: "calcite-input-date-picker",
+        },
+      },
+    });
   });
 
   describe("openClose", () => {
