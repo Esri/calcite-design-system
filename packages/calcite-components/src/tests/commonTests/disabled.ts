@@ -82,13 +82,15 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     tag: string,
     focusTarget: DisabledOptions["focusTarget"],
   ): Promise<EffectiveTabAndClickFocusTargets> => {
+    const defaultClickMethodTarget = "body";
+
     if (typeof focusTarget === "object") {
       return typeof focusTarget.click === "string"
         ? {
             tab: focusTarget.tab,
             click: {
               pointer: focusTarget.click,
-              method: "body",
+              method: defaultClickMethodTarget,
             },
           }
         : (focusTarget as EffectiveTabAndClickFocusTargets);
@@ -100,7 +102,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       tab: sameClickAndTabFocusTarget,
       click: {
         pointer: sameClickAndTabFocusTarget,
-        method: sameClickAndTabFocusTarget,
+        method: defaultClickMethodTarget,
       },
     };
   };
