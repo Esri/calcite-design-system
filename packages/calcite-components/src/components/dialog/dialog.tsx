@@ -212,7 +212,11 @@ export class Dialog
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLocalized(this);
     connectMessages(this);
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        clickOutsideDeactivates: !this.outsideCloseDisabled,
+      },
+    });
   }
 
   disconnectedCallback(): void {

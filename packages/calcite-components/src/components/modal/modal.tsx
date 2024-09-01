@@ -199,7 +199,11 @@ export class Modal
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        clickOutsideDeactivates: !this.outsideCloseDisabled,
+      },
+    });
   }
 
   disconnectedCallback(): void {
