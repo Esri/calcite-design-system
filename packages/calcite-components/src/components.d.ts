@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, Height, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -101,7 +101,7 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, Height, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -4509,7 +4509,12 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height": Extract<"s" | "m" | "l", Height>;
+        /**
           * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale": Scale;
         /**
@@ -4562,7 +4567,12 @@ export namespace Components {
          */
         "detached": boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height": Extract<"s" | "m" | "l", Height>;
+        /**
           * Specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale": Scale;
         /**
@@ -4582,7 +4592,7 @@ export namespace Components {
         "detached": boolean;
         /**
           * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
-          * @deprecated Use `heightScale` instead.
+          * @deprecated Use the `height` property instead.
          */
         "detachedHeightScale": Scale;
         /**
@@ -4590,7 +4600,12 @@ export namespace Components {
          */
         "displayMode": DisplayMode1;
         /**
+          * Specifies the height of the component.
+         */
+        "height": Extract<"s" | "m" | "l", Height>;
+        /**
           * When `layout` is `horizontal`, specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale": Scale;
         /**
@@ -12689,7 +12704,12 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height"?: Extract<"s" | "m" | "l", Height>;
+        /**
           * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale"?: Scale;
         /**
@@ -12750,7 +12770,12 @@ declare namespace LocalJSX {
          */
         "detached"?: boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height"?: Extract<"s" | "m" | "l", Height>;
+        /**
           * Specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale"?: Scale;
         /**
@@ -12770,7 +12795,7 @@ declare namespace LocalJSX {
         "detached"?: boolean;
         /**
           * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
-          * @deprecated Use `heightScale` instead.
+          * @deprecated Use the `height` property instead.
          */
         "detachedHeightScale"?: Scale;
         /**
@@ -12778,7 +12803,12 @@ declare namespace LocalJSX {
          */
         "displayMode"?: DisplayMode1;
         /**
+          * Specifies the height of the component.
+         */
+        "height"?: Extract<"s" | "m" | "l", Height>;
+        /**
           * When `layout` is `horizontal`, specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale"?: Scale;
         /**

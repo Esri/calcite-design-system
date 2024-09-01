@@ -36,19 +36,23 @@
   @apply self-start;
 }
 
-:host([height-scale="s"]) {
+:host([height-scale="s"]),
+:host([height="s"]) {
   block-size: theme("width[1/3]");
 }
 
-:host([height-scale="m"]) {
+:host([height-scale="m"]),
+:host([height="m"]) {
   block-size: 70%;
 }
 
-:host([height-scale="l"]) {
+:host([height-scale="l"]),
+:host([height="l"]) {
   @apply h-full;
 }
 
-:host([height-scale="l"][detached]) {
+:host([height-scale="l"][detached]),
+:host([height="l"][detached]) {
   block-size: calc(theme("height.full") - theme("spacing.8"));
 }
 

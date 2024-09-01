@@ -30,7 +30,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Layout, Position, Scale, Width } from "../interfaces";
+import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
@@ -97,7 +97,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
    *
-   * @deprecated Use `heightScale` instead.
+   * @deprecated Use the `height` property instead.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale;
 
@@ -108,6 +108,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   /**
    * When `layout` is `horizontal`, specifies the maximum height of the component.
+   *
+   * @deprecated Use the `height` property instead.
    */
   @Prop({ reflect: true }) heightScale: Scale;
 
@@ -115,6 +117,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   handleHeightScale(value: Scale): void {
     this.detachedHeightScale = value;
   }
+
+  /** Specifies the height of the component. */
+  @Prop({ reflect: true }) height: Extract<"s" | "m" | "l", Height> = "m";
 
   /**
    * When `layout` is `vertical`, specifies the width of the component.

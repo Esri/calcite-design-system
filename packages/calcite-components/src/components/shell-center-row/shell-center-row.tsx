@@ -5,7 +5,7 @@ import {
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
-import { Position, Scale } from "../interfaces";
+import { Height, Position, Scale } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
 
 /**
@@ -31,8 +31,13 @@ export class ShellCenterRow implements ConditionalSlotComponent {
 
   /**
    * Specifies the maximum height of the component.
+   *
+   * @deprecated Use the `height` property instead.
    */
   @Prop({ reflect: true }) heightScale: Scale = "s";
+
+  /** Specifies the height of the component. */
+  @Prop({ reflect: true }) height: Extract<"s" | "m" | "l", Height> = "s";
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).

@@ -28,7 +28,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { LogicalFlowPosition, Scale, Width } from "../interfaces";
+import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { DisplayMode } from "./interfaces";
@@ -71,8 +71,13 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   *
+   * @deprecated Use the `height` property instead.
    */
   @Prop({ reflect: true }) heightScale: Scale = "m";
+
+  /** Specifies the height of the component. */
+  @Prop({ reflect: true }) height: Extract<"s" | "m" | "l", Height> = "m";
 
   /**
    * When `true`, prevents focus trapping.
