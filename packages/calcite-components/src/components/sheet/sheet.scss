@@ -115,19 +115,22 @@
   min-inline-size: calc(100% - 1.5rem);
 }
 
-:host([position^="inline"][width-scale="s"]) {
+:host([position^="inline"][width-scale="s"]),
+:host([position^="inline"][width="s"]) {
   --calcite-sheet-width-internal: var(--calcite-sheet-width, 15vw);
   --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 360px);
   --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 260px);
 }
 
-:host([position^="inline"][width-scale="m"]) {
+:host([position^="inline"][width-scale="m"]),
+:host([position^="inline"][width="m"]) {
   --calcite-sheet-width-internal: var(--calcite-sheet-width, 25vw);
   --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 420px);
   --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 300px);
 }
 
-:host([position^="inline"][width-scale="l"]) {
+:host([position^="inline"][width-scale="l"]),
+:host([position^="inline"][width="l"]) {
   --calcite-sheet-width-internal: var(--calcite-sheet-width, 45vw);
   --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 680px);
   --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 340px);

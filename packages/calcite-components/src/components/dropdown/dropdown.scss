@@ -44,13 +44,16 @@
 }
 
 // width
-:host([width-scale="s"]) {
+:host([width-scale="s"]),
+:host([width="s"]) {
   --calcite-dropdown-width: theme("spacing.48");
 }
-:host([width-scale="m"]) {
+:host([width-scale="m"]),
+:host([width="m"]) {
   --calcite-dropdown-width: theme("spacing.56");
 }
-:host([width-scale="l"]) {
+:host([width-scale="l"]),
+:host([width="l"]) {
   --calcite-dropdown-width: theme("spacing.64");
 }
 

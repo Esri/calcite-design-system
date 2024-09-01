@@ -817,7 +817,7 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteCard {
         /**
@@ -1784,6 +1784,11 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale": Scale;
     }
     interface CalciteDropdown {
@@ -1840,6 +1845,11 @@ export namespace Components {
         "type": "hover" | "click";
         /**
           * Specifies the width of the component.
+         */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale": Scale;
     }
@@ -3599,6 +3609,11 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale": Scale;
     }
     interface CalciteNavigation {
@@ -3744,7 +3759,7 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteOption {
         /**
@@ -4469,7 +4484,7 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteSheet {
         /**
@@ -4526,7 +4541,12 @@ export namespace Components {
          */
         "updateFocusTrapElements": () => Promise<void>;
         /**
+          * Specifies the width of the component.
+         */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale": Scale;
     }
@@ -4594,7 +4614,12 @@ export namespace Components {
          */
         "resizable": boolean;
         /**
+          * Specifies the width of the component.
+         */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
           * When `layout` is `vertical`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale": Scale;
     }
@@ -4827,7 +4852,7 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteStack {
         /**
@@ -8763,7 +8788,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteCard {
         /**
@@ -9809,6 +9834,11 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale"?: Scale;
     }
     interface CalciteDropdown {
@@ -9876,6 +9906,11 @@ declare namespace LocalJSX {
         "type"?: "hover" | "click";
         /**
           * Specifies the width of the component.
+         */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale"?: Scale;
     }
@@ -11728,6 +11763,11 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale"?: Scale;
     }
     interface CalciteNavigation {
@@ -11877,7 +11917,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteOption {
         /**
@@ -12624,7 +12664,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteSheet {
         /**
@@ -12689,7 +12729,12 @@ declare namespace LocalJSX {
          */
         "position"?: LogicalFlowPosition;
         /**
+          * Specifies the width of the component.
+         */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale"?: Scale;
     }
@@ -12759,7 +12804,12 @@ declare namespace LocalJSX {
          */
         "resizable"?: boolean;
         /**
+          * Specifies the width of the component.
+         */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
           * When `layout` is `vertical`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale"?: Scale;
     }
@@ -13004,7 +13054,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteStack {
         /**

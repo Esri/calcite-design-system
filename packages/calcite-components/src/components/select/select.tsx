@@ -155,7 +155,7 @@ export class Select
   /**
    * Specifies the width of the component.
    */
-  @Prop({ reflect: true }) width: Width = "auto";
+  @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //--------------------------------------------------------------------------
   //
