@@ -41,9 +41,9 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     });
   };
 
-  async function expectToBeFocused(page: E2EPage, tag: string): Promise<void> {
+  async function expectToBeFocused(page: E2EPage, tag: string, context: string): Promise<void> {
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
-    expect(focusedTag).toBe(tag);
+    expect(`${context}:${focusedTag}`).toBe(`${context}:${tag}`);
   }
 
   function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
@@ -133,7 +133,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     if (options.focusTarget === "none") {
       await page.click(tag);
       await page.waitForChanges();
-      await expectToBeFocused(page, "body");
+      await expectToBeFocused(page, "body", "none+click");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
@@ -144,11 +144,11 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
       await page.click(tag);
       await page.waitForChanges();
-      await expectToBeFocused(page, "body");
+      await expectToBeFocused(page, "body", "none+disabled+click");
 
       await component.callMethod("click");
       await page.waitForChanges();
-      await expectToBeFocused(page, "body");
+      await expectToBeFocused(page, "body", "none+disabled+click()");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => {
         expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
@@ -162,7 +162,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     const effectiveFocusTarget = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
 
     expect(effectiveFocusTarget.tab).not.toBe("body");
-    await expectToBeFocused(page, effectiveFocusTarget.tab);
+    await expectToBeFocused(page, effectiveFocusTarget.tab, "tab");
 
     const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
       page,
@@ -175,18 +175,18 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     }
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "reset 1");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
-    await expectToBeFocused(page, effectiveFocusTarget.click.pointer);
+    await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "reset 2");
 
     await component.callMethod("click");
     await page.waitForChanges();
-    await expectToBeFocused(page, effectiveFocusTarget.click.method);
+    await expectToBeFocused(page, effectiveFocusTarget.click.method, "click()");
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
@@ -204,16 +204,16 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "reset 3");
 
     await page.keyboard.press("Tab");
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "disabled+tab");
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "reset 4");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "disabled+click");
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
