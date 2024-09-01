@@ -45,7 +45,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import { ItemKeyboardEvent } from "./interfaces";
 import { SLOTS } from "./resources";
 
@@ -169,8 +169,13 @@ export class Dropdown
 
   /**
    * Specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
    */
   @Prop({ reflect: true }) widthScale: Scale;
+
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

@@ -28,7 +28,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { LogicalFlowPosition, Scale } from "../interfaces";
+import { LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { DisplayMode } from "./interfaces";
@@ -129,9 +129,13 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
    */
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

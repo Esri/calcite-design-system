@@ -30,7 +30,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Layout, Position, Scale } from "../interfaces";
+import { Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
@@ -118,9 +118,13 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   /**
    * When `layout` is `vertical`, specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
    */
-
   @Prop({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
 
   /**
    *  The direction of the component.
