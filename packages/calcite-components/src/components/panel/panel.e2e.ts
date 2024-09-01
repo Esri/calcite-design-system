@@ -155,10 +155,7 @@ describe("calcite-panel", () => {
       disabled(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
         focusTarget: {
           tab: "calcite-panel",
-          click: {
-            pointer: "calcite-panel",
-            method: "calcite-panel",
-          },
+          click: "body",
         },
       });
 

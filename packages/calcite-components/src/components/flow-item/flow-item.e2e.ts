@@ -128,10 +128,7 @@ describe("calcite-flow-item", () => {
     disabled(html`<calcite-flow-item style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-flow-item>`, {
       focusTarget: {
         tab: "calcite-flow-item",
-        click: {
-          pointer: "calcite-flow-item",
-          method: "calcite-flow-item",
-        },
+        click: "body",
       },
     });
 
