@@ -104,17 +104,31 @@
     --calcite-internal-chip-title-space: 0.25rem /* 4px */;
     --calcite-internal-close-size: 1rem /* 16px */;
 
-    &.image--slotted {
-      --calcite-internal-chip-container-space-x-end: 0.25rem /* 4px */;
+    &.is-circle {
+      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
       --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
-      --calcite-internal-chip-image-space-x-end: 0.25rem /* 4px */;
-      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
     }
 
-    &:not(.image--slotted) {
+    &.image--slotted:not(.is-circle) {
+      --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
+      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+      --calcite-internal-chip-image-space-x-end: 0.25rem /* 4px */;
+      --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+    }
+
+    &:not(.image--slotted, .is-circle) {
       --calcite-internal-chip-select-space-x-end: 0.25rem /* 4px */;
       --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
+    }
+
+    &.selected.single {
+      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+      --calcite-internal-chip-select-space-x-start: 0.15rem /* 2px */;
+    }
+
+    &.multiple {
+      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+      --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
     }
   }
 }
@@ -131,42 +145,74 @@
     --calcite-internal-chip-title-space: 0.375rem /* 6px */;
     --calcite-internal-close-size: 1.5rem /* 24px */;
 
-    &.image--slotted {
+    &.is-circle {
+      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
+      --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+    }
+
+    &.image--slotted:not(.is-circle) {
       --calcite-internal-chip-image-space-x-end: 0.375rem /* 6px */;
       --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
       --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
+      --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
     }
 
-    &:not(.image--slotted) {
+    &.closable:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-end: 0.25rem /* 4px */;
+    }
+
+    &:not(.image--slotted, .is-circle) {
       --calcite-internal-chip-select-space-x-end: 0.375rem /* 6px */;
       --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
+    }
+
+    &.selected.single {
+      --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
+      --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
+    }
+    &.multiple {
+      --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
+      --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
     }
   }
 }
 
 :host([scale="l"]) {
   .container {
+    --calcite-internal-chip-block-size: 2.75rem /* 44px */;
+    --calcite-internal-chip-container-space-x-end: 0.5rem /* 8px */;
+    --calcite-internal-chip-container-space-x-start: 0.5rem /* 8px */;
     --calcite-internal-chip-font-size: var(--calcite-font-size-0);
-    --calcite-internal-chip-block-size: 2.75rem /* 44px */;
-    --calcite-internal-chip-icon-size: 2rem /* 32px */;
-    --calcite-internal-chip-image-size: 2rem /* 32px */;
-  }
-
-  .container {
-    --calcite-internal-chip-block-size: 2.75rem /* 44px */;
-    --calcite-internal-chip-container-space-x-end: 0.375rem /* 6px */;
-    --calcite-internal-chip-container-space-x-start: 0.375rem /* 6px */;
-    --calcite-internal-chip-font-size: var(--calcite-font-size--0);
     --calcite-internal-chip-icon-size: 2rem /* 32px */;
     --calcite-internal-chip-icon-space: 0.5rem /* 8px */;
     --calcite-internal-chip-image-size: 2rem /* 32px */;
     --calcite-internal-chip-title-space: 0.5rem /* 8px */;
     --calcite-internal-close-size: 2rem /* 32px */;
 
-    &.image--slotted {
+    &.is-circle {
+      --calcite-internal-chip-container-space-x-end: 0.25rem /* 4px */;
+      --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
+    }
+
+    &.image--slotted:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-start: 0.375rem /* 6px */;
       --calcite-internal-chip-image-space-x-end: 0.5rem /* 8px */;
       --calcite-internal-chip-select-space-x-end: 1rem /* 16px */;
       --calcite-internal-chip-select-space-x-start: 0.625rem /* 10px */;
+    }
+
+    &.closable:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-end: 0.375rem /* 6px */;
+    }
+
+    &.selected.single {
+      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+      --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
+    }
+
+    &.multiple {
+      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+      --calcite-internal-chip-select-space-x-start: 0.65rem /* 10px */;
     }
 
     &:not(.image--slotted) {
@@ -216,6 +262,13 @@
   &:not(.image--slotted) .image-container {
     display: none;
   }
+
+  &.is-circle {
+    .chip-icon,
+    .image-container {
+      padding: 0;
+    }
+  }
 }
 
 .title {
@@ -256,7 +309,7 @@
     position: relative;
     visibility: visible;
     opacity: 0.5;
-    padding-inline-start: var(--calcite-internal-chip-select-space-x-start);
+    // padding-inline-start: var(--calcite-internal-chip-select-space-x-start);
     padding-inline-end: var(--calcite-internal-chip-select-space-x-end);
   }
 }
