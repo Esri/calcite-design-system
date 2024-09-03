@@ -1079,6 +1079,7 @@ export class InputDatePicker
     }
 
     this.rangeStartValueChangedByUser = this.focusedInput === "start";
+    this.focusedInput = "end";
 
     if (this.shouldFocusRangeStart() || this.rangeStartValueChangedByUser) {
       return;
