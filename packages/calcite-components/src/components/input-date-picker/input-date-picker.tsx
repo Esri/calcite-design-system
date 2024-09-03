@@ -1067,19 +1067,18 @@ export class InputDatePicker
     this.restoreInputFocus();
   };
 
-  private restoreInputFocus(restore = false): void {
+  private restoreInputFocus(isDatePickerClosed = false): void {
     if (!this.range) {
       this.startInput.setFocus();
       return;
     }
 
-    if (restore) {
+    if (isDatePickerClosed) {
       this.focusInput();
       return;
     }
 
-    this.rangeStartValueChangedByUser = !restore && this.focusedInput === "start";
-    this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
+    this.rangeStartValueChangedByUser = this.focusedInput === "start";
 
     if (this.shouldFocusRangeStart() || this.rangeStartValueChangedByUser) {
       return;

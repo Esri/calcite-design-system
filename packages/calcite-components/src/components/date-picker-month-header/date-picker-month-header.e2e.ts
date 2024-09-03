@@ -1,5 +1,8 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
 import { DateLocaleData } from "../date-picker/utils";
+import { renders } from "../../tests/commonTests";
+import { newProgrammaticE2EPage } from "../../tests/utils";
+
 describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {
     "default-calendar": "gregorian",
@@ -31,14 +34,10 @@ describe("calcite-date-picker-month-header", () => {
     },
   } as DateLocaleData;
 
-  it("displays next/previous options", async () => {
-    const page = await newE2EPage({
-      // intentionally using calcite-date-picker to wire up supporting components to be used in `evaluate` fn below
-      html: "<calcite-date-picker></calcite-date-picker>",
-    });
-    await page.waitForChanges();
+  let page: E2EPage;
+  beforeEach(async () => {
     const messages = await import(`../date-picker/assets/date-picker/t9n/messages.json`);
-
+    page = await newProgrammaticE2EPage();
     await page.evaluate(
       (localeData, messages) => {
         const dateMonthHeader = document.createElement(
@@ -46,21 +45,21 @@ describe("calcite-date-picker-month-header", () => {
         ) as HTMLCalciteDatePickerMonthHeaderElement;
         const now = new Date();
         dateMonthHeader.activeDate = now;
-        dateMonthHeader.selectedDate = now;
         dateMonthHeader.localeData = localeData;
         dateMonthHeader.messages = messages;
         dateMonthHeader.monthStyle = "wide";
-
-        document.body.innerHTML = "";
         document.body.append(dateMonthHeader);
       },
       localeDataFixture,
       messages,
     );
     await page.waitForChanges();
+  });
 
+  renders(() => ({ tag: "calcite-date-picker-month-header", page }), { display: "block" });
+
+  it("displays next/previous options", async () => {
     const [prev, next] = await page.findAll("calcite-date-picker-month-header >>> .chevron");
-
     expect(await prev.isVisible()).toBe(true);
     expect(await next.isVisible()).toBe(true);
   });
