@@ -2,7 +2,7 @@
   @apply block;
   --calcite-select-internal-border-width: 0;
   --calcite-select-internal-icon-border-inline-end-width: 0;
-  --calcite-select-font-weight: 500;
+  --calcite-select-font-weight: var(--calcite-font-weight-medium);
   --calcite-select-text-color: var(--calcite-color-text-1);
 }
 

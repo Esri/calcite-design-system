@@ -96,11 +96,11 @@
 }
 
 :host([range][layout="horizontal"]) .calendar--start {
-  border-inline-end-width: 1px;
+  border-inline-end-width: var(--calcite-border-width-sm);
 }
 
 :host([range][layout="vertical"]) .calendar--start {
-  border-block-end-width: 1px;
+  border-block-end-width: var(--calcite-border-width-sm);
 }
 
 .noncurrent {
