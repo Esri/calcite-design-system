@@ -187,7 +187,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
         "light tag",
         document.activeElement?.tagName,
         "shadow tag",
-        document.activeElement?.shadowRoot?.tagName,
+        document.activeElement?.shadowRoot?.activeElement?.tagName,
       );
     }, tag);
 
