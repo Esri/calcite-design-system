@@ -308,6 +308,5 @@ export function setEndOfDay(date: Date): Date {
  * @returns {boolean}
  */
 export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
-  console.log(date1, date2, date1.getMonth() === date2.getMonth());
   return date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
 }
