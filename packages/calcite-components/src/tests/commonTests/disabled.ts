@@ -182,11 +182,16 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     await page.evaluate((tag) => {
       console.log(
-        document.querySelector(tag).shadowRoot.innerHTML,
+        "innerhtml",
+        JSON.stringify(document.querySelector(tag).shadowRoot.innerHTML, null, 2),
+        "light tag",
         document.activeElement?.tagName,
-        document.activeElement?.shadowRoot?.innerHTML,
+        "shadow tag",
+        document.activeElement?.shadowRoot?.tagName,
       );
     }, tag);
+
+    console.log("version", await (page as any).browser().version());
 
     await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
 
