@@ -1020,8 +1020,9 @@ export class InputTimePicker
               role="combobox"
               scale={this.scale}
               status={this.status}
-            />
-            {!this.readOnly && this.renderToggleIcon(this.open)}
+            >
+              {!this.readOnly && this.renderToggleIcon(this.open)}
+            </calcite-input-text>
           </div>
           <calcite-popover
             autoClose={true}
@@ -1067,7 +1068,7 @@ export class InputTimePicker
 
   renderToggleIcon(open: boolean): VNode {
     return (
-      <span class={CSS.toggleIcon}>
+      <span class={CSS.toggleIcon} slot="action">
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
