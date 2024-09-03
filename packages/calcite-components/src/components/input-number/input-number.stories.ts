@@ -216,3 +216,19 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
       value="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     ></calcite-input-number>
   `);
+
+export const inputNumberPrefixAndSuffixWidth = (): string => html`
+  <calcite-input-number
+    placeholder="Placeholder text"
+    prefix-text="prefix"
+    suffix-text="suffix"
+    style="--calcite-input-number-prefix-width: 100px; --calcite-input-number-suffix-width: 100px"
+  ></calcite-input-number>
+  <br />
+  <calcite-input-number
+    placeholder="Placeholder text"
+    prefix-text="prefix"
+    suffix-text="suffix"
+    style="--calcite-input-number-prefix-width: 100px; --calcite-input-number-suffix-width: 100px"
+  ></calcite-input-number>
+`;

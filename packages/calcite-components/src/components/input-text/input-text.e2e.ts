@@ -10,6 +10,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { isElementFocused, selectText } from "../../tests/utils";
 import {
@@ -18,6 +19,7 @@ import {
   testWorkaroundForGlobalPropRemoval,
 } from "../input/common/tests";
 import { assertCaretPosition } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -500,5 +502,27 @@ describe("calcite-input-text", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-text");
+  });
+
+  describe("theme", () => {
+    themed(
+      html`
+        <calcite-input-text
+          placeholder="Placeholder text"
+          prefix-text="prefix"
+          suffix-text="suffix"
+        ></calcite-input-text>
+      `,
+      {
+        "--calcite-input-text-prefix-width": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "width",
+        },
+        "--calcite-input-text-suffix-width": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "width",
+        },
+      },
+    );
   });
 });

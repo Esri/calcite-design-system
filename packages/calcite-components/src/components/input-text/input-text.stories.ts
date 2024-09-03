@@ -166,3 +166,19 @@ export const validationMessageAllScales_TestOnly = (): string => html`
     ></calcite-input-text>
   </div>
 `;
+
+export const inputTextPrefixAndSuffixWidth = (): string => html`
+  <calcite-input-text
+    placeholder="Placeholder text"
+    prefix-text="prefix"
+    suffix-text="suffix"
+    style="--calcite-input-text-prefix-width: 100px; --calcite-input-text-suffix-width: 100px"
+  ></calcite-input-text>
+  <br />
+  <calcite-input-text
+    placeholder="Placeholder text"
+    prefix-text="prefix"
+    suffix-text="suffix"
+    style="--calcite-input-text-prefix-width: 100px; --calcite-input-text-suffix-width: 100px"
+  ></calcite-input-text>
+`;

@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-prefix-width: Specifies the component's prefix width.
+ * @prop --calcite-input-suffix-width: Specifies the component's suffix width.
+ */
+
 :host {
   @apply block;
 }
@@ -322,10 +331,12 @@ input[type="time"]::-webkit-clear-button {
 .prefix {
   @apply order-2;
   border-inline-end-width: theme("borderWidth.0");
+  inline-size: var(--calcite-input-prefix-width, auto);
 }
 .suffix {
   @apply order-5;
   border-inline-start-width: theme("borderWidth.0");
+  inline-size: var(--calcite-input-suffix-width, auto);
 }
 
 // alignment type

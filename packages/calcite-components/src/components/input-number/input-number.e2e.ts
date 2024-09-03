@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
@@ -21,6 +22,7 @@ import {
   testPostValidationFocusing,
 } from "../input/common/tests";
 import { assertCaretPosition } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -1870,5 +1872,27 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
 
     expect(internalInput.getAttribute("inputmode")).toBe("decimal");
+  });
+
+  describe("theme", () => {
+    themed(
+      html`
+        <calcite-input-number
+          placeholder="Placeholder text"
+          prefix-text="prefix"
+          suffix-text="suffix"
+        ></calcite-input-number>
+      `,
+      {
+        "--calcite-input-number-prefix-width": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "width",
+        },
+        "--calcite-input-number-suffix-width": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "width",
+        },
+      },
+    );
   });
 });

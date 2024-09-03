@@ -228,3 +228,19 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
       value="Value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
     ></calcite-input>
   `);
+
+export const inputPrefixAndSuffixWidth = (): string => html`
+  <calcite-input
+    placeholder="Placeholder text"
+    prefix-text="prefix"
+    suffix-text="suffix"
+    style="--calcite-input-prefix-width: 100px; --calcite-input-suffix-width: 100px"
+  ></calcite-input>
+  <br />
+  <calcite-input
+    placeholder="Placeholder text"
+    prefix-text="prefix"
+    suffix-text="suffix"
+    style="--calcite-input-prefix-width: 100px; --calcite-input-suffix-width: 100px"
+  ></calcite-input>
+`;

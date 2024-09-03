@@ -10,6 +10,7 @@ import {
   renders,
   hidden,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
@@ -17,6 +18,7 @@ import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { assertCaretPosition } from "../../tests/utils";
+import { CSS } from "./resources";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
 
 describe("calcite-input", () => {
@@ -2108,5 +2110,21 @@ describe("calcite-input", () => {
 
   describe("translation support", () => {
     t9n("calcite-input");
+  });
+
+  describe("theme", () => {
+    themed(
+      html` <calcite-input placeholder="Placeholder text" prefix-text="prefix" suffix-text="suffix"></calcite-input> `,
+      {
+        "--calcite-input-prefix-width": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "width",
+        },
+        "--calcite-input-suffix-width": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "width",
+        },
+      },
+    );
   });
 });
