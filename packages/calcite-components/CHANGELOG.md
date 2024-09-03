@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.4...@esri/calcite-components@2.13.0-next.5) (2024-09-03)
+
+### Bug Fixes
+
+- **loader:** restore animation ([#10184](https://github.com/Esri/calcite-design-system/issues/10184)) ([1ae7cc1](https://github.com/Esri/calcite-design-system/commit/1ae7cc1fac97a0abb64a38629ee9244cd8c9e161)), closes [#10182](https://github.com/Esri/calcite-design-system/issues/10182)
+
 ## [2.13.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.3...@esri/calcite-components@2.13.0-next.4) (2024-08-30)
 
 ### Bug Fixes
