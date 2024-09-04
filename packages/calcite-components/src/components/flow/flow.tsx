@@ -126,6 +126,8 @@ export class Flow implements LoadableComponent {
 
   @Listen("calciteFlowItemBack")
   async handleItemBackClick(event: CustomEvent): Promise<void> {
+    event.stopPropagation();
+
     if (event.defaultPrevented) {
       return;
     }
