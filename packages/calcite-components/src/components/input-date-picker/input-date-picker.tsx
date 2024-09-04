@@ -609,7 +609,6 @@ export class InputDatePicker
                   <div
                     class={{
                       [CSS.calendarWrapper]: true,
-                      [CSS.calendarWrapperEnd]: this.focusedInput === "end",
                       [FloatingCSS.animation]: true,
                       [FloatingCSS.animationActive]: this.open,
                     }}
@@ -1070,6 +1069,7 @@ export class InputDatePicker
   private restoreInputFocus(isDatePickerClosed = false): void {
     if (!this.range) {
       this.startInput.setFocus();
+      this.open = false;
       return;
     }
 

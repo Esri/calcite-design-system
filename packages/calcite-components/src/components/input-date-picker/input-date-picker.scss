@@ -110,10 +110,6 @@
   .input-container {
     @apply flex-col items-start;
   }
-
-  .calendar-wrapper--end {
-    transform: translate3d(0, 0, 0);
-  }
 }
 
 .menu-container {

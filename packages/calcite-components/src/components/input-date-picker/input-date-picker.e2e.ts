@@ -354,11 +354,6 @@ describe("calcite-input-date-picker", () => {
         inputDatePicker = await page.find("calcite-input-date-picker");
       });
 
-      async function isCalendarVisible(calendar: E2EElement, type: "start" | "end"): Promise<boolean> {
-        const calendarPosition = calendar.classList.contains(CSS.calendarWrapperEnd) ? "end" : "start";
-        return (await calendar.isVisible()) && calendarPosition === type;
-      }
-
       async function resetFocus(page: E2EPage): Promise<void> {
         await page.mouse.click(0, 0);
       }
@@ -366,8 +361,7 @@ describe("calcite-input-date-picker", () => {
       it("toggles the date picker when clicked", async () => {
         const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
 
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
-        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         const startInput = await page.find(
           `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`,
@@ -384,127 +378,141 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await startInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         // toggling via end date input
         await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await endInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         // toggling via end date toggle icon
-
         await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await endInputToggle.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         // toggling via end date input and toggle icon
-
         await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await endInputToggle.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         // toggling via end toggle icon and date input
-
         await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await endInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         // toggling via start date input and end toggle icon
-
         await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await endInputToggle.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
-
-        // close
-        await endInput.click();
-        await page.waitForChanges();
+        expect(await calendar.isVisible()).toBe(true);
 
         // toggling via end toggle icon and start date input
-
         await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
       });
 
       it("toggles the date picker when using arrow down/escape key", async () => {
         const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
-        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         await inputDatePicker.callMethod("setFocus");
         await page.waitForChanges();
         await page.keyboard.press("ArrowDown");
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await page.keyboard.press("Escape");
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
 
         await page.keyboard.press("Tab");
-
         await page.keyboard.press("ArrowDown");
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+        expect(await calendar.isVisible()).toBe(true);
 
         await page.keyboard.press("Escape");
         await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+        expect(await calendar.isVisible()).toBe(false);
       });
+    });
+  });
+
+  describe("close after selection", () => {
+    it("should close the date picker after selecting a date", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-input-date-picker></calcite-input-date-picker>`);
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      await inputDatePicker.click();
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await selectDayInMonthByIndex(page, 30);
+      expect(await calendar.isVisible()).toBe(false);
+    });
+
+    it("should close the range date picker after selecting both dates", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-input-date-picker range></calcite-input-date-picker>`);
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      const startInput = await page.find(
+        `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`,
+      );
+
+      await startInput.click();
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await selectDayInMonthByIndex(page, 30);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await selectDayInMonthByIndex(page, 50);
+      expect(await calendar.isVisible()).toBe(false);
     });
   });
 
@@ -1482,7 +1490,7 @@ describe("calcite-input-date-picker", () => {
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      expect(await calendar.isVisible()).toBe(true);
+      expect(await calendar.isVisible()).toBe(false);
       expect(await getActiveMonth(page)).toBe("February");
     });
 
