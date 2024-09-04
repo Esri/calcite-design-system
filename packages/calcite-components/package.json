@@ -71,7 +71,6 @@
     "focus-trap": "7.5.4",
     "interactjs": "1.10.27",
     "lodash-es": "4.17.21",
-    "puppeteer": "21.9.0",
     "sortablejs": "1.15.3",
     "timezone-groups": "0.9.1",
     "type-fest": "4.18.2"
