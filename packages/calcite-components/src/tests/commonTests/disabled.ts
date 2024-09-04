@@ -180,16 +180,17 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
 
-    await page.evaluate((tag) => {
+    await page.evaluate(() => {
       console.log(
-        "innerhtml",
-        JSON.stringify(document.querySelector(tag).shadowRoot.innerHTML, null, 2),
         "light tag",
         document.activeElement?.tagName,
         "shadow tag",
         document.activeElement?.shadowRoot?.activeElement?.tagName,
       );
-    }, tag);
+    });
+
+    const contentWrapper = await page.find(`${tag} >>> .content-wrapper`);
+    console.log("contentWrapper", contentWrapper.innerHTML);
 
     console.log("version", await (page as any).browser().version());
 
