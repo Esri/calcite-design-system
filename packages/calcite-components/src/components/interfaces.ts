@@ -2,7 +2,7 @@
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
 export type FlipContext = "both" | "start" | "end";
-export type Height = "s" | "m" | "l" | "auto" | "full";
+export type Height = "s" | "m" | "l" | "auto" | "half" | "full";
 export type Kind = "brand" | "danger" | "info" | "inverse" | "neutral" | "warning" | "success";
 export type Layout =
   | "horizontal"
@@ -29,7 +29,7 @@ export type SelectionMode =
   | "multiple";
 export type Scale = "s" | "m" | "l";
 export type Status = "invalid" | "valid" | "idle";
-export type Width = "s" | "m" | "l" | "auto" | "full";
+export type Width = "s" | "m" | "l" | "auto" | "half" | "full";
 export type IconType = "chevron" | "caret" | "ellipsis" | "overflow" | "plus-minus";
 export type CollapseDirection = "down" | "up";
 export type Dir = "ltr" | "rtl";
