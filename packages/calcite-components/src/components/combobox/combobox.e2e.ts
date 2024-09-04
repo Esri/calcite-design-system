@@ -164,7 +164,15 @@ describe("calcite-combobox", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-combobox");
+    disabled("calcite-combobox", {
+      focusTarget: {
+        tab: "calcite-combobox",
+        click: {
+          pointer: "calcite-combobox",
+          method: "calcite-combobox",
+        },
+      },
+    });
   });
 
   const simpleComboboxHTML = html`
