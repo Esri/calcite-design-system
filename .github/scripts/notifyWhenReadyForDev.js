@@ -42,6 +42,12 @@ module.exports = async ({ github, context }) => {
       label: issueWorkflow.assigned,
     });
 
+    await removeLabel({
+      github,
+      context,
+      label: planning.needsTriage,
+    });
+
     await github.rest.issues.addLabels({
       ...issueProps,
       labels: [issueWorkflow.new, planning.needsMilestone],
@@ -55,9 +61,6 @@ module.exports = async ({ github, context }) => {
       assignees: [],
       milestone: null,
     });
-
-    // Remove "needs triage" label
-    await removeLabel({ github, context, label: planning.needsTriage });
 
     // Add a comment to notify the project manager(s)
     await github.rest.issues.createComment({
