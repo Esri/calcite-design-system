@@ -125,6 +125,10 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       : component;
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
+    await page.setViewport({
+      width: 1200,
+      height: 800,
+    });
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 

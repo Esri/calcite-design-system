@@ -158,6 +158,7 @@ export const create: () => Config = () => ({
     ],
   },
   testing: {
+    browserArgs: ["--no-sandbox", "--disable-setuid-sandbox", "--window-size=1280,800"],
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
       "^lodash-es$": "lodash",
