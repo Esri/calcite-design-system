@@ -152,9 +152,7 @@ export class Select
     this.value = selectedOption?.value;
   }
 
-  /**
-   * Specifies the width of the component.
-   */
+  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //--------------------------------------------------------------------------

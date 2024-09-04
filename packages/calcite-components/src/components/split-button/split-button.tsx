@@ -128,7 +128,7 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   /**

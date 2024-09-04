@@ -100,7 +100,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   /** The component's value. */
   @Prop() value: any;
 
-  /** Specifies the width of the component. */
+  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //--------------------------------------------------------------------------

@@ -815,7 +815,7 @@ export namespace Components {
          */
         "type": string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -3757,7 +3757,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -4387,7 +4387,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -4482,7 +4482,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -4865,7 +4865,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -5630,7 +5630,7 @@ export namespace Components {
          */
         "value": any;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -8801,7 +8801,7 @@ declare namespace LocalJSX {
          */
         "type"?: string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
@@ -11930,7 +11930,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
@@ -12578,7 +12578,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
@@ -12677,7 +12677,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
@@ -13082,7 +13082,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
@@ -13859,7 +13859,7 @@ declare namespace LocalJSX {
          */
         "value"?: any;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
