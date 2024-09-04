@@ -977,8 +977,6 @@ export class InputTimePicker
         }),
       );
     }
-
-    this.openHandler();
   }
 
   disconnectedCallback() {
