@@ -179,6 +179,9 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
+    await page.waitForTimeout(5000);
+    await page.waitForChanges();
+    await page.waitForTimeout(5000);
 
     await page.evaluate(() => {
       console.log(
