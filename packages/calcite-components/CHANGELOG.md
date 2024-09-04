@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.5...@esri/calcite-components@2.13.0-next.6) (2024-09-04)
+
+### Bug Fixes
+
+- **panel:** tweak focusable content area ([#10141](https://github.com/Esri/calcite-design-system/issues/10141)) ([3dd4b28](https://github.com/Esri/calcite-design-system/commit/3dd4b2891ed51fd0cd2a3b81bfbd156dd5c3a27a)), closes [#10022](https://github.com/Esri/calcite-design-system/issues/10022)
+
 ## [2.13.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.4...@esri/calcite-components@2.13.0-next.5) (2024-09-03)
 
 ### Bug Fixes
