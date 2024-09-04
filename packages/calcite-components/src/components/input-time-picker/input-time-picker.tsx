@@ -850,6 +850,7 @@ export class InputTimePicker
 
   private setCalcitePopoverEl = (el: HTMLCalcitePopoverElement): void => {
     this.popoverEl = el;
+    this.openHandler();
   };
 
   private setInputEl = (el: HTMLCalciteInputElement): void => {
