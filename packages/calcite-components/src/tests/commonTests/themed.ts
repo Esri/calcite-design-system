@@ -174,7 +174,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
   });
 }
 
-export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
+type ContextSelectByAttr = { attribute: string; value: string | RegExp };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
@@ -183,7 +183,7 @@ type State = "press" | "hover" | "focus";
 /**
  * Describes a test target for themed components.
  */
-export type TestTarget = {
+type TestTarget = {
   /**
    * An object with target element and selector info.
    */
@@ -230,7 +230,7 @@ type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
 /**
  * Describes a test selector for themed components.
  */
-export type TestSelectToken = {
+type TestSelectToken = {
   /**
    * The selector of the target element. When not provided, the component tag is used.
    */

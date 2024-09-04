@@ -17,7 +17,7 @@
 :host([scale="s"]) {
   @apply m-1.5;
   block-size: #{$calcite-size-24};
-  margin-inline-start: 0.5rem;
+  margin-inline-start: var(--calcite-size-sm);
 
   .chevron-container,
   .chevron {
@@ -29,13 +29,13 @@
 :host([scale="m"]) {
   @apply m-2;
   block-size: #{$calcite-size-32};
-  margin-inline-start: 0.625rem;
+  margin-inline-start: var(--calcite-size-sm-plus);
 
   .chevron-container,
   .chevron {
     min-inline-size: #{$calcite-size-32};
     block-size: #{$calcite-size-32};
-    --calcite-internal-action-padding-block: 0.25rem;
+    --calcite-internal-action-padding-block: var(--calcite-size-xxs);
   }
 }
 
@@ -48,7 +48,7 @@
   .chevron {
     min-inline-size: #{$calcite-size-44};
     block-size: #{$calcite-size-44};
-    --calcite-internal-action-padding-block: 0.625rem;
+    --calcite-internal-action-padding-block: var(--calcite-size-sm-plus);
   }
 }
 
@@ -93,8 +93,7 @@
     justify-start
     text-center
     leading-none;
-  gap: 0.25rem;
-
+  gap: var(--calcite-size-xxs);
   &.range-calendar {
     @apply justify-center;
   }
@@ -107,9 +106,9 @@
 .month-year-container {
   .month-select,
   .year-select {
-    --calcite-select-spacing-inline: 0.25rem;
-    --calcite-internal-select-spacing-block: 0.25rem;
-    --calcite-internal-select-icon-container-padding-inline: 0.25rem;
+    --calcite-select-spacing-inline: var(--calcite-size-xxs);
+    --calcite-internal-select-spacing-block: var(--calcite-size-xxs);
+    --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-xxs);
     --calcite-select-font-size: var(--calcite-font-size-md);
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-lg);
   }
@@ -118,10 +117,10 @@
 :host([scale="s"]) .month-year-container {
   .month-select,
   .year-select {
-    --calcite-select-spacing-inline: 0.125rem;
-    --calcite-internal-select-spacing-block: 0.125rem;
-    --calcite-internal-select-icon-container-padding-inline: 0.125rem;
-    --calcite-internal-select-block-size: 1.5rem;
+    --calcite-select-spacing-inline: var(--calcite-size-xxxs);
+    --calcite-internal-select-spacing-block: var(--calcite-size-xxxs);
+    --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-xxxs);
+    --calcite-internal-select-block-size: #{$calcite-size-24};
     --calcite-select-font-size: var(--calcite-font-size);
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-base);
   }
@@ -130,10 +129,10 @@
 :host([scale="l"]) .month-year-container {
   .month-select,
   .year-select {
-    --calcite-select-spacing-inline: 0.5rem;
-    --calcite-internal-select-spacing-block: 0.5rem;
-    --calcite-internal-select-icon-container-padding-inline: 0.5rem;
-    --calcite-internal-select-block-size: 2.75rem;
+    --calcite-select-spacing-inline: var(--calcite-size-sm);
+    --calcite-internal-select-spacing-block: var(--calcite-size-sm);
+    --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-sm);
+    --calcite-internal-select-block-size: #{$calcite-size-44};
     --calcite-select-font-size: var(--calcite-font-size-lg);
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }

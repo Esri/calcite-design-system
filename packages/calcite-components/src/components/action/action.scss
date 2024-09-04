@@ -3,15 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
+ * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
+ * @prop --calcite-action-background-color: Specifies the component's  background color.
+ * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
+ * @prop --calcite-action-background-color-pressed: Specifies the component's background color when active.
+ * @prop --calcite-action-text-color: Specifies the text color of the component.
+ * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
  */
 
 :host {
   @extend %component-host;
   @apply flex bg-transparent;
-  --calcite-action-indicator-color: theme("colors.brand");
-  --calcite-action-color-transparent-hover: var(--calcite-color-transparent-hover);
-  --calcite-action-color-transparent-press: var(--calcite-color-transparent-press);
 }
 
 @mixin action-indicator() {
@@ -24,18 +26,13 @@
       rounded-full;
     inset-block-end: calc(-0.275rem);
     inset-inline-end: calc(-0.275rem);
-    background-color: var(--calcite-action-indicator-color);
+    background-color: var(--calcite-action-indicator-color, theme("colors.brand"));
   }
 }
 
-@include disabled();
-
 .button {
-  @apply bg-foreground-1
-    fill-color-3
-    focus-base
+  @apply focus-base
     text-n2h
-    text-color-3
     relative
     m-0
     flex
@@ -47,45 +44,101 @@
     font-medium
     font-sans;
 
+  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-action-text-color, var(--calcite-color-text-3));
   text-align: unset;
   flex: 1 0 auto;
-  &:hover {
-    @apply bg-foreground-2 text-color-1 fill-color-1;
+
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
   }
 
   &:focus {
-    @apply bg-foreground-2 text-color-1 fill-color-1 focus-inset;
+    @apply focus-inset;
   }
 
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
   }
+}
 
-  .icon-container {
-    @apply pointer-events-none
-      m-0
-      flex
-      items-center
-      justify-center;
-    min-inline-size: theme("spacing.4");
-    min-block-size: theme("spacing.6");
+.icon-container {
+  @apply pointer-events-none
+    m-0
+    flex
+    items-center
+    justify-center;
+  min-inline-size: theme("spacing.4");
+  min-block-size: theme("spacing.6");
+}
+
+.text-container {
+  @apply m-0
+    w-0
+    truncate
+    leading-6
+    opacity-0
+    transition-opacity
+    duration-150
+    ease-in-out;
+
+  transition-property: margin;
+  transition-property: inline-size;
+}
+
+.text-container--visible {
+  @apply w-auto flex-auto opacity-100;
+}
+
+:host([active]) {
+  .button {
+    &,
+    &:hover,
+    &:focus {
+      color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
+      background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
+    }
+
+    &:active {
+      background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+    }
+  }
+}
+
+:host([loading]) {
+  .button {
+    &:hover,
+    &:focus {
+      background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+    }
   }
 
   .text-container {
-    @apply m-0
-      w-0
-      truncate
-      leading-6
-      opacity-0
-      transition-opacity
-      duration-150
-      ease-in-out;
-    transition-property: margin;
-    transition-property: inline-size;
+    @apply opacity-disabled;
   }
 
-  .text-container--visible {
-    @apply w-auto flex-auto opacity-100;
+  calcite-loader[inline] {
+    margin-inline-end: theme("spacing.0");
+  }
+}
+
+:host([appearance="transparent"]) {
+  .button {
+    @apply bg-transparent
+      transition-shadow
+      duration-150
+      ease-in-out;
+
+    &:hover,
+    &:focus {
+      background-color: var(--calcite-color-transparent-hover);
+    }
+
+    &:active {
+      background-color: var(--calcite-color-transparent-press);
+    }
   }
 }
 
@@ -96,7 +149,7 @@
 :host([scale="s"]) {
   .button {
     @apply text-n2h px-2 font-normal;
-    padding-block: var(--calcite-internal-action-padding-block, 0.25rem);
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xxs));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -106,7 +159,7 @@
 :host([scale="m"]) {
   .button {
     @apply text-n1h px-4 font-normal;
-    padding-block: var(--calcite-internal-action-padding-block, 0.75rem);
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-md));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -116,7 +169,7 @@
 :host([scale="l"]) {
   .button {
     @apply text-0h px-5 font-normal;
-    padding-block: var(--calcite-internal-action-padding-block, 1.25rem);
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xl));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
@@ -157,65 +210,6 @@
   @apply w-full;
 }
 
-:host([active]) .button,
-:host([active]) .button:hover,
-:host([active]) .button:focus,
-:host([active][loading]) .button {
-  @apply text-color-1 fill-color-1 bg-foreground-3;
-}
-
-:host([appearance="transparent"]) .button {
-  @apply bg-transparent
-    transition-shadow
-    duration-150
-    ease-in-out;
-}
-
-:host([active]) .button:active {
-  @apply bg-foreground-1;
-}
-
-:host([appearance="transparent"][active]) .button,
-:host([appearance="transparent"]) .button:hover,
-:host([appearance="transparent"]) .button:focus {
-  background-color: var(--calcite-action-color-transparent-hover);
-}
-
-:host([appearance="transparent"]) .button:active {
-  background-color: var(--calcite-action-color-transparent-press);
-}
-
-:host([appearance="transparent"][disabled]) .button {
-  @apply bg-transparent;
-}
-
-:host([loading][appearance="solid"]) .button,
-:host([loading][appearance="solid"]) .button:hover,
-:host([loading][appearance="solid"]) .button:focus {
-  @apply bg-foreground-1;
-
-  .text-container {
-    @apply opacity-disabled;
-  }
-}
-
-:host([loading]) calcite-loader[inline] {
-  @apply text-color-3;
-  margin-inline-end: theme("spacing.0");
-}
-
-:host([disabled]) .button,
-:host([disabled]) .button:hover,
-:host([disabled]) .button:focus {
-  @apply opacity-disabled bg-foreground-1 cursor-default;
-}
-
-:host([disabled][active]) .button,
-:host([disabled][active]) .button:hover,
-:host([disabled][active]) .button:focus {
-  @apply opacity-disabled bg-foreground-3;
-}
-
 .indicator-with-icon {
   @include action-indicator();
 }
@@ -230,3 +224,18 @@
 }
 
 @include base-component();
+@include disabled {
+  .button,
+  .button:hover,
+  .button:focus {
+    @apply opacity-disabled bg-foreground-1 cursor-default;
+  }
+
+  &:host([active]) {
+    .button,
+    .button:hover,
+    .button:focus {
+      @apply opacity-disabled bg-foreground-3;
+    }
+  }
+}

@@ -22,8 +22,6 @@ import {
   HiddenFormInputSlot,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -46,6 +44,7 @@ import {
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale } from "../interfaces";
+import { BigDecimal } from "../../utils/number";
 import { CSS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 
@@ -219,7 +218,6 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
@@ -228,7 +226,6 @@ export class Slider
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -964,8 +961,14 @@ export class Slider
    */
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
-    let snappedValue = Math.floor((value - min) / step) * step + min;
-    snappedValue = Math.min(Math.max(snappedValue, min), max);
+
+    // prevents floating point precision issues
+    const bigDecimalString = new BigDecimal(`${Math.floor((value - min) / step)}`)
+      .multiply(`${step}`)
+      .add(`${min}`)
+      .toString();
+
+    let snappedValue = this.clamp(Number(bigDecimalString));
 
     if (snappedValue > max) {
       snappedValue -= step;

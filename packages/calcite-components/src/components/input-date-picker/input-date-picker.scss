@@ -90,13 +90,12 @@
 
 .divider {
   @apply my-1 inline-block w-px;
-  background-color: #d9d9d9;
+  background-color: var(--calcite-color-border-2);
 }
 
 :host([layout="vertical"]) .divider-container {
   @apply w-full h-px border-t-0 border-b-0 border-l border-r-0;
-  padding-inline: 0.75rem;
-
+  padding-inline: var(--calcite-size-md);
   & .divider {
     @apply w-full h-px my-0;
   }
@@ -151,7 +150,7 @@
     @apply px-2;
   }
   .divider-container {
-    padding-inline: 0.5rem;
+    padding-inline: var(--calcite-size-sm);
   }
 }
 
@@ -160,7 +159,7 @@
     @apply px-4;
   }
   .divider-container {
-    padding-inline: 1rem;
+    padding-inline: var(--calcite-size-lg);
   }
 }
 

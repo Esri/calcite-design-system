@@ -355,6 +355,7 @@
       </div>
 
       <hr />
+
       <div class="parent">
         <div class="child right-aligned-text">Loading</div>
 
@@ -781,6 +782,105 @@
           </calcite-dialog>
 
           <calcite-button data-dialog-ref="js-dialog-modal-l-l" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="parent">
+        <div class="child right-aligned-text">drag-enabled & resizable</div>
+
+        <div class="child">
+          <calcite-dialog
+            drag-enabled
+            resizable
+            id="js-dialog-resize-s-s"
+            width-scale="s"
+            scale="s"
+            heading="Small widthScale and small scale dialog"
+            description="test"
+          >
+            <p>
+              The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.
+            </p>
+            <calcite-button
+              slot="footer-start"
+              width="full"
+              scale="s"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="footer-end" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button data-dialog-ref="js-dialog-resize-s-s" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-dialog
+            drag-enabled
+            resizable
+            heading="Small widthScale and medium scale dialog"
+            id="js-dialog-resize-s-m"
+            width-scale="s"
+            scale="m"
+          >
+            <p>
+              The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.
+            </p>
+            <calcite-button
+              slot="footer-start"
+              width="full"
+              scale="m"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="footer-end" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button data-dialog-ref="js-dialog-resize-s-m" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-dialog
+            drag-enabled
+            resizable
+            heading="Small widthScale and large scale dialog"
+            id="js-dialog-resize-s-l"
+            width-scale="s"
+            scale="l"
+          >
+            <div>
+              <p>
+                The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.
+              </p>
+            </div>
+            <calcite-button
+              slot="footer-start"
+              width="full"
+              scale="l"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="footer-end" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button data-dialog-ref="js-dialog-resize-s-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>

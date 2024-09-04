@@ -37,9 +37,10 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                       | Description                                   |
-| -------------------------- | --------------------------------------------- |
-| `--calcite-card-group-gap` | Specifies the gap between slotted components. |
+| Name                         | Description                                                                                |
+| ---------------------------- | ------------------------------------------------------------------------------------------ |
+| `--calcite-card-group-gap`   | [Deprecated] Use --calcite-card-group-space. Specifies the gap between slotted components. |
+| `--calcite-card-group-space` | Specifies the space between slotted components.                                            |
 
 ---
 

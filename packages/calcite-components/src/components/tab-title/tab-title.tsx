@@ -15,8 +15,6 @@ import {
 import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -148,7 +146,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
@@ -165,7 +162,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       }),
     );
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }

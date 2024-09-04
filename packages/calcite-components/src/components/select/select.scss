@@ -16,7 +16,7 @@
 .wrapper {
   @apply relative flex items-stretch;
   inline-size: var(--select-width);
-  block-size: var(--calcite-internal-select-block-size, 2rem);
+  block-size: var(--calcite-internal-select-block-size, #{$calcite-size-32});
   &:focus-within,
   &:active,
   &:hover {
@@ -31,21 +31,21 @@
 :host([scale="s"]) {
   --calcite-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
-  --calcite-internal-select-icon-container-padding-inline: 0.5rem;
-  --calcite-internal-select-block-size: 1.5rem;
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-sm);
+  --calcite-internal-select-block-size: #{$calcite-size-24};
 }
 
 :host([scale="m"]) {
   --calcite-select-font-size: theme("fontSize.n1h");
   --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
-  --calcite-internal-select-icon-container-padding-inline: 0.75rem;
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-md);
 }
 
 :host([scale="l"]) {
   --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
-  --calcite-internal-select-icon-container-padding-inline: 1rem;
-  --calcite-internal-select-block-size: 2.75rem;
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-lg);
+  --calcite-internal-select-block-size: #{$calcite-size-44};
 }
 
 :host([width="auto"]) {

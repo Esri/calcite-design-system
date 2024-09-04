@@ -20,6 +20,8 @@ type DialogStoryArgs = Pick<
   | "menuOpen"
   | "modal"
   | "overlayPositioning"
+  | "dragEnabled"
+  | "resizable"
   | "outsideCloseDisabled"
 >;
 
@@ -38,6 +40,8 @@ export default {
     loading: false,
     menuOpen: false,
     modal: false,
+    dragEnabled: false,
+    resizable: false,
     overlayPositioning: overlayPositioning.defaultValue,
     outsideCloseDisabled: false,
   },
@@ -89,6 +93,8 @@ const menuActionsContent = html` <calcite-action
 
 export const simple = (args: DialogStoryArgs): string => html`
   <calcite-dialog
+    ${boolean("drag-enabled", args.dragEnabled)}
+    ${boolean("resizable", args.resizable)}
     ${boolean("modal", args.modal)}
     ${boolean("open", args.open)}
     ${boolean("menu-open", args.menuOpen)}
@@ -359,6 +365,27 @@ export const footerSlot = (): string => html`
 const themedStyle = html`--calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
 --calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;
 --calcite-dialog-content-space: 50px; --calcite-dialog-offset-x: 50px; --calcite-dialog-offset-y: -30px;`;
+
+export const withShellInside = (): string =>
+  html`<calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="l">
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-action-bar slot="action-bar" expanded>
+          <calcite-action-group>
+            <calcite-action text-enabled text="Action 1"></calcite-action>
+            <calcite-action text-enabled text="Action 2"></calcite-action>
+            <calcite-action text-enabled text="Action 3"></calcite-action>
+            <calcite-action text-enabled text="Action 4"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+      </calcite-shell-panel>
+      <calcite-shell-center-row>
+        <calcite-button>button</calcite-button>
+      </calcite-shell-center-row>
+    </calcite-shell>
+    <calcite-button slot="footer-end" appearance="outline"> Cancel </calcite-button>
+    <calcite-button slot="footer-end"> Save </calcite-button>
+  </calcite-dialog>`;
 
 export const themed = (): string =>
   html`<calcite-dialog
