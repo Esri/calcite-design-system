@@ -125,6 +125,8 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       : component;
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
+
+    // setting page size seems to improve consistency between local and CI runs, see https://github.com/Esri/calcite-design-system/pull/10141/ for more info
     await page.setViewport({
       width: 1200,
       height: 800,
@@ -179,32 +181,15 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     }
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body", "reset 1");
+    await expectToBeFocused(page, "body", "pre-click reset");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
-    await page.waitForTimeout(5000);
-    await page.waitForChanges();
-    await page.waitForTimeout(5000);
-
-    await page.evaluate(() => {
-      console.log(
-        "light tag",
-        document.activeElement?.tagName,
-        "shadow tag",
-        document.activeElement?.shadowRoot?.activeElement?.tagName,
-      );
-    });
-
-    const contentWrapper = await page.find(`${tag} >>> .content-wrapper`);
-    console.log("contentWrapper", contentWrapper.innerHTML);
-
-    console.log("version", await (page as any).browser().version());
 
     await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body", "reset 2");
+    await expectToBeFocused(page, "body", "pre-click() reset");
 
     await component.callMethod("click");
     await page.waitForChanges();
@@ -226,13 +211,13 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body", "reset 3");
+    await expectToBeFocused(page, "body", "disabled+pre-tab reset");
 
     await page.keyboard.press("Tab");
     await expectToBeFocused(page, "body", "disabled+tab");
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body", "reset 4");
+    await expectToBeFocused(page, "body", "disabled+pre-click reset");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await expectToBeFocused(page, "body", "disabled+click");
