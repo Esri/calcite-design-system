@@ -351,8 +351,8 @@ describe("calcite-alert", () => {
       await page.setContent(alertSnippet);
       progressBarStyles = await page.evaluate(() => {
         const alert = document.querySelector("calcite-alert");
-        alert.style.setProperty("--calcite-alert-dismiss-progress-background", "white");
-        return window.getComputedStyle(alert).getPropertyValue("--calcite-alert-dismiss-progress-background");
+        alert.style.setProperty("--calcite-internal-alert-dismiss-progress-background", "white");
+        return window.getComputedStyle(alert).getPropertyValue("--calcite-internal-alert-dismiss-progress-background");
       });
       expect(progressBarStyles).toEqual("white");
     });
