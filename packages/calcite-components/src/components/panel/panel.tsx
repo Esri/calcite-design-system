@@ -286,7 +286,14 @@ export class Panel
       return;
     }
 
-    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : -1;
+    const hasScrollingContent = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight;
+
+    // intentionally using setAttribute to avoid reflecting -1 so default browser behavior will occur
+    if (hasScrollingContent) {
+      panelScrollEl.setAttribute("tabindex", "0");
+    } else {
+      panelScrollEl.removeAttribute("tabindex");
+    }
   };
 
   setContainerRef = (node: HTMLElement): void => {
@@ -693,7 +700,7 @@ export class Panel
   };
 
   render(): VNode {
-    const { disabled, loading, panelKeyDownHandler, isClosed, closable } = this;
+    const { disabled, loading, panelKeyDownHandler, isClosed } = this;
 
     const panelNode = (
       <article
@@ -701,7 +708,6 @@ export class Panel
         class={CSS.container}
         hidden={isClosed}
         ref={this.setContainerRef}
-        tabIndex={closable ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
