@@ -3,11 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.5...@esri/calcite-components@2.13.0-next.6) (2024-09-04)
+
+### Bug Fixes
+
+- **panel:** tweak focusable content area ([#10141](https://github.com/Esri/calcite-design-system/issues/10141)) ([3dd4b28](https://github.com/Esri/calcite-design-system/commit/3dd4b2891ed51fd0cd2a3b81bfbd156dd5c3a27a)), closes [#10022](https://github.com/Esri/calcite-design-system/issues/10022)
+
+## [2.13.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.4...@esri/calcite-components@2.13.0-next.5) (2024-09-03)
+
+### Bug Fixes
+
+- **loader:** restore animation ([#10184](https://github.com/Esri/calcite-design-system/issues/10184)) ([1ae7cc1](https://github.com/Esri/calcite-design-system/commit/1ae7cc1fac97a0abb64a38629ee9244cd8c9e161)), closes [#10182](https://github.com/Esri/calcite-design-system/issues/10182)
+
+## [2.13.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.3...@esri/calcite-components@2.13.0-next.4) (2024-08-30)
+
+### Bug Fixes
+
+- **list-item:** decrease horizontal spacing between selection icon and content ([#9304](https://github.com/Esri/calcite-design-system/issues/9304)) ([#10199](https://github.com/Esri/calcite-design-system/issues/10199)) ([dce57f4](https://github.com/Esri/calcite-design-system/commit/dce57f46d0bf00777e998a6073203677df8f0c5a)), closes [#9290](https://github.com/Esri/calcite-design-system/issues/9290)
+
+## [2.13.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.2...@esri/calcite-components@2.13.0-next.3) (2024-08-30)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.13.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.1...@esri/calcite-components@2.13.0-next.2) (2024-08-30)
+
+### Bug Fixes
+
+- **list:** do not emit `calciteListChange` during a filter ([#10195](https://github.com/Esri/calcite-design-system/issues/10195)) ([ca4db32](https://github.com/Esri/calcite-design-system/commit/ca4db328adffba501a76a3e177e2cd4d5c90788d)), closes [#10192](https://github.com/Esri/calcite-design-system/issues/10192)
+
+## [2.13.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.0...@esri/calcite-components@2.13.0-next.1) (2024-08-30)
+
+### Bug Fixes
+
+- **shell-panel:** fill available space ([#10185](https://github.com/Esri/calcite-design-system/issues/10185)) ([3f963db](https://github.com/Esri/calcite-design-system/commit/3f963db861bee3638ddbd756764c8e58703b178f)), closes [#10176](https://github.com/Esri/calcite-design-system/issues/10176)
+- **switch:** fix focus state styling in Safari ([#10191](https://github.com/Esri/calcite-design-system/issues/10191)) ([f247976](https://github.com/Esri/calcite-design-system/commit/f2479767d83311376618998d1c5f94c132c7e7d7)), closes [#8617](https://github.com/Esri/calcite-design-system/issues/8617)
+
 ## [2.13.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0-next.34...@esri/calcite-components@2.13.0-next.0) (2024-08-28)
 
 ### Features
 
 - **card:** component tokens ([#10161](https://github.com/Esri/calcite-design-system/issues/10161)) ([08578a3](https://github.com/Esri/calcite-design-system/commit/08578a397a11ea6820b35dd3ddde8e07ce2b264f)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [2.12.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0...@esri/calcite-components@2.12.1) (2024-09-04)
+
+### Bug Fixes
+
+- **loader:** Restore animation ([#10184](https://github.com/Esri/calcite-design-system/issues/10184)) ([52081ca](https://github.com/Esri/calcite-design-system/commit/52081ca94b4527f1d0c557ae61f2bcdf28e4bed4))
+- **panel:** Tweak focusable content area ([#10141](https://github.com/Esri/calcite-design-system/issues/10141)) ([fa18b70](https://github.com/Esri/calcite-design-system/commit/fa18b70aa00b4c3c04ae17883dec62cb8b24093c))
 
 ## [2.12.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.1...@esri/calcite-components@2.12.0) (2024-08-28)
 

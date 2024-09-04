@@ -42,9 +42,11 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                      | Description                                                                       |
-| ----------------------------------------- | --------------------------------------------------------------------------------- |
-| `--calcite-action-pad-expanded-max-width` | When `layout` is `"vertical"`, specifies the expanded max width of the component. |
+| Name                                      | Description                                                                               |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `--calcite-action-pad-corner-radius`      | Specifies the component's border radius.                                                  |
+| `--calcite-action-pad-expanded-max-width` | Specifies the component's maximum width when `expanded` and the `layout` is `"vertical"`. |
+| `--calcite-action-pad-items-space`        | Specifies the space between slotted components in the component.                          |
 
 ## Dependencies
 
