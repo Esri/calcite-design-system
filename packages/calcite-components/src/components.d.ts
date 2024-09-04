@@ -4511,7 +4511,7 @@ export namespace Components {
         /**
           * Specifies the height of the component.
          */
-        "height": Extract<"s" | "m" | "l", Height>;
+        "height": Height;
         /**
           * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
           * @deprecated Use the `height` property instead.
@@ -4569,7 +4569,7 @@ export namespace Components {
         /**
           * Specifies the height of the component.
          */
-        "height": Extract<"s" | "m" | "l", Height>;
+        "height": Height;
         /**
           * Specifies the maximum height of the component.
           * @deprecated Use the `height` property instead.
@@ -4602,7 +4602,7 @@ export namespace Components {
         /**
           * Specifies the height of the component.
          */
-        "height": Extract<"s" | "m" | "l", Height>;
+        "height": Height;
         /**
           * When `layout` is `horizontal`, specifies the maximum height of the component.
           * @deprecated Use the `height` property instead.
@@ -12706,7 +12706,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the height of the component.
          */
-        "height"?: Extract<"s" | "m" | "l", Height>;
+        "height"?: Height;
         /**
           * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
           * @deprecated Use the `height` property instead.
@@ -12772,7 +12772,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the height of the component.
          */
-        "height"?: Extract<"s" | "m" | "l", Height>;
+        "height"?: Height;
         /**
           * Specifies the maximum height of the component.
           * @deprecated Use the `height` property instead.
@@ -12805,7 +12805,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the height of the component.
          */
-        "height"?: Extract<"s" | "m" | "l", Height>;
+        "height"?: Height;
         /**
           * When `layout` is `horizontal`, specifies the maximum height of the component.
           * @deprecated Use the `height` property instead.

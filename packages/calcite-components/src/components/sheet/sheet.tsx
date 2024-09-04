@@ -77,7 +77,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ reflect: true }) heightScale: Scale = "m";
 
   /** Specifies the height of the component. */
-  @Prop({ reflect: true }) height: Extract<"s" | "m" | "l", Height> = "m";
+  @Prop({ reflect: true }) height: Height = "m";
 
   /**
    * When `true`, prevents focus trapping.

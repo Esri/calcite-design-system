@@ -37,7 +37,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   @Prop({ reflect: true }) heightScale: Scale = "s";
 
   /** Specifies the height of the component. */
-  @Prop({ reflect: true }) height: Extract<"s" | "m" | "l", Height> = "s";
+  @Prop({ reflect: true }) height: Height = "s";
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).

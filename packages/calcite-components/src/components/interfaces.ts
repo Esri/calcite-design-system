@@ -2,7 +2,7 @@
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
 export type FlipContext = "both" | "start" | "end";
-export type Height = "s" | "m" | "l" | "auto" | "half" | "full";
+export type Height = "s" | "m" | "l";
 export type Kind = "brand" | "danger" | "info" | "inverse" | "neutral" | "warning" | "success";
 export type Layout =
   | "horizontal"

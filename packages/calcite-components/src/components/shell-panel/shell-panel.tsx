@@ -119,7 +119,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /** Specifies the height of the component. */
-  @Prop({ reflect: true }) height: Extract<"s" | "m" | "l", Height> = "m";
+  @Prop({ reflect: true }) height: Height = "m";
 
   /**
    * When `layout` is `vertical`, specifies the width of the component.
