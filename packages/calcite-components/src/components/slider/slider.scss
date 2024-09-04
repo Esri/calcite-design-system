@@ -161,6 +161,10 @@
 
   &.thumb--precise {
     --calcite-slider-thumb-y-offset: -0.125rem;
+
+    &.thumb--vertical-reversed:not(.mirrored) {
+      --calcite-slider-thumb-y-offset: -3.125rem;
+    }
   }
 }
 
@@ -220,8 +224,11 @@
   }
   &:host(:not([has-histogram])) .scale--l .thumb--value {
     --calcite-slider-thumb-y-offset: -3.0625rem;
-    &.thumb--vertical.thumb--vertical-reversed {
+    &.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
       --calcite-slider-thumb-y-offset: -0.0625rem;
+    }
+    &.thumb--vertical.thumb--vertical-reversed.mirrored {
+      --calcite-slider-thumb-y-offset: -0.125rem;
     }
   }
 }

@@ -294,7 +294,26 @@ export class Slider
       type: thumbTypes,
       thumbPlacement:
         thumbTypes.includes("histogram") ||
-        (this.layout === "vertical" && this.flipLabels && !valueIsRange) ||
+        (this.layout === "vertical" &&
+          !valueIsRange &&
+          this.mirrored &&
+          this.flipLabels &&
+          this.precise) ||
+        (this.layout === "vertical" &&
+          !valueIsRange &&
+          this.flipLabels &&
+          this.precise &&
+          !this.mirrored) ||
+        (this.layout === "vertical" &&
+          valueIsRange &&
+          this.mirrored &&
+          this.precise &&
+          !this.flipLabels) ||
+        (this.layout === "vertical" &&
+          valueIsRange &&
+          this.flipLabels &&
+          this.precise &&
+          !this.mirrored) ||
         (this.layout === "vertical" && !this.precise) ||
         (this.layout === "horizontal" && this.flipLabels)
           ? "below"
@@ -311,8 +330,16 @@ export class Slider
         type: minThumbTypes,
         thumbPlacement:
           minThumbTypes.includes("histogram") ||
-          minThumbTypes.includes("precise") ||
-          (this.layout === "vertical" && (this.flipLabels || valueIsRange)) ||
+          (this.layout === "vertical" &&
+            valueIsRange &&
+            this.precise &&
+            !this.mirrored &&
+            !this.flipLabels) ||
+          (this.layout === "vertical" &&
+            valueIsRange &&
+            this.precise &&
+            this.mirrored &&
+            this.flipLabels) ||
           (this.layout === "vertical" && !this.precise) ||
           (this.layout === "horizontal" && this.flipLabels)
             ? "below"
@@ -488,7 +515,9 @@ export class Slider
           [CSS.thumbPrecise]: isPrecise,
           [CSS.thumbMinValue]: isMinThumb,
           [CSS.thumbVertical]: this.layout === "vertical",
-          [CSS.thumbVerticalReversed]: this.layout === "vertical" && this.flipLabels,
+          [CSS.thumbVerticalReversed]:
+            this.layout === "vertical" && this.flipLabels && this.mirrored,
+          [CSS.mirrored]: this.mirrored,
         }}
         data-value-prop={valueProp}
         key={type}
@@ -538,8 +567,6 @@ export class Slider
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
           [CSS.tickLabelVertical]: this.layout === "vertical",
-          // [CSS.tickLabelVerticalReversed]: this.layout === "vertical" && this.flipLabels,
-          // [CSS.tickLabelHorizontalReversed]: this.layout === "horizontal" && this.flipLabels,
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
@@ -1088,15 +1115,37 @@ export class Slider
       .getBoundingClientRect();
     const rangeContainer: HTMLDivElement = this.el.shadowRoot.querySelector(".container--range");
     let offset: number;
-    if (!this.flipLabels) {
-      if (!rangeContainer && labelBounds.right - handle.left > 0) {
-        offset = -(labelBounds.right - handle.left) - 8;
+    if (this.flipLabels) {
+      if (rangeContainer) {
+        if (!this.precise || (name === "minValue" && this.precise)) {
+          offset = -(labelBounds.right - handle.left);
+        }
+        if (!this.precise || (name === "value" && this.precise)) {
+          offset = handle.right - labelBounds.left + 12;
+        }
+      } else {
+        if (labelBounds.right < handle.right) {
+          offset = handle.right - labelBounds.right + 12;
+        }
       }
-      if (rangeContainer && (!this.precise || (name === "value" && this.precise))) {
-        offset = -(labelBounds.right - handle.left);
+    } else {
+      if (rangeContainer) {
+        if (!this.precise || (name === "value" && this.precise && !this.mirrored)) {
+          offset = -(labelBounds.right - handle.left);
+        }
+        if (this.precise && this.mirrored) {
+          if (name === "value") {
+            offset = handle.right - labelBounds.left + 12;
+          }
+          if (name === "minValue") {
+            offset = -(labelBounds.right - handle.left);
+          }
+        }
+      } else {
+        if (labelBounds.right > handle.left) {
+          offset = -(labelBounds.right - handle.left) - 8;
+        }
       }
-    } else if (this.flipLabels && labelBounds.right < handle.right) {
-      offset = handle.right - labelBounds.right + 12;
     }
     label.style.transform = `rotate(90deg) translateX(${offset}px)`;
   }
