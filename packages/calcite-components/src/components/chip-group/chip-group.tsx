@@ -12,8 +12,6 @@ import {
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -103,12 +101,7 @@ export class ChipGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
-    disconnectInteractive(this);
     updateHostInteraction(this);
   }
 

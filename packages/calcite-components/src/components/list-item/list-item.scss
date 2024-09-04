@@ -152,8 +152,9 @@ td:focus {
 }
 
 .selection-container {
-  @apply flex px-3 py-0;
+  @apply flex py-0;
   color: theme("borderColor.color.input");
+  padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xxs);
 }
 
 .selection-container--single {
