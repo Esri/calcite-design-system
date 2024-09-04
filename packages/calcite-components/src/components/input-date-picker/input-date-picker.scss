@@ -1,6 +1,6 @@
 :host {
   @extend %component-spacing;
-  @include floatingUIElemAnim(".menu-container");
+  @include floating-ui-elem-anim(".menu-container");
   @apply relative
     inline-block
     w-full
