@@ -68,6 +68,13 @@
         "message": "Name should be kebab-cased.",
         "severity": "error"
       }
+    ],
+    "scss/function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["get-trailing-text-input-padding", "scale-duration", "theme", "var"],
+        "severity": "error"
+      }
     ]
   }
 }
