@@ -1884,13 +1884,13 @@ describe("calcite-input-number", () => {
         ></calcite-input-number>
       `,
       {
-        "--calcite-input-number-prefix-width": {
+        "--calcite-input-prefix-size": {
           shadowSelector: `.${CSS.prefix}`,
-          targetProp: "width",
+          targetProp: "inlineSize",
         },
-        "--calcite-input-number-suffix-width": {
+        "--calcite-input-suffix-size": {
           shadowSelector: `.${CSS.suffix}`,
-          targetProp: "width",
+          targetProp: "inlineSize",
         },
       },
     );

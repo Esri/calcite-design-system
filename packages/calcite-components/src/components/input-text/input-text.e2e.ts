@@ -514,13 +514,13 @@ describe("calcite-input-text", () => {
         ></calcite-input-text>
       `,
       {
-        "--calcite-input-text-prefix-width": {
+        "--calcite-input-prefix-size": {
           shadowSelector: `.${CSS.prefix}`,
-          targetProp: "width",
+          targetProp: "inlineSize",
         },
-        "--calcite-input-text-suffix-width": {
+        "--calcite-input-suffix-size": {
           shadowSelector: `.${CSS.suffix}`,
-          targetProp: "width",
+          targetProp: "inlineSize",
         },
       },
     );

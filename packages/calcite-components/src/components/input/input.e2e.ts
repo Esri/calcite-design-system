@@ -2116,13 +2116,13 @@ describe("calcite-input", () => {
     themed(
       html` <calcite-input placeholder="Placeholder text" prefix-text="prefix" suffix-text="suffix"></calcite-input> `,
       {
-        "--calcite-input-prefix-width": {
+        "--calcite-input-prefix-size": {
           shadowSelector: `.${CSS.prefix}`,
-          targetProp: "width",
+          targetProp: "inlineSize",
         },
-        "--calcite-input-suffix-width": {
+        "--calcite-input-suffix-size": {
           shadowSelector: `.${CSS.suffix}`,
-          targetProp: "width",
+          targetProp: "inlineSize",
         },
       },
     );
