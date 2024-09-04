@@ -12,12 +12,7 @@ import {
   Watch,
 } from "@stencil/core";
 import Sortable from "sortablejs";
-import {
-  connectInteractive,
-  disconnectInteractive,
-  InteractiveComponent,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
@@ -246,7 +241,6 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     initialize.call(this);
@@ -269,7 +263,6 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectSortableComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);

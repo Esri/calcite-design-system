@@ -44,7 +44,15 @@ describe("calcite-radio-button", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-radio-button");
+    disabled("calcite-radio-button", {
+      focusTarget: {
+        tab: "calcite-radio-button",
+        click: {
+          pointer: "calcite-radio-button",
+          method: "calcite-radio-button",
+        },
+      },
+    });
   });
 
   it("focusing skips over hidden radio-buttons", async () => {

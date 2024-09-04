@@ -3,7 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-ui-icon-color: The component's color. Defaults to `currentColor`.
+ * @prop --calcite-ui-icon-color: [Deprecated] Use --calcite-icon-color. Specifies the component's color. Defaults to `currentColor`.
+ * @prop --calcite-icon-color: Specifies the component's color. Defaults to `currentColor`.
  */
 
 :host {

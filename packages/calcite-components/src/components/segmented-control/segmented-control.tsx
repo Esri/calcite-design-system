@@ -21,8 +21,6 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -180,7 +178,6 @@ export class SegmentedControl
   }
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
@@ -189,7 +186,6 @@ export class SegmentedControl
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.unobserve(this.el);

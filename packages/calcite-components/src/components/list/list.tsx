@@ -15,8 +15,6 @@ import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -413,7 +411,6 @@ export class List
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
-    connectInteractive(this);
     this.setParentList();
   }
 
@@ -433,7 +430,6 @@ export class List
   disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -848,7 +844,7 @@ export class List
     }));
   };
 
-  private updateListItems = debounce((emit = false): void => {
+  private updateListItems = debounce((emitFilterChange = false): void => {
     const { selectionAppearance, selectionMode, dragEnabled, el } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -874,11 +870,11 @@ export class List
       }
     }
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.updateFilteredItems(emit);
+    this.updateFilteredItems(emitFilterChange);
     this.borderItems();
     this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
-    this.updateSelectedItems(emit);
+    this.updateSelectedItems();
     this.setUpSorting();
   }, debounceTimeout);
 

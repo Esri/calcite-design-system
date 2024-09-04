@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { Writable } from "type-fest";
 import { IconNameOrString, Status } from "../components";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
@@ -597,7 +597,7 @@ interface HiddenFormInputSlotProps {
  */
 export const HiddenFormInputSlot: FunctionalComponent<HiddenFormInputSlotProps> = ({
   component,
-}) => {
+}): VNode => {
   syncHiddenFormInput(component);
 
   return <slot name={hiddenFormInputSlotName} />;
