@@ -57,18 +57,7 @@ module.exports = async ({ github, context }) => {
     });
 
     // Remove "needs triage" label
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: "needs triage",
-      });
-    } catch (error) {
-      if (error.status === 404) {
-        console.log(`The label "needs triage" is not present on issue #${number}.`);
-      } else {
-        throw error;
-      }
-    }
+    await removeLabel({ github, context, label: planning.needsTriage });
 
     // Add a comment to notify the project manager(s)
     await github.rest.issues.createComment({
