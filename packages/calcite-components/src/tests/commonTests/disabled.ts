@@ -1,8 +1,9 @@
 import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
+import { SetFieldType } from "type-fest";
 import { IntrinsicElementsWithProp, skipAnimations } from "./../utils";
 import { getTagAndPage } from "./utils";
-import { ComponentTestSetup, DisabledOptions, FocusTarget } from "./interfaces";
+import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -40,9 +41,9 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     });
   };
 
-  async function expectToBeFocused(page: E2EPage, tag: string): Promise<void> {
+  async function expectToBeFocused(page: E2EPage, tag: string, context: string): Promise<void> {
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
-    expect(focusedTag).toBe(tag);
+    expect(`${context}:${focusedTag}`).toBe(`${context}:${tag}`);
   }
 
   function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
@@ -70,18 +71,40 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
   }
 
+  type EffectiveTabAndClickFocusTargets = SetFieldType<
+    TabAndClickFocusTargets,
+    "click",
+    Exclude<TabAndClickFocusTargets["click"], string>
+  >;
+
   const getTabAndClickFocusTarget = async (
     page: E2EPage,
     tag: string,
     focusTarget: DisabledOptions["focusTarget"],
-  ): Promise<string[]> => {
+  ): Promise<EffectiveTabAndClickFocusTargets> => {
+    const defaultClickMethodTarget = "body";
+
     if (typeof focusTarget === "object") {
-      return [focusTarget.tab, focusTarget.click];
+      return typeof focusTarget.click === "string"
+        ? {
+            tab: focusTarget.tab,
+            click: {
+              pointer: focusTarget.click,
+              method: defaultClickMethodTarget,
+            },
+          }
+        : (focusTarget as EffectiveTabAndClickFocusTargets);
     }
 
     const sameClickAndTabFocusTarget = await getFocusTarget(page, tag, focusTarget);
 
-    return [sameClickAndTabFocusTarget, sameClickAndTabFocusTarget];
+    return {
+      tab: sameClickAndTabFocusTarget,
+      click: {
+        pointer: sameClickAndTabFocusTarget,
+        method: defaultClickMethodTarget,
+      },
+    };
   };
 
   const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
@@ -103,6 +126,12 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
+    // setting page size seems to improve consistency between local and CI runs, see https://github.com/Esri/calcite-design-system/pull/10141/ for more info
+    await page.setViewport({
+      width: 1200,
+      height: 800,
+    });
+
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
     expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBeNull();
@@ -110,7 +139,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     if (options.focusTarget === "none") {
       await page.click(tag);
       await page.waitForChanges();
-      await expectToBeFocused(page, "body");
+      await expectToBeFocused(page, "body", "none+click");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
@@ -121,11 +150,11 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
       await page.click(tag);
       await page.waitForChanges();
-      await expectToBeFocused(page, "body");
+      await expectToBeFocused(page, "body", "none+disabled+click");
 
       await component.callMethod("click");
       await page.waitForChanges();
-      await expectToBeFocused(page, "body");
+      await expectToBeFocused(page, "body", "none+disabled+click()");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => {
         expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
@@ -136,31 +165,36 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     await page.keyboard.press("Tab");
 
-    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
+    const effectiveFocusTarget = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
 
-    expect(tabFocusTarget).not.toBe("body");
-    await expectToBeFocused(page, tabFocusTarget);
+    expect(effectiveFocusTarget.tab).not.toBe("body");
+    await expectToBeFocused(page, effectiveFocusTarget.tab, "tab");
 
     const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
       page,
-      tabFocusTarget,
+      effectiveFocusTarget.tab,
     );
 
     async function resetFocusOrder(): Promise<void> {
       // test page has default margin, so clicking on 0,0 will not hit the test element
+      await page.mouse.click(0, 0, { delay: 100 }); // we need an extra click in case a component has focusing-on-blur behavior
       await page.mouse.click(0, 0);
     }
 
     await resetFocusOrder();
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "pre-click reset");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
-    await expectToBeFocused(page, clickFocusTarget);
+
+    await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
+
+    await resetFocusOrder();
+    await expectToBeFocused(page, "body", "pre-click() reset");
 
     await component.callMethod("click");
     await page.waitForChanges();
-    await expectToBeFocused(page, clickFocusTarget);
+    await expectToBeFocused(page, effectiveFocusTarget.click.method, "click()");
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
@@ -178,11 +212,16 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
+    await expectToBeFocused(page, "body", "disabled+pre-tab reset");
+
     await page.keyboard.press("Tab");
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "disabled+tab");
+
+    await resetFocusOrder();
+    await expectToBeFocused(page, "body", "disabled+pre-click reset");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-    await expectToBeFocused(page, "body");
+    await expectToBeFocused(page, "body", "disabled+click");
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
