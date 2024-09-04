@@ -44,6 +44,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **card:** component tokens ([#10161](https://github.com/Esri/calcite-design-system/issues/10161)) ([08578a3](https://github.com/Esri/calcite-design-system/commit/08578a397a11ea6820b35dd3ddde8e07ce2b264f)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
 
+## [2.12.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0...@esri/calcite-components@2.12.1) (2024-09-04)
+
+### Bug Fixes
+
+- **loader:** Restore animation ([#10184](https://github.com/Esri/calcite-design-system/issues/10184)) ([52081ca](https://github.com/Esri/calcite-design-system/commit/52081ca94b4527f1d0c557ae61f2bcdf28e4bed4))
+- **panel:** Tweak focusable content area ([#10141](https://github.com/Esri/calcite-design-system/issues/10141)) ([fa18b70](https://github.com/Esri/calcite-design-system/commit/fa18b70aa00b4c3c04ae17883dec62cb8b24093c))
+
 ## [2.12.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.1...@esri/calcite-components@2.12.0) (2024-08-28)
 
 ### Features
