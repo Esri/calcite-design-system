@@ -47,20 +47,23 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                                 | Description                                                                       |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------- |
-| `--calcite-card-accent-color-selected`               | Specifies the accent color of the component when `selected`.                      |
-| `--calcite-card-background-color`                    | Specifies the background color of the component.                                  |
-| `--calcite-card-border-color`                        | Specifies the border color of the component.                                      |
-| `--calcite-card-corner-radius`                       | Specifies the corner radius of the component.                                     |
-| `--calcite-card-selection-background-color`          | Specifies the background color of the component's selection element.              |
-| `--calcite-card-selection-background-color-active`   | Specifies the background color of the component's selection element when active.  |
-| `--calcite-card-selection-background-color-hover`    | Specifies the background color of the component's selection element when hovered. |
-| `--calcite-card-selection-background-color-selected` | Specifies the icon color of the component's selection element when `selected`.    |
-| `--calcite-card-selection-icon-color`                | Specifies the icon color of the component's selection element.                    |
-| `--calcite-card-selection-icon-color-hover`          | Specifies the icon color of the component's selection element when hovered.       |
-| `--calcite-card-selection-icon-color-selected`       | Specifies the icon color of the component's selection element when `selected`.    |
-| `--calcite-card-shadow`                              | Specifies the shadow of the component.                                            |
+| Name                                                 | Description                                                                                                                                        |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--calcite-card-accent-color-selected`               | Specifies the accent color of the component when `selected`.                                                                                       |
+| `--calcite-card-background-color`                    | Specifies the background color of the component.                                                                                                   |
+| `--calcite-card-border-color`                        | Specifies the border color of the component.                                                                                                       |
+| `--calcite-card-corner-radius`                       | Specifies the corner radius of the component.                                                                                                      |
+| `--calcite-card-selection-background-color`          | [Deprecated] Use --calcite-card-background-color. Specifies the background color of the component's selection element.                             |
+| `--calcite-card-selection-background-color-active`   | [Deprecated] Use --calcite-card-selection-background-color-press. Specifies the background color of the component's selection element when active. |
+| `--calcite-card-selection-background-color-hover`    | Specifies the background color of the component's selection element when hovered.                                                                  |
+| `--calcite-card-selection-background-color-press`    | Specifies the background color of the component's selection element when active.                                                                   |
+| `--calcite-card-selection-background-color-selected` | [Deprecated] Use --calcite-card-background-color. Specifies the icon color of the component's selection element when `selected`.                   |
+| `--calcite-card-selection-color`                     | Specifies the color of the component's selection element.                                                                                          |
+| `--calcite-card-selection-color-hover`               | Specifies the color of the component's selection element when hovered or focused.                                                                  |
+| `--calcite-card-selection-icon-color`                | [Deprecated] Use --calcite-card-selection-color. Specifies the icon color of the component's selection element.                                    |
+| `--calcite-card-selection-icon-color-hover`          | [Deprecated] Use --calcite-card-selection-color-hover. Specifies the icon color of the component's selection element when hovered.                 |
+| `--calcite-card-selection-icon-color-selected`       | [Deprecated] Use --calcite-card-accent-color-selected. Specifies the icon color of the component's selection element when `selected`.              |
+| `--calcite-card-shadow`                              | Specifies the shadow of the component.                                                                                                             |
 
 ## Dependencies
 
