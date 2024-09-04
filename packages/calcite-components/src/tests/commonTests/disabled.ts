@@ -177,6 +177,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     async function resetFocusOrder(): Promise<void> {
       // test page has default margin, so clicking on 0,0 will not hit the test element
+      await page.mouse.click(0, 0, { delay: 100 }); // we need an extra click in case a component has focusing-on-blur behavior
       await page.mouse.click(0, 0);
     }
 
