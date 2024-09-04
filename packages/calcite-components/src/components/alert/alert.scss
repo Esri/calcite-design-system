@@ -4,6 +4,10 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-alert-width: Specifies the width of the component.
+ * @prop --calcite-alert-background-color: Specifies the component's background color.
+ * @prop --calcite-alert-background-color-hover: Specifies the component's background color when hovered or focused.
+ * @prop --calcite-alert-text-color: Specifies the component's text color.
+ * @prop --calcite-alert-text-color-hover: Specifies the component's text color when hovered.
  */
 
 $border-style: 1px solid var(--calcite-color-border-3);
