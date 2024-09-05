@@ -48,8 +48,8 @@
       stroke-current
       stroke-1
       transition-default;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
-    color: theme("backgroundColor.background");
+    box-shadow: inset 0 0 0 1px var(--calcite-checkbox-box-shadow, var(--calcite-color-border-input));
+    color: var(--calcite-checkbox-color, theme("backgroundColor.background"));
   }
 }
 
@@ -72,7 +72,7 @@
 :host([hovered]) .toggle,
 :host .toggle:hover {
   .check-svg {
-    box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
+    box-shadow: inset 0 0 0 2px var(--calcite-checkbox-box-shadow-hover, var(--calcite-color-brand));
   }
 }
 
