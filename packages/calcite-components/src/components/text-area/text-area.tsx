@@ -45,8 +45,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -273,7 +271,6 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     connectLocalized(this);
@@ -295,7 +292,6 @@ export class TextArea
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);

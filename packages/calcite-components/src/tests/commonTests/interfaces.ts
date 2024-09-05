@@ -28,9 +28,17 @@ export type ComponentTestContent = TagOrHTML | TagAndPage;
 export type ComponentTestSetupProvider = (() => ComponentTestContent) | (() => Promise<ComponentTestContent>);
 export type ComponentTestSetup = ComponentTestContent | ComponentTestSetupProvider;
 
-interface TabAndClickTargets {
+/**
+ * This interface is used to specify focus targets for different interactions.
+ */
+export interface TabAndClickFocusTargets {
   tab: string;
-  click: string;
+  click:
+    | string
+    | {
+        pointer: string;
+        method: string;
+      };
 }
 
 export type FocusTarget = "host" | "child" | "none";
@@ -39,7 +47,7 @@ export interface DisabledOptions {
   /**
    *  Use this to specify whether the test should cover focusing.
    */
-  focusTarget?: FocusTarget | TabAndClickTargets;
+  focusTarget?: FocusTarget | TabAndClickFocusTargets;
 
   /**
    *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.

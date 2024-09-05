@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { JSXAttributes } from "@stencil/core/internal";
 import { FloatingLayout } from "../../utils/floating-ui";
 
@@ -33,7 +33,7 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
   floatingLayout,
   key,
   ref,
-}) => {
+}): VNode => {
   const { width, height, strokeWidth } = DEFAULTS;
   const svgX = width / 2;
   const isVertical = floatingLayout === "vertical";
