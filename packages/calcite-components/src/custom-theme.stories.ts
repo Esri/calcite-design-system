@@ -13,7 +13,7 @@ import {
 import { accordion } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
-import { checkbox } from "./custom-theme/checkbox";
+import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
@@ -119,6 +119,7 @@ export default {
     ...actionPadTokens,
     ...actionGroupTokens,
     ...cardTokens,
+    ...checkboxTokens,
   },
 };
 
@@ -135,6 +136,7 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...actionGroupTokens,
       ...cardTokens,
+      ...checkboxTokens,
     },
     true,
   );
