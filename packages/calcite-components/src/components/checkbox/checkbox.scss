@@ -4,16 +4,31 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-checkbox-size: Specifies the component's height and width.
+ * @prop --calcite-checkbox-box-shadow: Specifies the component's svg box color.
+ * @prop --calcite-checkbox-box-shadow-hover: Specifies the component's svg box color when hovered.
+ * @prop --calcite-checkbox-color: Specifies the component's svg font color.
  */
 
 :host([scale="s"]) {
-  --calcite-checkbox-size: theme("spacing.3");
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size, theme("spacing.3"));
+    block-size: var(--calcite-checkbox-size, theme("spacing.3"));
+  }
 }
 :host([scale="m"]) {
-  --calcite-checkbox-size: theme("fontSize.n1");
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size, theme("fontSize.n1"));
+    block-size: var(--calcite-checkbox-size, theme("fontSize.n1"));
+  }
 }
 :host([scale="l"]) {
-  --calcite-checkbox-size: theme("spacing.4");
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size, theme("spacing.4"));
+    block-size: var(--calcite-checkbox-size, theme("spacing.4"));
+  }
 }
 
 :host {
@@ -22,12 +37,6 @@
     cursor-pointer
     select-none;
   -webkit-tap-highlight-color: transparent;
-
-  .check-svg,
-  .toggle {
-    inline-size: var(--calcite-checkbox-size);
-    block-size: var(--calcite-checkbox-size);
-  }
 
   .check-svg {
     @apply bg-foreground-1
