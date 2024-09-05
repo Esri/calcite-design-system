@@ -20,6 +20,7 @@ export const CSS = {
   thumbValue: "thumb--value",
   thumbVertical: "thumb--vertical",
   thumbVerticalReversed: "thumb--vertical-reversed",
+  thumbHorizontalReversed: "thumb--horizontal-reversed",
   mirrored: "mirrored",
   tick: "tick",
   tickActive: "tick--active",

@@ -272,7 +272,7 @@ export class Slider
         }
       }
     }
-    if (this.flipLabels) {
+    if (this.layout === "vertical" && this.flipLabels) {
       this.flipTickLabels();
     }
     this.hideObscuredBoundingTickLabels();
@@ -518,6 +518,7 @@ export class Slider
           [CSS.thumbVerticalReversed]:
             this.layout === "vertical" && this.flipLabels && this.mirrored,
           [CSS.mirrored]: this.mirrored,
+          [CSS.thumbHorizontalReversed]: this.layout === "horizontal" && this.flipLabels,
         }}
         data-value-prop={valueProp}
         key={type}
@@ -567,6 +568,7 @@ export class Slider
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
           [CSS.tickLabelVertical]: this.layout === "vertical",
+          [CSS.tickLabelHorizontalReversed]: this.layout === "horizontal" && this.flipLabels,
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}

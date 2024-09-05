@@ -184,7 +184,7 @@
       }
     }
     .scale--l {
-      .thumb:not(.thumb--precise):not(.thumb--vertical) {
+      .thumb:not(.thumb--precise):not(.thumb--vertical):not(.thumb--horizontal-reversed) {
         --calcite-slider-thumb-y-offset: -2rem;
       }
     }
@@ -227,7 +227,8 @@
     &.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
       --calcite-slider-thumb-y-offset: -0.0625rem;
     }
-    &.thumb--vertical.thumb--vertical-reversed.mirrored {
+    &.thumb--vertical.thumb--vertical-reversed.mirrored,
+    &.thumb--horizontal-reversed {
       --calcite-slider-thumb-y-offset: -0.125rem;
     }
   }
@@ -318,6 +319,10 @@
     mt-3.5
     flex
     justify-center;
+
+  &.tick__label--horizontal-reversed {
+    margin-block-start: -1.3rem;
+  }
 }
 
 .tick__label--min {
