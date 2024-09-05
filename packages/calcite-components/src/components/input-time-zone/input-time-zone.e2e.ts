@@ -8,6 +8,7 @@ import {
   formAssociated,
   hidden,
   labelable,
+  openClose,
   reflects,
   renders,
   t9n,
@@ -126,6 +127,14 @@ describe("calcite-input-time-zone", () => {
 
   describe("t9n", () => {
     t9n(simpleTestProvider);
+  });
+
+  describe("openClose", () => {
+    openClose(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`);
+
+    describe.skip("initially open", () => {
+      openClose(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`, { initialToggleValue: true });
+    });
   });
 
   describe("mode", () => {

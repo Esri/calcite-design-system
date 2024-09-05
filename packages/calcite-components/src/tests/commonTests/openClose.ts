@@ -1,8 +1,8 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../utils";
-import { getTag, simplePageSetup } from "./utils";
-import { TagOrHTML } from "./interfaces";
+import { getTag, getTagAndPage } from "./utils";
+import { ComponentTag, TagOrHTML } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -87,20 +87,19 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   const customizedOptions = { ...defaultOptions, ...options };
 
   type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
-  const eventSequence = setUpEventSequence(componentTagOrHTML);
+  const tag = getTag(componentTagOrHTML);
+  const eventSequence = setUpEventSequence(tag);
 
-  function setUpEventSequence(componentTagOrHTML: TagOrHTML): string[] {
-    const tag = getTag(componentTagOrHTML);
-
-    const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
+  function setUpEventSequence(componentTag: ComponentTag): string[] {
+    const camelCaseTag = componentTag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
     const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
 
     return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
   }
 
-  async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
+  async function setUpPage(componentTag: ComponentTag, page: E2EPage): Promise<void> {
     await page.evaluate(
-      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
+      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTag: string) => {
         const receivedEvents: string[] = [];
 
         (window as EventOrderWindow).events = receivedEvents;
@@ -113,7 +112,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
           return;
         }
 
-        const component = document.createElement(componentTagOrHTML);
+        const component = document.createElement(componentTag);
         component[openPropName] = true;
 
         document.body.append(component);
@@ -121,7 +120,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       eventSequence,
       customizedOptions.initialToggleValue,
       customizedOptions.openPropName,
-      componentTagOrHTML,
+      componentTag,
     );
   }
 
@@ -138,12 +137,11 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   }
 
   async function testOpenCloseEvents(
-    componentTagOrHTML: TagOrHTML,
+    componentTag: ComponentTag,
     page: E2EPage,
     animationsEnabled = true,
   ): Promise<void> {
-    const tag = getTag(componentTagOrHTML);
-    const element = await page.find(tag);
+    const element = await page.find(componentTag);
 
     const timestamps: Record<OpenCloseName, number> = {
       beforeOpen: undefined,
@@ -214,8 +212,8 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 2; }`,
       });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
+      await setUpPage(tag, page);
+      await testOpenCloseEvents(tag, page, !customizedOptions.willUseFallback);
     });
 
     it("emits on initialization with animations disabled", async () => {
@@ -223,26 +221,26 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 0; }`,
       });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, false);
+      await setUpPage(tag, page);
+      await testOpenCloseEvents(tag, page, false);
     });
   } else {
     it(`emits with animations enabled`, async () => {
-      const page = await simplePageSetup(componentTagOrHTML);
+      const { page, tag } = await getTagAndPage(componentTagOrHTML);
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 2; }`,
       });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
+      await setUpPage(tag, page);
+      await testOpenCloseEvents(tag, page, !customizedOptions.willUseFallback);
     });
 
     it(`emits with animations disabled`, async () => {
-      const page = await simplePageSetup(componentTagOrHTML);
+      const { page, tag } = await getTagAndPage(componentTagOrHTML);
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 0; }`,
       });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, false);
+      await setUpPage(tag, page);
+      await testOpenCloseEvents(tag, page, false);
     });
   }
 }
