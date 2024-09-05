@@ -628,71 +628,21 @@ export class InputTimePicker
     localizedTimeString: string,
     fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
-    let defaultHourCycleParseResult;
-    let oppositeHourCycleParseResult;
-    const defaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
-    const oppositeHourCycle = getLocaleOppositeHourCycle(this.effectiveLocale);
-
-    if (isLocaleHourCycleOpposite(this.hourCycle, this.effectiveLocale)) {
-      this.setLocaleTimeFormat({
-        fractionalSecondFormatToken,
-        hourCycle: oppositeHourCycle,
-      });
-
-      oppositeHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
-      if (oppositeHourCycleParseResult.isValid()) {
-        return {
-          hour: oppositeHourCycleParseResult.get("hour"),
-          minute: oppositeHourCycleParseResult.get("minute"),
-          second: oppositeHourCycleParseResult.get("second"),
-          millisecond: oppositeHourCycleParseResult.get("millisecond"),
-        };
-      }
-
-      this.setLocaleTimeFormat({
-        fractionalSecondFormatToken,
-        hourCycle: defaultHourCycle,
-      });
-
-      defaultHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
-      if (defaultHourCycleParseResult.isValid()) {
-        return {
-          hour: defaultHourCycleParseResult.get("hour"),
-          minute: defaultHourCycleParseResult.get("minute"),
-          second: defaultHourCycleParseResult.get("second"),
-          millisecond: defaultHourCycleParseResult.get("millisecond"),
-        };
-      }
-    } else {
-      this.setLocaleTimeFormat({
-        fractionalSecondFormatToken,
-        hourCycle: defaultHourCycle,
-      });
-
-      defaultHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
-      if (defaultHourCycleParseResult.isValid()) {
-        return {
-          hour: defaultHourCycleParseResult.get("hour"),
-          minute: defaultHourCycleParseResult.get("minute"),
-          second: defaultHourCycleParseResult.get("second"),
-          millisecond: defaultHourCycleParseResult.get("millisecond"),
-        };
-      }
-
-      this.setLocaleTimeFormat({
-        fractionalSecondFormatToken,
-        hourCycle: oppositeHourCycle,
-      });
-
-      oppositeHourCycleParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
-      if (oppositeHourCycleParseResult.isValid()) {
-        return {
-          hour: oppositeHourCycleParseResult.get("hour"),
-          minute: oppositeHourCycleParseResult.get("minute"),
-          second: oppositeHourCycleParseResult.get("second"),
-          millisecond: oppositeHourCycleParseResult.get("millisecond"),
-        };
-      }
+    const hourCycle = isLocaleHourCycleOpposite(this.hourCycle, this.effectiveLocale)
+      ? getLocaleOppositeHourCycle(this.effectiveLocale)
+      : getLocaleHourCycle(this.effectiveLocale);
+    this.setLocaleTimeFormat({
+      fractionalSecondFormatToken,
+      hourCycle,
+    });
+    const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
+    if (dayjsParseResult.isValid()) {
+      return {
+        hour: dayjsParseResult.get("hour"),
+        minute: dayjsParseResult.get("minute"),
+        second: dayjsParseResult.get("second"),
+        millisecond: dayjsParseResult.get("millisecond"),
+      };
     }
     return {
       hour: null,
