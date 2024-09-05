@@ -345,6 +345,33 @@ describe("calcite-flow", () => {
       `);
     });
 
+    it("should stop propagation of calciteFlowItemBack", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        html`<calcite-flow id="outer-flow"
+          ><calcite-flow-item id="outer-flow-item">
+            <calcite-flow id="inner-flow">
+              <calcite-flow-item id="inner-flow-item"></calcite-flow-item>
+              <calcite-flow-item id="inner-flow-item2"></calcite-flow-item>
+            </calcite-flow> </calcite-flow-item
+        ></calcite-flow>`,
+      );
+
+      const outerFlow = await page.find("#outer-flow");
+      const innerFlow = await page.find("#inner-flow");
+
+      const outerEventSpy = await outerFlow.spyOnEvent("calciteFlowItemBack");
+      const innerEventSpy = await innerFlow.spyOnEvent("calciteFlowItemBack");
+
+      const backButton = await page.find(`#inner-flow-item2 >>> .${ITEM_CSS.backButton}`);
+      await backButton.click();
+      await page.waitForChanges();
+
+      expect(innerEventSpy).toHaveReceivedEvent();
+      expect(outerEventSpy).not.toHaveReceivedEvent();
+    });
+
     it("should also work with descendant slotted items", async () => {
       const page = await newE2EPage();
 
