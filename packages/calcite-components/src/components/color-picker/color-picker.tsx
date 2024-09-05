@@ -21,8 +21,6 @@ import {
 } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -774,7 +772,6 @@ export class ColorPicker
   }
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -786,7 +783,6 @@ export class ColorPicker
   disconnectedCallback(): void {
     window.removeEventListener("pointermove", this.globalPointerMoveHandler);
     window.removeEventListener("pointerup", this.globalPointerUpHandler);
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }

@@ -21,9 +21,7 @@ import {
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
   updateHostInteraction,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
 } from "../../utils/interactive";
@@ -140,7 +138,6 @@ export class Carousel
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -154,7 +151,6 @@ export class Carousel
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.clearIntervals();

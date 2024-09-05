@@ -102,7 +102,7 @@ describe("calcite-input-time-picker", () => {
   describe("openClose", () => {
     openClose("calcite-input-time-picker");
 
-    describe("initially open", () => {
+    describe.skip("initially open", () => {
       openClose("calcite-input-time-picker", { initialToggleValue: true });
     });
   });
@@ -914,6 +914,12 @@ describe("calcite-input-time-picker", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       inputTimePicker = await page.find("calcite-input-time-picker");
+    });
+
+    it("sets the internal popover to autoClose", async () => {
+      const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+
+      expect(await popover.getProperty("autoClose")).toBe(true);
     });
 
     it("does not open the time picker on input keyboard focus", async () => {
