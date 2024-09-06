@@ -126,12 +126,6 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
-    // setting page size seems to improve consistency between local and CI runs, see https://github.com/Esri/calcite-design-system/pull/10141/ for more info
-    await page.setViewport({
-      width: 1200,
-      height: 800,
-    });
-
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
     expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBeNull();
