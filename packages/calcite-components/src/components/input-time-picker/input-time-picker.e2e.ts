@@ -621,10 +621,10 @@ describe("calcite-input-time-picker", () => {
 
               expect(changeEvent).toHaveReceivedEventTimes(1);
             });
-            it("allows typing in 24-hour format when hour-cycle is 24", async () => {
+            it("allows typing in 24-hour format when hour-format is 24", async () => {
               const page = await newE2EPage();
               await page.setContent(
-                `<calcite-input-time-picker hour-cycle="24" lang="${locale}" step="1"></calcite-input-time-picker>`,
+                `<calcite-input-time-picker hour-format="24" lang="${locale}" step="1"></calcite-input-time-picker>`,
               );
 
               const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -662,10 +662,10 @@ describe("calcite-input-time-picker", () => {
             });
           });
           describe("when blurred", () => {
-            it("allows typing in 24-hour format when hour-cycle is 24", async () => {
+            it("allows typing in 24-hour format when hour-format is 24", async () => {
               const page = await newE2EPage();
               await page.setContent(
-                `<calcite-input-time-picker hour-cycle="24" lang="${locale}" step="1"></calcite-input-time-picker><input>`,
+                `<calcite-input-time-picker hour-format="24" lang="${locale}" step="1"></calcite-input-time-picker><input>`,
               );
 
               const inputTimePicker = await page.find("calcite-input-time-picker");
