@@ -25,7 +25,9 @@ export type TagOrHTMLWithBeforeContent = {
 };
 
 export type ComponentTestContent = TagOrHTML | TagAndPage;
-export type ComponentTestSetupProvider = (() => ComponentTestContent) | (() => Promise<ComponentTestContent>);
+export type ComponentTestSetupProvider =
+  | ((programmaticE2EPage?: E2EPage) => ComponentTestContent)
+  | ((programmaticE2EPage?: E2EPage) => Promise<ComponentTestContent>);
 export type ComponentTestSetup = ComponentTestContent | ComponentTestSetupProvider;
 
 /**

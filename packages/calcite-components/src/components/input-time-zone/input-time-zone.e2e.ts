@@ -40,10 +40,12 @@ describe("calcite-input-time-zone", () => {
     { name: "Pacific/Galapagos", offset: -360, label: "GMT-6" },
   ];
 
-  async function simpleTestProvider(): Promise<TagAndPage> {
-    const page = await newE2EPage();
+  async function simpleTestProvider(programmaticE2EPage: E2EPage): Promise<TagAndPage> {
+    const page = programmaticE2EPage || (await newE2EPage());
     await page.emulateTimezone(testTimeZoneItems[0].name);
-    await page.setContent(overrideSupportedTimeZones(html`<calcite-input-time-zone></calcite-input-time-zone>`));
+    await page.setContent(
+      overrideSupportedTimeZones(programmaticE2EPage ? "" : html`<calcite-input-time-zone></calcite-input-time-zone>`),
+    );
 
     return {
       page,
@@ -130,10 +132,10 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe("openClose", () => {
-    openClose(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`);
+    openClose(simpleTestProvider);
 
     describe.skip("initially open", () => {
-      openClose(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`, { initialToggleValue: true });
+      openClose(simpleTestProvider, { initialToggleValue: true });
     });
   });
 
@@ -163,7 +165,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneItems[0].name);
         await page.setContent(
-          await overrideSupportedTimeZones(
+          overrideSupportedTimeZones(
             html`<calcite-input-time-zone value="${testTimeZoneItems[1].offset}"></calcite-input-time-zone>`,
           ),
         );
@@ -181,7 +183,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneItems[0].name);
         await page.setContent(
-          await overrideSupportedTimeZones(html`<calcite-input-time-zone value="9000"></calcite-input-time-zone>`),
+          overrideSupportedTimeZones(html`<calcite-input-time-zone value="9000"></calcite-input-time-zone>`),
         );
 
         const input = await page.find("calcite-input-time-zone");

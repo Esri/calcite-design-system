@@ -1,8 +1,8 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../utils";
-import { getTag, getTagAndPage } from "./utils";
-import { ComponentTag, TagOrHTML } from "./interfaces";
+import { getTagAndPage } from "./utils";
+import { ComponentTag, ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -74,11 +74,11 @@ interface OpenCloseOptions {
  *   });
  * });
  *
- * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {object} [options] - Additional options to assert.
  */
 
-export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): void {
+export function openClose(componentTestSetup: ComponentTestSetup, options?: OpenCloseOptions): void {
   const defaultOptions: OpenCloseOptions = {
     initialToggleValue: false,
     openPropName: "open",
@@ -87,10 +87,8 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   const customizedOptions = { ...defaultOptions, ...options };
 
   type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
-  const tag = getTag(componentTagOrHTML);
-  const eventSequence = setUpEventSequence(tag);
 
-  function setUpEventSequence(componentTag: ComponentTag): string[] {
+  function getEventSequence(componentTag: ComponentTag): string[] {
     const camelCaseTag = componentTag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
     const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
 
@@ -117,7 +115,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 
         document.body.append(component);
       },
-      eventSequence,
+      getEventSequence(componentTag),
       customizedOptions.initialToggleValue,
       customizedOptions.openPropName,
       componentTag,
@@ -141,6 +139,8 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     page: E2EPage,
     animationsEnabled = true,
   ): Promise<void> {
+    await setUpPage(componentTag, page);
+
     const element = await page.find(componentTag);
 
     const timestamps: Record<OpenCloseName, number> = {
@@ -149,6 +149,8 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       beforeClose: undefined,
       close: undefined,
     };
+
+    const eventSequence = getEventSequence(componentTag);
 
     const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) => {
       return page.waitForEvent(event).then((spy) => {
@@ -212,7 +214,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 2; }`,
       });
-      await setUpPage(tag, page);
+      const { tag } = await getTagAndPage(componentTestSetup, page);
       await testOpenCloseEvents(tag, page, !customizedOptions.willUseFallback);
     });
 
@@ -221,25 +223,23 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 0; }`,
       });
-      await setUpPage(tag, page);
+      const { tag } = await getTagAndPage(componentTestSetup, page);
       await testOpenCloseEvents(tag, page, false);
     });
   } else {
     it(`emits with animations enabled`, async () => {
-      const { page, tag } = await getTagAndPage(componentTagOrHTML);
+      const { page, tag } = await getTagAndPage(componentTestSetup);
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 2; }`,
       });
-      await setUpPage(tag, page);
       await testOpenCloseEvents(tag, page, !customizedOptions.willUseFallback);
     });
 
     it(`emits with animations disabled`, async () => {
-      const { page, tag } = await getTagAndPage(componentTagOrHTML);
+      const { page, tag } = await getTagAndPage(componentTestSetup);
       await page.addStyleTag({
         content: `:root { --calcite-duration-factor: 0; }`,
       });
-      await setUpPage(tag, page);
       await testOpenCloseEvents(tag, page, false);
     });
   }
