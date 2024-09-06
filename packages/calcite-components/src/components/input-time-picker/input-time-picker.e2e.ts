@@ -913,6 +913,12 @@ describe("calcite-input-time-picker", () => {
       inputTimePicker = await page.find("calcite-input-time-picker");
     });
 
+    it("sets the internal popover to autoClose", async () => {
+      const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+
+      expect(await popover.getProperty("autoClose")).toBe(true);
+    });
+
     it("does not open the time picker on input keyboard focus", async () => {
       const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
