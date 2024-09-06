@@ -1707,7 +1707,7 @@ async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
   const [startMonth, endMonth] = await page.findAll(
-    "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-select",
+    "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-select.month-select",
   );
 
   if (position === "start") {

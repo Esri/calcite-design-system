@@ -58,15 +58,16 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       scale="${args.scale}"
       status="${args.status}"
       value="${args.value}"
-      min="${args.min}"
-      max="${args.max}"
       lang="${args.lang}"
       placement="${args.placement}"
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
-    ></calcite-input-date-picker
+    ></calcite-input-date-picker>
   </div>
 `;
+
+export const WithMinMax = (): string =>
+  html`<calcite-input-date-picker min="2016-08-09" max="2023-12-18"></calcite-input-date-picker>`;
 
 export const range = (): string => html`
   <div style="width: 400px">

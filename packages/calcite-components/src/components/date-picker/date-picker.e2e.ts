@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
+import { Position } from "../interfaces";
 
 describe("calcite-date-picker", () => {
   describe("renders", () => {
@@ -737,6 +738,82 @@ describe("calcite-date-picker", () => {
     );
     expect(currentDay).toBeFalsy();
   });
+
+  describe("navigating first & last valid month", () => {
+    it("should navigate to previous month from last valid month", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker value="2025-09-25" max="2025-11-11"></calcite-date-picker>`);
+
+      const [prevMonth, nextMonth] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action",
+      );
+
+      await nextMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("October");
+
+      await nextMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("November");
+
+      await prevMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("October");
+
+      await nextMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("November");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      expect(await getActiveMonth(page)).toBe("October");
+    });
+
+    it("should navigate to next month from first valid month", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker min="2024-11-11"></calcite-date-picker>`);
+
+      await setActiveDate(page, "01-01-2025");
+
+      const [prevMonth, nextMonth] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action",
+      );
+
+      await prevMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("December");
+
+      await prevMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("November");
+
+      await prevMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("November");
+
+      await nextMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("December");
+
+      await prevMonth.click();
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("November");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await getActiveMonth(page)).toBe("December");
+    });
+  });
 });
 
 async function setActiveDate(page: E2EPage, date: string): Promise<void> {
@@ -780,4 +857,15 @@ async function selectSelectedDay(page: E2EPage): Promise<void> {
 
 async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
   return await page.find(`calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`);
+}
+
+async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
+  const [startMonth, endMonth] = await page.findAll(
+    "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-select.month-select",
+  );
+
+  if (position === "start") {
+    return (await startMonth.find("calcite-option[selected]")).textContent;
+  }
+  return (await endMonth.find("calcite-option[selected]")).textContent;
 }
