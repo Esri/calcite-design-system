@@ -116,11 +116,11 @@ export const positionFloatingUI =
       placement:
         placement === "auto" || placement === "auto-start" || placement === "auto-end"
           ? undefined
-          : getEffectivePlacement(isRTL, placement),
+          : getEffectivePlacement(placement, isRTL),
       middleware: getMiddleware({
         placement,
         flipDisabled,
-        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(isRTL, placement)),
+        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(placement, isRTL)),
         offsetDistance,
         offsetSkidding,
         arrowEl,
@@ -398,7 +398,7 @@ export function filterValidFlipPlacements(placements: string[], el: HTMLElement)
   return filteredPlacements;
 }
 
-export function getEffectivePlacement(isRTL: boolean, placement: LogicalPlacement): EffectivePlacement {
+export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false): EffectivePlacement {
   const placements = ["left", "right"];
 
   if (isRTL) {
