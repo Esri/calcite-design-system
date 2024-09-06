@@ -13,6 +13,7 @@
 :host {
   @apply inline-flex
     cursor-default;
+  border-radius: var(--calcite-chip-corner-radius, 9999px);
 }
 
 /* Host Prop Variant styles */
@@ -104,31 +105,54 @@
     --calcite-internal-chip-title-space: 0.25rem /* 4px */;
     --calcite-internal-close-size: 1rem /* 16px */;
 
-    &.is-circle {
-      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
-      --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+    &:not(.closable) {
+      &.is-circle {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
+      }
     }
 
-    &.image--slotted:not(.is-circle) {
-      --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
-      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-image-space-x-end: 0.25rem /* 4px */;
-      --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+    &.image--slotted {
+      &:has(.chip-icon),
+      &.text--slotted,
+      &.closable {
+        --calcite-internal-chip-image-space-x-end: 0.25rem /* 4px */;
+      }
+      &:not(.text--slotted, :has(.chip-icon)),
+      &:not(.selectable) {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+      }
     }
 
-    &:not(.image--slotted, .is-circle) {
+    &.selectable.single:not(.is-circle) {
+      &.image--slotted {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+      }
+      &.selected {
+        --calcite-internal-chip-select-space-x-end: 0.375rem /* 6px */;
+        --calcite-internal-chip-select-space-x-start: 0;
+
+        &.image--slotted {
+          --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+          --calcite-internal-chip-select-space-x-start: 0.125rem /* 2px */;
+        }
+      }
+    }
+
+    &.multiple:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
       --calcite-internal-chip-select-space-x-end: 0.25rem /* 4px */;
       --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
-    }
 
-    &.selected.single {
-      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-select-space-x-start: 0.15rem /* 2px */;
-    }
+      &.image--slotted {
+        --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+        --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
 
-    &.multiple {
-      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
+        &:not(.text--slotted) {
+          --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
+        }
+      }
     }
   }
 }
@@ -145,34 +169,52 @@
     --calcite-internal-chip-title-space: 0.375rem /* 6px */;
     --calcite-internal-close-size: 1.5rem /* 24px */;
 
-    &.is-circle {
-      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
-      --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+    &:not(.closable) {
+      &.is-circle {
+        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+      }
     }
 
-    &.image--slotted:not(.is-circle) {
-      --calcite-internal-chip-image-space-x-end: 0.375rem /* 6px */;
-      --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
-      --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
-      --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
+    &.image--slotted {
+      &:not(.is-circle) {
+        --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
+      }
+
+      &:has(.chip-icon),
+      &.text--slotted,
+      &.closable {
+        --calcite-internal-chip-image-space-x-end: 0.375rem /* 6px */;
+      }
+    }
+
+    &.selectable.single:not(.is-circle) {
+      &.image--slotted {
+        --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
+      }
+      &.selected {
+        --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-px);
+        --calcite-internal-chip-select-space-x-start: 0;
+
+        &.image--slotted {
+          --calcite-internal-chip-select-space-x-end: 0.25rem /* 4px */;
+          --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
+        }
+      }
+    }
+
+    &.multiple:not(.is-circle) {
+      --calcite-internal-chip-select-space-x-end: 0.125rem /* 2px */;
+      --calcite-internal-chip-select-space-x-start: 0.125rem /* 2px */;
+
+      &.image--slotted {
+        --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+        --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
+      }
     }
 
     &.closable:not(.is-circle) {
       --calcite-internal-chip-container-space-x-end: 0.25rem /* 4px */;
-    }
-
-    &:not(.image--slotted, .is-circle) {
-      --calcite-internal-chip-select-space-x-end: 0.375rem /* 6px */;
-      --calcite-internal-chip-select-space-x-start: 0.375rem /* 6px */;
-    }
-
-    &.selected.single {
-      --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
-      --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
-    }
-    &.multiple {
-      --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
-      --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
     }
   }
 }
@@ -189,35 +231,53 @@
     --calcite-internal-chip-title-space: 0.5rem /* 8px */;
     --calcite-internal-close-size: 2rem /* 32px */;
 
-    &.is-circle {
-      --calcite-internal-chip-container-space-x-end: 0.25rem /* 4px */;
-      --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
+    &:not(.closable) {
+      &.is-circle {
+        --calcite-internal-chip-container-space-x-end: 0.25rem /* 4px */;
+        --calcite-internal-chip-container-space-x-start: 0.25rem /* 4px */;
+      }
     }
 
-    &.image--slotted:not(.is-circle) {
-      --calcite-internal-chip-container-space-x-start: 0.375rem /* 6px */;
-      --calcite-internal-chip-image-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-select-space-x-end: 1rem /* 16px */;
-      --calcite-internal-chip-select-space-x-start: 0.625rem /* 10px */;
+    &.image--slotted {
+      &:not(.is-circle) {
+        --calcite-internal-chip-container-space-x-start: 0.375rem /* 6px */;
+      }
+
+      &:has(.chip-icon),
+      &.text--slotted,
+      &.closable {
+        --calcite-internal-chip-image-space-x-end: 0.5rem /* 8px */;
+      }
+    }
+
+    &.selectable.single:not(.is-circle) {
+      &.image--slotted {
+        --calcite-internal-chip-container-space-x-start: 0.375rem /* 6px */;
+      }
+      &.selected {
+        --calcite-internal-chip-select-space-x-end: 0.25rem /* 4px */;
+        --calcite-internal-chip-select-space-x-start: 0;
+
+        &.image--slotted {
+          --calcite-internal-chip-select-space-x-end: 0.375rem /* 6px */;
+          --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
+        }
+      }
+    }
+
+    &.multiple:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-start: 0.5rem /* 8px */;
+
+      --calcite-internal-chip-select-space-x-end: 0.25rem /* 4px */;
+      --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
+
+      &.image--slotted {
+        --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
+      }
     }
 
     &.closable:not(.is-circle) {
       --calcite-internal-chip-container-space-x-end: 0.375rem /* 6px */;
-    }
-
-    &.selected.single {
-      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-select-space-x-start: 0.25rem /* 4px */;
-    }
-
-    &.multiple {
-      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-select-space-x-start: 0.65rem /* 10px */;
-    }
-
-    &:not(.image--slotted) {
-      --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-      --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
     }
   }
 }
@@ -309,15 +369,19 @@
     position: relative;
     visibility: visible;
     opacity: 0.5;
-    // padding-inline-start: var(--calcite-internal-chip-select-space-x-start);
-    padding-inline-end: var(--calcite-internal-chip-select-space-x-end);
   }
 }
 
 .multiple .select-icon {
   @apply flex justify-center items-center;
+}
+
+.multiple .select-icon,
+.single .select-icon--active {
   padding-inline-start: var(--calcite-internal-chip-select-space-x-start);
   padding-inline-end: var(--calcite-internal-chip-select-space-x-end);
+  block-size: var(--calcite-internal-chip-icon-size, 1.5rem /* 24px */);
+  inline-size: var(--calcite-internal-chip-icon-size, 1.5rem /* 24px */);
 }
 
 slot[name="image"]::slotted(*) {

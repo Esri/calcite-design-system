@@ -77,8 +77,8 @@ export const allVariants = (): string => html`
       border-top: 1px solid var(--calcite-color-border-2);
     }
     calcite-chip.new {
-      background-color: #d8efda;
-      color: #13631f;
+      --calcite-chip-background-color: #d8efda;
+      --calcite-chip-text-color: #13631f;
     }
   </style>
   <div class="parent">
