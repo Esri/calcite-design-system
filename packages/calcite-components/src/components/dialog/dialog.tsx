@@ -233,7 +233,7 @@ export class Dialog
     connectMessages(this);
     connectFocusTrap(this, {
       focusTrapOptions: {
-        clickOutsideDeactivates: !this.outsideCloseDisabled,
+        clickOutsideDeactivates: false,
       },
     });
     connectFocusTrap(this);

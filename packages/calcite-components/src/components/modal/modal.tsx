@@ -200,7 +200,7 @@ export class Modal
     connectMessages(this);
     connectFocusTrap(this, {
       focusTrapOptions: {
-        clickOutsideDeactivates: !this.outsideCloseDisabled,
+        clickOutsideDeactivates: false,
       },
     });
   }
