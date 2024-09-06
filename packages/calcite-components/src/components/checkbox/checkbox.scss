@@ -4,9 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-checkbox-size: Specifies the component's height and width.
- * @prop --calcite-checkbox-box-shadow: Specifies the component's svg box color.
- * @prop --calcite-checkbox-box-shadow-hover: Specifies the component's svg box color when hovered.
- * @prop --calcite-checkbox-color: Specifies the component's svg font color.
+ * @prop --calcite-checkbox-box-shadow: Specifies the component's color.
+ * @prop --calcite-checkbox-box-shadow-hover: Specifies the component's color when hovered.
+ * @prop --calcite-checkbox-color: Specifies the component's font color.
  */
 
 :host([scale="s"]) {
