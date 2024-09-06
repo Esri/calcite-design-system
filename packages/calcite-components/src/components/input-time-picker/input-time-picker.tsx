@@ -50,6 +50,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
   SupportedLocale,
+  supportedLocales,
 } from "../../utils/locale";
 import {
   activateFocusTrap,
@@ -61,12 +62,12 @@ import {
   formatTimePart,
   formatTimeString,
   FractionalSecondDigits,
-  getLocaleHourCycle,
-  getLocaleOppositeHourCycle,
+  getLocaleHourFormat,
+  getLocaleOppositeHourFormat,
   getMeridiemFormatToken,
   getMeridiemOrder,
-  HourCycle,
-  isLocaleHourCycleOpposite,
+  HourFormat,
+  isLocaleHourFormatOpposite,
   isValidTime,
   localizeTimeString,
   toISOTimeString,
@@ -159,11 +160,21 @@ interface DayjsTimeParts {
 }
 
 interface GetLocalizedTimeStringParameters {
-  hourCycle?: HourCycle;
+  hourFormat?: HourFormat;
   isoTimeString?: string;
   locale?: string;
   numberingSystem?: NumberingSystem;
 }
+
+const twentyFourHourLocales = new Map();
+
+supportedLocales.forEach((supportedLocale) => {
+  const hourFormat = getLocaleHourFormat(supportedLocale);
+  const meridiemOrder = getMeridiemOrder(supportedLocale);
+  if (hourFormat === "24") {
+    twentyFourHourLocales.set(supportedLocale, { hourFormat, meridiemOrder });
+  }
+});
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -234,11 +245,11 @@ export class InputTimePicker
   /**
    * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
    */
-  @Prop({ mutable: true, reflect: true }) hourCycle: HourCycle;
+  @Prop({ mutable: true, reflect: true }) hourFormat: HourFormat;
 
-  @Watch("hourCycle")
-  hourCycleWatcher(hourCycle: HourCycle): void {
-    this.setLocalizedInputValue({ hourCycle });
+  @Watch("hourFormat")
+  hourFormatWatcher(hourFormat: HourFormat): void {
+    this.setLocalizedInputValue({ hourFormat });
   }
 
   /**
@@ -518,8 +529,8 @@ export class InputTimePicker
 
   async updateLocale(locale: SupportedLocale): Promise<void> {
     await Promise.all([this.loadDateTimeLocaleData(), updateMessages(this, locale)]);
-    if (!this.hourCycle) {
-      this.hourCycle = getLocaleHourCycle(locale);
+    if (!this.hourFormat) {
+      this.hourFormat = getLocaleHourFormat(locale);
     }
     this.setLocalizedInputValue({ locale });
     this.localeDefaultLTFormat = this.localeConfig.formats.LT;
@@ -628,12 +639,15 @@ export class InputTimePicker
     localizedTimeString: string,
     fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
-    const hourCycle = isLocaleHourCycleOpposite(this.hourCycle, this.effectiveLocale)
-      ? getLocaleOppositeHourCycle(this.effectiveLocale)
-      : getLocaleHourCycle(this.effectiveLocale);
+    const effectiveHourFormat = isLocaleHourFormatOpposite(this.hourFormat, this.effectiveLocale)
+      ? getLocaleOppositeHourFormat(this.effectiveLocale)
+      : getLocaleHourFormat(this.effectiveLocale);
+
+    // TODO: Delocalize meridiems for 24-hour locales before parsing
+
     this.setLocaleTimeFormat({
       fractionalSecondFormatToken,
-      hourCycle,
+      hourFormat: effectiveHourFormat,
     });
     const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
     if (dayjsParseResult.isValid()) {
@@ -828,7 +842,7 @@ export class InputTimePicker
   }
 
   private getLocalizedTimeString = (params: GetLocalizedTimeStringParameters): string => {
-    const hour12 = params.hourCycle === "12" || (this.hourCycle && this.hourCycle === "12");
+    const hour12 = params.hourFormat === "12" || (this.hourFormat && this.hourFormat === "12");
     const locale = params.locale ?? this.effectiveLocale;
     const numberingSystem = params.numberingSystem ?? this.numberingSystem;
     const value = params.isoTimeString ?? this.value;
@@ -878,19 +892,19 @@ export class InputTimePicker
 
   private setLocaleTimeFormat({
     fractionalSecondFormatToken,
-    hourCycle,
+    hourFormat,
   }: {
     fractionalSecondFormatToken?: "S" | "SS" | "SSS";
-    hourCycle: HourCycle;
+    hourFormat: HourFormat;
   }): void {
-    const localeDefaultHourCycle = getLocaleHourCycle(this.effectiveLocale);
+    const localeDefaultHourFormat = getLocaleHourFormat(this.effectiveLocale);
     const hourRegEx = /(h+)|(H+)/g;
     const meridiemRegEx = /( )|(a)|(A)|( )/g;
 
     let ltFormatString = this.localeConfig.formats.LT;
     let ltsFormatString = this.localeConfig.formats.LTS;
 
-    if (hourCycle === "12" && localeDefaultHourCycle === "24") {
+    if (hourFormat === "12" && localeDefaultHourFormat === "24") {
       const meridiemFormatToken = getMeridiemFormatToken(this.effectiveLocale);
       const meridiemOrder = getMeridiemOrder(this.effectiveLocale);
 
@@ -906,7 +920,7 @@ export class InputTimePicker
         ltFormatString = `${ltFormatString}${meridiemFormatToken}`;
         ltsFormatString = `${ltsFormatString}${meridiemFormatToken}`;
       }
-    } else if (hourCycle === "24" && localeDefaultHourCycle === "12") {
+    } else if (hourFormat === "24" && localeDefaultHourFormat === "12") {
       ltFormatString = ltFormatString.replaceAll(hourRegEx, "H");
       ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
       ltsFormatString = ltsFormatString.replaceAll(hourRegEx, "H");
@@ -1091,7 +1105,7 @@ export class InputTimePicker
             triggerDisabled={true}
           >
             <calcite-time-picker
-              hourCycle={this.hourCycle}
+              hourFormat={this.hourFormat}
               lang={this.effectiveLocale}
               messageOverrides={this.messageOverrides}
               numberingSystem={this.numberingSystem}

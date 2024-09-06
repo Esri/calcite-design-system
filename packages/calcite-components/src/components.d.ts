@@ -54,7 +54,7 @@ import { InputMessages } from "./components/input/assets/input/t9n";
 import { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
 import { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
 import { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
-import { HourCycle } from "./utils/time";
+import { HourFormat } from "./utils/time";
 import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
@@ -151,7 +151,7 @@ export { InputMessages } from "./components/input/assets/input/t9n";
 export { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
 export { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
 export { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
-export { HourCycle } from "./utils/time";
+export { HourFormat } from "./utils/time";
 export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
@@ -2864,7 +2864,7 @@ export namespace Components {
         /**
           * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
-        "hourCycle": HourCycle;
+        "hourFormat": HourFormat;
         /**
           * Specifies the maximum value.
           * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
@@ -5575,7 +5575,7 @@ export namespace Components {
         /**
           * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
-        "hourCycle": HourCycle;
+        "hourFormat": HourFormat;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -10887,7 +10887,7 @@ declare namespace LocalJSX {
         /**
           * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
-        "hourCycle"?: HourCycle;
+        "hourFormat"?: HourFormat;
         /**
           * Specifies the maximum value.
           * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
@@ -13729,7 +13729,7 @@ declare namespace LocalJSX {
         /**
           * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
-        "hourCycle"?: HourCycle;
+        "hourFormat"?: HourFormat;
         /**
           * Use this property to override individual strings used by the component.
          */

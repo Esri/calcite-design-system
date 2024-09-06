@@ -49,11 +49,11 @@
     <script type="module">
       import { locales } from "./_assets/locales.js";
 
-      function createInputTimePicker({ dir, hourCycle, locale, name, numberingSystem, step }) {
+      function createInputTimePicker({ dir, hourFormat, locale, name, numberingSystem, step }) {
         const labelEl = document.createElement("calcite-label");
         const inputTimePickerEl = document.createElement("calcite-input-time-picker");
 
-        let hourCycleLabel = "",
+        let hourFormatLabel = "",
           numberingSystemLabel = "",
           stepLabel = "";
 
@@ -61,9 +61,9 @@
         if (dir) {
           inputTimePickerEl.setAttribute("dir", dir);
         }
-        if (hourCycle) {
-          inputTimePickerEl.setAttribute("hour-cycle", hourCycle);
-          hourCycleLabel = ` | ${hourCycle}-hour`;
+        if (hourFormat) {
+          inputTimePickerEl.setAttribute("hour-cycle", hourFormat);
+          hourFormatLabel = ` | ${hourFormat}-hour`;
         }
         if (numberingSystem) {
           numberingSystemLabel = ` | ${numberingSystem}`;
@@ -82,7 +82,7 @@
           inputTimePickerEl.setAttribute("value", "14:30");
         }
         labelEl.append(
-          document.createTextNode(`${name} (${locale})${numberingSystemLabel}${hourCycleLabel}${stepLabel}`),
+          document.createTextNode(`${name} (${locale})${numberingSystemLabel}${hourFormatLabel}${stepLabel}`),
         );
         labelEl.append(inputTimePickerEl);
 
@@ -112,19 +112,19 @@
             h12.append(
               createInputTimePicker({
                 ...options,
-                ...{ hourCycle: "24" },
+                ...{ hourFormat: "24" },
               }),
             );
             h12.append(
               createInputTimePicker({
                 ...options,
-                ...{ hourCycle: "24", step: 1 },
+                ...{ hourFormat: "24", step: 1 },
               }),
             );
             h12.append(
               createInputTimePicker({
                 ...options,
-                ...{ hourCycle: "24", step: 0.001 },
+                ...{ hourFormat: "24", step: 0.001 },
               }),
             );
           } else {
@@ -144,19 +144,19 @@
             h23.append(
               createInputTimePicker({
                 ...options,
-                ...{ hourCycle: "12" },
+                ...{ hourFormat: "12" },
               }),
             );
             h23.append(
               createInputTimePicker({
                 ...options,
-                ...{ hourCycle: "12", step: 1 },
+                ...{ hourFormat: "12", step: 1 },
               }),
             );
             h23.append(
               createInputTimePicker({
                 ...options,
-                ...{ hourCycle: "12", step: 0.001 },
+                ...{ hourFormat: "12", step: 0.001 },
               }),
             );
           }

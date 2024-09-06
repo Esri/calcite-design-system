@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage, E2EElement } from "@stencil/core/testing";
 import {
-  getLocaleHourCycle,
+  getLocaleHourFormat,
   getLocalizedMeridiem,
   getLocalizedTimePartSuffix,
   getMeridiemOrder,
@@ -554,9 +554,9 @@ describe("calcite-input-time-picker", () => {
       const localizedHourSuffix = getLocalizedTimePartSuffix("hour", locale);
       const localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", locale);
       const localizedSecondSuffix = getLocalizedTimePartSuffix("second", locale);
-      const localeHourCycle = getLocaleHourCycle(locale);
+      const localeHourFormat = getLocaleHourFormat(locale);
 
-      describe(`${locale} (${localeHourCycle}-hour)`, () => {
+      describe(`${locale} (${localeHourFormat}-hour)`, () => {
         it("localizes initial display value", async () => {
           const page = await newE2EPage();
           await page.setContent(
@@ -592,7 +592,7 @@ describe("calcite-input-time-picker", () => {
 
               let valueToType;
 
-              if (localeHourCycle === "12") {
+              if (localeHourFormat === "12") {
                 const meridiemOrder = getMeridiemOrder(locale);
                 const localizedMeridiem = getLocalizedMeridiem(locale, "PM");
 

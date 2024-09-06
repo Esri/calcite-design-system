@@ -10,7 +10,7 @@ import { isValidNumber } from "./number";
 
 export type FractionalSecondDigits = 1 | 2 | 3;
 
-export type HourCycle = "12" | "24";
+export type HourFormat = "12" | "24";
 
 export interface LocalizedTime {
   localizedHour: string;
@@ -125,7 +125,7 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
   return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
 
-export function getLocaleHourCycle(locale: SupportedLocale): HourCycle {
+export function getLocaleHourFormat(locale: SupportedLocale): HourFormat {
   const options: DateTimeFormatterOptions = { locale };
   if (locale === "mk") {
     // Chromium's Intl.DateTimeFormat incorrectly formats mk time to 12-hour cycle so we need to force hour12 to false
@@ -137,12 +137,12 @@ export function getLocaleHourCycle(locale: SupportedLocale): HourCycle {
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
-export function getLocaleOppositeHourCycle(locale: SupportedLocale): HourCycle {
-  const localeDefaultHourCycle = getLocaleHourCycle(locale);
-  if (localeDefaultHourCycle === "12") {
+export function getLocaleOppositeHourFormat(locale: SupportedLocale): HourFormat {
+  const localeDefaultHourFormat = getLocaleHourFormat(locale);
+  if (localeDefaultHourFormat === "12") {
     return "24";
   }
-  if (localeDefaultHourCycle === "24") {
+  if (localeDefaultHourFormat === "24") {
     return "12";
   }
 }
@@ -237,11 +237,11 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
   return timeParts.findIndex((value) => value.type === "dayPeriod");
 }
 
-export function isLocaleHourCycleOpposite(hourCycle: HourCycle, locale: SupportedLocale): boolean {
-  if (!hourCycle) {
+export function isLocaleHourFormatOpposite(hourFormat: HourFormat, locale: SupportedLocale): boolean {
+  if (!hourFormat) {
     return false;
   }
-  return hourCycle === getLocaleOppositeHourCycle(locale);
+  return hourFormat === getLocaleOppositeHourFormat(locale);
 }
 
 export function isValidTime(value: string): boolean {
