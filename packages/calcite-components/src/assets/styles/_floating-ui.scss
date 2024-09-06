@@ -94,11 +94,6 @@ $floating-ui-transition-offset: 5px;
   z-index: var(--calcite-floating-ui-z-index);
 }
 
-@mixin floating-ui-container-hidden() {
-  inset-inline-start: -999999px;
-  inset-block-start: -999999px;
-}
-
 @mixin floating-ui-wrapper {
   visibility: hidden;
 }
@@ -110,10 +105,6 @@ $floating-ui-transition-offset: 5px;
 @mixin floating-ui-host() {
   :host {
     @include floating-ui-container();
-  }
-
-  :host([calcite-hydrated-hidden]) {
-    @include floating-ui-container-hidden();
   }
 
   @include floating-ui-host-anim();

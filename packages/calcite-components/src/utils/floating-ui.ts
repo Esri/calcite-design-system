@@ -153,13 +153,20 @@ export const positionFloatingUI =
 
     const { open } = component;
 
+    if (!open) {
+      Object.assign(floatingEl.style, hiddenFloatingElStyle);
+      return;
+    }
+
     Object.assign(floatingEl.style, {
       visibility,
       pointerEvents,
       position,
-      transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
+      transform: `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)`,
       top: 0,
       left: 0,
+      insetInlineStart: "",
+      insetBlockStart: "",
     });
   };
 
@@ -406,6 +413,18 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
   return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
+const hiddenFloatingElStyle = {
+  visibility: "hidden",
+  pointerEvents: "none",
+  // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+  position: "absolute",
+  transform: "",
+  top: "",
+  left: "",
+  insetInlineStart: "-999999px",
+  insetBlockStart: "-999999px",
+};
+
 /**
  * Convenience function to manage `reposition` calls for FloatingUIComponents that use `positionFloatingUI.
  *
@@ -431,7 +450,12 @@ export async function reposition(
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false,
 ): Promise<void> {
-  if (!component.open || !options.floatingEl || !options.referenceEl) {
+  if (!options.floatingEl || !options.referenceEl) {
+    return;
+  }
+
+  if (!component.open) {
+    Object.assign(options.floatingEl.style, hiddenFloatingElStyle);
     return;
   }
 
@@ -549,13 +573,7 @@ export async function connectFloatingUI(
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
 
-  Object.assign(floatingEl.style, {
-    visibility: "hidden",
-    pointerEvents: "none",
-
-    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
-    position: component.overlayPositioning,
-  });
+  Object.assign(floatingEl.style, hiddenFloatingElStyle);
 
   if (!component.open) {
     return;
