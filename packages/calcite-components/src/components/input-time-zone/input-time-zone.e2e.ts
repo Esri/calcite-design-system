@@ -40,12 +40,10 @@ describe("calcite-input-time-zone", () => {
     { name: "Pacific/Galapagos", offset: -360, label: "GMT-6" },
   ];
 
-  async function simpleTestProvider(programmaticE2EPage: E2EPage): Promise<TagAndPage> {
-    const page = programmaticE2EPage || (await newE2EPage());
+  async function simpleTestProvider(): Promise<TagAndPage> {
+    const page = await newE2EPage();
     await page.emulateTimezone(testTimeZoneItems[0].name);
-    await page.setContent(
-      overrideSupportedTimeZones(programmaticE2EPage ? "" : html`<calcite-input-time-zone></calcite-input-time-zone>`),
-    );
+    await page.setContent(overrideSupportedTimeZones(html`<calcite-input-time-zone></calcite-input-time-zone>`));
 
     return {
       page,
@@ -134,8 +132,21 @@ describe("calcite-input-time-zone", () => {
   describe("openClose", () => {
     openClose(simpleTestProvider);
 
-    describe.skip("initially open", () => {
-      openClose(simpleTestProvider, { initialToggleValue: true });
+    describe("initially open", () => {
+      openClose.initial("calcite-input-time-zone", {
+        beforeContent: async (page) => {
+          await page.emulateTimezone(testTimeZoneItems[0].name);
+
+          // we add the override script this way because `setContent` was already used before this hook, and calling it again will result in an error.
+          await page.evaluate(
+            (supportedTimeZoneOverrideHtml) =>
+              document.body.insertAdjacentHTML("beforeend", supportedTimeZoneOverrideHtml),
+            overrideSupportedTimeZones(""),
+          );
+
+          await page.waitForChanges();
+        },
+      });
     });
   });
 
