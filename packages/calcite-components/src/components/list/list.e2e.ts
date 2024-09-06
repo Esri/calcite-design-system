@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
@@ -337,6 +337,7 @@ describe("calcite-list", () => {
     `);
     await page.waitForChanges();
     const list = await page.find("calcite-list");
+    const eventSpy = await list.spyOnEvent("calciteListChange");
     const filter = await page.find(`calcite-list >>> calcite-filter`);
     await page.waitForTimeout(DEBOUNCE.filter);
     expect(await list.getProperty("filteredItems")).toHaveLength(2);
@@ -351,6 +352,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
     await calciteListFilterEvent;
+    expect(eventSpy).toHaveReceivedEventTimes(0);
     expect(await list.getProperty("filteredItems")).toHaveLength(1);
     expect(await list.getProperty("filteredData")).toHaveLength(1);
     expect(await list.getProperty("filterText")).toBe("one");
@@ -365,6 +367,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
     await calciteListFilterEvent2;
+    expect(eventSpy).toHaveReceivedEventTimes(0);
     expect(await list.getProperty("filteredItems")).toHaveLength(1);
     expect(await list.getProperty("filteredData")).toHaveLength(1);
     expect(await list.getProperty("filterText")).toBe("two");
@@ -374,6 +377,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
     await calciteListFilterEvent3;
+    expect(eventSpy).toHaveReceivedEventTimes(0);
     expect(await list.getProperty("filteredItems")).toHaveLength(0);
     expect(await list.getProperty("filteredData")).toHaveLength(0);
     expect(await list.getProperty("filterText")).toBe("two blah");

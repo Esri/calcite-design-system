@@ -434,9 +434,7 @@ describe("calcite-tree", () => {
           </calcite-tree>
           `,
         });
-        const checkbox = await page.find(
-          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`,
-        );
+        const checkbox = await page.find(`calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxContainer}`);
         expect(checkbox).not.toBeNull();
       });
     });

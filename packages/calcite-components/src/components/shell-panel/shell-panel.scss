@@ -115,7 +115,8 @@
   flex
   flex-auto
   items-stretch
-  bg-transparent;
+  bg-transparent
+  h-full;
 
   * {
     @apply box-border;
@@ -128,6 +129,7 @@
 }
 
 :host([layout="horizontal"]) .container {
+  @apply w-full h-auto;
   flex-direction: column;
 }
 
@@ -173,7 +175,7 @@
 }
 
 :host([layout="horizontal"]) .separator {
-  @apply right-0 w-full
+  @apply end-0 w-full
   h-0.5;
   cursor: row-resize;
 }
@@ -259,7 +261,7 @@
 }
 
 :host([layout="horizontal"]) .content--overlay {
-  @apply left-0 w-full;
+  @apply start-0 w-full;
 }
 
 :host([layout="vertical"][position="start"]) .content--overlay {

@@ -4,7 +4,12 @@
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
     "length-zero-no-unit": true,
-    "liberty/use-logical-spec": "always",
+    "liberty/use-logical-spec": [
+      "always",
+      {
+        "except": ["left", "right"]
+      }
+    ],
     "no-descending-specificity": [
       true,
       {
@@ -34,6 +39,41 @@
       true,
       {
         "ignoreTypes": ["/^calcite-/"]
+      }
+    ],
+    "scss/at-function-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/dollar-variable-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/at-mixin-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/percent-placeholder-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Name should be kebab-cased.",
+        "severity": "error"
+      }
+    ],
+    "scss/function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["get-trailing-text-input-padding", "scale-duration", "theme", "var"],
+        "severity": "error"
       }
     ]
   }

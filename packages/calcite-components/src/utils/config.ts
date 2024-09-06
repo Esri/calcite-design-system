@@ -2,6 +2,7 @@
  * This module allows custom configuration for components.
  */
 
+import { Build } from "@stencil/core";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";
 
@@ -32,7 +33,8 @@ const existingConfig: CalciteConfig = globalThis["calciteConfig"];
 
 export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
 
-export const logLevel: LogLevel = existingConfig?.logLevel || "info";
+const runningInE2ETest = Build.isTesting && Build.isBrowser;
+export const logLevel: LogLevel = existingConfig?.logLevel || (runningInE2ETest ? "error" : "info");
 
 // the following placeholders are replaced by the build
 const version = "__CALCITE_VERSION__";

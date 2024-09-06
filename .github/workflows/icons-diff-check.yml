@@ -1,7 +1,7 @@
 name: Icon Team Diff Check
 on:
   pull_request:
-    branches: [main, rc, dev]
+    branches: [dev]
   pull_request_review:
     types: [submitted]
 jobs:
@@ -17,7 +17,7 @@ jobs:
         run: |
           non_icon_changes="$(
             git diff --name-only HEAD "$(
-              git merge-base HEAD origin/${{ github.base_ref }}
+              git merge-base HEAD origin/dev
             )" -- . ':!**/calcite-ui-icons/**'
           )"
 

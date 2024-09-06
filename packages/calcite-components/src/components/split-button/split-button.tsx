@@ -11,8 +11,6 @@ import {
 } from "@stencil/core";
 import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -25,7 +23,7 @@ import {
 } from "../../utils/loadable";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -113,13 +111,13 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) placement: MenuPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @Prop({ reflect: true }) primaryIconEnd: IconName;
+  @Prop({ reflect: true }) primaryIconEnd: IconNameOrString;
 
   /**  Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @Prop({ reflect: true }) primaryIconStart: IconName;
+  @Prop({ reflect: true }) primaryIconStart: IconNameOrString;
 
   /** Accessible name for the primary button. */
   @Prop({ reflect: true }) primaryLabel: string;
@@ -172,10 +170,6 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -186,10 +180,6 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   render(): VNode {

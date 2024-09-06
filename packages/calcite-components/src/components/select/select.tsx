@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -21,8 +21,6 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -38,8 +36,8 @@ import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -93,7 +91,7 @@ export class Select
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -193,14 +191,12 @@ export class Select
       childList: true,
     });
 
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
@@ -421,6 +417,8 @@ export class Select
         <InteractiveContainer disabled={disabled}>
           <div class={CSS.wrapper}>
             <select
+              aria-errormessage={IDS.validationMessage}
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               aria-label={getLabelText(this)}
               class={CSS.select}
               disabled={disabled}
@@ -435,6 +433,7 @@ export class Select
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

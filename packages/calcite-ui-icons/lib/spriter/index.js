@@ -1,13 +1,7 @@
 "use strict";
 
-const fs = require("fs");
+const { readdir, mkdir, writeFile, readFile, lstatSync } = require("fs-extra");
 const path = require("path");
-const Promise = require("promise");
-
-const readDir = Promise.denodeify(fs.readdir);
-const mkDir = Promise.denodeify(fs.mkdir);
-const writeFile = Promise.denodeify(fs.writeFile);
-const readFile = Promise.denodeify(fs.readFile);
 
 const ICONS = path.resolve(path.dirname(process.argv[1]), "../icons");
 const NAME = "generated";
@@ -17,7 +11,7 @@ const SIZES = [16, 24, 32];
 const OUTLINE = "outline";
 const FILL = "fill";
 
-const isDir = (file) => fs.lstatSync(`${ICONS}/${file}`).isDirectory();
+const isDir = (file) => lstatSync(`${ICONS}/${file}`).isDirectory();
 const readSVG = (icon) => readFile(`${ICONS}/${icon.fileName}`, { encoding: "utf-8" });
 const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 
@@ -97,7 +91,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
  * @return {ThenPromise<T>} - Promise that resolves when directory creation is ensured.
  */
 function ensureDir(dir) {
-  return mkDir(dir).catch((error) => {
+  return mkdir(dir).catch((error) => {
     const triedToCreateExisting = error.code === "EEXIST";
 
     if (!triedToCreateExisting) {
@@ -186,7 +180,7 @@ function generateExportInfo(requested) {
   const exportInfo = {};
   SIZES.forEach((size) => (exportInfo[size] = []));
 
-  return readDir(ICONS)
+  return readdir(ICONS)
     .then((icons) => {
       if (includeAll) {
         processAll(icons);

@@ -24,8 +24,6 @@ import {
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -33,7 +31,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -59,6 +57,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Accessible name for the component. */
+  @Prop() label: string;
+
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
@@ -71,7 +72,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
@@ -146,12 +147,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
     }
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentWillRender(): void {
@@ -210,6 +209,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const showCheckmark =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
     const chevron = this.hasChildren ? (
       <calcite-icon
@@ -227,17 +227,20 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     const checkbox =
       this.selectionMode === "ancestors" ? (
-        <label class={CSS.checkboxLabel} key="checkbox-label">
-          <calcite-checkbox
-            checked={this.selected}
+        <div class={CSS.checkboxContainer}>
+          <calcite-icon
             class={CSS.checkbox}
-            data-test-id="checkbox"
-            indeterminate={this.hasChildren && this.indeterminate}
-            scale={this.scale}
-            tabIndex={-1}
+            icon={
+              this.selected
+                ? ICONS.checkSquareF
+                : checkboxIsIndeterminate
+                  ? ICONS.minusSquareF
+                  : ICONS.square
+            }
+            scale={getIconScale(this.scale)}
           />
-          {defaultSlotNode}
-        </label>
+          <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
+        </div>
       ) : null;
     const selectedIcon = showBulletPoint
       ? ICONS.bulletPoint
@@ -280,9 +283,23 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     return (
       <Host
+        aria-checked={
+          this.selectionMode === "multiple" ||
+          this.selectionMode === "multichildren" ||
+          this.selectionMode === "ancestors"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         aria-expanded={this.hasChildren ? toAriaBoolean(isExpanded) : undefined}
         aria-hidden={toAriaBoolean(hidden)}
-        aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
+        aria-live="polite"
+        aria-selected={
+          this.selectionMode === "single" ||
+          this.selectionMode === "children" ||
+          this.selectionMode === "single-persist"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         calcite-hydrated-hidden={hidden}
         role="treeitem"
         tabIndex={this.disabled ? -1 : 0}

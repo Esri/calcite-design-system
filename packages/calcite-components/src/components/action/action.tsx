@@ -13,8 +13,6 @@ import {
 import { toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -36,7 +34,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Alignment, Appearance, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
 import { ActionMessages } from "./assets/action/t9n";
 import { CSS, SLOTS } from "./resources";
@@ -86,7 +84,7 @@ export class Action
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @Prop() icon: IconName;
+  @Prop() icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -174,7 +172,6 @@ export class Action
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -192,7 +189,6 @@ export class Action
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.mutationObserver?.disconnect();

@@ -66,7 +66,12 @@ describe("calcite-input-date-picker", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-input-date-picker");
+    disabled("calcite-input-date-picker", {
+      focusTarget: {
+        tab: "calcite-input-date-picker",
+        click: "calcite-input-date-picker",
+      },
+    });
   });
 
   describe("openClose", () => {
@@ -706,6 +711,42 @@ describe("calcite-input-date-picker", () => {
       await inputDatePicker.callMethod("blur");
 
       expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
+    });
+
+    it("parses/formats bosnian calendar locales when date is selected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker lang="bs" value="2023-05-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+
+      await inputDatePicker.click();
+      await calciteInputDatePickerOpenEvent;
+
+      await selectDayInMonth(page, 1);
+      await inputDatePicker.callMethod("blur");
+
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
+
+      const inputText = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await inputText.getProperty("value")).toBe("01.05.2023.");
+    });
+
+    it("parses/formats italian (Switzerland) calendar locales when date is selected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker lang="it-CH" value="2023-05-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+
+      await inputDatePicker.click();
+      await calciteInputDatePickerOpenEvent;
+
+      await selectDayInMonth(page, 1);
+      await inputDatePicker.callMethod("blur");
+
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
+
+      const inputText = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await inputText.getProperty("value")).toBe("1.5.2023");
     });
   });
 

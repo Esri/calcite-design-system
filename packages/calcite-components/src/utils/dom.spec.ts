@@ -3,6 +3,7 @@ import { html } from "../../support/formatting";
 import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
 import { AnimationEventDispatcher, createAnimationEventDispatcher } from "../tests/spec-helpers/animationEvents";
 import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
+import { waitForAnimationFrame } from "../tests/utils";
 import { guidPattern } from "./guid.spec";
 import {
   ensureId,
@@ -293,13 +294,11 @@ describe("dom", () => {
 
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
-      // @ts-expect-error -- unsupported icon names are used to make the test more readable
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
         "myCustomValue",
       ));
 
     it("returns the pre-defined icon name if custom value is not passed", () =>
-      // @ts-expect-error -- unsupported icon names are used to make the test more readable
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
         "exampleReturnedValue",
       ));
@@ -726,7 +725,9 @@ describe("dom", () => {
       const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
       element.style.opacity = "0";
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
@@ -752,7 +753,9 @@ describe("dom", () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
     });
   });
@@ -823,7 +826,9 @@ describe("dom", () => {
       const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
       element.style.animationName = "none";
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
@@ -849,7 +854,9 @@ describe("dom", () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
       expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
     });
   });

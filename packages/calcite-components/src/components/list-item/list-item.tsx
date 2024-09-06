@@ -19,8 +19,6 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -55,7 +53,7 @@ const focusMap = new Map<HTMLCalciteListElement, number>();
 const listSelector = "calcite-list";
 
 /**
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+ * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
  * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
@@ -365,7 +363,6 @@ export class ListItem
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     const { el } = this;
@@ -388,7 +385,6 @@ export class ListItem
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }

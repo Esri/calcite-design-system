@@ -13,3 +13,9 @@ export const CSS = {
   lastCell: "last-cell",
   staticCell: "static-cell",
 };
+
+export const ICONS = {
+  checked: "check-square-f",
+  indeterminate: "minus-square-f",
+  unchecked: "square",
+};

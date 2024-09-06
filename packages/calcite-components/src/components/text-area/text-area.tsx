@@ -45,8 +45,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -55,10 +53,10 @@ import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CharacterLengthObj } from "./interfaces";
 import { TextAreaMessages } from "./assets/text-area/t9n";
-import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
+import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -157,7 +155,7 @@ export class TextArea
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -273,7 +271,6 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     connectLocalized(this);
@@ -295,7 +292,6 @@ export class TextArea
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -310,7 +306,10 @@ export class TextArea
         <InteractiveContainer disabled={this.disabled}>
           <textarea
             aria-describedby={this.guid}
-            aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
+            aria-errormessage={IDS.validationMessage}
+            aria-invalid={toAriaBoolean(
+              this.status === "invalid" || this.isCharacterLimitExceeded(),
+            )}
             aria-label={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{
@@ -374,6 +373,7 @@ export class TextArea
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

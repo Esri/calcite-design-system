@@ -1,4 +1,4 @@
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -141,38 +141,6 @@ export const thumbnail = (): string => html`
     <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-2">Sharing level: 2 </calcite-tooltip>
     <calcite-tooltip placement="top-end" reference-element="card-icon-test-3">More... </calcite-tooltip>
     <calcite-tooltip placement="top-start" reference-element="card-icon-test-5">More options </calcite-tooltip>
-  </div>
-`;
-
-export const thumbnailRounded = (): string => html`
-  <div id="card-container" style="width:260px;">
-    <style>
-      calcite-card {
-        --calcite-border-radius-base: 12px;
-      }
-    </style>
-    <calcite-card>
-      ${thumbnailHtml}
-      <h3 slot="heading">Portland Businesses</h3>
-      <span slot="description"
-        >by
-        <calcite-link>example_user</calcite-link>
-      </span>
-      <div>
-        Created: Apr 22, 2019
-        <br />
-        Updated: Dec 9, 2019
-        <br />
-        View Count: 0
-      </div>
-      <calcite-button
-        slot="footer-start"
-        kind="neutral"
-        scale="s"
-        id="card-icon-test-1"
-        icon-start="circle"
-      ></calcite-button>
-    </calcite-card>
   </div>
 `;
 

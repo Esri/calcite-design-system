@@ -1,4 +1,5 @@
 # The files matching the globs will be assigned to the @usernames that follow
+*                                           # no catch-all code owner to reduce notifications
 .*                                          @benelan @jcfranco
 *.json                                      @benelan @jcfranco
 CHANGELOG.md                                @benelan @jcfranco @geospatialem
@@ -7,4 +8,3 @@ support/                                    @benelan @jcfranco
 /packages/calcite-components-react          @benelan @jcfranco
 /packages/eslint-plugin-calcite-components  @jcfranco
 /packages/calcite-design-tokens             @alisonailea
-

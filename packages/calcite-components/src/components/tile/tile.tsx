@@ -11,8 +11,6 @@ import {
   VNode,
 } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -25,7 +23,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SelectableComponent } from "../../utils/selectableComponent";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
@@ -84,7 +82,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconName;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
 
@@ -237,16 +235,8 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   componentDidRender(): void {

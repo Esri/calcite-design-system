@@ -23,6 +23,11 @@ export const CSS = {
   footerEnd: "footer-end",
 };
 
+export const IDS = {
+  close: "close",
+  collapse: "collapse",
+};
+
 export const ICONS = {
   close: "x",
   menu: "ellipsis",

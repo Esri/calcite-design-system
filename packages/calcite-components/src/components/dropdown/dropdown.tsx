@@ -11,7 +11,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
+import {
+  focusElement,
+  focusElementInGroup,
+  focusFirstTabbable,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -26,8 +31,6 @@ import {
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -188,7 +191,7 @@ export class Dropdown
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.referenceEl);
   }
 
   //--------------------------------------------------------------------------
@@ -204,7 +207,6 @@ export class Dropdown
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
-    connectInteractive(this);
     this.updateItems();
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
@@ -225,7 +227,6 @@ export class Dropdown
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 

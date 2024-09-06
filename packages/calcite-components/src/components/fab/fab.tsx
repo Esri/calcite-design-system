@@ -1,8 +1,6 @@
 import { Component, Element, h, Method, Prop, VNode } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -14,7 +12,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Kind, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, ICONS } from "./resources";
 
 @Component({
@@ -50,7 +48,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    *
    * @default "plus"
    */
-  @Prop({ reflect: true }) icon: IconName = ICONS.plus;
+  @Prop({ reflect: true }) icon: IconNameOrString = ICONS.plus;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -96,10 +94,6 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -110,10 +104,6 @@ export class Fab implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   // --------------------------------------------------------------------------
