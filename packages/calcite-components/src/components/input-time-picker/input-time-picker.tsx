@@ -162,7 +162,7 @@ interface DayjsTimeParts {
 interface GetLocalizedTimeStringParameters {
   hourFormat?: HourFormat;
   isoTimeString?: string;
-  locale?: string;
+  locale?: SupportedLocale;
   numberingSystem?: NumberingSystem;
 }
 
