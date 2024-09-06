@@ -19,6 +19,7 @@ export const CSS = {
   thumbPrecise: "thumb--precise",
   thumbValue: "thumb--value",
   thumbVertical: "thumb--vertical",
+  thumbHorizontal: "thumb--horizontal",
   thumbVerticalReversed: "thumb--vertical-reversed",
   thumbHorizontalReversed: "thumb--horizontal-reversed",
   mirrored: "mirrored",

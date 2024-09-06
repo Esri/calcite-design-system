@@ -315,7 +315,18 @@ export class Slider
           this.precise &&
           !this.mirrored) ||
         (this.layout === "vertical" && !this.precise) ||
-        (this.layout === "horizontal" && this.flipLabels)
+        (this.layout === "horizontal" && !valueIsRange && this.flipLabels) ||
+        (this.layout === "horizontal" &&
+          valueIsRange &&
+          this.mirrored &&
+          this.precise &&
+          !this.flipLabels) ||
+        (this.layout === "horizontal" &&
+          valueIsRange &&
+          !this.mirrored &&
+          this.precise &&
+          this.flipLabels) ||
+        (this.layout === "horizontal" && valueIsRange && !this.precise && this.flipLabels)
           ? "below"
           : "above",
       maxInterval,
@@ -341,7 +352,17 @@ export class Slider
             this.mirrored &&
             this.flipLabels) ||
           (this.layout === "vertical" && !this.precise) ||
-          (this.layout === "horizontal" && this.flipLabels)
+          (this.layout === "horizontal" &&
+            valueIsRange &&
+            this.precise &&
+            !this.mirrored &&
+            !this.flipLabels) ||
+          (this.layout === "horizontal" &&
+            valueIsRange &&
+            this.precise &&
+            this.mirrored &&
+            this.flipLabels) ||
+          (this.layout === "horizontal" && valueIsRange && !this.precise && this.flipLabels)
             ? "below"
             : "above",
         maxInterval,
@@ -515,6 +536,7 @@ export class Slider
           [CSS.thumbPrecise]: isPrecise,
           [CSS.thumbMinValue]: isMinThumb,
           [CSS.thumbVertical]: this.layout === "vertical",
+          [CSS.thumbHorizontal]: this.layout === "horizontal",
           [CSS.thumbVerticalReversed]:
             this.layout === "vertical" && this.flipLabels && this.mirrored,
           [CSS.mirrored]: this.mirrored,

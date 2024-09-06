@@ -162,7 +162,8 @@
   &.thumb--precise {
     --calcite-slider-thumb-y-offset: -0.125rem;
 
-    &.thumb--vertical-reversed:not(.mirrored) {
+    &.thumb--vertical-reversed:not(.mirrored),
+    &.thumb--minValue.thumb--horizontal-reversed:not(.mirrored) {
       --calcite-slider-thumb-y-offset: -3.125rem;
     }
   }
@@ -222,14 +223,32 @@
       --calcite-slider-thumb-y-offset: -2.75rem;
     }
   }
-  &:host(:not([has-histogram])) .scale--l .thumb--value {
-    --calcite-slider-thumb-y-offset: -3.0625rem;
-    &.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
-      --calcite-slider-thumb-y-offset: -0.0625rem;
+  &:host(:not([has-histogram])) .scale--l {
+    &:not(.container--range) {
+      .thumb--value {
+        --calcite-slider-thumb-y-offset: -3.0625rem;
+        &.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
+          --calcite-slider-thumb-y-offset: -0.0625rem;
+        }
+        &.thumb--vertical.thumb--vertical-reversed.mirrored,
+        &.thumb--horizontal-reversed {
+          --calcite-slider-thumb-y-offset: -0.125rem;
+        }
+      }
     }
-    &.thumb--vertical.thumb--vertical-reversed.mirrored,
-    &.thumb--horizontal-reversed {
-      --calcite-slider-thumb-y-offset: -0.125rem;
+    &.container--range {
+      .thumb--value {
+        --calcite-slider-thumb-y-offset: -3.0625rem;
+        &.thumb--horizontal.mirrored:not(.thumb--horizontal-reversed),
+        &.thumb--horizontal-reversed:not(.mirrored) {
+          --calcite-slider-thumb-y-offset: -0.125rem;
+        }
+      }
+      .thumb--minValue {
+        &.thumb--horizontal:not(.thumb--horizontal-reversed).mirrored {
+          --calcite-slider-thumb-y-offset: -3.125rem;
+        }
+      }
     }
   }
 }
