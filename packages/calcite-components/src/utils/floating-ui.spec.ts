@@ -17,23 +17,19 @@ const {
 } = floatingUI;
 
 it("should set calcite placement to FloatingUI placement", () => {
-  const el = document.createElement("div");
+  expect(getEffectivePlacement(false, "leading")).toBe("left");
+  expect(getEffectivePlacement(false, "leading-start")).toBe("left-start");
+  expect(getEffectivePlacement(false, "leading-end")).toBe("left-end");
+  expect(getEffectivePlacement(false, "trailing")).toBe("right");
+  expect(getEffectivePlacement(false, "trailing-start")).toBe("right-start");
+  expect(getEffectivePlacement(false, "trailing-end")).toBe("right-end");
 
-  expect(getEffectivePlacement(el, "leading")).toBe("left");
-  expect(getEffectivePlacement(el, "leading-start")).toBe("left-start");
-  expect(getEffectivePlacement(el, "leading-end")).toBe("left-end");
-  expect(getEffectivePlacement(el, "trailing")).toBe("right");
-  expect(getEffectivePlacement(el, "trailing-start")).toBe("right-start");
-  expect(getEffectivePlacement(el, "trailing-end")).toBe("right-end");
-
-  el.dir = "rtl";
-
-  expect(getEffectivePlacement(el, "leading")).toBe("right");
-  expect(getEffectivePlacement(el, "leading-start")).toBe("right-start");
-  expect(getEffectivePlacement(el, "leading-end")).toBe("right-end");
-  expect(getEffectivePlacement(el, "trailing")).toBe("left");
-  expect(getEffectivePlacement(el, "trailing-start")).toBe("left-start");
-  expect(getEffectivePlacement(el, "trailing-end")).toBe("left-end");
+  expect(getEffectivePlacement(true, "leading")).toBe("right");
+  expect(getEffectivePlacement(true, "leading-start")).toBe("right-start");
+  expect(getEffectivePlacement(true, "leading-end")).toBe("right-end");
+  expect(getEffectivePlacement(true, "trailing")).toBe("left");
+  expect(getEffectivePlacement(true, "trailing-start")).toBe("left-start");
+  expect(getEffectivePlacement(true, "trailing-end")).toBe("left-end");
 });
 
 function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTMLElement): FloatingUIComponent {
