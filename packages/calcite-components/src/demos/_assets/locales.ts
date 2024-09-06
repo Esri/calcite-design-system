@@ -108,6 +108,7 @@ export const locales: Locale[] = [
   {
     name: "Hebrew",
     locale: "he",
+    dir: "rtl",
   },
   {
     name: "Hindi",

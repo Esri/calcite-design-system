@@ -100,6 +100,32 @@ export const locales = [
   "zh-TW",
 ];
 
+export const localizedTwentyFourHourMeridiems = new Map(
+  Object.entries({
+    bg: { am: "пр.об.", pm: "сл.об." },
+    ca: { am: "a. m.", pm: "p. m." },
+    cs: { am: "dop.", pm: "odp." },
+    es: { am: "a. m.", pm: "p. m." },
+    fi: { am: "ap.", pm: "ip." },
+    he: { am: "לפנה״צ", pm: "אחה״צ" },
+    hu: { am: "de. ", pm: "du." },
+    ja: { am: "午前", pm: "午後" },
+    lt: { am: "priešpiet", pm: "popiet" },
+    lv: { am: "priekšpusdienā", pm: "pēcpusdienā" },
+    no: { am: "a.m.", pm: "p.m." },
+    nl: { am: "a.m.", pm: "p.m." },
+    "pt-PT": { am: "da manhã", pm: "da tarde" },
+    ro: { am: "a.m.", pm: "p.m." },
+    sl: { am: "dop.", pm: "pop." },
+    sv: { am: "fm", pm: "em" },
+    th: { am: "ก่อนเที่ยง", pm: "หลังเที่ยง" },
+    tr: { am: "ÖÖ", pm: "ÖS" },
+    uk: { am: "дп", pm: "пп" },
+    vi: { am: "SA", pm: "CH" },
+    "zh-CN": { am: "上午", pm: "下午" },
+  }),
+);
+
 export const numberingSystems = ["arab", "arabext", "latn"] as const;
 
 export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;

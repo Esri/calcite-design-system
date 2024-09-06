@@ -44,6 +44,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
+  localizedTwentyFourHourMeridiems,
   NumberingSystem,
   numberStringFormatter,
   SupportedLocale,
@@ -642,14 +643,46 @@ export class InputTimePicker
   }
 
   private delocalizeTimeStringToParts(
-    localizedTimeString: string,
+    value: string,
     fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
+    let localizedTimeString = value;
     const effectiveHourFormat = isLocaleHourFormatOpposite(this.hourFormat, this.effectiveLocale)
       ? getLocaleOppositeHourFormat(this.effectiveLocale)
       : getLocaleHourFormat(this.effectiveLocale);
 
-    // TODO: Delocalize meridiems for 24-hour locales before parsing
+    if (
+      localizedTwentyFourHourMeridiems.has(this.effectiveLocale) &&
+      effectiveHourFormat === "12"
+    ) {
+      const localizedAM = localizedTwentyFourHourMeridiems.get(this.effectiveLocale).am;
+      const localizedPM = localizedTwentyFourHourMeridiems.get(this.effectiveLocale).pm;
+      const localizedAMRegEx = new RegExp(String.raw`\s?(${localizedAM})\s?`, "g");
+      const localizedPMRegEx = new RegExp(String.raw`\s?(${localizedPM})\s?`, "g");
+      const meridiemOrder = getMeridiemOrder(this.effectiveLocale);
+      const meridiemFormatToken = getMeridiemFormatToken(this.effectiveLocale);
+      const caseAdjustedAMString =
+        meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "AM" : "am";
+      const caseAdjustedPMString =
+        meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "PM" : "pm";
+
+      if (localizedTimeString.match(localizedAMRegEx)) {
+        localizedTimeString = localizedTimeString.replaceAll(
+          localizedAMRegEx,
+          meridiemOrder === 0 ? `${caseAdjustedAMString} ` : ` ${caseAdjustedAMString}`,
+        );
+      } else if (localizedTimeString.match(localizedPMRegEx)) {
+        localizedTimeString = localizedTimeString.replaceAll(
+          localizedPMRegEx,
+          meridiemOrder === 0 ? `${caseAdjustedPMString} ` : ` ${caseAdjustedPMString}`,
+        );
+      } else {
+        localizedTimeString =
+          meridiemOrder === 0
+            ? `${caseAdjustedAMString} ${localizedTimeString}`
+            : `${localizedTimeString} ${caseAdjustedAMString}`;
+      }
+    }
 
     this.setLocaleTimeFormat({
       fractionalSecondFormatToken,
