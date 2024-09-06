@@ -42,12 +42,9 @@ export async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2
   return page;
 }
 
-export async function getTagAndPage(
-  componentTestSetup: ComponentTestSetup,
-  programmaticE2EPage?: E2EPage,
-): Promise<TagAndPage> {
+export async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<TagAndPage> {
   if (typeof componentTestSetup === "function") {
-    componentTestSetup = await componentTestSetup(programmaticE2EPage);
+    componentTestSetup = await componentTestSetup();
   }
 
   if (typeof componentTestSetup === "string") {
