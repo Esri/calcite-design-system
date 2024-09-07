@@ -189,8 +189,6 @@ calcite-panel {
 @mixin dialog-size($size, $width) {
   :host([width-scale="#{$size}"]) .dialog,
   :host([width="#{$size}"]) .dialog {
-    @apply max-h-full
-      max-w-full;
     inline-size: var(--calcite-dialog-size-x, $width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
