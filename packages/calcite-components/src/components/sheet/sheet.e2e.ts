@@ -81,12 +81,7 @@ describe("calcite-sheet properties", () => {
 
   describe("openClose", () => {
     openClose("calcite-sheet");
-
-    describe("initially open", () => {
-      openClose("calcite-sheet", {
-        initialToggleValue: true,
-      });
-    });
+    openClose.initial("calcite-sheet");
   });
 
   it("sets custom width correctly", async () => {
