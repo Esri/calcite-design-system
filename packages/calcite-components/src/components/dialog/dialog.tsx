@@ -210,10 +210,10 @@ export class Dialog
    *
    * @deprecated Use the `width` property instead.
    */
-  @Prop({ reflect: true }) widthScale: Scale;
+  @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
 
   //--------------------------------------------------------------------------
   //
