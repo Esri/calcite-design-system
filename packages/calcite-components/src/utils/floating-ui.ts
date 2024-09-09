@@ -165,10 +165,6 @@ export const positionFloatingUI =
       pointerEvents,
       position,
       transform: `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)`,
-      top: 0,
-      left: 0,
-      width: "",
-      height: "",
     });
   };
 
@@ -415,14 +411,22 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
   return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
+const initialFloatingElStyle = {
+  // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "",
+  height: "",
+};
+
 const hiddenFloatingElStyle = {
   visibility: "hidden",
   pointerEvents: "none",
   // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
-  position: "absolute",
   transform: "",
-  top: 0,
-  left: 0,
+  top: "",
+  left: "",
   width: 0,
   height: 0,
 };
@@ -460,6 +464,8 @@ export async function reposition(
     Object.assign(options.floatingEl.style, hiddenFloatingElStyle);
     return;
   }
+
+  Object.assign(options.floatingEl.style, initialFloatingElStyle);
 
   const trackedState = autoUpdatingComponentMap.get(component);
 
