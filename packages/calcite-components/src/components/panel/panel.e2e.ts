@@ -122,6 +122,14 @@ describe("calcite-panel", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "placement",
+        defaultValue: "bottom-end",
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -142,6 +150,10 @@ describe("calcite-panel", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "placement",
+        value: "bottom",
       },
     ]);
   });
@@ -196,6 +208,28 @@ describe("calcite-panel", () => {
       </calcite-panel>`,
       "calcite-action-menu",
     );
+  });
+
+  it("sets placement and flipPlacements on internal calcite-action-menu", async () => {
+    const page = await newE2EPage({
+      html: html`
+        <calcite-panel placement="top">
+          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+        </calcite-panel>
+      `,
+    });
+    await page.waitForChanges();
+
+    const flipPlacements = ["top", "bottom"];
+
+    const panel = await page.find("calcite-panel");
+    panel.setProperty("flipPlacements", flipPlacements);
+    await page.waitForChanges();
+
+    const actionMenu = await page.find("calcite-panel >>> calcite-action-menu");
+
+    expect(await actionMenu.getProperty("placement")).toBe("top");
+    expect(await actionMenu.getProperty("flipPlacements")).toEqual(flipPlacements);
   });
 
   it("honors closed prop", async () => {

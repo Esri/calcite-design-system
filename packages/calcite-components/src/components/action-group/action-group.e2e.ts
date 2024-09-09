@@ -1,5 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -18,6 +28,23 @@ describe("calcite-action-group", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "placement",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-action-group", [
+      {
+        propertyName: "placement",
+        value: "bottom",
       },
     ]);
   });
@@ -40,6 +67,29 @@ describe("calcite-action-group", () => {
 
   describe("slots", () => {
     slots("calcite-action-group", SLOTS);
+  });
+
+  it("sets placement and flipPlacements on internal calcite-action-menu", async () => {
+    const page = await newE2EPage({
+      html: html`
+        <calcite-action-group scale="l" overlay-positioning="fixed" placement="top">
+          <calcite-action id="plus" slot="${SLOTS.menuActions}" text="Add" icon="plus"></calcite-action>
+          <calcite-action id="banana" slot="${SLOTS.menuActions}" text="Banana" icon="banana"></calcite-action>
+        </calcite-action-group>
+      `,
+    });
+    await page.waitForChanges();
+
+    const flipPlacements = ["top", "bottom"];
+
+    const actionGroup = await page.find("calcite-action-group");
+    actionGroup.setProperty("flipPlacements", flipPlacements);
+    await page.waitForChanges();
+
+    const actionMenu = await page.find("calcite-action-group >>> calcite-action-menu");
+
+    expect(await actionMenu.getProperty("placement")).toBe("top");
+    expect(await actionMenu.getProperty("flipPlacements")).toEqual(flipPlacements);
   });
 
   it("should honor scale of expand icon", async () => {

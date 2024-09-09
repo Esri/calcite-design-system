@@ -39,7 +39,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
@@ -113,6 +113,11 @@ export class Panel
   @Prop({ reflect: true }) collapsible = false;
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements: FlipPlacement[];
+
+  /**
    * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
@@ -163,6 +168,11 @@ export class Panel
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) placement: LogicalPlacement = "bottom-end";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -548,17 +558,17 @@ export class Panel
   }
 
   renderMenu(): VNode {
-    const { hasMenuItems, messages, menuOpen } = this;
+    const { hasMenuItems, messages, menuOpen, flipPlacements, placement } = this;
 
     return (
       <calcite-action-menu
-        flipPlacements={["top", "bottom"]}
+        flipPlacements={flipPlacements ?? ["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
         label={messages.options}
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
-        placement="bottom-end"
+        placement={placement}
       >
         <calcite-action
           icon={ICONS.menu}

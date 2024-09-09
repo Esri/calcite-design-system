@@ -43,6 +43,14 @@ describe("calcite-block", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
+      {
+        propertyName: "placement",
+        defaultValue: "bottom-end",
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -63,6 +71,10 @@ describe("calcite-block", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "placement",
+        value: "bottom",
       },
     ]);
   });
@@ -159,6 +171,29 @@ describe("calcite-block", () => {
     expect(clickSpy).toHaveReceivedEventTimes(1);
 
     expect(await page.find("calcite-block >>> calcite-scrim")).toBeTruthy();
+  });
+
+  it("sets placement and flipPlacements on internal calcite-action-menu", async () => {
+    const page = await newE2EPage({
+      html: html`
+        <calcite-block heading="heading" description="description" placement="top">
+          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+          <div class="content">content</div>
+        </calcite-block>
+      `,
+    });
+    await page.waitForChanges();
+
+    const flipPlacements = ["top", "bottom"];
+
+    const block = await page.find("calcite-block");
+    block.setProperty("flipPlacements", flipPlacements);
+    await page.waitForChanges();
+
+    const actionMenu = await page.find("calcite-block >>> calcite-action-menu");
+
+    expect(await actionMenu.getProperty("placement")).toBe("top");
+    expect(await actionMenu.getProperty("flipPlacements")).toEqual(flipPlacements);
   });
 
   it("can display/hide content", async () => {

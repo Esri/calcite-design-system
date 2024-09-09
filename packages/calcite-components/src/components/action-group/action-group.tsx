@@ -21,7 +21,7 @@ import {
 } from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Columns } from "./interfaces";
 import { ActionGroupMessages } from "./assets/action-group/t9n";
@@ -60,6 +60,11 @@ export class ActionGroup
   }
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements: FlipPlacement[];
+
+  /**
    *  Accessible name for the component.
    */
   @Prop() label: string;
@@ -89,6 +94,11 @@ export class ActionGroup
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) placement: LogicalPlacement;
 
   /**
    * Specifies the size of the `calcite-action-menu`.
@@ -178,19 +188,30 @@ export class ActionGroup
   // --------------------------------------------------------------------------
 
   renderMenu(): VNode {
-    const { expanded, menuOpen, scale, layout, messages, overlayPositioning, hasMenuActions } =
-      this;
+    const {
+      expanded,
+      menuOpen,
+      scale,
+      layout,
+      messages,
+      overlayPositioning,
+      hasMenuActions,
+      flipPlacements,
+      placement,
+    } = this;
 
     return (
       <calcite-action-menu
         expanded={expanded}
-        flipPlacements={["left", "right"]}
+        flipPlacements={
+          flipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
+        }
         hidden={!hasMenuActions}
         label={messages.more}
         onCalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
         overlayPositioning={overlayPositioning}
-        placement={layout === "horizontal" ? "bottom-start" : "leading-start"}
+        placement={placement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
         scale={scale}
       >
         <calcite-action
