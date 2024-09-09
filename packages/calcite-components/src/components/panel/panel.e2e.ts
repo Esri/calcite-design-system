@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, defaultMenuPlacement, IDS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -124,7 +124,7 @@ describe("calcite-panel", () => {
       },
       {
         propertyName: "placement",
-        defaultValue: "bottom-end",
+        defaultValue: defaultMenuPlacement,
       },
       {
         propertyName: "flipPlacements",

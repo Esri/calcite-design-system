@@ -14,7 +14,7 @@ import {
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
-import { CSS, SLOTS } from "./resources";
+import { CSS, defaultMenuPlacement, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   describe("renders", () => {
@@ -45,7 +45,7 @@ describe("calcite-block", () => {
       },
       {
         propertyName: "placement",
-        defaultValue: "bottom-end",
+        defaultValue: defaultMenuPlacement,
       },
       {
         propertyName: "flipPlacements",
