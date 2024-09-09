@@ -167,8 +167,8 @@ export const positionFloatingUI =
       transform: `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)`,
       top: 0,
       left: 0,
-      insetInlineStart: "",
-      insetBlockStart: "",
+      width: "",
+      height: "",
     });
   };
 
@@ -421,10 +421,10 @@ const hiddenFloatingElStyle = {
   // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
   position: "absolute",
   transform: "",
-  top: "",
-  left: "",
-  insetInlineStart: "-999999px",
-  insetBlockStart: "-999999px",
+  top: 0,
+  left: 0,
+  width: 0,
+  height: 0,
 };
 
 /**
