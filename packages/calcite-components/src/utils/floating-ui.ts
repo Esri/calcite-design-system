@@ -412,18 +412,17 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
 }
 
 const initialFloatingElStyle = {
+  width: "",
+  height: "",
   // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
   position: "absolute",
   top: 0,
   left: 0,
-  width: "",
-  height: "",
 };
 
 const hiddenFloatingElStyle = {
   visibility: "hidden",
   pointerEvents: "none",
-  // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
   transform: "",
   top: "",
   left: "",
