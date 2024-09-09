@@ -20,7 +20,7 @@ export const formatCssPlatform: CalledFormatterFunction = (args) => {
 export const registerFormatterCss = (sd: StyleDictionary): void => {
   const formatterConfig: FormatterConfig = {
     name: CalciteCss,
-    formatter: formatCssPlatform,
+    format: formatCssPlatform,
   };
 
   sd.registerFormat(formatterConfig);
