@@ -711,31 +711,31 @@ describe("calcite-popover", () => {
     describe("default", () => {
       themed(popoverHTML, {
         "--calcite-popover-background-color": {
-          shadowSelector: ".calcite-floating-ui-anim",
+          shadowSelector: `.${CSS.calciteFloatingUIAnim}`,
           targetProp: "backgroundColor",
         },
         "--calcite-popover-border-color": [
           {
-            shadowSelector: ".calcite-floating-ui-anim",
+            shadowSelector: `.${CSS.calciteFloatingUIAnim}`,
             targetProp: "borderColor",
           },
           // { shadowSelector: ".arrow::before", targetProp: "outline" },
           {
-            shadowSelector: ".header",
+            shadowSelector: `.${CSS.header}`,
             targetProp: "borderBlockEndColor",
           },
         ],
         "--calcite-popover-corner-radius": {
-          shadowSelector: ".calcite-floating-ui-anim",
+          shadowSelector: `.${CSS.calciteFloatingUIAnim}`,
           targetProp: "borderRadius",
         },
         "--calcite-popover-text-color": [
           {
-            shadowSelector: ".heading",
+            shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
           },
           {
-            shadowSelector: ".container",
+            shadowSelector: `.${CSS.container}`,
             targetProp: "color",
           },
         ],
@@ -745,15 +745,15 @@ describe("calcite-popover", () => {
       themed(popoverHTML, {
         "--calcite-popover-corner-radius": [
           {
-            shadowSelector: ".close-button-container",
+            shadowSelector: `.${CSS.closeButtonContainer}`,
             targetProp: "borderStartEndRadius",
           },
           {
-            shadowSelector: ".close-button-container",
+            shadowSelector: `.${CSS.closeButtonContainer}`,
             targetProp: "borderEndEndRadius",
           },
           {
-            shadowSelector: ".has-header .close-button-container",
+            shadowSelector: `.${CSS.hasHeader} .${CSS.closeButtonContainer}`,
             targetProp: "borderEndEndRadius",
           },
         ],
