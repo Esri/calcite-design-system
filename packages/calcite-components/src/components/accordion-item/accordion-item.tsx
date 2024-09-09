@@ -289,9 +289,9 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    accordionItem.iconPosition = closestAccordionParent.iconPosition;
-    accordionItem.iconType = closestAccordionParent.iconType;
-    accordionItem.scale = closestAccordionParent.scale;
+    this.iconPosition = closestAccordionParent.iconPosition;
+    this.iconType = closestAccordionParent.iconType;
+    this.scale = closestAccordionParent.scale;
     event.stopPropagation();
   }
 
