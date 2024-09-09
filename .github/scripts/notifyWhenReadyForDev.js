@@ -42,6 +42,12 @@ module.exports = async ({ github, context }) => {
       label: issueWorkflow.assigned,
     });
 
+    await removeLabel({
+      github,
+      context,
+      label: planning.needsTriage,
+    });
+
     await github.rest.issues.addLabels({
       ...issueProps,
       labels: [issueWorkflow.new, planning.needsMilestone],
