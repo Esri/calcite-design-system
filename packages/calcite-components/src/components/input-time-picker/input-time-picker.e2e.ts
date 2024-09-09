@@ -101,10 +101,7 @@ describe("calcite-input-time-picker", () => {
 
   describe("openClose", () => {
     openClose("calcite-input-time-picker");
-
-    describe("initially open", () => {
-      openClose("calcite-input-time-picker", { initialToggleValue: true });
-    });
+    openClose.initial("calcite-input-time-picker");
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
@@ -914,6 +911,12 @@ describe("calcite-input-time-picker", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       inputTimePicker = await page.find("calcite-input-time-picker");
+    });
+
+    it("sets the internal popover to autoClose", async () => {
+      const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+
+      expect(await popover.getProperty("autoClose")).toBe(true);
     });
 
     it("does not open the time picker on input keyboard focus", async () => {
