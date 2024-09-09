@@ -1,8 +1,8 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../utils";
-import { getTag, simplePageSetup } from "./utils";
-import { TagOrHTML } from "./interfaces";
+import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./utils";
+import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -25,11 +25,6 @@ interface OpenCloseOptions {
   openPropName?: string;
 
   /**
-   * Indicates the initial value of the toggle property.
-   */
-  initialToggleValue?: boolean;
-
-  /**
    * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
    */
   beforeToggle?: BeforeToggle;
@@ -40,6 +35,11 @@ interface OpenCloseOptions {
   willUseFallback?: boolean;
 }
 
+const defaultOptions: OpenCloseOptions = {
+  openPropName: "open",
+  willUseFallback: false,
+};
+
 /**
  * Helper to test openClose component setup.
  *
@@ -48,201 +48,256 @@ interface OpenCloseOptions {
  * @example
  *
  * describe("openClose", () => {
- *   openClose("calcite-combobox", {
- *     beforeToggle: {
- *        open: async (page) => {
- *            await page.keyboard.press("Tab");
- *            await page.waitForChanges();
- *        },
- *        close: async (page) => {
- *            await page.keyboard.press("Tab");
- *            await page.waitForChanges();
- *        },
- *      }
- *   });
- *
- *   describe("initially open", () => {
- *     openClose("calcite-combobox", {
- *           initialToggleValue: true,
- *           beforeToggle: {
- *             close: async (page) => {
- *               await page.keyboard.press("Tab");
- *               await page.waitForChanges();
- *           },
- *         }
- *       }
+ *   openClose("calcite-combobox");
+ *   openClose.initial("calcite-combobox", {
+ *     beforeContent: async (page: E2EPage) => {
+ *       // configure page before component is created and appended
+ *     }
  *   });
  * });
  *
- * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ *
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {object} [options] - Additional options to assert.
  */
+export function openClose(componentTestSetup: ComponentTestSetup, options?: OpenCloseOptions): void {
+  const effectiveOptions = { ...defaultOptions, ...options };
 
-export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): void {
-  const defaultOptions: OpenCloseOptions = {
-    initialToggleValue: false,
-    openPropName: "open",
-    willUseFallback: false,
+  it(`emits with animations enabled`, async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+    await page.addStyleTag({
+      content: `:root { --calcite-duration-factor: 2; }`,
+    });
+
+    await setUpEventListeners(tag, page);
+    await testOpenCloseEvents({
+      tag,
+      page,
+      openPropName: effectiveOptions.openPropName,
+      beforeToggle: effectiveOptions.beforeToggle,
+      animationsEnabled: !effectiveOptions.willUseFallback,
+    });
+  });
+
+  it(`emits with animations disabled`, async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+    await page.addStyleTag({
+      content: `:root { --calcite-duration-factor: 0; }`,
+    });
+    await setUpEventListeners(tag, page);
+    await testOpenCloseEvents({
+      animationsEnabled: false,
+      beforeToggle: effectiveOptions.beforeToggle,
+      openPropName: effectiveOptions.openPropName,
+      page,
+      tag,
+    });
+  });
+}
+
+/**
+ * Helper to test openClose component setup on initialization.
+ *
+ * @param componentTag - The component tag to test.
+ * @param options - Additional options to assert.
+ */
+openClose.initial = function openCloseInitial(
+  componentTag: ComponentTag,
+  options?: WithBeforeContent<OpenCloseOptions>,
+): void {
+  const effectiveOptions = {
+    ...defaultOptions,
+    beforeContent: noopBeforeContent,
+    ...options,
   };
-  const customizedOptions = { ...defaultOptions, ...options };
 
-  type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
-  const eventSequence = setUpEventSequence(componentTagOrHTML);
+  const tag = componentTag;
+  const beforeContent = getBeforeContent(effectiveOptions);
 
-  function setUpEventSequence(componentTagOrHTML: TagOrHTML): string[] {
-    const tag = getTag(componentTagOrHTML);
+  it("emits on initialization with animations enabled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.addStyleTag({
+      content: `:root { --calcite-duration-factor: 2; }`,
+    });
+    await beforeContent(page);
+    await setUpEventListeners(tag, page);
+    await testOpenCloseEvents({
+      animationsEnabled: true,
+      beforeToggle: effectiveOptions.beforeToggle,
+      openPropName: effectiveOptions.openPropName,
+      page,
+      startOpen: true,
+      tag,
+    });
+  });
 
-    const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
-    const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
+  it("emits on initialization with animations disabled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.addStyleTag({
+      content: `:root { --calcite-duration-factor: 0; }`,
+    });
+    await beforeContent(page);
+    await setUpEventListeners(tag, page);
+    await testOpenCloseEvents({
+      animationsEnabled: false,
+      beforeToggle: effectiveOptions.beforeToggle,
+      openPropName: effectiveOptions.openPropName,
+      page,
+      startOpen: true,
+      tag,
+    });
+  });
+};
 
-    return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
+interface TestOpenCloseEventsParams {
+  /**
+   * The component tag to test.
+   */
+  tag: ComponentTag;
+
+  /**
+   * The E2E page instance.
+   */
+  page: E2EPage;
+
+  /**
+   * The property name used to control the open state of the component.
+   */
+  openPropName: string;
+
+  /**
+   * Whether the component should start in the open state.
+   */
+  startOpen?: boolean;
+
+  /**
+   * Functions to simulate user input (mouse or keyboard) to open or close the component.
+   */
+  beforeToggle?: BeforeToggle;
+
+  /**
+   * Whether animations are enabled.
+   */
+  animationsEnabled: boolean;
+}
+
+async function testOpenCloseEvents({
+  animationsEnabled,
+  beforeToggle,
+  openPropName,
+  page,
+  startOpen = false,
+  tag,
+}: TestOpenCloseEventsParams): Promise<void> {
+  const timestamps: Record<OpenCloseName, number> = {
+    beforeOpen: undefined,
+    open: undefined,
+    beforeClose: undefined,
+    close: undefined,
+  };
+  const eventSequence = getEventSequence(tag);
+
+  const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) => {
+    return page.waitForEvent(event).then((spy) => {
+      timestamps[toOpenCloseName(event)] = Date.now();
+      return spy;
+    });
+  });
+
+  const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
+    eventSequence.map(async (event) => await page.spyOnEvent(event)),
+  );
+
+  function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
+    expect(openSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[2]);
+    expect(closeSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[3]);
   }
 
-  async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
+  if (startOpen) {
     await page.evaluate(
-      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
-        const receivedEvents: string[] = [];
-
-        (window as EventOrderWindow).events = receivedEvents;
-
-        eventSequence.forEach((eventType) => {
-          document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-        });
-
-        if (!initialToggleValue) {
-          return;
-        }
-
+      (openPropName: string, componentTagOrHTML: string) => {
         const component = document.createElement(componentTagOrHTML);
         component[openPropName] = true;
 
         document.body.append(component);
       },
-      eventSequence,
-      customizedOptions.initialToggleValue,
-      customizedOptions.openPropName,
-      componentTagOrHTML,
+      openPropName,
+      tag,
     );
   }
 
-  type OpenCloseName = "beforeOpen" | "open" | "beforeClose" | "close";
+  const element = await page.find(tag);
+  await page.waitForChanges();
 
-  function toOpenCloseName(eventName: string): OpenCloseName {
-    return eventName.includes("BeforeOpen")
-      ? "beforeOpen"
-      : eventName.includes("Open")
-        ? "open"
-        : eventName.includes("BeforeClose")
-          ? "beforeClose"
-          : "close";
+  if (!startOpen) {
+    if (beforeToggle) {
+      await beforeToggle.open(page);
+    } else {
+      element.setProperty(openPropName, true);
+    }
   }
 
-  async function testOpenCloseEvents(
-    componentTagOrHTML: TagOrHTML,
-    page: E2EPage,
-    animationsEnabled = true,
-  ): Promise<void> {
-    const tag = getTag(componentTagOrHTML);
-    const element = await page.find(tag);
+  await page.waitForChanges();
+  await beforeOpenEvent;
+  await openEvent;
 
-    const timestamps: Record<OpenCloseName, number> = {
-      beforeOpen: undefined,
-      open: undefined,
-      beforeClose: undefined,
-      close: undefined,
-    };
+  assertEventSequence([1, 1, 0, 0]);
 
-    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) => {
-      return page.waitForEvent(event).then((spy) => {
-        timestamps[toOpenCloseName(event)] = Date.now();
-        return spy;
-      });
-    });
-
-    const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
-      eventSequence.map(async (event) => await element.spyOnEvent(event)),
-    );
-
-    function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
-      expect(openSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[2]);
-      expect(closeSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[3]);
-    }
-
-    await page.waitForChanges();
-
-    if (customizedOptions.beforeToggle) {
-      await customizedOptions.beforeToggle.open(page);
-    } else {
-      element.setProperty(customizedOptions.openPropName, true);
-    }
-
-    await page.waitForChanges();
-    await beforeOpenEvent;
-    await openEvent;
-
-    assertEventSequence([1, 1, 0, 0]);
-
-    if (customizedOptions.beforeToggle) {
-      await customizedOptions.beforeToggle.close(page);
-    } else {
-      element.setProperty(customizedOptions.openPropName, false);
-    }
-
-    await page.waitForChanges();
-    await beforeCloseEvent;
-    await closeEvent;
-
-    assertEventSequence([1, 1, 1, 1]);
-
-    expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
-
-    const delayDeltaThreshold = 100; // smallest internal animation timing used
-    const delayBetweenBeforeOpenAndOpen = timestamps.open - timestamps.beforeOpen;
-    const delayBetweenBeforeCloseAndClose = timestamps.close - timestamps.beforeClose;
-
-    const matcherName = animationsEnabled ? "toBeGreaterThan" : ("toBeLessThanOrEqual" as const);
-
-    expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
-    expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
-  }
-
-  if (customizedOptions.initialToggleValue === true) {
-    it("emits on initialization with animations enabled", async () => {
-      const page = await newProgrammaticE2EPage();
-      await page.addStyleTag({
-        content: `:root { --calcite-duration-factor: 2; }`,
-      });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
-    });
-
-    it("emits on initialization with animations disabled", async () => {
-      const page = await newProgrammaticE2EPage();
-      await page.addStyleTag({
-        content: `:root { --calcite-duration-factor: 0; }`,
-      });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, false);
-    });
+  if (startOpen || !beforeToggle) {
+    element.setProperty(openPropName, false);
   } else {
-    it(`emits with animations enabled`, async () => {
-      const page = await simplePageSetup(componentTagOrHTML);
-      await page.addStyleTag({
-        content: `:root { --calcite-duration-factor: 2; }`,
-      });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, !customizedOptions.willUseFallback);
-    });
-
-    it(`emits with animations disabled`, async () => {
-      const page = await simplePageSetup(componentTagOrHTML);
-      await page.addStyleTag({
-        content: `:root { --calcite-duration-factor: 0; }`,
-      });
-      await setUpPage(componentTagOrHTML, page);
-      await testOpenCloseEvents(componentTagOrHTML, page, false);
-    });
+    await beforeToggle.close(page);
   }
+
+  await page.waitForChanges();
+  await beforeCloseEvent;
+  await closeEvent;
+
+  assertEventSequence([1, 1, 1, 1]);
+
+  expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
+
+  const delayDeltaThreshold = 100; // smallest internal animation timing used
+  const delayBetweenBeforeOpenAndOpen = timestamps.open - timestamps.beforeOpen;
+  const delayBetweenBeforeCloseAndClose = timestamps.close - timestamps.beforeClose;
+
+  const matcherName = animationsEnabled ? "toBeGreaterThan" : "toBeLessThanOrEqual";
+
+  expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
+  expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
+}
+
+type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
+
+function getEventSequence(componentTag: ComponentTag): string[] {
+  const camelCaseTag = componentTag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
+  const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
+
+  return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
+}
+
+async function setUpEventListeners(componentTag: ComponentTag, page: E2EPage): Promise<void> {
+  await page.evaluate((eventSequence: string[]) => {
+    const receivedEvents: string[] = [];
+
+    (window as EventOrderWindow).events = receivedEvents;
+
+    eventSequence.forEach((eventType) => {
+      document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+    });
+  }, getEventSequence(componentTag));
+}
+
+type OpenCloseName = "beforeOpen" | "open" | "beforeClose" | "close";
+
+function toOpenCloseName(eventName: string): OpenCloseName {
+  return eventName.includes("BeforeOpen")
+    ? "beforeOpen"
+    : eventName.includes("Open")
+      ? "open"
+      : eventName.includes("BeforeClose")
+        ? "beforeClose"
+        : "close";
 }

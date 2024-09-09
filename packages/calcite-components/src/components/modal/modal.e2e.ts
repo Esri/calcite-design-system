@@ -15,12 +15,7 @@ describe("calcite-modal", () => {
 
   describe("openClose", () => {
     openClose("calcite-modal");
-
-    describe("initially open", () => {
-      openClose("calcite-modal", {
-        initialToggleValue: true,
-      });
-    });
+    openClose.initial("calcite-modal");
   });
 
   describe("slots", () => {

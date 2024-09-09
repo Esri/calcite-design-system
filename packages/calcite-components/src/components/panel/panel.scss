@@ -73,15 +73,11 @@
 }
 
 .container {
-  @apply focus-base relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
-}
-
-.container:focus {
-  @apply focus-inset;
 }
 
 .container[hidden] {
@@ -164,6 +160,7 @@
   flex-auto
   flex-col
   flex-nowrap
+  focus-base
   items-stretch
   bg-background
   overflow-auto
@@ -173,7 +170,7 @@
   padding: var(--calcite-panel-content-space, 0);
 }
 
-.content-wrapper:focus {
+.content-wrapper:focus-visible {
   @apply focus-inset;
 }
 
