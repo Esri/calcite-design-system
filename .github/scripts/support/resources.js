@@ -25,6 +25,7 @@ const resources = {
       verified: "4 - verified",
     },
     planning: {
+      needsTriage: "needs triage",
       needsMilestone: "needs milestone",
       spike: "spike",
       spikeComplete: "spike complete",
