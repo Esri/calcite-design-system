@@ -78,21 +78,27 @@ describe("repositioning", () => {
     connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
   });
 
+  function assertClosedPositioning(floatingEl: HTMLElement): void {
+    expect(floatingEl.style.display).toBe("none");
+  }
+
   function assertPreOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).toBe("");
     expect(floatingEl.style.top).toBe("0");
     expect(floatingEl.style.left).toBe("0");
+    expect(floatingEl.style.display).toBe("");
   }
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).not.toBe("");
     expect(floatingEl.style.top).toBe("0");
     expect(floatingEl.style.left).toBe("0");
+    expect(floatingEl.style.display).toBe("");
   }
 
   it("repositions only for open components", async () => {
     await reposition(fakeFloatingUiComponent, positionOptions);
-    assertPreOpenPositioning(floatingEl);
+    assertClosedPositioning(floatingEl);
 
     fakeFloatingUiComponent.open = true;
 
@@ -101,6 +107,8 @@ describe("repositioning", () => {
   });
 
   it("repositions immediately by default", async () => {
+    assertClosedPositioning(floatingEl);
+
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions);
@@ -112,6 +120,8 @@ describe("repositioning", () => {
   });
 
   it("can reposition after a delay", async () => {
+    assertClosedPositioning(floatingEl);
+
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions, true);

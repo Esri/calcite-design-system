@@ -411,21 +411,16 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
   return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
-const floatingElPosition = { top: "0", left: "0" };
-
 const initialFloatingElStyle = {
   display: "",
   // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
   position: "absolute",
-  ...floatingElPosition,
+  top: "0",
+  left: "0",
 };
 
 const hiddenFloatingElStyle = {
-  visibility: "hidden",
-  pointerEvents: "none",
-  transform: "",
   display: "none",
-  ...floatingElPosition,
 };
 
 /**
