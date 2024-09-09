@@ -108,8 +108,8 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
 }
 
 export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem): HourCycle {
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
-  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  const format = createLocaleDateTimeFormatter(locale, numberingSystem);
+  const parts = format.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
@@ -126,8 +126,8 @@ export function getLocalizedTimePartSuffix(
   locale: string,
   numberingSystem: NumberingSystem = "latn",
 ): string {
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
-  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  const format = createLocaleDateTimeFormatter(locale, numberingSystem);
+  const parts = format.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart(`${part}Suffix` as TimePart, parts);
 }
 
@@ -260,8 +260,8 @@ export function localizeTimePart({ value, part, locale, numberingSystem }: Local
   if (!date) {
     return;
   }
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
-  const parts = formatter.formatToParts(date);
+  const format = createLocaleDateTimeFormatter(locale, numberingSystem);
+  const parts = format.formatToParts(date);
   return getLocalizedTimePart(part, parts);
 }
 
@@ -296,8 +296,8 @@ export function localizeTimeString({
       fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
     ),
   );
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds, fractionalSecondDigits);
-  return formatter.format(dateFromTimeString) || null;
+  const format = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds, fractionalSecondDigits);
+  return format.format(dateFromTimeString) || null;
 }
 
 interface LocalizeTimeStringToPartsParameters {
@@ -317,8 +317,8 @@ export function localizeTimeStringToParts({
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
-    const parts = formatter.formatToParts(dateFromTimeString);
+    const format = createLocaleDateTimeFormatter(locale, numberingSystem);
+    const parts = format.formatToParts(dateFromTimeString);
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
@@ -351,8 +351,8 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
-    const parts = formatter.formatToParts(dateFromTimeString);
+    const format = createLocaleDateTimeFormatter(locale, numberingSystem);
+    const parts = format.formatToParts(dateFromTimeString);
     return parts;
   }
   return null;

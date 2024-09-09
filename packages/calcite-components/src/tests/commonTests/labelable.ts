@@ -7,7 +7,7 @@ export { TagOrHTMLWithBeforeContent } from "./interfaces";
 import { FocusableOptions } from "./focusable";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 export async function assertLabelable({
   page,

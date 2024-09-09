@@ -6,7 +6,7 @@ import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "./../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTag, ComponentTestSetup } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 /**
  * Helper to test t9n component setup.

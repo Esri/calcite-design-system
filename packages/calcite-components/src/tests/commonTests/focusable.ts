@@ -3,7 +3,7 @@ import {} from "./../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 export interface FocusableOptions {
   /**

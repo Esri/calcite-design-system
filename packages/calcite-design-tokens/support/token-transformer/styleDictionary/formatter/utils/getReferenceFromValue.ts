@@ -1,3 +1,4 @@
+import { getReferences } from 'style-dictionary/utils';
 import { Dictionary } from "style-dictionary/types/Dictionary.js";
 import { PlatformOptions } from "../../../../types/styleDictionary/platform.js";
 import { createTokenReference } from "./createTokenReference.js";
@@ -10,7 +11,7 @@ export function getReferencesFromValue(
   args: PlatformOptions,
 ): string {
   if (dictionary.usesReference(originalValue)) {
-    const refs = dictionary.getReferences(originalValue);
+    const refs = getReferences(originalValue, dictionary.tokens);
     refs.forEach((ref) => {
       if (ref.isSource || args.options.outputReferences) {
         if (ref.value && ref.name) {

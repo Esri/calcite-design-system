@@ -14,7 +14,7 @@ import { GlobalTestProps } from "./../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 interface FormAssociatedOptions {
   /**

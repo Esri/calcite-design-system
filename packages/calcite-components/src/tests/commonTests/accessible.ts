@@ -4,7 +4,7 @@ import { GlobalTestProps } from "./../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, ComponentTag } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 

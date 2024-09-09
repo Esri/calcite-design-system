@@ -2,7 +2,7 @@ import { toHaveNoViolations } from "jest-axe";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 /**
  * Helper for asserting that a property's value is its default

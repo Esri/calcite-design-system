@@ -3,7 +3,7 @@ import { skipAnimations } from "./../utils";
 import { getTagAndPage, propToAttr } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 /**
  *

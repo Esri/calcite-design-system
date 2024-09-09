@@ -2,7 +2,7 @@ import { toHaveNoViolations } from "jest-axe";
 import { getTag, simplePageSetup } from "./utils";
 import { TagOrHTML } from "./interfaces";
 
-expect.extend(toHaveNoViolations);
+await expect.extend(toHaveNoViolations);
 
 /**
  * Helper for asserting slots.
