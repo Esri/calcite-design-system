@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2-next.1...@esri/calcite-components@2.13.0-next.7) (2024-09-09)
+
+### Bug Fixes
+
+- **input-date-picker:** no longer emits `calciteInputDatePickerChange` event when `valueAsDate` is set programmatically ([#10246](https://github.com/Esri/calcite-design-system/issues/10246)) ([804dd39](https://github.com/Esri/calcite-design-system/commit/804dd39b358f6cb92144ec0f7316c4b50187cbfa)), closes [#8368](https://github.com/Esri/calcite-design-system/issues/8368)
+
 ## [2.12.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2-next.0...@esri/calcite-components@2.12.2-next.1) (2024-09-09)
 
 ### Bug Fixes
