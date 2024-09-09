@@ -9,6 +9,7 @@ import {
   openClose,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
@@ -696,6 +697,66 @@ describe("calcite-popover", () => {
     describe("should focus close button", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`,
+      });
+    });
+  });
+
+  describe("theme", () => {
+    const popoverHTML = html`
+      <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
+        Lorem Ipsum
+      </calcite-popover>
+    `;
+
+    describe("default", () => {
+      themed(popoverHTML, {
+        "--calcite-popover-background-color": {
+          shadowSelector: ".calcite-floating-ui-anim",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-popover-border-color": [
+          {
+            shadowSelector: ".calcite-floating-ui-anim",
+            targetProp: "borderColor",
+          },
+          // { shadowSelector: ".arrow::before", targetProp: "outline" },
+          {
+            shadowSelector: ".header",
+            targetProp: "borderBlockEndColor",
+          },
+        ],
+        "--calcite-popover-corner-radius": {
+          shadowSelector: ".calcite-floating-ui-anim",
+          targetProp: "borderRadius",
+        },
+        "--calcite-popover-text-color": [
+          {
+            shadowSelector: ".heading",
+            targetProp: "color",
+          },
+          {
+            shadowSelector: ".container",
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+    describe("close-button", () => {
+      themed(popoverHTML, {
+        "--calcite-popover-corner-radius": [
+          {
+            shadowSelector: ".close-button-container",
+            targetProp: "borderStartEndRadius",
+          },
+          {
+            shadowSelector: ".close-button-container",
+            targetProp: "borderEndEndRadius",
+          },
+          {
+            shadowSelector: ".has-header .close-button-container",
+            targetProp: "borderEndEndRadius",
+          },
+        ],
       });
     });
   });
