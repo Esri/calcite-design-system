@@ -80,8 +80,8 @@ describe("repositioning", () => {
 
   function assertPreOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).toBe("");
-    expect(floatingEl.style.top).toBe("");
-    expect(floatingEl.style.left).toBe("");
+    expect(floatingEl.style.top).toBe("0");
+    expect(floatingEl.style.left).toBe("0");
   }
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
