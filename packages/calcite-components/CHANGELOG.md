@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2-next.0...@esri/calcite-components@2.12.2-next.1) (2024-09-09)
+
+### Bug Fixes
+
+- **input-time-zone:** ensure `beforeOpen`/`open` and `beforeClose`/`close` events emit properly ([#10228](https://github.com/Esri/calcite-design-system/issues/10228)) ([3f04a0b](https://github.com/Esri/calcite-design-system/commit/3f04a0b707d06bae89e4ce464e459f8d1bc08b8f))
+- **panel, flow-item:** hide focus-outline when scrolling via mouse to align with browsers ([#10242](https://github.com/Esri/calcite-design-system/issues/10242)) ([4eb75af](https://github.com/Esri/calcite-design-system/commit/4eb75af948163f533a6d1b171d65348ba2edf469)), closes [#10238](https://github.com/Esri/calcite-design-system/issues/10238) [#10141](https://github.com/Esri/calcite-design-system/issues/10141) [#10141](https://github.com/Esri/calcite-design-system/issues/10141)
+- **shell:** fix z-index of shell-panels ([#10224](https://github.com/Esri/calcite-design-system/issues/10224)) ([2451f37](https://github.com/Esri/calcite-design-system/commit/2451f37b7ceb60a265bdfdf8c326cf8c753431ac)), closes [#10222](https://github.com/Esri/calcite-design-system/issues/10222)
+
 ## [2.12.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.6...@esri/calcite-components@2.12.2-next.0) (2024-09-05)
 
 ### Bug Fixes
