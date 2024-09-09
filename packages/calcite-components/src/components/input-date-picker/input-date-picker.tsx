@@ -490,9 +490,9 @@ export class InputDatePicker
         this.value = "";
       }
     } else if (this.valueAsDate) {
-      if (this.range) {
-        this.setRangeValue(this.valueAsDate as Date[]);
-      } else if (!Array.isArray(this.valueAsDate)) {
+      if (this.range && Array.isArray(this.valueAsDate)) {
+        this.value = [dateToISO(this.valueAsDate[0]), dateToISO(this.valueAsDate[1])];
+      } else if (!this.range && !Array.isArray(this.valueAsDate)) {
         this.value = dateToISO(this.valueAsDate);
       }
     }
