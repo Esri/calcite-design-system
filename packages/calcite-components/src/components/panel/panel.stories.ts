@@ -1,14 +1,23 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { placements } from "../../utils/floating-ui";
 import { Panel } from "./panel";
-import { SLOTS } from "./resources";
+import { defaultMenuPlacement, SLOTS } from "./resources";
 const { collapseDirection, scale } = ATTRIBUTES;
 
 interface PanelStoryArgs
   extends Pick<
     Panel,
-    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading" | "scale"
+    | "closed"
+    | "disabled"
+    | "closable"
+    | "collapsed"
+    | "collapsible"
+    | "collapseDirection"
+    | "loading"
+    | "scale"
+    | "placement"
   > {
   heightScale: string;
 }
@@ -16,6 +25,7 @@ interface PanelStoryArgs
 export default {
   title: "Components/Panel",
   args: {
+    placement: defaultMenuPlacement,
     closed: false,
     disabled: false,
     closable: false,
@@ -27,6 +37,10 @@ export default {
     loading: false,
   },
   argTypes: {
+    placement: {
+      options: placements,
+      control: { type: "select" },
+    },
     collapseDirection: {
       options: collapseDirection.values,
       control: { type: "select" },
@@ -91,6 +105,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     heightScale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    placement="${args.placement}"
     heading="Heading"
     description="A great panel description"
   >

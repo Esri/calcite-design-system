@@ -3,11 +3,16 @@ import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { placements } from "../../utils/floating-ui";
 import { Block } from "./block";
+import { defaultMenuPlacement } from "./resources";
 const { toggleDisplay } = ATTRIBUTES;
 
 interface BlockStoryArgs
-  extends Pick<Block, "heading" | "description" | "open" | "collapsible" | "loading" | "disabled" | "headingLevel">,
+  extends Pick<
+      Block,
+      "heading" | "description" | "open" | "collapsible" | "loading" | "disabled" | "headingLevel" | "placement"
+    >,
     Pick<BlockSection, "toggleDisplay"> {
   text: string;
   sectionOpen: BlockSection["open"];
@@ -16,6 +21,7 @@ interface BlockStoryArgs
 export default {
   title: "Components/Block",
   args: {
+    placement: defaultMenuPlacement,
     heading: "Heading",
     description: "description",
     open: true,
@@ -28,6 +34,10 @@ export default {
     toggleDisplay: toggleDisplay.defaultValue,
   },
   argTypes: {
+    placement: {
+      options: placements,
+      control: { type: "select" },
+    },
     headingLevel: {
       control: { type: "number", min: 1, max: 6, step: 1 },
     },
@@ -42,6 +52,7 @@ export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
+    placement="${args.placement}"
     ${boolean("open", args.open)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}

@@ -43,7 +43,7 @@ import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, defaultMenuPlacement, ICONS, IDS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -172,7 +172,7 @@ export class Panel
   /**
    * Determines where the action menu will be positioned.
    */
-  @Prop({ reflect: true }) placement: LogicalPlacement = "bottom-end";
+  @Prop({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

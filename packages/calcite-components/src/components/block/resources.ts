@@ -43,3 +43,5 @@ export const ICONS = {
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 } as const;
+
+export const defaultMenuPlacement = "bottom-end";
