@@ -414,8 +414,7 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
 const floatingElPosition = { top: "0", left: "0" };
 
 const initialFloatingElStyle = {
-  width: "",
-  height: "",
+  display: "",
   // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
   position: "absolute",
   ...floatingElPosition,
@@ -425,8 +424,7 @@ const hiddenFloatingElStyle = {
   visibility: "hidden",
   pointerEvents: "none",
   transform: "",
-  width: "0",
-  height: "0",
+  display: "none",
   ...floatingElPosition,
 };
 
