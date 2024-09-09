@@ -164,11 +164,9 @@ export const create: () => Config = () => ({
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
-    hooks: {
-      transforms: {
-        "calcite-design-tokens/dist/es6/.*\\.js$":
-          "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
-      }
+    transform: {
+      "calcite-design-tokens/dist/es6/.*\\.js$":
+        "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
     },
   },
   hydratedFlag: {

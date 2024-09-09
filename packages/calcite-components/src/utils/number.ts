@@ -53,28 +53,28 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
-  formatToParts(format: NumberStringFormat): Intl.NumberFormatPart[] {
+  formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const parts = format.numberFormatter.formatToParts(BigInt(integers));
-    this.isNegative && parts.unshift({ type: "minusSign", value: format.minusSign });
+    const parts = formatter.numberFormatter.formatToParts(BigInt(integers));
+    this.isNegative && parts.unshift({ type: "minusSign", value: formatter.minusSign });
 
     if (decimals.length) {
-      parts.push({ type: "decimal", value: format.decimal });
+      parts.push({ type: "decimal", value: formatter.decimal });
       decimals.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
 
     return parts;
   }
 
-  format(format: NumberStringFormat): string {
+  format(formatter: NumberStringFormat): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const integersFormatted = `${this.isNegative ? format.minusSign : ""}${format.numberFormatter.format(
+    const integersFormatted = `${this.isNegative ? formatter.minusSign : ""}${formatter.numberFormatter.format(
       BigInt(integers),
     )}`;
     const decimalsFormatted = decimals.length
-      ? `${format.decimal}${decimals
+      ? `${formatter.decimal}${decimals
           .split("")
-          .map((char: string) => format.numberFormatter.format(Number(char)))
+          .map((char: string) => formatter.numberFormatter.format(Number(char)))
           .join("")}`
       : "";
     return `${integersFormatted}${decimalsFormatted}`;
@@ -240,21 +240,21 @@ function stringContainsNumbers(string: string): boolean {
 export function addLocalizedTrailingDecimalZeros(
   localizedValue: string,
   value: string,
-  format: NumberStringFormat,
+  formatter: NumberStringFormat,
 ): string {
   const decimals = value.split(".")[1];
   if (decimals) {
     const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
     if (
       trailingDecimalZeros &&
-      format.delocalize(localizedValue).length !== value.length &&
+      formatter.delocalize(localizedValue).length !== value.length &&
       decimals.indexOf("e") === -1
     ) {
-      const decimalSeparator = format.decimal;
+      const decimalSeparator = formatter.decimal;
       localizedValue = !localizedValue.includes(decimalSeparator)
         ? `${localizedValue}${decimalSeparator}`
         : localizedValue;
-      return localizedValue.padEnd(localizedValue.length + trailingDecimalZeros.length, format.localize("0"));
+      return localizedValue.padEnd(localizedValue.length + trailingDecimalZeros.length, formatter.localize("0"));
     }
   }
   return localizedValue;

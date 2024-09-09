@@ -11,7 +11,7 @@ import type {
   WithBeforeContent,
   ComponentTestContent,
 } from "./interfaces";
-await expect.extend(toHaveNoViolations);
+expect.extend(toHaveNoViolations);
 
 export const HYDRATED_ATTR = config.hydratedFlag?.name;
 

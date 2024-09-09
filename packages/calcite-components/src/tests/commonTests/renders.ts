@@ -2,7 +2,7 @@ import { toHaveNoViolations } from "jest-axe";
 import { getTagAndPage, HYDRATED_ATTR } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
-await expect.extend(toHaveNoViolations);
+expect.extend(toHaveNoViolations);
 
 /**
  * Note that this helper should be used within a describe block.

@@ -1,4 +1,3 @@
-import { getReferences } from 'style-dictionary/utils';
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
 
 export function sortByReference(dictionary: Dictionary): (a, b) => 1 | -1 {
@@ -19,8 +18,8 @@ export function sortByReference(dictionary: Dictionary): (a, b) => 1 | -1 {
     if (a.original && dictionary.usesReference(a.original.value)) {
       if (b.original && dictionary.usesReference(b.original.value)) {
         // Both a and b have references, we need to see if the reference each other
-        const aRefs = getReferences(a.original.value, dictionary.tokens);
-        const bRefs = getReferences(b.original.value, dictionary.tokens);
+        const aRefs = dictionary.getReferences(a.original.value);
+        const bRefs = dictionary.getReferences(b.original.value);
 
         aRefs.forEach((aRef) => {
           // A references B, so we want B to come first

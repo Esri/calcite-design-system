@@ -4,7 +4,7 @@ import { GlobalTestProps, newProgrammaticE2EPage } from "../utils";
 import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./utils";
 import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
 
-await expect.extend(toHaveNoViolations);
+expect.extend(toHaveNoViolations);
 
 interface BeforeToggle {
   /**

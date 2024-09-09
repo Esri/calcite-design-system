@@ -11,10 +11,8 @@ const config = {
       statements: 80,
     },
   },
-  hooks: {
-    transforms: {
-      "^.+\\.ts$": "ts-jest",
-    }
+  transform: {
+    "^.+\\.ts$": "ts-jest",
   },
 };
 

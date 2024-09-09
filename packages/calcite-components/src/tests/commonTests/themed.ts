@@ -6,7 +6,7 @@ import { getTokenValue } from "../utils/cssTokenValues";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
-await expect.extend(toHaveNoViolations);
+expect.extend(toHaveNoViolations);
 
 interface TargetInfo {
   el: E2EElement;

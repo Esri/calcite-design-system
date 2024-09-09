@@ -9,7 +9,7 @@ import { CalledFormatterFunction } from "../../token-transformer/styleDictionary
 export interface PossibleRegistryArgs<R = any> {
   name?: string;
   type?: TransformerTypeUnion;
-  format?: CalledFormatterFunction;
+  formatter?: CalledFormatterFunction;
   transformer?: CalledTransformerFunction<R>;
   matcher?: Matcher;
 }

@@ -1,7 +1,7 @@
 import { toHaveNoViolations } from "jest-axe";
 import { getTag, simplePageSetup } from "./utils";
 import { ComponentTag, TagOrHTML } from "./interfaces";
-await expect.extend(toHaveNoViolations);
+expect.extend(toHaveNoViolations);
 
 /**
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.

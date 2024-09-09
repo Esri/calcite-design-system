@@ -1,5 +1,5 @@
 import { Named as SdNamed } from "style-dictionary/types/_helpers.js";
-import { Format as SdFormat, FormatFnArguments as SdFormatterArguments } from "style-dictionary/types/Format.js";
+import { Format as SdFormat, FormatterArguments as SdFormatterArguments } from "style-dictionary/types/Format.js";
 
 import { Dictionary } from "./dictionary";
 import { calledFormatterFunction } from "../../token-transformer/styleDictionary/formatter/utils";

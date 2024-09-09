@@ -5,7 +5,7 @@ import { IntrinsicElementsWithProp, skipAnimations } from "./../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 
-await expect.extend(toHaveNoViolations);
+expect.extend(toHaveNoViolations);
 
 /**
  * Helper to test the disabled prop disabling user interaction.
