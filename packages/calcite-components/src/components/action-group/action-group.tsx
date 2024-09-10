@@ -60,7 +60,7 @@ export class ActionGroup
   }
 
   /**
-   * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
