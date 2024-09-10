@@ -107,7 +107,7 @@ export class Dropdown
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 

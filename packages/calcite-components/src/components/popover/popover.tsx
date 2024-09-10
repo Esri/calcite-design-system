@@ -119,7 +119,7 @@ export class Popover
   @Prop({ reflect: true }) pointerDisabled = false;
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 

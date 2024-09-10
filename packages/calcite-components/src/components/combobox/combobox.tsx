@@ -301,7 +301,7 @@ export class Combobox
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
