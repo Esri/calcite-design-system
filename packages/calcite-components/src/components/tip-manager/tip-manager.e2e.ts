@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, TEXT } from "./resources";
 
@@ -251,5 +251,49 @@ describe("calcite-tip-manager", () => {
 
   describe("translation support", () => {
     t9n("calcite-tip-manager");
+  });
+
+  describe("theme", () => {
+    const testHTML = html`
+      <calcite-tip-manager>
+        <calcite-tip id="one"><p>first</p></calcite-tip>
+        <calcite-tip id="two"><p>second</p></calcite-tip>
+      </calcite-tip-manager>
+    `;
+
+    describe("default", () => {
+      themed(testHTML, {
+        "--calcite-tip-manager-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tip-manager-border-color": {
+          shadowSelector: `.${CSS.header}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-tip-manager-content-height": {
+          shadowSelector: `.${CSS.tipContainer}`,
+          targetProp: "blockSize",
+        },
+        "--calcite-tip-manager-heading-text-color": {
+          shadowSelector: `.${CSS.heading}`,
+          targetProp: "color",
+        },
+        "--calcite-tip-manager-text-color": {
+          targetProp: "color",
+        },
+      });
+    });
+    describe("deprecated", () => {
+      themed(testHTML, {
+        "--calcite-tip-manager-height": {
+          shadowSelector: `.${CSS.tipContainer}`,
+          targetProp: "blockSize",
+        },
+        "--calcite-tip-max-width": {
+          selector: "calcite-tip",
+          targetProp: "maxInlineSize",
+        },
+      });
+    });
   });
 });

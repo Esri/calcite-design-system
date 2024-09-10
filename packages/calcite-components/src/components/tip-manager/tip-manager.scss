@@ -72,6 +72,7 @@
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
   block-size: var(--calcite-tip-manager-height, var(--calcite-tip-manager-content-height, 19vh));
+
   &:focus {
     @apply focus-outset;
   }
