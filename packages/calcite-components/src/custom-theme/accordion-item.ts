@@ -5,9 +5,8 @@ export const accordionItemTokens = {
   calciteAccordionItemBackgroundColor: "",
   calciteAccordionItemBorderColor: "",
   calciteAccordionItemContentSpace: "",
-  calciteAccordionItemHeaderBackgroundColorPress: "",
-  calciteAccordionItemTextColorHover: "",
-  calciteAccordionItemTextColorPress: "",
+  calciteAccordionItemHeadingBackgroundColor: "",
+  calciteAccordionItemHeadingTextColor: "",
   calciteAccordionItemTextColor: "",
 };
 

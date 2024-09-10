@@ -52,41 +52,6 @@ describe("calcite-accordion-item", () => {
           "--calcite-accordion-item-background-color": {
             targetProp: "backgroundColor",
           },
-          "--calcite-accordion-item-text-color-hover": [
-            {
-              shadowSelector: `.${CSS.heading}`,
-              targetProp: "color",
-            },
-          ],
-          "--calcite-accordion-item-border-color": [
-            {
-              shadowSelector: `.${CSS.content}`,
-              targetProp: "borderBlockEndColor",
-            },
-            {
-              shadowSelector: `.${CSS.header}`,
-              targetProp: "borderBlockEndColor",
-            },
-          ],
-        },
-      );
-    });
-    describe("expanded", () => {
-      themed(
-        html`<calcite-accordion-item heading="Heading" description="Description" expanded
-          >content</calcite-accordion-item
-        >`,
-        {
-          "--calcite-accordion-item-text-color-hover": [
-            {
-              shadowSelector: `.${CSS.description}`,
-              targetProp: "color",
-            },
-          ],
-          "--calcite-accordion-item-text-color-press": {
-            shadowSelector: `.${CSS.heading}`,
-            targetProp: "color",
-          },
         },
       );
     });
