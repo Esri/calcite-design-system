@@ -215,9 +215,7 @@ export function getMeridiemFormatToken(locale: SupportedLocale): "a " | " a" | "
   const localizedAM = getLocalizedMeridiem(locale, "AM");
   const localizedPM = getLocalizedMeridiem(locale, "PM");
   const meridiemOrder = getMeridiemOrder(locale);
-  // TODO: research toLocaleLowerCase to determine if this should be used here instead
-  // @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase
-  if (localizedAM === localizedAM.toLowerCase() && localizedPM === localizedPM.toLowerCase()) {
+  if (localizedAM === localizedAM.toLocaleLowerCase(locale) && localizedPM === localizedPM.toLocaleLowerCase(locale)) {
     return meridiemOrder === 0 ? "a " : " a";
   }
   return meridiemOrder === 0 ? "A " : " A";
@@ -374,6 +372,12 @@ export function localizeTimeString({
   if (result && locale === "bg" && result.includes(" ч.")) {
     result = result.replaceAll(" ч.", "");
   }
+  // @link https://issues.chromium.org/issues/40676973
+  if (locale === "mk" && result.includes("AM")) {
+    result = result.replaceAll("AM", "претпл.");
+  } else if (locale === "mk" && result.includes("PM")) {
+    result = result.replaceAll("PM", "попл.");
+  }
   return result;
 }
 
@@ -398,6 +402,11 @@ export function localizeTimeStringToParts({
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem, hour12 });
     const parts = formatter.formatToParts(dateFromTimeString);
+    let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
+    // @link https://issues.chromium.org/issues/40676973
+    if (locale === "mk" && hour12) {
+      localizedMeridiem = dateFromTimeString.getHours() > 11 ? "попл." : "претпл.";
+    }
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
@@ -412,7 +421,7 @@ export function localizeTimeStringToParts({
         numberingSystem,
       }),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedTimePart("meridiem", parts),
+      localizedMeridiem,
     };
   }
   return null;

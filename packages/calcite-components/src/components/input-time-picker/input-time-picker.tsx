@@ -916,8 +916,8 @@ export class InputTimePicker
     hourFormat: HourFormat;
   }): void {
     const localeDefaultHourFormat = getLocaleHourFormat(this.effectiveLocale);
-    const hourRegEx = /(h+)|(H+)/g;
-    const meridiemRegEx = /( )|(a)|(A)|( )/g;
+    const hourRegEx = /h+|H+/g;
+    const meridiemRegEx = /\s|a|A|\s/g;
 
     let ltFormatString = this.localeConfig.formats.LT;
     let ltsFormatString = this.localeConfig.formats.LTS;
