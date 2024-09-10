@@ -55,67 +55,6 @@ describe("calcite-accordion-item", () => {
         },
       );
     });
-
-    describe("deprecated", () => {
-      describe("default", () => {
-        themed(
-          html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
-            >content</calcite-accordion-item
-          >`,
-          {
-            "--calcite-accordion-text-color": [
-              {
-                shadowSelector: `.${CSS.content}`,
-                targetProp: "color",
-              },
-              {
-                shadowSelector: `.${CSS.expandIcon}`,
-                targetProp: "color",
-              },
-              {
-                shadowSelector: `.${CSS.description}`,
-                targetProp: "color",
-              },
-            ],
-            "--calcite-accordion-text-color-hover": [
-              {
-                shadowSelector: `.${CSS.heading}`,
-                targetProp: "color",
-              },
-            ],
-            "--calcite-accordion-border-color": [
-              {
-                shadowSelector: `.${CSS.content}`,
-                targetProp: "borderBlockEndColor",
-              },
-              {
-                shadowSelector: `.${CSS.header}`,
-                targetProp: "borderBlockEndColor",
-              },
-            ],
-          },
-        );
-      });
-      describe("expanded", () => {
-        themed(
-          html`<calcite-accordion-item heading="Heading" description="Description" expanded
-            >content</calcite-accordion-item
-          >`,
-          {
-            "--calcite-accordion-text-color-hover": [
-              {
-                shadowSelector: `.${CSS.description}`,
-                targetProp: "color",
-              },
-            ],
-            "--calcite-accordion-text-color-pressed": {
-              shadowSelector: `.${CSS.heading}`,
-              targetProp: "color",
-            },
-          },
-        );
-      });
-    });
   });
 
   it("properly uses ARIA and roles", async () => {
