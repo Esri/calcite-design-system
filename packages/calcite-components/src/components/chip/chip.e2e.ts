@@ -252,6 +252,34 @@ describe("calcite-chip", () => {
       });
     });
 
+    describe("closable", () => {
+      themed(html`<calcite-chip closable>Layers</calcite-chip>`, {
+        "--calcite-chip-close-icon-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("selectable", () => {
+      describe("default", () => {
+        themed(html`<calcite-chip select="single">Layers</calcite-chip>`, {
+          "--calcite-chip-select-icon-color": {
+            shadowSelector: `.${CSS.selectIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("selected", () => {
+        themed(html`<calcite-chip select="single" selected>Layers</calcite-chip>`, {
+          "--calcite-chip-select-icon-color-pressed": {
+            shadowSelector: `.${CSS.selectIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+    });
+
     describe("icon", () => {
       themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
         "--calcite-chip-icon-color": {

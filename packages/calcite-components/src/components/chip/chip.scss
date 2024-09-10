@@ -5,10 +5,12 @@
  *
  * @prop --calcite-chip-background-color: Specifies the background color of the component.
  * @prop --calcite-chip-border-color: Specifies the border color of the component.
- * @prop --calcite-chip-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-chip-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-chip-text-color: Specifies the text color of the component.
  * @prop --calcite-chip-icon-color: Specifies the icon color of the component.
- * @prop --calcite-close-icon-color: Specifies the icon color of the close element of the component.
+ * @prop --calcite-chip-close-icon-color: Specifies the icon color of the close element of the component.
+ * @prop --calcite-chip-select-icon-color: Specifies the icon color of the selection element of the component.
+ * @prop --calcite-chip-select-icon-color-pressed: Specifies the icon color of the selection element of the component when active.
  *
  */
 
@@ -42,7 +44,7 @@
   }
 
   .close {
-    color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
   }
 }
 :host([appearance="outline"]) .container {
@@ -87,7 +89,7 @@
   color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
 
   .close {
-    color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
   }
 }
 
@@ -367,11 +369,13 @@
   transition:
     opacity 0.15s ease-in-out,
     inline-size 0.15s ease-in-out;
+  color: var(--calcite-chip-select-icon-color, currentColor);
 
   &.select-icon--active {
     position: relative;
     visibility: visible;
     opacity: 0.5;
+    color: var(--calcite-chip-select-icon-color-pressed, var(--calcite-chip-select-icon-color, currentColor));
   }
 }
 
@@ -385,6 +389,10 @@
   padding-inline-end: var(--calcite-internal-chip-select-space-x-end);
   block-size: var(--calcite-internal-chip-icon-size, 1.5rem /* 24px */);
   inline-size: var(--calcite-internal-chip-icon-size, 1.5rem /* 24px */);
+}
+
+.close {
+  color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, currentColor));
 }
 
 slot[name="image"]::slotted(*) {

@@ -5,6 +5,10 @@ export const chipTokens = {
   calciteChipBorderColor: "",
   calciteChipCornerRadius: "",
   calciteChipTextColor: "",
+  calciteChipIconColor: "",
+  calciteChipCloseIconColor: "",
+  calciteChipSelectIconColor: "",
+  calciteChipSelectIconColorPressed: "",
 };
 
 export const chips = html`<div>
