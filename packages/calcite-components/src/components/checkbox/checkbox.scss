@@ -4,8 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-checkbox-size: Specifies the component's height and width.
- * @prop --calcite-checkbox-box-shadow-color: Specifies the component's color.
- * @prop --calcite-checkbox-box-shadow-color-hover: Specifies the component's color when hovered.
+ * @prop --calcite-checkbox-shadow-color: Specifies the component's color.
+ * @prop --calcite-checkbox-shadow-color-hover: Specifies the component's color when hovered.
  * @prop --calcite-checkbox-color: Specifies the component's font color.
  */
 
@@ -48,7 +48,7 @@
       stroke-current
       stroke-1
       transition-default;
-    box-shadow: inset 0 0 0 1px var(--calcite-checkbox-box-shadow-color, var(--calcite-color-border-input));
+    box-shadow: inset 0 0 0 1px var(--calcite-checkbox-shadow-color, var(--calcite-color-border-input));
     color: var(--calcite-checkbox-color, theme("backgroundColor.background"));
   }
 }
@@ -72,7 +72,7 @@
 :host([hovered]) .toggle,
 :host .toggle:hover {
   .check-svg {
-    box-shadow: inset 0 0 0 2px var(--calcite-checkbox-box-shadow-color-hover, var(--calcite-color-brand));
+    box-shadow: inset 0 0 0 2px var(--calcite-checkbox-shadow-color-hover, var(--calcite-color-brand));
   }
 }
 
