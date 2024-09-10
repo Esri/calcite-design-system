@@ -21,6 +21,7 @@ import { icon } from "./custom-theme/icon";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
+import { popover, popoverTokens } from "./custom-theme/popover";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
@@ -104,7 +105,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} 
+        <div style="margin-top: 40px">${popover}</div>
+        </div>
       </div>
     </div>
   </div>`;
@@ -119,6 +122,7 @@ export default {
     ...actionPadTokens,
     ...actionGroupTokens,
     ...cardTokens,
+    ...popoverTokens,
   },
 };
 
@@ -126,7 +130,7 @@ export const themingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
 
-export const theming_TestOnly = (): string => {
+export const theming = (): string => {
   return kitchenSink(
     {
       ...actionTokens,
@@ -135,6 +139,7 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...actionGroupTokens,
       ...cardTokens,
+      ...popoverTokens,
     },
     true,
   );
