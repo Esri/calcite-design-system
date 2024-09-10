@@ -1308,5 +1308,133 @@ describe("calcite-dropdown", () => {
 
       expect(await isElementFocused(page, "#item-3")).toBe(true);
     });
+
+    it("should open the dropdown and focus the first item with ArrowDown", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
+      await skipAnimations(page);
+
+      const dropdown = await page.find("calcite-dropdown");
+      await dropdown.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await dropdown.getProperty("open")).toBe(true);
+      expect(await isElementFocused(page, "#item-1")).toBe(true);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-2")).toBe(true);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-1")).toBe(true);
+    });
+
+    it("should open the dropdown and focus the last item with ArrowUp", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
+      await skipAnimations(page);
+
+      const dropdown = await page.find("calcite-dropdown");
+      await dropdown.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await dropdown.getProperty("open")).toBe(true);
+      expect(await isElementFocused(page, "#item-3")).toBe(true);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-1")).toBe(true);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-3")).toBe(true);
+    });
+
+    it("should open the dropdown and focus the selected item with ArrowDown", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
+      await skipAnimations(page);
+
+      const dropdown = await page.find("calcite-dropdown");
+      await dropdown.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await dropdown.getProperty("open")).toBe(true);
+      expect(await isElementFocused(page, "#item-2")).toBe(true);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-3")).toBe(true);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-2")).toBe(true);
+    });
+
+    it("should open the dropdown and focus the selected item with ArrowUp", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
+      await skipAnimations(page);
+
+      const dropdown = await page.find("calcite-dropdown");
+      await dropdown.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await dropdown.getProperty("open")).toBe(true);
+      expect(await isElementFocused(page, "#item-2")).toBe(true);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-1")).toBe(true);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, "#item-2")).toBe(true);
+    });
   });
 });

@@ -238,7 +238,7 @@ export class Dropdown
           <div
             class="calcite-trigger-container"
             id={`${guid}-menubutton`}
-            onClick={this.openCalciteDropdown}
+            onClick={() => this.openCalciteDropdown()}
             onKeyDown={this.keyDownHandler}
             ref={this.setReferenceEl}
           >
@@ -591,6 +591,9 @@ export class Dropdown
     } else if (key === "Escape") {
       this.closeCalciteDropdown();
       event.preventDefault();
+    } else if (key === "ArrowDown" || key === "ArrowUp") {
+      this.openCalciteDropdown(key);
+      return;
     }
   };
 
@@ -634,29 +637,32 @@ export class Dropdown
     }
   }
 
-  private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(
-      this.getTraversableItems().find((item) => item.selected) || this.items[0],
-    );
+  private focusOnFirstActiveOrDefaultItem = (focusLastItem: boolean): void => {
+    const selectedItem = this.getTraversableItems().find((item) => item.selected);
+    if (selectedItem) {
+      this.getFocusableElement(selectedItem);
+      return;
+    } else {
+      this.getFocusableElement(focusLastItem ? this.items[this.items.length - 1] : this.items[0]);
+    }
   };
 
   private getFocusableElement(item: HTMLCalciteDropdownItemElement): void {
     if (!item) {
       return;
     }
-
     focusElement(item);
   }
 
-  private toggleOpenEnd = (): void => {
-    this.focusOnFirstActiveOrFirstItem();
-    this.el.removeEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+  private toggleOpenEnd = (focusLastItem: boolean): void => {
+    this.focusOnFirstActiveOrDefaultItem(focusLastItem);
+    this.el.removeEventListener("calciteDropdownOpen", () => this.toggleOpenEnd(focusLastItem));
   };
 
-  private openCalciteDropdown = () => {
+  private openCalciteDropdown = (key?: string): void => {
     this.open = !this.open;
     if (this.open) {
-      this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+      this.el.addEventListener("calciteDropdownOpen", () => this.toggleOpenEnd(key === "ArrowUp"));
     }
   };
 
