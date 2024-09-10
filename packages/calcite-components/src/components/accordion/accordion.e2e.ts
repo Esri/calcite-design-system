@@ -88,7 +88,7 @@ describe("calcite-accordion", () => {
   it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion icon-position="start", icon-type="plus-minus", selection-mode="single-persist" scale="l">
+    <calcite-accordion icon-position="start" icon-type="plus-minus" selection-mode="single-persist" scale="l">
     ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
     const accordionItems = await page.findAll("calcite-accordion-items");

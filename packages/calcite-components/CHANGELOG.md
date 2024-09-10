@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2-next.1...@esri/calcite-components@2.13.0-next.7) (2024-09-09)
+
+### Bug Fixes
+
+- **input-date-picker:** no longer emits `calciteInputDatePickerChange` event when `valueAsDate` is set programmatically ([#10246](https://github.com/Esri/calcite-design-system/issues/10246)) ([804dd39](https://github.com/Esri/calcite-design-system/commit/804dd39b358f6cb92144ec0f7316c4b50187cbfa)), closes [#8368](https://github.com/Esri/calcite-design-system/issues/8368)
+
 ## [2.12.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2-next.0...@esri/calcite-components@2.12.2-next.1) (2024-09-09)
 
 ### Bug Fixes
@@ -57,6 +63,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - **card:** component tokens ([#10161](https://github.com/Esri/calcite-design-system/issues/10161)) ([08578a3](https://github.com/Esri/calcite-design-system/commit/08578a397a11ea6820b35dd3ddde8e07ce2b264f)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [2.12.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.1...@esri/calcite-components@2.12.2) (2024-09-09)
+
+### Bug Fixes
+
+- **input-time-zone:** Ensure `beforeOpen`/`open` and `beforeClose`/`close` events emit properly ([#10228](https://github.com/Esri/calcite-design-system/issues/10228)) ([71423cb](https://github.com/Esri/calcite-design-system/commit/71423cbcaa4903a1126e14fe53f6ec0c4766530f))
+- **panel, flow-item:** Hide focus-outline when scrolling via mouse to align with browsers ([#10242](https://github.com/Esri/calcite-design-system/issues/10242)) ([7a8cb72](https://github.com/Esri/calcite-design-system/commit/7a8cb72c89507723ff0fa22853ba9888e456f4bc))
+- **shell:** Fix z-index of shell-panels ([#10224](https://github.com/Esri/calcite-design-system/issues/10224)) ([36d51b6](https://github.com/Esri/calcite-design-system/commit/36d51b6fe1fdcf1abd80ceb42c687fa652229b79))
 
 ## [2.12.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.0...@esri/calcite-components@2.12.1) (2024-09-04)
 
