@@ -17,6 +17,7 @@ import { checkbox } from "./custom-theme/checkbox";
 import { chips } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
+import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
@@ -104,7 +105,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}
+        <div style="margin-top: 40px">${handle}</div>
+        </div>
       </div>
     </div>
   </div>`;
@@ -119,6 +122,7 @@ export default {
     ...actionPadTokens,
     ...actionGroupTokens,
     ...cardTokens,
+    ...handleTokens,
   },
 };
 
@@ -135,6 +139,7 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...actionGroupTokens,
       ...cardTokens,
+      ...handleTokens,
     },
     true,
   );
