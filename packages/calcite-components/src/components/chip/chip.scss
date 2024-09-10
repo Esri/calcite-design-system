@@ -7,6 +7,8 @@
  * @prop --calcite-chip-border-color: Specifies the border color of the component.
  * @prop --calcite-chip-corner-radius: Specifies the border radius of the component.
  * @prop --calcite-chip-text-color: Specifies the text color of the component.
+ * @prop --calcite-chip-icon-color: Specifies the icon color of the component.
+ * @prop --calcite-close-icon-color: Specifies the icon color of the close element of the component.
  *
  */
 
@@ -85,7 +87,7 @@
   color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
 
   .close {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
   }
 }
 
@@ -348,6 +350,7 @@
 
 .chip-icon {
   @apply relative my-0 inline-flex duration-150 ease-in-out;
+  color: var(--calcite-chip-icon-color, var(--calcite-chip-text-color, currentColor));
   padding-inline: var(--calcite-internal-chip-icon-space, 0.375rem /* 6px */);
 }
 

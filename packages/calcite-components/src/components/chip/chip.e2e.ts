@@ -152,21 +152,6 @@ describe("calcite-chip", () => {
     let chipCloseButtonFocusStyle;
     let chipCloseButtonHoverStyle;
 
-    it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: chipSnippet });
-      const chipStyles = await page.evaluate(() => {
-        const chip = document.querySelector("calcite-chip");
-        chip.style.setProperty("--calcite-chip-transparent-hover", "rgba(3, 2, 20, 0.14)");
-        chip.style.setProperty("--calcite-chip-transparent-press", "rgba(4, 10, 4, 0.31");
-        return {
-          hoverFocus: window.getComputedStyle(chip).getPropertyValue("--calcite-chip-transparent-hover"),
-          active: window.getComputedStyle(chip).getPropertyValue("--calcite-chip-transparent-press"),
-        };
-      });
-      expect(chipStyles.hoverFocus).toEqual("rgba(3, 2, 20, 0.14)");
-      expect(chipStyles.active).toEqual("rgba(4, 10, 4, 0.31");
-    });
-
     describe("when mode attribute is not provided", () => {
       it("should render chip pseudo classes with default values tied to mode", async () => {
         page = await newE2EPage({ html: chipSnippet });
@@ -258,11 +243,20 @@ describe("calcite-chip", () => {
       });
     });
 
-    describe("outline", () => {
+    describe("appearance='outline'", () => {
       themed(html`<calcite-chip appearance="outline" kind="neutral">Layers</calcite-chip>`, {
         "--calcite-chip-border-color": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderColor",
+        },
+      });
+    });
+
+    describe("icon", () => {
+      themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
+        "--calcite-chip-icon-color": {
+          shadowSelector: `.${CSS.chipIcon}`,
+          targetProp: "color",
         },
       });
     });
