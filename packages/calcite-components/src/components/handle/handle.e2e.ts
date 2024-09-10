@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, themed, t9n } from "../../tests/commonTests";
 import { HandleMessages } from "../../components";
 import { CSS, SUBSTITUTIONS } from "./resources";
 
@@ -142,5 +142,43 @@ describe("calcite-handle", () => {
 
     await page.waitForChanges();
     expect(internalHandle.getAttribute("aria-checked")).toBe("true");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-handle", {
+        "--calcite-handle-background-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-handle-icon-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+        },
+        "--calcite-handle-icon-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-handle-icon-color-pressed": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: CSS.handle } },
+        },
+      });
+    });
+    describe("selected", () => {
+      themed("<calcite-handle selected></calcite-handle>", {
+        "--calcite-handle-background-color-selected": {
+          shadowSelector: `.${CSS.handleSelected}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-handle-icon-color-selected": {
+          shadowSelector: `.${CSS.handleSelected}`,
+          targetProp: "color",
+        },
+      });
+    });
   });
 });
