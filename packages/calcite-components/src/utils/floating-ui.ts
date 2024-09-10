@@ -448,11 +448,11 @@ export async function reposition(
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false,
 ): Promise<void> {
-  if (!options.floatingEl || !options.referenceEl) {
+  if (!options.floatingEl) {
     return;
   }
 
-  if (!component.open) {
+  if (!component.open || !options.referenceEl) {
     Object.assign(options.floatingEl.style, hiddenFloatingElStyle);
     return;
   }
