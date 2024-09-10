@@ -593,7 +593,6 @@ export class Dropdown
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
       this.openCalciteDropdown(key === "ArrowUp");
-      return;
     }
   };
 
