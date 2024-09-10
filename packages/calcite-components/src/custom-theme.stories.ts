@@ -23,6 +23,7 @@ import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
+import { tipManager, tipManagerTokens } from "./custom-theme/tip-manager";
 import { calciteSwitch } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
 
@@ -104,7 +105,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}
+        <div style="margin-top: 40px">${tipManager}</div>
+        </div>
       </div>
     </div>
   </div>`;
@@ -119,6 +122,7 @@ export default {
     ...actionPadTokens,
     ...actionGroupTokens,
     ...cardTokens,
+    ...tipManagerTokens,
   },
 };
 
@@ -135,6 +139,7 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...actionGroupTokens,
       ...cardTokens,
+      ...tipManagerTokens,
     },
     true,
   );
