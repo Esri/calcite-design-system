@@ -592,7 +592,7 @@ export class Dropdown
       this.closeCalciteDropdown();
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
-      this.openCalciteDropdown(key);
+      this.openCalciteDropdown(key === "ArrowUp");
       return;
     }
   };
@@ -640,14 +640,16 @@ export class Dropdown
   private focusOnFirstActiveOrDefaultItem = (focusLastItem: boolean): void => {
     const selectedItem = this.getTraversableItems().find((item) => item.selected);
     if (selectedItem) {
-      this.getFocusableElement(selectedItem);
+      this.focusDropdownItemElement(selectedItem);
       return;
     } else {
-      this.getFocusableElement(focusLastItem ? this.items[this.items.length - 1] : this.items[0]);
+      this.focusDropdownItemElement(
+        focusLastItem ? this.items[this.items.length - 1] : this.items[0],
+      );
     }
   };
 
-  private getFocusableElement(item: HTMLCalciteDropdownItemElement): void {
+  private focusDropdownItemElement(item: HTMLCalciteDropdownItemElement): void {
     if (!item) {
       return;
     }
@@ -659,10 +661,10 @@ export class Dropdown
     this.el.removeEventListener("calciteDropdownOpen", () => this.toggleOpenEnd(focusLastItem));
   };
 
-  private openCalciteDropdown = (key?: string): void => {
+  private openCalciteDropdown = (focusLastItem = false): void => {
     this.open = !this.open;
     if (this.open) {
-      this.el.addEventListener("calciteDropdownOpen", () => this.toggleOpenEnd(key === "ArrowUp"));
+      this.el.addEventListener("calciteDropdownOpen", () => this.toggleOpenEnd(focusLastItem));
     }
   };
 
