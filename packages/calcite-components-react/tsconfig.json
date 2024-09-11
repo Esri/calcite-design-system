@@ -1,23 +1,22 @@
 {
   "compilerOptions": {
-    "allowUnreachableCode": false,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
+    "declarationDir": "./dist/types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "esModuleInterop": true,
+    "jsx": "react",
     "lib": ["dom", "es2015"],
     "module": "esnext",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "dist",
-    "removeComments": false,
-    "jsx": "react",
-    "target": "es2015",
-    "skipLibCheck": true
+    "moduleResolution": "bundler",
+    "noImplicitAny": false,
+    "noLib": false,
+    "outDir": "./dist",
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "es2015"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"]
 }

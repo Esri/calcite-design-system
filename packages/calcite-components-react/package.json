@@ -18,21 +18,22 @@
   ],
   "scripts": {
     "prebuild": "npm run patch:jsx-import",
-    "build": "rimraf dist && npm run compile",
+    "build": "rimraf dist && npm run tsc",
     "clean": "rimraf dist node_modules .turbo",
-    "compile": "npm run tsc",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore",
     "patch:jsx-import": "tsx support/patchJSXImport.ts",
-    "tsc": "tsc"
+    "tsc": "tsc -p . --outDir ./dist"
   },
   "dependencies": {
-    "@esri/calcite-components": "2.13.0-next.7"
+    "@esri/calcite-components": "2.13.0-next.7",
+    "react-dom": "18.3.1"
   },
-  "peerDependencies": {
-    "react": ">=16.7",
-    "react-dom": ">=16.7"
+  "devDependencies": {
+    "@types/react": "18.3.5",
+    "@types/react-dom": "18.3.0",
+    "react": "18.3.1"
   },
   "volta": {
     "extends": "../../package.json"
