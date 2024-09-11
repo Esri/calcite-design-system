@@ -79,6 +79,9 @@ describe("repositioning", () => {
   });
 
   function assertClosedPositioning(floatingEl: HTMLElement): void {
+    expect(floatingEl.style.transform).toBe("");
+    expect(floatingEl.style.top).toBe("");
+    expect(floatingEl.style.left).toBe("");
     expect(floatingEl.style.display).toBe("none");
   }
 
