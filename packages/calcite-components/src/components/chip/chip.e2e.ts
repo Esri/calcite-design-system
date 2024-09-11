@@ -244,7 +244,7 @@ describe("calcite-chip", () => {
     });
 
     describe("appearance='outline'", () => {
-      themed(html`<calcite-chip appearance="outline" kind="neutral">Layers</calcite-chip>`, {
+      themed(html`<calcite-chip appearance="outline">Layers</calcite-chip>`, {
         "--calcite-chip-border-color": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderColor",
