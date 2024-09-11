@@ -12,6 +12,7 @@ import {
   slots,
   t9n,
   themed,
+  handlesActionMenuPlacements,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
@@ -87,6 +88,14 @@ describe("calcite-panel", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-panel");
+  });
+
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-panel placement="top">
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+      </calcite-panel>
+    `);
   });
 
   describe("defaults", () => {
@@ -209,27 +218,6 @@ describe("calcite-panel", () => {
       </calcite-panel>`,
       "calcite-action-menu",
     );
-  });
-
-  it("sets placement and flipPlacements on internal calcite-action-menu", async () => {
-    const page = await newE2EPage();
-    page.setContent(html`
-      <calcite-panel placement="top">
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-      </calcite-panel>
-    `);
-    await page.waitForChanges();
-
-    const flipPlacements = ["top", "bottom"];
-
-    const panel = await page.find("calcite-panel");
-    panel.setProperty("flipPlacements", flipPlacements);
-    await page.waitForChanges();
-
-    const actionMenu = await page.find("calcite-panel >>> calcite-action-menu");
-
-    expect(await actionMenu.getProperty("placement")).toBe("top");
-    expect(await actionMenu.getProperty("flipPlacements")).toEqual(flipPlacements);
   });
 
   it("honors closed prop", async () => {

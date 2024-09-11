@@ -3,6 +3,7 @@ import {
   accessible,
   defaults,
   focusable,
+  handlesActionMenuPlacements,
   hidden,
   reflects,
   renders,
@@ -69,26 +70,13 @@ describe("calcite-action-group", () => {
     slots("calcite-action-group", SLOTS);
   });
 
-  it("sets placement and flipPlacements on internal calcite-action-menu", async () => {
-    const page = await newE2EPage({});
-    page.setContent(html`
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
       <calcite-action-group scale="l" overlay-positioning="fixed" placement="top">
         <calcite-action id="plus" slot="${SLOTS.menuActions}" text="Add" icon="plus"></calcite-action>
         <calcite-action id="banana" slot="${SLOTS.menuActions}" text="Banana" icon="banana"></calcite-action>
       </calcite-action-group>
     `);
-    await page.waitForChanges();
-
-    const flipPlacements = ["top", "bottom"];
-
-    const actionGroup = await page.find("calcite-action-group");
-    actionGroup.setProperty("flipPlacements", flipPlacements);
-    await page.waitForChanges();
-
-    const actionMenu = await page.find("calcite-action-group >>> calcite-action-menu");
-
-    expect(await actionMenu.getProperty("placement")).toBe("top");
-    expect(await actionMenu.getProperty("flipPlacements")).toEqual(flipPlacements);
   });
 
   it("should honor scale of expand icon", async () => {

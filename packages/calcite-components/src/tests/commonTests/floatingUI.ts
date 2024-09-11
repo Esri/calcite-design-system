@@ -132,3 +132,37 @@ export async function delegatesToFloatingUiOwningComponent(
     expect(await floatingUiOwningComponent.getProperty("overlayPositioning")).toBe("fixed");
   });
 }
+
+/**
+ * Helper to test if a component has a calcite-action-menu wired up correctly with placement and flipPlacements.
+ *
+ * @example
+ * describe("handles action-menu placement and flipPlacements", () => {
+ *   handlesActionMenuPlacements(html`
+ *    <calcite-panel placement="top">
+ *      <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+ *     </calcite-panel>
+ *   `);
+ * });
+ *
+ * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ */
+export async function handlesActionMenuPlacements(componentTagOrHTML: TagOrHTML): Promise<void> {
+  it("handles placement and flipPlacements", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const tag = getTag(componentTagOrHTML);
+
+    await page.waitForChanges();
+
+    const flipPlacements = ["top", "bottom"];
+
+    const panel = await page.find(tag);
+    panel.setProperty("flipPlacements", flipPlacements);
+    await page.waitForChanges();
+
+    const actionMenu = await page.find(`${tag} >>> calcite-action-menu`);
+
+    expect(await actionMenu.getProperty("placement")).toBe("top");
+    expect(await actionMenu.getProperty("flipPlacements")).toEqual(flipPlacements);
+  });
+}
