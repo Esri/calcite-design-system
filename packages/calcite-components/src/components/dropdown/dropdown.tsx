@@ -238,7 +238,7 @@ export class Dropdown
           <div
             class="calcite-trigger-container"
             id={`${guid}-menubutton`}
-            onClick={() => this.openCalciteDropdown()}
+            onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
             ref={this.setReferenceEl}
           >
@@ -354,7 +354,7 @@ export class Dropdown
       return;
     }
 
-    this.openCalciteDropdown();
+    this.clickHandler();
   }
 
   @Listen("pointerleave")
@@ -444,6 +444,8 @@ export class Dropdown
   transitionEl: HTMLDivElement;
 
   guid = `calcite-dropdown-${guid()}`;
+
+  private focusLastDropdownItem = false;
 
   //--------------------------------------------------------------------------
   //
@@ -541,6 +543,7 @@ export class Dropdown
 
   onOpen(): void {
     this.calciteDropdownOpen.emit();
+    this.focusOnFirstActiveOrDefaultItem();
   }
 
   onBeforeClose(): void {
@@ -573,26 +576,24 @@ export class Dropdown
       return;
     }
 
-    if (this.open) {
-      if (key === "Escape") {
-        this.closeCalciteDropdown();
-        event.preventDefault();
-        return;
-      } else if (event.shiftKey && key === "Tab") {
-        this.closeCalciteDropdown();
-        event.preventDefault();
-        return;
-      }
+    if (key === "Escape") {
+      this.closeCalciteDropdown();
+      event.preventDefault();
+      return;
+    }
+
+    if (this.open && event.shiftKey && key === "Tab") {
+      this.closeCalciteDropdown();
+      event.preventDefault();
+      return;
     }
 
     if (isActivationKey(key)) {
-      this.openCalciteDropdown();
-      event.preventDefault();
-    } else if (key === "Escape") {
-      this.closeCalciteDropdown();
+      this.clickHandler();
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
-      this.openCalciteDropdown(key === "ArrowUp");
+      this.focusLastDropdownItem = key === "ArrowUp";
+      this.clickHandler();
     }
   };
 
@@ -636,35 +637,23 @@ export class Dropdown
     }
   }
 
-  private focusOnFirstActiveOrDefaultItem = (focusLastItem: boolean): void => {
+  private focusOnFirstActiveOrDefaultItem = (): void => {
     const selectedItem = this.getTraversableItems().find((item) => item.selected);
-    if (selectedItem) {
-      this.focusDropdownItemElement(selectedItem);
-      return;
-    } else {
-      this.focusDropdownItemElement(
-        focusLastItem ? this.items[this.items.length - 1] : this.items[0],
-      );
-    }
-  };
+    const target: HTMLCalciteDropdownItemElement =
+      selectedItem ||
+      (this.focusLastDropdownItem ? this.items[this.items.length - 1] : this.items[0]);
 
-  private focusDropdownItemElement(item: HTMLCalciteDropdownItemElement): void {
-    if (!item) {
+    this.focusLastDropdownItem = false;
+
+    if (!target) {
       return;
     }
-    focusElement(item);
-  }
 
-  private toggleOpenEnd = (focusLastItem: boolean): void => {
-    this.focusOnFirstActiveOrDefaultItem(focusLastItem);
-    this.el.removeEventListener("calciteDropdownOpen", () => this.toggleOpenEnd(focusLastItem));
+    focusElement(target);
   };
 
-  private openCalciteDropdown = (focusLastItem = false): void => {
+  private clickHandler = (): void => {
     this.open = !this.open;
-    if (this.open) {
-      this.el.addEventListener("calciteDropdownOpen", () => this.toggleOpenEnd(focusLastItem));
-    }
   };
 
   private updateTabIndexOfItems(target: HTMLCalciteDropdownItemElement): void {
