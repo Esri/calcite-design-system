@@ -1151,7 +1151,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage({
       html: html`<calcite-panel heading="Issue #3048">
         <calcite-pick-list filter-enabled>
-          <calcite-dropdown open slot="menu-actions" placement="bottom-end" type="click">
+          <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
             <calcite-action slot="trigger" title="Sort" icon="sort-descending"> </calcite-action>
             <calcite-dropdown-group selection-mode="single">
               <calcite-dropdown-item>Display name</calcite-dropdown-item>
