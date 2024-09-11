@@ -430,7 +430,7 @@ describe("calcite-tabs", () => {
     `;
 
     describe("default", () => {
-      themed(html`<calcite-tabs position="bottom"> ${tabs}</calcite-tabs>`, {
+      themed(html`<calcite-tabs position="bottom">${tabs}</calcite-tabs>`, {
         "--calcite-tabs-border-color": [
           {
             shadowSelector: "section",
@@ -444,7 +444,7 @@ describe("calcite-tabs", () => {
       });
     });
     describe("bordered", () => {
-      themed(html`<calcite-tabs bordered> ${tabs}</calcite-tabs>`, {
+      themed(html`<calcite-tabs bordered>${tabs}</calcite-tabs>`, {
         "--calcite-tabs-background-color": {
           targetProp: "backgroundColor",
         },
@@ -458,7 +458,7 @@ describe("calcite-tabs", () => {
           },
         ],
       });
-      themed(html`<calcite-tabs bordered position="bottom"> ${tabs}</calcite-tabs>`, {
+      themed(html`<calcite-tabs bordered position="bottom">${tabs}</calcite-tabs>`, {
         "--calcite-tabs-border-color": {
           targetProp: "boxShadow",
         },
