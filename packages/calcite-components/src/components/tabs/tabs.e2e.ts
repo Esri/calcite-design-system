@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { Scale } from "../interfaces";
 import { TabPosition } from "../tabs/interfaces";
@@ -418,6 +418,51 @@ describe("calcite-tabs", () => {
       const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
 
       expect(selectedTitleOnEmit).toBe("Tab 2 Title");
+    });
+  });
+
+  describe("theme", () => {
+    const tabs = html`
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+    `;
+
+    describe("default", () => {
+      themed(html`<calcite-tabs position="bottom"> ${tabs}</calcite-tabs>`, {
+        "--calcite-tabs-border-color": [
+          {
+            shadowSelector: "section",
+            targetProp: "borderBlockStartColor",
+          },
+          {
+            shadowSelector: "section",
+            targetProp: "borderBlockEndColor",
+          },
+        ],
+      });
+    });
+    describe("bordered", () => {
+      themed(html`<calcite-tabs bordered> ${tabs}</calcite-tabs>`, {
+        "--calcite-tabs-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tabs-border-color": [
+          {
+            targetProp: "boxShadow",
+          },
+          {
+            shadowSelector: "section",
+            targetProp: "borderColor",
+          },
+        ],
+      });
+      themed(html`<calcite-tabs bordered position="bottom"> ${tabs}</calcite-tabs>`, {
+        "--calcite-tabs-border-color": {
+          targetProp: "boxShadow",
+        },
+      });
     });
   });
 });
