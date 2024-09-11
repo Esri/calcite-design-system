@@ -263,7 +263,7 @@ describe("calcite-chip", () => {
 
     describe("selectable", () => {
       describe("default", () => {
-        themed(html`<calcite-chip select="single">Layers</calcite-chip>`, {
+        themed(html`<calcite-chip selection-mode="single">Layers</calcite-chip>`, {
           "--calcite-chip-select-icon-color": {
             shadowSelector: `.${CSS.selectIcon}`,
             targetProp: "color",
@@ -271,7 +271,7 @@ describe("calcite-chip", () => {
         });
       });
       describe("selected", () => {
-        themed(html`<calcite-chip select="single" selected>Layers</calcite-chip>`, {
+        themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
           "--calcite-chip-select-icon-color-pressed": {
             shadowSelector: `.${CSS.selectIcon}`,
             targetProp: "color",
