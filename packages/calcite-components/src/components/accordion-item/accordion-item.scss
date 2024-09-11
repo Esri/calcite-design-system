@@ -116,7 +116,6 @@
       var(--calcite-accordion-text-color-hover, var(--calcite-color-text-2))
     );
 
-    .expand-icon,
     .heading {
       color: var(
         --calcite-accordion-item-heading-text-color,
@@ -216,8 +215,11 @@
 
   .expand-icon {
     color: var(
-      --calcite-accordion-item-text-color,
-      var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2)))
+      --calcite-accordion-item-expand-icon-color,
+      var(
+        --calcite-accordion-item-text-color,
+        var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2)))
+      )
     );
     transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
   }

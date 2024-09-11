@@ -27,24 +27,19 @@ describe("calcite-accordion-item", () => {
   describe("theme", () => {
     describe("default", () => {
       themed(
-        html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
+        html`<calcite-accordion-item
+          expanded
+          heading="Heading"
+          description="Description"
+          icon-start="home"
+          icon-end="home"
           >content</calcite-accordion-item
         >`,
         {
-          "--calcite-accordion-item-text-color": [
-            {
-              shadowSelector: `.${CSS.content}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.expandIcon}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.description}`,
-              targetProp: "color",
-            },
-          ],
+          "--calcite-accordion-item-text-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
           "--calcite-accordion-item-header-background-color": {
             targetProp: "backgroundColor",
             shadowSelector: `.${CSS.header}`,
