@@ -720,7 +720,6 @@ describe("calcite-popover", () => {
             shadowSelector: `.${FloatingCSS.animation}`,
             targetProp: "borderColor",
           },
-          // { shadowSelector: ".arrow::before", targetProp: "outline" },
           {
             shadowSelector: `.${CSS.header}`,
             targetProp: "borderBlockEndColor",

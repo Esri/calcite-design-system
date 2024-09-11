@@ -58,10 +58,6 @@
   border-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
 }
 
-.arrow::before {
-  outline: 1px solid var(--calcite-popover-border-color, var(--calcite-color-border-3));
-}
-
 .header {
   @apply flex
     flex-auto
