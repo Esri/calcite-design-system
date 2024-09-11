@@ -5,22 +5,23 @@
  *
  * @prop --calcite-alert-width: Specifies the width of the component.
  * @prop --calcite-alert-background-color: Specifies the component's background color.
- * @prop --calcite-alert-text-color: Specifies the component's text color.
- * @prop --calcite-alert-border-radius: Specifies the component's border radius.
- * @prop --calcite-alert-close-background-color-hover: Specifies the component's close button background color when hovered.
+ * @prop --calcite-alert-title-text-color: Specifies the component's title text color.
+ * @prop --calcite-alert-message-text-color: Specifies the component's message text color.
+ * @prop --calcite-alert-corner-radius: Specifies the component's border radius.
+ * @prop --calcite-alert-close-background-color-hover: Specifies the component's close button background color when hovered or focused.
+ * @prop --calcite-alert-close-background-color-pressed: Specifies the component's close button background color when active.
+ * @prop --calcite-alert-dismiss-progress-background-color: Specifies the component's dismiss progress background color.
  */
 
 $border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
-  --calcite-internal-alert-edge-distance: theme("spacing.8");
-  --calcite-internal-alert-dismiss-progress-background: var(--calcite-color-transparent-tint);
+  --calcite-internal-alert-size: theme("spacing.8");
   @apply block;
 }
 
 .container {
-  @apply bg-foreground-1
-  box-border
+  @apply box-border
   fixed
   flex
   items-center
@@ -35,12 +36,13 @@ $border-style: 1px solid var(--calcite-color-border-3);
   w-full
   z-toast;
 
-  border-radius: var(--calcite-border-radius);
+  background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
   border-block-start: 0 solid transparent;
   border-inline: $border-style;
   border-block-end: $border-style;
-  inline-size: var(--calcite-alert-width);
-  max-inline-size: calc(100% - (var(--calcite-internal-alert-edge-distance) * 2));
+  inline-size: var(--calcite-alert-width, auto);
+  max-inline-size: calc(100% - (var(--calcite-internal-alert-size) * 2));
   transition:
     opacity var(--calcite-internal-animation-timing-slow) $easing-function,
     all var(--calcite-animation-timing) ease-in-out;
@@ -51,19 +53,19 @@ $border-style: 1px solid var(--calcite-color-border-3);
     inset-inline-start: 0;
   }
   &[class*="bottom"] {
-    transform: translate3d(0, var(--calcite-internal-alert-edge-distance), 0);
-    inset-block-end: var(--calcite-internal-alert-edge-distance);
+    transform: translate3d(0, var(--calcite-internal-alert-size), 0);
+    inset-block-end: var(--calcite-internal-alert-size);
   }
   &[class*="top"] {
-    transform: translate3d(0, calc(-1 * var(--calcite-internal-alert-edge-distance)), 0);
-    inset-block-start: var(--calcite-internal-alert-edge-distance);
+    transform: translate3d(0, calc(-1 * var(--calcite-internal-alert-size)), 0);
+    inset-block-start: var(--calcite-internal-alert-size);
   }
   &[class*="start"] {
-    inset-inline-start: var(--calcite-internal-alert-edge-distance);
+    inset-inline-start: var(--calcite-internal-alert-size);
     inset-inline-end: auto;
   }
   &[class*="end"] {
-    inset-inline-end: var(--calcite-internal-alert-edge-distance);
+    inset-inline-end: var(--calcite-internal-alert-size);
     inset-inline-start: auto;
   }
 }
@@ -72,13 +74,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
   @apply flex flex-col items-center justify-center p-0;
   margin-block: auto;
   margin-inline-end: auto;
-  padding-inline-start: var(--calcite-internal-alert-spacing-token-large);
 }
 
 .close {
   @apply bg-transparent border-none cursor-pointer flex items-center justify-end outline-none self-stretch text-color-3;
   -webkit-appearance: none;
-  padding: var(--calcite-internal-alert-spacing-token-large);
 
   @apply focus-base;
   &:focus {
@@ -87,11 +87,12 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
   &:hover,
   &:focus {
-    @apply bg-foreground-2 text-color-1;
+    @apply text-color-1;
+    background-color: var(--calcite-alert-close-background-color-hover, var(--calcite-color-foreground-2));
   }
 
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-alert-close-background-color-pressed, var(--calcite-color-foreground-3));
   }
 }
 
@@ -133,7 +134,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     block;
     block-size: 2px;
     content: "";
-    background-color: var(--calcite-internal-alert-dismiss-progress-background);
+    background-color: var(--calcite-alert-dismiss-progress-background-color, var(--calcite-color-transparent-tint));
     inset-inline-end: 0;
   }
 }
@@ -144,8 +145,6 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 .text-container {
   @apply box-border flex flex-auto min-w-0 flex-col break-words;
-  padding-block: var(--calcite-internal-alert-spacing-token-small);
-  padding-inline: var(--calcite-internal-alert-spacing-token-large) var(--calcite-internal-alert-spacing-token-small);
 }
 
 .footer {
@@ -155,11 +154,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 // scale variables
 :host([scale="s"]) {
-  inline-size: var(--calcite-alert-width, 40em);
-  --calcite-internal-alert-spacing-token-small: theme("spacing.2");
-  --calcite-internal-alert-spacing-token-large: theme("spacing.3");
-  --calcite-internal-alert-footer-height: theme("height.8");
-  --calcite-internal-alert-footer-divider-gap: theme("spacing[0.5]");
+  inline-size: var(--calcite-alert-width, 40rem);
 
   @include slotted("title", "*") {
     @apply text-n1-wrap;
@@ -176,14 +171,20 @@ $border-style: 1px solid var(--calcite-color-border-3);
   .container {
     --calcite-internal-alert-min-height: 3.5rem;
   }
+  .close {
+    padding: theme("spacing.3");
+  }
+  .icon {
+    padding-inline-start: theme("spacing.3");
+  }
+  .text-container {
+    padding-block: theme("spacing.2");
+    padding-inline: theme("spacing.3") theme("spacing.2");
+  }
 }
 
 :host([scale="m"]) {
-  inline-size: var(--calcite-alert-width, 50em);
-  --calcite-internal-alert-spacing-token-small: theme("spacing.3");
-  --calcite-internal-alert-spacing-token-large: theme("spacing.4");
-  --calcite-internal-alert-footer-height: theme("height.12");
-  --calcite-internal-alert-footer-divider-gap: theme("spacing.1");
+  inline-size: var(--calcite-alert-width, 50rem);
 
   @include slotted("title", "*") {
     @apply text-0-wrap;
@@ -200,14 +201,20 @@ $border-style: 1px solid var(--calcite-color-border-3);
   .container {
     --calcite-internal-alert-min-height: 4.1875rem;
   }
+  .close {
+    padding: theme("spacing.4");
+  }
+  .icon {
+    padding-inline-start: theme("spacing.4");
+  }
+  .text-container {
+    padding-block: theme("spacing.3");
+    padding-inline: theme("spacing.4") theme("spacing.3");
+  }
 }
 
 :host([scale="l"]) {
-  inline-size: var(--calcite-alert-width, 60em);
-  --calcite-internal-alert-spacing-token-small: theme("spacing.4");
-  --calcite-internal-alert-spacing-token-large: theme("spacing.5");
-  --calcite-internal-alert-footer-height: theme("height.16");
-  --calcite-internal-alert-footer-divider-gap: theme("spacing.2");
+  inline-size: var(--calcite-alert-width, 60rem);
 
   @include slotted("title", "*") {
     @apply text-1-wrap mb-1;
@@ -224,6 +231,16 @@ $border-style: 1px solid var(--calcite-color-border-3);
   .container {
     --calcite-internal-alert-min-height: 5.625rem;
   }
+  .close {
+    padding: theme("spacing.5");
+  }
+  .icon {
+    padding-inline-start: theme("spacing.5");
+  }
+  .text-container {
+    padding-block: theme("spacing.4");
+    padding-inline: theme("spacing.5") theme("spacing.4");
+  }
 }
 
 :host([open]) {
@@ -231,10 +248,10 @@ $border-style: 1px solid var(--calcite-color-border-3);
     @apply border-t-2 opacity-100;
     pointer-events: initial;
     &[class*="bottom"] {
-      transform: translate3d(0, calc(-1 * var(--calcite-internal-alert-edge-distance)), inherit);
+      transform: translate3d(0, calc(-1 * var(--calcite-internal-alert-size)), inherit);
     }
     &[class*="top"] {
-      transform: translate3d(0, var(--calcite-internal-alert-edge-distance), inherit);
+      transform: translate3d(0, var(--calcite-internal-alert-size), inherit);
     }
   }
 }
@@ -245,17 +262,18 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 @include slotted("title", "*") {
   @apply text-0-wrap
-    text-color-1
     font-medium;
+
+  color: var(--calcite-alert-title-text-color, var(--calcite-color-text-1));
 }
 
 @include slotted("message", "*") {
   @apply text-n1-wrap
-    text-color-2
     m-0
     inline
     font-normal;
   margin-inline-end: theme("margin.2");
+  color: var(--calcite-alert-message-text-color, var(--calcite-color-text-2));
 }
 
 @include slotted("link", "*") {

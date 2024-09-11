@@ -11,6 +11,7 @@ import {
   actionGroupTokens,
 } from "./custom-theme/action";
 import { accordion } from "./custom-theme/accordion";
+import { alertTokens, alert } from "./custom-theme/alert";
 import { buttons } from "./custom-theme/button";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox } from "./custom-theme/checkbox";
@@ -105,6 +106,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           ${chips} ${pagination} ${slider}
         </div>
         <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
+        ${alert}
       </div>
     </div>
   </div>`;
@@ -119,6 +121,7 @@ export default {
     ...actionPadTokens,
     ...actionGroupTokens,
     ...cardTokens,
+    ...alertTokens,
   },
 };
 
@@ -135,6 +138,7 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...actionGroupTokens,
       ...cardTokens,
+      ...alertTokens,
     },
     true,
   );

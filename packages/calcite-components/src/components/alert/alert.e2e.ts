@@ -2,8 +2,8 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils";
-import { openClose } from "../../tests/commonTests";
-import { CSS, DURATIONS } from "./resources";
+import { openClose, themed } from "../../tests/commonTests";
+import { CSS, DURATIONS, SLOTS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 
 describe("defaults", () => {
@@ -593,5 +593,52 @@ describe("calcite-alert", () => {
 
   describe("translation support", () => {
     t9n("calcite-alert");
+  });
+
+  describe("theme", () => {
+    themed(
+      html`
+        <calcite-alert label="this is a default alert" scale="s">
+          <div slot="${SLOTS.title}">Test title</div>
+          <div slot="${SLOTS.message}">Test message</div>
+        </calcite-alert>
+      `,
+      {
+        /*"--calcite-alert-width": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "inlineSize",
+      },*/
+        "--calcite-alert-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        /*"--calcite-alert-title-text-color": {
+          shadowSelector: `.${CSS.textContainer}`,
+          targetProp: "color",
+        },*/
+        /*"--calcite-alert-message-text-color": {
+        shadowSelector: `.${CSS.textContainer}`,
+        targetProp: "color",
+      },*/
+        "--calcite-alert-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        /*"--calcite-alert-close-background-color-hover": {
+        shadowSelector: `.${CSS.close}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },*/
+        /*"--calcite-alert-close-background-color-pressed": {
+        shadowSelector: `.${CSS.close}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.close } },
+      },*/
+        /*"--calcite-alert-dismiss-progress-background-color": {
+        shadowSelector: `.${CSS.dismissProgress}`,
+        targetProp: "backgroundColor",
+      },*/
+      },
+    );
   });
 });
