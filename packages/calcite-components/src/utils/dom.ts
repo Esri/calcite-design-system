@@ -186,7 +186,7 @@ export function queryElementRoots<T extends Element = Element>(
           (rootNode.getElementById(id) as Element as T)
         : null
       : selector
-        ? (rootNode.querySelector(selector) as T)
+        ? rootNode.querySelector(selector)
         : null;
 
     const host = getHost(rootNode);

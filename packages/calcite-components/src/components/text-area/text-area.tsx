@@ -341,7 +341,7 @@ export class TextArea
               [CSS.readOnly]: this.readOnly,
               [CSS.hide]: !hasFooter,
             }}
-            ref={(el) => (this.footerEl = el as HTMLElement)}
+            ref={(el) => (this.footerEl = el)}
           >
             <div
               class={{

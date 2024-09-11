@@ -1650,7 +1650,7 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           readOnly={this.readOnly}
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
+          ref={(el) => (this.textInput = el)}
           role="combobox"
           tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"

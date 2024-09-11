@@ -730,9 +730,7 @@ export class List
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest(parentSelector) as
-      | HTMLCalciteListItemElement
-      | HTMLCalciteListItemGroupElement;
+    const closestParent = el.parentElement.closest(parentSelector);
 
     if (!closestParent) {
       return;
