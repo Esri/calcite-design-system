@@ -20,7 +20,7 @@ describe("calcite-progress", () => {
   });
 
   describe("theme", () => {
-    themed(html`<calcite-progress text="optional text"></calcite-progress>`, {
+    themed(html`<calcite-progress text="optional text" type="determinate" value="0.5"></calcite-progress>`, {
       "--calcite-progress-background-color": {
         shadowSelector: `.${CSS.track}`,
         targetProp: "backgroundColor",
