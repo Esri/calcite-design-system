@@ -593,7 +593,7 @@ export class Dropdown
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
       this.focusLastDropdownItem = key === "ArrowUp";
-      this.clickHandler();
+      this.open = true;
     }
   };
 
