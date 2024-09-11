@@ -237,10 +237,7 @@ function getValidationComponent(
 ): HTMLCalciteInputElement | HTMLCalciteRadioButtonGroupElement {
   // radio-button is formAssociated, but the validation props are on the parent group
   if (el.nodeName === "CALCITE-RADIO-BUTTON") {
-    return closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
-      el,
-      "calcite-radio-button-group",
-    );
+    return closestElementCrossShadowBoundary(el, "calcite-radio-button-group");
   }
   return el;
 }
@@ -329,12 +326,12 @@ export function submitForm(component: FormOwner): boolean {
   formEl.removeEventListener("invalid", invalidHandler, true);
 
   requestAnimationFrame(() => {
-    const invalidEls = formEl.querySelectorAll("[status=invalid]");
+    const invalidEls = formEl.querySelectorAll<HTMLCalciteInputElement>("[status=invalid]");
 
     // focus the first invalid element that has a validation message
     for (const el of invalidEls) {
-      if ((el as HTMLCalciteInputElement)?.validationMessage) {
-        (el as HTMLCalciteInputElement)?.setFocus();
+      if (el?.validationMessage) {
+        el?.setFocus();
         break;
       }
     }
@@ -388,7 +385,7 @@ export function findAssociatedForm(component: FormOwner): HTMLFormElement | null
 
   return form
     ? queryElementRoots<HTMLFormElement>(el, { id: form })
-    : closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
+    : closestElementCrossShadowBoundary(el, "form");
 }
 
 function onFormReset<T>(this: FormComponent<T>): void {

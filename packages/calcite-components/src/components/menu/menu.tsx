@@ -205,7 +205,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   handleMenuSlotChange = (event: Event): void => {
-    this.menuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.menuItems = slotChangeGetAssignedElements<HTMLCalciteMenuItemElement>(event);
     this.setMenuItemLayout(this.menuItems, this.layout);
   };
 

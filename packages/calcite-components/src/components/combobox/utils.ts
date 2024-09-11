@@ -12,7 +12,7 @@ export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
 
 export function getItemAncestors(item: HTMLCalciteComboboxItemElement): HTMLCalciteComboboxItemElement[] {
   return (
-    (item.ancestors?.filter((el) => el.nodeName === "CALCITE-COMBOBOX-ITEM") as HTMLCalciteComboboxItemElement[]) || []
+    item.ancestors?.filter((el): el is HTMLCalciteComboboxItemElement => el.nodeName === "CALCITE-COMBOBOX-ITEM") || []
   );
 }
 

@@ -369,7 +369,7 @@ export class Carousel
   };
 
   private handleSlotChange = (event: Event): void => {
-    const items = slotChangeGetAssignedElements(event) as HTMLCalciteCarouselItemElement[];
+    const items = slotChangeGetAssignedElements<HTMLCalciteCarouselItemElement>(event);
 
     if (items.length < 1) {
       return;
