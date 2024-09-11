@@ -11,6 +11,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -711,12 +712,12 @@ describe("calcite-popover", () => {
     describe("default", () => {
       themed(popoverHTML, {
         "--calcite-popover-background-color": {
-          shadowSelector: `.${CSS.calciteFloatingUIAnim}`,
+          shadowSelector: `.${FloatingCSS.animation}`,
           targetProp: "backgroundColor",
         },
         "--calcite-popover-border-color": [
           {
-            shadowSelector: `.${CSS.calciteFloatingUIAnim}`,
+            shadowSelector: `.${FloatingCSS.animation}`,
             targetProp: "borderColor",
           },
           // { shadowSelector: ".arrow::before", targetProp: "outline" },
@@ -726,7 +727,7 @@ describe("calcite-popover", () => {
           },
         ],
         "--calcite-popover-corner-radius": {
-          shadowSelector: `.${CSS.calciteFloatingUIAnim}`,
+          shadowSelector: `.${FloatingCSS.animation}`,
           targetProp: "borderRadius",
         },
         "--calcite-popover-text-color": [
@@ -741,7 +742,7 @@ describe("calcite-popover", () => {
         ],
       });
     });
-    describe("close-button", () => {
+    describe("closable", () => {
       themed(popoverHTML, {
         "--calcite-popover-corner-radius": [
           {

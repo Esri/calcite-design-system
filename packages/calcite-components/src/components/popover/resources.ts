@@ -1,5 +1,4 @@
 export const CSS = {
-  calciteFloatingUIAnim: "calcite-floating-ui-anim",
   container: "container",
   imageContainer: "image-container",
   closeButtonContainer: "close-button-container",
