@@ -44,10 +44,15 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
 import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { CSS, defaultMenuPlacement, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { BlockMessages } from "./assets/block/t9n";
 
 /**
@@ -136,7 +141,7 @@ export class Block
   /**
    * Determines where the action menu will be positioned.
    */
-  @Prop({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+  @Prop({ reflect: true }) placement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * Displays a status-related indicator icon.

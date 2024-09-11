@@ -3,9 +3,8 @@ import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
 import { Block } from "./block";
-import { defaultMenuPlacement } from "./resources";
 const { toggleDisplay } = ATTRIBUTES;
 
 interface BlockStoryArgs
@@ -21,7 +20,7 @@ interface BlockStoryArgs
 export default {
   title: "Components/Block",
   args: {
-    placement: defaultMenuPlacement,
+    placement: defaultEndMenuPlacement,
     heading: "Heading",
     description: "description",
     open: true,

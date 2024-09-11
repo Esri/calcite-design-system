@@ -1,9 +1,9 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
 import { Panel } from "./panel";
-import { defaultMenuPlacement, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
 const { collapseDirection, scale } = ATTRIBUTES;
 
 interface PanelStoryArgs
@@ -25,7 +25,7 @@ interface PanelStoryArgs
 export default {
   title: "Components/Panel",
   args: {
-    placement: defaultMenuPlacement,
+    placement: defaultEndMenuPlacement,
     closed: false,
     disabled: false,
     closable: false,

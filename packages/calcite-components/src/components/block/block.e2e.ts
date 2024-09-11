@@ -14,7 +14,8 @@ import {
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
-import { CSS, defaultMenuPlacement, SLOTS } from "./resources";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   describe("renders", () => {
@@ -45,7 +46,7 @@ describe("calcite-block", () => {
       },
       {
         propertyName: "placement",
-        defaultValue: defaultMenuPlacement,
+        defaultValue: defaultEndMenuPlacement,
       },
       {
         propertyName: "flipPlacements",
@@ -174,14 +175,13 @@ describe("calcite-block", () => {
   });
 
   it("sets placement and flipPlacements on internal calcite-action-menu", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-block heading="heading" description="description" placement="top">
-          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-          <div class="content">content</div>
-        </calcite-block>
-      `,
-    });
+    const page = await newE2EPage();
+    page.setContent(html`
+      <calcite-block heading="heading" description="description" placement="top">
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+        <div class="content">content</div>
+      </calcite-block>
+    `);
     await page.waitForChanges();
 
     const flipPlacements = ["top", "bottom"];

@@ -14,7 +14,8 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
-import { CSS, defaultMenuPlacement, IDS, SLOTS } from "./resources";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { CSS, IDS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -124,7 +125,7 @@ describe("calcite-panel", () => {
       },
       {
         propertyName: "placement",
-        defaultValue: defaultMenuPlacement,
+        defaultValue: defaultEndMenuPlacement,
       },
       {
         propertyName: "flipPlacements",
@@ -211,13 +212,12 @@ describe("calcite-panel", () => {
   });
 
   it("sets placement and flipPlacements on internal calcite-action-menu", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-panel placement="top">
-          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-panel>
-      `,
-    });
+    const page = await newE2EPage();
+    page.setContent(html`
+      <calcite-panel placement="top">
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+      </calcite-panel>
+    `);
     await page.waitForChanges();
 
     const flipPlacements = ["top", "bottom"];

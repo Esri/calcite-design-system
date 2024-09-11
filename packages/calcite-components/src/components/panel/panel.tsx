@@ -39,11 +39,16 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
-import { CSS, defaultMenuPlacement, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -172,7 +177,7 @@ export class Panel
   /**
    * Determines where the action menu will be positioned.
    */
-  @Prop({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+  @Prop({ reflect: true }) placement: LogicalPlacement = defaultEndMenuPlacement;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

@@ -271,6 +271,7 @@ export type MenuPlacement = Extract<
 >;
 
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
+export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
   /**

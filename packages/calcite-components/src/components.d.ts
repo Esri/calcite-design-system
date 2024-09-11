@@ -396,7 +396,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -635,7 +635,7 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -3875,7 +3875,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -8346,7 +8346,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -8592,7 +8592,7 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -12021,7 +12021,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
