@@ -8860,5 +8860,10 @@
     ],
     "category": "Symbols",
     "release": "3.29.0"
+  },
+  "web-adaptor": {
+    "alias": ["3.29.7", "gis", "core", "web", "diagram", "nodes", "gis", "storage", "servers", "transfer"],
+    "category": "GIS",
+    "release": "3.29.7"
   }
 }
