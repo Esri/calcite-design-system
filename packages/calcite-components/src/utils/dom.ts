@@ -200,6 +200,8 @@ export function queryElementRoots<T extends Element = Element>(
 /**
  * This helper returns the closest element matching the selector by crossing he shadow boundary if necessary.
  *
+ * Based on https://stackoverflow.com/q/54520554/194216
+ *
  * @param {Element} element The starting element.
  * @param {string} selector The selector.
  * @returns {Element} The targeted element.
@@ -216,13 +218,9 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string,
 ): T | null {
-  document.createElement;
-  // based on https://stackoverflow.com/q/54520554/194216
-  function closestFrom<T extends Element = Element>(el: Element): T | null {
-    return el ? el.closest(selector) || closestFrom(getHost(getRootNode(el))) : null;
-  }
-
-  return closestFrom(element);
+  return element
+    ? element.closest(selector) || closestElementCrossShadowBoundary(getHost(getRootNode(element)), selector)
+    : null;
 }
 
 /**
