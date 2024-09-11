@@ -8861,6 +8861,76 @@
     "category": "Symbols",
     "release": "3.29.0"
   },
+  "flag-slash": {
+    "alias": ["3.29.1", "objects", "flag", "cancel", "stop", "slash", "signal", "remove", "important", "alert"],
+    "category": "Objects",
+    "release": "3.29.1"
+  },
+  "flag": {
+    "alias": ["3.29.1", "objects", "signal", "flag", "sign", "important", "warning", "alert", "caution"],
+    "category": "Objects",
+    "release": "3.29.1"
+  },
+  "closed-caption": {
+    "alias": ["3.29.3", "media", "media", "audio", "video", "display", "text", "information"],
+    "category": "Media",
+    "release": "3.29.3"
+  },
+  "transcript": {
+    "alias": ["3.29.3", "media", "captions", "text", "video", "display", "speech"],
+    "category": "Media",
+    "release": "3.29.3"
+  },
+  "layer-connection": {
+    "alias": ["3.29.2", "layers", "plug", "top", "connection", "network", "properties"],
+    "category": "Layers",
+    "release": "3.29.2"
+  },
+  "trace-path": {
+    "alias": ["3.29.4", "gis", "tracing", "lines", "points", "edges", "path", "copy"],
+    "category": "GIS",
+    "release": "3.29.4"
+  },
+  "trace-path-complete": {
+    "alias": ["3.29.4", "gis", "lines", "path", "completion", "edges", "points", "tracing"],
+    "category": "GIS",
+    "release": "3.29.4"
+  },
+  "connection-end-left": {
+    "alias": ["3.29.5", "generic", "line", "point", "connect", "end", "left"],
+    "category": "Generic",
+    "release": "3.29.5"
+  },
+  "connection-end-right": {
+    "alias": ["3.29.5", "generic", "line", "point", "connect", "right", "end"],
+    "category": "Generic",
+    "release": "3.29.5"
+  },
+  "connection-to-connection": {
+    "alias": ["3.29.5", "generic", "connect", "two points", "line"],
+    "category": "Generic",
+    "release": "3.29.5"
+  },
+  "connection-middle": {
+    "alias": ["3.29.5", "generic", "line", "point", "middle", "connect"],
+    "category": "Generic",
+    "release": "3.29.5"
+  },
+  "justify": {
+    "alias": [
+      "3.29.6",
+      "lists",
+      "alignment",
+      "typography",
+      "paragraph",
+      "type",
+      "body text",
+      "format",
+      "justification"
+    ],
+    "category": "Lists",
+    "release": "3.29.6"
+  },
   "web-adaptor": {
     "alias": ["3.29.7", "gis", "core", "web", "diagram", "nodes", "gis", "storage", "servers", "transfer"],
     "category": "GIS",
