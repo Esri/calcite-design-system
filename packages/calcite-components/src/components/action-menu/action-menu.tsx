@@ -242,7 +242,7 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+      .filter((el): el is HTMLCalciteActionElement => el?.matches("calcite-action"));
 
     this.slottedMenuButtonEl = actions[0];
     this.connectMenuButtonEl();
@@ -349,7 +349,7 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+      .filter((el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"));
 
     this.tooltipEl = tooltips[0];
     this.setTooltipReferenceElement();
@@ -387,23 +387,18 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .reduce(
-        (previousValue: HTMLCalciteActionElement[], currentValue): HTMLCalciteActionElement[] => {
-          if (currentValue?.matches("calcite-action")) {
-            previousValue.push(currentValue as HTMLCalciteActionElement);
-            return previousValue;
-          }
-
-          if (currentValue?.matches("calcite-action-group")) {
-            return previousValue.concat(
-              Array.from(currentValue.querySelectorAll("calcite-action")),
-            );
-          }
-
+      .reduce<HTMLCalciteActionElement[]>((previousValue, currentValue) => {
+        if (currentValue?.matches("calcite-action")) {
+          previousValue.push(currentValue as HTMLCalciteActionElement);
           return previousValue;
-        },
-        [],
-      );
+        }
+
+        if (currentValue?.matches("calcite-action-group")) {
+          return previousValue.concat(Array.from(currentValue.querySelectorAll("calcite-action")));
+        }
+
+        return previousValue;
+      }, []);
 
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   };

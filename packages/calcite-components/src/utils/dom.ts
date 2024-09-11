@@ -204,10 +204,19 @@ export function queryElementRoots<T extends Element = Element>(
  * @param {string} selector The selector.
  * @returns {Element} The targeted element.
  */
+export function closestElementCrossShadowBoundary<TagName extends keyof HTMLElementTagNameMap>(
+  element: Element,
+  selector: TagName,
+): HTMLElementTagNameMap[TagName] | null;
+export function closestElementCrossShadowBoundary<T extends Element = Element>(
+  element: Element,
+  selector: string,
+): T | null;
 export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string,
 ): T | null {
+  document.createElement;
   // based on https://stackoverflow.com/q/54520554/194216
   function closestFrom<T extends Element = Element>(el: Element): T | null {
     return el ? el.closest(selector) || closestFrom(getHost(getRootNode(el))) : null;

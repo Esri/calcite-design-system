@@ -254,10 +254,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   @Listen("calciteInternalAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     const [accordion] = event.composedPath();
-    const parent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
-      this.el,
-      "calcite-accordion",
-    );
+    const parent = closestElementCrossShadowBoundary(this.el, "calcite-accordion");
 
     if (accordion !== parent) {
       return;
@@ -280,7 +277,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
+    const closestAccordionParent = closestElementCrossShadowBoundary(
       accordionItem,
       "calcite-accordion",
     );
@@ -354,7 +351,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   private emitRequestedItem(): void {
     this.calciteInternalAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement,
+      requestedAccordionItem: this.el,
     });
   }
 }

@@ -92,10 +92,7 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(
-      this.el,
-      "calcite-date-picker",
-    ) as HTMLCalciteDatePickerElement;
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   connectedCallback(): void {

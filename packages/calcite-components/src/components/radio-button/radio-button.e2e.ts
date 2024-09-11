@@ -365,8 +365,8 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector("calcite-radio-button[value=two]");
-      (second as HTMLCalciteRadioButtonElement).checked = true;
+      const second = document.querySelector<HTMLCalciteRadioButtonElement>("calcite-radio-button[value=two]");
+      second.checked = true;
     });
     await page.waitForChanges();
 
@@ -385,8 +385,8 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector("calcite-radio-button[value=one]");
-      (second as HTMLCalciteRadioButtonElement).checked = false;
+      const second = document.querySelector<HTMLCalciteRadioButtonElement>("calcite-radio-button[value=one]");
+      second.checked = false;
     });
     await page.waitForChanges();
 

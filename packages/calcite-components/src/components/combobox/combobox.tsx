@@ -1182,7 +1182,7 @@ export class Combobox
     const children = getItemChildren(item);
     if (item.selected) {
       ancestors.forEach((el) => {
-        (el as HTMLCalciteComboboxItemElement).selected = true;
+        el.selected = true;
       });
     } else {
       children.forEach((el) => (el.selected = false));

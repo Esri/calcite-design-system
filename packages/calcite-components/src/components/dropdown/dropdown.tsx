@@ -482,7 +482,7 @@ export class Dropdown
   updateGroups = (event: Event): void => {
     const groups = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+      .filter((el): el is HTMLCalciteDropdownGroupElement => el?.matches("calcite-dropdown-group"));
 
     this.groups = groups;
 

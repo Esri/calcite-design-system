@@ -186,9 +186,11 @@ export class RadioButton
   };
 
   queryButtons = (): HTMLCalciteRadioButtonElement[] => {
-    return Array.from(this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])")).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
-    ) as HTMLCalciteRadioButtonElement[];
+    return Array.from(
+      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
+        "calcite-radio-button:not([hidden])",
+      ),
+    ).filter((radioButton) => radioButton.name === this.name);
   };
 
   isFocusable = (): boolean => {
@@ -404,10 +406,10 @@ export class RadioButton
     }
 
     const radioButtons = Array.from(
-      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])"),
-    ).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
-    ) as HTMLCalciteRadioButtonElement[];
+      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
+        "calcite-radio-button:not([hidden])",
+      ),
+    ).filter((radioButton) => radioButton.name === this.name);
     let currentIndex = 0;
 
     const radioButtonsLength = radioButtons.length;
