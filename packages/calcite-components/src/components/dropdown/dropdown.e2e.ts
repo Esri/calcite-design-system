@@ -1151,7 +1151,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage({
       html: html`<calcite-panel heading="Issue #3048">
         <calcite-pick-list filter-enabled>
-          <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
+          <calcite-dropdown open slot="menu-actions" placement="bottom-end" type="click">
             <calcite-action slot="trigger" title="Sort" icon="sort-descending"> </calcite-action>
             <calcite-dropdown-group selection-mode="single">
               <calcite-dropdown-item>Display name</calcite-dropdown-item>
@@ -1163,6 +1163,7 @@ describe("calcite-dropdown", () => {
         </calcite-pick-list>
       </calcite-panel>`,
     });
+    await skipAnimations(page);
     await page.waitForChanges();
 
     const dropdownContentHeight = await (
@@ -1175,7 +1176,7 @@ describe("calcite-dropdown", () => {
       filterInput.value = "numbers";
     });
 
-    expect(dropdownContentHeight.height).toBe("88px");
+    expect(dropdownContentHeight.height).toBe("72px");
   });
 
   describe("owns a floating-ui", () => {

@@ -413,10 +413,6 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
 
 const initialFloatingElStyle = {
   display: "",
-  // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
-  position: "absolute",
-  top: "0",
-  left: "0",
 };
 
 const hiddenFloatingElStyle = {
@@ -457,7 +453,13 @@ export async function reposition(
     return;
   }
 
-  Object.assign(options.floatingEl.style, initialFloatingElStyle);
+  Object.assign(options.floatingEl.style, {
+    ...initialFloatingElStyle,
+    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+    position: options.overlayPositioning ?? "absolute",
+    top: "0",
+    left: "0",
+  });
 
   const trackedState = autoUpdatingComponentMap.get(component);
 

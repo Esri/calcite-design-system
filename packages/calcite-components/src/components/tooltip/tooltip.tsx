@@ -152,6 +152,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  floatingEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -180,7 +182,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   disconnectedCallback(): void {
     this.removeReferences();
-    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectFloatingUI(this, this.effectiveReferenceElement, this.floatingEl);
   }
 
   //--------------------------------------------------------------------------
@@ -215,19 +217,19 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   @Method()
   async reposition(delayed = false): Promise<void> {
     const {
-      el,
       effectiveReferenceElement,
       placement,
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
       arrowEl,
+      floatingEl,
     } = this;
 
     return reposition(
       this,
       {
-        floatingEl: el,
+        floatingEl,
         referenceEl: effectiveReferenceElement,
         overlayPositioning,
         placement,
@@ -262,14 +264,18 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     this.calciteTooltipClose.emit();
   }
 
-  private setTransitionEl = (el): void => {
+  private setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+  };
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = getEffectiveReferenceElement(this.el);
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    connectFloatingUI(this, this.effectiveReferenceElement, this.floatingEl);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (warn && referenceElement && !effectiveReferenceElement) {
@@ -331,23 +337,24 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         aria-live="polite"
-        calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="tooltip"
       >
-        <div
-          class={{
-            [FloatingCSS.animation]: true,
-            [FloatingCSS.animationActive]: displayed,
-          }}
-          ref={this.setTransitionEl}
-        >
-          <FloatingArrow
-            floatingLayout={floatingLayout}
-            ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
-          />
-          <div class={CSS.container}>
-            <slot />
+        <div class={CSS.positionContainer} ref={this.setFloatingEl}>
+          <div
+            class={{
+              [FloatingCSS.animation]: true,
+              [FloatingCSS.animationActive]: displayed,
+            }}
+            ref={this.setTransitionEl}
+          >
+            <FloatingArrow
+              floatingLayout={floatingLayout}
+              ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
+            />
+            <div class={CSS.container}>
+              <slot />
+            </div>
           </div>
         </div>
       </Host>

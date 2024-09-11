@@ -64,30 +64,6 @@ $floating-ui-transition-offset: 5px;
   }
 }
 
-@mixin floating-ui-host-anim {
-  @include floating-ui-anim();
-
-  :host([data-placement^="bottom"]) .calcite-floating-ui-anim {
-    @include floating-ui-offset-bottom();
-  }
-
-  :host([data-placement^="top"]) .calcite-floating-ui-anim {
-    @include floating-ui-offset-top();
-  }
-
-  :host([data-placement^="left"]) .calcite-floating-ui-anim {
-    @include floating-ui-offset-left();
-  }
-
-  :host([data-placement^="right"]) .calcite-floating-ui-anim {
-    @include floating-ui-offset-right();
-  }
-
-  :host([data-placement]) .calcite-floating-ui-anim--active {
-    @include floating-ui-anim-active();
-  }
-}
-
 @mixin floating-ui-container() {
   display: block;
   position: absolute;
@@ -100,16 +76,6 @@ $floating-ui-transition-offset: 5px;
 
 @mixin floating-ui-wrapper-active {
   visibility: visible;
-}
-
-@mixin floating-ui-host() {
-  :host {
-    @include floating-ui-container();
-  }
-
-  @include floating-ui-host-anim();
-
-  @include calcite-hydrated-hidden();
 }
 
 @mixin floating-ui-arrow {

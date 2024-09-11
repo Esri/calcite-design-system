@@ -278,6 +278,8 @@ export class Popover
 
   transitionEl: HTMLDivElement;
 
+  floatingEl: HTMLDivElement;
+
   hasLoaded = false;
 
   focusTrap: FocusTrap;
@@ -320,7 +322,7 @@ export class Popover
     this.removeReferences();
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectFloatingUI(this, this.effectiveReferenceElement, this.floatingEl);
     deactivateFocusTrap(this);
   }
 
@@ -356,7 +358,6 @@ export class Popover
   @Method()
   async reposition(delayed = false): Promise<void> {
     const {
-      el,
       effectiveReferenceElement,
       placement,
       overlayPositioning,
@@ -365,11 +366,12 @@ export class Popover
       offsetDistance,
       offsetSkidding,
       arrowEl,
+      floatingEl,
     } = this;
     return reposition(
       this,
       {
-        floatingEl: el,
+        floatingEl,
         referenceEl: effectiveReferenceElement,
         overlayPositioning,
         placement,
@@ -408,6 +410,10 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
+  private setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
@@ -423,7 +429,7 @@ export class Popover
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    connectFloatingUI(this, this.effectiveReferenceElement, this.floatingEl);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (warn && referenceElement && !effectiveReferenceElement) {
@@ -574,29 +580,30 @@ export class Popover
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         aria-live="polite"
-        calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="dialog"
       >
-        <div
-          class={{
-            [FloatingCSS.animation]: true,
-            [FloatingCSS.animationActive]: displayed,
-          }}
-          ref={this.setTransitionEl}
-        >
-          {arrowNode}
+        <div class={CSS.positionContainer} ref={this.setFloatingEl}>
           <div
             class={{
-              [CSS.hasHeader]: !!heading,
-              [CSS.container]: true,
+              [FloatingCSS.animation]: true,
+              [FloatingCSS.animationActive]: displayed,
             }}
+            ref={this.setTransitionEl}
           >
-            {this.renderHeader()}
-            <div class={CSS.content}>
-              <slot />
+            {arrowNode}
+            <div
+              class={{
+                [CSS.hasHeader]: !!heading,
+                [CSS.container]: true,
+              }}
+            >
+              {this.renderHeader()}
+              <div class={CSS.content}>
+                <slot />
+              </div>
+              {!heading ? this.renderCloseButton() : null}
             </div>
-            {!heading ? this.renderCloseButton() : null}
           </div>
         </div>
       </Host>

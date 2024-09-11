@@ -227,9 +227,12 @@ describe("calcite-input-date-picker", () => {
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await input.click();
+      const inputWrapper = await page.find(`calcite-input-date-picker >>> .${CSS.inputWrapper}`);
+      await inputWrapper.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
+
+      expect(await input.getProperty("open")).toBe(true);
 
       const wrapper = await page.waitForFunction(
         (calendarWrapperClass: string) =>
