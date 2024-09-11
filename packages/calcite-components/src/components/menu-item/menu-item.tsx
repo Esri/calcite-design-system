@@ -257,7 +257,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   }
 
   private handleMenuItemSlotChange = (event: Event): void => {
-    this.submenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.submenuItems = slotChangeGetAssignedElements<HTMLCalciteMenuItemElement>(event);
     this.submenuItems.forEach((item) => {
       if (!item.topLevelMenuLayout) {
         item.topLevelMenuLayout = this.topLevelMenuLayout;

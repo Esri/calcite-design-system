@@ -69,7 +69,7 @@ export class Tabs {
   @Element() el: HTMLCalciteTabsElement;
 
   private defaultSlotChangeHandler = (event): void => {
-    this.tabs = slotChangeGetAssignedElements(event, "calcite-tab") as HTMLCalciteTabElement[];
+    this.tabs = slotChangeGetAssignedElements<HTMLCalciteTabElement>(event, "calcite-tab");
   };
 
   private slotEl: HTMLSlotElement;

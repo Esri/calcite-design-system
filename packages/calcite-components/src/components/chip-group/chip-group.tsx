@@ -209,11 +209,11 @@ export class ChipGroup implements InteractiveComponent {
   private updateItems = (event?: Event): void => {
     const itemsFromSlot = this.slotRefEl
       ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
+      .filter((el): el is HTMLCalciteChipElement => el?.matches("calcite-chip"));
 
     this.items = !event
       ? itemsFromSlot
-      : (slotChangeGetAssignedElements(event) as HTMLCalciteChipElement[]);
+      : slotChangeGetAssignedElements<HTMLCalciteChipElement>(event);
 
     if (this.items?.length < 1) {
       return;

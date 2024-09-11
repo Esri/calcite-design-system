@@ -953,12 +953,14 @@ export class List
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el?.tagName && el.matches(handleSelector),
-    ) as HTMLCalciteHandleElement;
+      (el: HTMLElement): el is HTMLCalciteHandleElement =>
+        el?.tagName && el.matches(handleSelector),
+    );
 
     const dragEl = composedPath.find(
-      (el: HTMLElement) => el?.tagName && el.matches(dragSelector),
-    ) as HTMLCalciteListItemElement;
+      (el: HTMLElement): el is HTMLCalciteListItemElement =>
+        el?.tagName && el.matches(dragSelector),
+    );
 
     const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 
