@@ -63,4 +63,9 @@ describe("calcite-date-picker-month-header", () => {
     expect(await prev.isVisible()).toBe(true);
     expect(await next.isVisible()).toBe(true);
   });
+
+  it("should set the input aria-label to year", async () => {
+    const yearInput = await page.find(`calcite-date-picker-month-header >>> input`);
+    expect(yearInput.getAttribute("aria-label")).toBe("Year");
+  });
 });

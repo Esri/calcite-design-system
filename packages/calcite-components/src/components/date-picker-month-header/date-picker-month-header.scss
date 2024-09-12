@@ -103,20 +103,54 @@
   @apply flex-row-reverse;
 }
 
-.month-year-container {
-  .month-select,
-  .year-select {
-    --calcite-select-spacing-inline: var(--calcite-size-xxs);
-    --calcite-internal-select-spacing-block: var(--calcite-size-xxs);
-    --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-xxs);
-    --calcite-select-font-size: var(--calcite-font-size-md);
-    --calcite-select-line-height: var(--calcite-font-line-height-fixed-lg);
+.year-container {
+  @apply relative flex h-full;
+}
+
+.suffix {
+  @apply flex items-center;
+}
+
+.year {
+  @apply relative
+  w-11
+  py-0
+  border-none
+  inline-block
+  bg-transparent
+  text-center;
+  &:hover {
+    @apply duration-100 ease-in-out;
+    transition-property: outline-color;
+    outline: 2px solid var(--calcite-color-border-2);
+    outline-offset: -2px;
+  }
+  &:focus {
+    @apply focus-inset;
   }
 }
 
+.year,
+.suffix {
+  @apply bg-foreground-1
+    h-full
+    mx-1;
+  font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-color-text-1);
+  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-fixed-lg);
+}
+
+.month-select {
+  --calcite-select-spacing-inline: var(--calcite-size-xxs);
+  --calcite-internal-select-spacing-block: var(--calcite-size-xxs);
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-xxs);
+  --calcite-select-font-size: var(--calcite-font-size-md);
+  --calcite-select-line-height: var(--calcite-font-line-height-fixed-lg);
+}
+
 :host([scale="s"]) .month-year-container {
-  .month-select,
-  .year-select {
+  .month-select {
     --calcite-select-spacing-inline: var(--calcite-size-xxxs);
     --calcite-internal-select-spacing-block: var(--calcite-size-xxxs);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-xxxs);
@@ -124,17 +158,34 @@
     --calcite-select-font-size: var(--calcite-font-size);
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-base);
   }
+
+  .year {
+    @apply w-10;
+  }
+
+  .year,
+  .suffix {
+    font-size: var(--calcite-font-size);
+    line-height: var(--calcite-font-line-height-fixed-base);
+  }
 }
 
 :host([scale="l"]) .month-year-container {
-  .month-select,
-  .year-select {
+  .month-select {
     --calcite-select-spacing-inline: var(--calcite-size-sm);
     --calcite-internal-select-spacing-block: var(--calcite-size-sm);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-sm);
     --calcite-internal-select-block-size: #{$calcite-size-44};
     --calcite-select-font-size: var(--calcite-font-size-lg);
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-xl);
+  }
+  .year {
+    @apply w-12;
+  }
+  .year,
+  .suffix {
+    font-size: var(--calcite-font-size-lg);
+    line-height: var(--calcite-font-line-height-fixed-xl);
   }
 }
 

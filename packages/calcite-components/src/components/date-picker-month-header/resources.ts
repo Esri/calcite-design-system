@@ -8,7 +8,9 @@ export const CSS = {
   monthYearContainerReverse: "month-year-container--reverse",
   monthPicker: "month-select",
   rangeCalendar: "range-calendar",
-  yearPicker: "year-select",
+  suffix: "suffix",
+  yearContainer: "year-container",
+  textReverse: "text--reverse",
 };
 
 export const ICON = {

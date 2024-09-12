@@ -160,7 +160,8 @@ describe("calcite-date-picker", () => {
     const [prevMonth, nextMonth] = await page.findAll(
       "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action",
     );
-    const [monthSelect, yearSelect] = await page.findAll("calcite-date-picker >>> calcite-select");
+    const monthSelect = await page.find("calcite-date-picker >>> calcite-select");
+    const yearInput = await page.find("calcite-date-picker >>> input");
 
     await prevMonth.click();
     await nextMonth.click();
@@ -168,7 +169,7 @@ describe("calcite-date-picker", () => {
     await nextMonth.click();
 
     const currentMonth = await monthSelect.getProperty("value");
-    const currentYear = await yearSelect.getProperty("value");
+    const currentYear = await yearInput.getProperty("value");
     expect(currentMonth).toBe("January");
     expect(currentYear).toBe("2001");
   });
@@ -275,7 +276,6 @@ describe("calcite-date-picker", () => {
       nextMonth: "Next month",
       prevMonth: "Previous month",
       monthMenu: "Month menu",
-      yearMenu: "Year menu",
       year: "Year",
     });
   });
@@ -633,11 +633,11 @@ describe("calcite-date-picker", () => {
       const [monthSelectStart, monthSelectEnd] = await page.findAll(
         "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
       );
-      const [yearSelectStart, yearSelectEnd] = await page.findAll(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
+      const [yearInputStart, yearInputEnd] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> input",
       );
-      expect(await yearSelectStart.getProperty("value")).toBe("2024");
-      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+      expect(await yearInputStart.getProperty("value")).toBe("2024");
+      expect(await yearInputEnd.getProperty("value")).toBe("2024");
       expect(await monthSelectStart.getProperty("value")).toBe("July");
       expect(await monthSelectEnd.getProperty("value")).toBe("August");
 
@@ -652,8 +652,8 @@ describe("calcite-date-picker", () => {
 
       expect(await monthSelectStart.getProperty("value")).toBe("October");
       expect(await monthSelectEnd.getProperty("value")).toBe("November");
-      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
-      expect(await yearSelectStart.getProperty("value")).toBe("2024");
+      expect(await yearInputEnd.getProperty("value")).toBe("2024");
+      expect(await yearInputStart.getProperty("value")).toBe("2024");
     });
 
     it("should allow selecting first valid month from month select menu in end calendar", async () => {
@@ -666,11 +666,11 @@ describe("calcite-date-picker", () => {
       const [monthSelectStart, monthSelectEnd] = await page.findAll(
         "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
       );
-      const [yearSelectStart, yearSelectEnd] = await page.findAll(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
+      const [yearInputStart, yearInputEnd] = await page.findAll(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> input",
       );
-      expect(await yearSelectStart.getProperty("value")).toBe("2024");
-      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+      expect(await yearInputStart.getProperty("value")).toBe("2024");
+      expect(await yearInputEnd.getProperty("value")).toBe("2024");
       expect(await monthSelectStart.getProperty("value")).toBe("January");
       expect(await monthSelectEnd.getProperty("value")).toBe("February");
 
@@ -683,8 +683,8 @@ describe("calcite-date-picker", () => {
       );
       await page.waitForChanges();
       expect(await monthSelectStart.getProperty("value")).toBe("December");
-      expect(await yearSelectEnd.getProperty("value")).toBe("2024");
-      expect(await yearSelectStart.getProperty("value")).toBe("2023");
+      expect(await yearInputEnd.getProperty("value")).toBe("2024");
+      expect(await yearInputStart.getProperty("value")).toBe("2023");
     });
   });
 

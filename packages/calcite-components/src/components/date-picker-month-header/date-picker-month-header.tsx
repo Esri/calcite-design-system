@@ -52,7 +52,6 @@ export class DatePickerMonthHeader {
   @Watch("activeDate")
   updateSelectMenuWidth(): void {
     this.setSelectMenuWidth(this.monthPickerEl);
-    this.setSelectMenuWidth(this.yearPickerEl);
   }
 
   /**
@@ -66,19 +65,12 @@ export class DatePickerMonthHeader {
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
-  @Watch("min")
-  @Watch("max")
-  updateYearList(): void {
-    this.getYearList();
-  }
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
   @Watch("scale")
   updateScale(): void {
     this.setSelectMenuIconOffset(this.monthPickerEl);
-    this.setSelectMenuIconOffset(this.yearPickerEl);
   }
 
   /** CLDR locale data for translated calendar info. */
@@ -132,13 +124,11 @@ export class DatePickerMonthHeader {
   }
 
   connectedCallback(): void {
-    this.getYearList();
     this.setNextPrevMonthDates();
   }
 
   componentDidLoad(): void {
     this.setSelectMenuIconOffset(this.monthPickerEl);
-    this.setSelectMenuIconOffset(this.yearPickerEl);
   }
 
   render(): VNode {
@@ -181,7 +171,7 @@ export class DatePickerMonthHeader {
           }}
         >
           {this.renderMonthPicker(months, activeMonth)}
-          {this.renderYearPicker()}
+          {this.renderYearInput()}
         </div>
         {!this.position && (
           <div class={{ [CSS.chevronContainer]: true }}>{this.renderChevron("left")}</div>
@@ -207,7 +197,7 @@ export class DatePickerMonthHeader {
         {monthData.map((month: string, index: number) => {
           return (
             <calcite-option
-              disabled={this.isMonthInRange(index)}
+              disabled={!this.isMonthInRange(index)}
               selected={index === activeMonth}
               value={month}
             >
@@ -219,29 +209,29 @@ export class DatePickerMonthHeader {
     );
   }
 
-  private renderYearPicker(): VNode {
+  private renderYearInput(): VNode {
+    const suffix = this.localeData.year?.suffix;
+    const localizedYear = this.formatCalendarYear(this.activeDate.getFullYear());
     return (
-      <calcite-select
-        class={CSS.yearPicker}
-        label={this.messages.yearMenu}
-        onCalciteSelectChange={this.handleYearChange}
-        ref={(el) => (this.yearPickerEl = el)}
-        width="auto"
-      >
-        {this.yearList.map((year: number) => {
-          const yearString = year.toString();
-          return (
-            <calcite-option
-              disabled={this.isYearInRange(year)}
-              selected={this.activeDate.getFullYear() === year}
-              value={yearString}
-            >
-              {numberStringFormatter.localize(yearString)}
-              {this.localeData?.year?.suffix}
-            </calcite-option>
-          );
-        })}
-      </calcite-select>
+      <span class={CSS.yearContainer}>
+        <input
+          aria-label={this.messages.year}
+          class={{
+            year: true,
+          }}
+          inputmode="numeric"
+          maxlength="4"
+          minlength="1"
+          onChange={this.onYearChange}
+          onInput={this.onYearInput}
+          onKeyDown={this.onYearKey}
+          pattern="\d*"
+          ref={(el) => (this.yearInputEl = el)}
+          type="text"
+          value={localizedYear}
+        />
+        {suffix && <span class={CSS.suffix}>{suffix}</span>}
+      </span>
     );
   }
 
@@ -272,17 +262,6 @@ export class DatePickerMonthHeader {
     );
   }
 
-  private getYearList(): void {
-    this.yearList = [];
-    for (
-      let i = (this.min?.getFullYear() || this.defaultMinYear) - 1;
-      i <= (this.max?.getFullYear() || this.defaultMaxYear) + 1;
-      i++
-    ) {
-      this.yearList.push(i);
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -299,17 +278,9 @@ export class DatePickerMonthHeader {
 
   private parentDatePickerEl: HTMLCalciteDatePickerElement;
 
-  private yearPickerEl: HTMLCalciteSelectElement;
-
   private monthPickerEl: HTMLCalciteSelectElement;
 
-  private defaultMinYear = 1950;
-
-  private defaultMaxYear = 2050;
-
-  private defaultMinISOYear = new Date("1950-01-01");
-
-  private defaultMaxISOYear = new Date("2050-12-31");
+  private yearInputEl: HTMLInputElement;
 
   private selectMenuIconOffsetWidth: number;
 
@@ -330,16 +301,6 @@ export class DatePickerMonthHeader {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private handleYearChange = (event: Event): void => {
-    const target = event.target as HTMLCalciteSelectElement;
-    this.setYear({
-      localizedYear: numberStringFormatter.localize(
-        `${parseCalendarYear(Number(target.value), this.localeData)}`,
-      ),
-    });
-    this.setSelectMenuWidth(this.yearPickerEl);
-  };
 
   private prevMonthClick = (event: KeyboardEvent | MouseEvent): void => {
     this.handleArrowClick(event, this.prevMonthDate);
@@ -427,6 +388,7 @@ export class DatePickerMonthHeader {
     commit?: boolean;
     offset?: number;
   }): void {
+    const { yearInputEl, activeDate } = this;
     const inRangeDate = this.getInRangeDate({ localizedYear, offset });
 
     // if you've supplied a year and it's in range, update active date
@@ -435,10 +397,7 @@ export class DatePickerMonthHeader {
     }
 
     if (commit) {
-      this.yearPickerEl.value = formatCalendarYear(
-        (inRangeDate || this.activeDate).getFullYear(),
-        this.localeData,
-      ).toString();
+      yearInputEl.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
 
@@ -478,16 +437,53 @@ export class DatePickerMonthHeader {
 
   private isMonthInRange = (index: number): boolean => {
     const newActiveDate = getDateInMonth(this.activeDate, index);
-    return (
-      newActiveDate > (this.max || this.defaultMaxISOYear) ||
-      newActiveDate < (this.min || this.defaultMinISOYear)
-    );
+
+    if (!this.min && !this.max) {
+      return true;
+    }
+
+    return (!!this.max && newActiveDate < this.max) || (!!this.min && newActiveDate > this.min);
   };
 
-  private isYearInRange = (year: number): boolean => {
-    return (
-      year > (this.max?.getFullYear() || this.defaultMaxYear) ||
-      year < (this.min?.getFullYear() || this.defaultMinYear)
+  /**
+   * Increment year on UP/DOWN keys
+   *
+   * @param event
+   */
+  private onYearKey = (event: KeyboardEvent): void => {
+    const localizedYear = this.parseCalendarYear((event.target as HTMLInputElement).value);
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault();
+        this.setYear({ localizedYear, offset: -1 });
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        this.setYear({ localizedYear, offset: 1 });
+        break;
+    }
+  };
+
+  private formatCalendarYear(year: number): string {
+    return numberStringFormatter.localize(`${formatCalendarYear(year, this.localeData)}`);
+  }
+
+  private parseCalendarYear(year: string): string {
+    return numberStringFormatter.localize(
+      `${parseCalendarYear(Number(numberStringFormatter.delocalize(year)), this.localeData)}`,
     );
+  }
+
+  private onYearChange = (event: Event): void => {
+    this.setYear({
+      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
+    });
+  };
+
+  private onYearInput = (event: Event): void => {
+    this.setYear({
+      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
+      commit: false,
+    });
   };
 }
