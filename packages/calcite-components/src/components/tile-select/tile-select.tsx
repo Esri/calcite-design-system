@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -232,7 +230,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     const { localName } = this.input;
 
     if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = true;
+      this.input.hovered = true;
     }
   }
 
@@ -245,7 +243,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     const { localName } = this.input;
 
     if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = false;
+      this.input.hovered = false;
     }
   }
 
@@ -257,7 +255,6 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   connectedCallback(): void {
     this.renderInput();
-    connectInteractive(this);
   }
 
   componentWillLoad(): void {
@@ -270,7 +267,6 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
-    disconnectInteractive(this);
   }
 
   componentDidRender(): void {

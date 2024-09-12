@@ -39,6 +39,12 @@ Type: `Promise<void>`
 | `"tooltip"` | A slot for adding an tooltip for the menu.                        |
 | `"trigger"` | A slot for adding a `calcite-action` to trigger opening the menu. |
 
+## CSS Custom Properties
+
+| Name                                | Description                                      |
+| ----------------------------------- | ------------------------------------------------ |
+| `--calcite-action-menu-items-space` | Specifies the space between actions in the menu. |
+
 ## Dependencies
 
 ### Used by

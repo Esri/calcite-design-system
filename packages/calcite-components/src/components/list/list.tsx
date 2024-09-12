@@ -15,8 +15,6 @@ import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -58,7 +56,7 @@ import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
-const parentSelector = "calcite-list-item-group, calcite-list-item";
+const parentSelector = "calcite-list-item-group, calcite-list-item" as const;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -413,7 +411,6 @@ export class List
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
-    connectInteractive(this);
     this.setParentList();
   }
 
@@ -433,7 +430,6 @@ export class List
   disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -734,9 +730,9 @@ export class List
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest(parentSelector) as
-      | HTMLCalciteListItemElement
-      | HTMLCalciteListItemGroupElement;
+    const closestParent = el.parentElement.closest<
+      HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement
+    >(parentSelector);
 
     if (!closestParent) {
       return;
@@ -848,7 +844,7 @@ export class List
     }));
   };
 
-  private updateListItems = debounce((emit = false): void => {
+  private updateListItems = debounce((emitFilterChange = false): void => {
     const { selectionAppearance, selectionMode, dragEnabled, el } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -874,11 +870,11 @@ export class List
       }
     }
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.updateFilteredItems(emit);
+    this.updateFilteredItems(emitFilterChange);
     this.borderItems();
     this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
-    this.updateSelectedItems(emit);
+    this.updateSelectedItems();
     this.setUpSorting();
   }, debounceTimeout);
 
@@ -957,12 +953,14 @@ export class List
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el?.tagName && el.matches(handleSelector),
-    ) as HTMLCalciteHandleElement;
+      (el: HTMLElement): el is HTMLCalciteHandleElement =>
+        el?.tagName && el.matches(handleSelector),
+    );
 
     const dragEl = composedPath.find(
-      (el: HTMLElement) => el?.tagName && el.matches(dragSelector),
-    ) as HTMLCalciteListItemElement;
+      (el: HTMLElement): el is HTMLCalciteListItemElement =>
+        el?.tagName && el.matches(dragSelector),
+    );
 
     const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 

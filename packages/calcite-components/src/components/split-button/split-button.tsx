@@ -11,8 +11,6 @@ import {
 } from "@stencil/core";
 import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -86,7 +84,7 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) dropdownLabel: string;
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -172,10 +170,6 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -186,10 +180,6 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   render(): VNode {

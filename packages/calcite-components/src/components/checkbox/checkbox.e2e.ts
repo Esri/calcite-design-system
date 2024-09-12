@@ -36,7 +36,15 @@ describe("calcite-checkbox", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-checkbox");
+    disabled("calcite-checkbox", {
+      focusTarget: {
+        tab: "calcite-checkbox",
+        click: {
+          pointer: "calcite-checkbox",
+          method: "calcite-checkbox",
+        },
+      },
+    });
   });
 
   it("renders with correct default attributes", async () => {

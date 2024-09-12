@@ -78,8 +78,8 @@
 
 slot[name="panel-start"]::slotted(calcite-shell-panel),
 slot[name="panel-end"]::slotted(calcite-shell-panel) {
-  @apply relative
-  z-header;
+  @apply relative;
+  z-index: calc(var(--calcite-z-index) + 1);
 }
 
 slot[name="panel-end"]::slotted(calcite-shell-panel) {

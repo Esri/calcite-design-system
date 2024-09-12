@@ -23,8 +23,6 @@ import {
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -236,7 +234,6 @@ export class Block
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
 
@@ -244,7 +241,6 @@ export class Block
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);

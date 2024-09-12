@@ -18,8 +18,6 @@ import {
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -143,12 +141,10 @@ export class ValueListItem
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {
@@ -281,7 +277,7 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
-          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
+          ref={(el) => (this.handleEl = el)}
           role="button"
           tabindex="0"
         >

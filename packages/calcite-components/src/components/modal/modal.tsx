@@ -56,6 +56,12 @@ import { CSS, ICONS, SLOTS } from "./resources";
 let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
+logger.deprecated("component", {
+  name: "modal",
+  removalVersion: 4,
+  suggested: "dialog",
+});
+
 /**
  * @deprecated Use the `calcite-dialog` component instead.
  * @slot header - A slot for adding header text.
@@ -66,13 +72,6 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-
-logger.deprecated("component", {
-  name: "modal",
-  removalVersion: 4,
-  suggested: "dialog",
-});
-
 @Component({
   tag: "calcite-modal",
   styleUrl: "modal.scss",

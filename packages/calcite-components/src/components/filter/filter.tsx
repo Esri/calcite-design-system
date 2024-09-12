@@ -13,8 +13,6 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -176,7 +174,6 @@ export class Filter
   }
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -186,7 +183,6 @@ export class Filter
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.filterDebounced.cancel();

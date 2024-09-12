@@ -24,8 +24,6 @@ import {
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -149,12 +147,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
     }
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentWillRender(): void {

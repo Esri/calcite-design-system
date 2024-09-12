@@ -31,8 +31,6 @@ import {
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -109,7 +107,7 @@ export class Dropdown
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -209,7 +207,6 @@ export class Dropdown
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
-    connectInteractive(this);
     this.updateItems();
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
@@ -230,7 +227,6 @@ export class Dropdown
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -486,7 +482,7 @@ export class Dropdown
   updateGroups = (event: Event): void => {
     const groups = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+      .filter((el): el is HTMLCalciteDropdownGroupElement => el?.matches("calcite-dropdown-group"));
 
     this.groups = groups;
 

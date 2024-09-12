@@ -9,6 +9,8 @@ For comprehensive guidance on using and implementing `calcite-modal`, refer to t
 </style>
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `calcite-dialog` component instead.
+
 ## Properties
 
 | Property               | Attribute                | Description                                                                                                                | Type                                                      | Default     |
@@ -67,6 +69,18 @@ Updates the element(s) that are used within the focus-trap of the component.
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot               | Description                                                                                                                                  |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `"back"`           | A slot for adding a back button.                                                                                                             |
+| `"content"`        | A slot for adding the component's content.                                                                                                   |
+| `"content-bottom"` | A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down. |
+| `"content-top"`    | A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.    |
+| `"header"`         | A slot for adding header text.                                                                                                               |
+| `"primary"`        | A slot for adding a primary button.                                                                                                          |
+| `"secondary"`      | A slot for adding a secondary button.                                                                                                        |
 
 ## CSS Custom Properties
 

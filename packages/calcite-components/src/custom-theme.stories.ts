@@ -18,6 +18,9 @@ import { chips, chipTokens } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { icon } from "./custom-theme/icon";
+import { input, inputTokens } from "./custom-theme/input";
+import { inputNumber } from "./custom-theme/input-number";
+import { inputText } from "./custom-theme/input-text";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
@@ -96,6 +99,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
             <div style="width: 40px; height: 40px;">${actionMenu}</div>
             ${icon}
           </div>
+          ${input} ${inputNumber} ${inputText}
         </div>
         <div class="demo-column">
           <div>${card}</div>
@@ -120,6 +124,7 @@ export default {
     ...actionGroupTokens,
     ...cardTokens,
     ...chipTokens,
+    ...inputTokens,
   },
 };
 
@@ -137,6 +142,7 @@ export const theming_TestOnly = (): string => {
       ...actionGroupTokens,
       ...cardTokens,
       ...chipTokens,
+      ...inputTokens,
     },
     true,
   );
