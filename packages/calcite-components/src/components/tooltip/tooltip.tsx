@@ -266,6 +266,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   private setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
+    requestAnimationFrame(() => this.setUpReferenceElement());
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {

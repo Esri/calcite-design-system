@@ -2,7 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS } from "../tooltip/resources";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getElementXY, GlobalTestProps } from "../../tests/utils";
+import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils";
 
 interface PointerMoveOptions {
   delay: number;
@@ -1139,15 +1139,18 @@ describe("calcite-tooltip", () => {
     it("should work when clicking on a reference element first", async () => {
       const page = await newE2EPage();
       await page.setContent(pageContent);
+      await skipAnimations(page);
       await page.waitForChanges();
       const tooltip = await page.find("calcite-tooltip");
+      const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
       const referenceElement = await page.find("#ref");
 
       await referenceElement.click();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
-      await tooltip.click();
+      await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+      await positionContainer.click();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -1163,15 +1166,18 @@ describe("calcite-tooltip", () => {
     it("should work when focusing on a reference element first", async () => {
       const page = await newE2EPage();
       await page.setContent(pageContent);
+      await skipAnimations(page);
       await page.waitForChanges();
       const tooltip = await page.find("calcite-tooltip");
+      const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
       const referenceElement = await page.find("#ref");
 
       await referenceElement.focus();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
-      await tooltip.click();
+      await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+      await positionContainer.click();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
