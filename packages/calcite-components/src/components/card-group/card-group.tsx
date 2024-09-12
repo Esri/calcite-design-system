@@ -182,7 +182,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   private updateSlottedItems = (target: HTMLSlotElement): void => {
     this.items = target
       .assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-card")) as HTMLCalciteCardElement[];
+      .filter((el): el is HTMLCalciteCardElement => el?.matches("calcite-card"));
   };
 
   private updateSelectedItems = (): void => {

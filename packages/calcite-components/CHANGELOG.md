@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.9...@esri/calcite-components@2.13.0-next.10) (2024-09-12)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.13.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.8...@esri/calcite-components@2.13.0-next.9) (2024-09-12)
+
+### Features
+
+- **input, input-number, input-text:** add prefix and suffix width css tokens ([#10206](https://github.com/Esri/calcite-design-system/issues/10206)) ([7a6ee82](https://github.com/Esri/calcite-design-system/commit/7a6ee829c38cad7d5e081366d15eda53a75d5bb6)), closes [#8154](https://github.com/Esri/calcite-design-system/issues/8154)
+
+## [2.13.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.7...@esri/calcite-components@2.13.0-next.8) (2024-09-11)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [2.13.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2-next.1...@esri/calcite-components@2.13.0-next.7) (2024-09-09)
 
 ### Bug Fixes
