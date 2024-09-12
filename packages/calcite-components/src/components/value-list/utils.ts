@@ -29,13 +29,14 @@ export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
 } {
   const handle = event
     .composedPath()
-    .find((item: HTMLElement) => item.dataset?.jsHandle !== undefined) as HTMLCalciteHandleElement;
+    .find((item: HTMLElement): item is HTMLCalciteHandleElement => item.dataset?.jsHandle !== undefined);
 
   const item = event
     .composedPath()
     .find(
-      (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item",
-    ) as HTMLCalciteValueListItemElement;
+      (item: HTMLElement): item is HTMLCalciteValueListItemElement =>
+        item.tagName?.toLowerCase() === "calcite-value-list-item",
+    );
 
   return { handle, item };
 }

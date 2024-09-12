@@ -6,28 +6,11 @@ import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interface
 
 expect.extend(toHaveNoViolations);
 
-interface BeforeToggle {
-  /**
-   * Function argument to simulate user input (mouse or keyboard), to open the component.
-   */
-  open: (page: E2EPage) => Promise<void>;
-
-  /**
-   * Function argument to simulate user input (mouse or keyboard), to close the component.
-   */
-  close: (page: E2EPage) => Promise<void>;
-}
-
 interface OpenCloseOptions {
   /**
    * Toggle property to test. Currently, either "open" or "expanded".
    */
   openPropName?: string;
-
-  /**
-   * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
-   */
-  beforeToggle?: BeforeToggle;
 
   /**
    * When `true`, the test will assert that the delays match those used when animation is disabled
@@ -74,7 +57,6 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
       tag,
       page,
       openPropName: effectiveOptions.openPropName,
-      beforeToggle: effectiveOptions.beforeToggle,
       animationsEnabled: !effectiveOptions.willUseFallback,
     });
   });
@@ -87,7 +69,6 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
     await setUpEventListeners(tag, page);
     await testOpenCloseEvents({
       animationsEnabled: false,
-      beforeToggle: effectiveOptions.beforeToggle,
       openPropName: effectiveOptions.openPropName,
       page,
       tag,
@@ -123,7 +104,6 @@ openClose.initial = function openCloseInitial(
     await setUpEventListeners(tag, page);
     await testOpenCloseEvents({
       animationsEnabled: true,
-      beforeToggle: effectiveOptions.beforeToggle,
       openPropName: effectiveOptions.openPropName,
       page,
       startOpen: true,
@@ -140,7 +120,6 @@ openClose.initial = function openCloseInitial(
     await setUpEventListeners(tag, page);
     await testOpenCloseEvents({
       animationsEnabled: false,
-      beforeToggle: effectiveOptions.beforeToggle,
       openPropName: effectiveOptions.openPropName,
       page,
       startOpen: true,
@@ -171,11 +150,6 @@ interface TestOpenCloseEventsParams {
   startOpen?: boolean;
 
   /**
-   * Functions to simulate user input (mouse or keyboard) to open or close the component.
-   */
-  beforeToggle?: BeforeToggle;
-
-  /**
    * Whether animations are enabled.
    */
   animationsEnabled: boolean;
@@ -183,7 +157,6 @@ interface TestOpenCloseEventsParams {
 
 async function testOpenCloseEvents({
   animationsEnabled,
-  beforeToggle,
   openPropName,
   page,
   startOpen = false,
@@ -232,11 +205,7 @@ async function testOpenCloseEvents({
   await page.waitForChanges();
 
   if (!startOpen) {
-    if (beforeToggle) {
-      await beforeToggle.open(page);
-    } else {
-      element.setProperty(openPropName, true);
-    }
+    element.setProperty(openPropName, true);
   }
 
   await page.waitForChanges();
@@ -245,11 +214,7 @@ async function testOpenCloseEvents({
 
   assertEventSequence([1, 1, 0, 0]);
 
-  if (startOpen || !beforeToggle) {
-    element.setProperty(openPropName, false);
-  } else {
-    await beforeToggle.close(page);
-  }
+  element.setProperty(openPropName, false);
 
   await page.waitForChanges();
   await beforeCloseEvent;

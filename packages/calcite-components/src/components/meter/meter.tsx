@@ -439,7 +439,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="high-label-line"
-        ref={(el) => (this.highLabelEl = el as HTMLDivElement)}
+        ref={(el) => (this.highLabelEl = el)}
         style={style}
       >
         {label}
@@ -458,7 +458,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="max-label-line"
-        ref={(el) => (this.maxLabelEl = el as HTMLDivElement)}
+        ref={(el) => (this.maxLabelEl = el)}
         style={style}
       >
         {labelMax}
@@ -508,7 +508,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
             [CSS.valueVisible]: valueLabel,
             [appearance]: appearance !== "outline-fill",
           }}
-          ref={(el) => (this.meterContainerEl = el as HTMLDivElement)}
+          ref={(el) => (this.meterContainerEl = el)}
           role="meter"
         >
           {this.renderMeterFill()}

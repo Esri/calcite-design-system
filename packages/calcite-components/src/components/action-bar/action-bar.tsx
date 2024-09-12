@@ -357,9 +357,9 @@ export class ActionBar
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
+    const groups = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionGroupElement => el.matches("calcite-action-group"),
+    );
 
     this.setGroupLayout(groups);
   };
@@ -373,9 +373,9 @@ export class ActionBar
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
