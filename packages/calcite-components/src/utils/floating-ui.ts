@@ -99,8 +99,13 @@ export const positionFloatingUI =
       type: UIType;
     },
   ): Promise<void> => {
-    if (!referenceEl || !floatingEl) {
+    if (!floatingEl) {
       return null;
+    }
+
+    if (!referenceEl) {
+      Object.assign(floatingEl.style, hiddenFloatingElStyle);
+      return;
     }
 
     const isRTL = getElementDir(floatingEl) === "rtl";
@@ -569,13 +574,17 @@ export async function connectFloatingUI(
   referenceEl: ReferenceElement,
   floatingEl: HTMLElement,
 ): Promise<void> {
-  if (!floatingEl || !referenceEl) {
+  if (!floatingEl) {
+    return;
+  }
+
+  Object.assign(floatingEl.style, hiddenFloatingElStyle);
+
+  if (!referenceEl) {
     return;
   }
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
-
-  Object.assign(floatingEl.style, hiddenFloatingElStyle);
 
   if (!component.open) {
     return;
