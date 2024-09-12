@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { CSS as DropdownCSS } from "../../components/dropdown/resources";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -239,9 +240,7 @@ describe("calcite-split-button", () => {
       <calcite-dropdown-item id="item-3">Option 4</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-split-button>`);
-    const positionContainer = await page.find(
-      "calcite-split-button >>> calcite-dropdown >>> .calcite-dropdown-wrapper",
-    );
+    const positionContainer = await page.find(`calcite-split-button >>> calcite-dropdown >>> .${DropdownCSS.wrapper}`);
     const secondary = await page.find(`calcite-split-button >>> calcite-button[split-child="secondary"]`);
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
     await secondary.click();

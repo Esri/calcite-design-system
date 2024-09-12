@@ -47,7 +47,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { ItemKeyboardEvent } from "./interfaces";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -250,11 +250,7 @@ export class Dropdown
               onSlotchange={this.updateTriggers}
             />
           </div>
-          <div
-            aria-hidden={toAriaBoolean(!open)}
-            class="calcite-dropdown-wrapper"
-            ref={this.setFloatingEl}
-          >
+          <div aria-hidden={toAriaBoolean(!open)} class={CSS.wrapper} ref={this.setFloatingEl}>
             <div
               aria-labelledby={`${guid}-menubutton`}
               class={{

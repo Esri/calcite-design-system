@@ -15,6 +15,7 @@ import {
 import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
+import { CSS as PopoverCSS } from "../../components/popover/resources";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(
@@ -865,7 +866,7 @@ describe("calcite-input-time-picker", () => {
       );
       await skipAnimations(page);
       const popoverPositionContainer = await page.find(
-        "calcite-input-time-picker >>> calcite-popover >>> .position-container",
+        `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
       );
 
       await page.keyboard.press("Tab");
@@ -934,32 +935,26 @@ describe("calcite-input-time-picker", () => {
     });
 
     it("toggles the time picker when clicked", async () => {
-      let popoverPositionContainer = await page.find(
-        "calcite-input-time-picker >>> calcite-popover >>> .position-container",
+      const popoverPositionContainer = await page.find(
+        `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
       );
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
 
       await inputTimePicker.click();
       await page.waitForChanges();
-      popoverPositionContainer = await page.find(
-        "calcite-input-time-picker >>> calcite-popover >>> .position-container",
-      );
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
 
       await inputTimePicker.click();
       await page.waitForChanges();
-      popoverPositionContainer = await page.find(
-        "calcite-input-time-picker >>> calcite-popover >>> .position-container",
-      );
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
     });
 
     it("toggles the time picker when using arrow down/escape key", async () => {
-      let popoverPositionContainer = await page.find(
-        "calcite-input-time-picker >>> calcite-popover >>> .position-container",
+      const popoverPositionContainer = await page.find(
+        `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
       );
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
@@ -968,17 +963,11 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      popoverPositionContainer = await page.find(
-        "calcite-input-time-picker >>> calcite-popover >>> .position-container",
-      );
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      popoverPositionContainer = await page.find(
-        "calcite-input-time-picker >>> calcite-popover >>> .position-container",
-      );
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
     });
