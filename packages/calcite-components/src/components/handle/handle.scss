@@ -8,7 +8,6 @@
 * @prop --calcite-handle-background-color-selected: Specifies the component's background color when selected.
 * @prop --calcite-handle-icon-color: Specifies the component's icon color.
 * @prop --calcite-handle-icon-color-hover: Specifies the component's icon color on hover.
-* @prop --calcite-handle-icon-color-pressed: Specifies the component's icon color when pressed.
 * @prop --calcite-handle-icon-color-selected: Specifies the component's icon color when selected.
 */
 
@@ -35,20 +34,21 @@
   }
 }
 
-:host(:hover) .handle {
+:host(:not([disabled])) .handle {
   @apply cursor-move;
+  &:hover {
+    color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
+    background-color: var(--calcite-handle-background-color-hover, var(--calcite-color-foreground-2));
+  }
+  &:focus {
+    @apply focus-inset;
 
-  color: var(--calcite-handle-icon-color, var(--calcite-color-text-1));
-  background-color: var(--calcite-handle-background-color, var(--calcite-color-foreground-2));
-}
-
-:host(:focus) {
-  color: var(--calcite-handle-icon-color, var(--calcite-color-text-1));
-}
-
-:host([selected]) {
-  color: var(--calcite-handle-icon-color, var(--calcite-color-text-1));
-  background-color: var(--calcite-handle-background-color, var(--calcite-color-foreground-3));
+    color: var(--calcite-handle-icon-color-pressed, var(--calcite-color-text-1));
+  }
+  &--selected {
+    color: var(--calcite-handle-icon-color-selected, var(--calcite-color-text-1));
+    background-color: var(--calcite-handle-background-color-selected, var(--calcite-color-foreground-3));
+  }
 }
 
 @include disabled();
