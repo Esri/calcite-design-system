@@ -8915,5 +8915,20 @@
     "alias": ["3.29.5", "generic", "line", "point", "middle", "connect"],
     "category": "Generic",
     "release": "3.29.5"
+  },
+  "justify": {
+    "alias": [
+      "3.29.6",
+      "lists",
+      "alignment",
+      "typography",
+      "paragraph",
+      "type",
+      "body text",
+      "format",
+      "justification"
+    ],
+    "category": "Lists",
+    "release": "3.29.6"
   }
 }

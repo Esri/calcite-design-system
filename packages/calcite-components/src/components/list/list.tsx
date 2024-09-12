@@ -56,7 +56,7 @@ import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
-const parentSelector = "calcite-list-item-group, calcite-list-item";
+const parentSelector = "calcite-list-item-group, calcite-list-item" as const;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -730,9 +730,9 @@ export class List
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest(parentSelector) as
-      | HTMLCalciteListItemElement
-      | HTMLCalciteListItemGroupElement;
+    const closestParent = el.parentElement.closest<
+      HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement
+    >(parentSelector);
 
     if (!closestParent) {
       return;
@@ -953,12 +953,14 @@ export class List
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el?.tagName && el.matches(handleSelector),
-    ) as HTMLCalciteHandleElement;
+      (el: HTMLElement): el is HTMLCalciteHandleElement =>
+        el?.tagName && el.matches(handleSelector),
+    );
 
     const dragEl = composedPath.find(
-      (el: HTMLElement) => el?.tagName && el.matches(dragSelector),
-    ) as HTMLCalciteListItemElement;
+      (el: HTMLElement): el is HTMLCalciteListItemElement =>
+        el?.tagName && el.matches(dragSelector),
+    );
 
     const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 
