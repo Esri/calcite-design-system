@@ -105,8 +105,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}
-        <div style="margin-top: 40px">${progress}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress}
         </div>
       </div>
     </div>
