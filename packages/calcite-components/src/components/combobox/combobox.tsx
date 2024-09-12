@@ -24,7 +24,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
-  hideFloatingUI,
+  resetFloatingElStyles,
   LogicalPlacement,
   OverlayPositioning,
   reposition,
@@ -836,7 +836,7 @@ export class Combobox
 
   onClose(): void {
     this.calciteComboboxClose.emit();
-    hideFloatingUI(this.floatingEl);
+    resetFloatingElStyles(this.floatingEl);
   }
 
   setMaxScrollerHeight = async (): Promise<void> => {

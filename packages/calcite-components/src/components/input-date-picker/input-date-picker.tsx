@@ -34,7 +34,7 @@ import {
   MenuPlacement,
   OverlayPositioning,
   reposition,
-  hideFloatingUI,
+  resetFloatingElStyles,
 } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -872,7 +872,7 @@ export class InputDatePicker
 
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
-    hideFloatingUI(this.floatingEl);
+    resetFloatingElStyles(this.floatingEl);
     deactivateFocusTrap(this);
     this.restoreInputFocus();
     this.focusOnOpen = false;

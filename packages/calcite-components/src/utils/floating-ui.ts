@@ -536,11 +536,11 @@ async function runAutoUpdate(
 }
 
 /**
- * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
+ * Helper to reset the floating element styles when the component is closed. This should be called within onClose() of an OpenCloseComponent.
  *
  * @param floatingEl - The `floatingElement` containing the floating ui.
  */
-export function hideFloatingUI(floatingEl: HTMLElement): void {
+export function resetFloatingElStyles(floatingEl: HTMLElement): void {
   if (!floatingEl) {
     return;
   }
