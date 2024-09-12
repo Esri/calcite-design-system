@@ -99,7 +99,7 @@ export const positionFloatingUI =
       type: UIType;
     },
   ): Promise<void> => {
-    if (!floatingEl || !referenceEl) {
+    if (!referenceEl || !floatingEl) {
       return;
     }
 
@@ -435,11 +435,7 @@ export async function reposition(
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false,
 ): Promise<void> {
-  if (!options.floatingEl) {
-    return;
-  }
-
-  if (!component.open || !options.referenceEl) {
+  if (!component.open || !options.floatingEl || !options.referenceEl) {
     return;
   }
 
@@ -546,7 +542,7 @@ async function runAutoUpdate(
 }
 
 /**
- * Helper to hide the floating element when the component is closed. (onClose())
+ * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
  *
  * @param floatingEl - The `floatingElement` containing the floating ui.
  */
