@@ -25,6 +25,7 @@ import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
+import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -104,7 +105,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail}</div>
       </div>
     </div>
   </div>`;
@@ -112,13 +113,14 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
 export default {
   title: "Theming/Custom Theme",
   args: {
-    ...globalTokens,
-    ...actionTokens,
     ...actionBarTokens,
+    ...actionGroupTokens,
     ...actionMenuTokens,
     ...actionPadTokens,
-    ...actionGroupTokens,
+    ...actionTokens,
+    ...avatarTokens,
     ...cardTokens,
+    ...globalTokens,
   },
 };
 
@@ -129,11 +131,12 @@ export const themingInteractive = (args: Record<string, string>): string => {
 export const theming_TestOnly = (): string => {
   return kitchenSink(
     {
-      ...actionTokens,
       ...actionBarTokens,
+      ...actionGroupTokens,
       ...actionMenuTokens,
       ...actionPadTokens,
-      ...actionGroupTokens,
+      ...actionTokens,
+      ...avatarTokens,
       ...cardTokens,
     },
     true,

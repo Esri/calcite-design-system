@@ -103,11 +103,11 @@ export class Avatar {
     const hex = id && isValidHex(id) ? id : stringToHex(name);
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
-      return `var(--calcite-color-foreground-2)`;
+      return `var(--calcite-avatar-background-color, var(--calcite-color-foreground-2))`;
     }
     const hue = hexToHue(hex);
     const l = theme === "dark" ? 20 : 90;
-    return `hsl(${hue}, 60%, ${l}%)`;
+    return `var(--calcite-avatar-background-color, hsl(${hue}, 60%, ${l}%))`;
   }
 
   /**
