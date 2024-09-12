@@ -21,6 +21,7 @@ import {
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
@@ -519,6 +520,7 @@ export class Popover
 
   onClose(): void {
     this.calcitePopoverClose.emit();
+    hideFloatingUI(this.floatingEl);
     deactivateFocusTrap(this);
   }
 

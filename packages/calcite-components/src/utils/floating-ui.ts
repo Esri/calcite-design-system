@@ -99,12 +99,7 @@ export const positionFloatingUI =
       type: UIType;
     },
   ): Promise<void> => {
-    if (!floatingEl) {
-      return null;
-    }
-
-    if (!referenceEl) {
-      Object.assign(floatingEl.style, hiddenFloatingElStyle);
+    if (!floatingEl || !referenceEl) {
       return;
     }
 
@@ -161,7 +156,6 @@ export const positionFloatingUI =
     const { open } = component;
 
     if (!open) {
-      Object.assign(floatingEl.style, hiddenFloatingElStyle);
       return;
     }
 
@@ -416,14 +410,6 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
   return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
-const initialFloatingElStyle = {
-  display: "block",
-};
-
-const hiddenFloatingElStyle = {
-  display: "none",
-};
-
 /**
  * Convenience function to manage `reposition` calls for FloatingUIComponents that use `positionFloatingUI.
  *
@@ -454,16 +440,13 @@ export async function reposition(
   }
 
   if (!component.open || !options.referenceEl) {
-    Object.assign(options.floatingEl.style, hiddenFloatingElStyle);
     return;
   }
 
   Object.assign(options.floatingEl.style, {
-    ...initialFloatingElStyle,
+    display: "block",
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: options.overlayPositioning ?? "absolute",
-    top: "0",
-    left: "0",
   });
 
   const trackedState = autoUpdatingComponentMap.get(component);
@@ -563,6 +546,23 @@ async function runAutoUpdate(
 }
 
 /**
+ * Helper to hide the floating element when the component is closed. (onClose())
+ *
+ * @param floatingEl - The `floatingElement` containing the floating ui.
+ */
+export function hideFloatingUI(floatingEl: HTMLElement): void {
+  if (!floatingEl) {
+    return;
+  }
+
+  Object.assign(floatingEl.style, {
+    display: "",
+    position: "",
+    transform: "",
+  });
+}
+
+/**
  * Helper to set up floating element interactions on connectedCallback.
  *
  * @param component - A floating-ui component.
@@ -574,13 +574,7 @@ export async function connectFloatingUI(
   referenceEl: ReferenceElement,
   floatingEl: HTMLElement,
 ): Promise<void> {
-  if (!floatingEl) {
-    return;
-  }
-
-  Object.assign(floatingEl.style, hiddenFloatingElStyle);
-
-  if (!referenceEl) {
+  if (!floatingEl || !referenceEl) {
     return;
   }
 

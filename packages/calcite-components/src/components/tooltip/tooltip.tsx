@@ -19,6 +19,7 @@ import {
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
@@ -262,6 +263,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   onClose(): void {
     this.calciteTooltipClose.emit();
+    hideFloatingUI(this.floatingEl);
   }
 
   private setFloatingEl = (el: HTMLDivElement): void => {

@@ -25,6 +25,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
+  hideFloatingUI,
   MenuPlacement,
   OverlayPositioning,
   reposition,
@@ -545,6 +546,7 @@ export class Dropdown
 
   onClose(): void {
     this.calciteDropdownClose.emit();
+    hideFloatingUI(this.floatingEl);
   }
 
   setReferenceEl = (el: HTMLDivElement): void => {
