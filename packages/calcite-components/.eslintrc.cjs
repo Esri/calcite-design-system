@@ -73,6 +73,7 @@ module.exports = {
     "@typescript-eslint/lines-between-class-members": ["error", "always"],
     "@typescript-eslint/method-signature-style": ["error", "property"],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],

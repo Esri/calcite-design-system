@@ -199,7 +199,7 @@ export class InputDatePicker
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -381,7 +381,7 @@ export class InputDatePicker
       return;
     }
 
-    const date = dateFromLocalizedString(value, this.localeData) as Date;
+    const date = dateFromLocalizedString(value, this.localeData);
 
     if (inRange(date, this.min, this.max)) {
       this.datePickerActiveDate = date;
@@ -484,9 +484,9 @@ export class InputDatePicker
         this.value = "";
       }
     } else if (this.valueAsDate) {
-      if (this.range) {
-        this.setRangeValue(this.valueAsDate as Date[]);
-      } else if (!Array.isArray(this.valueAsDate)) {
+      if (this.range && Array.isArray(this.valueAsDate)) {
+        this.value = [dateToISO(this.valueAsDate[0]), dateToISO(this.valueAsDate[1])];
+      } else if (!this.range && !Array.isArray(this.valueAsDate)) {
         this.value = dateToISO(this.valueAsDate);
       }
     }
@@ -898,7 +898,7 @@ export class InputDatePicker
     const { focusedInput, value } = this;
     const focusedInputName = `${focusedInput}Input`;
     const focusedInputValue = this[focusedInputName].value;
-    const date = dateFromLocalizedString(focusedInputValue, this.localeData) as Date;
+    const date = dateFromLocalizedString(focusedInputValue, this.localeData);
     const dateAsISO = dateToISO(date);
     const valueIsArray = Array.isArray(value);
     if (this.range) {
@@ -1152,7 +1152,7 @@ export class InputDatePicker
         this.setInputValue(oldValue[1], "end");
       } else {
         this.value = oldValue;
-        this.setInputValue(oldValue as string);
+        this.setInputValue(oldValue);
       }
     }
   };

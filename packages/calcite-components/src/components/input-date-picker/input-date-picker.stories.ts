@@ -192,8 +192,8 @@ export const scales_TestOnly = (): string => html`
       <calcite-input-date-picker
         scale="s"
         open
-        start="2020-12-12"
-        end="2020-12-16"
+        min="2020-12-12"
+        max="2020-12-16"
         range
         layout="horizontal"
         value="2020-12-12"
@@ -201,8 +201,8 @@ export const scales_TestOnly = (): string => html`
       <calcite-input-date-picker
         scale="m"
         open
-        start="2020-12-12"
-        end="2020-12-16"
+        min="2020-12-12"
+        max="2020-12-16"
         range
         layout="horizontal"
         value="2020-12-12"
@@ -210,8 +210,8 @@ export const scales_TestOnly = (): string => html`
       <calcite-input-date-picker
         scale="l"
         open
-        start="2020-12-12"
-        end="2020-12-16"
+        min="2020-12-12"
+        max="2020-12-16"
         range
         layout="horizontal"
         value="2020-12-12"

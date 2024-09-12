@@ -40,9 +40,7 @@ describe("calcite-date-picker-month-header", () => {
     page = await newProgrammaticE2EPage();
     await page.evaluate(
       (localeData, messages) => {
-        const dateMonthHeader = document.createElement(
-          "calcite-date-picker-month-header",
-        ) as HTMLCalciteDatePickerMonthHeaderElement;
+        const dateMonthHeader = document.createElement("calcite-date-picker-month-header");
         const now = new Date();
         dateMonthHeader.activeDate = now;
         dateMonthHeader.localeData = localeData;
