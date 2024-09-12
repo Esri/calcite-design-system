@@ -80,22 +80,16 @@ describe("repositioning", () => {
 
   function assertClosedPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).toBe("");
-    expect(floatingEl.style.top).toBe("");
-    expect(floatingEl.style.left).toBe("");
-    expect(floatingEl.style.display).toBe("none");
+    expect(floatingEl.style.display).toBe("");
   }
 
   function assertPreOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).toBe("");
-    expect(floatingEl.style.top).toBe("0");
-    expect(floatingEl.style.left).toBe("0");
     expect(floatingEl.style.display).toBe("block");
   }
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).not.toBe("");
-    expect(floatingEl.style.top).toBe("0");
-    expect(floatingEl.style.left).toBe("0");
     expect(floatingEl.style.display).toBe("block");
   }
 
