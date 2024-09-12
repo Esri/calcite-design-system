@@ -35,21 +35,20 @@
   }
 }
 
-:host(:not([disabled])) .handle {
+:host(:hover) .handle {
   @apply cursor-move;
-  &:hover {
-    color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
-    background-color: var(--calcite-handle-background-color-hover, var(--calcite-color-foreground-2));
-  }
-  &:focus {
-    @apply focus-inset;
 
-    color: var(--calcite-handle-icon-color-pressed, var(--calcite-color-text-1));
-  }
-  &--selected {
-    color: var(--calcite-handle-icon-color-selected, var(--calcite-color-text-1));
-    background-color: var(--calcite-handle-background-color-selected, var(--calcite-color-foreground-3));
-  }
+  color: var(--calcite-handle-icon-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-handle-background-color, var(--calcite-color-foreground-2));
+}
+
+:host(:focus) {
+  color: var(--calcite-handle-icon-color, var(--calcite-color-text-1));
+}
+
+:host([selected]) {
+  color: var(--calcite-handle-icon-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-handle-background-color, var(--calcite-color-foreground-3));
 }
 
 @include disabled();
