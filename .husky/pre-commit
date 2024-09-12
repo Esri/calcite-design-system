@@ -10,7 +10,7 @@ ensure_types_are_up_to_date() {
 }
 
 check_ui_icon_name_consistency() {
-  SVG_ICON_DIR="packages/calcite-ui-icons/icons"
+  svg_icon_dir="packages/calcite-ui-icons/icons"
 
   # this pattern checks for `<iconName>-<size>.svg` or `<iconName>-<size>-f.svg` for filled icons
   # where `<iconName>` is kebab-case, `<size>` is 16, 24, or 32
@@ -19,10 +19,10 @@ check_ui_icon_name_consistency() {
   # this pattern will check for invalid use of "-f-" anywhere except right before the size
   invalid_pattern="-[a-z0-9]+-f-"
 
-  STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+  staged_files=$(git diff --cached --name-only --diff-filter=ACM)
 
-  for file in $STAGED_FILES; do
-    if [[ $file == "$SVG_ICON_DIR"* ]]; then
+  for file in $staged_files; do
+    if [[ $file == "$svg_icon_dir"* ]]; then
       if [[ $file == *.svg ]]; then
         filename=$(basename "$file")
 
