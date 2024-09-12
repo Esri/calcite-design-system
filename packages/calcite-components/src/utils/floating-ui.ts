@@ -154,10 +154,10 @@ export const positionFloatingUI =
     floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
     Object.assign(floatingEl.style, {
-      visibility,
       pointerEvents,
       position,
       transform: `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)`,
+      visibility,
     });
   };
 
@@ -547,8 +547,10 @@ export function hideFloatingUI(floatingEl: HTMLElement): void {
 
   Object.assign(floatingEl.style, {
     display: "",
+    pointerEvents: "",
     position: "",
     transform: "",
+    visibility: "",
   });
 }
 

@@ -79,18 +79,27 @@ describe("repositioning", () => {
   });
 
   function assertClosedPositioning(floatingEl: HTMLElement): void {
-    expect(floatingEl.style.transform).toBe("");
     expect(floatingEl.style.display).toBe("");
+    expect(floatingEl.style.pointerEvents).toBe("");
+    expect(floatingEl.style.position).toBe("");
+    expect(floatingEl.style.transform).toBe("");
+    expect(floatingEl.style.visibility).toBe("");
   }
 
   function assertPreOpenPositioning(floatingEl: HTMLElement): void {
-    expect(floatingEl.style.transform).toBe("");
     expect(floatingEl.style.display).toBe("block");
+    expect(floatingEl.style.pointerEvents).toBe("");
+    expect(floatingEl.style.position).toBe("absolute");
+    expect(floatingEl.style.transform).toBe("");
+    expect(floatingEl.style.visibility).toBe("");
   }
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
-    expect(floatingEl.style.transform).not.toBe("");
     expect(floatingEl.style.display).toBe("block");
+    expect(floatingEl.style.pointerEvents).toBe("none");
+    expect(floatingEl.style.position).not.toBe("");
+    expect(floatingEl.style.transform).not.toBe("");
+    expect(floatingEl.style.visibility).toBe("hidden");
   }
 
   it("repositions only for open components", async () => {
