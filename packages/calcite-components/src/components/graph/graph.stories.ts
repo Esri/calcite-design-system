@@ -37,7 +37,7 @@ export const simple = (args: GraphStoryArgs): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = `${args.width}px`;
   div.style.height = `${args.height}px`;
-  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
+  const graph = document.createElement("calcite-graph");
   graph.min = args.min;
   graph.max = args.max;
   graph.data = data;
@@ -49,7 +49,7 @@ export const highlightRange = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
-  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
+  const graph = document.createElement("calcite-graph");
   graph.min = 0;
   graph.max = 100;
   graph.highlightMin = 25;
@@ -63,7 +63,7 @@ export const withColorStops = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
-  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
+  const graph = document.createElement("calcite-graph");
   graph.min = 0;
   graph.max = 100;
   graph.colorStops = colorStops;
@@ -78,7 +78,7 @@ export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   div.style.height = "100px";
   div.dir = "rtl";
   div.classList.add("calcite-mode-dark");
-  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
+  const graph = document.createElement("calcite-graph");
   graph.min = 0;
   graph.max = 100;
   graph.highlightMin = 25;

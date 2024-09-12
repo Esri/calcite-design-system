@@ -323,7 +323,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
         }
 
         if (node.nodeType === 1 && (node as Element).shadowRoot) {
-          for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
+          for (const child of (node as Element).shadowRoot.children) {
             const result = searchInShadowDom(child);
             if (result) {
               return result;
