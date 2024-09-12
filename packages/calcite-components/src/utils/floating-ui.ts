@@ -153,12 +153,6 @@ export const positionFloatingUI =
 
     floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
-    const { open } = component;
-
-    if (!open) {
-      return;
-    }
-
     Object.assign(floatingEl.style, {
       visibility,
       pointerEvents,
