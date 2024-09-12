@@ -89,14 +89,14 @@ describe("repositioning", () => {
     expect(floatingEl.style.transform).toBe("");
     expect(floatingEl.style.top).toBe("0");
     expect(floatingEl.style.left).toBe("0");
-    expect(floatingEl.style.display).toBe("");
+    expect(floatingEl.style.display).toBe("block");
   }
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).not.toBe("");
     expect(floatingEl.style.top).toBe("0");
     expect(floatingEl.style.left).toBe("0");
-    expect(floatingEl.style.display).toBe("");
+    expect(floatingEl.style.display).toBe("block");
   }
 
   it("repositions only for open components", async () => {

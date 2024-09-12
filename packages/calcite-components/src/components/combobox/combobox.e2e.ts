@@ -1281,8 +1281,8 @@ describe("calcite-combobox", () => {
       await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      const floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
-      expect(floatingUI).toBeNull();
+      const floatingUI = await page.find("#myCombobox >>> .floating-ui-container");
+      expect(await floatingUI.isVisible()).toBe(false);
     });
 
     it("tab will close the item group if it’s open", async () => {
@@ -1293,13 +1293,13 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
-      expect(floatingUI).toBeTruthy();
+      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container");
+      expect(await floatingUI.isVisible()).toBe(true);
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
-      expect(floatingUI).toBeNull();
+      floatingUI = await page.find("#myCombobox >>> .floating-ui-container");
+      expect(await floatingUI.isVisible()).toBe(false);
     });
 
     it("should not throw when typing custom value and pressing ArrowDown", async () => {
@@ -1336,13 +1336,13 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
-      expect(floatingUI).toBeTruthy();
+      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container");
+      expect(await floatingUI.isVisible()).toBe(true);
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
-      expect(floatingUI).toBeNull();
+      floatingUI = await page.find("#myCombobox >>> .floating-ui-container");
+      expect(await floatingUI.isVisible()).toBe(false);
 
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
@@ -1384,8 +1384,8 @@ describe("calcite-combobox", () => {
       });
       const combobox = await page.find("calcite-combobox");
       await combobox.callMethod(`setFocus`);
-      const activeContainer = await page.find("#myCombobox >>> .floating-ui-container--active");
-      expect(activeContainer).toBeNull();
+      const floatingUI = await page.find("#myCombobox >>> .floating-ui-container");
+      expect(await floatingUI.isVisible()).toBe(false);
       expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
       await page.keyboard.press("PageDown");
