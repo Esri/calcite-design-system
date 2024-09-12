@@ -703,61 +703,65 @@ describe("calcite-popover", () => {
   });
 
   describe("theme", () => {
-    const popoverHTML = html`
-      <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
-        Lorem Ipsum
-      </calcite-popover>
-    `;
-
     describe("default", () => {
-      themed(popoverHTML, {
-        "--calcite-popover-background-color": {
-          shadowSelector: `.${FloatingCSS.animation}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-popover-border-color": [
-          {
+      themed(
+        html`
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!">
+            Lorem Ipsum
+          </calcite-popover>
+        `,
+        {
+          "--calcite-popover-background-color": {
             shadowSelector: `.${FloatingCSS.animation}`,
-            targetProp: "borderColor",
+            targetProp: "backgroundColor",
           },
-          {
-            shadowSelector: `.${CSS.header}`,
-            targetProp: "borderBlockEndColor",
+          "--calcite-popover-border-color": [
+            {
+              shadowSelector: `.${FloatingCSS.animation}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.header}`,
+              targetProp: "borderBlockEndColor",
+            },
+          ],
+          "--calcite-popover-corner-radius": {
+            shadowSelector: `.${FloatingCSS.animation}`,
+            targetProp: "borderRadius",
           },
-        ],
-        "--calcite-popover-corner-radius": {
-          shadowSelector: `.${FloatingCSS.animation}`,
-          targetProp: "borderRadius",
+          "--calcite-popover-text-color": [
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "color",
+            },
+          ],
         },
-        "--calcite-popover-text-color": [
-          {
-            shadowSelector: `.${CSS.heading}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "color",
-          },
-        ],
-      });
+      );
     });
     describe("closable", () => {
-      themed(popoverHTML, {
-        "--calcite-popover-corner-radius": [
-          {
-            shadowSelector: `.${CSS.closeButtonContainer}`,
-            targetProp: "borderStartEndRadius",
-          },
-          {
-            shadowSelector: `.${CSS.closeButtonContainer}`,
-            targetProp: "borderEndEndRadius",
-          },
-          {
-            shadowSelector: `.${CSS.hasHeader} .${CSS.closeButtonContainer}`,
-            targetProp: "borderEndEndRadius",
-          },
-        ],
-      });
+      themed(
+        html`
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
+            Lorem Ipsum
+          </calcite-popover>
+        `,
+        {
+          "--calcite-popover-corner-radius": [
+            {
+              shadowSelector: `.${CSS.closeButtonContainer}`,
+              targetProp: "borderStartEndRadius",
+            },
+            {
+              shadowSelector: `.${CSS.closeButtonContainer}`,
+              targetProp: "borderEndEndRadius",
+            },
+          ],
+        },
+      );
     });
   });
 });
