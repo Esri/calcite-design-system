@@ -24,7 +24,7 @@ import { pagination } from "./custom-theme/pagination";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
-import { tabs } from "./custom-theme/tabs";
+import { tabs, tabsTokens } from "./custom-theme/tabs";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -119,6 +119,7 @@ export default {
     ...actionPadTokens,
     ...actionGroupTokens,
     ...cardTokens,
+    ...tabsTokens,
   },
 };
 
@@ -135,6 +136,7 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...actionGroupTokens,
       ...cardTokens,
+      ...tabsTokens,
     },
     true,
   );
