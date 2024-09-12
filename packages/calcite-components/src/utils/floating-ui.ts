@@ -412,7 +412,7 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
 }
 
 const initialFloatingElStyle = {
-  display: "",
+  display: "block",
 };
 
 const hiddenFloatingElStyle = {

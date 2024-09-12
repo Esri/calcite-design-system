@@ -14,7 +14,7 @@ import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
   describe("renders", () => {
-    renders("calcite-popover", { visible: false, display: "block" });
+    renders("calcite-popover", { display: "block" });
     renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
       display: "block",
     });
@@ -33,11 +33,11 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
     await page.waitForChanges();
 
-    const style = await popover.getComputedStyle();
+    const style = await positionContainer.getComputedStyle();
 
     expect(style.zIndex).toBe("900");
   });
@@ -114,9 +114,9 @@ describe("calcite-popover", () => {
       html`<calcite-popover open placement="auto"></calcite-popover>
         <div id="ref">referenceElement</div>`,
     );
-    const element = await page.find("calcite-popover");
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
+    let computedStyle: CSSStyleDeclaration = await positionContainer.getComputedStyle();
 
     expect(computedStyle.transform).toBe("none");
 
@@ -126,7 +126,7 @@ describe("calcite-popover", () => {
     });
     await page.waitForChanges();
 
-    computedStyle = await element.getComputedStyle();
+    computedStyle = await positionContainer.getComputedStyle();
 
     expect(computedStyle.transform).not.toBe("none");
   });
@@ -146,15 +146,15 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     element.setProperty("open", true);
 
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should accept referenceElement as string id", async () => {
@@ -242,15 +242,15 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     const ref = await page.find("#ref");
 
     await ref.click();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should honor Enter key interaction", async () => {
@@ -263,22 +263,22 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
   });
 
   it("should honor Space key interaction", async () => {
@@ -291,22 +291,22 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
   });
 
   it("should open popovers", async () => {
@@ -372,10 +372,10 @@ describe("calcite-popover", () => {
 
     expect(await scrollEl.getProperty("scrollTop")).toBe(0);
 
-    const popover = await page.find("calcite-popover");
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(true);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+    expect(await positionContainer.isVisible()).toBe(true);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("auto");
 
     await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
       scrollEl.scrollTo({ top: 300 });
@@ -383,8 +383,8 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+    expect(await positionContainer.isVisible()).toBe(false);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("none");
   });
 
   it("do not autoClose popovers when clicked outside", async () => {
@@ -499,10 +499,10 @@ describe("calcite-popover", () => {
 
     expect(await scrollEl.getProperty("scrollTop")).toBe(0);
 
-    const popover = await page.find("calcite-popover");
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(true);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+    expect(await positionContainer.isVisible()).toBe(true);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("auto");
 
     await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
       scrollEl.scrollTo({ top: 300 });
@@ -510,8 +510,8 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+    expect(await positionContainer.isVisible()).toBe(false);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("none");
   });
 
   it("should not toggle popovers with triggerDisabled", async () => {
@@ -574,6 +574,7 @@ describe("calcite-popover", () => {
     floatingUIOwner(
       `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
       "open",
+      { shadowSelector: `.${CSS.positionContainer}` },
     );
   });
 
@@ -632,12 +633,12 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     await ref.click();
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     await page.$eval("calcite-popover", (popoverEl: HTMLCalcitePopoverElement) => {
       const transferEl = document.getElementById("transfer");
@@ -647,7 +648,7 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
     await ref.click();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should close popovers with ESC key", async () => {

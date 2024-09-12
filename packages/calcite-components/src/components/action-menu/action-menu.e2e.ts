@@ -12,6 +12,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
+import { CSS as TooltipCSS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
 
 describe("calcite-action-menu", () => {
@@ -223,20 +224,20 @@ describe("calcite-action-menu", () => {
     });
 
     const actionMenu = await page.find("calcite-action-menu");
-    const tooltip = await page.find("calcite-tooltip");
+    const tooltipPositionContainer = await page.find(`calcite-tooltip >>> .${TooltipCSS.positionContainer}`);
     const trigger = await page.find("#trigger");
 
-    expect(await tooltip.isVisible()).toBe(false);
+    expect(await tooltipPositionContainer.isVisible()).toBe(false);
 
     await trigger.hover();
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await tooltipPositionContainer.isVisible()).toBe(true);
 
     actionMenu.setProperty("open", true);
     await page.waitForChanges();
 
-    expect(await tooltip.isVisible()).toBe(false);
+    expect(await tooltipPositionContainer.isVisible()).toBe(false);
   });
 
   describe("Keyboard navigation", () => {

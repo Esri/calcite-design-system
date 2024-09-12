@@ -7,6 +7,7 @@
  */
 
 :host {
+  @apply block;
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
 }
 

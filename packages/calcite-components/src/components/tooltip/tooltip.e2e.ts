@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resources";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS } from "../tooltip/resources";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps } from "../../tests/utils";
@@ -87,7 +87,7 @@ describe("calcite-tooltip", () => {
   }
 
   describe("renders", () => {
-    renders(`calcite-tooltip`, { visible: false, display: "block" });
+    renders(`calcite-tooltip`, { display: "block" });
     renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
       display: "block",
     });
@@ -95,13 +95,13 @@ describe("calcite-tooltip", () => {
 
   describe("accessible when closed", () => {
     accessible(
-      `<calcite-tooltip reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
+      `<calcite-tooltip reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
     );
   });
 
   describe("accessible when open", () => {
     accessible(
-      `<calcite-tooltip open reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
+      `<calcite-tooltip open reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
     );
   });
 
@@ -182,11 +182,11 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
     await page.waitForChanges();
 
-    const style = await tooltip.getComputedStyle();
+    const style = await positionContainer.getComputedStyle();
 
     expect(style.zIndex).toBe("901");
   });
@@ -197,9 +197,9 @@ describe("calcite-tooltip", () => {
       html`<calcite-tooltip open></calcite-tooltip>
         <div id="ref">referenceElement</div>`,
     );
-    const element = await page.find("calcite-tooltip");
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
-    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
+    let computedStyle: CSSStyleDeclaration = await positionContainer.getComputedStyle();
 
     expect(computedStyle.transform).toBe("none");
 
@@ -209,7 +209,7 @@ describe("calcite-tooltip", () => {
     });
     await page.waitForChanges();
 
-    computedStyle = await element.getComputedStyle();
+    computedStyle = await positionContainer.getComputedStyle();
 
     expect(computedStyle.transform).not.toBe("none");
   });
@@ -229,15 +229,15 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
-    expect(await tooltip.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     element.setProperty("open", true);
 
     await page.waitForChanges();
 
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should accept referenceElement as string id", async () => {
@@ -249,11 +249,11 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
     await page.waitForChanges();
 
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     const element = await page.find("calcite-tooltip");
 
@@ -285,11 +285,11 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
-    const computedStyle = await tooltip.getComputedStyle();
+    const computedStyle = await positionContainer.getComputedStyle();
 
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
@@ -303,9 +303,9 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
-    expect(await tooltip.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     const ref = await page.find("#ref");
 
@@ -313,7 +313,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should honor hover interaction with span inside", async () => {
@@ -325,9 +325,9 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
-    expect(await tooltip.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     const ref = await page.find("#ref span");
 
@@ -335,7 +335,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should honor text", async () => {
@@ -583,6 +583,7 @@ describe("calcite-tooltip", () => {
     floatingUIOwner(
       `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
       "open",
+      { shadowSelector: `.${CSS.positionContainer}` },
     );
   });
 
@@ -702,18 +703,18 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
-    expect(await tooltip.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     await ref.focus();
     await page.waitForChanges();
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     const testElement = await page.find("#test");
     await testElement.focus();
     await page.waitForChanges();
-    expect(await tooltip.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     await page.$eval("calcite-tooltip", (tooltipEl: HTMLCalciteTooltipElement) => {
       const transferEl = document.getElementById("transfer");
@@ -724,7 +725,7 @@ describe("calcite-tooltip", () => {
     await ref.focus();
     await page.waitForChanges();
 
-    expect(await tooltip.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   describe("beforeOpen, open, beforeClose, close event emitting", () => {
@@ -867,9 +868,9 @@ describe("calcite-tooltip", () => {
       const openEvent = await page.spyOnEvent("calciteTooltipOpen");
 
       const container = await page.find(".container");
-      const tooltip = await page.find(`calcite-tooltip`);
+      const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
-      expect(await tooltip.isVisible()).toBe(false);
+      expect(await positionContainer.isVisible()).toBe(false);
 
       await container.hover();
       await page.waitForChanges();
@@ -880,7 +881,7 @@ describe("calcite-tooltip", () => {
       await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
       await page.waitForChanges();
 
-      expect(await tooltip.isVisible()).toBe(true);
+      expect(await positionContainer.isVisible()).toBe(true);
 
       expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
       expect(openEvent).toHaveReceivedEventTimes(1);
@@ -893,7 +894,7 @@ describe("calcite-tooltip", () => {
       await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
       await page.waitForChanges();
 
-      expect(await tooltip.isVisible()).not.toBe(true);
+      expect(await positionContainer.isVisible()).not.toBe(true);
 
       expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
       expect(openEvent).toHaveReceivedEventTimes(1);
