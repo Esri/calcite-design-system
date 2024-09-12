@@ -9,7 +9,6 @@ export const CSS = {
   inputWrapper: "input-wrapper",
   input: "input",
   menu: "menu-container",
-  menuActive: "menu-container--active",
   toggleIcon: "toggle-icon",
   verticalArrowContainer: "vertical-arrow-container",
   chevronIcon: "chevron-icon",

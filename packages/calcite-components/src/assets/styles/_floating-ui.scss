@@ -70,14 +70,6 @@ $floating-ui-transition-offset: 5px;
   z-index: var(--calcite-floating-ui-z-index);
 }
 
-@mixin floating-ui-wrapper {
-  visibility: hidden;
-}
-
-@mixin floating-ui-wrapper-active {
-  visibility: visible;
-}
-
 @mixin floating-ui-arrow {
   .calcite-floating-ui-arrow {
     @apply -z-default

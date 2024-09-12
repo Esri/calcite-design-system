@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply block;
+  @apply relative block;
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }
 

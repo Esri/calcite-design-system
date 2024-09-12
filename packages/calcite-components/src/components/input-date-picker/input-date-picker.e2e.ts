@@ -903,11 +903,11 @@ describe("calcite-input-date-picker", () => {
     const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
 
     expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
-    expect(calendar).not.toHaveClass(CSS.menuActive);
+    expect(await calendar.isVisible()).toBe(false);
 
     await component.click();
     await page.waitForChanges();
-    expect(calendar).not.toHaveClass(CSS.menuActive);
+    expect(await calendar.isVisible()).toBe(false);
 
     await component.type("atención atención");
     await page.waitForChanges();

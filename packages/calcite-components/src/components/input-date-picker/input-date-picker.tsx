@@ -597,10 +597,7 @@ export class InputDatePicker
                 aria-label={messages.chooseDate}
                 aria-live="polite"
                 aria-modal="true"
-                class={{
-                  [CSS.menu]: true,
-                  [CSS.menuActive]: this.open,
-                }}
+                class={CSS.menu}
                 id={this.dialogId}
                 ref={this.setFloatingEl}
                 role="dialog"

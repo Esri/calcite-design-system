@@ -1682,14 +1682,7 @@ export class Combobox
     };
 
     return (
-      <div
-        aria-hidden="true"
-        class={{
-          "floating-ui-container": true,
-          "floating-ui-container--active": open,
-        }}
-        ref={setFloatingEl}
-      >
+      <div aria-hidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />
