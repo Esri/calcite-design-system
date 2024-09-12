@@ -66,7 +66,6 @@ $floating-ui-transition-offset: 5px;
 
 @mixin floating-ui-container() {
   display: none;
-  position: absolute;
   z-index: var(--calcite-floating-ui-z-index);
 }
 
