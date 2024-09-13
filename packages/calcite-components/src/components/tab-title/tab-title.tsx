@@ -149,7 +149,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
-    this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
@@ -488,10 +487,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @State() hasText = false;
 
   closeButtonEl: HTMLButtonElement;
-
-  containerEl: HTMLDivElement;
-
-  parentTabNavEl: HTMLCalciteTabNavElement;
 
   parentTabsEl: HTMLCalciteTabsElement;
 

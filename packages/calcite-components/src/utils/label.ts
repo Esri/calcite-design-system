@@ -48,7 +48,7 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
   const { id } = componentEl;
 
   const forLabel =
-    id && (queryElementRoots(componentEl, { selector: `${labelTagName}[for="${id}"]` }) as HTMLCalciteLabelElement);
+    id && queryElementRoots<HTMLCalciteLabelElement>(componentEl, { selector: `${labelTagName}[for="${id}"]` });
 
   if (forLabel) {
     return forLabel;

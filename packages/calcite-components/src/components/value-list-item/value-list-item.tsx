@@ -277,7 +277,7 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
-          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
+          ref={(el) => (this.handleEl = el)}
           role="button"
           tabindex="0"
         >
