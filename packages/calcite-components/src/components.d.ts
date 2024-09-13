@@ -7852,9 +7852,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerBlur": void;
         "calciteInternalTimePickerChange": string;
-        "calciteInternalTimePickerFocus": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -13817,9 +13815,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerBlur"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
-        "onCalciteInternalTimePickerFocus"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */
