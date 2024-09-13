@@ -8930,5 +8930,10 @@
     ],
     "category": "Lists",
     "release": "3.29.6"
+  },
+  "web-adaptor": {
+    "alias": ["3.32.0", "gis", "web", "diagram", "nodes", "storage", "servers", "transfer"],
+    "category": "GIS",
+    "release": "3.32.0"
   }
 }
