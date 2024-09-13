@@ -180,6 +180,7 @@ export class Panel
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.isClosed = this.closed;
     await setUpMessages(this);
   }
 
