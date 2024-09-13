@@ -25,7 +25,9 @@ interface ListProps extends DOMAttributes {
   storeAssistiveEl?: (el: HTMLSpanElement) => void;
 }
 
-export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = ({
+export const List: FunctionalComponent<
+  { props: ListProps } & Pick<DOMAttributes, "onBlur" | "onFocusin" | "onKeyDown">
+> = ({
   props: {
     disabled,
     loading,
@@ -38,10 +40,19 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
     dragEnabled,
     storeAssistiveEl,
   },
+  onBlur,
+  onFocusin,
+  onKeyDown,
 }): VNode => {
   const defaultSlot = <slot />;
   return (
-    <Host aria-busy={toAriaBoolean(loading)} role="menu">
+    <Host
+      aria-busy={toAriaBoolean(loading)}
+      onBlur={onBlur}
+      onFocusin={onFocusin}
+      onKeyDown={onKeyDown}
+      role="menu"
+    >
       <InteractiveContainer disabled={disabled}>
         <section>
           {dragEnabled ? (
