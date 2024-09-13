@@ -10,7 +10,8 @@ import {
   actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
-import { accordion } from "./custom-theme/accordion";
+import { accordionItemTokens } from "./custom-theme/accordion-item";
+import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox } from "./custom-theme/checkbox";
@@ -119,6 +120,8 @@ export default {
   title: "Theming/Custom Theme",
   args: {
     ...globalTokens,
+    ...accordionTokens,
+    ...accordionItemTokens,
     ...actionTokens,
     ...actionBarTokens,
     ...actionMenuTokens,
@@ -138,6 +141,8 @@ export const themingInteractive = (args: Record<string, string>): string => {
 export const theming_TestOnly = (): string => {
   return kitchenSink(
     {
+      ...accordionTokens,
+      ...accordionItemTokens,
       ...actionTokens,
       ...actionBarTokens,
       ...actionMenuTokens,
