@@ -903,7 +903,7 @@ export class InputTimePicker
   }): void {
     const localeDefaultHourFormat = getLocaleHourFormat(this.effectiveLocale);
     const hourRegEx = /h+|H+/g;
-    const meridiemRegEx = /\s|a|A|\s/g;
+    const meridiemRegEx = /\s+|a+|A+|\s+/g;
 
     let ltFormatString = this.localeConfig.formats.LT;
     let ltsFormatString = this.localeConfig.formats.LTS;
@@ -911,19 +911,18 @@ export class InputTimePicker
     if (hourFormat === "12" && localeDefaultHourFormat === "24") {
       const meridiemFormatToken = getMeridiemFormatToken(this.effectiveLocale);
       const meridiemOrder = getMeridiemOrder(this.effectiveLocale);
-
       ltFormatString = ltFormatString.replaceAll(hourRegEx, "h");
       ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
+      ltFormatString =
+        meridiemOrder === 0
+          ? `${meridiemFormatToken}${ltFormatString}`
+          : `${ltFormatString}${meridiemFormatToken}`;
       ltsFormatString = ltsFormatString.replaceAll(hourRegEx, "h");
       ltsFormatString = ltsFormatString.replaceAll(meridiemRegEx, "");
-
-      if (meridiemOrder === 0) {
-        ltFormatString = `${meridiemFormatToken}${ltFormatString}`;
-        ltsFormatString = `${meridiemFormatToken}${ltsFormatString}`;
-      } else {
-        ltFormatString = `${ltFormatString}${meridiemFormatToken}`;
-        ltsFormatString = `${ltsFormatString}${meridiemFormatToken}`;
-      }
+      ltsFormatString =
+        meridiemOrder === 0
+          ? `${meridiemFormatToken}${ltsFormatString}`
+          : `${ltsFormatString}${meridiemFormatToken}`;
     } else if (hourFormat === "24" && localeDefaultHourFormat === "12") {
       ltFormatString = ltFormatString.replaceAll(hourRegEx, "H");
       ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
@@ -934,7 +933,7 @@ export class InputTimePicker
       ltsFormatString = this.localeDefaultLTSFormat;
     }
 
-    const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
+    const fractionalSecondTokenMatch = ltsFormatString?.match(/ss\.*(S+)/g);
     if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
       const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
       ltsFormatString = fractionalSecondTokenMatch

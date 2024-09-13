@@ -212,14 +212,26 @@ export function getMeridiem(hour: string): Meridiem {
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
 }
 
-export function getMeridiemFormatToken(locale: SupportedLocale): "a " | " a" | " A" | "A " | " aa" {
+export function getMeridiemFormatToken(locale: SupportedLocale): "a" | "A" | "a " | " a" | " A" | "A " {
   const localizedAM = getLocalizedMeridiem(locale, "AM");
   const localizedPM = getLocalizedMeridiem(locale, "PM");
   const meridiemOrder = getMeridiemOrder(locale);
-  if (localizedAM === localizedAM.toLocaleLowerCase(locale) && localizedPM === localizedPM.toLocaleLowerCase(locale)) {
-    return meridiemOrder === 0 ? "a " : " a";
+  let separator: "" | " ";
+  const timeParts = getTimeParts({
+    hour12: true,
+    value: "00:00:00",
+    locale,
+    numberingSystem: "latn",
+  });
+  if (meridiemOrder === 0) {
+    separator = timeParts[1].type === "hour" ? "" : " ";
+  } else {
+    separator = timeParts[meridiemOrder - 1].type === "second" ? "" : " ";
   }
-  return meridiemOrder === 0 ? "A " : " A";
+  if (localizedAM === localizedAM.toLocaleLowerCase(locale) && localizedPM === localizedPM.toLocaleLowerCase(locale)) {
+    return meridiemOrder === 0 ? `a${separator}` : `${separator}a`;
+  }
+  return meridiemOrder === 0 ? `A${separator}` : `${separator}A`;
 }
 
 export function getMeridiemOrder(locale: SupportedLocale): number {
