@@ -8930,5 +8930,35 @@
     ],
     "category": "Lists",
     "release": "3.29.6"
+  },
+  "web-adaptor": {
+    "alias": ["3.32.0", "gis", "web", "diagram", "nodes", "storage", "servers", "transfer"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "raster-function-history": {
+    "alias": ["3.32.0", "gis", "history", "time", "edit", "modify", "fx"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "raster-function-template-history": {
+    "alias": ["3.32.0", "gis", "edit", "modify", "raster", "fx", "template", "text"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "tool-history": {
+    "alias": ["3.32.0", "gis", "history", "time", "past", "action", "tool"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "model-history": {
+    "alias": ["3.32.0", "gis", "history", "time", "edit"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "raster-tool-history": {
+    "alias": ["3.32.0", "gis", "tool", "history", "edit", "modify"],
+    "category": "GIS",
+    "release": "3.32.0"
   }
 }

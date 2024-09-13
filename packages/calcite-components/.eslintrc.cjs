@@ -140,6 +140,7 @@ module.exports = {
         ],
       },
     ],
+    "react/jsx-props-no-spreading": "error",
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
