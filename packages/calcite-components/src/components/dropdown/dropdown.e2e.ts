@@ -733,6 +733,7 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
+      await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-button[slot='trigger']");
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
@@ -779,6 +780,7 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
+      await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
@@ -825,6 +827,7 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
+      await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
