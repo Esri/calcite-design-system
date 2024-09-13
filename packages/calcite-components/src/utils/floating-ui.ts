@@ -566,6 +566,8 @@ export async function connectFloatingUI(
   referenceEl: ReferenceElement,
   floatingEl: HTMLElement,
 ): Promise<void> {
+  resetFloatingElStyles(floatingEl);
+
   if (!floatingEl || !referenceEl) {
     return;
   }

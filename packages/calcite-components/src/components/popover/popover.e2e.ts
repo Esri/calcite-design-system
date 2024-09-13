@@ -10,6 +10,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
+import { skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -261,6 +262,8 @@ describe("calcite-popover", () => {
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
 
+    await skipAnimations(page);
+
     await page.waitForChanges();
 
     const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
@@ -288,6 +291,8 @@ describe("calcite-popover", () => {
       html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
+
+    await skipAnimations(page);
 
     await page.waitForChanges();
 
@@ -631,6 +636,8 @@ describe("calcite-popover", () => {
       <div id="ref">referenceElement</div>`,
     );
 
+    await skipAnimations(page);
+
     await page.waitForChanges();
 
     const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
@@ -638,6 +645,7 @@ describe("calcite-popover", () => {
     expect(await positionContainer.isVisible()).toBe(true);
 
     await ref.click();
+    await page.waitForChanges();
     expect(await positionContainer.isVisible()).toBe(false);
 
     await page.$eval("calcite-popover", (popoverEl: HTMLCalcitePopoverElement) => {

@@ -13,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS as TooltipCSS } from "../tooltip/resources";
+import { skipAnimations } from "../../tests/utils";
 import { CSS, SLOTS, activeAttr } from "./resources";
 
 describe("calcite-action-menu", () => {
@@ -213,15 +214,17 @@ describe("calcite-action-menu", () => {
   });
 
   it("should close tooltip when open", async () => {
-    const page = await newE2EPage({
-      html: `
-    <calcite-action-menu label="test">
-    <calcite-action id="trigger" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
-      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-    `,
-    });
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-action-menu label="test">
+        <calcite-action id="trigger" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+        <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+      </calcite-action-menu>
+    `);
+
+    await skipAnimations(page);
 
     const actionMenu = await page.find("calcite-action-menu");
     const tooltipPositionContainer = await page.find(`calcite-tooltip >>> .${TooltipCSS.positionContainer}`);
