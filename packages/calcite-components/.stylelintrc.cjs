@@ -1,0 +1,81 @@
+// @ts-check
+
+const scssPatternRules = [
+  "scss/at-function-pattern",
+  "scss/dollar-variable-pattern",
+  "scss/at-mixin-pattern",
+  "scss/percent-placeholder-pattern",
+];
+
+/** @type {import('stylelint').Config["rules"]} */
+const rules = {
+  "length-zero-no-unit": true,
+  "liberty/use-logical-spec": [
+    "always",
+    {
+      except: ["left", "right"],
+    },
+  ],
+  "no-descending-specificity": [
+    true,
+    {
+      ignore: ["selectors-within-list"],
+    },
+  ],
+  "selector-disallowed-list": [
+    ["/:host-context/"],
+    {
+      message: ":host-context is not supported in all browsers, so it should be avoided",
+      severity: "error",
+    },
+  ],
+  "selector-max-specificity": [
+    "0,5,5",
+    {
+      message: "selector is too complex, consider applying multiple classes dynamically during rendering",
+    },
+  ],
+  "selector-pseudo-element-colon-notation": [
+    "double",
+    {
+      message: "Use double colons for pseudo-elements",
+    },
+  ],
+  "selector-type-no-unknown": [
+    true,
+    {
+      ignoreTypes: ["/^calcite-/"],
+    },
+  ],
+  "scss/function-no-unknown": [
+    true,
+    {
+      ignoreFunctions: ["get-trailing-text-input-padding", "scale-duration", "theme", "var"],
+      severity: "error",
+    },
+  ],
+};
+
+scssPatternRules.forEach((rule) => {
+  const kebabCasePattern = "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$";
+
+  rules[rule] =
+    /** @type {import('stylelint').Config["rules"][string]} */
+    [
+      kebabCasePattern,
+      {
+        message: "Name should be kebab-cased",
+        severity: "error",
+      },
+    ];
+});
+
+/** @type {import('stylelint').Config} */
+const config = {
+  defaultSeverity: "warning",
+  extends: "stylelint-config-recommended-scss",
+  plugins: ["stylelint-use-logical-spec"],
+  rules,
+};
+
+module.exports = config;

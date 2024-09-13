@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig-base",
-  "include": ["src"],
+  "include": ["src", "stylelintrc.cjs"],
   "exclude": ["src/demos/**/*", "src/tests/**/*", "src/**/shared-list-tests.ts", "src/**/*.stories.ts"]
 }
