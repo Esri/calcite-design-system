@@ -106,10 +106,6 @@ describe("calcite-avatar", () => {
           thumbnail="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
         ></calcite-avatar>`,
         {
-          "--calcite-avatar-background-color": {
-            shadowSelector: `.${CSS.background}`,
-            targetProp: "backgroundColor",
-          },
           "--calcite-avatar-corner-radius": [
             {
               targetProp: "borderRadius",

@@ -12,7 +12,7 @@
 :host {
   @apply inline-block overflow-hidden;
   border-radius: var(--calcite-avatar-corner-radius, var(--calcite-size-relative-50));
-  color: var(--calcite-avatar-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-avatar-color, var(--calcite-color-text-2));
 }
 
 :host([scale="s"]) {
