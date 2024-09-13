@@ -45,6 +45,8 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
         type: "menu",
       });
     },
+    floatingEl,
+    referenceEl,
     overlayPositioning: "absolute",
     placement: "auto",
   };
@@ -75,7 +77,7 @@ describe("repositioning", () => {
       type: "popover",
     };
 
-    connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    connectFloatingUI(fakeFloatingUiComponent);
   });
 
   function assertClosedPositioning(floatingEl: HTMLElement): void {
@@ -178,27 +180,27 @@ describe("connect/disconnect helpers", () => {
     expect(floatingEl.style.visibility).toBe("");
     expect(floatingEl.style.pointerEvents).toBe("");
 
-    await connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    await connectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(true);
     expect(floatingEl.style.position).toBe("absolute");
     expect(floatingEl.style.visibility).toBe("hidden");
     expect(floatingEl.style.pointerEvents).toBe("none");
 
-    disconnectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    disconnectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(false);
     expect(floatingEl.style.position).toBe("absolute");
 
     fakeFloatingUiComponent.overlayPositioning = "fixed";
-    await connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    await connectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(true);
     expect(floatingEl.style.position).toBe("fixed");
     expect(floatingEl.style.visibility).toBe("hidden");
     expect(floatingEl.style.pointerEvents).toBe("none");
 
-    disconnectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    disconnectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(false);
     expect(floatingEl.style.position).toBe("fixed");

@@ -24,7 +24,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
-  resetFloatingElStyles,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   reposition,
@@ -500,7 +500,7 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -512,7 +512,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
     setComponentLoaded(this);
   }
 
@@ -534,7 +534,7 @@ export class Combobox
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
-    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectFloatingUI(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -592,6 +592,10 @@ export class Combobox
 
   textInput: HTMLInputElement = null;
 
+  floatingEl: HTMLDivElement;
+
+  referenceEl: HTMLDivElement;
+
   private data: ItemData[];
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
@@ -604,10 +608,6 @@ export class Combobox
   private guid = guid();
 
   private inputHeight = 0;
-
-  private floatingEl: HTMLDivElement;
-
-  private referenceEl: HTMLDivElement;
 
   private chipContainerEl: HTMLDivElement;
 
@@ -836,7 +836,7 @@ export class Combobox
 
   onClose(): void {
     this.calciteComboboxClose.emit();
-    resetFloatingElStyles(this.floatingEl);
+    hideFloatingUI(this);
   }
 
   setMaxScrollerHeight = async (): Promise<void> => {
@@ -983,7 +983,7 @@ export class Combobox
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   private setCompactSelectionDisplay({
@@ -1014,7 +1014,7 @@ export class Combobox
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   setAllSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {

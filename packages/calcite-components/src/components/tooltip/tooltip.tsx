@@ -19,7 +19,7 @@ import {
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
-  resetFloatingElStyles,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
@@ -139,7 +139,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() effectiveReferenceElement: ReferenceElement;
+  @State() referenceEl: ReferenceElement;
 
   @State() floatingLayout: FloatingLayout = "vertical";
 
@@ -175,7 +175,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   }
 
   componentDidLoad(): void {
-    if (this.referenceElement && !this.effectiveReferenceElement) {
+    if (this.referenceElement && !this.referenceEl) {
       this.setUpReferenceElement();
     }
     this.hasLoaded = true;
@@ -183,7 +183,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   disconnectedCallback(): void {
     this.removeReferences();
-    disconnectFloatingUI(this, this.effectiveReferenceElement, this.floatingEl);
+    disconnectFloatingUI(this);
   }
 
   //--------------------------------------------------------------------------
@@ -218,7 +218,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   @Method()
   async reposition(delayed = false): Promise<void> {
     const {
-      effectiveReferenceElement,
+      referenceEl,
       placement,
       overlayPositioning,
       offsetDistance,
@@ -231,7 +231,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       this,
       {
         floatingEl,
-        referenceEl: effectiveReferenceElement,
+        referenceEl: referenceEl,
         overlayPositioning,
         placement,
         offsetDistance,
@@ -263,7 +263,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   onClose(): void {
     this.calciteTooltipClose.emit();
-    resetFloatingElStyles(this.floatingEl);
+    hideFloatingUI(this);
   }
 
   private setFloatingEl = (el: HTMLDivElement): void => {
@@ -277,11 +277,11 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
-    this.effectiveReferenceElement = getEffectiveReferenceElement(this.el);
-    connectFloatingUI(this, this.effectiveReferenceElement, this.floatingEl);
+    this.referenceEl = getEffectiveReferenceElement(this.el);
+    connectFloatingUI(this);
 
-    const { el, referenceElement, effectiveReferenceElement } = this;
-    if (warn && referenceElement && !effectiveReferenceElement) {
+    const { el, referenceElement, referenceEl } = this;
+    if (warn && referenceElement && !referenceEl) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el,
       });
@@ -295,33 +295,33 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   };
 
   addReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
     const id = this.getId();
 
-    if ("setAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    if ("setAttribute" in referenceEl) {
+      referenceEl.setAttribute(ARIA_DESCRIBED_BY, id);
     }
 
-    manager.registerElement(effectiveReferenceElement, this.el);
+    manager.registerElement(referenceEl, this.el);
   };
 
   removeReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
-    if ("removeAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    if ("removeAttribute" in referenceEl) {
+      referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
     }
 
-    manager.unregisterElement(effectiveReferenceElement);
+    manager.unregisterElement(referenceEl);
   };
 
   // --------------------------------------------------------------------------
@@ -331,8 +331,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { effectiveReferenceElement, label, open, floatingLayout } = this;
-    const displayed = effectiveReferenceElement && open;
+    const { referenceEl, label, open, floatingLayout } = this;
+    const displayed = referenceEl && open;
     const hidden = !displayed;
 
     return (

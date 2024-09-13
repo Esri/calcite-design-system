@@ -18,7 +18,7 @@ import localeData from "dayjs/esm/plugin/localeData";
 import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
-import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
   disconnectForm,
@@ -158,7 +158,6 @@ interface DayjsTimeParts {
 })
 export class InputTimePicker
   implements
-    FloatingUIComponent,
     FocusTrapComponent,
     FormComponent,
     InteractiveComponent,

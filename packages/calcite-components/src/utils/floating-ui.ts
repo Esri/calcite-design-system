@@ -308,6 +308,16 @@ export interface FloatingUIComponent {
    * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
+
+  /**
+   * The `floatingElement` containing the floating ui.
+   */
+  floatingEl: HTMLElement;
+
+  /**
+   * The `referenceElement` used to position the component according to its `placement` value.
+   */
+  referenceEl: ReferenceElement;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
@@ -442,7 +452,7 @@ export async function reposition(
   const trackedState = autoUpdatingComponentMap.get(component);
 
   if (!trackedState) {
-    return runAutoUpdate(component, options.referenceEl, options.floatingEl);
+    return runAutoUpdate(component);
   }
 
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
@@ -494,11 +504,9 @@ export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, Tracked
 
 const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
 
-async function runAutoUpdate(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): Promise<void> {
+async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
+  const { referenceEl, floatingEl } = component;
+
   if (!floatingEl.isConnected) {
     return;
   }
@@ -536,11 +544,13 @@ async function runAutoUpdate(
 }
 
 /**
- * Helper to reset the floating element styles when the component is closed. This should be called within onClose() of an OpenCloseComponent.
+ * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
  *
- * @param floatingEl - The `floatingElement` containing the floating ui.
+ * @param component - A floating-ui component.
  */
-export function resetFloatingElStyles(floatingEl: HTMLElement): void {
+export function hideFloatingUI(component: FloatingUIComponent): void {
+  const { floatingEl } = component;
+
   if (!floatingEl) {
     return;
   }
@@ -558,41 +568,34 @@ export function resetFloatingElStyles(floatingEl: HTMLElement): void {
  * Helper to set up floating element interactions on connectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
- * @param floatingEl - The `floatingElement` containing the floating ui.
+ * @returns {Promise<void>}
  */
-export async function connectFloatingUI(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): Promise<void> {
-  resetFloatingElStyles(floatingEl);
+export async function connectFloatingUI(component: FloatingUIComponent): Promise<void> {
+  const { floatingEl, referenceEl } = component;
+
+  hideFloatingUI(component);
 
   if (!floatingEl || !referenceEl) {
     return;
   }
 
-  disconnectFloatingUI(component, referenceEl, floatingEl);
+  disconnectFloatingUI(component);
 
   if (!component.open) {
     return;
   }
 
-  return runAutoUpdate(component, referenceEl, floatingEl);
+  return runAutoUpdate(component);
 }
 
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
- * @param floatingEl - The `floatingElement` containing the floating ui.
  */
-export function disconnectFloatingUI(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): void {
+export function disconnectFloatingUI(component: FloatingUIComponent): void {
+  const { floatingEl, referenceEl } = component;
+
   if (!floatingEl || !referenceEl) {
     return;
   }

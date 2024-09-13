@@ -25,7 +25,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
-  resetFloatingElStyles,
+  hideFloatingUI,
   MenuPlacement,
   OverlayPositioning,
   reposition,
@@ -209,7 +209,7 @@ export class Dropdown
       onToggleOpenCloseComponent(this);
     }
     this.updateItems();
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   componentWillLoad(): void {
@@ -218,7 +218,7 @@ export class Dropdown
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   componentDidRender(): void {
@@ -228,7 +228,7 @@ export class Dropdown
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectFloatingUI(this);
   }
 
   render(): VNode {
@@ -546,18 +546,18 @@ export class Dropdown
 
   onClose(): void {
     this.calciteDropdownClose.emit();
-    resetFloatingElStyles(this.floatingEl);
+    hideFloatingUI(this);
   }
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
     this.resizeObserver.observe(el);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
