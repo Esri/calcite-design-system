@@ -624,20 +624,6 @@ describe("calcite-alert", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
         },
-        /*"--calcite-alert-close-background-color-hover": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },*/
-        /*"--calcite-alert-close-background-color-pressed": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "backgroundColor",
-        state: { press: { attribute: "class", value: CSS.close } },
-      },*/
-        /*"--calcite-alert-dismiss-progress-background-color": {
-        shadowSelector: `.${CSS.dismissProgress}`,
-        targetProp: "backgroundColor",
-      },*/
       },
     );
   });
