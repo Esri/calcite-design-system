@@ -9,6 +9,9 @@ export const popoverTokens = {
 };
 
 export const popover = html`
+  <style>
+    --calcite-popover-action-corner-radius: 42px;
+  </style>
   <calcite-label layout="inline">
     <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
     <calcite-popover

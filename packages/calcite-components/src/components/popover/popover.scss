@@ -122,4 +122,9 @@
   @apply h-full;
 }
 
+calcite-action {
+  border-start-end-radius: var(calcite-popover-action-corner-radius, var(--calcite-corner-radius-round));
+  border-end-end-radius: var(calcite-popover-action-corner-radius, var(--calcite-corner-radius-round));
+}
+
 @include base-component();
