@@ -1255,7 +1255,6 @@ describe("calcite-combobox", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-      skipAnimations(page);
       await page.setContent(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
@@ -1287,6 +1286,7 @@ describe("calcite-combobox", () => {
     });
 
     it("tab will close the item group if it’s open", async () => {
+      skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
