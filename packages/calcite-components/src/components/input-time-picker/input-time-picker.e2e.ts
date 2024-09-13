@@ -576,6 +576,7 @@ describe("calcite-input-time-picker", () => {
             ></calcite-label>
           `);
 
+          const input = await page.find("input");
           const inputTimePicker = await page.find("calcite-input-time-picker");
           const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
@@ -626,6 +627,7 @@ describe("calcite-input-time-picker", () => {
 
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
+
           valueToType = `4${localizedHourSuffix}15${localizedMinuteSuffix}30`;
           if (localizedSecondSuffix) {
             valueToType += localizedSecondSuffix;
@@ -633,14 +635,15 @@ describe("calcite-input-time-picker", () => {
           valueToType =
             meridiemOrder === 0 ? `${localizedMeridiem} ${valueToType}` : `${valueToType} ${localizedMeridiem}`;
 
-          const input = await page.find("input");
+          await page.keyboard.type(valueToType);
           await input.focus();
+          await page.waitForChanges();
 
           expect(changeEvent).toHaveReceivedEventTimes(2);
 
           const blurredValue = await inputTimePicker.getProperty("value");
           const localizedBlurredValue = localizeTimeString({
-            hour12: false,
+            hour12: true,
             includeSeconds: true,
             locale,
             value: blurredValue,

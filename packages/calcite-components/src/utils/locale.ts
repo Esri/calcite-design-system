@@ -103,6 +103,7 @@ export const locales = [
 export const localizedTwentyFourHourMeridiems = new Map(
   Object.entries({
     bg: { am: "пр.об.", pm: "сл.об." },
+    bs: { am: "prijepodne", pm: "popodne" },
     ca: { am: "a. m.", pm: "p. m." },
     cs: { am: "dop.", pm: "odp." },
     es: { am: "a. m.", pm: "p. m." },

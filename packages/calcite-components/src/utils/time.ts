@@ -1,6 +1,7 @@
 import {
   getDateTimeFormat,
   getSupportedNumberingSystem,
+  localizedTwentyFourHourMeridiems,
   NumberingSystem,
   numberStringFormatter,
   SupportedLocale,
@@ -368,16 +369,23 @@ export function localizeTimeString({
     hour12,
   });
   let result = formatter.format(dateFromTimeString) || null;
+
   // Confirmed with i18n team that the bulgarian "ч." character (abbreviation for "hours") shouldn't display for short and medium time formats.
   if (result && locale === "bg" && result.includes(" ч.")) {
     result = result.replaceAll(" ч.", "");
   }
+
+  // @link https://issues.chromium.org/issues/40172622
   // @link https://issues.chromium.org/issues/40676973
-  if (locale === "mk" && result.includes("AM")) {
-    result = result.replaceAll("AM", "претпл.");
-  } else if (locale === "mk" && result.includes("PM")) {
-    result = result.replaceAll("PM", "попл.");
+  if (locale === "bs" || locale === "mk") {
+    const localeData = localizedTwentyFourHourMeridiems.get(locale);
+    if (result.includes("AM")) {
+      result = result.replaceAll("AM", localeData.am);
+    } else if (result.includes("PM")) {
+      result = result.replaceAll("PM", localeData.pm);
+    }
   }
+
   return result;
 }
 
@@ -403,10 +411,14 @@ export function localizeTimeStringToParts({
     const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem, hour12 });
     const parts = formatter.formatToParts(dateFromTimeString);
     let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
+
+    // @link https://issues.chromium.org/issues/40172622
     // @link https://issues.chromium.org/issues/40676973
-    if (locale === "mk" && hour12) {
-      localizedMeridiem = dateFromTimeString.getHours() > 11 ? "попл." : "претпл.";
+    if (hour12 && (locale === "bs" || locale === "mk")) {
+      const localeData = localizedTwentyFourHourMeridiems.get(locale);
+      localizedMeridiem = dateFromTimeString.getHours() > 11 ? localeData.am : localeData.pm;
     }
+
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
