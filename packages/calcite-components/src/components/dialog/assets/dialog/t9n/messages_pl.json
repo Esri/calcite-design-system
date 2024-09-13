@@ -1,5 +1,5 @@
 {
   "close": "Zamknij",
-  "resizeEnabled": "Resize enabled. Use the shift and arrow keys to resize the dialog.",
-  "dragEnabled": "Drag enabled. Use the arrow keys to move the dialog."
+  "resizeEnabled": "Zmiana rozmiaru włączona. Użyj klawiszy Shift i strzałek, aby zmienić rozmiar okna dialogowego.",
+  "dragEnabled": "Przeciąganie włączone. Użyj klawiszy strzałek, aby przesunąć okno dialogowe."
 }

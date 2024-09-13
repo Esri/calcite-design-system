@@ -1,5 +1,5 @@
 {
   "close": "סגירה",
-  "resizeEnabled": "Resize enabled. Use the shift and arrow keys to resize the dialog.",
-  "dragEnabled": "Drag enabled. Use the arrow keys to move the dialog."
+  "resizeEnabled": "שינוי גודל מופעל. השתמש במקש shift ובמקשי החצים כדי לשנות את גודל תיבת הדו-שיח.",
+  "dragEnabled": "גרירה מופעלת. השתמש במקשי החצים כדי להזיז את תיבת הדו-שיח."
 }

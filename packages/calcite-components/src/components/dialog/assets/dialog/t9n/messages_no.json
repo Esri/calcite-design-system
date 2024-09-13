@@ -1,5 +1,5 @@
 {
   "close": "Lukk",
-  "resizeEnabled": "Resize enabled. Use the shift and arrow keys to resize the dialog.",
-  "dragEnabled": "Drag enabled. Use the arrow keys to move the dialog."
+  "resizeEnabled": "Endring av størrelse aktivert. Bruk skift- og piltastene til å endre størrelsen på dialogen.",
+  "dragEnabled": "Draing er aktivert. Bruk piltastene til å flytte dialogen."
 }

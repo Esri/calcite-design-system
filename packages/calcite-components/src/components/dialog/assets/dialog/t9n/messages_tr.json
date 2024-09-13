@@ -1,5 +1,5 @@
 {
   "close": "Kapat",
-  "resizeEnabled": "Resize enabled. Use the shift and arrow keys to resize the dialog.",
-  "dragEnabled": "Drag enabled. Use the arrow keys to move the dialog."
+  "resizeEnabled": "Yeniden boyutlandırma etkinleştirildi. İletişim penceresini yeniden boyutlandırmak için shift ve ok tuşlarını kullanın.",
+  "dragEnabled": "Sürükleme etkinleştirildi. İletişim penceresini hareket ettirmek için ok tuşlarını kullanın."
 }
