@@ -19,21 +19,21 @@ check_ui_icon_name_consistency() {
   # this pattern will check for invalid use of "-f-" anywhere except right before the size
   invalid_pattern="-[a-z0-9]+-f-"
 
-  staged_files=$(git diff --cached --name-only --diff-filter=ACM)
+  staged_files="$(git diff --cached --name-only --diff-filter=ACM)"
 
   for file in $staged_files; do
-    if [[ $file == "$svg_icon_dir"* ]]; then
-      if [[ $file == *.svg ]]; then
-        filename=$(basename "$file")
+    if [[ "$file" == "$svg_icon_dir"* ]]; then
+      if [[ "$file" == *.svg ]]; then
+        filename="$(basename "$file")"
 
         # first, ensure the filename follows the valid pattern
-        if ! [[ $filename =~ $valid_pattern ]]; then
+        if ! [[ "$filename" =~ $valid_pattern ]]; then
           echo "Error: File '$file' does not follow the naming convention (<iconName>-<size>.svg or <iconName>-<size>-f.svg)."
           exit 1
         fi
 
         # then, ensure there's no invalid use of "-f-" anywhere except right before the size
-        if [[ $filename =~ $invalid_pattern ]]; then
+        if [[ "$filename" =~ $invalid_pattern ]]; then
           echo "Error: File '$file' has an invalid '-f-' and does not follow the naming convention (<iconName>-<size>.svg or <iconName>-<size>-f.svg)."
           exit 1
         fi
