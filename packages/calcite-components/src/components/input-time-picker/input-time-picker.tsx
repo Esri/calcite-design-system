@@ -657,31 +657,17 @@ export class InputTimePicker
     ) {
       const localizedAM = localizedTwentyFourHourMeridiems.get(this.effectiveLocale).am;
       const localizedPM = localizedTwentyFourHourMeridiems.get(this.effectiveLocale).pm;
-      const localizedAMRegEx = new RegExp(String.raw`\s?(${localizedAM})\s?`, "g");
-      const localizedPMRegEx = new RegExp(String.raw`\s?(${localizedPM})\s?`, "g");
-      const meridiemOrder = getMeridiemOrder(this.effectiveLocale);
+      const localizedAMRegEx = new RegExp(String.raw`${localizedAM}`, "g");
+      const localizedPMRegEx = new RegExp(String.raw`${localizedPM}`, "g");
       const meridiemFormatToken = getMeridiemFormatToken(this.effectiveLocale);
       const caseAdjustedAMString =
         meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "AM" : "am";
       const caseAdjustedPMString =
         meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "PM" : "pm";
 
-      if (localizedTimeString.match(localizedAMRegEx)) {
-        localizedTimeString = localizedTimeString.replaceAll(
-          localizedAMRegEx,
-          meridiemOrder === 0 ? `${caseAdjustedAMString} ` : ` ${caseAdjustedAMString}`,
-        );
-      } else if (localizedTimeString.match(localizedPMRegEx)) {
-        localizedTimeString = localizedTimeString.replaceAll(
-          localizedPMRegEx,
-          meridiemOrder === 0 ? `${caseAdjustedPMString} ` : ` ${caseAdjustedPMString}`,
-        );
-      } else {
-        localizedTimeString =
-          meridiemOrder === 0
-            ? `${caseAdjustedAMString} ${localizedTimeString}`
-            : `${localizedTimeString} ${caseAdjustedAMString}`;
-      }
+      localizedTimeString = localizedTimeString.match(localizedPMRegEx)
+        ? localizedTimeString.replaceAll(localizedPMRegEx, caseAdjustedPMString)
+        : localizedTimeString.replaceAll(localizedAMRegEx, caseAdjustedAMString);
     }
 
     this.setLocaleTimeFormat({
