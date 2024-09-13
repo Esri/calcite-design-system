@@ -3335,6 +3335,10 @@ export namespace Components {
     }
     interface CalciteLoader {
         /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete": boolean;
+        /**
           * When `true`, displays smaller and appears to the left of the text.
          */
         "inline": boolean;
@@ -11464,6 +11468,10 @@ declare namespace LocalJSX {
         "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
     }
     interface CalciteLoader {
+        /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete"?: boolean;
         /**
           * When `true`, displays smaller and appears to the left of the text.
          */

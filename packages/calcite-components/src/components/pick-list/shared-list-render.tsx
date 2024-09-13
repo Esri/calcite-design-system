@@ -38,11 +38,10 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
     dragEnabled,
     storeAssistiveEl,
   },
-  ...rest
 }): VNode => {
   const defaultSlot = <slot />;
   return (
-    <Host aria-busy={toAriaBoolean(loading)} role="menu" {...rest}>
+    <Host aria-busy={toAriaBoolean(loading)} role="menu">
       <InteractiveContainer disabled={disabled}>
         <section>
           {dragEnabled ? (
