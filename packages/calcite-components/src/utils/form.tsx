@@ -499,12 +499,12 @@ function syncHiddenFormInput(component: FormComponent): void {
     let input = extra.pop();
 
     if (!input) {
-      input = ownerDocument!.createElement("input");
+      input = ownerDocument.createElement("input");
       input.slot = hiddenFormInputSlotName;
     }
 
     if (!docFrag) {
-      docFrag = ownerDocument!.createDocumentFragment();
+      docFrag = ownerDocument.createDocumentFragment();
     }
 
     docFrag.append(input);
