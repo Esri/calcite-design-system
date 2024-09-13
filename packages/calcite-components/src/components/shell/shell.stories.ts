@@ -1827,3 +1827,27 @@ export const shellPanelWithTabs = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+export const panelWithPopoverZIndex = (): string =>
+  html` <style>
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        background-color: gray;
+      }
+    </style>
+    <calcite-shell content-behind>
+      <div id="viewDiv"></div>
+      <calcite-shell-panel slot="panel-start"></calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">
+        <calcite-flow>
+          <calcite-flow-item heading="panel header">
+            <calcite-button id="button" style="margin-top:20px">open popover</calcite-button>
+          </calcite-flow-item>
+        </calcite-flow>
+      </calcite-shell-panel> </calcite-shell
+    ><calcite-popover open reference-element="button" offset-distance="-50" offset-skidding="15" style="z-index: 100">
+      <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel>
+    </calcite-popover>`;

@@ -313,7 +313,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
                   [CSS_UTILITY.rtl]: rtl,
                 }}
                 data-selection-mode={this.selectionMode}
-                ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
               >
                 {chevron}
                 {itemIndicator}
@@ -450,10 +449,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @State() updateAfterInitialRender = false;
 
   actionSlotWrapper!: HTMLElement;
-
-  childrenSlotWrapper!: HTMLElement;
-
-  defaultSlotWrapper!: HTMLElement;
 
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 

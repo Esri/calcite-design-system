@@ -439,7 +439,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -1270,7 +1270,7 @@ export namespace Components {
          */
         "filteredItems": HTMLCalciteComboboxItemElement[];
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -1796,7 +1796,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -2431,7 +2431,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -3335,6 +3335,10 @@ export namespace Components {
     }
     interface CalciteLoader {
         /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete": boolean;
+        /**
           * When `true`, displays smaller and appears to the left of the text.
          */
         "inline": boolean;
@@ -4049,7 +4053,7 @@ export namespace Components {
          */
         "flipDisabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -4776,7 +4780,7 @@ export namespace Components {
          */
         "dropdownLabel": string;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -7848,9 +7852,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerBlur": void;
         "calciteInternalTimePickerChange": string;
-        "calciteInternalTimePickerFocus": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8361,7 +8363,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -9244,7 +9246,7 @@ declare namespace LocalJSX {
          */
         "filteredItems"?: HTMLCalciteComboboxItemElement[];
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -9821,7 +9823,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -10472,7 +10474,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -11465,6 +11467,10 @@ declare namespace LocalJSX {
     }
     interface CalciteLoader {
         /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete"?: boolean;
+        /**
           * When `true`, displays smaller and appears to the left of the text.
          */
         "inline"?: boolean;
@@ -12186,7 +12192,7 @@ declare namespace LocalJSX {
          */
         "flipDisabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -12949,7 +12955,7 @@ declare namespace LocalJSX {
          */
         "dropdownLabel"?: string;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -13809,9 +13815,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerBlur"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
-        "onCalciteInternalTimePickerFocus"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */
