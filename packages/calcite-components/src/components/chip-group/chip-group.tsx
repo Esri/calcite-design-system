@@ -145,11 +145,11 @@ export class ChipGroup implements InteractiveComponent {
     const item = event.target as HTMLCalciteChipElement;
     if (this.items?.includes(item)) {
       if (this.items?.indexOf(item) > 0) {
-        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "previous");
+        focusElementInGroup(this.items, item, "previous");
       } else if (this.items?.indexOf(item) === 0) {
-        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "next");
+        focusElementInGroup(this.items, item, "next");
       } else {
-        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "first");
+        focusElementInGroup(this.items, item, "first");
       }
     }
     this.items = this.items?.filter((el) => el !== item);

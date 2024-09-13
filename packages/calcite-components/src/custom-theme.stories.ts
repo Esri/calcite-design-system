@@ -10,17 +10,23 @@ import {
   actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
-import { accordion } from "./custom-theme/accordion";
+import { accordionItemTokens } from "./custom-theme/accordion-item";
+import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox } from "./custom-theme/checkbox";
 import { chips } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
+import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
+import { input, inputTokens } from "./custom-theme/input";
+import { inputNumber } from "./custom-theme/input-number";
+import { inputText } from "./custom-theme/input-text";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
+import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
@@ -97,6 +103,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
             <div style="width: 40px; height: 40px;">${actionMenu}</div>
             ${icon}
           </div>
+          ${input} ${inputNumber} ${inputText}
         </div>
         <div class="demo-column">
           <div>${card}</div>
@@ -105,7 +112,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail}</div>
+
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}  ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle}</div>
+
       </div>
     </div>
   </div>`;
@@ -113,14 +122,19 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
 export default {
   title: "Theming/Custom Theme",
   args: {
+    ...globalTokens,
+    ...accordionTokens,
+    ...accordionItemTokens,
+    ...actionTokens,
     ...actionBarTokens,
     ...actionGroupTokens,
     ...actionMenuTokens,
     ...actionPadTokens,
-    ...actionTokens,
     ...avatarTokens,
     ...cardTokens,
-    ...globalTokens,
+    ...handleTokens,
+    ...progressTokens,
+    ...inputTokens,
   },
 };
 
@@ -131,13 +145,18 @@ export const themingInteractive = (args: Record<string, string>): string => {
 export const theming_TestOnly = (): string => {
   return kitchenSink(
     {
+      ...accordionTokens,
+      ...accordionItemTokens,
+      ...actionTokens,
       ...actionBarTokens,
       ...actionGroupTokens,
       ...actionMenuTokens,
       ...actionPadTokens,
-      ...actionTokens,
       ...avatarTokens,
       ...cardTokens,
+      ...handleTokens,
+      ...progressTokens,
+      ...inputTokens,
     },
     true,
   );

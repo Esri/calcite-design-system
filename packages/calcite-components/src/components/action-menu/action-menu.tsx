@@ -80,7 +80,7 @@ export class ActionMenu implements LoadableComponent {
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 

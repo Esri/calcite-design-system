@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.12...@esri/calcite-components@2.13.0-next.13) (2024-09-13)
+
+### Features
+
+- **accordion-item:** update component tokens ([ca932b5](https://github.com/Esri/calcite-design-system/commit/ca932b5c4a3a5d7bf9bcf032ed2a0325f6920026)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180) [#4060](https://github.com/Esri/calcite-design-system/issues/4060)
+
+## [2.13.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.11...@esri/calcite-components@2.13.0-next.12) (2024-09-13)
+
+### Features
+
+- **handle:** add component tokens ([#10262](https://github.com/Esri/calcite-design-system/issues/10262)) ([5e73b44](https://github.com/Esri/calcite-design-system/commit/5e73b44e1b8868c7024c3e21fee782e1f3b63218)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [2.13.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.10...@esri/calcite-components@2.13.0-next.11) (2024-09-12)
+
+### Features
+
+- **progress:** add component tokens ([#10267](https://github.com/Esri/calcite-design-system/issues/10267)) ([8c1259f](https://github.com/Esri/calcite-design-system/commit/8c1259f4310b930a6c2b46abe5ebaf7722f36b2c)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [2.13.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.9...@esri/calcite-components@2.13.0-next.10) (2024-09-12)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.13.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.8...@esri/calcite-components@2.13.0-next.9) (2024-09-12)
+
+### Features
+
+- **input, input-number, input-text:** add prefix and suffix width css tokens ([#10206](https://github.com/Esri/calcite-design-system/issues/10206)) ([7a6ee82](https://github.com/Esri/calcite-design-system/commit/7a6ee829c38cad7d5e081366d15eda53a75d5bb6)), closes [#8154](https://github.com/Esri/calcite-design-system/issues/8154)
+
 ## [2.13.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.7...@esri/calcite-components@2.13.0-next.8) (2024-09-11)
 
 **Note:** Version bump only for package @esri/calcite-components
