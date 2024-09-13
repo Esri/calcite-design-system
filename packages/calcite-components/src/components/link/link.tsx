@@ -113,7 +113,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
           When the 'download' property of type 'boolean | string' is set to true, the value is "".
           This works around that issue for now.
           */
-            download={Tag === "a" && (download === "" || download) ? download : null}
+            download={Tag === "a" ? (download === true ? "" : download ? download : null) : null}
             href={Tag === "a" && this.href}
             onClick={this.childElClickHandler}
             ref={this.storeTagRef}
@@ -174,7 +174,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
 
-  private childElClickHandler = (event: PointerEvent): void => {
+  private childElClickHandler = (event: MouseEvent): void => {
     if (!event.isTrusted) {
       // click was invoked internally, we stop it here
       event.stopPropagation();

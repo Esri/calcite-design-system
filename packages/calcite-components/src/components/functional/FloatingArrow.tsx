@@ -2,7 +2,7 @@ import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { JSXAttributes } from "@stencil/core/internal";
 import { FloatingLayout } from "../../utils/floating-ui";
 
-interface FloatingArrowProps extends JSXAttributes {
+interface FloatingArrowProps extends JSXAttributes<SVGSVGElement> {
   floatingLayout: FloatingLayout;
 }
 

@@ -1,4 +1,4 @@
-import { SelectionMode } from "../components";
+import { SelectionMode } from "../components/interfaces";
 
 /**
  * Defines interface for group components that manage selection behavior of their children.
