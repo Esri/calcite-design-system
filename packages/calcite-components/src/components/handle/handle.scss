@@ -43,7 +43,7 @@
   &:focus {
     @apply focus-inset;
 
-    color: var(--calcite-handle-icon-color-pressed, var(--calcite-color-text-1));
+    color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
   }
   &--selected {
     color: var(--calcite-handle-icon-color-selected, var(--calcite-color-text-1));
