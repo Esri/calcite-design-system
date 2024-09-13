@@ -5,7 +5,6 @@ export const handleTokens = {
   calciteHandleBackgroundColorSelected: "",
   calciteHandleIconColor: "",
   calciteHandleIconColorHover: "",
-  calciteHandleIconColorPressed: "",
   calciteHandleIconColorSelected: "",
 };
 

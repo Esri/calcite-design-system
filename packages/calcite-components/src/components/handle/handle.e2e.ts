@@ -147,6 +147,10 @@ describe("calcite-handle", () => {
   describe("theme", () => {
     describe("default", () => {
       themed("calcite-handle", {
+        "--calcite-handle-background-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
         "--calcite-handle-background-color-hover": {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "backgroundColor",
@@ -160,11 +164,6 @@ describe("calcite-handle", () => {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "color",
           state: "hover",
-        },
-        "--calcite-handle-icon-color-pressed": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.handle } },
         },
       });
     });
