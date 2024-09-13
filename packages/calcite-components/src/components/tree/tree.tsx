@@ -143,9 +143,7 @@ export class Tree {
     }
 
     const target = event.target as HTMLCalciteTreeItemElement;
-    const childItems = nodeListToArray(
-      target.querySelectorAll("calcite-tree-item"),
-    ) as HTMLCalciteTreeItemElement[];
+    const childItems = nodeListToArray(target.querySelectorAll("calcite-tree-item"));
 
     event.preventDefault();
     event.stopPropagation();
@@ -190,8 +188,8 @@ export class Tree {
 
     if (shouldClearCurrentSelection) {
       const selectedItems = nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item[selected]"),
-      ) as HTMLCalciteTreeItemElement[];
+        this.el.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item[selected]"),
+      );
 
       selectedItems.forEach((treeItem) => {
         if (!targetItems.includes(treeItem)) {
@@ -236,9 +234,7 @@ export class Tree {
 
     this.selectedItems = isNoneSelectionMode
       ? []
-      : (nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
-          (i) => i.selected,
-        ) as HTMLCalciteTreeItemElement[]);
+      : nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter((i) => i.selected);
 
     this.calciteTreeSelect.emit();
 
@@ -411,9 +407,9 @@ export class Tree {
       ancestor.selected = !indeterminate;
     });
 
-    this.selectedItems = (
-      nodeListToArray(this.el.querySelectorAll("calcite-tree-item")) as HTMLCalciteTreeItemElement[]
-    ).filter((i) => i.selected);
+    this.selectedItems = nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
+      (i) => i.selected,
+    );
 
     if (updateItem) {
       this.calciteTreeSelect.emit();

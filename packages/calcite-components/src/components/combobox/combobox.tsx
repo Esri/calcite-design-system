@@ -302,7 +302,7 @@ export class Combobox
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -1184,7 +1184,7 @@ export class Combobox
     const children = getItemChildren(item);
     if (item.selected) {
       ancestors.forEach((el) => {
-        (el as HTMLCalciteComboboxItemElement).selected = true;
+        el.selected = true;
       });
     } else {
       children.forEach((el) => (el.selected = false));
@@ -1652,7 +1652,7 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           readOnly={this.readOnly}
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
+          ref={(el) => (this.textInput = el)}
           role="combobox"
           tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"

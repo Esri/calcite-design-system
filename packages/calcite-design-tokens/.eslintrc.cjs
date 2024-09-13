@@ -36,6 +36,7 @@ module.exports = {
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unnecessary-type-assertion": "error",
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
     "jest/expect-expect": "off",

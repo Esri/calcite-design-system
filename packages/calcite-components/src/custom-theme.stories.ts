@@ -18,9 +18,13 @@ import { chips } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { icon } from "./custom-theme/icon";
+import { input, inputTokens } from "./custom-theme/input";
+import { inputNumber } from "./custom-theme/input-number";
+import { inputText } from "./custom-theme/input-text";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
+import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
@@ -96,6 +100,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
             <div style="width: 40px; height: 40px;">${actionMenu}</div>
             ${icon}
           </div>
+          ${input} ${inputNumber} ${inputText}
         </div>
         <div class="demo-column">
           <div>${card}</div>
@@ -104,7 +109,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress}
+        </div>
       </div>
     </div>
   </div>`;
@@ -119,6 +125,8 @@ export default {
     ...actionPadTokens,
     ...actionGroupTokens,
     ...cardTokens,
+    ...progressTokens,
+    ...inputTokens,
   },
 };
 
@@ -135,6 +143,8 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...actionGroupTokens,
       ...cardTokens,
+      ...progressTokens,
+      ...inputTokens,
     },
     true,
   );
