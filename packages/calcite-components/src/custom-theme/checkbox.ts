@@ -3,6 +3,7 @@ import { html } from "../../support/formatting";
 export const checkboxTokens = {
   calciteCheckboxSize: "",
   calciteCheckboxColor: "",
+  calciteCheckboxBorderColor: "",
 };
 
 export const checkbox = html`<label>

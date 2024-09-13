@@ -234,7 +234,7 @@ describe("calcite-checkbox", () => {
           targetProp: "blockSize",
         },
       ],
-      "--calcite-checkbox-color": {
+      "--calcite-checkbox-icon-color": {
         shadowSelector: `.${CSS.check}`,
         targetProp: "color",
       },
