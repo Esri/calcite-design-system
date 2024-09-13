@@ -8,6 +8,7 @@ import {
   formAssociated,
   hidden,
   labelable,
+  openClose,
   reflects,
   renders,
   t9n,
@@ -128,6 +129,27 @@ describe("calcite-input-time-zone", () => {
     t9n(simpleTestProvider);
   });
 
+  describe("openClose", () => {
+    openClose(simpleTestProvider);
+
+    describe("initially open", () => {
+      openClose.initial("calcite-input-time-zone", {
+        beforeContent: async (page) => {
+          await page.emulateTimezone(testTimeZoneItems[0].name);
+
+          // we add the override script this way because `setContent` was already used before this hook, and calling it again will result in an error.
+          await page.evaluate(
+            (supportedTimeZoneOverrideHtml) =>
+              document.body.insertAdjacentHTML("beforeend", supportedTimeZoneOverrideHtml),
+            overrideSupportedTimeZones(""),
+          );
+
+          await page.waitForChanges();
+        },
+      });
+    });
+  });
+
   describe("mode", () => {
     describe("offset (default)", () => {
       describe("selects user's matching time zone offset on initialization", () => {
@@ -154,7 +176,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneItems[0].name);
         await page.setContent(
-          await overrideSupportedTimeZones(
+          overrideSupportedTimeZones(
             html`<calcite-input-time-zone value="${testTimeZoneItems[1].offset}"></calcite-input-time-zone>`,
           ),
         );
@@ -172,7 +194,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneItems[0].name);
         await page.setContent(
-          await overrideSupportedTimeZones(html`<calcite-input-time-zone value="9000"></calcite-input-time-zone>`),
+          overrideSupportedTimeZones(html`<calcite-input-time-zone value="9000"></calcite-input-time-zone>`),
         );
 
         const input = await page.find("calcite-input-time-zone");
