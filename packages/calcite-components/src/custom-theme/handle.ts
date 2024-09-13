@@ -1,6 +1,7 @@
 import { html } from "../../support/formatting";
 
 export const handleTokens = {
+  calciteHandleBackgroundColor: "",
   calciteHandleBackgroundColorHover: "",
   calciteHandleBackgroundColorSelected: "",
   calciteHandleIconColor: "",
