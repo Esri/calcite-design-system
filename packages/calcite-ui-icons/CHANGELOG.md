@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.32.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.32.0-next.3...@esri/calcite-ui-icons@3.32.0-next.4) (2024-09-13)
+
+### Features
+
+- add model-history, raster-function-history, raster function-template-history, raster-tool-history, tool-history ([#10305](https://github.com/Esri/calcite-design-system/issues/10305)) ([1e31d43](https://github.com/Esri/calcite-design-system/commit/1e31d435d4d0846facb9dab8914c3dd5f0c9a7dc))
+
 ## [3.32.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.32.0-next.2...@esri/calcite-ui-icons@3.32.0-next.3) (2024-09-12)
 
 ### Features
