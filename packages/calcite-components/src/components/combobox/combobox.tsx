@@ -810,16 +810,6 @@ export class Combobox
     }
   };
 
-  private toggleCloseEnd = (): void => {
-    this.open = false;
-    this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
-  };
-
-  private toggleOpenEnd = (): void => {
-    this.open = false;
-    this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
-  };
-
   onBeforeOpen(): void {
     this.scrollToActiveItem();
     this.calciteComboboxBeforeOpen.emit();
