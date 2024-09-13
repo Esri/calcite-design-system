@@ -1329,6 +1329,7 @@ describe("calcite-combobox", () => {
     });
 
     it(`Escape closes the dropdown, but remains focused`, async () => {
+      await skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
