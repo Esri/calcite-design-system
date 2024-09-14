@@ -76,6 +76,200 @@ export const simple = (args: CarouselStoryArgs): string =>
     </calcite-carousel>
   </div>`;
 
+export const simpleManyItems = (args: CarouselStoryArgs): string =>
+  html` <div style="width:600px;height:400px;">
+    <calcite-carousel
+      control-overlay="${args.controlOverlay}"
+      ${boolean("disabled", args.disabled)}
+      autoplay-duration="${args.autoplayDuration}"
+      ${args.autoplay ? "autoplay" : ""}
+      label="${args.label}"
+      arrow-type="${args.arrowType}"
+    >
+      <calcite-carousel-item label="Carousel Item 1">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-1"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 2">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-2"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 3">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-3"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 4">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-4"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 5">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-5"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 6">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-4"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 7">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-5"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 8">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-4"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 9">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-5"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+    </calcite-carousel>
+  </div>`;
+
+export const simpleManyItemsResizable = (args: CarouselStoryArgs): string =>
+  html` <calcite-shell
+    style="
+      position: relative;
+      height: 500px;
+      --calcite-shell-panel-min-width: 200px;
+      --calcite-shell-panel-max-width: 400px;"
+    ><calcite-shell-panel
+      slot="panel-end"
+      resizable
+      position="end"
+      width-scale="l"
+      style="position: relative; --calcite-shell-panel-min-width: 0; --calcite-shell-panel-max-width: 800px"
+    >
+      <calcite-panel heading="Example resizable" description="preventing overlap with edge of container">
+        <calcite-carousel
+          control-overlay="${args.controlOverlay}"
+          ${boolean("disabled", args.disabled)}
+          autoplay-duration="${args.autoplayDuration}"
+          ${args.autoplay ? "autoplay" : ""}
+          label="${args.label}"
+          arrow-type="${args.arrowType}"
+        >
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-1"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Long Trees">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-2"></calcite-icon>
+              Another bit of content about this unbelievable item can go here on the second carousel item as an example
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-3"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-4"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-5"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-6"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-7"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-8"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="number-circle-9"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="layer"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="layer"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="layer"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="layer"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="layer"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+          <calcite-carousel-item label="The Red Rocks and Blue Water">
+            <p>
+              <calcite-icon scale="l" icon="layer"></calcite-icon>
+              An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+            </p>
+          </calcite-carousel-item>
+        </calcite-carousel>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
+
 export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>

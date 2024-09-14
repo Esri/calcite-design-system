@@ -50,11 +50,11 @@ import { ArrowType, AutoplayType } from "./interfaces";
  */
 
 const maxItemBreakpoints = {
-  large: 11,
-  medium: 9,
-  small: 7,
-  xsmall: 5,
-  xxsmall: 3,
+  large: 9,
+  medium: 7,
+  small: 5,
+  xsmall: 3,
+  xxsmall: 1,
 };
 
 @Component({
@@ -156,7 +156,6 @@ export class Carousel
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setMaxItemsToBreakpoint(this.el.clientWidth);
   }
 
   componentDidRender(): void {
@@ -171,6 +170,8 @@ export class Carousel
   }
 
   async componentWillLoad(): Promise<void> {
+    this.setMaxItemsToBreakpoint(this.el.clientWidth);
+
     /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
     if ((this.autoplay === "" || this.autoplay) && this.autoplay !== "paused") {
       this.handlePlay(false);
@@ -178,7 +179,6 @@ export class Carousel
       this.paused = true;
     }
     setUpLoadableComponent(this);
-
     await setUpMessages(this);
   }
 
@@ -227,6 +227,8 @@ export class Carousel
   @State() items: HTMLCalciteCarouselItemElement[] = [];
 
   @State() direction: "forward" | "backward" | "standby" = "standby";
+
+  @State() paginationDirection: "forward" | "backward" | "standby" = "standby";
 
   @Watch("direction")
   async directionWatcher(direction: string): Promise<void> {
@@ -655,8 +657,6 @@ export class Carousel
 
   renderPaginationItems = (): VNode => {
     const { selectedIndex, maxItems, items, label, handleItemSelection } = this;
-    // todo handle arrow navigation for non-visible pagination items when overflowing
-    // todo handle 3 example
     return (
       <div aria-label={label} class={CSS.paginationItems} role="tablist">
         {items.map((item, index) => {

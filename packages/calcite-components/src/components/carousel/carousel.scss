@@ -236,7 +236,7 @@ calcite-carousel-item:not([selected]) {
   transition:
     0.15s ease-in-out inline-size,
     0.15s ease-in-out padding,
-    0.25s ease-in-out opacity;
+    0.3s ease-in-out opacity;
   &.visible {
     @apply w-8;
     pointer-events: all;
@@ -248,7 +248,7 @@ calcite-carousel-item:not([selected]) {
 .pagination-item--range-edge calcite-icon {
   scale: 0.75;
   opacity: 0.75;
-  transition: 0.25s ease-in-out scale;
+  transition: 0.3s ease-in-out scale;
 }
 
 .container--overlaid .pagination-item {
