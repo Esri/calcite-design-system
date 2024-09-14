@@ -429,9 +429,9 @@ export class Carousel
     const previousSelected = this.selectedIndex;
 
     this.items.forEach((el, index) => {
-      const isMatch = requestedIndex === index;
-      el.selected = isMatch;
-      if (isMatch) {
+      const match = requestedIndex === index;
+      el.selected = match;
+      if (match) {
         this.selectedItem = el;
         this.selectedIndex = index;
       }
@@ -574,7 +574,8 @@ export class Carousel
   };
 
   private tabListKeyDownHandler = (event: KeyboardEvent): void => {
-    const interactiveItems = Array(...this.tabList.querySelectorAll("button"));
+    const targetEls = `button:not(.${CSS.paginationItemOutOfRange})`;
+    const interactiveItems = Array(...this.tabList.querySelectorAll(targetEls));
     const currentEl = event.target as HTMLCalciteActionElement;
     switch (event.key) {
       case "ArrowRight":
@@ -660,37 +661,32 @@ export class Carousel
     return (
       <div aria-label={label} class={CSS.paginationItems} role="tablist">
         {items.map((item, index) => {
-          const isMatch = index === selectedIndex;
-          const isFirst = index === 0;
-          const isLast = index === items.length - 1;
           const length = items.length;
-          const halfMaxItems = Math.floor(maxItems / 2);
-          const sliceLowBound =
-            selectedIndex < maxItems
-              ? 0
-              : selectedIndex > length - maxItems
-                ? length - maxItems - 1
-                : Math.max(0, selectedIndex - halfMaxItems);
-          const sliceHighBound =
-            selectedIndex < maxItems ? maxItems + 1 : Math.min(length, sliceLowBound + maxItems);
-          const icon = isMatch ? ICONS.active : ICONS.inactive;
-          const isEdge =
-            !isFirst &&
-            !isLast &&
-            !isMatch &&
-            (index === sliceLowBound - 1 || index === sliceHighBound);
-          const isVisible = isMatch || (index <= sliceHighBound && index >= sliceLowBound - 1);
+          const match = index === selectedIndex;
+          const first = index === 0;
+          const last = index === items.length - 1;
+          const endRangeStart = length - maxItems - 1;
+          const inStartRange = selectedIndex < maxItems;
+          const inEndRange = selectedIndex > endRangeStart;
+          const rangeStart = Math.max(0, selectedIndex - Math.floor(maxItems / 2));
+          const rangeEnd = Math.min(length, rangeStart + maxItems);
+          const low = inStartRange ? 0 : inEndRange ? endRangeStart : rangeStart;
+          const high = inStartRange ? maxItems + 1 : rangeEnd;
+          const isEdge = !first && !last && !match && (index === low - 1 || index === high);
+          const visible = match || (index <= high && index >= low - 1);
+          const icon = match ? ICONS.active : ICONS.inactive;
 
           return (
             <button
-              aria-controls={!isMatch ? item.id : undefined}
-              aria-selected={toAriaBoolean(isMatch)}
+              aria-controls={!match ? item.id : undefined}
+              aria-selected={toAriaBoolean(match)}
               class={{
                 [CSS.paginationItem]: true,
                 [CSS.paginationItemIndividual]: true,
-                [CSS.paginationItemSelected]: isMatch,
+                [CSS.paginationItemSelected]: match,
                 [CSS.paginationItemRangeEdge]: length - 1 > maxItems && isEdge,
-                visible: length - 1 <= maxItems || isVisible,
+                [CSS.paginationItemOutOfRange]: !(length - 1 <= maxItems || visible),
+                [CSS.paginationItemVisible]: length - 1 <= maxItems || visible,
               }}
               data-index={index}
               key={item.id}
