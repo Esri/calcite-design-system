@@ -38,6 +38,8 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { createObserver } from "../../utils/observers";
+import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
 import { CSS, DURATION, ICONS } from "./resources";
 import { CarouselMessages } from "./assets/carousel/t9n";
@@ -46,6 +48,15 @@ import { ArrowType, AutoplayType } from "./interfaces";
 /**
  * @slot - A slot for adding `calcite-carousel-item`s.
  */
+
+const maxItemBreakpoints = {
+  large: 11,
+  medium: 9,
+  small: 7,
+  xsmall: 5,
+  xxsmall: 3,
+};
+
 @Component({
   tag: "calcite-carousel",
   styleUrl: "carousel.scss",
@@ -140,10 +151,12 @@ export class Carousel
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.setMaxItemsToBreakpoint(this.el.clientWidth);
   }
 
   componentDidRender(): void {
@@ -154,6 +167,7 @@ export class Carousel
     disconnectLocalized(this);
     disconnectMessages(this);
     this.clearIntervals();
+    this.resizeObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -263,6 +277,8 @@ export class Carousel
 
   @State() slideDurationRemaining = 1;
 
+  @State() maxItems = maxItemBreakpoints.xxsmall;
+
   private container: HTMLDivElement;
 
   private containerId = `calcite-carousel-container-${guid()}`;
@@ -272,6 +288,10 @@ export class Carousel
   private slideInterval = null;
 
   private tabList: HTMLDivElement;
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler),
+  );
 
   // --------------------------------------------------------------------------
   //
@@ -299,6 +319,26 @@ export class Carousel
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private setMaxItemsToBreakpoint(width: number): void {
+    if (!breakpoints || !width) {
+      return;
+    }
+
+    const breakpointKeys = ["medium", "small", "xsmall", "xxsmall"];
+    for (const key of breakpointKeys) {
+      if (width >= breakpoints.width[key]) {
+        this.maxItems = maxItemBreakpoints[key];
+        return;
+      }
+    }
+
+    this.maxItems = maxItemBreakpoints.xxsmall;
+  }
+
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
+    this.setMaxItemsToBreakpoint(width);
+  };
 
   private clearIntervals() {
     clearInterval(this.slideDurationInterval);
@@ -379,11 +419,13 @@ export class Carousel
     const requestedSelectedIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
     this.items = items;
+
     this.setSelectedItem(requestedSelectedIndex, false);
   };
 
   private setSelectedItem = (requestedIndex: number, emit: boolean): void => {
     const previousSelected = this.selectedIndex;
+
     this.items.forEach((el, index) => {
       const isMatch = requestedIndex === index;
       el.selected = isMatch;
@@ -501,10 +543,12 @@ export class Carousel
         }
         break;
       case "ArrowRight":
+        event.preventDefault();
         this.direction = "forward";
         this.nextItem(true);
         break;
       case "ArrowLeft":
+        event.preventDefault();
         this.direction = "backward";
         this.previousItem();
         break;
@@ -609,31 +653,58 @@ export class Carousel
     </div>
   );
 
-  renderPaginationItems = (): VNode => (
-    <div aria-label={this.label} class={CSS.paginationItems} role="tablist">
-      {this.items.map((item, index) => {
-        const isMatch = index === this.selectedIndex;
-        return (
-          <button
-            aria-controls={!isMatch ? item.id : undefined}
-            aria-selected={toAriaBoolean(isMatch)}
-            class={{
-              [CSS.paginationItem]: true,
-              [CSS.paginationItemIndividual]: true,
-              [CSS.paginationItemSelected]: isMatch,
-            }}
-            data-index={index}
-            key={item.id}
-            onClick={this.handleItemSelection}
-            role="tab"
-            title={item.label}
-          >
-            <calcite-icon icon={isMatch ? ICONS.active : ICONS.inactive} scale="l" />
-          </button>
-        );
-      })}
-    </div>
-  );
+  renderPaginationItems = (): VNode => {
+    const { selectedIndex, maxItems, items, label, handleItemSelection } = this;
+    // todo handle arrow navigation for non-visible pagination items when overflowing
+    // todo handle 3 example
+    return (
+      <div aria-label={label} class={CSS.paginationItems} role="tablist">
+        {items.map((item, index) => {
+          const isMatch = index === selectedIndex;
+          const isFirst = index === 0;
+          const isLast = index === items.length - 1;
+          const length = items.length;
+          const halfMaxItems = Math.floor(maxItems / 2);
+          const sliceLowBound =
+            selectedIndex < maxItems
+              ? 0
+              : selectedIndex > length - maxItems
+                ? length - maxItems - 1
+                : Math.max(0, selectedIndex - halfMaxItems);
+          const sliceHighBound =
+            selectedIndex < maxItems ? maxItems + 1 : Math.min(length, sliceLowBound + maxItems);
+          const icon = isMatch ? ICONS.active : ICONS.inactive;
+          const isEdge =
+            !isFirst &&
+            !isLast &&
+            !isMatch &&
+            (index === sliceLowBound - 1 || index === sliceHighBound);
+          const isVisible = isMatch || (index <= sliceHighBound && index >= sliceLowBound - 1);
+
+          return (
+            <button
+              aria-controls={!isMatch ? item.id : undefined}
+              aria-selected={toAriaBoolean(isMatch)}
+              class={{
+                [CSS.paginationItem]: true,
+                [CSS.paginationItemIndividual]: true,
+                [CSS.paginationItemSelected]: isMatch,
+                [CSS.paginationItemRangeEdge]: length - 1 > maxItems && isEdge,
+                visible: length - 1 <= maxItems || isVisible,
+              }}
+              data-index={index}
+              key={item.id}
+              onClick={handleItemSelection}
+              role="tab"
+              title={item.label}
+            >
+              <calcite-icon icon={icon} scale={"l"} />
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
 
   renderArrow = (direction: "previous" | "next"): VNode => {
     const isPrev = direction === "previous";
