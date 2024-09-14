@@ -6,7 +6,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-console.info('updating Stylelint config with custom Sass functions');
+console.info('Scanning custom functions for Stylelint config update.');
 
 const rootDirectory = path.join(__dirname, '..');
 
@@ -24,7 +24,7 @@ function collectSassFiles(dir: string): string[] {
       }
     });
   } catch (err) {
-    console.error(`error reading directory: ${dir}`, err);
+    console.error(`Error reading directory: ${dir}`, err);
   }
 
   return sassFiles;
@@ -43,7 +43,7 @@ sassFiles.forEach(filePath => {
       customFunctions.add(match[1]);
     }
   } catch (err) {
-    console.error(`error reading file: ${filePath}`, err);
+    console.error(`Error reading file: ${filePath}`, err);
   }
 });
 
@@ -59,7 +59,7 @@ try {
   );
 
   fs.writeFileSync(stylelintConfigPath, updatedConfigContent);
-  console.info('stylelint configuration updated successfully');
+  console.info('Stylelint configuration updated successfully');
 } catch (err) {
-  console.error(`error updating Stylelint configuration: ${stylelintConfigPath}`, err);
+  console.error(`Error updating Stylelint configuration: ${stylelintConfigPath}`, err);
 }

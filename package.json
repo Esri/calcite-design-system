@@ -29,6 +29,7 @@
     "util:is-next-deployable": "tsx support/isNextDeployable.ts",
     "util:push-tags": "git push origin HEAD --follow-tags",
     "util:upload-release-assets": "tsx support/uploadReleaseAssets.ts",
+    "util:update-stylelint-custom-sass-functions": "tsx support/updateStylelintCustomSassFunctions.ts",
     "util:remove-prerelease-changelog-entries": "tsx support/removePrereleaseChangelogEntries.ts",
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
