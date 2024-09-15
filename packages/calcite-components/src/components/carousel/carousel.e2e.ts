@@ -1,7 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, DURATION } from "./resources";
+import { breakpoints } from "../../utils/responsive";
+import { CSS, DURATION, maxItemBreakpoints } from "./resources";
 
 const slideDurationWaitTimer = DURATION + 250;
 
@@ -1056,10 +1057,10 @@ describe("calcite-carousel", () => {
   });
 });
 describe("handles overflow of pagination items", () => {
-  it("correctly limits the number of slide pagination items shown when overflowing", async () => {
+  it("correctly limits the number of slide pagination items shown when overflowing xxsmall first selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-carousel label="carousel" style="width:400px">
+      html`<calcite-carousel label="carousel" style="width:${breakpoints.width["xxsmall"]}px">
         <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
         <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
@@ -1072,12 +1073,12 @@ describe("handles overflow of pagination items", () => {
     );
 
     const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    expect(items).toHaveLength(3);
+    expect(items).toHaveLength(maxItemBreakpoints["xxsmall"] + 2);
   });
-  it("correctly limits the number of slide pagination items shown when overflowing selected middle", async () => {
+  it("correctly limits the number of slide pagination items shown when overflowing xsmall middle selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-carousel label="carousel" style="width:400px">
+      html`<calcite-carousel label="carousel" style="width:${breakpoints.width["xsmall"]}px">
         <calcite-carousel-item label="item 1"><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
         <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
@@ -1090,12 +1091,12 @@ describe("handles overflow of pagination items", () => {
     );
 
     const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    expect(items).toHaveLength(5);
+    expect(items).toHaveLength(maxItemBreakpoints["xsmall"] + 2);
   });
-  it("correctly limits the number of slide pagination items shown when overflowing selected last", async () => {
+  it("correctly limits the number of slide pagination items shown when overflowing small last selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-carousel label="carousel" style="width:400px">
+      html`<calcite-carousel label="carousel" style="width:${breakpoints.width["small"]}px">
         <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
         <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
@@ -1108,24 +1109,6 @@ describe("handles overflow of pagination items", () => {
     );
 
     const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    expect(items).toHaveLength(3);
-  });
-  it("correctly adjusts as the container or carousel width changes", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-carousel label="carousel" style="width:400px">
-        <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 4"><p>fourth</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 5"><p>fifth</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 6"><p>sixth</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 7"><p>seventh</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 8" selected><p>eighth</p></calcite-carousel-item>
-      </calcite-carousel>`,
-    );
-
-    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    expect(items).toHaveLength(3);
+    expect(items).toHaveLength(maxItemBreakpoints["small"] + 2);
   });
 });

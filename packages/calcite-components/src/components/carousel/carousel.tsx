@@ -41,21 +41,13 @@ import {
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
-import { CSS, DURATION, ICONS } from "./resources";
+import { CSS, DURATION, ICONS, maxItemBreakpoints } from "./resources";
 import { CarouselMessages } from "./assets/carousel/t9n";
 import { ArrowType, AutoplayType } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-carousel-item`s.
  */
-
-const maxItemBreakpoints = {
-  large: 9,
-  medium: 7,
-  small: 5,
-  xsmall: 3,
-  xxsmall: 1,
-};
 
 @Component({
   tag: "calcite-carousel",

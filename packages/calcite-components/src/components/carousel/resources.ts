@@ -29,3 +29,11 @@ export const ICONS = {
   pause: "pause-f",
   play: "play-f",
 } as const;
+
+export const maxItemBreakpoints = {
+  large: 9,
+  medium: 7,
+  small: 5,
+  xsmall: 3,
+  xxsmall: 1,
+};
