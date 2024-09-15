@@ -280,11 +280,9 @@ export class Button
           disabled={childElType === "button" ? this.disabled || this.loading : null}
           download={
             childElType === "a"
-              ? this.download === true
+              ? this.download === true || this.download === ""
                 ? ""
-                : this.download
-                  ? this.download
-                  : null
+                : this.download || null
               : null
           }
           href={childElType === "a" && this.href}
