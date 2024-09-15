@@ -220,8 +220,6 @@ export class Carousel
 
   @State() direction: "forward" | "backward" | "standby" = "standby";
 
-  @State() paginationDirection: "forward" | "backward" | "standby" = "standby";
-
   @Watch("direction")
   async directionWatcher(direction: string): Promise<void> {
     if (direction === "standby") {
