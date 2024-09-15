@@ -277,6 +277,8 @@ export class Carousel
 
   private containerId = `calcite-carousel-container-${guid()}`;
 
+  private itemContainer: HTMLDivElement;
+
   private slideDurationInterval = null;
 
   private slideInterval = null;
@@ -595,8 +597,6 @@ export class Carousel
     this.container = el;
   };
 
-  private itemContainer: HTMLDivElement;
-
   private storeItemContainerRef = (el: HTMLDivElement): void => {
     this.itemContainer = el;
   };
@@ -656,7 +656,7 @@ export class Carousel
           const length = items.length;
           const match = index === selectedIndex;
           const first = index === 0;
-          const last = index === items.length - 1;
+          const last = index === length - 1;
           const endRangeStart = length - maxItems - 1;
           const inStartRange = selectedIndex < maxItems;
           const inEndRange = selectedIndex > endRangeStart;
@@ -666,6 +666,7 @@ export class Carousel
           const high = inStartRange ? maxItems + 1 : rangeEnd;
           const isEdge = !first && !last && !match && (index === low - 1 || index === high);
           const visible = match || (index <= high && index >= low - 1);
+          const overflowActive = length - 1 <= maxItems;
           const icon = match ? ICONS.active : ICONS.inactive;
 
           return (
@@ -677,8 +678,8 @@ export class Carousel
                 [CSS.paginationItemIndividual]: true,
                 [CSS.paginationItemSelected]: match,
                 [CSS.paginationItemRangeEdge]: length - 1 > maxItems && isEdge,
-                [CSS.paginationItemOutOfRange]: !(length - 1 <= maxItems || visible),
-                [CSS.paginationItemVisible]: length - 1 <= maxItems || visible,
+                [CSS.paginationItemOutOfRange]: !(overflowActive || visible),
+                [CSS.paginationItemVisible]: overflowActive || visible,
               }}
               data-index={index}
               key={item.id}

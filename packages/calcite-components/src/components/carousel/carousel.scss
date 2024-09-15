@@ -225,9 +225,9 @@ calcite-carousel-item:not([selected]) {
   @apply w-0 p-0 opacity-0 pointer-events-none;
   visibility: hidden;
   transition:
-    0.15s ease-in-out inline-size,
-    0.15s ease-in-out padding,
-    0.15s ease-in-out opacity;
+    var(--calcite-animation-timing) ease-in-out inline-size,
+    var(--calcite-animation-timing) ease-in-out padding,
+    var(--calcite-internal-animation-timing-slow) ease-in-out opacity;
 
   &.pagination-item--visible {
     @apply w-8 opacity-100 pointer-events-auto;
@@ -238,7 +238,7 @@ calcite-carousel-item:not([selected]) {
 .pagination-item--range-edge calcite-icon {
   @apply opacity-75;
   scale: 0.75;
-  transition: 0.15s ease-in-out scale;
+  transition: var(--calcite-internal-animation-timing-slow) ease-in-out scale;
 }
 
 .container--overlaid .pagination-item {
