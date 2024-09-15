@@ -95,7 +95,7 @@ export const positionFloatingUI =
       flipPlacements?: FlipPlacement[];
       offsetDistance?: number;
       offsetSkidding?: number;
-      arrowEl?: SVGElement;
+      arrowEl?: SVGSVGElement;
       type: UIType;
     },
   ): Promise<void> => {
@@ -335,7 +335,7 @@ function getMiddleware({
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
-  arrowEl?: SVGElement;
+  arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
   const defaultMiddleware = [shift(), hide()];
