@@ -30,16 +30,16 @@
 }
 
 // focus styles
-:host button,
-:host a {
+button,
+a {
   @apply focus-base;
   &:focus {
     @apply focus-outset;
   }
 }
 // button base
-:host button,
-:host a {
+button,
+a {
   --calcite-button-content-margin-internal: theme("margin.2");
   --calcite-button-padding-x-internal: 7px;
   --calcite-button-padding-y-internal: 3px;
