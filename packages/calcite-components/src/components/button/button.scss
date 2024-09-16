@@ -27,8 +27,6 @@ a {
   --calcite-internal-button-padding-x: 7px;
   --calcite-internal-button-padding-y: 3px;
 
-  padding-block: var(--calcite-internal-button-padding-y);
-  padding-inline: var(--calcite-internal-button-padding-x);
   @apply focus-base font-inherit
     relative
     box-border
@@ -45,13 +43,14 @@ a {
     text-center
     font-normal
     no-underline;
-
   // include transition from focus
   transition:
     color var(--calcite-animation-timing) ease-in-out,
     background-color var(--calcite-animation-timing) ease-in-out,
     box-shadow var(--calcite-animation-timing) ease-in-out,
     outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
+  padding-block: var(--calcite-internal-button-padding-y);
+  padding-inline: var(--calcite-internal-button-padding-x);
 
   &:focus {
     @apply focus-outset;
