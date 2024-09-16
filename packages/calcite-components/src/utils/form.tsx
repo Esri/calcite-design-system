@@ -1,6 +1,7 @@
 import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { Writable } from "type-fest";
-import { IconNameOrString, Status } from "../components";
+import { Status } from "../components/interfaces";
+import type { IconNameOrString } from "../components/icon/interfaces";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 /**

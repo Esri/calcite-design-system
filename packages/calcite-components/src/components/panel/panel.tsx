@@ -700,7 +700,7 @@ export class Panel
   };
 
   render(): VNode {
-    const { disabled, loading, panelKeyDownHandler, isClosed } = this;
+    const { disabled, loading, isClosed } = this;
 
     const panelNode = (
       <article
@@ -718,7 +718,7 @@ export class Panel
     );
 
     return (
-      <Host onKeyDown={panelKeyDownHandler}>
+      <Host onKeyDown={this.panelKeyDownHandler}>
         <InteractiveContainer disabled={disabled}>
           {loading ? <calcite-scrim loading={loading} /> : null}
           {panelNode}

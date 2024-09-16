@@ -10,13 +10,15 @@ import {
   actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
-import { accordion } from "./custom-theme/accordion";
+import { accordionItemTokens } from "./custom-theme/accordion-item";
+import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
-import { checkbox } from "./custom-theme/checkbox";
-import { chips, chipTokens } from "./custom-theme/chips";
+import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
+import { chips } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
+import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
@@ -109,8 +111,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress}
-        </div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress} ${handle}</div>
       </div>
     </div>
   </div>`;
@@ -119,6 +120,8 @@ export default {
   title: "Theming/Custom Theme",
   args: {
     ...globalTokens,
+    ...accordionTokens,
+    ...accordionItemTokens,
     ...actionTokens,
     ...actionBarTokens,
     ...actionMenuTokens,
@@ -126,6 +129,8 @@ export default {
     ...actionGroupTokens,
     ...cardTokens,
     ...chipTokens,
+    ...checkboxTokens,
+    ...handleTokens,
     ...progressTokens,
     ...inputTokens,
   },
@@ -138,6 +143,8 @@ export const themingInteractive = (args: Record<string, string>): string => {
 export const theming_TestOnly = (): string => {
   return kitchenSink(
     {
+      ...accordionTokens,
+      ...accordionItemTokens,
       ...actionTokens,
       ...actionBarTokens,
       ...actionMenuTokens,
@@ -145,6 +152,8 @@ export const theming_TestOnly = (): string => {
       ...actionGroupTokens,
       ...cardTokens,
       ...chipTokens,
+      ...checkboxTokens,
+      ...handleTokens,
       ...progressTokens,
       ...inputTokens,
     },
