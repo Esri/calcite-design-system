@@ -27,22 +27,23 @@ a {
   --calcite-internal-button-padding-x: 7px;
   --calcite-internal-button-padding-y: 3px;
 
-  @apply focus-base font-inherit
-    relative
+  @apply appearance-none
+    border-none
     box-border
-    flex
-    h-full
-    w-full
     cursor-pointer
-    select-none
-    appearance-none
+    flex
+    font-normal
+    h-full
     items-center
     justify-center
+    no-underline
+    relative
     rounded-none
-    border-none
+    select-none
     text-center
-    font-normal
-    no-underline;
+    w-full
+    focus-base
+    font-inherit;
   // include transition from focus
   transition:
     color var(--calcite-animation-timing) ease-in-out,
