@@ -4,6 +4,7 @@ import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
 
+// TODO: revisit
 const timeZoneNameBlockList = [
   "CET",
   "CST6CDT",
@@ -56,6 +57,15 @@ export function getUserTimeZoneName(): string {
   return dateFormatter.resolvedOptions().timeZone;
 }
 
+export async function getNormalizer(mode: TimeZoneMode): Promise<(timeZone: TimeZone) => TimeZone> {
+  if (mode === "offset") {
+    return (timeZone: TimeZone) => timeZone;
+  }
+
+  const { normalize } = await import("timezone-groups/dist/utils/time-zones.mjs");
+  return normalize;
+}
+
 export async function createTimeZoneItems(
   locale: SupportedLocale,
   messages: InputTimeZoneMessages,
@@ -82,6 +92,9 @@ export async function createTimeZoneItems(
       .sort();
   }
 
+  // TODO: handle label for global group (invert GMT value, etc...)
+  // TODO: update messages (include global entries, add missing countries)
+
   const effectiveLocale =
     standardTime === "user"
       ? locale
@@ -92,9 +105,9 @@ export async function createTimeZoneItems(
   const referenceDateInMs: number = referenceDate.getTime();
 
   if (mode === "region") {
-    const [{ groupByRegion }, { getCountry }] = await Promise.all([
+    const [{ groupByRegion }, { getCountry, global: globalLabel }] = await Promise.all([
       import("timezone-groups/dist/groupByRegion/index.mjs"),
-      import("timezone-groups/dist/utils/country.mjs"),
+      import("timezone-groups/dist/utils/region.mjs"),
     ]);
     const groups = await groupByRegion();
 
@@ -119,7 +132,9 @@ export async function createTimeZoneItems(
           }),
         };
       })
-      .sort((groupA, groupB) => groupA.label.localeCompare(groupB.label));
+      .sort((groupA, groupB) =>
+        groupA.label === globalLabel ? -1 : groupB.label === globalLabel ? 1 : groupA.label.localeCompare(groupB.label),
+      );
   }
 
   const [{ groupByOffset }, { DateEngine }] = await Promise.all([

@@ -224,7 +224,7 @@ describe("calcite-input-time-zone", () => {
 
       it("looks up in label and time zone groups (not displayed)", async () => {
         const displayLabelSearchTerm = "Guam";
-        const groupedTimeZoneSearchTerm = "Chuuk";
+        const groupedTimeZoneSearchTerm = "Moresby";
         const gmtSearchTerm = "GMT-12";
         const searchTerms = [displayLabelSearchTerm, groupedTimeZoneSearchTerm, gmtSearchTerm];
 
@@ -405,13 +405,58 @@ describe("calcite-input-time-zone", () => {
           toUserFriendlyName(getCity(testTimeZoneItems[0].name)),
         );
       });
+
+      it("properly sets region label when setting value programmatically", async () => {
+        const page = await newE2EPage();
+        await page.emulateTimezone(testTimeZoneItems[0].name);
+        await page.setContent(
+          await overrideSupportedTimeZones(html`<calcite-input-time-zone mode="region"></calcite-input-time-zone>`),
+        );
+
+        const input = await page.find("calcite-input-time-zone");
+        const region = "America/New_York";
+
+        input.setProperty("value", region);
+        await page.waitForChanges();
+
+        expect(await input.getProperty("value")).toBe(region);
+
+        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(region)));
+      });
+
+      it("maps deprecated regions to aliases", async () => {
+        const deprecatedRegion1 = "Asia/Calcutta";
+        const aliasRegion1 = "Asia/Kolkata";
+
+        const page = await newE2EPage();
+        await page.emulateTimezone(testTimeZoneItems[0].name);
+        await page.setContent(
+          await overrideSupportedTimeZones(
+            html`<calcite-input-time-zone mode="region" value="${deprecatedRegion1}"></calcite-input-time-zone>`,
+          ),
+        );
+
+        const input = await page.find("calcite-input-time-zone");
+
+        expect(await input.getProperty("value")).toBe(aliasRegion1);
+
+        const deprecatedRegion2 = "Asia/Istanbul";
+        const aliasRegion2 = "Europe/Istanbul";
+
+        input.setProperty("value", deprecatedRegion2);
+        await page.waitForChanges();
+
+        expect(await input.getProperty("value")).toBe(aliasRegion2);
+      });
     });
   });
 
   describe("clearable", () => {
     it("does not allow users to deselect a time zone value by default", async () => {
       const page = await newE2EPage();
-      await page.emulateTimezone(testTimeZoneItems[0].name);
+      await page.emulateTimezone(testTimeZoneItems[1].name);
       await page.setContent(
         overrideSupportedTimeZones(html`
           <calcite-input-time-zone value="${testTimeZoneItems[1].offset}" open></calcite-input-time-zone>
@@ -420,6 +465,7 @@ describe("calcite-input-time-zone", () => {
       await page.waitForChanges();
 
       let selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
       await selectedTimeZoneItem.click();
       await page.waitForChanges();
 
@@ -669,42 +715,15 @@ describe("calcite-input-time-zone", () => {
  */
 function overrideSupportedTimeZones(testHtml: string): string {
   return html`<script type="module">
+      const originalSupportedValuesOf = Intl.supportedValuesOf;
       Intl.supportedValuesOf = function (key) {
         if (key === "timeZone") {
           return [
-            "America/Mexico_City",
-            "America/Phoenix",
-            "Pacific/Galapagos",
-            "Pacific/Guam",
+            ...originalSupportedValuesOf(key),
 
-            // not available in Chromium v119 at time of testing
-            "Etc/GMT+1",
-            "Etc/GMT+10",
-            "Etc/GMT+11",
-            "Etc/GMT+12",
-            "Etc/GMT+2",
-            "Etc/GMT+3",
-            "Etc/GMT+4",
-            "Etc/GMT+5",
-            "Etc/GMT+6",
-            "Etc/GMT+7",
-            "Etc/GMT+8",
-            "Etc/GMT+9",
-            "Etc/GMT-1",
-            "Etc/GMT-10",
-            "Etc/GMT-11",
-            "Etc/GMT-12",
-            "Etc/GMT-13",
-            "Etc/GMT-14",
-            "Etc/GMT-2",
-            "Etc/GMT-3",
-            "Etc/GMT-4",
-            "Etc/GMT-5",
-            "Etc/GMT-6",
-            "Etc/GMT-7",
-            "Etc/GMT-8",
-            "Etc/GMT-9",
-            "Pacific/Chuuk",
+            // the following are obsolete and not listed by Chrome (needed for testing)
+            "Asia/Calcutta",
+            "Asia/Istanbul",
           ];
         }
       };
