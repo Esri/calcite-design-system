@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 ensure_types_are_up_to_date() {
   types_path="packages/calcite-components/src/components.d.ts"
