@@ -544,24 +544,6 @@ export const footerSlotPrecedence = (): string => html`
   </calcite-panel>
 `;
 
-export const closableClosedPanel = (): string => html`
-  <calcite-panel closable closed style="height: 200px">
-    <p>Slotted content!</p>
-    <div slot="header-content">header-content slot</div>
-    <div slot="content-bottom">Slot for a content-bottom.</div>
-    <calcite-button
-      type="button"
-      slot="footer"
-      kind="neutral"
-      scale="s"
-      id="card-icon-test-1"
-      icon-start="check"
-      width="full"
-    ></calcite-button>
-    ${footerHTML}
-  </calcite-panel>
-`;
-
 export const scalesFontAndPadding = (): string => html`
   <calcite-panel
     heading="This is a heading"
