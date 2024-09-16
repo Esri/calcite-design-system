@@ -39,11 +39,6 @@
   justify-content: space-between;
 }
 
-.content ::slotted(:not(calcite-tip-manager)) {
-  @apply relative
-    z-default;
-}
-
 .content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
@@ -78,7 +73,8 @@
 
 slot[name="panel-start"]::slotted(calcite-shell-panel),
 slot[name="panel-end"]::slotted(calcite-shell-panel) {
-  @apply relative;
+  @apply relative
+    z-default;
   z-index: calc(var(--calcite-z-index) + 1);
 }
 
