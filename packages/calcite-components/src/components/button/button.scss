@@ -20,15 +20,6 @@
   @apply inline-block w-auto align-middle;
 }
 
-// fab variants
-:host([round]) {
-  border-radius: 50px;
-  & a,
-  & button {
-    border-radius: 50px;
-  }
-}
-
 // button base
 button,
 a {
@@ -86,6 +77,30 @@ a {
 .icon-end-empty {
   .content {
     margin-inline-end: unset;
+  }
+}
+
+.icon {
+  @apply relative
+    m-0
+    inline-flex
+    font-normal;
+  line-height: inherit;
+}
+
+.calcite-button--loader {
+  @apply flex;
+  calcite-loader {
+    @apply m-0;
+  }
+}
+
+// fab variants
+:host([round]) {
+  border-radius: 50px;
+  & a,
+  & button {
+    border-radius: 50px;
   }
 }
 
@@ -166,48 +181,6 @@ a {
     .icon--start + .icon--end {
       margin-inline-start: var(--calcite-button-content-margin-internal);
     }
-  }
-}
-
-.icon {
-  @apply relative
-    m-0
-    inline-flex
-    font-normal;
-  line-height: inherit;
-}
-
-@include disabled();
-
-@keyframes loader-in {
-  0% {
-    inline-size: 0;
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  100% {
-    inline-size: 1em;
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes loader-out {
-  0% {
-    inline-size: 1em;
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    inline-size: 0;
-    opacity: 0;
-    transform: scale(0.5);
-  }
-}
-
-.calcite-button--loader {
-  @apply flex;
-  calcite-loader {
-    @apply m-0;
   }
 }
 
@@ -741,5 +714,30 @@ a {
 :host([scale="l"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
   --calcite-button-padding-x-internal: theme("padding.11");
 }
-
+@include disabled();
 @include base-component();
+
+@keyframes loader-in {
+  0% {
+    inline-size: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    inline-size: 1em;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes loader-out {
+  0% {
+    inline-size: 1em;
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    inline-size: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
