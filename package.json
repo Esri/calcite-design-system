@@ -29,6 +29,7 @@
     "util:is-next-deployable": "tsx support/isNextDeployable.ts",
     "util:push-tags": "git push origin HEAD --follow-tags",
     "util:upload-release-assets": "tsx support/uploadReleaseAssets.ts",
+    "util:update-stylelint-custom-sass-functions": "tsx support/updateStylelintCustomSassFunctions.ts",
     "util:remove-prerelease-changelog-entries": "tsx support/removePrereleaseChangelogEntries.ts",
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
@@ -93,7 +94,7 @@
     "eslint-plugin-react": "7.35.2",
     "eslint-plugin-unicorn": "54.0.0",
     "globby": "14.0.2",
-    "husky": "9.1.5",
+    "husky": "9.1.6",
     "jest": "29.7.0",
     "jest-axe": "9.0.0",
     "jest-cli": "29.7.0",

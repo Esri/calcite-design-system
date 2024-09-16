@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 ensure_types_are_up_to_date() {
   types_path="packages/calcite-components/src/components.d.ts"
@@ -6,6 +6,21 @@ ensure_types_are_up_to_date() {
   if [ -n "$(git diff --name-only -- "$types_path")" ]; then
     echo "Automatically staging changes to \"$types_path\""
     git add "$types_path"
+  fi
+}
+
+update_stylelint_config_if_sass_file_edited() {
+  staged_files="$(git diff --cached --name-only --diff-filter=ACM)"
+
+  for file in $staged_files; do
+    if [[ "$file" == *.scss ]]; then
+      npm run util:update-stylelint-custom-sass-functions
+      break
+    fi
+  done
+
+  if [ -n "$(git diff --name-only -- "packages/calcite-components/.stylelintrc.json")" ]; then
+    git add "packages/calcite-components/.stylelintrc.json"
   fi
 }
 
@@ -43,7 +58,8 @@ check_ui_icon_name_consistency() {
 }
 
 lint-staged
-ensure_types_are_up_to_date
 check_ui_icon_name_consistency
+ensure_types_are_up_to_date
+update_stylelint_config_if_sass_file_edited
 
 exit 0
