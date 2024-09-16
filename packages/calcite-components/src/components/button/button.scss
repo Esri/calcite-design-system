@@ -18,6 +18,22 @@
 
 :host {
   @apply inline-block w-auto align-middle;
+  border-start-start-radius: var(
+    --calcite-button-corner-radius-start-start,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-start-end-radius: var(
+    --calcite-button-corner-radius-start-end,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-end-start-radius: var(
+    --calcite-button-corner-radius-end-start,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-end-end-radius: var(
+    --calcite-button-corner-radius-end-end,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
 }
 
 // button base
@@ -44,6 +60,22 @@ a {
     w-full
     focus-base
     font-inherit;
+  border-start-start-radius: var(
+    --calcite-button-corner-radius-start-start,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-start-end-radius: var(
+    --calcite-button-corner-radius-start-end,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-end-start-radius: var(
+    --calcite-button-corner-radius-end-start,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-end-end-radius: var(
+    --calcite-button-corner-radius-end-end,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
   // include transition from focus
   transition:
     color var(--calcite-animation-timing) ease-in-out,
@@ -98,11 +130,7 @@ a {
 
 // fab variants
 :host([round]) {
-  border-radius: 50px;
-  & a,
-  & button {
-    border-radius: 50px;
-  }
+  --calcite-internal-button-corner-radius: 50px;
 }
 
 :host([scale="m"]) {
