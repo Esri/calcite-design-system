@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.13...@esri/calcite-components@2.13.0-next.14) (2024-09-13)
+
+### Features
+
+- **checkbox:** add component tokens ([#10221](https://github.com/Esri/calcite-design-system/issues/10221)) ([1d87dcf](https://github.com/Esri/calcite-design-system/commit/1d87dcf65f943c717f63732bf9e17085cfe2116d)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Reverts
+
+- "chore: set default page size for E2E tests ([#10219](https://github.com/Esri/calcite-design-system/issues/10219))" ([#10299](https://github.com/Esri/calcite-design-system/issues/10299)) ([0e7b0ae](https://github.com/Esri/calcite-design-system/commit/0e7b0ae63124e54d2f9e1693c0dc6e9d3197f2e1))
+
 ## [2.13.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.12...@esri/calcite-components@2.13.0-next.13) (2024-09-13)
 
 ### Features

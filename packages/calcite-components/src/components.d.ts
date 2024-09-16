@@ -38,7 +38,6 @@ import { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
 import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
-import { OverlayPositioning as OverlayPositioning1 } from "./components";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
@@ -134,7 +133,6 @@ export { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
 export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
-export { OverlayPositioning as OverlayPositioning1 } from "./components";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
@@ -1752,7 +1750,7 @@ export namespace Components {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning": OverlayPositioning1;
+        "overlayPositioning": OverlayPositioning;
         /**
           * Specifies the placement of the dialog.
          */
@@ -7852,9 +7850,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerBlur": void;
         "calciteInternalTimePickerChange": string;
-        "calciteInternalTimePickerFocus": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9797,7 +9793,7 @@ declare namespace LocalJSX {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning"?: OverlayPositioning1;
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Specifies the placement of the dialog.
          */
@@ -13817,9 +13813,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerBlur"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
-        "onCalciteInternalTimePickerFocus"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */
