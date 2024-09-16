@@ -29,14 +29,6 @@
   }
 }
 
-// focus styles
-button,
-a {
-  @apply focus-base;
-  &:focus {
-    @apply focus-outset;
-  }
-}
 // button base
 button,
 a {
@@ -45,7 +37,7 @@ a {
   --calcite-button-padding-y-internal: 3px;
   padding-block: var(--calcite-button-padding-y-internal);
   padding-inline: var(--calcite-button-padding-x-internal);
-  @apply font-inherit
+  @apply focus-base font-inherit
     relative
     box-border
     flex
@@ -61,16 +53,23 @@ a {
     text-center
     font-normal
     no-underline;
+
   // include transition from focus
   transition:
     color var(--calcite-animation-timing) ease-in-out,
     background-color var(--calcite-animation-timing) ease-in-out,
     box-shadow var(--calcite-animation-timing) ease-in-out,
     outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
+
+  &:focus {
+    @apply focus-outset;
+  }
+
   &:hover {
     @apply no-underline;
   }
-  & span {
+
+  span {
     @apply truncate;
   }
 }
