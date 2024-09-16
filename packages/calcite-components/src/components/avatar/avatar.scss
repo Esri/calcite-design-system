@@ -11,7 +11,7 @@
 
 :host {
   @apply inline-block overflow-hidden;
-  border-radius: var(--calcite-avatar-corner-radius, var(--calcite-size-relative-50));
+  border-radius: var(--calcite-avatar-corner-radius, 50%);
   color: var(--calcite-avatar-color, var(--calcite-color-text-2));
 }
 
@@ -33,7 +33,7 @@
 
 .background {
   @apply flex h-full w-full items-center justify-center;
-  border-radius: var(--calcite-avatar-corner-radius, var(--calcite-size-relative-50));
+  border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
 .initials {
@@ -42,7 +42,7 @@
 
 .thumbnail {
   @apply h-full w-full;
-  border-radius: var(--calcite-avatar-corner-radius, var(--calcite-size-relative-50));
+  border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
 @include base-component();
