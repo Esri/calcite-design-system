@@ -14,12 +14,10 @@ function collectSassFiles(dir: string): string[] {
   const sassFiles: string[] = [];
 
   try {
-    fs.readdirSync(dir, { withFileTypes: true }).forEach(dirent => {
+    fs.readdirSync(dir, { recursive: true, withFileTypes: true }).forEach(dirent => {
       const fullPath = path.join(dir, dirent.name);
 
-      if (dirent.isDirectory() && dirent.name !== 'node_modules') {
-        sassFiles.push(...collectSassFiles(fullPath)); // Recursively collect files
-      } else if (dirent.isFile() && fullPath.endsWith('.scss')) {
+      if (dirent.isFile() && fullPath.endsWith('.scss')) {
         sassFiles.push(fullPath);
       }
     });
