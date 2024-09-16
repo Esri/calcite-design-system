@@ -16,10 +16,12 @@ import {
   dateFromRange,
   dateToISO,
   getDaysDiff,
+  getFirstValidDateInMonth,
   HoverRange,
   inRange,
   nextMonth,
   prevMonth,
+  sameDate,
 } from "../../utils/date";
 import {
   componentFocusable,
@@ -120,7 +122,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("valueAsDate")
   valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
     if (this.range && Array.isArray(newValueAsDate) && !this.userChangeRangeValue) {
-      this.setActiveDates();
+      this.setActiveStartAndEndDates();
     } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
     }
@@ -138,6 +140,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("min")
   onMinChanged(min: string): void {
     this.minAsDate = dateFromISO(min);
+    if (this.range) {
+      this.setActiveStartAndEndDates();
+    }
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
@@ -146,6 +151,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("max")
   onMaxChanged(max: string): void {
     this.maxAsDate = dateFromISO(max);
+    if (this.range) {
+      this.setActiveStartAndEndDates();
+    }
   }
 
   /**
@@ -247,7 +255,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
-    this.setActiveDates();
+    this.setActiveStartAndEndDates();
   }
 
   disconnectedCallback(): void {
@@ -655,7 +663,15 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    * @param max
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
+    const activeDate = dateFromRange(new Date(), min, max);
+
+    return (
+      dateFromRange(this.activeDate, min, max) ||
+      value ||
+      (sameDate(max, activeDate) && !this.range
+        ? getFirstValidDateInMonth(activeDate, min, max)
+        : activeDate)
+    );
   }
 
   private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {
@@ -666,7 +682,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     );
   }
 
-  private setActiveDates(): void {
+  private setActiveStartAndEndDates(): void {
     if (this.range) {
       const date = dateFromRange(
         Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
@@ -683,8 +699,12 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.activeStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
-      if (this.activeStartDate === this.activeEndDate) {
-        const previousMonthActiveDate = prevMonth(this.activeEndDate);
+      if (sameDate(this.activeStartDate, this.activeEndDate)) {
+        const previousMonthActiveDate = getFirstValidDateInMonth(
+          prevMonth(this.activeEndDate),
+          this.minAsDate,
+          this.maxAsDate,
+        );
         const nextMonthActiveDate = nextMonth(this.activeEndDate);
         if (inRange(previousMonthActiveDate, this.minAsDate, this.maxAsDate)) {
           this.activeStartDate = previousMonthActiveDate;

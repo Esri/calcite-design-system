@@ -218,13 +218,13 @@ export function getDateInMonth(date: Date, month: number): Date {
  * Get First Valid date in a month.
  *
  * @param date
- * @param month
  * @param min
  * @param max
  */
 export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
-  date.setDate(1);
-  return inRange(date, min, max) ? date : dateFromRange(date, min, max);
+  const newDate = new Date(date);
+  newDate.setDate(1);
+  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max);
 }
 
 /**
