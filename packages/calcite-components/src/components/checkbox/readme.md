@@ -39,9 +39,12 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                      | Description                                 |
-| ------------------------- | ------------------------------------------- |
-| `--calcite-checkbox-size` | Specifies the component's height and width. |
+| Name                                    | Description                                   |
+| --------------------------------------- | --------------------------------------------- |
+| `--calcite-checkbox-border-color`       | Specifies the component's color.              |
+| `--calcite-checkbox-border-color-hover` | Specifies the component's color when hovered. |
+| `--calcite-checkbox-icon-color`         | Specifies the component's font color.         |
+| `--calcite-checkbox-size`               | Specifies the component's height and width.   |
 
 ## Dependencies
 
