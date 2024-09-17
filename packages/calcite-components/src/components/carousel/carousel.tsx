@@ -570,23 +570,24 @@ export class Carousel
   };
 
   private tabListKeyDownHandler = (event: KeyboardEvent): void => {
-    const targetEls = `button:not(.${CSS.paginationItemOutOfRange})`;
-    const interactiveItems = Array(...this.tabList.querySelectorAll(targetEls));
+    const visiblePaginationEls = Array(
+      ...this.tabList.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+    );
     const currentEl = event.target as HTMLCalciteActionElement;
     switch (event.key) {
       case "ArrowRight":
-        focusElementInGroup(interactiveItems, currentEl, "next");
+        focusElementInGroup(visiblePaginationEls, currentEl, "next");
         break;
       case "ArrowLeft":
-        focusElementInGroup(interactiveItems, currentEl, "previous");
+        focusElementInGroup(visiblePaginationEls, currentEl, "previous");
         break;
       case "Home":
         event.preventDefault();
-        focusElementInGroup(interactiveItems, currentEl, "first");
+        focusElementInGroup(visiblePaginationEls, currentEl, "first");
         break;
       case "End":
         event.preventDefault();
-        focusElementInGroup(interactiveItems, currentEl, "last");
+        focusElementInGroup(visiblePaginationEls, currentEl, "last");
         break;
     }
   };

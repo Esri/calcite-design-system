@@ -1075,8 +1075,6 @@ describe("renders the expected number of pagination items when overflowing", () 
     );
 
     const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    console.log(items.length);
-
     expect(items).toHaveLength(centerItemsByBreakpoint["xxsmall"] + 2);
   });
 
@@ -1098,8 +1096,6 @@ describe("renders the expected number of pagination items when overflowing", () 
     );
 
     const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    console.log(items.length);
-
     expect(items).toHaveLength(centerItemsByBreakpoint["xsmall"] + 2);
   });
   it("correctly limits the number of slide pagination items shown when overflowing xsmall middle selected", async () => {
@@ -1120,8 +1116,6 @@ describe("renders the expected number of pagination items when overflowing", () 
     );
 
     const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    console.log(items.length);
-
     expect(items).toHaveLength(centerItemsByBreakpoint["small"] + 2);
   });
   it("correctly limits the number of slide pagination items shown when overflowing small last selected", async () => {
@@ -1142,7 +1136,6 @@ describe("renders the expected number of pagination items when overflowing", () 
     );
 
     const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
-    console.log(items.length);
     expect(items).toHaveLength(centerItemsByBreakpoint["medium"] + 2);
   });
 });
