@@ -1398,9 +1398,9 @@
     "release": "1.5"
   },
   "layers": {
-    "alias": ["3.32.0", "layers"],
+    "alias": ["1.5.0", "layers"],
     "category": "Layers",
-    "release": "3.32.0"
+    "release": "1.5"
   },
   "layout-horizontal": {
     "alias": [
@@ -3315,19 +3315,19 @@
     "release": "3.3.0"
   },
   "number-circle-1": {
-    "alias": ["3.32.0", "number circle 1", "first item", "list item", "first step", "ranking", "one"],
+    "alias": ["3.3.0", "number circle 1", "first item", "list item", "first step", "ranking", "one"],
     "category": "Numbers",
-    "release": "3.32.0"
+    "release": "3.3.0"
   },
   "number-circle-2": {
-    "alias": ["3.32.0", "list item", "number circle 2", "second item", "second step", "ranking", "two"],
+    "alias": ["3.3.0", "list item", "number circle 2", "second item", "second step", "ranking", "two"],
     "category": "Numbers",
-    "release": "3.32.0"
+    "release": "3.3.0"
   },
   "number-circle-3": {
     "alias": ["3.3.0", "list item", "third step", "number circle 3", "three", "third item", "ranking"],
     "category": "Numbers",
-    "release": "3.32.0"
+    "release": "3.3.0"
   },
   "quote": {
     "alias": ["3.3.0", "quotation marks", "reference"],
@@ -6033,34 +6033,34 @@
     "release": "3.19.4"
   },
   "number-circle-4": {
-    "alias": ["3.32.0", "numbers", " circle", "4", "four"],
+    "alias": ["3.19.4", "numbers", " circle", "4", "four"],
     "category": "Numbers",
-    "release": "3.32.0"
+    "release": "3.19.4"
   },
   "number-circle-5": {
-    "alias": ["3.32.0", "numbers", "circle", "5", "five"],
+    "alias": ["3.19.4", "numbers", "circle", "5", "five"],
     "category": "Numbers",
-    "release": "3.32.0"
+    "release": "3.19.4"
   },
   "number-circle-6": {
-    "alias": ["3.32.0", "numbers", "circle", "6", "six"],
+    "alias": ["3.19.4", "numbers", "circle", "6", "six"],
     "category": "Numbers",
     "release": "3.19.4"
   },
   "number-circle-7": {
-    "alias": ["3.32.0", "numbers", "circle", "7", "seven"],
+    "alias": ["3.19.4", "numbers", "circle", "7", "seven"],
     "category": "Numbers",
-    "release": "3.32.0"
+    "release": "3.19.4"
   },
   "number-circle-8": {
-    "alias": ["3.32.0", "numbers", "circle", "8", "eight"],
+    "alias": ["3.19.4", "numbers", "circle", "8", "eight"],
     "category": "Numbers",
     "release": "3.19.4"
   },
   "number-circle-9": {
-    "alias": ["3.32.0", "numbers", "circle", "9", "nine"],
+    "alias": ["3.19.4", "numbers", "circle", "9", "nine"],
     "category": "Numbers",
-    "release": "3.32.0"
+    "release": "3.19.4"
   },
   "show-multiple-layers-at-a-time": {
     "alias": ["3.19.4", "generic", "eye", "layer stack", "see", "show", "visualize"],
@@ -7030,15 +7030,167 @@
     "category": "Layers",
     "release": "3.22.3"
   },
+  "number-circle-1-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "number circle 1",
+      "first item",
+      "list item",
+      "first step",
+      "ranking",
+      "one"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-2-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "list item",
+      "number circle 2",
+      "second item",
+      "second step",
+      "ranking",
+      "two"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-3-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "list item",
+      "third step",
+      "number circle 3",
+      "three",
+      "third item",
+      "ranking"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-4-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      " circle",
+      "list item",
+      "number circle 4",
+      "fourth item",
+      "fifth step",
+      "ranking",
+      "4",
+      "four"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-5-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "circle",
+      "list item",
+      "number circle 5",
+      "fifth item",
+      "fifth step",
+      "ranking",
+      "5",
+      "five"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-6-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "circle",
+      "list item",
+      "number circle 6",
+      "sixth item",
+      "sixth step",
+      "ranking",
+      "6",
+      "six"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-7-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "circle",
+      "list item",
+      "number circle 7",
+      "seventh item",
+      "seventh step",
+      "ranking",
+      "7",
+      "seven"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-8-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "circle",
+      "list item",
+      "number circle 8",
+      "eighth item",
+      "eighth step",
+      "ranking",
+      "8",
+      "eight"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
+  "number-circle-9-f": {
+    "alias": [
+      "3.22.3",
+      "numbers",
+      "filled",
+      "circle",
+      "list item",
+      "number circle 9",
+      "ninth item",
+      "ninth step",
+      "ranking",
+      "9",
+      "nine"
+    ],
+    "category": "Numbers",
+    "release": "3.22.3"
+  },
   "location-sharing-off": {
     "alias": ["3.22.3", "gis", "tracking", "off", "location", "field", "disabled", "route", "directions"],
     "category": "GIS",
     "release": "3.22.3"
   },
   "location-sharing": {
-    "alias": ["3.32.0", "gis", "tracking", "on", "location", "field", "enabled", "route", "directions"],
+    "alias": ["3.22.3", "gis", "tracking", "on", "location", "field", "enabled", "route", "directions"],
     "category": "GIS",
-    "release": "3.32.0"
+    "release": "3.22.3"
+  },
+  "location-sharing-f": {
+    "alias": ["3.22.3", "gis", "tracking", "location", "field", "route", "filled", "directions"],
+    "category": "GIS",
+    "release": "3.22.3"
   },
   "add-and-update-features": {
     "alias": ["3.22.4", "layers", "maps", "gis", "mapping", "location", "data", "feature layers"],
@@ -8215,7 +8367,7 @@
   },
   "rss": {
     "alias": [
-      "3.32.0",
+      "3.26.2",
       "generic",
       "follow",
       "subscribe",
@@ -8231,7 +8383,27 @@
       "unsubscribe"
     ],
     "category": "Generic",
-    "release": "3.32.0"
+    "release": "3.26.2"
+  },
+  "rss-f": {
+    "alias": [
+      "3.26.2",
+      "generic",
+      "follow",
+      "subscribe",
+      "square",
+      "web",
+      "feed",
+      "users",
+      "app",
+      "applications",
+      "updates",
+      "websites",
+      "unfollow",
+      "unsubscribe"
+    ],
+    "category": "Generic",
+    "release": "3.26.2"
   },
   "folder-open-f": {
     "alias": ["3.26.3", "files", "open folder", "open state", "open directory", "browse", "expanded", "filled"],
@@ -8366,6 +8538,11 @@
     "alias": ["3.27.5", "layers", "video", "livestream", "file", "media", "images", "picture"],
     "category": "Layers",
     "release": "3.27.5"
+  },
+  "layers-f": {
+    "alias": ["3.27.6", "layers", "arcgis", "filled"],
+    "category": "Layers",
+    "release": "3.27.6"
   },
   "clipboard-brackets": {
     "alias": ["3.27.7", "objects", "select", "clipboard", "frame"],
