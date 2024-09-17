@@ -185,12 +185,12 @@ export class InputDatePicker
   }
 
   @Watch("valueAsDate")
-  valueAsDateWatcher(valueAsDate: Date): void {
-    this.datePickerActiveDate = valueAsDate;
-    const newValue =
-      this.range && Array.isArray(valueAsDate)
-        ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
-        : dateToISO(valueAsDate);
+  valueAsDateWatcher(valueAsDate: Date | Date[]): void {
+    const newValue = Array.isArray(valueAsDate)
+      ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
+      : dateToISO(valueAsDate);
+    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
+
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;
       this.value = newValue;
