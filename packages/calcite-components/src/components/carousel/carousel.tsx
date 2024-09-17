@@ -657,20 +657,20 @@ export class Carousel
     return (
       <div aria-label={label} class={CSS.paginationItems} role="tablist">
         {items.map((item, index) => {
-          const length = items.length;
+          const itemCount = items.length;
           const match = index === selectedIndex;
           const first = index === 0;
-          const last = index === length - 1;
-          const endRangeStart = length - maxItems - 1;
+          const last = index === itemCount - 1;
+          const endRangeStart = itemCount - maxItems - 1;
           const inStartRange = selectedIndex < maxItems;
           const inEndRange = selectedIndex > endRangeStart;
           const rangeStart = Math.max(0, selectedIndex - Math.floor(maxItems / 2));
-          const rangeEnd = Math.min(length, rangeStart + maxItems);
+          const rangeEnd = Math.min(itemCount, rangeStart + maxItems);
           const low = inStartRange ? 0 : inEndRange ? endRangeStart : rangeStart;
           const high = inStartRange ? maxItems + 1 : rangeEnd;
           const isEdge = !first && !last && !match && (index === low - 1 || index === high);
           const visible = match || (index <= high && index >= low - 1);
-          const overflowActive = length - 1 <= maxItems;
+          const overflowActive = itemCount - 1 <= maxItems;
           const icon = match ? ICONS.active : ICONS.inactive;
 
           return (
@@ -681,7 +681,7 @@ export class Carousel
                 [CSS.paginationItem]: true,
                 [CSS.paginationItemIndividual]: true,
                 [CSS.paginationItemSelected]: match,
-                [CSS.paginationItemRangeEdge]: length - 1 > maxItems && isEdge,
+                [CSS.paginationItemRangeEdge]: itemCount - 1 > maxItems && isEdge,
                 [CSS.paginationItemOutOfRange]: !(overflowActive || visible),
                 [CSS.paginationItemVisible]: overflowActive || visible,
               }}
