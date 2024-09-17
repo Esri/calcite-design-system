@@ -108,6 +108,7 @@ export const localizedTwentyFourHourMeridiems = new Map(
     cs: { am: "dop.", pm: "odp." },
     es: { am: "a. m.", pm: "p. m." },
     "es-mx": { am: "a.m.", pm: "p.m." },
+    "es-MX": { am: "a.m.", pm: "p.m." },
     fi: { am: "ap.", pm: "ip." },
     he: { am: "לפנה״צ", pm: "אחה״צ" },
     hu: { am: "de. ", pm: "du." },
@@ -118,6 +119,7 @@ export const localizedTwentyFourHourMeridiems = new Map(
     no: { am: "a.m.", pm: "p.m." },
     nl: { am: "a.m.", pm: "p.m." },
     "pt-pt": { am: "da manhã", pm: "da tarde" },
+    "pt-PT": { am: "da manhã", pm: "da tarde" },
     ro: { am: "a.m.", pm: "p.m." },
     sl: { am: "dop.", pm: "pop." },
     sv: { am: "fm", pm: "em" },
@@ -126,6 +128,7 @@ export const localizedTwentyFourHourMeridiems = new Map(
     uk: { am: "дп", pm: "пп" },
     vi: { am: "SA", pm: "CH" },
     "zh-cn": { am: "上午", pm: "下午" },
+    "zh-CN": { am: "上午", pm: "下午" },
   }),
 );
 

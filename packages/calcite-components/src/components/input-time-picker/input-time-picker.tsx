@@ -962,10 +962,6 @@ export class InputTimePicker
       ltsFormatString = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
     }
 
-    if (this.effectiveLocale === "ru") {
-      console.log(ltFormatString, ltsFormatString);
-    }
-
     this.localeConfig.formats.LT = ltFormatString;
     this.localeConfig.formats.LTS = ltsFormatString;
 
