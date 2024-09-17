@@ -152,6 +152,158 @@ export const simpleManyItems = (args: CarouselStoryArgs): string =>
     </calcite-carousel>
   </div>`;
 
+export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
+  html` <div style="width:400px;height:400px;">
+    <calcite-carousel
+      control-overlay="${args.controlOverlay}"
+      ${boolean("disabled", args.disabled)}
+      autoplay-duration="${args.autoplayDuration}"
+      ${args.autoplay ? "autoplay" : ""}
+      label="${args.label}"
+      arrow-type="${args.arrowType}"
+    >
+      <calcite-carousel-item label="Carousel Item 1">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-1"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 2">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-2"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 3">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-3"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 4">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-4"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 5">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-5"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 6">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-6"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 7">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-7"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 8">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-8"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 9">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-9"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+    </calcite-carousel>
+  </div>`;
+
+export const simpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
+  html` <div style="width:200px;height:400px;">
+    <calcite-carousel
+      control-overlay="${args.controlOverlay}"
+      ${boolean("disabled", args.disabled)}
+      autoplay-duration="${args.autoplayDuration}"
+      ${args.autoplay ? "autoplay" : ""}
+      label="${args.label}"
+      arrow-type="${args.arrowType}"
+    >
+      <calcite-carousel-item label="Carousel Item 1">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-1"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 2">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-2"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 3">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-3"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 4">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-4"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 5">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-5"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 6">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-6"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 7">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-7"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 8">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-8"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 9">
+        <calcite-card>
+          <span slot="title">Some kind of carousel item content</span>
+          <span slot="subtitle">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-9"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+    </calcite-carousel>
+  </div>`;
+
 export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
