@@ -367,10 +367,17 @@ describe("calcite-dialog", () => {
     const panel = await page.find(`calcite-dialog >>> calcite-panel`);
     expect(await dialog.getProperty("open")).toBe(true);
 
+    const eventSpy = await dialog.spyOnEvent("keydown");
+
     await panel.press("Escape");
     await page.waitForChanges();
 
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
     expect(await dialog.getProperty("open")).toBe(true);
+
+    await panel.press("Enter");
+    await page.waitForChanges();
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
 
     dialog.setProperty("escapeDisabled", false);
     await page.waitForChanges();
@@ -378,6 +385,7 @@ describe("calcite-dialog", () => {
     await panel.press("Escape");
     await page.waitForChanges();
 
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
     expect(await dialog.getProperty("open")).toBe(false);
   });
 
