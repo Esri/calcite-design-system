@@ -178,10 +178,16 @@
       .thumb:not(.thumb--precise):not(.thumb--vertical) {
         --calcite-slider-thumb-y-offset: -1.4375rem;
       }
+      .thumb:not(.thumb--precise).thumb--horizontal.thumb--horizontal-reversed {
+        --calcite-slider-thumb-y-offset: -0.375rem;
+      }
     }
     .scale--m {
-      .thumb:not(.thumb--precise):not(.thumb--vertical) {
+      .thumb:not(.thumb--precise).thumb--horizontal {
         --calcite-slider-thumb-y-offset: -1.875rem;
+      }
+      .thumb:not(.thumb--precise).thumb--horizontal.thumb--horizontal-reversed {
+        --calcite-slider-thumb-y-offset: -0.5rem;
       }
     }
     .scale--l {
@@ -206,10 +212,29 @@
 }
 
 :host([label-handles][precise]) {
-  &:host(:not([has-histogram])) .scale--s .thumb--value {
-    --calcite-slider-thumb-y-offset: -2.075rem;
-    &.thumb--vertical.thumb--vertical-reversed {
-      --calcite-slider-thumb-y-offset: -0.075rem;
+  &:host(:not([has-histogram])) .scale--s {
+    &:not(.container--range) .thumb--value {
+      --calcite-slider-thumb-y-offset: -2.075rem;
+      &.thumb--vertical.thumb--vertical-reversed {
+        --calcite-slider-thumb-y-offset: -0.075rem;
+      }
+      &.thumb--horizontal.thumb--horizontal-reversed {
+        --calcite-slider-thumb-y-offset: -0.125rem;
+      }
+    }
+    &.container--range {
+      .thumb--value {
+        --calcite-slider-thumb-y-offset: -0.125rem;
+        &.thumb--vertical.thumb--vertical-reversed.mirrored {
+          --calcite-slider-thumb-y-offset: -2.125rem;
+        }
+      }
+      .thumb--minValue {
+        --calcite-slider-thumb-y-offset: -2.125rem;
+        &.thumb--vertical.thumb--vertical-reversed.mirrored {
+          --calcite-slider-thumb-y-offset: -0.125rem;
+        }
+      }
     }
   }
   &:host(:not([has-histogram])) .scale--m {
@@ -218,9 +243,28 @@
       &.thumb--vertical.thumb--vertical-reversed {
         --calcite-slider-thumb-y-offset: 0;
       }
+      &.thumb--horizontal.thumb--horizontal-reversed {
+        --calcite-slider-thumb-y-offset: -0.125rem;
+      }
     }
-    &.container--range .thumb--value {
-      --calcite-slider-thumb-y-offset: -2.75rem;
+    &.container--range {
+      .thumb--value {
+        &.thumb--vertical.mirrored,
+        &.thumb--vertical.thumb--vertical-reversed {
+          --calcite-slider-thumb-y-offset: -0.125rem;
+        }
+        &.thumb--vertical.thumb--vertical-reversed.mirrored {
+          --calcite-slider-thumb-y-offset: -2.9rem;
+        }
+      }
+      .thumb--minValue {
+        &.thumb--vertical.mirrored:not(.thumb--vertical-reversed) {
+          --calcite-slider-thumb-y-offset: -2.75rem;
+        }
+        &.thumb--vertical.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
+          --calcite-slider-thumb-y-offset: -2.9rem;
+        }
+      }
     }
   }
   &:host(:not([has-histogram])) .scale--l {
@@ -240,13 +284,19 @@
       .thumb--value {
         --calcite-slider-thumb-y-offset: -3.0625rem;
         &.thumb--horizontal.mirrored:not(.thumb--horizontal-reversed),
-        &.thumb--horizontal-reversed:not(.mirrored) {
+        &.thumb--horizontal-reversed:not(.mirrored),
+        &.thumb--vertical.mirrored:not(.thumb--vertical-reversed),
+        &.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
           --calcite-slider-thumb-y-offset: -0.125rem;
         }
       }
       .thumb--minValue {
-        &.thumb--horizontal:not(.thumb--horizontal-reversed).mirrored {
+        &.thumb--horizontal:not(.thumb--horizontal-reversed).mirrored,
+        &.thumb--vertical.mirrored {
           --calcite-slider-thumb-y-offset: -3.125rem;
+        }
+        &.thumb--vertical.thumb--vertical-reversed.mirrored {
+          --calcite-slider-thumb-y-offset: -0.125rem;
         }
       }
     }
@@ -410,14 +460,6 @@
     .container {
       padding-block-start: calc(var(--calcite-slider-full-handle-height) + 4px);
     }
-    .container--range {
-      .handle__label--vertical {
-        transform: rotate(90deg) translateX(10px);
-      }
-      .handle__label--vertical.handle__label--vertical-reversed {
-        transform: rotate(90deg) translateX(-30px);
-      }
-    }
   }
   &:host([label-handles][precise]) {
     .container {
@@ -429,9 +471,6 @@
       padding-block-end: calc(
         var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 4px
       );
-      .handle__label--vertical {
-        transform: rotate(90deg) translateX(6px);
-      }
     }
   }
 }
@@ -441,11 +480,7 @@
 }
 
 .handle__label--vertical {
-  transform: rotate(90deg) translateX(2px);
-
-  &.handle__label--vertical-reversed {
-    transform: rotate(90deg) translateX(-34px);
-  }
+  transform: rotate(90deg);
 }
 
 @include hidden-form-input();

@@ -497,7 +497,6 @@ export class Slider
             class={{
               [thumbLabelClasses]: true,
               [CSS.handleLabelVertical]: this.layout === "vertical",
-              [CSS.handleLabelVerticalReversed]: this.layout === "vertical" && this.flipLabels,
             }}
           >
             {displayedValue}
@@ -537,8 +536,7 @@ export class Slider
           [CSS.thumbMinValue]: isMinThumb,
           [CSS.thumbVertical]: this.layout === "vertical",
           [CSS.thumbHorizontal]: this.layout === "horizontal",
-          [CSS.thumbVerticalReversed]:
-            this.layout === "vertical" && this.flipLabels && this.mirrored,
+          [CSS.thumbVerticalReversed]: this.layout === "vertical" && this.flipLabels,
           [CSS.mirrored]: this.mirrored,
           [CSS.thumbHorizontalReversed]: this.layout === "horizontal" && this.flipLabels,
         }}
@@ -1141,21 +1139,42 @@ export class Slider
     let offset: number;
     if (this.flipLabels) {
       if (rangeContainer) {
-        if (!this.precise || (name === "minValue" && this.precise)) {
-          offset = -(labelBounds.right - handle.left);
+        if (!this.precise) {
+          offset = handle.right - labelBounds.left + 8;
         }
-        if (!this.precise || (name === "value" && this.precise)) {
-          offset = handle.right - labelBounds.left + 12;
+        if (this.precise && !this.mirrored) {
+          if (name === "minValue") {
+            offset = -(labelBounds.right - handle.left);
+          }
+          if (name === "value") {
+            offset = handle.right - labelBounds.left + 12;
+          }
+        }
+        if (this.precise && this.mirrored) {
+          if (name === "minValue") {
+            offset = handle.right - labelBounds.left + 12;
+          }
+          if (name === "value") {
+            offset = -(labelBounds.right - handle.left);
+          }
         }
       } else {
-        if (labelBounds.right < handle.right) {
-          offset = handle.right - labelBounds.right + 12;
+        if (handle.right - labelBounds.left > 0) {
+          offset = handle.right - labelBounds.left + 8;
         }
       }
     } else {
       if (rangeContainer) {
-        if (!this.precise || (name === "value" && this.precise && !this.mirrored)) {
-          offset = -(labelBounds.right - handle.left);
+        if (!this.precise) {
+          offset = -(labelBounds.right - handle.left) - 6;
+        }
+        if (this.precise && !this.mirrored) {
+          if (name === "value") {
+            offset = -(labelBounds.right - handle.left) - 6;
+          }
+          if (name === "minValue" && handle.right - labelBounds.left > 0) {
+            offset = handle.right - labelBounds.left + 6;
+          }
         }
         if (this.precise && this.mirrored) {
           if (name === "value") {
