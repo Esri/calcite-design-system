@@ -236,7 +236,6 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item--range-edge calcite-icon {
-  @apply opacity-75;
   scale: 0.75;
   transition: var(--calcite-internal-animation-timing-slow) ease-in-out scale;
 }
