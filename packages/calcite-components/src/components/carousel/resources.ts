@@ -30,8 +30,7 @@ export const ICONS = {
   play: "play-f",
 } as const;
 
-export const maxItemBreakpoints = {
-  large: 9,
+export const centerItemsByBreakpoint = {
   medium: 7,
   small: 5,
   xsmall: 3,

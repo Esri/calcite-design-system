@@ -41,14 +41,13 @@ import {
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
-import { CSS, DURATION, ICONS, maxItemBreakpoints } from "./resources";
+import { CSS, DURATION, ICONS, centerItemsByBreakpoint } from "./resources";
 import { CarouselMessages } from "./assets/carousel/t9n";
 import { ArrowType, AutoplayType } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-carousel-item`s.
  */
-
 @Component({
   tag: "calcite-carousel",
   styleUrl: "carousel.scss",
@@ -269,7 +268,7 @@ export class Carousel
 
   @State() slideDurationRemaining = 1;
 
-  @State() maxItems = maxItemBreakpoints.xxsmall;
+  @State() maxItems = centerItemsByBreakpoint.xxsmall;
 
   private container: HTMLDivElement;
 
@@ -315,19 +314,26 @@ export class Carousel
   // --------------------------------------------------------------------------
 
   private setMaxItemsToBreakpoint(width: number): void {
-    if (!breakpoints || !width) {
+    if (!width) {
       return;
     }
 
-    const breakpointKeys = ["medium", "small", "xsmall", "xxsmall"];
-    for (const key of breakpointKeys) {
-      if (width >= breakpoints.width[key]) {
-        this.maxItems = maxItemBreakpoints[key];
-        return;
-      }
+    if (width >= breakpoints.width.small) {
+      this.maxItems = centerItemsByBreakpoint.medium;
+      return;
     }
 
-    this.maxItems = maxItemBreakpoints.xxsmall;
+    if (width >= breakpoints.width.xsmall) {
+      this.maxItems = centerItemsByBreakpoint.small;
+      return;
+    }
+
+    if (width >= breakpoints.width.xxsmall) {
+      this.maxItems = centerItemsByBreakpoint.xsmall;
+      return;
+    }
+
+    this.maxItems = centerItemsByBreakpoint.xxsmall;
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
