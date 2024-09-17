@@ -249,9 +249,6 @@ export const carouselWithAutoplayNoOverlay = (): string =>
         margin: 2rem auto 1rem;
         display: block;
       }
-      calcite-carousel {
-        width: 400px;
-      }
       calcite-carousel-item p {
         text-align: center;
         margin: 0 auto 1rem;
@@ -405,9 +402,6 @@ export const darkModeRTL = (): string =>
       calcite-carousel-item calcite-icon {
         margin: 2rem auto 1rem;
         display: block;
-      }
-      calcite-carousel {
-        width: 400px;
       }
       calcite-carousel-item p {
         text-align: center;
