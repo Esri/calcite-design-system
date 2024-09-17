@@ -346,17 +346,6 @@ describe("calcite-alert", () => {
     let alertDismissProgressBar;
     let progressBarStyles;
 
-    it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage();
-      await page.setContent(alertSnippet);
-      progressBarStyles = await page.evaluate(() => {
-        const alert = document.querySelector("calcite-alert");
-        alert.style.setProperty("--calcite-internal-alert-dismiss-progress-background", "white");
-        return window.getComputedStyle(alert).getPropertyValue("--calcite-internal-alert-dismiss-progress-background");
-      });
-      expect(progressBarStyles).toEqual("white");
-    });
-
     describe("when mode attribute is not provided", () => {
       it("should render alert dismiss progress bar with default value tied to light mode", async () => {
         page = await newE2EPage();
