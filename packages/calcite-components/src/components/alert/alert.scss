@@ -36,7 +36,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   border-block-start: 0 solid transparent;
   border-inline: $border-style;
   border-block-end: $border-style;
-  inline-size: var(--calcite-alert-width, auto);
+  inline-size: var(--calcite-alert-width, var(--calcite-internal-alert-width));
   max-inline-size: calc(100% - (var(--calcite-internal-alert-edge-distance) * 2));
   transition:
     opacity var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -149,7 +149,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 // scale variables
 :host([scale="s"]) {
-  inline-size: var(--calcite-alert-width, 40rem);
+  --calcite-internal-alert-width: 40em;
 
   @include slotted("title", "*") {
     @apply text-n1-wrap;
@@ -179,7 +179,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([scale="m"]) {
-  inline-size: var(--calcite-alert-width, 50rem);
+  --calcite-internal-alert-width: 50em;
 
   @include slotted("title", "*") {
     @apply text-0-wrap;
@@ -209,7 +209,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([scale="l"]) {
-  inline-size: var(--calcite-alert-width, 60rem);
+  --calcite-internal-alert-width: 60em;
 
   @include slotted("title", "*") {
     @apply text-1-wrap mb-1;
