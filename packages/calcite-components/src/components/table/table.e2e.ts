@@ -1,8 +1,9 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
-import { GlobalTestProps, getFocusedElementProp } from "../../tests/utils";
+import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
 import { CSS } from "../table-header/resources";
+import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import { SLOTS } from "../table/resources";
 
@@ -267,6 +268,45 @@ describe("calcite-table", () => {
       );
     });
 
+    describe("is accessible with pagination and interaction mode static", () => {
+      accessible(
+        html`<calcite-table page-size="4" caption="Simple table" interaction-mode="static">
+          <calcite-table-row slot=${SLOTS.tableHeader}>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
+      );
+    });
+
     describe("is accessible with pagination and selection mode", () => {
       accessible(
         html`<calcite-table page-size="4" selection-mode="multiple" caption="Simple table">
@@ -332,7 +372,7 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
 
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
@@ -351,7 +391,7 @@ describe("selection modes", () => {
     expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
 
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row3.id] });
+    await selectedItemAsserter([row3.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
@@ -369,7 +409,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+    await selectedItemAsserter([row1.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-2");
@@ -386,7 +426,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row2.id] });
+    await selectedItemAsserter([row2.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
@@ -403,7 +443,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row3.id] });
+    await selectedItemAsserter([row3.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
@@ -421,7 +461,7 @@ describe("selection modes", () => {
     expect(await row3.getProperty("selected")).toBe(false);
 
     expect(await element.getProperty("selectedItems")).toEqual([]);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
   });
 
   it("selection mode multiple allows one, multiple, or no rows to be selected", async () => {
@@ -447,7 +487,7 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
 
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
@@ -467,7 +507,7 @@ describe("selection modes", () => {
     expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
 
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
-    await assertSelectedItems(page, { expectedItemIds: [row2.id, row3.id] });
+    await selectedItemAsserter([row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
@@ -484,7 +524,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(3);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row2.id, row3.id] });
+    await selectedItemAsserter([row1.id, row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-2");
@@ -501,7 +541,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row3.id] });
+    await selectedItemAsserter([row1.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
@@ -518,7 +558,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+    await selectedItemAsserter([row1.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
@@ -536,7 +576,7 @@ describe("selection modes", () => {
     expect(await row3.getProperty("selected")).toBe(false);
 
     expect(await element.getProperty("selectedItems")).toEqual([]);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
   });
 
   it("selection mode single allows one or no rows to be selected with keyboard", async () => {
@@ -562,7 +602,7 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
 
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
@@ -585,7 +625,7 @@ describe("selection modes", () => {
     expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
 
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row3.id] });
+    await selectedItemAsserter([row3.id]);
     await selectionCell1.callMethod("setFocus");
     await page.waitForChanges();
 
@@ -600,7 +640,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+    await selectedItemAsserter([row1.id]);
 
     await selectionCell2.callMethod("setFocus");
     await page.waitForChanges();
@@ -615,7 +655,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row2.id] });
+    await selectedItemAsserter([row2.id]);
 
     await selectionCell3.callMethod("setFocus");
     await page.waitForChanges();
@@ -630,7 +670,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row3.id] });
+    await selectedItemAsserter([row3.id]);
 
     await selectionCell3.callMethod("setFocus");
 
@@ -646,7 +686,7 @@ describe("selection modes", () => {
     expect(await row3.getProperty("selected")).toBe(false);
 
     expect(await element.getProperty("selectedItems")).toEqual([]);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
   });
 
   it("selection mode multiple allows one, multiple, or no rows to be selected with keyboard", async () => {
@@ -672,7 +712,7 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
 
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
@@ -695,7 +735,7 @@ describe("selection modes", () => {
     expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
 
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
-    await assertSelectedItems(page, { expectedItemIds: [row2.id, row3.id] });
+    await selectedItemAsserter([row2.id, row3.id]);
 
     await selectionCell1.callMethod("setFocus");
 
@@ -710,7 +750,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(3);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row2.id, row3.id] });
+    await selectedItemAsserter([row1.id, row2.id, row3.id]);
 
     await selectionCell2.callMethod("setFocus");
 
@@ -725,7 +765,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row3.id] });
+    await selectedItemAsserter([row1.id, row3.id]);
 
     await selectionCell3.callMethod("setFocus");
 
@@ -740,7 +780,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+    await selectedItemAsserter([row1.id]);
 
     await selectionCell1.callMethod("setFocus");
 
@@ -756,7 +796,7 @@ describe("selection modes", () => {
     expect(await row3.getProperty("selected")).toBe(false);
 
     expect(await element.getProperty("selectedItems")).toEqual([]);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
   });
   it("correctly has no selected items after user clears selection via clear button", async () => {
     const page = await newE2EPage();
@@ -781,7 +821,8 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
+
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
     const row2 = await page.find("#row-2");
@@ -792,7 +833,7 @@ describe("selection modes", () => {
 
     expect(tableSelectSpy).toHaveReceivedEventTimes(0);
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
-    await assertSelectedItems(page, { expectedItemIds: [row2.id, row3.id] });
+    await selectedItemAsserter([row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
@@ -806,7 +847,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(0);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
   });
 
   it("correctly has all items selected after user uses select all cell while none selected", async () => {
@@ -832,7 +873,8 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
+
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
     const row2 = await page.find("#row-2");
@@ -843,7 +885,7 @@ describe("selection modes", () => {
 
     expect(tableSelectSpy).toHaveReceivedEventTimes(0);
     expect(await element.getProperty("selectedItems")).toHaveLength(0);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
@@ -857,7 +899,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(3);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row2.id, row3.id] });
+    await selectedItemAsserter([row1.id, row2.id, row3.id]);
   });
 
   it("correctly has all items selected after user uses select all cell while none selected and multiple pages", async () => {
@@ -883,7 +925,8 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
+
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
     const row2 = await page.find("#row-2");
@@ -894,7 +937,7 @@ describe("selection modes", () => {
 
     expect(tableSelectSpy).toHaveReceivedEventTimes(0);
     expect(await element.getProperty("selectedItems")).toHaveLength(0);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
@@ -908,7 +951,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(3);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row2.id, row3.id] });
+    await selectedItemAsserter([row1.id, row2.id, row3.id]);
   });
 
   it("correctly has all items selected after user uses select all cell while some selected", async () => {
@@ -934,7 +977,8 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
+
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
     const row2 = await page.find("#row-2");
@@ -948,7 +992,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row2.id] });
+    await selectedItemAsserter([row2.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
@@ -962,7 +1006,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(3);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row2.id, row3.id] });
+    await selectedItemAsserter([row1.id, row2.id, row3.id]);
   });
 
   it("correctly has no items selected after user uses select none cell while all selected", async () => {
@@ -988,7 +1032,8 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
+
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
     const row2 = await page.find("#row-2");
@@ -1002,7 +1047,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
     expect(await element.getProperty("selectedItems")).toHaveLength(3);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id, row2.id, row3.id] });
+    await selectedItemAsserter([row1.id, row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
@@ -1016,7 +1061,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(0);
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
   });
 
   it("correctly maintains selected items if they are paginated out of view", async () => {
@@ -1042,7 +1087,8 @@ describe("selection modes", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
+
     const element = await page.find("calcite-table");
     const row1 = await page.find("#row-1");
     const row2 = await page.find("#row-2");
@@ -1059,15 +1105,18 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+    await selectedItemAsserter([row1.id]);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(2)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tableSelectSpy).toHaveReceivedEventTimes(0);
@@ -1076,7 +1125,7 @@ describe("selection modes", () => {
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
-    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+    await selectedItemAsserter([row1.id]);
   });
 });
 
@@ -1104,42 +1153,50 @@ describe("pagination event", () => {
       </calcite-table>`,
     );
 
-    await assertSelectedItems.setUpEvents(page);
     const element = await page.find("calcite-table");
     const tablePaginateSpy = await element.spyOnEvent("calciteTablePageChange");
     await page.waitForChanges();
 
     expect(tablePaginateSpy).toHaveReceivedEventTimes(0);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(2)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tablePaginateSpy).toHaveReceivedEventTimes(1);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tablePaginateSpy).toHaveReceivedEventTimes(2);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(4)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tablePaginateSpy).toHaveReceivedEventTimes(3);
@@ -1359,15 +1416,18 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
@@ -1407,16 +1467,19 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(4)");
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[2];
 
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
@@ -1783,16 +1846,19 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
@@ -2392,15 +2458,18 @@ describe("keyboard navigation", () => {
       ),
     ).toEqual({ "0": CSS.numberCell });
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
 
@@ -2464,48 +2533,93 @@ describe("keyboard navigation", () => {
       ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
   });
+
+  it("navigates correctly when number and selection column present numbered and interaction-mode static - only focusing selection cells", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table numbered selection-mode="multiple" caption="Simple table" interaction-mode="static">
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3">
+          <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
+          <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+
+    const rowHead = await page.find("#row-head");
+    const row1 = await page.find("#row-1");
+    const row2 = await page.find("#row-2");
+    const row3 = await page.find("#row-3");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
+    ).toEqual({ "0": CSS.selectionCell });
+  });
 });
-
-// Borrowed from Dropdown until a generic utility is set up.
-interface SelectedItemsAssertionOptions {
-  /**
-   * IDs from items to assert selection
-   */
-  expectedItemIds: string[];
-}
-
-/**
- * Test helper for selected calcite-table-row items. Expects items to have IDs to test against.
- *
- * Note: assertSelectedItems.setUpEvents must be called before using this method
- *
- * @param page
- * @param root0
- * @param root0.expectedItemIds
- */
-async function assertSelectedItems(page: E2EPage, { expectedItemIds }: SelectedItemsAssertionOptions): Promise<void> {
-  await page.waitForTimeout(100);
-  const selectedItemIds = await page.evaluate(() => {
-    const table = document.querySelector<HTMLCalciteTableElement>("calcite-table");
-    return table.selectedItems.map((item) => item.id);
-  });
-
-  expect(selectedItemIds).toHaveLength(expectedItemIds.length);
-
-  expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
-}
-
-type SelectionEventTestWindow = GlobalTestProps<{ eventDetail: Selection }>;
-
-/**
- * Helper to wire up the page to assert on the event detail
- *
- * @param page
- */
-assertSelectedItems.setUpEvents = async (page: E2EPage) => {
-  await page.evaluate(() => {
-    document.addEventListener("calciteTableSelect", ({ detail }: CustomEvent<Selection>) => {
-      (window as SelectionEventTestWindow).eventDetail = detail;
-    });
-  });
-};

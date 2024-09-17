@@ -12,4 +12,9 @@ export const CSS = {
   menuActive: "menu-container--active",
   toggleIcon: "toggle-icon",
   verticalArrowContainer: "vertical-arrow-container",
+  chevronIcon: "chevron-icon",
+};
+
+export const IDS = {
+  validationMessage: "inputDatePickerValidationMessage",
 };

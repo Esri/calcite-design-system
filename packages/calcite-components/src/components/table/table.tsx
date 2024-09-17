@@ -31,16 +31,21 @@ import {
   numberStringFormatter,
   NumberingSystem,
 } from "../../utils/locale";
-import { TableLayout, TableRowFocusEvent } from "./interfaces";
+import { getUserAgentString } from "../../utils/browser";
+import {
+  TableInteractionMode,
+  TableLayout,
+  TableRowFocusEvent,
+  TableSelectionDisplay,
+} from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
-import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
  * @slot table-header - A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
  * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
- * @slot selection-actions - A slot for adding a `calcite-action-bar` or other elements to display when `selectionMode` is not `"none"`.
+ * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
  */
 
 @Component({
@@ -64,6 +69,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @Prop({ reflect: true }) groupSeparator = false;
+
+  /** When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
+  @Prop({ reflect: true }) interactionMode: TableInteractionMode = "interactive";
 
   /** Specifies the layout of the component. */
   @Prop({ reflect: true }) layout: TableLayout = "auto";
@@ -92,6 +100,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 
+  /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
+
+  @Prop({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
+
   /**
    * When `true`, displays striped styling in the component.
    *
@@ -103,6 +115,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) striped = false;
 
   @Watch("groupSeparator")
+  @Watch("interactionMode")
   @Watch("numbered")
   @Watch("numberingSystem")
   @Watch("pageSize")
@@ -274,8 +287,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         break;
     }
 
-    const destinationCount = this.allRows?.find((row) => row.positionAll === rowPosition)
-      ?.cellCount;
+    const destinationCount = this.allRows?.find(
+      (row) => row.positionAll === rowPosition,
+    )?.cellCount;
 
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
 
@@ -328,6 +342,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     });
 
     allRows?.forEach((row) => {
+      row.interactionMode = this.interactionMode;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);
@@ -463,11 +478,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           numberingSystem={this.numberingSystem}
           onCalcitePaginationChange={this.handlePaginationChange}
           pageSize={this.pageSize}
+          ref={(el) => (this.paginationEl = el)}
           scale={this.scale}
           startItem={1}
           totalItems={this.bodyRows?.length}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.paginationEl = el)}
         />
       </div>
     );
@@ -512,7 +526,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <Host>
         <div class={CSS.container}>
-          {this.selectionMode !== "none" && this.renderSelectionArea()}
+          {this.selectionMode !== "none" &&
+            this.selectionDisplay !== "none" &&
+            this.renderSelectionArea()}
           <div
             class={{
               [CSS.bordered]: this.bordered,
@@ -523,10 +539,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
             <table
               aria-colcount={this.colCount}
               aria-multiselectable={this.selectionMode === "multiple"}
-              aria-readonly={true}
               aria-rowcount={this.allRows?.length}
               class={{ [CSS.tableFixed]: this.layout === "fixed" }}
-              role="grid"
+              role={this.interactionMode === "interactive" ? "grid" : "table"}
             >
               <caption class={CSS.assistiveText}>{this.caption}</caption>
               {this.renderTHead()}

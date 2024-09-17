@@ -4,28 +4,7 @@
 }
 
 .container {
-  text-align: start;
-}
-
-.container--s {
-  @apply text-n2h;
-  .dropdown-title {
-    @apply p-2;
-  }
-}
-
-.container--m {
-  @apply text-n1h;
-  .dropdown-title {
-    @apply p-3;
-  }
-}
-
-.container--l {
-  @apply text-0h;
-  .dropdown-title {
-    @apply p-4;
-  }
+  @apply text-start;
 }
 
 .dropdown-title {
@@ -44,6 +23,27 @@
 .dropdown-separator {
   @apply block h-px;
   background-color: theme("borderColor.color.3");
+}
+
+:host([scale="s"]) {
+  @apply text-n2h;
+  .dropdown-title {
+    @apply p-2;
+  }
+}
+
+:host([scale="m"]) {
+  @apply text-n1h;
+  .dropdown-title {
+    @apply p-3;
+  }
+}
+
+:host([scale="l"]) {
+  @apply text-0h;
+  .dropdown-title {
+    @apply p-4;
+  }
 }
 
 @include base-component();

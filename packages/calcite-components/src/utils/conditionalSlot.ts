@@ -1,7 +1,5 @@
 import { forceUpdate } from "@stencil/core";
-import { createObserver } from "./observers";
-
-const observed = new Set<HTMLElement>();
+import { createObserver, ExtendedMutationObserver } from "./observers";
 
 /**
  * Defines interface for components with a dynamically changing slot.
@@ -19,7 +17,7 @@ export interface ConditionalSlotComponent {
   readonly el: HTMLElement;
 }
 
-let mutationObserver: MutationObserver;
+let mutationObserver: ExtendedMutationObserver;
 const observerOptions: Pick<Parameters<MutationObserver["observe"]>[1], "childList"> = { childList: true };
 
 /**
@@ -51,16 +49,7 @@ export function connectConditionalSlotComponent(component: ConditionalSlotCompon
  * ```
  */
 export function disconnectConditionalSlotComponent(component: ConditionalSlotComponent): void {
-  observed.delete(component.el);
-
-  // we explicitly process queued mutations and disconnect and reconnect
-  // the observer until MutationObserver gets an `unobserve` method
-  // see https://github.com/whatwg/dom/issues/126
-  processMutations(mutationObserver.takeRecords());
-  mutationObserver.disconnect();
-  for (const [element] of observed.entries()) {
-    mutationObserver.observe(element, observerOptions);
-  }
+  mutationObserver.unobserve(component.el);
 }
 
 function processMutations(mutations: MutationRecord[]): void {

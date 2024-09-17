@@ -1,22 +1,39 @@
-import { storyFilters } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { select } from "@storybook/addon-knobs";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { CalciteMenu } from "./menu";
+const { layout } = ATTRIBUTES;
+
+type MenuStoryArgs = Pick<CalciteMenu, "layout">;
 
 export default {
   title: "Components/Menu",
-  parameters: {
-    notes: readme,
+  args: {
+    layout: layout.defaultValue,
   },
-  ...storyFilters(),
+  argTypes: {
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none" &&
+          option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string =>
-  html`<calcite-menu layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
+export const simple = (args: MenuStoryArgs): string => html`
+  <calcite-menu layout="${args.layout}">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
-  </calcite-menu>`;
+  </calcite-menu>
+`;
 
 export const iconsAndBreadcrumb = (): string =>
   html`<calcite-menu>
@@ -70,7 +87,7 @@ export const iconsAndBreadcrumbVertical_TestOnly = (): string =>
 
 export const withNesting = (): string =>
   html`<calcite-panel>
-    <calcite-menu layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
+    <calcite-menu layout="horizontal">
       <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
       <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
       <calcite-menu-item text="Example item 3" text-enabled open>

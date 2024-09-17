@@ -1,62 +1,93 @@
-import { select, text, number } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import readme from "./readme.md";
+import { boolean } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { TextArea } from "./text-area";
+const { scale, status } = ATTRIBUTES;
+
+type TextAreaStoryArgs = Pick<
+  TextArea,
+  | "scale"
+  | "status"
+  | "placeholder"
+  | "disabled"
+  | "columns"
+  | "resize"
+  | "rows"
+  | "label"
+  | "name"
+  | "validationMessage"
+  | "validationIcon"
+>;
 
 export default {
   title: "Components/TextArea",
-  parameters: {
-    notes: readme,
+  args: {
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    placeholder: "Add Notes",
+    disabled: false,
+    columns: 20,
+    resize: "both",
+    rows: 2,
+    label: "",
+    name: "",
+    validationMessage: "",
+    validationIcon: "",
   },
-  ...storyFilters(),
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: TextAreaStoryArgs): string => html`
   <calcite-text-area
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-    placeholder="${text("placeholder", "Add Notes")}"
-    ${boolean("disabled", false)}
-    columns="${number("columns", 20)}"
-    resize="${text("resize", "both")}"
-    rows="${number("rows", 2)}"
-    label="${text("label", "")}"
-    name="${text("name", "")}"
-    validation-message="${text("validation-message", "")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+    scale="${args.scale}"
+    status="${args.status}"
+    placeholder="${args.placeholder}"
+    ${boolean("disabled", args.disabled)}
+    columns="${args.columns}"
+    resize="${args.resize}"
+    rows="${args.rows}"
+    label="${args.label}"
+    name="${args.name}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
   >
   </calcite-text-area>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-text-area dir="rtl" class="calcite-mode-dark"> </calcite-text-area>
+  <calcite-text-area
+    dir="rtl"
+    class="calcite-mode-dark"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-text-area>
 `;
 
 export const withSlottedElements = (): string => html`
-  <calcite-text-area
-    placeholder="${text("placeholder", "Add Notes")}"
-    max-length="${number("max-length", 50)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    placeholder="${text("placeholder", "Add Notes")}"
-    ${boolean("disabled", false)}
-    columns="${number("columns", 20)}"
-    rows="${number("rows", 2)}"
-    ${boolean("required", false)}
-    ${boolean("readonly", false)}
-    label="${text("label", "")}"
-    name="${text("name", "")}"
-    validation-message="${text("validation-message", "")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
-  >
-    <calcite-button slot="${text("slot", "footer-start")}">RESET</calcite-button>
-    <calcite-action icon="code" slot="${text("slot", "footer-end")}"></calcite-action>
+  <calcite-text-area placeholder="Add Notes" max-length="50" scale="m" placeholder="Add Notes" columns="20" rows="2">
+    <calcite-button slot="footer-start">RESET</calcite-button>
+    <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
 
 export const withSlottedElementsDarkModeRTL_TestOnly = (): string => html`
   <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
-    <calcite-button slot="${text("slot", "footer-start")}">RESET</calcite-button>
-    <calcite-action icon="code" slot="${text("slot", "footer-end")}"></calcite-action>
+    <calcite-button slot="footer-start">RESET</calcite-button>
+    <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
 
@@ -83,17 +114,22 @@ export const chineseLang_TestOnly = (): string => html`
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+/**  Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
+const wrapperStyles = html`
   <style>
-    .container {
+    .wrapper {
       display: flex;
-      flex-direction: column;
-      width: 420px;
-      height: 80px;
-      gap: 45px;
+      width: 800px;
+      height: 250px;
+      padding: 64px;
+      gap: 10px;
     }
   </style>
-  <div class="container">
+`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
     <calcite-text-area
       scale="s"
       status="invalid"

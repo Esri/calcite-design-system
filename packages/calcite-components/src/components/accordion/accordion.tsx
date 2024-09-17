@@ -9,9 +9,10 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Position, IconType, Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
+import { CSS } from "./resources";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
  */
@@ -31,10 +32,11 @@ export class Accordion {
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /** Specifies the placement of the icon in the header. */
-  @Prop({ reflect: true }) iconPosition: Position = "end";
+  @Prop({ reflect: true }) iconPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the type of the icon in the header. */
-  @Prop({ reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
+  @Prop({ reflect: true }) iconType: Extract<"chevron" | "caret" | "plus-minus", IconType> =
+    "chevron";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -92,8 +94,8 @@ export class Accordion {
     return (
       <div
         class={{
-          "accordion--transparent": transparent,
-          accordion: !transparent,
+          [CSS.transparent]: transparent,
+          [CSS.accordion]: !transparent,
         }}
       >
         <slot />

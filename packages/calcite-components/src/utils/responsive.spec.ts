@@ -1,5 +1,5 @@
-import { breakpoints } from "./responsive";
 import { toBeInteger } from "../tests/utils";
+import { breakpoints } from "./responsive";
 
 describe("breakpoints", () => {
   it("provides a breakpoints lookup object", async () => {

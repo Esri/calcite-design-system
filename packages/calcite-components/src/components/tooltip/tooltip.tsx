@@ -26,11 +26,10 @@ import {
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { FloatingArrow } from "../functional/FloatingArrow";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
-
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
-import { FloatingArrow } from "../functional/FloatingArrow";
 
 const manager = new TooltipManager();
 
@@ -143,7 +142,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @State() floatingLayout: FloatingLayout = "vertical";
 
-  arrowEl: SVGElement;
+  arrowEl: SVGSVGElement;
 
   guid = `calcite-tooltip-${guid()}`;
 
@@ -160,11 +159,10 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.setUpReferenceElement(this.hasLoaded);
+    this.setUpReferenceElement(true);
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -177,7 +175,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition(true);
     this.hasLoaded = true;
   }
 
@@ -343,13 +340,11 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           <FloatingArrow
             floatingLayout={floatingLayout}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
+            ref={(arrowEl) => (this.arrowEl = arrowEl)}
           />
           <div class={CSS.container}>
             <slot />

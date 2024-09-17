@@ -6,16 +6,16 @@
 }
 
 textarea {
-  @apply text-color-1
-  relative
-  block
-  bg-foreground-1
-  box-border
-  border-color-input
-  border
-  font-sans
-  w-full
-  m-0;
+  @apply font-sans
+    text-color-1
+    relative
+    block
+    bg-foreground-1
+    box-border
+    border-color-input
+    border
+    w-full
+    m-0;
   min-inline-size: theme("spacing.48");
   border-block-end: 1px solid var(--calcite-color-border-3);
   @media screen and (max-width: 480px) {
@@ -86,9 +86,7 @@ textarea {
     @apply py-1
     px-2;
   }
-}
 
-:host([scale="s"]) {
   textarea,
   .footer,
   .character-limit {
@@ -107,9 +105,7 @@ textarea {
     px-3;
     min-block-size: 2.25rem;
   }
-}
 
-:host([scale="m"]) {
   textarea,
   .footer,
   .character-limit {
@@ -129,9 +125,7 @@ textarea {
     px-4;
     min-block-size: 2.75rem;
   }
-}
 
-:host([scale="l"]) {
   textarea,
   .footer,
   .character-limit {
@@ -151,13 +145,6 @@ textarea {
 
 .readonly {
   @apply bg-background font-medium;
-}
-
-:host([disabled]) {
-  textarea,
-  footer {
-    @apply opacity-50;
-  }
 }
 
 .border--color {

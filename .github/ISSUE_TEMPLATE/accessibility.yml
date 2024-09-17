@@ -36,7 +36,7 @@ body:
     attributes:
       label: Reproduction Sample
       description: |
-        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/qecewik/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
+        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [React Codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), [Angular Codesandbox](https://codesandbox.io/p/sandbox/little-fire-2hx4qh?file=%2Fsrc%2Fapp%2Fapp.component.html%3A16%2C51), or [jsbin](https://jsbin.com/qecewik/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
     validations:
       required: true
   - type: textarea
@@ -91,16 +91,15 @@ body:
       multiple: false
       description: What is the impact to you, your team, or organization? Use discretion and only select "need" or "emergency" priorities for high user impact and quality issues. For instance, would someone notice, in a bad way, if this issue were present in the release?
       options:
-        - p4 - not time sensitive
-        - p3 - want for upcoming milestone
-        - p2 - want for current milestone
-        - p1 - need for current milestone
-        - p0 - emergency
+        - impact - p3 - not time sensitive
+        - impact - p2 - want for an upcoming milestone
+        - impact - p1 - need for current milestone
+        - impact - p0 - emergency
   - type: checkboxes
     id: packages
     attributes:
       label: Calcite package
-      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/main/packages) related to the request.
+      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/dev/packages) related to the request.
       options:
         - label: "@esri/calcite-components"
         - label: "@esri/calcite-components-angular"
@@ -119,6 +118,7 @@ body:
       description: If you work at Esri, please select your product team. Otherwise choose "N/A". If your team is not listed, choose "N/A", and then edit the line after submitting the issue.
       options:
         - N/A
+        - Application Protoype Lab - APL
         - ArcGIS Solutions
         - ArcGIS AppStudio
         - ArcGIS Business/Community Analyst

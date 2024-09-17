@@ -1,8 +1,6 @@
 # calcite-list-item
 
-A general purpose list that enables users to construct list items that conform to Calcite styling.
-
-If you are looking for a list that handles more advanced usage like selection, see the documentation for 'calcite-pick-list' or 'calcite-value-list'.
+For comprehensive guidance on using and implementing `calcite-list-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/list-item/).
 
 <!-- Auto Generated Below -->
 
@@ -46,7 +44,7 @@ Type: `Promise<void>`
 
 | Slot               | Description                                                                                                    |
 | ------------------ | -------------------------------------------------------------------------------------------------------------- |
-|                    | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.                                  |
+|                    | A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.                  |
 | `"actions-end"`    | A slot for adding actionable `calcite-action` elements after the content of the component.                     |
 | `"actions-start"`  | A slot for adding actionable `calcite-action` elements before the content of the component.                    |
 | `"content"`        | A slot for adding non-actionable, centered content in place of the `label` and `description` of the component. |

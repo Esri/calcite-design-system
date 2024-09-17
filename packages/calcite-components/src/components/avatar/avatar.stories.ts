@@ -1,37 +1,43 @@
-import { select, text } from "@storybook/addon-knobs";
-
-import { storyFilters } from "../../../.storybook/helpers";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Avatar } from "./avatar";
+const { scale } = ATTRIBUTES;
+
+type AvatarStoryArgs = Pick<Avatar, "scale" | "fullName" | "label" | "username" | "userId" | "thumbnail">;
 
 export default {
   title: "Components/Avatar",
-  parameters: {
-    notes: readme,
+  args: {
+    scale: scale.defaultValue,
+    fullName: "John Doe",
+    label: "John Doe",
+    username: "jdoe",
+    userId: "9a7c50e6b3ce4b859f7b31e302437164",
+    thumbnail: placeholderImage({ width: 120, height: 120 }),
   },
-  ...storyFilters(),
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: AvatarStoryArgs): string => html`
   <calcite-avatar
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    full-name="${text("full-name", "John Doe")}"
-    label="${text("label", "John Doe")}"
-    username="${text("username", "jdoe")}"
-    user-id="${text("user-id", "9a7c50e6b3ce4b859f7b31e302437164")}"
-    thumbnail="${text("thumbnail", placeholderImage({ width: 120, height: 120 }))}"
+    scale="${args.scale}"
+    full-name="${args.fullName}"
+    label="${args.label}"
+    username="${args.username}"
+    user-id="${args.userId}"
+    thumbnail="${args.thumbnail}"
   >
   </calcite-avatar>
 `;
 
 export const missingThumbnail = (): string => html`
-  <calcite-avatar
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    full-name="${text("full-name", "John Doe")}"
-    username="${text("username", "jdoe")}"
-    user-id="${text("user-id", "9a7c50e6b3ce4b859f7b31e302437164")}"
-  >
+  <calcite-avatar scale="m" full-name="John Doe" username="jdoe" user-id="9a7c50e6b3ce4b859f7b31e302437164">
   </calcite-avatar>
 `;
 

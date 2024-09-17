@@ -1,104 +1,118 @@
-$floating-ui-transform-bottom: translateY(-5px);
-$floating-ui-transform-top: translateY(5px);
-$floating-ui-transform-left: translateX(5px);
-$floating-ui-transform-right: translateX(-5px);
+$floating-ui-transition-offset: 5px;
+
+@mixin floating-ui-offset-bottom {
+  inset-block-start: -$floating-ui-transition-offset;
+}
+
+@mixin floating-ui-offset-top {
+  inset-block-start: $floating-ui-transition-offset;
+}
+
+@mixin floating-ui-offset-left {
+  left: $floating-ui-transition-offset;
+}
+
+@mixin floating-ui-offset-right {
+  left: -$floating-ui-transition-offset;
+}
 
 @mixin floating-ui-base {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }
 
-@mixin floatingUIAnim {
+@mixin floating-ui-anim {
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
-    transition-property: transform, visibility, opacity;
+    transition-property: inset, left, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
     @apply rounded z-default;
   }
 }
 
-@mixin floatingUIAnimActive {
+@mixin floating-ui-anim-active {
   opacity: 1;
-  transform: translate(0);
+  inset-block: 0;
+  left: 0;
 }
 
-@mixin floatingUIElemAnim($selector) {
+@mixin floating-ui-elem-anim($selector) {
   #{$selector} {
-    @include floatingUIAnim();
+    @include floating-ui-anim();
 
     &[data-placement^="bottom"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-bottom;
+      @include floating-ui-offset-bottom();
     }
 
     &[data-placement^="top"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-top;
+      @include floating-ui-offset-top();
     }
 
     &[data-placement^="left"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-left;
+      @include floating-ui-offset-left();
     }
 
     &[data-placement^="right"] .calcite-floating-ui-anim {
-      transform: $floating-ui-transform-right;
+      @include floating-ui-offset-right();
     }
 
     &[data-placement] .calcite-floating-ui-anim--active {
-      @include floatingUIAnimActive();
+      @include floating-ui-anim-active();
     }
   }
 }
 
-@mixin floatingUIHostAnim {
-  @include floatingUIAnim();
+@mixin floating-ui-host-anim {
+  @include floating-ui-anim();
 
   :host([data-placement^="bottom"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-bottom;
+    @include floating-ui-offset-bottom();
   }
 
   :host([data-placement^="top"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-top;
+    @include floating-ui-offset-top();
   }
 
   :host([data-placement^="left"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-left;
+    @include floating-ui-offset-left();
   }
 
   :host([data-placement^="right"]) .calcite-floating-ui-anim {
-    transform: $floating-ui-transform-right;
+    @include floating-ui-offset-right();
   }
 
   :host([data-placement]) .calcite-floating-ui-anim--active {
-    @include floatingUIAnimActive();
+    @include floating-ui-anim-active();
   }
 }
 
-@mixin floatingUIContainer() {
+@mixin floating-ui-container() {
   display: block;
   position: absolute;
   z-index: var(--calcite-floating-ui-z-index);
 }
 
-@mixin floatingUIWrapper {
+@mixin floating-ui-wrapper {
   visibility: hidden;
 }
 
-@mixin floatingUIWrapperActive {
+@mixin floating-ui-wrapper-active {
   visibility: visible;
 }
 
-@mixin floatingUIHost() {
+@mixin floating-ui-host() {
   :host {
-    @include floatingUIContainer();
+    @include floating-ui-container();
   }
 
-  @include floatingUIHostAnim();
+  @include floating-ui-host-anim();
 
-  @include calciteHydratedHidden();
+  @include calcite-hydrated-hidden();
 }
 
-@mixin floatingUIArrow {
+@mixin floating-ui-arrow {
   .calcite-floating-ui-arrow {
     @apply -z-default
     absolute

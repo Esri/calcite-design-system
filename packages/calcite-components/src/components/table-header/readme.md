@@ -1,5 +1,7 @@
 # calcite-table-header
 
+For comprehensive guidance on using and implementing `calcite-table-header`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-header/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

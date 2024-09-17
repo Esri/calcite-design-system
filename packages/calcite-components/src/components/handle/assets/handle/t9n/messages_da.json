@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Træk håndtag",
+  "dragHandle": "Ændring af placering: {itemLabel}",
+  "dragHandleUntitled": "Ændring af placering",
   "dragHandleActive": "Genbestiller {itemLabel}, aktuel position {position} for {total}.",
   "dragHandleChange": "{itemLabel}, ny position {position} for {total}. Tryk på mellemrumstasten for at bekræfte.",
   "dragHandleCommit": "{itemLabel}, aktuel position {position} for {total}.",

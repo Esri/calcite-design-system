@@ -1,7 +1,7 @@
-import { CSS, SLOTS } from "./resources";
-import { accessible, disabled, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
+import { accessible, disabled, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-pick-list-item", () => {
   describe("renders", () => {

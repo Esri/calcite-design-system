@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, themed, t9n } from "../../tests/commonTests";
+import type { HandleMessages } from "./assets/handle/t9n";
 import { CSS, SUBSTITUTIONS } from "./resources";
-import { HandleMessages } from "../../components";
 
 describe("calcite-handle", () => {
   describe("renders", () => {
@@ -124,5 +124,60 @@ describe("calcite-handle", () => {
 
   describe("translation support", () => {
     t9n("calcite-handle");
+  });
+
+  it("sets radio role properly", async () => {
+    const page = await newE2EPage();
+    const label = "Hello World";
+    await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
+    await page.waitForChanges();
+
+    const handle = await page.find("calcite-handle");
+
+    const internalHandle = await page.find(`calcite-handle >>> .${CSS.handle}`);
+    expect(internalHandle.getAttribute("role")).toBe("radio");
+    expect(internalHandle.getAttribute("aria-checked")).toBe("false");
+
+    handle.setProperty("selected", true);
+
+    await page.waitForChanges();
+    expect(internalHandle.getAttribute("aria-checked")).toBe("true");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-handle", {
+        "--calcite-handle-background-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-handle-background-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-handle-icon-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+        },
+        "--calcite-handle-icon-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+          state: "hover",
+        },
+      });
+    });
+    describe("selected", () => {
+      themed("<calcite-handle selected></calcite-handle>", {
+        "--calcite-handle-background-color-selected": {
+          shadowSelector: `.${CSS.handleSelected}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-handle-icon-color-selected": {
+          shadowSelector: `.${CSS.handleSelected}`,
+          targetProp: "color",
+        },
+      });
+    });
   });
 });

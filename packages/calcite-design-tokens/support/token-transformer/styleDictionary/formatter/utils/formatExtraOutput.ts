@@ -13,7 +13,7 @@ export function formatExtraOutput(
   if (Object.keys(outputObject).length > 0) {
     const { index } = args.expandFiles[args.platform];
     const outputFiles: Record<string, string[]> = {};
-    const ensureIfArray = (x: any) => (Array.isArray(x) ? (x as any[]) : x);
+    const ensureIfArray = (x: any) => (Array.isArray(x) ? x : x);
 
     if (index) {
       let parser;
@@ -103,7 +103,7 @@ export function formatExtraOutput(
     }
 
     Object.entries(outputObject).forEach(([fileName, outputList]) => {
-      const absoluteFilePath = resolve(args.buildPath, `${fileName}`);
+      const absoluteFilePath = resolve(args.buildPath, fileName);
       switch (args.platform) {
         case Platform.CSS:
           if (typeof outputList[0] === "string" && outputList[0].slice(0, 2) === "--") {

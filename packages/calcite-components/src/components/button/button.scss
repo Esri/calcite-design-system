@@ -191,18 +191,6 @@
   @apply flex;
   calcite-loader {
     @apply m-0;
-    transition:
-      inline-size var(--calcite-internal-animation-timing-slow) ease-in-out,
-      opacity var(--calcite-internal-animation-timing-slow) ease-in-out,
-      transform var(--calcite-internal-animation-timing-slow) ease-in-out;
-    &.loading-in {
-      animation-name: loader-in;
-      animation-duration: var(--calcite-internal-animation-timing-slow);
-    }
-    &.loading-out {
-      animation-name: loader-out;
-      animation-duration: var(--calcite-internal-animation-timing-slow);
-    }
   }
 }
 
@@ -685,6 +673,16 @@
   @apply text-0h w-11;
   min-block-size: theme("height.11");
 }
+
+:host(:is([scale="s"], [scale="m"], [scale="l"])[width="full"]) {
+  a,
+  button {
+    &:not(.content--slotted) {
+      inline-size: var(--calcite-container-size-content-fluid);
+    }
+  }
+}
+
 // accommodate for transparent buttons not having borders
 :host([scale="l"][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][appearance="transparent"]) a:not(.content--slotted) {

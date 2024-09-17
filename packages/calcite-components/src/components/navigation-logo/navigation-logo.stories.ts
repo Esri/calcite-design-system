@@ -1,23 +1,25 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
+import { boolean } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import { text } from "@storybook/addon-knobs";
+import { CalciteNavigationLogo } from "./navigation-logo";
+
+type NavigationLogoStoryArgs = Pick<CalciteNavigationLogo, "description" | "heading" | "active">;
 
 export default {
   title: "Components/Navigation/Navigation Logo",
-  parameters: {
-    notes: readme,
+  args: {
+    description: "City of AcmeCo",
+    heading: "ArcGIS Online",
+    active: false,
   },
-  ...storyFilters(),
 };
 
-export const simple = (): string =>
+export const simple = (args: NavigationLogoStoryArgs): string =>
   html`<calcite-navigation-logo
-    description="${text("description", "City of AcmeCo")}"
-    heading="${text("heading", "ArcGIS Online")}"
+    description="${args.description}"
+    heading="${args.heading}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-    ${boolean("active", false)}
+    ${boolean("active", args.active)}
   />`;
 
 export const heading_TestOnly = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
@@ -60,4 +62,27 @@ export const slottedInNav_TestOnly = (): string => html`
       slot="logo"
     />
   </calcite-navigation>
+`;
+
+export const withHref_TestOnly = (): string => html`
+  <calcite-navigation>
+    <calcite-navigation-logo
+      slot="logo"
+      heading="A view of the estuary"
+      icon="globe"
+      href="https://www.esri.com"
+      target="_blank"
+      description="20 years of change where the river meets the sea"
+    >
+    </calcite-navigation-logo>
+  </calcite-navigation>
+`;
+
+export const headingLevel_TestOnly = (): string => html`
+  <calcite-navigation-logo
+    heading="ArcGIS Online"
+    heading-level="1"
+    description="City of AcmeCo"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />
 `;

@@ -1,13 +1,16 @@
 # calcite-table-row
 
+For comprehensive guidance on using and implementing `calcite-table-row`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-row/).
+
 <!-- Auto Generated Below -->
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                              | Type      | Default |
-| ---------- | ---------- | ---------------------------------------------------------------------------------------- | --------- | ------- |
-| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false` |
-| `selected` | `selected` | When `true`, the component is selected.                                                  | `boolean` | `false` |
+| Property    | Attribute   | Description                                                                              | Type                           | Default     |
+| ----------- | ----------- | ---------------------------------------------------------------------------------------- | ------------------------------ | ----------- |
+| `alignment` | `alignment` | Specifies the alignment of the component.                                                | `"center" \| "end" \| "start"` | `undefined` |
+| `disabled`  | `disabled`  | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                      | `false`     |
+| `selected`  | `selected`  | When `true`, the component is selected.                                                  | `boolean`                      | `false`     |
 
 ## Events
 

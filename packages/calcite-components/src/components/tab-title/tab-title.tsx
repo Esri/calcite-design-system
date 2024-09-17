@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -16,8 +15,6 @@ import {
 import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -25,7 +22,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { CSS, ICONS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -35,8 +31,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { TabTitleMessages } from "./assets/tab-title/t9n";
 import { getIconScale } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
+import { TabTitleMessages } from "./assets/tab-title/t9n";
+import { CSS, ICONS } from "./resources";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -82,13 +81,13 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /**
    * @internal
@@ -147,11 +146,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
-    this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
@@ -164,14 +161,13 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       }),
     );
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       this.updateHasText();
     }
     if (this.tab && this.selected) {
@@ -219,12 +215,12 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         <InteractiveContainer disabled={this.disabled}>
           <div
             class={{
-              container: true,
+              [CSS.container]: true,
+              [CSS.containerBottom]: this.position === "bottom",
               [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
-              [`scale-${this.scale}`]: true,
+              [CSS.scale(this.scale)]: true,
             }}
             hidden={closed}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => this.resizeObserver?.observe(el)}
           >
             <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
@@ -233,6 +229,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
               {this.iconEnd ? iconEndEl : null}
             </div>
             {this.renderCloseButton()}
+            <div class={CSS.selectedIndicator} />
           </div>
         </InteractiveContainer>
       </Host>
@@ -249,10 +246,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         disabled={false}
         key={CSS.closeButton}
         onClick={this.closeClickHandler}
+        ref={(el) => (this.closeButtonEl = el)}
         title={messages.close}
         type="button"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
@@ -350,7 +346,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts#L1)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
@@ -363,7 +359,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabCloseEventDetail>;
@@ -491,10 +487,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @State() hasText = false;
 
   closeButtonEl: HTMLButtonElement;
-
-  containerEl: HTMLDivElement;
-
-  parentTabNavEl: HTMLCalciteTabNavElement;
 
   parentTabsEl: HTMLCalciteTabsElement;
 

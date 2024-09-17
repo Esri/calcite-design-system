@@ -14,7 +14,7 @@ export interface FocusTrapComponent {
   /**
    * When `true`, prevents focus trapping.
    */
-  focusTrapDisabled: boolean;
+  focusTrapDisabled?: boolean;
 
   /**
    * The focus trap instance.

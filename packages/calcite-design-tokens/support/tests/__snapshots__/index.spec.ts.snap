@@ -93,6 +93,7 @@ exports[`generated tokens CSS core should match 1`] = `
   --calcite-font-family-helvetica-neue: "Helvetica Neue"; /* Fallback for Avenir Next */
   --calcite-font-family-consolas: Consolas; /* Fallback for Monaco */
   --calcite-font-family-avenir: Avenir; /* Fallback for Avenir Next */
+  --calcite-font-family-avenir-next: "Avenir Next"; /* Primary font family */
   --calcite-font-family-avenir-next-world: "Avenir Next World";
   --calcite-font-family-avenir-next-pro: "Avenir Next LT Pro";
   --calcite-font-family-andale-mono: "Andale Mono"; /* Fallback for Monaco */
@@ -445,10 +446,9 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-font-weight-regular: 400;
   --calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
   --calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
-  --calcite-font-family-code: Monaco Consolas "Andale Mono" "Lucida Console"
+  --calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
     monospace; /* Font family for code with fallbacks */
-  --calcite-font-family: "Avenir Next World" "Avenir Next LT Pro" Avenir
-    "Helvetica Neue" sans-serif; /* Primary font with fallbacks */
+  --calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /* Primary font with fallbacks */
   --calcite-corner-radius-pill: 100%;
   --calcite-corner-radius-round: 4px;
   --calcite-corner-radius-sharp: 0;
@@ -739,6 +739,7 @@ export const calciteContainerSize1440 = "1440px";
 export const calciteFontFamilyAndaleMono = "Andale Mono"; // Fallback for Monaco
 export const calciteFontFamilyAvenirNextPro = "Avenir Next LT Pro";
 export const calciteFontFamilyAvenirNextWorld = "Avenir Next World";
+export const calciteFontFamilyAvenirNext = "Avenir Next"; // Primary font family
 export const calciteFontFamilyAvenir = "Avenir"; // Fallback for Avenir Next
 export const calciteFontFamilyConsolas = "Consolas"; // Fallback for Monaco
 export const calciteFontFamilyHelveticaNeue = "Helvetica Neue"; // Fallback for Avenir Next
@@ -904,7 +905,7 @@ export const calciteCornerRadius = "0";
 export const calciteCornerRadiusSharp = "0";
 export const calciteCornerRadiusRound = "4px";
 export const calciteCornerRadiusPill = "100%";
-export const calciteFontFamily = ["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"]; // Primary font with fallbacks
+export const calciteFontFamily = ["Avenir Next","Avenir","Helvetica Neue","sans-serif"]; // Primary font with fallbacks
 export const calciteFontFamilyCode = ["Monaco","Consolas","Andale Mono","Lucida Console","monospace"]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
@@ -970,7 +971,7 @@ export const calciteSpacingLg = "14px";
 export const calciteSpacingXl = "16px";
 export const calciteSpacingXxl = "20px";
 export const calciteSpacingXxxl = "32px";
-export const calciteTypography = {"fontFamily":["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypography = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
 export const calciteTypographyLightMinus3h = {"fontSize":"10px","fontWeight":"300","lineHeight":"12px"};
 export const calciteTypographyLightMinus2h = {"fontSize":"12px","fontWeight":"300"};
 export const calciteTypographyLightMinus1h = {"fontWeight":"300"};
@@ -978,7 +979,7 @@ export const calciteTypographyLight0h = {"fontSize":"16px","fontWeight":"300","l
 export const calciteTypographyLight1h = {"fontSize":"18px","fontWeight":"300","lineHeight":"24px"};
 export const calciteTypographyRegularMinus3h = {"lineHeight":"12px","fontSize":"10px"};
 export const calciteTypographyRegularMinus2h = {"fontSize":"12px"};
-export const calciteTypographyRegularMinus1h = {"fontFamily":["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypographyRegularMinus1h = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
 export const calciteTypographyRegular0h = {"lineHeight":"20px","fontSize":"16px"};
 export const calciteTypographyRegular1h = {"lineHeight":"24px","fontSize":"18px"};
 export const calciteTypographyMediumMinus3h = {"fontWeight":"500","lineHeight":"12px","fontSize":"10px"};
@@ -1023,7 +1024,7 @@ export const calciteTypographyHierarchyHeading3 = {"fontWeight":"500","lineHeigh
 export const calciteTypographyHierarchyHeading4 = {"fontWeight":"500","lineHeight":"137.5%","fontSize":"16px"};
 export const calciteTypographyHierarchyHeading5 = {"fontWeight":"500","lineHeight":"137.5%"};
 export const calciteTypographyHierarchyBodySnug = {"lineHeight":"137.5%"};
-export const calciteTypographyHierarchyBody = {"fontFamily":["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypographyHierarchyBody = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
 export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","textCase":"uppercase","fontWeight":"700"};
 export const calciteTypographyHierarchyCaption = {"lineHeight":"137.5%","fontSize":"12px"};
 export const calciteZIndexDeep = "-999999";
@@ -1488,6 +1489,8 @@ export const calciteContainerSize1440 : string;
 export const calciteFontFamilyAndaleMono : string;
 export const calciteFontFamilyAvenirNextPro : string;
 export const calciteFontFamilyAvenirNextWorld : string;
+/** Primary font family */
+export const calciteFontFamilyAvenirNext : string;
 /** Fallback for Avenir Next */
 export const calciteFontFamilyAvenir : string;
 /** Fallback for Monaco */
@@ -1688,6 +1691,7 @@ $calcite-font-family-lucida-console: "Lucida Console"; // Fallback for Monaco
 $calcite-font-family-helvetica-neue: "Helvetica Neue"; // Fallback for Avenir Next
 $calcite-font-family-consolas: Consolas; // Fallback for Monaco
 $calcite-font-family-avenir: Avenir; // Fallback for Avenir Next
+$calcite-font-family-avenir-next: "Avenir Next"; // Primary font family
 $calcite-font-family-avenir-next-world: "Avenir Next World";
 $calcite-font-family-avenir-next-pro: "Avenir Next LT Pro";
 $calcite-font-family-andale-mono: "Andale Mono"; // Fallback for Monaco
@@ -2033,10 +2037,9 @@ $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
 $calcite-font-weight-normal: 400; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-family-code: Monaco Consolas "Andale Mono" "Lucida Console"
+$calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
   monospace; // Font family for code with fallbacks
-$calcite-font-family: "Avenir Next World" "Avenir Next LT Pro" Avenir
-  "Helvetica Neue" sans-serif; // Primary font with fallbacks
+$calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; // Primary font with fallbacks
 $calcite-corner-radius-pill: 100%;
 $calcite-corner-radius-round: 4px;
 $calcite-corner-radius-sharp: 0;

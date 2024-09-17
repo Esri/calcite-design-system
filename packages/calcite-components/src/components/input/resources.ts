@@ -15,6 +15,10 @@ export const CSS = {
   numberButtonItem: "number-button-item",
 };
 
+export const IDS = {
+  validationMessage: "inputValidationMessage",
+};
+
 export const INPUT_TYPE_ICONS = {
   tel: "phone",
   password: "lock",
@@ -22,7 +26,7 @@ export const INPUT_TYPE_ICONS = {
   date: "calendar",
   time: "clock",
   search: "search",
-};
+} as const;
 
 export const SLOTS = {
   action: "action",

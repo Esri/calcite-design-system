@@ -1,30 +1,8 @@
 # calcite-date-picker
 
-The `calcite-date-picker` component allows for selecting a date via a calendar or text input. It supports multiple locales, languages, right to left, and is fully keyboard accessible.
+For comprehensive guidance on using and implementing `calcite-date-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/date-picker/).
 
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-You can set a min and max range, as well as an initial value with ISO 8601 formatted strings:
-
-```html
-<calcite-date-picker value="2020-03-27" min="2020-02-01" max="2021-01-01"></calcite-date-picker>
-```
-
-### Range
-
-You can also add range property to activate date range mode. In this mode, you will have to set the value property directly on the component's instance to an array of date strings.
-
-```html
-<calcite-date-picker min="2020-01-01" max="2021-01-31" range />
-```
-
-```js
-document.querySelector("calcite-date-picker").value = ["2020-01-03", "2020-01-05"];
-```
 
 ## Properties
 
@@ -32,7 +10,7 @@ document.querySelector("calcite-date-picker").value = ["2020-01-03", "2020-01-05
 | ---------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----------- |
 | `activeDate`                 | --                             | Specifies the component's active date.                                                                                                                                       | `Date`                          | `undefined` |
 | `activeRange`                | `active-range`                 | When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.                                     | `"end" \| "start"`              | `undefined` |
-| `headingLevel`               | `heading-level`                | Specifies the number at which section headings should start.                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6`    | `undefined` |
+| `headingLevel`               | `heading-level`                | Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.                                                    | `1 \| 2 \| 3 \| 4 \| 5 \| 6`    | `undefined` |
 | `max`                        | `max`                          | Specifies the latest allowed date (`"yyyy-mm-dd"`).                                                                                                                          | `string`                        | `undefined` |
 | `maxAsDate`                  | --                             | Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`).                                                                                          | `Date`                          | `undefined` |
 | `messageOverrides`           | `message-overrides`            | Use this property to override individual strings used by the component.                                                                                                      | `DatePickerMessages`            | `undefined` |

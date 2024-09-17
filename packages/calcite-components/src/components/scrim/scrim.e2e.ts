@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
-import { BREAKPOINTS, CSS } from "./resources";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
+import { BREAKPOINTS, CSS } from "./resources";
 
 describe("calcite-scrim", () => {
   describe("renders", () => {

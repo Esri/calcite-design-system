@@ -14,19 +14,16 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { TableCellMessages } from "./assets/table-cell/t9n";
-import { CSS } from "./resources";
-import { RowType } from "../table/interfaces";
+import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
+import { TableCellMessages } from "./assets/table-cell/t9n";
 
 /**
  * @slot - A slot for adding content, usually text content.
@@ -59,6 +56,9 @@ export class TableCell
   @Prop() disabled: boolean;
 
   /** @internal */
+  @Prop() interactionMode: TableInteractionMode = "interactive";
+
+  /** @internal */
   @Prop() lastCell: boolean;
 
   /** @internal */
@@ -71,6 +71,9 @@ export class TableCell
   onSelectedChange(): void {
     this.updateScreenReaderSelectionText();
   }
+
+  /** @internal */
+  @Prop() parentRowAlignment: Alignment = "start";
 
   /** @internal */
   @Prop() parentRowPositionLocalized: string;
@@ -154,7 +157,6 @@ export class TableCell
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    connectInteractive(this);
   }
 
   componentDidRender(): void {
@@ -164,7 +166,6 @@ export class TableCell
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------
@@ -212,6 +213,10 @@ export class TableCell
 
   render(): VNode {
     const dir = getElementDir(this.el);
+    const staticCell =
+      this.disabled ||
+      (this.interactionMode === "static" &&
+        (!this.selectionCell || (this.selectionCell && this.parentRowType === "foot")));
 
     return (
       <Host>
@@ -220,23 +225,30 @@ export class TableCell
             aria-disabled={this.disabled}
             class={{
               [CSS.footerCell]: this.parentRowType === "foot",
+              [CSS.contentCell]: !this.numberCell && !this.selectionCell,
               [CSS.numberCell]: this.numberCell,
               [CSS.selectionCell]: this.selectionCell,
               [CSS.selectedCell]: this.parentRowIsSelected,
-              [CSS.lastCell]: this.lastCell,
+              [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
               [CSS_UTILITY.rtl]: dir === "rtl",
+              [CSS.staticCell]: staticCell,
+              [this.parentRowAlignment]:
+                this.parentRowAlignment === "start" || this.parentRowAlignment === "end",
             }}
             colSpan={this.colSpan}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
-            role="gridcell"
-            rowSpan={this.rowSpan}
-            tabIndex={this.disabled ? -1 : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
+            role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
+            rowSpan={this.rowSpan}
+            tabIndex={staticCell ? -1 : 0}
           >
-            {(this.selectionCell || this.readCellContentsToAT) && this.focused && (
-              <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
+            {(this.selectionCell || this.readCellContentsToAT) && (
+              <span
+                aria-hidden={true}
+                aria-live={this.focused ? "polite" : "off"}
+                class={CSS.assistiveText}
+              >
                 {this.selectionCell && this.selectionText}
                 {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
               </span>

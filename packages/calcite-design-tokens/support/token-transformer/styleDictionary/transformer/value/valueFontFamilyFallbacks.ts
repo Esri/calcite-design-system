@@ -14,7 +14,7 @@ type FontFamilyFallbackToken = TransformedToken & { value: string[] };
 export const transformValuesFontFamilyWithFallbacks: CalledTransformerFunction<string> = (
   token: FontFamilyFallbackToken,
 ) => {
-  return token.value.join(" ");
+  return token.value.join(",");
 };
 
 export const registerValueFontFamilyWithFallbacks = (sd: StyleDictionary): void => {

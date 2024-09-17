@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -42,6 +41,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
+import { isBrowser } from "../../utils/browser";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
@@ -82,7 +82,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Prop({ mutable: true }) value: string | string[];
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
@@ -113,9 +113,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("min")
   onMinChanged(min: string): void {
-    if (min) {
-      this.minAsDate = dateFromISO(min);
-    }
+    this.minAsDate = dateFromISO(min);
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
@@ -123,9 +121,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    if (max) {
-      this.maxAsDate = dateFromISO(max);
-    }
+    this.maxAsDate = dateFromISO(max);
   }
 
   /**
@@ -351,7 +347,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
-    if (!Build.isBrowser) {
+    if (!isBrowser()) {
       return;
     }
 
@@ -409,7 +405,21 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       start,
       end,
     };
-    if (!this.proximitySelectionDisabled) {
+
+    if (this.proximitySelectionDisabled) {
+      if ((end && start) || (!end && date >= start)) {
+        this.hoverRange.focused = "end";
+        this.hoverRange.end = date;
+      } else if (!end && date < start) {
+        this.hoverRange = {
+          focused: "start",
+          start: date,
+          end: start,
+        };
+      } else {
+        this.hoverRange = undefined;
+      }
+    } else {
       if (start && end) {
         const startDiff = getDaysDiff(date, start);
         const endDiff = getDaysDiff(date, end);
@@ -439,21 +449,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             this.hoverRange.focused = "end";
           }
         }
-      }
-    } else {
-      if (!end) {
-        if (date < start) {
-          this.hoverRange = {
-            focused: "start",
-            start: date,
-            end: start,
-          };
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
-        }
-      } else {
-        this.hoverRange = undefined;
       }
     }
     event.stopPropagation();
@@ -594,7 +589,10 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     } else if (!end) {
       this.setEndDate(date);
     } else {
-      if (!this.proximitySelectionDisabled) {
+      if (this.proximitySelectionDisabled) {
+        this.setStartDate(date);
+        this.setEndDate(null);
+      } else {
         if (this.activeRange) {
           if (this.activeRange == "end") {
             this.setEndDate(date);
@@ -614,8 +612,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             this.setEndDate(date);
           }
         }
-      } else {
-        this.setStartDate(date);
       }
     }
     this.calciteDatePickerChange.emit();

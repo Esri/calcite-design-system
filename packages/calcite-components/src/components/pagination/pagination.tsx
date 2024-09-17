@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -32,11 +31,11 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
-import { PaginationMessages } from "./assets/pagination/t9n";
-import { CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
+import { CSS, ICONS } from "./resources";
+import { PaginationMessages } from "./assets/pagination/t9n";
 
 export interface PaginationDetail {
   start: number;
@@ -137,10 +136,6 @@ export class Pagination
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
-  }
-
-  @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
@@ -240,6 +235,32 @@ export class Pagination
   @Method()
   async previousPage(): Promise<void> {
     this.startItem = Math.max(1, this.startItem - this.pageSize);
+  }
+
+  /**
+   * Set a specified page as active.
+   *
+   * @param page
+   */
+  @Method()
+  async goTo(page: number | "start" | "end"): Promise<void> {
+    switch (page) {
+      case "start":
+        this.startItem = 1;
+        break;
+      case "end":
+        this.startItem = this.lastStartItem;
+        break;
+      default: {
+        if (page >= Math.ceil(this.totalPages)) {
+          this.startItem = this.lastStartItem;
+        } else if (page <= 0) {
+          this.startItem = 1;
+        } else {
+          this.startItem = (page - 1) * this.pageSize + 1;
+        }
+      }
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -421,17 +442,19 @@ export class Pagination
     const selected = start === this.startItem;
 
     return (
-      <button
-        aria-current={selected ? "page" : "false"}
-        class={{
-          [CSS.page]: true,
-          [CSS.selected]: selected,
-        }}
-        onClick={this.handlePageClick}
-        value={start}
-      >
-        {displayedPage}
-      </button>
+      <li class={CSS.listItem}>
+        <button
+          aria-current={selected ? "page" : "false"}
+          class={{
+            [CSS.page]: true,
+            [CSS.selected]: selected,
+          }}
+          onClick={this.handlePageClick}
+          value={start}
+        >
+          {displayedPage}
+        </button>
+      </li>
     );
   }
 
@@ -524,13 +547,13 @@ export class Pagination
 
   render(): VNode {
     return (
-      <Fragment>
-        {this.renderFirstChevron()}
-        {this.renderPreviousChevron()}
+      <ul class={CSS.list}>
+        <li class={CSS.listItem}>{this.renderFirstChevron()}</li>
+        <li class={CSS.listItem}>{this.renderPreviousChevron()}</li>
         {this.renderItems()}
-        {this.renderNextChevron()}
-        {this.renderLastChevron()}
-      </Fragment>
+        <li class={CSS.listItem}>{this.renderNextChevron()}</li>
+        <li class={CSS.listItem}>{this.renderLastChevron()}</li>
+      </ul>
     );
   }
 }

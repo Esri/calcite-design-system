@@ -40,10 +40,10 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
   const beforeMin = min instanceof Date && time < min.getTime();
   const afterMax = max instanceof Date && time > max.getTime();
   if (beforeMin) {
-    return min as Date;
+    return min;
   }
   if (afterMax) {
-    return max as Date;
+    return max;
   }
   return date;
 }
@@ -145,13 +145,16 @@ export function datePartsFromLocalizedString(
 }
 
 /**
- * Return first portion of ISO string (YYYY-mm-dd)
+ * Return the date portion in local time of a Date object in ISO 8601 format (YYYY-MM-DD)
  *
  * @param date
  */
 export function dateToISO(date?: Date): string {
   if (date instanceof Date) {
-    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = String(date.getFullYear()).padStart(4, "0");
+    return `${year}-${month}-${day}`;
   }
   return "";
 }

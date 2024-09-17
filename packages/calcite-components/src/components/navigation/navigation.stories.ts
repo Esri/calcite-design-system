@@ -1,13 +1,7 @@
-import { storyFilters } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Navigation/Navigation",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

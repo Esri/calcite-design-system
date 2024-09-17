@@ -1,0 +1,14 @@
+:host {
+  @apply flex;
+}
+
+.container {
+  @apply hidden;
+  inline-size: var(--calcite-container-size-content-fluid);
+}
+
+:host([selected]) .container {
+  @apply block;
+}
+
+@include base-component();

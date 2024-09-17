@@ -1,14 +1,8 @@
 # calcite-time-picker
 
+For comprehensive guidance on using and implementing `calcite-time-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/time-picker/).
+
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<calcite-time-picker scale="l" value="14:00"></calcite-time-picker>
-```
 
 ## Properties
 

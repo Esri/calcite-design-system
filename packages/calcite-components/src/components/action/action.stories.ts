@@ -1,213 +1,181 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import {
-  Attribute,
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { alignment, scale } = ATTRIBUTES;
+import { Action } from "./action";
+const { alignment, appearance, scale } = ATTRIBUTES;
+
+type ActionStoryArgs = Pick<
+  Action,
+  | "active"
+  | "alignment"
+  | "appearance"
+  | "disabled"
+  | "icon"
+  | "indicator"
+  | "label"
+  | "loading"
+  | "scale"
+  | "text"
+  | "textEnabled"
+>;
 
 export default {
   title: "Components/Buttons/Action",
-  parameters: {
-    notes: readme,
+  args: {
+    active: false,
+    alignment: alignment.defaultValue,
+    appearance: appearance.defaultValue,
+    disabled: false,
+    icon: "banana",
+    indicator: false,
+    label: "Label",
+    loading: false,
+    scale: scale.defaultValue,
+    text: "",
+    textEnabled: true,
   },
-  ...storyFilters(),
+  argTypes: {
+    alignment: {
+      options: alignment.values,
+      control: { type: "select" },
+    },
+    appearance: {
+      options: appearance.values.filter((option) => option !== "outline" && option !== "outline-fill"),
+      control: { type: "select" },
+    },
+    icon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      {
-        name: "active",
-        commit(): Attribute {
-          this.value = boolean("active", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "alignment",
-        commit(): Attribute {
-          this.value = select("alignment", alignment.values, alignment.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "appearance",
-        commit(): Attribute {
-          this.value = select("appearance", ["solid", "transparent"], "solid");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "compact",
-        commit(): Attribute {
-          this.value = boolean("compact", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "icon",
-        commit(): Attribute {
-          this.value = select("icon", ["", ...iconNames], "banana");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "indicator",
-        commit(): Attribute {
-          this.value = boolean("indicator", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "label",
-        commit(): Attribute {
-          this.value = text("label", "Label");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "scale",
-        commit(): Attribute {
-          this.value = select("scale", scale.values, scale.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "text",
-        commit(): Attribute {
-          this.value = text("text", "Text");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "text-enabled",
-        commit(): Attribute {
-          this.value = boolean("textEnabled", true);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "style",
-        commit(): Attribute {
-          this.value = boolean("textEnabled", true);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
+export const simple = (args: ActionStoryArgs): string => html`
+  <div>
+    <calcite-action
+      ${boolean("active", args.active)}
+      alignment="${args.alignment}"
+      appearance="${args.appearance}"
+      ${boolean("disabled", args.disabled)}
+      icon="${args.icon}"
+      ${boolean("indicator", args.indicator)}
+      label="${args.label}"
+      ${boolean("loading", args.loading)}
+      scale="${args.scale}"
+      text="${args.text}"
+      ${boolean("text-enabled style", args.textEnabled)}
+    ></calcite-action>
+  </div>
+`;
 
-export const simple = (): string =>
-  html`<div>
-    ${create(
-      "calcite-action",
-      createAttributes({ exceptions: ["icon", "text"] }).concat([
-        {
-          name: "icon",
-          value: "banana",
-        },
-        {
-          name: "text",
-          value: "",
-        },
-      ]),
-    )}
-  </div>`;
+export const disabledAndTextOnly_TestOnly = (): string => html`
+  <div>
+    <calcite-action
+      icon="banana"
+      alignment="start"
+      appearance="solid"
+      label="Label"
+      scale="m"
+      disabled
+      text="Text"
+      text-enabled
+    ></calcite-action>
+    <calcite-action
+      active
+      icon="banana"
+      alignment="start"
+      appearance="solid"
+      label="Label"
+      scale="m"
+      disabled
+      text="Text"
+      text-enabled
+    ></calcite-action>
+  </div>
+`;
 
-export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
-  html`<div>
-    ${create(
-      "calcite-action",
-      createAttributes({ exceptions: ["compact", "disabled"] }).concat([
-        { name: "compact", value: true },
-        { name: "disabled", value: true },
-      ]),
-    )}
-  </div>`;
+export const activeAndAppearanceTransparent_TestOnly = (): string => html`
+  <div>
+    <calcite-action
+      icon="banana"
+      alignment="start"
+      label="Label"
+      scale="m"
+      active
+      appearance="transparent"
+      text="Text"
+      text-enabled
+    ></calcite-action>
+  </div>
+`;
 
-export const activeAndAppearanceTransparent_TestOnly = (): string =>
-  html`<div>
-    ${create(
-      "calcite-action",
-      createAttributes({ exceptions: ["icon", "appearance", "active"] }).concat([
-        { name: "active", value: true },
-        { name: "icon", value: "banana" },
-        { name: "appearance", value: "transparent" },
-      ]),
-    )}
-  </div>`;
+export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string => html`
+  <div style="width: 300px">
+    <calcite-action
+      appearance="solid"
+      icon="banana"
+      alignment="end"
+      label="Label"
+      indicator
+      scale="s"
+      text="Text"
+      text-enabled
+    ></calcite-action>
+  </div>
+`;
 
-export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
-  html`<div style="width: 300px">
-    ${create(
-      "calcite-action",
-      createAttributes({ exceptions: ["icon", "indicator", "alignment", "scale"] }).concat([
-        { name: "icon", value: "banana" },
-        { name: "alignment", value: "end" },
-        { name: "indicator", value: true },
-        { name: "scale", value: "s" },
-      ]),
-    )}
-  </div>`;
-
-export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
-  html`<div style="width: 150px">
-    ${create(
-      "calcite-action",
-      createAttributes({ exceptions: ["icon", "text", "alignment", "scale"] }).concat([
-        { name: "icon", value: "banana" },
-        { name: "text", value: "Blah blah blah blah blah blah blah blah blah blah" },
-        { name: "alignment", value: "start" },
-        { name: "scale", value: "l" },
-      ]),
-    )}
-  </div>`;
+export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string => html`
+  <div style="width: 150px">
+    <calcite-action
+      appearance="solid"
+      icon="banana"
+      alignment="start"
+      label="Label"
+      scale="l"
+      text="Blah blah blah blah blah blah blah blah blah blah"
+      text-enabled
+    ></calcite-action>
+  </div>
+`;
 
 export const indicatorTextEnabled_TestOnly = (): string => html`
-  <calcite-action indicator active text="click-me" text-enabled icon="gear"></calcite-action>
+  <calcite-action
+    appearance="solid"
+    indicator
+    scale="m"
+    active
+    text="click-me"
+    text-enabled
+    icon="gear"
+  ></calcite-action>
 `;
 
 export const indicatorTextEnabledNoIcon_TestOnly = (): string => html`
-  <calcite-action indicator active text="click-me" text-enabled></calcite-action>
+  <calcite-action indicator scale="m" active text="click-me" text-enabled></calcite-action>
 `;
 
 export const indicatorNoTextEnabledNoIcon_TestOnly = (): string => html`
   <calcite-action indicator active text="click-me"></calcite-action>
+`;
+
+export const noTextHeight_TestOnly = (): string => html`
+  <h2>All actions should be the same height</h2>
+  <div style="width: min-content">
+    <div style="border: solid 1px">
+      <calcite-action text="hello" text-enabled icon="home" scale="s"></calcite-action>
+    </div>
+    <div style="border: solid 1px">
+      <calcite-action text="hello" icon="home" scale="s"></calcite-action>
+    </div>
+    <div style="border: solid 1px">
+      <calcite-action icon="home" scale="s"></calcite-action>
+    </div>
+  </div>
 `;
 
 export const arabicLocale_TestOnly = (): string => html`
@@ -221,16 +189,20 @@ export const arabicLocale_TestOnly = (): string => html`
   ></calcite-action>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  html`<div>
-    ${create(
-      "calcite-action",
-      createAttributes({ exceptions: ["icon", "class", "dir"] }).concat([
-        { name: "icon", value: "banana" },
-        { name: "class", value: "calcite-mode-dark" },
-        { name: "dir", value: "rtl" },
-      ]),
-    )}
-  </div>`;
+export const darkModeRTL_TestOnly = (): string => html`
+  <div>
+    <calcite-action
+      appearance="solid"
+      label="Label"
+      scale="m"
+      icon="banana"
+      alignment="start"
+      class="calcite-mode-dark"
+      dir="rtl"
+      text="Text"
+      text-enabled
+    ></calcite-action>
+  </div>
+`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

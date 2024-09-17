@@ -1,4 +1,4 @@
-import { updateHostInteraction } from "./interactive";
+import { InteractiveHTMLElement, updateHostInteraction } from "./interactive";
 
 describe("interactive", () => {
   it("updateHostInteraction", () => {
@@ -9,7 +9,7 @@ describe("interactive", () => {
     const fakeInteractiveEl = document.querySelector<HTMLElement>("fake-interactive");
 
     const fakeInteractive = {
-      el: fakeInteractiveEl,
+      el: fakeInteractiveEl as InteractiveHTMLElement,
       disabled: false,
     };
 

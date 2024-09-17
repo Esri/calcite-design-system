@@ -1,20 +1,8 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-} from "@stencil/core";
-import { CSS } from "./resources";
+import { Component, Element, h, Host, Listen, Method, Prop, State, VNode } from "@stencil/core";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 import { TabChangeEventDetail } from "./interfaces";
 
 /**
@@ -81,10 +69,6 @@ export class Tab {
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
-  componentDidLoad(): void {
-    this.calciteInternalTabRegister.emit();
-  }
-
   disconnectedCallback(): void {
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
@@ -93,17 +77,6 @@ export class Tab {
       }),
     );
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabRegister: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

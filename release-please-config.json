@@ -2,21 +2,71 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
   "tag-separator": "@",
+  "draft-pull-request": true,
   "include-v-in-tag": false,
   "packages": {
     "packages/calcite-components": {
       "component": "@esri/calcite-components",
-      "extra-files": ["readme.md"]
+      "extra-files": [
+        "readme.md",
+        {
+          "type": "json",
+          "path": "/examples/components/preact/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        },
+        {
+          "type": "json",
+          "path": "/examples/components/rollup/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        },
+        {
+          "type": "json",
+          "path": "/examples/components/vite/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        },
+        {
+          "type": "json",
+          "path": "/examples/components/vue/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        },
+        {
+          "type": "json",
+          "path": "/examples/components/web-dev-server/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        },
+        {
+          "type": "json",
+          "path": "/examples/components/webpack/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        }
+      ]
     },
     "packages/calcite-components-react": {
-      "component": "@esri/calcite-components-react"
+      "component": "@esri/calcite-components-react",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "/examples/components/react/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components-react']"
+        }
+      ]
     },
-
     "packages/calcite-components-angular/projects/component-library": {
-      "component": "@esri/calcite-components-angular"
+      "component": "@esri/calcite-components-angular",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "/examples/components/angular/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components-angular']"
+        }
+      ]
     },
     "packages/calcite-design-tokens": {
       "component": "@esri/calcite-design-tokens"
+    },
+    "packages/calcite-ui-icons": {
+      "component": "@esri/calcite-ui-icons",
+      "extra-files": ["docs/index.html"]
     },
     "packages/eslint-plugin-calcite-components": {
       "component": "@esri/eslint-plugin-calcite-components"
@@ -29,7 +79,7 @@
     },
     {
       "type": "linked-versions",
-      "group-name": "components",
+      "groupName": "components",
       "components": ["@esri/calcite-components", "@esri/calcite-components-react", "@esri/calcite-components-angular"]
     },
     {

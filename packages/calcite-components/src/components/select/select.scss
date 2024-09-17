@@ -15,6 +15,14 @@
 .wrapper {
   @apply relative flex items-stretch;
   inline-size: var(--select-width);
+
+  &:focus-within,
+  &:active,
+  &:hover {
+    .icon {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 @include disabled();
@@ -79,10 +87,6 @@
   &:focus {
     @apply focus-inset;
   }
-
-  &:hover {
-    @apply bg-foreground-2;
-  }
 }
 
 // override user agent stylesheet disabled styling
@@ -94,6 +98,10 @@ select:disabled {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
   border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
+
+  .icon {
+    color: var(--calcite-color-text-3);
+  }
 }
 
 :host([status="invalid"]) {

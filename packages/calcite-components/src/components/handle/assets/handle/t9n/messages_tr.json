@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Kolu sürükle",
+  "dragHandle": "Yeniden Konumlandır: {itemLabel}",
+  "dragHandleUntitled": "Yeniden Konumlandır",
   "dragHandleActive": "{itemLabel} yeniden sıralanıyor, geçerli konum {position} / {total}.",
   "dragHandleChange": "{itemLabel}, yeni konum {position} / {total}. Onaylamak için boşluk tuşuna basın.",
   "dragHandleCommit": "{itemLabel}, geçerli konum {position} / {total}.",

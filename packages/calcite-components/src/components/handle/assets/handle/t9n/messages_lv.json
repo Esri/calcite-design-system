@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Vilkt turētāju",
+  "dragHandle": "Pārvietošana: {itemLabel}",
+  "dragHandleUntitled": "Pārvietošana",
   "dragHandleActive": "{itemLabel} pārkārtošana, pašreizējā pozīcija: {position} no {total}.",
   "dragHandleChange": "{itemLabel}, jauna pozīcija: {position} no {total}. Nospiediet atstarpes taustiņu, lai apstiprinātu.",
   "dragHandleCommit": "{itemLabel}, pašreizējā pozīcija: {position} no {total}.",

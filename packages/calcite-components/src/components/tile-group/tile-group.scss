@@ -1,0 +1,37 @@
+:host {
+  box-sizing: border-box;
+  display: inline-block;
+
+  ::slotted(calcite-tile) {
+    margin-block-end: var(--calcite-spacing-px);
+    margin-inline-end: var(--calcite-spacing-px);
+  }
+}
+.container {
+  display: grid;
+  grid-auto-rows: minmax(auto, 1fr);
+}
+:host([scale="s"]) {
+  .container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}
+:host([scale="m"]) {
+  .container {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+:host([scale="l"]) {
+  .container {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}
+:host([layout="vertical"]) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@include disabled();
+@include base-component();

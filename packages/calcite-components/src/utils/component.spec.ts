@@ -1,6 +1,6 @@
-import { componentOnReady, getIconScale } from "./component";
-import { html } from "../../support/formatting";
 import { HTMLStencilElement } from "@stencil/core/internal";
+import { html } from "../../support/formatting";
+import { componentOnReady, getIconScale } from "./component";
 
 describe("getIconScale", () => {
   it('should return "m" when input is "l"', () => {

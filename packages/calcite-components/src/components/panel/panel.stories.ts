@@ -1,97 +1,45 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Panel } from "./panel";
 import { SLOTS } from "./resources";
+const { collapseDirection, scale } = ATTRIBUTES;
+
+interface PanelStoryArgs
+  extends Pick<
+    Panel,
+    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading" | "scale"
+  > {
+  heightScale: string;
+}
 
 export default {
   title: "Components/Panel",
-  parameters: {
-    notes: readme,
+  args: {
+    closed: false,
+    disabled: false,
+    closable: false,
+    collapsed: false,
+    collapsible: false,
+    collapseDirection: collapseDirection.defaultValue,
+    heightScale: scale.defaultValue,
+    scale: scale.defaultValue,
+    loading: false,
   },
-  ...storyFilters(),
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { scale } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "closed",
-        commit(): Attribute {
-          this.value = boolean("closed", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "closable",
-        commit(): Attribute {
-          this.value = boolean("closable", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapsed",
-        commit(): Attribute {
-          this.value = boolean("collapsed", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapsible",
-        commit(): Attribute {
-          this.value = boolean("collapsible", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapse-direction",
-        commit(): Attribute {
-          this.value = select("collapseDirection", ["down", "up"], "down");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "height-scale",
-        commit(): Attribute {
-          this.value = select("heightScale", scale.values, scale.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
+  argTypes: {
+    collapseDirection: {
+      options: collapseDirection.values,
+      control: { type: "select" },
+    },
+    heightScale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
 const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;
@@ -122,8 +70,8 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Footer start</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Footer end</calcite-button>
 `;
 
 const panelContent = `${headerHTML}
@@ -132,33 +80,35 @@ const panelContent = `${headerHTML}
   ${contentHTML}
   ${footerHTML}`;
 
-export const simple = (): string =>
-  create(
-    "calcite-panel",
-    createAttributes(),
-    html`
-      ${headerHTML}
-      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
-      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
-      ${contentHTML}
-      <calcite-fab slot="fab"></calcite-fab>
-      ${footerHTML}
-    `,
-  );
+export const simple = (args: PanelStoryArgs): string => html`
+  <calcite-panel
+    ${boolean("closed", args.closed)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("closable", args.closable)}
+    ${boolean("collapsed", args.collapsed)}
+    ${boolean("collapsible", args.collapsible)}
+    collapseDirection="${args.collapseDirection}"
+    heightScale="${args.heightScale}"
+    scale="${args.scale}"
+    ${boolean("loading", args.loading)}
+    heading="Heading"
+    description="A great panel description"
+  >
+    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
+    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
+    ${contentHTML}
+    <calcite-fab slot="fab"></calcite-fab>
+    ${footerHTML}
+  </calcite-panel>
+`;
 
 export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-panel
       height-scale="s"
-      heading-level="${text("heading-level", "2")}"
-      description="${text(
-        "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-      )}"
-      heading="${text(
-        "heading",
-        "Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum",
-      )}"
+      heading-level="2"
+      description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+      heading="Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     />
   </div>
 `;
@@ -169,23 +119,13 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-panel",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-    panelContent,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-panel collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
+    ${panelContent}
+  </calcite-panel>
+`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const closableWithActions_TestOnly = (): string => html`
   <calcite-panel
@@ -302,9 +242,96 @@ export const footerPadding_TestOnly = (): string =>
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
-      <div slot="footer">Footer!</div>
+      <calcite-button type="button" slot="footer">1</calcite-button>
+      <calcite-button type="button" slot="footer">2</calcite-button>
+      <calcite-button type="button" slot="footer-start">3</calcite-button>
+      <calcite-button type="button" slot="footer-start">4</calcite-button>
+      <calcite-button type="button" slot="footer-end">5</calcite-button>
+      <calcite-button type="button" slot="footer-end">6</calcite-button>
+      <calcite-button type="button" slot="footer-actions">7</calcite-button>
+      <calcite-button type="button" slot="footer-actions">8</calcite-button>
     </calcite-panel>
   </div>`;
+
+export const footerActions = (): string =>
+  html`<h2>footer-actions (Deprecated): Auto width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-actions">1</calcite-button>
+        <calcite-button type="button" slot="footer-actions">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-actions (Deprecated): Full width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-actions">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-actions">2</calcite-button>
+      </calcite-panel>
+    </div>`;
+
+export const footerVariations = (): string =>
+  html`<h2>footer</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start only</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-start">1</calcite-button>
+        <calcite-button type="button" slot="footer-start">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-end only</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-end">1</calcite-button>
+        <calcite-button type="button" slot="footer-end">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end auto width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-start">1</calcite-button>
+        <calcite-button type="button" slot="footer-start">2</calcite-button>
+        <calcite-button type="button" slot="footer-end">3</calcite-button>
+        <calcite-button type="button" slot="footer-end">4</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end full width single</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-start">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end full width multiple</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-start">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-start">2</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">3</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">4</calcite-button>
+      </calcite-panel>
+    </div>`;
 
 export const actionBarBackgroundColor_TestOnly = (): string =>
   html`<calcite-panel height-scale="s" style="width: 300px;">
@@ -320,7 +347,7 @@ export const actionBarBackgroundColor_TestOnly = (): string =>
     <p style="height: 400px">Hello world!</p>
     <p style="height: 400px">Hello world!</p>
     <p style="height: 400px">Hello world!</p>
-    <p slot="footer">Slotted content!</p>
+    <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
 export const footerWithoutContent_TestOnly = (): string =>
@@ -329,7 +356,7 @@ export const footerWithoutContent_TestOnly = (): string =>
     heading="Header!"
     style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
   >
-    <p slot="footer">Footer content!</p>
+    <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
 export const actionBarWithoutContent_TestOnly = (): string =>
@@ -376,7 +403,7 @@ export const footerAndActionBarWithoutContent_TestOnly = (): string =>
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
     </calcite-action-bar>
-    <p slot="footer">Footer content!</p>
+    <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
 export const flexContent_TestOnly = (): string =>
@@ -446,3 +473,109 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   html`<calcite-panel style="--calcite-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;
+
+export const footerAndContentTopBottomSlots = (): string => html`
+  <div style="height: 350px; width: 400px; display: flex">
+    <calcite-panel height-scale="s">
+      <div slot="header-content">Header!</div>
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <div slot="content-top">Slot for a content-top.</div>
+      <p>Slotted content!</p>
+      <p>Hello world!</p>
+      <p>Hello world!</p>
+      <p>Hello world!</p>
+      <div slot="content-bottom">Slot for a content-bottom.</div>
+      <p slot="footer">Footer!</p>
+    </calcite-panel>
+  </div>
+`;
+
+export const footerStartAndEndSlots = (): string => html`
+  <calcite-panel style="height: 200px; width: 300px;">
+    <div slot="header-content">header-content slot</div>
+    <p>Slotted content!</p>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button type="button" slot="footer-start" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer start</calcite-button
+    >
+    <calcite-button type="button" slot="footer-end" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer end</calcite-button
+    >
+  </calcite-panel>
+`;
+
+export const withSlottedAlert = (): string => html`
+  <calcite-panel style="height: 500px; width: 800px;">
+    <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
+      <div slot="title">Hello there!</div>
+      <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+    </calcite-alert>
+    <div slot="header-content">header-content slot</div>
+    <p>Slotted content!</p>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button type="button" slot="footer-start" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer start</calcite-button
+    >
+    <calcite-button type="button" slot="footer-end" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer end</calcite-button
+    >
+  </calcite-panel>
+`;
+
+export const footerSlotPrecedence = (): string => html`
+  <calcite-panel style="height: 200px">
+    <p>Slotted content!</p>
+    <div slot="header-content">header-content slot</div>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button
+      type="button"
+      slot="footer"
+      kind="neutral"
+      scale="s"
+      id="card-icon-test-1"
+      icon-start="check"
+      width="full"
+    ></calcite-button>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const scalesFontAndPadding = (): string => html`
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="s"
+    style="height: 220px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="m"
+    style="height: 250px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="l"
+    style="height: 260px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+`;

@@ -25,7 +25,7 @@
       .icon-slot,
       span {
         color: var(--calcite-color-text-3);
-        font-family: var(--calcite-sans-family);
+        font-family: var(--calcite-font-family);
         font-weight: var(--calcite-font-weight-medium);
       }
 
@@ -2196,6 +2196,25 @@
             icon-end="download"
             >Attachments</calcite-button
           >
+        </section>
+      </div>
+
+      <!-- Download Button -->
+      <div class="loader">
+        <p>Download</p>
+
+        <section>
+          <calcite-label layout="inline">
+            <span>Boolean</span>
+            <calcite-button icon-start="download" download href="button.html">Download this page</calcite-button>
+          </calcite-label>
+
+          <calcite-label layout="inline">
+            <span>Value</span>
+            <calcite-button icon-start="download" download="sample-page.html" href="button.html"
+              >Download this page</calcite-button
+            >
+          </calcite-label>
         </section>
       </div>
 

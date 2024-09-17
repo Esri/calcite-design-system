@@ -1,23 +1,8 @@
 # calcite-input-message
 
-Displays a contextual message to a user. Allows the passing of content, links, etc.
+For comprehensive guidance on using and implementing `calcite-input-message`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-message/).
 
 <!-- Auto Generated Below -->
-
-## Usage
-
-### Basic
-
-```html
-<calcite-label>
-  Desired subdomain
-  <calcite-input suffix-text=".city-of-acme.gov" placeholder="Enter your subdomain" value="big-map-fan">
-  </calcite-input>
-  <calcite-input-message icon="check-circle" status="valid">
-    Excellent news - this domain is available.
-  </calcite-input-message>
-</calcite-label>
-```
 
 ## Properties
 
@@ -50,6 +35,8 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 - [calcite-input-number](../input-number)
 - [calcite-input-text](../input-text)
 - [calcite-input-time-picker](../input-time-picker)
+- [calcite-radio-button-group](../radio-button-group)
+- [calcite-segmented-control](../segmented-control)
 - [calcite-select](../select)
 - [calcite-text-area](../text-area)
 
@@ -68,6 +55,8 @@ graph TD;
   calcite-input-number --> calcite-input-message
   calcite-input-text --> calcite-input-message
   calcite-input-time-picker --> calcite-input-message
+  calcite-radio-button-group --> calcite-input-message
+  calcite-segmented-control --> calcite-input-message
   calcite-select --> calcite-input-message
   calcite-text-area --> calcite-input-message
   style calcite-input-message fill:#f9f,stroke:#333,stroke-width:4px

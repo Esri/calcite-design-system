@@ -12,13 +12,13 @@ import {
   Method,
 } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { CSS, ICONS, SLOTS } from "./resources";
 import {
   LoadableComponent,
   componentFocusable,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot logo - A slot for adding a `calcite-logo` component to the primary navigation level.
@@ -197,9 +197,8 @@ export class CalciteNavigation implements LoadableComponent {
           <calcite-action
             icon={ICONS.hamburger}
             onClick={this.actionClickHandler}
-            text={this.label}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el: HTMLCalciteActionElement) => (this.navigationActionEl = el)}
+            text={this.label}
           />
         )}
       </slot>

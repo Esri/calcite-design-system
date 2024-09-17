@@ -1,32 +1,77 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputText } from "./input-text";
+const { scale, status, alignment } = ATTRIBUTES;
+
+type InputTextStoryArgs = Pick<
+  InputText,
+  | "scale"
+  | "status"
+  | "alignment"
+  | "prefixText"
+  | "suffixText"
+  | "loading"
+  | "clearable"
+  | "disabled"
+  | "value"
+  | "placeholder"
+  | "validationMessage"
+  | "validationIcon"
+>;
 
 export default {
   title: "Components/Controls/Input Text",
-  parameters: {
-    notes: readme,
+  args: {
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    alignment: alignment.defaultValue,
+    prefixText: "",
+    suffixText: "",
+    loading: false,
+    clearable: false,
+    disabled: false,
+    value: "",
+    placeholder: "Placeholder text",
+    validationMessage: "",
+    validationIcon: "",
   },
-  ...storyFilters(),
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    alignment: {
+      options: alignment.values.filter((option) => option !== "center"),
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InputTextStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      alignment="${select("alignment", ["start", "end"], "start")}"
-      prefix-text="${text("prefix-text", "")}"
-      suffix-text="${text("suffix-text", "")}"
-      ${boolean("loading", false)}
-      ${boolean("clearable", false)}
-      ${boolean("disabled", false)}
-      value="${text("value", "")}"
-      placeholder="${text("placeholder", "Placeholder text")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      scale="${args.scale}"
+      status="${args.status}"
+      alignment="${args.alignment}"
+      prefix-text="${args.prefixText}"
+      suffix-text="${args.suffixText}"
+      ${boolean("loading", args.loading)}
+      ${boolean("clearable", args.clearable)}
+      ${boolean("disabled", args.disabled)}
+      value="${args.value}"
+      placeholder="${args.placeholder}"
+      validation-message="${args.validationMessage}"
+      validation-icon="${args.validationIcon}"
     >
     </calcite-input-text>
   </div>
@@ -34,21 +79,8 @@ export const simple = (): string => html`
 
 export const withSlottedAction = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-input-text
-      id="input-with-slotted-action"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      alignment="${select("alignment", ["start", "end"], "start")}"
-      prefix-text="${text("prefix-text", "")}"
-      suffix-text="${text("suffix-text", "")}"
-      ${boolean("loading", false)}
-      ${boolean("clearable", false)}
-      ${boolean("disabled", false)}
-      value="${text("value", "")}"
-      placeholder="${text("placeholder", "Placeholder text")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
-    >
-      <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
+    <calcite-input-text id="input-with-slotted-action" status="idle" alignment="start" placeholder="Placeholder text">
+      <calcite-button slot="action">Go</calcite-button>
     </calcite-input-text>
   </div>
 `;
@@ -57,21 +89,15 @@ export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
       id="input-dark-mode"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      alignment="${select("alignment", ["start", "end"], "start")}"
-      prefix-text="${text("prefix-text", "")}"
-      suffix-text="${text("suffix-text", "")}"
-      ${boolean("loading", false)}
-      ${boolean("clearable", false)}
-      ${boolean("disabled", false)}
-      value="${text("value", "")}"
-      placeholder="${text("placeholder", "Placeholder text")}"
-      validation-message="My great input message"
+      status="idle"
+      alignment="start"
+      placeholder="Placeholder text"
+      validation-message="This should not appear because the status is not 'invalid'"
     >
     </calcite-input-text>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
   <calcite-label scale="l">

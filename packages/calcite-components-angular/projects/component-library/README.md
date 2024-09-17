@@ -70,11 +70,11 @@ Calcite Components can now be used in your application like any other Angular co
 
 ## Contributing
 
-We welcome contributions to this project. See [CONTRIBUTING.md](https://github.com/Esri/calcite-design-system/blob/main/CONTRIBUTING.md) for an overview of the guidelines.
+We welcome contributions to this project. See [CONTRIBUTING.md](https://github.com/Esri/calcite-design-system/blob/dev/CONTRIBUTING.md) for an overview of the guidelines.
 
 ## License
 
-COPYRIGHT © 2023 Esri
+COPYRIGHT © 2024 Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 

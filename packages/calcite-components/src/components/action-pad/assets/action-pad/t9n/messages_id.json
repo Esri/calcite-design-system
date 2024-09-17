@@ -1,4 +1,6 @@
 {
   "expand": "Bentang",
-  "collapse": "Tutup"
+  "collapse": "Tutup",
+  "expandLabel": "Bentang",
+  "collapseLabel": "Tutup"
 }

@@ -1,0 +1,20 @@
+name: Issue Unblocked Comment
+on:
+  issues:
+    types: [closed]
+jobs:
+  comment-on-unblocked-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Create unblocked comment"
+        uses: actions/github-script@v7
+        env:
+          ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addUnblockedComment.js')
+            await action({github, context})

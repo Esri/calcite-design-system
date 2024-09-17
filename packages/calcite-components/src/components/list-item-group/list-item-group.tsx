@@ -1,23 +1,10 @@
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
-  State,
-  VNode,
-} from "@stencil/core";
-import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { MAX_COLUMNS } from "../list-item/resources";
-import { getDepth } from "../list-item/utils";
 import { CSS } from "./resources";
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -70,18 +57,8 @@ export class ListItemGroup implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    const { el } = this;
-    this.visualLevel = getDepth(el, true);
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   // --------------------------------------------------------------------------
@@ -92,8 +69,6 @@ export class ListItemGroup implements InteractiveComponent {
 
   @Element() el: HTMLCalciteListItemGroupElement;
 
-  @State() visualLevel: number = null;
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -101,14 +76,11 @@ export class ListItemGroup implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { disabled, heading, visualLevel } = this;
+    const { disabled, heading } = this;
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
-          <tr
-            class={CSS.container}
-            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
-          >
+          <tr class={CSS.container}>
             <td class={CSS.heading} colSpan={MAX_COLUMNS}>
               {heading}
             </td>

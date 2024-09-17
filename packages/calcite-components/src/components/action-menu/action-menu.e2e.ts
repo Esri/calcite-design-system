@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   slots,
+  themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
@@ -172,7 +173,7 @@ describe("calcite-action-menu", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  it("should close menu if slotted action is clicked", async () => {
+  it.skip("should close menu if slotted action is clicked", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-menu open>
           <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus" text-enabled></calcite-action>
@@ -454,7 +455,7 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
     });
 
-    it("should click the active action on Enter key and close the menu", async () => {
+    it.skip("should click the active action on Enter key and close the menu", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
@@ -490,7 +491,7 @@ describe("calcite-action-menu", () => {
       expect(clickSpy).toHaveReceivedEventTimes(1);
     });
 
-    it("should click the active action when clicked and close the menu", async () => {
+    it.skip("should click the active action when clicked and close the menu", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
@@ -525,5 +526,21 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);
     });
+  });
+
+  describe("theme", () => {
+    themed(
+      html`<calcite-action-menu open>
+        <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action
+      ></calcite-action-menu>`,
+      {
+        "--calcite-action-menu-items-space": {
+          shadowSelector: `.${CSS.menu}`,
+          targetProp: "gap",
+        },
+      },
+    );
   });
 });

@@ -1,6 +1,6 @@
 # calcite-tab-title
 
-The tab-title is the link that switches between panes in [calcite-tabs](../tabs).
+For comprehensive guidance on using and implementing `calcite-tab-title`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tab-title/).
 
 <!-- Auto Generated Below -->
 

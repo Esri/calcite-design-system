@@ -157,14 +157,14 @@ describe("calcite-segmented-control", () => {
     expect(selectedValue).toBe("3");
   });
 
-  it("allows items to be selected", async () => {
-    async function getSelectedItemValue(page: E2EPage): Promise<string> {
-      return page.$eval(
-        "calcite-segmented-control",
-        (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
-      );
-    }
+  async function getSelectedItemValue(page: E2EPage): Promise<string> {
+    return page.$eval(
+      "calcite-segmented-control",
+      (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
+    );
+  }
 
+  it("allows items to be selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-segmented-control>
@@ -191,6 +191,29 @@ describe("calcite-segmented-control", () => {
     await second.click();
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(await getSelectedItemValue(page)).toBe("2");
+  });
+
+  it("updates selection when cleared with undefined", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-segmented-control>
+            <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
+          </calcite-segmented-control>`,
+    );
+    await page.waitForChanges();
+    expect(await getSelectedItemValue(page)).toBe("1");
+
+    const [first, second] = await page.findAll("calcite-segmented-control-item");
+    first.setProperty("checked", undefined);
+    second.setProperty("checked", true);
+    await page.waitForChanges();
+    expect(await getSelectedItemValue(page)).toBe("2");
+
+    first.setProperty("checked", true);
+    second.setProperty("checked", undefined);
+    await page.waitForChanges();
+    expect(await getSelectedItemValue(page)).toBe("1");
   });
 
   it("does not emit extraneous events (edge case from #3210)", async () => {
@@ -403,8 +426,6 @@ describe("calcite-segmented-control", () => {
   });
 
   describe("is form-associated", () => {
-    const formAssociatedOptions = { testValue: "2" };
-
     describe("unselected value", () => {
       formAssociated(
         html`
@@ -414,7 +435,7 @@ describe("calcite-segmented-control", () => {
             <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
           </calcite-segmented-control>
         `,
-        formAssociatedOptions,
+        { testValue: 2, validation: true, changeValueKeys: ["Space"] },
       );
     });
 
@@ -427,12 +448,8 @@ describe("calcite-segmented-control", () => {
             <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
           </calcite-segmented-control>
         `,
-        formAssociatedOptions,
+        { testValue: 2 },
       );
     });
-  });
-
-  describe("updates items when children are modified after initialization", () => {
-    // TODO:
   });
 });

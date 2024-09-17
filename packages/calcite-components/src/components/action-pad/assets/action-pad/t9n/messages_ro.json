@@ -1,4 +1,6 @@
 {
   "expand": "Extindere",
-  "collapse": "Restrângere"
+  "collapse": "Restrângere",
+  "expandLabel": "Extindere",
+  "collapseLabel": "Restrângere"
 }

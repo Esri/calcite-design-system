@@ -1,6 +1,6 @@
 # calcite-action-group
 
-The `calcite-action-group` is a wrapper for multiple `calcite-action`s and housed in `calcite-action-bar` and `calcite-action-pad`.
+For comprehensive guidance on using and implementing `calcite-action-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-group/).
 
 <!-- Auto Generated Below -->
 
@@ -37,11 +37,13 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                             | Description                                                                             |
-| -------------------------------- | --------------------------------------------------------------------------------------- |
-| `--calcite-action-group-columns` | Sets number of grid-template-columns when the `layout` property is `"grid"`.            |
-| `--calcite-action-group-gap`     | Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`. |
-| `--calcite-action-group-padding` | Sets the padding when the `layout` property is `"grid"`.                                |
+| Name                                  | Description                                                                                      |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `--calcite-action-background-color`   | Specifies the component's background color.                                                      |
+| `--calcite-action-group-border-color` | Specifies the component's border color when used in a calcite-action-bar or calcite-action-menu. |
+| `--calcite-action-group-columns`      | Specifies the component's grid-template-columns when the `layout` property is `"grid"`.          |
+| `--calcite-action-group-gap`          | Specifies the component's gap when the `layout` property is `"grid" and padding`.                |
+| `--calcite-action-group-padding`      | [Deprecated] Use --calcite-action-group-gap. Specifies the component's padding.                  |
 
 ## Dependencies
 
