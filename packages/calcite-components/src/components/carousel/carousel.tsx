@@ -662,9 +662,9 @@ export class Carousel
           const last = index === itemCount - 1;
           const endRangeStart = itemCount - maxItems - 1;
           const inStartRange = selectedIndex < maxItems;
-          const inEndRange = selectedIndex > endRangeStart;
-          const rangeStart = Math.max(0, selectedIndex - Math.floor(maxItems / 2));
-          const rangeEnd = Math.min(itemCount, rangeStart + maxItems);
+          const inEndRange = selectedIndex >= endRangeStart;
+          const rangeStart = inStartRange ? 0 : selectedIndex - Math.floor(maxItems / 2);
+          const rangeEnd = inEndRange ? itemCount : rangeStart + maxItems;
           const low = inStartRange ? 0 : inEndRange ? endRangeStart : rangeStart;
           const high = inStartRange ? maxItems + 1 : rangeEnd;
           const isEdge = !first && !last && !match && (index === low - 1 || index === high);
