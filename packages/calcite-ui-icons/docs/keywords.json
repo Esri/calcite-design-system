@@ -7236,11 +7236,6 @@
     "category": "Layers",
     "release": "3.22.4"
   },
-  "refresh-f": {
-    "alias": ["3.22.5", "arrows", "fill", "circles", "updates", "arrows", "repeat"],
-    "category": "Arrows",
-    "release": "3.22.5"
-  },
   "arrow-circle-down-f": {
     "alias": ["3.22.5", "arrows", "fill", "circles", "downloaded", "arrows", "saved", "processed"],
     "category": "Arrows",
@@ -8385,26 +8380,6 @@
     "category": "Generic",
     "release": "3.26.2"
   },
-  "rss-f": {
-    "alias": [
-      "3.26.2",
-      "generic",
-      "follow",
-      "subscribe",
-      "square",
-      "web",
-      "feed",
-      "users",
-      "app",
-      "applications",
-      "updates",
-      "websites",
-      "unfollow",
-      "unsubscribe"
-    ],
-    "category": "Generic",
-    "release": "3.26.2"
-  },
   "folder-open-f": {
     "alias": ["3.26.3", "files", "open folder", "open state", "open directory", "browse", "expanded", "filled"],
     "category": "Files",
@@ -8538,11 +8513,6 @@
     "alias": ["3.27.5", "layers", "video", "livestream", "file", "media", "images", "picture"],
     "category": "Layers",
     "release": "3.27.5"
-  },
-  "layers-f": {
-    "alias": ["3.27.6", "layers", "arcgis", "filled"],
-    "category": "Layers",
-    "release": "3.27.6"
   },
   "clipboard-brackets": {
     "alias": ["3.27.7", "objects", "select", "clipboard", "frame"],
@@ -8959,6 +8929,36 @@
   "raster-tool-history": {
     "alias": ["3.32.0", "gis", "tool", "history", "edit", "modify"],
     "category": "GIS",
+    "release": "3.32.0"
+  },
+  "rss-f": {
+    "alias": [
+      "3.32.0",
+      "generic",
+      "follow",
+      "subscribe",
+      "square",
+      "web",
+      "feed",
+      "users",
+      "app",
+      "applications",
+      "updates",
+      "websites",
+      "unfollow",
+      "unsubscribe"
+    ],
+    "category": "Generic",
+    "release": "3.32.0"
+  },
+  "refresh-f": {
+    "alias": ["3.32.0", "arrows", "fill", "circles", "updates", "arrows", "repeat"],
+    "category": "Arrows",
+    "release": "3.32.0"
+  },
+  "layers-f": {
+    "alias": ["3.32.0", "layers", "arcgis", "filled"],
+    "category": "Layers",
     "release": "3.32.0"
   }
 }
