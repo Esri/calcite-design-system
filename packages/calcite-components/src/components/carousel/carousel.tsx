@@ -161,8 +161,6 @@ export class Carousel
   }
 
   async componentWillLoad(): Promise<void> {
-    this.setMaxItemsToBreakpoint(this.el.clientWidth);
-
     /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
     if ((this.autoplay === "" || this.autoplay) && this.autoplay !== "paused") {
       this.handlePlay(false);
@@ -691,7 +689,7 @@ export class Carousel
               role="tab"
               title={item.label}
             >
-              <calcite-icon icon={icon} scale={"l"} />
+              <calcite-icon icon={icon} scale="l" />
             </button>
           );
         })}
