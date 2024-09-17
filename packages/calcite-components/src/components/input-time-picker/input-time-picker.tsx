@@ -838,6 +838,12 @@ export class InputTimePicker
       };
     }
 
+    if (locale === "ru") {
+      return {
+        meridiem: (hour: number) => (hour > 12 ? "PM" : "AM"),
+      };
+    }
+
     if (locale === "zh-tw") {
       return {
         formats: {
@@ -954,6 +960,10 @@ export class InputTimePicker
         : ltsFormatString.replace("ss", secondFormatToken);
     } else if (fractionalSecondTokenMatch) {
       ltsFormatString = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
+    }
+
+    if (this.effectiveLocale === "ru") {
+      console.log(ltFormatString, ltsFormatString);
     }
 
     this.localeConfig.formats.LT = ltFormatString;
