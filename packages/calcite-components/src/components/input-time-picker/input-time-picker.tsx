@@ -844,11 +844,17 @@ export class InputTimePicker
       };
     }
 
+    if (locale === "zh-cn") {
+      return {
+        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
+      };
+    }
+
     if (locale === "zh-tw") {
       return {
         formats: {
-          LT: "AHH:mm",
-          LTS: "AHH:mm:ss",
+          LT: "Ah:mm",
+          LTS: "Ah:mm:ss",
         },
       };
     }
@@ -856,8 +862,8 @@ export class InputTimePicker
     if (locale === "zh-hk") {
       return {
         formats: {
-          LT: "AHH:mm",
-          LTS: "AHH:mm:ss",
+          LT: "Ah:mm",
+          LTS: "Ah:mm:ss",
         },
         meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
       };

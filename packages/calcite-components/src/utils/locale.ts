@@ -127,8 +127,6 @@ export const localizedTwentyFourHourMeridiems = new Map(
     tr: { am: "ÖÖ", pm: "ÖS" },
     uk: { am: "дп", pm: "пп" },
     vi: { am: "SA", pm: "CH" },
-    "zh-cn": { am: "上午", pm: "下午" },
-    "zh-CN": { am: "上午", pm: "下午" },
   }),
 );
 
