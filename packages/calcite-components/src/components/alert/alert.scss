@@ -5,8 +5,6 @@
  *
  * @prop --calcite-alert-width: Specifies the width of the component.
  * @prop --calcite-alert-background-color: Specifies the component's background color.
- * @prop --calcite-alert-title-text-color: Specifies the component's title text color.
- * @prop --calcite-alert-message-text-color: Specifies the component's message text color.
  * @prop --calcite-alert-corner-radius: Specifies the component's border radius.
  */
 
@@ -261,7 +259,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   @apply text-0-wrap
     font-medium;
 
-  color: var(--calcite-alert-title-text-color, var(--calcite-color-text-1));
+  color: var(--calcite-color-text-1);
 }
 
 @include slotted("message", "*") {
@@ -270,7 +268,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     inline
     font-normal;
   margin-inline-end: theme("margin.2");
-  color: var(--calcite-alert-message-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-color-text-2);
 }
 
 @include slotted("link", "*") {

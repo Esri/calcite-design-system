@@ -3,7 +3,7 @@ import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils";
 import { openClose, themed } from "../../tests/commonTests";
-import { CSS, DURATIONS /*SLOTS*/ } from "./resources";
+import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 
 describe("defaults", () => {
@@ -612,23 +612,5 @@ describe("calcite-alert", () => {
         },
       });
     });
-    /*describe("text", () => {
-      themed(
-        html`<calcite-alert label="this is a default alert" scale="s">
-          <div slot="${SLOTS.title}">Test title</div>
-          <div slot="${SLOTS.message}">Test message</div>
-        </calcite-alert>`,
-        {
-          "--calcite-alert-title-text-color": {
-            selector: `[slot="${SLOTS.title}"]`,
-            targetProp: "color",
-          },
-          "--calcite-alert-message-text-color": {
-            selector: `[slot="${SLOTS.message}"]`,
-            targetProp: "color",
-          },
-        },
-      );
-    });*/
   });
 });

@@ -2,6 +2,7 @@ import { html } from "../../support/formatting";
 import { SLOTS } from "../components/alert/resources";
 
 export const alertTokens = {
+  calciteAlertWidth: "",
   calciteAlertBackgroundColor: "",
   calciteAlertCornerRadius: "",
 };
