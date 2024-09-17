@@ -8960,5 +8960,10 @@
     "alias": ["3.32.0", "layers", "arcgis", "filled"],
     "category": "Layers",
     "release": "3.32.0"
+  },
+  "content-inline-right": {
+    "alias": ["3.32.0", "windows", "text", "line", "image inline", "right", "image wrap"],
+    "category": "Windows",
+    "release": "3.32.0"
   }
 }
