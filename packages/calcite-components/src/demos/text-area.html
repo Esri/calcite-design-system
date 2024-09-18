@@ -6,6 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>TextArea</title>
     <style>
+      .themed {
+        --calcite-text-area-max-height: 100px;
+        --calcite-text-area-min-height: 100px;
+        --calcite-text-area-font-size: 25px;
+        --calcite-text-area-background-color: cadetblue;
+        --calcite-text-area-border-color: magenta;
+        --calcite-text-area-character-limit-text-color: magenta;
+        --calcite-text-area-divider-color: yellow;
+        --calcite-text-area-text-color: brown;
+        --calcite-text-area-placeholder-text-color: cyan;
+        --calcite-text-area-footer-border-color: orange;
+      }
+
       .parent {
         display: flex;
         flex-wrap: wrap;
@@ -230,6 +243,19 @@
             Add Notes
             <calcite-text-area placeholder="add notes" scale="l"> </calcite-text-area>
           </calcite-label>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child-text">Themed</div>
+        <div class="child">
+          <calcite-text-area placeholder="themed..." max-length="10" class="themed" scale="s"></calcite-text-area>
+        </div>
+        <div class="child">
+          <calcite-text-area placeholder="themed..." max-length="10" class="themed" scale="m"></calcite-text-area>
+        </div>
+        <div class="child">
+          <calcite-text-area placeholder="themed..." max-length="10" class="themed" scale="l"></calcite-text-area>
         </div>
       </div>
 
