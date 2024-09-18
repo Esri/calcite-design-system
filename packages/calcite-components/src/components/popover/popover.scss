@@ -111,19 +111,17 @@
   flex: 0 0 auto;
   border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
   border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-
   --calcite-internal-action-corner-radius-start-end: var(
-    --calcite-popover-corner-radius,
-    var(--calcite-corner-radius-sharp)
-  );
-  --calcite-internal-action-corner-radius-end-end: var(
     --calcite-popover-corner-radius,
     var(--calcite-corner-radius-sharp)
   );
 }
 
-.has-header .close-button-container {
-  border-end-end-radius: var(--calcite-popover-corner-radius, none);
+:not(.has-header) .close-button-container {
+  --calcite-internal-action-corner-radius-end-end: var(
+    --calcite-popover-corner-radius,
+    var(--calcite-corner-radius-sharp)
+  );
 }
 
 ::slotted(calcite-panel),
