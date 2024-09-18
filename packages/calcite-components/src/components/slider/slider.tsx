@@ -1081,7 +1081,6 @@ export class Slider
       : this.maxHandle;
   }
 
-  /* May need change: to handle y distance */
   private getDistanceX(el: HTMLDivElement, valueX: number): number {
     return Math.abs(el.getBoundingClientRect().left - valueX);
   }
