@@ -5,7 +5,7 @@ export const popoverTokens = {
   calcitePopoverBorderColor: "",
   calcitePopoverCornerRadius: "",
   calcitePopoverTextColor: "",
-  calcitePopoverFloatingUIZIndex: "",
+  calcitePopoverZIndex: "",
 };
 
 export const popover = html`
