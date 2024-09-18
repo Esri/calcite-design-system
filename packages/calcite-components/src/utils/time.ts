@@ -132,6 +132,10 @@ export function getLocaleHourFormat(locale: SupportedLocale): HourFormat {
     // Chromium's Intl.DateTimeFormat incorrectly formats mk time to 12-hour cycle so we need to force hour12 to false
     // @link https://issues.chromium.org/issues/40676973
     options.hour12 = false;
+  } else if (locale.toLowerCase() === "es-mx") {
+    // Firefox incorrectly formats es-MX time to 24-hour (should be 12)
+    // @link https://bugzilla.mozilla.org/show_bug.cgi?id=1919656
+    options.hour12 = true;
   }
   const formatter = createLocaleDateTimeFormatter(options);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
