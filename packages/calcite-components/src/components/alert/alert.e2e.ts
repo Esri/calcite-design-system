@@ -585,11 +585,11 @@ describe("calcite-alert", () => {
   });
 
   describe("theme", () => {
-    themed(html`<calcite-alert label="this is a default alert" scale="s" open> </calcite-alert>`, {
-      /*"--calcite-alert-width": {
-        shadowSelector: `.${CSS.container}`,
+    themed(html`<calcite-alert label="this is a default alert"> </calcite-alert>`, {
+      "--calcite-alert-width": {
+        selector: `calcite-alert`,
         targetProp: "inlineSize",
-      },*/
+      },
       "--calcite-alert-background-color": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "backgroundColor",
