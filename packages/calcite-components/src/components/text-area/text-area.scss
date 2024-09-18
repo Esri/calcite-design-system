@@ -10,6 +10,8 @@
  * @prop --calcite-text-area-font-size: Specifies the font size of the thext area and footer.
  * @prop --calcite-text-area-max-height: Specifies the the maximum height of the text area in the component.
  * @prop --calcite-text-area-min-height: Specifies the minimum height of the text area in the component.
+ * @prop --calcite-text-area-max-width: Specifies the the maximum width of the text area in the component.
+ * @prop --calcite-text-area-min-width: Specifies the minimum width of the text area in the component.
  * @prop --calcite-text-area-placeholder-text-color: Specifies the color of the placeholder text in the component.
  * @prop --calcite-text-area-text-color: Specifies the color of text in the component.
  * @prop --calcite-text-area-footer-border-color: Specifies the border color of the footer.
@@ -38,13 +40,15 @@
 
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
 
-  max-block-size: var(--calcite-text-area-max-height);
-  min-block-size: var(--calcite-text-area-min-height);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-border-color);
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
   color: var(--calcite-text-area-text-color, var(--calcite-color-text-1));
   font-family: var(--calcite-sans-family);
-  min-inline-size: theme("spacing.48");
+
+  max-block-size: var(--calcite-text-area-max-height);
+  min-block-size: var(--calcite-text-area-min-height);
+  max-inline-size: var(--calcite-text-area-max-width);
+  min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
 
   &::placeholder {
     @apply font-normal;
