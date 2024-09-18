@@ -9,8 +9,4 @@ export const handleTokens = {
   calciteHandleIconColorSelected: "",
 };
 
-export const handle = html`
-  <calcite-label layout="inline">
-    <calcite-handle></calcite-handle>
-  </calcite-label>
-`;
+export const handle = html`<calcite-handle></calcite-handle>`;
