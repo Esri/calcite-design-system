@@ -48,7 +48,6 @@ import {
   NumberingSystem,
   numberStringFormatter,
   SupportedLocale,
-  supportedLocales,
 } from "../../utils/locale";
 import {
   activateFocusTrap,
@@ -162,16 +161,6 @@ interface GetLocalizedTimeStringParameters {
   locale?: SupportedLocale;
   numberingSystem?: NumberingSystem;
 }
-
-const twentyFourHourLocales = new Map();
-
-supportedLocales.forEach((supportedLocale) => {
-  const hourFormat = getLocaleHourFormat(supportedLocale);
-  const meridiemOrder = getMeridiemOrder(supportedLocale);
-  if (hourFormat === "24") {
-    twentyFourHourLocales.set(supportedLocale, { hourFormat, meridiemOrder });
-  }
-});
 
 @Component({
   tag: "calcite-input-time-picker",
