@@ -838,6 +838,12 @@ export class InputTimePicker
       };
     }
 
+    if (locale === "no") {
+      return {
+        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
+      };
+    }
+
     if (locale === "ru") {
       return {
         meridiem: (hour: number) => (hour > 12 ? "PM" : "AM"),
