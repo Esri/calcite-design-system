@@ -584,7 +584,7 @@ export class InputTimePicker
 
   private delocalizeTimeString(value: string, locale?: SupportedLocale): string {
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
-    dayjs.locale(locale || this.effectiveLocale.toLowerCase());
+    dayjs.locale(locale || this.getSupportedDayjsLocale(this.effectiveLocale.toLowerCase()));
 
     const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
 
@@ -663,6 +663,7 @@ export class InputTimePicker
       fractionalSecondFormatToken,
       hourFormat: effectiveHourFormat,
     });
+
     const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
     if (dayjsParseResult.isValid()) {
       return {
