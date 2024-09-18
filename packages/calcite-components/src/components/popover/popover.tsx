@@ -580,7 +580,6 @@ export class Popover
       >
         <div
           class={{
-            [CSS.container]: true,
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
