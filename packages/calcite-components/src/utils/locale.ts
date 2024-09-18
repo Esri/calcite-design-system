@@ -112,7 +112,6 @@ export const localizedTwentyFourHourMeridiems = new Map(
     fi: { am: "ap.", pm: "ip." },
     he: { am: "לפנה״צ", pm: "אחה״צ" },
     hu: { am: "de. ", pm: "du." },
-    ja: { am: "午前", pm: "午後" },
     lt: { am: "priešpiet", pm: "popiet" },
     lv: { am: "priekšpusdienā", pm: "pēcpusdienā" },
     mk: { am: "претпл.", pm: "попл." },

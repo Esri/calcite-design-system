@@ -832,6 +832,12 @@ export class InputTimePicker
       };
     }
 
+    if (locale === "ja") {
+      return {
+        meridiem: (hour) => (hour > 12 ? "午後" : "午前"),
+      };
+    }
+
     if (locale === "ko") {
       return {
         meridiem: (hour: number) => (hour > 12 ? "오후" : "오전"),
