@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.15...@esri/calcite-components@2.13.0-next.16) (2024-09-18)
+
+### Bug Fixes
+
+- **dialog:** only prevent default on escape key when escapeDisabled is true ([#10336](https://github.com/Esri/calcite-design-system/issues/10336)) ([0083630](https://github.com/Esri/calcite-design-system/commit/00836305939cfed268d3f78b549dae49035b353e)), closes [#10337](https://github.com/Esri/calcite-design-system/issues/10337)
+- **shell:** fix z-index of slotted popover elements ([#10325](https://github.com/Esri/calcite-design-system/issues/10325)) ([7fe1601](https://github.com/Esri/calcite-design-system/commit/7fe16011957a45f3340ba9bfe137bcae258bf314)), closes [#10214](https://github.com/Esri/calcite-design-system/issues/10214)
+
 ## [2.13.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.14...@esri/calcite-components@2.13.0-next.15) (2024-09-18)
 
 ### Features
