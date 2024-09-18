@@ -230,6 +230,14 @@ describe("calcite-text-area", () => {
             targetProp: "fontSize",
           },
         ],
+        "--calcite-text-area-max-height": {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "maxHeight",
+        },
+        "--calcite-text-area-min-height": {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "minHeight",
+        },
         "--calcite-text-area-text-color": {
           shadowSelector: `.${CSS.textArea}`,
           targetProp: "color",
