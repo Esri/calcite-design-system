@@ -163,7 +163,7 @@ export class List
   @Prop() filterProps: string[];
 
   @Watch("filterProps")
-  async handlefilterPropsChange(): Promise<void> {
+  async handleFilterPropsChange(): Promise<void> {
     this.performFilter();
   }
 
@@ -232,7 +232,7 @@ export class List
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleListItemChange(): void {
-    this.updateListItems();
+    this.updateListItems(false, true);
   }
 
   //--------------------------------------------------------------------------
@@ -409,7 +409,7 @@ export class List
     connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
-    this.updateListItems();
+    this.updateListItems(false, true);
     this.setUpSorting();
     this.setParentList();
   }
@@ -471,7 +471,7 @@ export class List
 
   listItems: HTMLCalciteListItemElement[] = [];
 
-  mutationObserver = createObserver("mutation", () => this.updateListItems());
+  mutationObserver = createObserver("mutation", () => this.updateListItems(false, true));
 
   visibleItems: HTMLCalciteListItemElement[] = [];
 
@@ -810,7 +810,12 @@ export class List
     this.updateListItems(emit);
   }
 
-  private async performFilter(): Promise<void> {
+  private async filterAndUpdateData(): Promise<void> {
+    await this.filterEl?.filter(this.filterText);
+    this.updateFilteredData();
+  }
+
+  private performFilter(): void {
     const { filterEl, filterText, filterProps } = this;
 
     if (!filterEl) {
@@ -819,8 +824,7 @@ export class List
 
     filterEl.value = filterText;
     filterEl.filterProps = filterProps;
-    await filterEl.filter(filterText);
-    this.updateFilteredData();
+    this.filterAndUpdateData();
   }
 
   private setFilterEl = (el: HTMLCalciteFilterElement): void => {
@@ -844,8 +848,8 @@ export class List
     }));
   };
 
-  private updateListItems = debounce((emitFilterChange = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled, el } = this;
+  private updateListItems = debounce((emitFilterChange = false, filter = false): void => {
+    const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
@@ -863,10 +867,12 @@ export class List
     }
 
     this.listItems = items;
-    if (this.filterEnabled) {
+    if (filterEnabled && filter) {
       this.dataForFilter = this.getItemData();
-      if (this.filterEl) {
-        this.filterEl.items = this.dataForFilter;
+
+      if (filterEl) {
+        filterEl.items = this.dataForFilter;
+        this.filterAndUpdateData();
       }
     }
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
