@@ -133,9 +133,4 @@
   @apply h-full;
 }
 
-calcite-action {
-  border-start-end-radius: var(--calcite-action-corner-radius-start-end);
-  border-end-end-radius: var(--calcite-action-corner-radius-end-end);
-}
-
 @include base-component();

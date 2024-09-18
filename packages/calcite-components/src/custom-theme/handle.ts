@@ -12,6 +12,5 @@ export const handleTokens = {
 export const handle = html`
   <calcite-label layout="inline">
     <calcite-handle></calcite-handle>
-    <calcite-label> </calcite-label
-  ></calcite-label>
+  </calcite-label>
 `;

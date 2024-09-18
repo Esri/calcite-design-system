@@ -7,28 +7,31 @@
  * @prop --calcite-action-background-color: Specifies the component's  background color.
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
  * @prop --calcite-action-background-color-pressed: Specifies the component's background color when active.
- * @prop --calcite-action-corner-radius-start-end: Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-action-corner-radius-end-end: Specifies the component's corner radius end end.
+ * @prop --calcite-action-corner-radius-end-start: Specifies the component's corner radius end start.
+ * @prop --calcite-action-corner-radius-start-end: Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius-start-start: Specifies the component's corner radius start start.
  * @prop --calcite-action-text-color: Specifies the text color of the component.
  * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
+ * @prop --calcite-internal-action-corner-radius-end-end:: Specifies the component's internal corner radius end end.
+ * @prop --calcite-internal-action-corner-radius-end-start: Specifies the component's internal corner radius end start.
+ * @prop --calcite-internal-action-corner-radius-start-end: Specifies the component's internal corner radius start end.
+ * @prop --calcite-internal-action-corner-radius-start-start: Specifies the component's internal corner radius start start.
  */
 
 :host {
   @extend %component-host;
   @apply flex bg-transparent;
+}
 
-  border-start-start-radius: var(
-    --calcite-action-corner-radius-start-start,
+:host,
+button {
+  border-end-end-radius: var(
+    --calcite-action-corner-radius-end-end,
     var(
       --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-start-start, var(--calcite-corner-radius))
-    )
-  );
-  border-start-end-radius: var(
-    --calcite-action-corner-radius-start-end,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-start-end, var(--calcite-corner-radius))
+      var(--calcite-internal-action-corner-radius-end-end, var(--calcite-corner-radius))
     )
   );
   border-end-start-radius: var(
@@ -38,11 +41,18 @@
       var(--calcite-internal-action-corner-radius-end-start, var(--calcite-corner-radius))
     )
   );
-  border-end-end-radius: var(
-    --calcite-action-corner-radius-end-end,
+  border-start-end-radius: var(
+    --calcite-action-corner-radius-start-end,
     var(
       --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-end-end, var(--calcite-corner-radius))
+      var(--calcite-internal-action-corner-radius-start-end, var(--calcite-corner-radius))
+    )
+  );
+  border-start-start-radius: var(
+    --calcite-action-corner-radius-start-start,
+    var(
+      --calcite-action-corner-radius,
+      var(--calcite-internal-action-corner-radius-start-start, var(--calcite-corner-radius))
     )
   );
 }
@@ -77,35 +87,6 @@
 
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-action-text-color, var(--calcite-color-text-3));
-
-  border-start-start-radius: var(
-    --calcite-action-corner-radius-start-start,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-start-start, var(--calcite-corner-radius))
-    )
-  );
-  border-start-end-radius: var(
-    --calcite-action-corner-radius-start-end,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-start-end, var(--calcite-corner-radius))
-    )
-  );
-  border-end-start-radius: var(
-    --calcite-action-corner-radius-end-start,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-end-start, var(--calcite-corner-radius))
-    )
-  );
-  border-end-end-radius: var(
-    --calcite-action-corner-radius-end-end,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-end-end, var(--calcite-corner-radius))
-    )
-  );
   text-align: unset;
   flex: 1 0 auto;
 
