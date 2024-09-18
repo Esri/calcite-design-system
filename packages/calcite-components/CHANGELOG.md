@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.14...@esri/calcite-components@2.13.0-next.15) (2024-09-18)
+
+### Features
+
+- **carousel:** Improve support for high item counts ([#10315](https://github.com/Esri/calcite-design-system/issues/10315)) ([6ad2612](https://github.com/Esri/calcite-design-system/commit/6ad261276c2a1ece4ce8f23cc29234becd4869c1)), closes [#9121](https://github.com/Esri/calcite-design-system/issues/9121)
+
+### Bug Fixes
+
+- **panel:** initially closed panel should be hidden ([#10308](https://github.com/Esri/calcite-design-system/issues/10308)) ([46de96b](https://github.com/Esri/calcite-design-system/commit/46de96b24926415ea71cf77d23699269be83d258)), closes [#10320](https://github.com/Esri/calcite-design-system/issues/10320)
+
 ## [2.13.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.13...@esri/calcite-components@2.13.0-next.14) (2024-09-13)
 
 ### Features
