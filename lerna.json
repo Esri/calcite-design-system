@@ -16,20 +16,16 @@
         "section": "Bug Fixes"
       },
       {
-        "type": "revert",
-        "section": "Reverts"
-      },
-      {
         "type": "perf",
         "section": "Performance Improvements"
       },
       {
-        "type": "deprecation",
-        "section": "Deprecations"
+        "type": "revert",
+        "section": "Reverts"
       },
       {
-        "type": "chore",
-        "hidden": true
+        "type": "deprecation",
+        "section": "Deprecations"
       },
       {
         "type": "docs",
@@ -40,11 +36,23 @@
         "hidden": true
       },
       {
+        "type": "chore",
+        "hidden": true
+      },
+      {
         "type": "refactor",
         "hidden": true
       },
       {
         "type": "test",
+        "hidden": true
+      },
+      {
+        "type": "build",
+        "hidden": true
+      },
+      {
+        "type": "ci",
         "hidden": true
       }
     ]
