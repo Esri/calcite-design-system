@@ -6,6 +6,7 @@
  * @prop --calcite-alert-width: Specifies the width of the component.
  * @prop --calcite-alert-background-color: Specifies the component's background color.
  * @prop --calcite-alert-corner-radius: Specifies the component's border radius.
+ * @prop --calcite-alert-shadow: Specifies the component's shadow.
  */
 
 $border-style: 1px solid var(--calcite-color-border-3);
@@ -26,11 +27,16 @@ $border-style: 1px solid var(--calcite-color-border-3);
   my-0
   opacity-0
   pointer-events-none
-  shadow-2
   text-start
   w-full
   z-toast;
 
+  --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
+  box-shadow: var(
+    --calcite-alert-shadow,
+    (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
+  );
   background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
   border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
   border-block-start: 0 solid transparent;

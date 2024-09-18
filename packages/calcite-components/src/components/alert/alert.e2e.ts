@@ -598,6 +598,10 @@ describe("calcite-alert", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "borderRadius",
       },
+      "--calcite-alert-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
     });
   });
 });

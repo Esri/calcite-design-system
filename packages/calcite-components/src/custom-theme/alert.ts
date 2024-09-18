@@ -5,6 +5,7 @@ export const alertTokens = {
   calciteAlertWidth: "",
   calciteAlertBackgroundColor: "",
   calciteAlertCornerRadius: "",
+  calciteAlertShadow: "",
 };
 
 export const alert = html`<calcite-alert label="this is a default alert" scale="s" open>
