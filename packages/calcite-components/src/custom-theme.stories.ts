@@ -31,6 +31,7 @@ import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
+import { textArea, textAreaTokens } from "./custom-theme/text-area";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -111,7 +112,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress} ${handle}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress} ${handle} ${textArea}</div>
       </div>
     </div>
   </div>`;
@@ -132,6 +133,7 @@ export default {
     ...handleTokens,
     ...progressTokens,
     ...inputTokens,
+    ...textAreaTokens,
   },
 };
 
@@ -154,6 +156,7 @@ export const theming_TestOnly = (): string => {
       ...handleTokens,
       ...progressTokens,
       ...inputTokens,
+      ...textAreaTokens,
     },
     true,
   );

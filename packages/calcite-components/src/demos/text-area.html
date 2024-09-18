@@ -246,8 +246,35 @@
         </div>
       </div>
 
+      <demo-theme
+        tokens="
+        --calcite-text-area-background-color,
+        --calcite-text-area-border-color,
+        --calcite-text-area-character-limit-text-color,
+        --calcite-text-area-divider-color,
+        --calcite-text-area-font-size,
+        --calcite-text-area-max-height,
+        --calcite-text-area-min-height,
+        --calcite-text-area-placeholder-text-color,
+        --calcite-text-area-text-color,
+        --calcite-text-area-footer-border-color"
+      >
+        <div class="parent">
+          <div class="child-text">Themed</div>
+          <div class="child">
+            <calcite-text-area placeholder="themed..." max-length="10" scale="s"></calcite-text-area>
+          </div>
+          <div class="child">
+            <calcite-text-area placeholder="themed..." max-length="10" scale="m"></calcite-text-area>
+          </div>
+          <div class="child">
+            <calcite-text-area placeholder="themed..." max-length="10" scale="l"></calcite-text-area>
+          </div>
+        </div>
+      </demo-theme>
+
       <div class="parent">
-        <div class="child-text">Themed</div>
+        <div class="child-text">Custom Themed</div>
         <div class="child">
           <calcite-text-area placeholder="themed..." max-length="10" class="themed" scale="s"></calcite-text-area>
         </div>
