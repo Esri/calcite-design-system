@@ -585,22 +585,19 @@ describe("calcite-alert", () => {
   });
 
   describe("theme", () => {
-    describe("default", () => {
-      themed(html`<calcite-alert label="this is a default alert" scale="s" open> </calcite-alert>`, {
-        /*"--calcite-alert-width": {
-          selector: "calcite-alert",
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "inlineSize",
-        },*/
-        "--calcite-alert-background-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-alert-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderRadius",
-        },
-      });
+    themed(html`<calcite-alert label="this is a default alert" scale="s" open> </calcite-alert>`, {
+      /*"--calcite-alert-width": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "inlineSize",
+      },*/
+      "--calcite-alert-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-alert-corner-radius": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderRadius",
+      },
     });
   });
 });
