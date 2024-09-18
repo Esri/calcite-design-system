@@ -115,9 +115,6 @@
     --calcite-popover-corner-radius,
     var(--calcite-corner-radius-sharp)
   );
-}
-
-:not(.has-header) .close-button-container {
   --calcite-internal-action-corner-radius-end-end: var(
     --calcite-popover-corner-radius,
     var(--calcite-corner-radius-sharp)
