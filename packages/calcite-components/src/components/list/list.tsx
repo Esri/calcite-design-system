@@ -232,7 +232,7 @@ export class List
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleListItemChange(): void {
-    this.updateListItems(false, true);
+    this.updateListItems({ emitFilterChange: false, performFilter: true });
   }
 
   //--------------------------------------------------------------------------
@@ -391,7 +391,7 @@ export class List
     }
 
     event.stopPropagation();
-    this.updateListItems();
+    this.updateListItems({ emitFilterChange: false, performFilter: false });
   }
 
   @Listen("calciteInternalListItemGroupDefaultSlotChange")
@@ -409,7 +409,7 @@ export class List
     connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
-    this.updateListItems(false, true);
+    this.updateListItems({ emitFilterChange: false, performFilter: true });
     this.setUpSorting();
     this.setParentList();
   }
@@ -471,7 +471,9 @@ export class List
 
   listItems: HTMLCalciteListItemElement[] = [];
 
-  mutationObserver = createObserver("mutation", () => this.updateListItems(false, true));
+  mutationObserver = createObserver("mutation", () =>
+    this.updateListItems({ emitFilterChange: false, performFilter: true }),
+  );
 
   visibleItems: HTMLCalciteListItemElement[] = [];
 
@@ -671,7 +673,7 @@ export class List
 
   onDragSort(detail: ListDragDetail): void {
     this.setParentList();
-    this.updateListItems();
+    this.updateListItems({ emitFilterChange: false, performFilter: false });
 
     this.calciteListOrderChange.emit(detail);
   }
@@ -807,7 +809,7 @@ export class List
       this.filteredData = filterEl.filteredItems as ItemData;
     }
 
-    this.updateListItems(emit);
+    this.updateListItems({ emitFilterChange: emit, performFilter: false });
   }
 
   private async filterAndUpdateData(): Promise<void> {
@@ -848,41 +850,50 @@ export class List
     }));
   };
 
-  private updateListItems = debounce((emitFilterChange = false, filter = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
+  private updateListItems = debounce(
+    ({
+      emitFilterChange = false,
+      performFilter = false,
+    }: {
+      emitFilterChange: boolean;
+      performFilter: boolean;
+    }): void => {
+      const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
 
-    const items = Array.from(this.el.querySelectorAll(listItemSelector));
+      const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
-    items.forEach((item) => {
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      if (item.closest("calcite-list") === el) {
-        item.dragHandle = dragEnabled;
+      items.forEach((item) => {
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        if (item.closest("calcite-list") === el) {
+          item.dragHandle = dragEnabled;
+        }
+      });
+
+      if (this.parentListEl) {
+        this.setUpSorting();
+        return;
       }
-    });
 
-    if (this.parentListEl) {
+      this.listItems = items;
+      if (filterEnabled && performFilter) {
+        this.dataForFilter = this.getItemData();
+
+        if (filterEl) {
+          filterEl.items = this.dataForFilter;
+          this.filterAndUpdateData();
+        }
+      }
+      this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
+      this.updateFilteredItems(emitFilterChange);
+      this.borderItems();
+      this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
+      this.setActiveListItem();
+      this.updateSelectedItems();
       this.setUpSorting();
-      return;
-    }
-
-    this.listItems = items;
-    if (filterEnabled && filter) {
-      this.dataForFilter = this.getItemData();
-
-      if (filterEl) {
-        filterEl.items = this.dataForFilter;
-        this.filterAndUpdateData();
-      }
-    }
-    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.updateFilteredItems(emitFilterChange);
-    this.borderItems();
-    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
-    this.setActiveListItem();
-    this.updateSelectedItems();
-    this.setUpSorting();
-  }, debounceTimeout);
+    },
+    debounceTimeout,
+  );
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
     const { focusableItems } = this;
@@ -998,7 +1009,7 @@ export class List
 
     parentEl.insertBefore(dragEl, referenceEl);
 
-    this.updateListItems();
+    this.updateListItems({ emitFilterChange: false, performFilter: false });
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
