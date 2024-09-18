@@ -222,7 +222,7 @@ export class ActionGroup
   // --------------------------------------------------------------------------
 
   setMenuOpen = (event: CalciteActionMenuCustomEvent<void>): void => {
-    this.menuOpen = !!(event.target as HTMLCalciteActionMenuElement).open;
+    this.menuOpen = !!event.target.open;
   };
 
   handleMenuActionsSlotChange = (event: Event): void => {

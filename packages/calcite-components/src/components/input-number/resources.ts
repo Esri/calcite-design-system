@@ -15,6 +15,10 @@ export const CSS = {
   numberButtonItem: "number-button-item",
 };
 
+export const IDS = {
+  validationMessage: "inputNumberValidationMessage",
+};
+
 export const SLOTS = {
   action: "action",
 };

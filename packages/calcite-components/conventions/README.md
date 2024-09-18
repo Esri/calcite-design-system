@@ -373,9 +373,9 @@ This generates a `hydrate` directory which exposes `renderToString()` (for the s
 Since many of the same lifecycle methods are called on the client and server you may need to differentiate any code that relies on browser APIs like so:
 
 ```ts
-import { Build } from "@stencil/core";
+import { isBrowser } from "../utils/browser";
 
-if (Build.isBrowser) {
+if (isBrowser()) {
   // client side
 } else {
   // server side

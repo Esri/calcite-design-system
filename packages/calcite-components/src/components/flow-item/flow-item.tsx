@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -52,10 +50,10 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
  * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
- * @slot footer-end - A slot for adding a trailing footer custom content.
- * @slot footer-start - A slot for adding a leading footer custom content.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 @Component({
   tag: "calcite-flow-item",
@@ -177,7 +175,6 @@ export class FlowItem
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -192,7 +189,6 @@ export class FlowItem
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -295,18 +291,30 @@ export class FlowItem
   //
   // --------------------------------------------------------------------------
 
-  handlePanelScroll = (event: CustomEvent<void>): void => {
+  handleInternalPanelScroll = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl) {
+      return;
+    }
+
     event.stopPropagation();
     this.calciteFlowItemScroll.emit();
   };
 
-  handlePanelClose = (event: CustomEvent<void>): void => {
+  handleInternalPanelClose = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl) {
+      return;
+    }
+
     event.stopPropagation();
     this.closed = true;
     this.calciteFlowItemClose.emit();
   };
 
-  handlePanelToggle = (event: CustomEvent<void>): void => {
+  handleInternalPanelToggle = (event: CustomEvent<void>): void => {
+    if (event.target !== this.containerEl) {
+      return;
+    }
+
     event.stopPropagation();
     this.collapsed = (event.target as HTMLCalcitePanelElement).collapsed;
     this.calciteFlowItemToggle.emit();
@@ -388,9 +396,9 @@ export class FlowItem
             loading={loading}
             menuOpen={menuOpen}
             messageOverrides={messages}
-            onCalcitePanelClose={this.handlePanelClose}
-            onCalcitePanelScroll={this.handlePanelScroll}
-            onCalcitePanelToggle={this.handlePanelToggle}
+            onCalcitePanelClose={this.handleInternalPanelClose}
+            onCalcitePanelScroll={this.handleInternalPanelScroll}
+            onCalcitePanelToggle={this.handleInternalPanelToggle}
             overlayPositioning={overlayPositioning}
             ref={this.setContainerRef}
             scale={this.scale}
@@ -405,10 +413,9 @@ export class FlowItem
             <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
             <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
             <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-            <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer}>
-              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-            </slot>
+            <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+            <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+            <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
             <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
             <slot />
           </calcite-panel>

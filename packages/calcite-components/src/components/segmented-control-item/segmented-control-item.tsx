@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
 
 @Component({
@@ -40,10 +40,10 @@ export class SegmentedControlItem {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /**
    * The component's value.
@@ -78,7 +78,7 @@ export class SegmentedControlItem {
   //
   //--------------------------------------------------------------------------
 
-  private renderIcon(icon: IconName, solo: boolean = false): VNode {
+  private renderIcon(icon: IconNameOrString, solo: boolean = false): VNode {
     return icon ? (
       <calcite-icon
         class={{

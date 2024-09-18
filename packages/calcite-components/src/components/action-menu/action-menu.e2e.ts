@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   slots,
+  themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
@@ -525,5 +526,21 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);
     });
+  });
+
+  describe("theme", () => {
+    themed(
+      html`<calcite-action-menu open>
+        <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action
+      ></calcite-action-menu>`,
+      {
+        "--calcite-action-menu-items-space": {
+          shadowSelector: `.${CSS.menu}`,
+          targetProp: "gap",
+        },
+      },
+    );
   });
 });

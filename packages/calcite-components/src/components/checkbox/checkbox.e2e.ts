@@ -7,10 +7,12 @@ import {
   HYDRATED_ATTR,
   labelable,
   hidden,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
+import { CSS } from "./resources";
 
 describe("calcite-checkbox", () => {
   describe("honors hidden attribute", () => {
@@ -36,7 +38,15 @@ describe("calcite-checkbox", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-checkbox");
+    disabled("calcite-checkbox", {
+      focusTarget: {
+        tab: "calcite-checkbox",
+        click: {
+          pointer: "calcite-checkbox",
+          method: "calcite-checkbox",
+        },
+      },
+    });
   });
 
   it("renders with correct default attributes", async () => {
@@ -209,6 +219,25 @@ describe("calcite-checkbox", () => {
           await testCheckboxClick("l", 3, direction);
         });
       });
+    });
+  });
+
+  describe("theme", () => {
+    themed(html` <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox> `, {
+      "--calcite-checkbox-size": [
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "inlineSize",
+        },
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "blockSize",
+        },
+      ],
+      "--calcite-checkbox-icon-color": {
+        shadowSelector: `.${CSS.check}`,
+        targetProp: "color",
+      },
     });
   });
 });

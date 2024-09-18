@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -100,20 +98,12 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -192,7 +182,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   private updateSlottedItems = (target: HTMLSlotElement): void => {
     this.items = target
       .assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-card")) as HTMLCalciteCardElement[];
+      .filter((el): el is HTMLCalciteCardElement => el?.matches("calcite-card"));
   };
 
   private updateSelectedItems = (): void => {

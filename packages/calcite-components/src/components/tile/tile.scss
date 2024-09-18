@@ -14,7 +14,7 @@
   --calcite-tile-border-color: var(--calcite-color-border-2);
   --calcite-tile-description-text-color: var(--calcite-color-text-3);
   --calcite-tile-heading-text-color: var(--calcite-color-text-2);
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
+  --calcite-icon-color: var(--calcite-color-text-3);
 
   box-sizing: border-box;
   display: inline-block;
@@ -35,7 +35,7 @@
       outline-color: var(--calcite-color-brand);
       position: relative;
       .selection-icon {
-        --calcite-ui-icon-color: var(--calcite-color-brand);
+        --calcite-icon-color: var(--calcite-color-brand);
       }
     }
     &.selected {
@@ -216,7 +216,7 @@
 :host([href]:hover:not([disabled])) {
   --calcite-tile-border-color: var(--calcite-color-text-link);
   --calcite-tile-heading-text-color: var(--calcite-color-text-link);
-  --calcite-ui-icon-color: var(--calcite-color-text-link);
+  --calcite-icon-color: var(--calcite-color-text-link);
   .container {
     position: relative;
     z-index: var(--calcite-z-index);

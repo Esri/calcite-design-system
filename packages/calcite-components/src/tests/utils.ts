@@ -517,7 +517,7 @@ export async function assertCaretPosition({
   expect(
     await page.evaluate(
       (position, componentTag, shadowInputTypeSelector) => {
-        const element = document.querySelector(componentTag) as HTMLElement;
+        const element = document.querySelector(componentTag);
         const el = element.shadowRoot.querySelector(shadowInputTypeSelector);
         return el.selectionStart === (position !== undefined ? position : el.value.length);
       },

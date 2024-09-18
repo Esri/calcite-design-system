@@ -558,3 +558,7 @@ saturationv
 
 ### stylelint
 stylelintrc
+
+### units of measurement
+decisecond
+centisecond

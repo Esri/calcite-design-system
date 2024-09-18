@@ -1,4 +1,5 @@
 import { waitForAnimationFrame } from "../tests/utils";
+import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
 import { FloatingUIComponent } from "./floating-ui";
 
@@ -13,27 +14,22 @@ const {
   placements,
   positionFloatingUI,
   reposition,
-  repositionDebounceTimeout,
 } = floatingUI;
 
 it("should set calcite placement to FloatingUI placement", () => {
-  const el = document.createElement("div");
+  expect(getEffectivePlacement("leading")).toBe("left");
+  expect(getEffectivePlacement("leading-start")).toBe("left-start");
+  expect(getEffectivePlacement("leading-end")).toBe("left-end");
+  expect(getEffectivePlacement("trailing")).toBe("right");
+  expect(getEffectivePlacement("trailing-start")).toBe("right-start");
+  expect(getEffectivePlacement("trailing-end")).toBe("right-end");
 
-  expect(getEffectivePlacement(el, "leading")).toBe("left");
-  expect(getEffectivePlacement(el, "leading-start")).toBe("left-start");
-  expect(getEffectivePlacement(el, "leading-end")).toBe("left-end");
-  expect(getEffectivePlacement(el, "trailing")).toBe("right");
-  expect(getEffectivePlacement(el, "trailing-start")).toBe("right-start");
-  expect(getEffectivePlacement(el, "trailing-end")).toBe("right-end");
-
-  el.dir = "rtl";
-
-  expect(getEffectivePlacement(el, "leading")).toBe("right");
-  expect(getEffectivePlacement(el, "leading-start")).toBe("right-start");
-  expect(getEffectivePlacement(el, "leading-end")).toBe("right-end");
-  expect(getEffectivePlacement(el, "trailing")).toBe("left");
-  expect(getEffectivePlacement(el, "trailing-start")).toBe("left-start");
-  expect(getEffectivePlacement(el, "trailing-end")).toBe("left-end");
+  expect(getEffectivePlacement("leading", true)).toBe("right");
+  expect(getEffectivePlacement("leading-start", true)).toBe("right-start");
+  expect(getEffectivePlacement("leading-end", true)).toBe("right-end");
+  expect(getEffectivePlacement("trailing", true)).toBe("left");
+  expect(getEffectivePlacement("trailing-start", true)).toBe("left-start");
+  expect(getEffectivePlacement("trailing-end", true)).toBe("left-end");
 });
 
 function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTMLElement): FloatingUIComponent {
@@ -122,7 +118,7 @@ describe("repositioning", () => {
 
     assertPreOpenPositioning(floatingEl);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.reposition));
     assertOpenPositioning(floatingEl);
   });
 
@@ -139,7 +135,7 @@ describe("repositioning", () => {
     floatingUI.reposition(anotherFakeFloatingUiComponent, positionOptions, true);
     expect(positionSpy).toHaveBeenCalledTimes(2);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.reposition));
     expect(positionSpy).toHaveBeenCalledTimes(2);
   });
 });

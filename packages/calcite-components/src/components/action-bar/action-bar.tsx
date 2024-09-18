@@ -40,15 +40,10 @@ import {
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { DEBOUNCE } from "../../utils/resources";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
 import { CSS, SLOTS } from "./resources";
-import {
-  geActionDimensions,
-  getOverflowCount,
-  overflowActions,
-  overflowActionsDebounceInMs,
-  queryActions,
-} from "./utils";
+import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
@@ -189,8 +184,6 @@ export class ActionBar
   });
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
-
-  expandToggleEl: HTMLCalciteActionElement;
 
   @State() effectiveLocale: string;
 
@@ -342,15 +335,11 @@ export class ActionBar
       expanded,
       overflowCount,
     });
-  }, overflowActionsDebounceInMs);
+  }, DEBOUNCE.resize);
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
     this.calciteActionBarToggle.emit();
-  };
-
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
   };
 
   updateGroups(): void {
@@ -362,9 +351,9 @@ export class ActionBar
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
+    const groups = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionGroupElement => el.matches("calcite-action-group"),
+    );
 
     this.setGroupLayout(groups);
   };
@@ -378,9 +367,9 @@ export class ActionBar
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
@@ -414,7 +403,6 @@ export class ActionBar
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

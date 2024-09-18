@@ -18,8 +18,6 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -45,7 +43,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -58,10 +56,10 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
  * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
- * @slot footer-end - A slot for adding a trailing footer custom content.
- * @slot footer-start - A slot for adding a leading footer custom content.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 @Component({
   tag: "calcite-panel",
@@ -176,13 +174,13 @@ export class Panel
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.isClosed = this.closed;
     await setUpMessages(this);
   }
 
@@ -195,7 +193,6 @@ export class Panel
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
@@ -290,7 +287,14 @@ export class Panel
       return;
     }
 
-    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : -1;
+    const hasScrollingContent = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight;
+
+    // intentionally using setAttribute to avoid reflecting -1 so default browser behavior will occur
+    if (hasScrollingContent) {
+      panelScrollEl.setAttribute("tabindex", "0");
+    } else {
+      panelScrollEl.removeAttribute("tabindex");
+    }
   };
 
   setContainerRef = (node: HTMLElement): void => {
@@ -299,12 +303,12 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.closed = true;
+      this.handleUserClose();
       event.preventDefault();
     }
   };
 
-  private handleCloseClick = (): void => {
+  private handleUserClose = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
   };
@@ -351,9 +355,9 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar"),
-    ) as HTMLCalciteActionBarElement[];
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionBarElement => el?.matches("calcite-action-bar"),
+    );
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
@@ -503,8 +507,8 @@ export class Panel
       <calcite-action
         aria-expanded={toAriaBoolean(!collapsed)}
         aria-label={collapse}
-        data-test="collapse"
         icon={collapsed ? icons[0] : icons[1]}
+        id={IDS.collapse}
         onClick={this.collapse}
         scale={this.scale}
         text={collapse}
@@ -515,9 +519,9 @@ export class Panel
     const closeNode = closable ? (
       <calcite-action
         aria-label={close}
-        data-test="close"
         icon={ICONS.close}
-        onClick={this.handleCloseClick}
+        id={IDS.close}
+        onClick={this.handleUserClose}
         scale={this.scale}
         text={close}
         title={close}
@@ -620,15 +624,22 @@ export class Panel
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
-        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange}>
+        <div class={CSS.footerContent} hidden={!hasFooterContent}>
+          <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+        </div>
+        <div class={CSS.footerStart} hidden={hasFooterContent || !hasFooterStartContent}>
           <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+        </div>
+        <div class={CSS.footerEnd} hidden={hasFooterContent || !hasFooterEndContent}>
           <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
-        </slot>
-        <slot
-          key="footer-actions-slot"
-          name={SLOTS.footerActions}
-          onSlotchange={this.handleFooterActionsSlotChange}
-        />
+        </div>
+        <div class={CSS.footerActions} hidden={hasFooterContent || !hasFooterActions}>
+          <slot
+            key="footer-actions-slot"
+            name={SLOTS.footerActions}
+            onSlotchange={this.handleFooterActionsSlotChange}
+          />
+        </div>
       </footer>
     );
   }
@@ -690,7 +701,7 @@ export class Panel
   };
 
   render(): VNode {
-    const { disabled, loading, panelKeyDownHandler, isClosed, closable } = this;
+    const { disabled, loading, isClosed } = this;
 
     const panelNode = (
       <article
@@ -698,7 +709,6 @@ export class Panel
         class={CSS.container}
         hidden={isClosed}
         ref={this.setContainerRef}
-        tabIndex={closable ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
@@ -709,7 +719,7 @@ export class Panel
     );
 
     return (
-      <Host onKeyDown={panelKeyDownHandler}>
+      <Host onKeyDown={this.panelKeyDownHandler}>
         <InteractiveContainer disabled={disabled}>
           {loading ? <calcite-scrim loading={loading} /> : null}
           {panelNode}

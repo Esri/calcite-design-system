@@ -2,6 +2,7 @@ import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { ElementHandle } from "puppeteer";
 import type { RequireExactlyOne } from "type-fest";
+import { getTokenValue } from "../utils/cssTokenValues";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -101,7 +102,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
       // Set test values for each token
       if (!setTokens[token]) {
-        setTokens[token] = assignTestTokenThemeValues(token);
+        setTokens[token] = getTokenValue(token);
       }
 
       // Set up styleTargets and testTargets
@@ -173,7 +174,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
   });
 }
 
-export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
+type ContextSelectByAttr = { attribute: string; value: string | RegExp };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
@@ -182,7 +183,7 @@ type State = "press" | "hover" | "focus";
 /**
  * Describes a test target for themed components.
  */
-export type TestTarget = {
+type TestTarget = {
   /**
    * An object with target element and selector info.
    */
@@ -229,7 +230,7 @@ type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
 /**
  * Describes a test selector for themed components.
  */
-export type TestSelectToken = {
+type TestSelectToken = {
   /**
    * The selector of the target element. When not provided, the component tag is used.
    */
@@ -322,7 +323,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
         }
 
         if (node.nodeType === 1 && (node as Element).shadowRoot) {
-          for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
+          for (const child of (node as Element).shadowRoot.children) {
             const result = searchInShadowDom(child);
             if (result) {
               return result;
@@ -425,22 +426,4 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
  */
 function getStyleString(token: string, prop: string, value: string): string {
   return `[${token}:${prop}] ${value}`;
-}
-
-/**
- *
- * Sets the value of a CSS variable to a test value.
- * This is useful for testing themed components.
- *
- * @param token - the token as a CSS variable
- * @returns string - the new value for the token
- */
-function assignTestTokenThemeValues(token: string): string {
-  const legacyBackgroundColorToken = token.endsWith("-background");
-
-  return token.includes("color") || legacyBackgroundColorToken
-    ? "rgb(0, 191, 255)"
-    : token.includes("shadow")
-      ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
-      : `42${token.includes("z-index") ? "" : "px"}`;
 }

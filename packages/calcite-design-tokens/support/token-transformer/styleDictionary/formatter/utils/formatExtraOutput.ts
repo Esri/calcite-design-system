@@ -13,7 +13,7 @@ export function formatExtraOutput(
   if (Object.keys(outputObject).length > 0) {
     const { index } = args.expandFiles[args.platform];
     const outputFiles: Record<string, string[]> = {};
-    const ensureIfArray = (x: any) => (Array.isArray(x) ? (x as any[]) : x);
+    const ensureIfArray = (x: any) => (Array.isArray(x) ? x : x);
 
     if (index) {
       let parser;

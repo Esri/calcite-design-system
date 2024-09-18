@@ -119,7 +119,7 @@ export class Popover
   @Prop({ reflect: true }) pointerDisabled = false;
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -268,7 +268,7 @@ export class Popover
 
   @State() defaultMessages: PopoverMessages;
 
-  arrowEl: SVGElement;
+  arrowEl: SVGSVGElement;
 
   closeButtonEl: HTMLCalciteActionElement;
 
@@ -515,7 +515,7 @@ export class Popover
     deactivateFocusTrap(this);
   }
 
-  storeArrowEl = (el: SVGElement): void => {
+  storeArrowEl = (el: SVGSVGElement): void => {
     this.arrowEl = el;
     this.reposition(true);
   };

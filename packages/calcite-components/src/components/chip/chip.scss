@@ -400,9 +400,6 @@ slot[name="image"]::slotted(*) {
   .close {
     color: var(--calcite-color-text-3);
   }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
-  }
 }
 
 :host([kind="inverse"]) {
@@ -413,9 +410,6 @@ slot[name="image"]::slotted(*) {
   }
   .close {
     @apply text-color-inverse;
-  }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
@@ -428,9 +422,6 @@ slot[name="image"]::slotted(*) {
   .close {
     @apply text-color-inverse;
   }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
-  }
 }
 
 :host([appearance="outline-fill"]),
@@ -438,9 +429,6 @@ slot[name="image"]::slotted(*) {
   @apply text-color-1 bg-foreground-1;
   .close {
     @apply text-color-3;
-  }
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
   }
 }
 

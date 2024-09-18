@@ -92,10 +92,7 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(
-      this.el,
-      "calcite-date-picker",
-    ) as HTMLCalciteDatePickerElement;
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   connectedCallback(): void {
@@ -303,7 +300,7 @@ export class DatePickerMonthHeader {
     // if you've supplied a year and it's in range
     if (year && inRange && length === localizedYear.length) {
       const nextDate = new Date(activeDate);
-      nextDate.setFullYear(year as number);
+      nextDate.setFullYear(year);
       return dateFromRange(nextDate, min, max);
     }
   }

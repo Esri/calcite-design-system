@@ -1,0 +1,7 @@
+h1 {
+  size: 20px;
+}
+
+calcite-icon {
+  --calcite-ui-icon-color: #ffe135;
+}

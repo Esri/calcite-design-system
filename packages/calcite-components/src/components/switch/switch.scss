@@ -65,7 +65,7 @@
     focus-base;
 }
 
-:host(:focus) .track {
+.container:focus .track {
   @apply focus-outset;
 }
 
@@ -86,7 +86,7 @@
 }
 
 .container:hover,
-:host(:focus) {
+.container:focus {
   .handle {
     @apply border-color-brand;
     box-shadow: inset 0 0 0 1px var(--calcite-color-brand);

@@ -23,8 +23,6 @@ import {
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -48,7 +46,7 @@ import {
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { FlipContext } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { BlockMessages } from "./assets/block/t9n";
 
@@ -107,13 +105,13 @@ export class Block
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -224,7 +222,7 @@ export class Block
 
   @State() hasEndActions = false;
 
-  openTransitionProp = "opacity";
+  openTransitionProp = "margin-top";
 
   transitionEl: HTMLElement;
 
@@ -236,13 +234,13 @@ export class Block
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+
+    this.transitionEl = this.el;
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
@@ -299,10 +297,6 @@ export class Block
   onHeaderClick = (): void => {
     this.open = !this.open;
     this.calciteBlockToggle.emit();
-  };
-
-  private setTransitionEl = (el: HTMLElement): void => {
-    this.transitionEl = el;
   };
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
@@ -411,12 +405,15 @@ export class Block
   }
 
   render(): VNode {
-    const { collapsible, el, loading, open, heading, messages } = this;
+    const { collapsible, el, loading, open, heading, messages, description } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
     const headerContent = (
-      <header class={CSS.header} id={IDS.header}>
+      <header
+        class={{ [CSS.header]: true, [CSS.headerHasText]: !!(heading || description) }}
+        id={IDS.header}
+      >
         {this.renderIcon("start")}
         {this.renderContentStart()}
         {this.renderLoaderStatusIcon()}
@@ -487,7 +484,6 @@ export class Block
               class={CSS.content}
               hidden={!open}
               id={IDS.content}
-              ref={this.setTransitionEl}
             >
               {this.renderScrim()}
             </section>

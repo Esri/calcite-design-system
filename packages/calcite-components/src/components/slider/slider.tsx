@@ -22,8 +22,6 @@ import {
   HiddenFormInputSlot,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -46,6 +44,7 @@ import {
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale } from "../interfaces";
+import { BigDecimal } from "../../utils/number";
 import { CSS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 
@@ -224,7 +223,6 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
@@ -233,7 +231,6 @@ export class Slider
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -653,7 +650,7 @@ export class Slider
 
     const v =
       this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
-    const position = this.translate(v);
+    const position = this.mapToRange(v);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -897,7 +894,7 @@ export class Slider
     if (this.dragProp) {
       const valueToTranslate =
         this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
-      const value = this.translate(valueToTranslate);
+      const value = this.mapToRange(valueToTranslate);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -1036,7 +1033,7 @@ export class Slider
    * @param p
    * @internal
    */
-  private translate(p: number): number {
+  private mapToRange(p: number): number {
     const range = this.max - this.min;
     let percent: number;
     if (this.layout === "horizontal") {
@@ -1062,8 +1059,14 @@ export class Slider
    */
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
-    let snappedValue = Math.floor((value - min) / step) * step + min;
-    snappedValue = Math.min(Math.max(snappedValue, min), max);
+
+    // prevents floating point precision issues
+    const bigDecimalString = new BigDecimal(`${Math.floor((value - min) / step)}`)
+      .multiply(`${step}`)
+      .add(`${min}`)
+      .toString();
+
+    let snappedValue = this.clamp(Number(bigDecimalString));
 
     if (snappedValue > max) {
       snappedValue -= step;

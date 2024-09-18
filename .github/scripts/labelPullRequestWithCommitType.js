@@ -1,7 +1,16 @@
-const { issueType } = require("./support/resources");
+// @ts-check
+const {
+  labels: { issueType },
+} = require("./support/resources");
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
-  const { title, number } = context.payload.pull_request;
+  const { repo, owner } = context.repo;
+
+  const payload = /** @type {import('@octokit/webhooks-types').PullRequestEvent} */ (context.payload);
+  const {
+    pull_request: { title, number },
+  } = payload;
 
   const conventionalCommitRegex =
     /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!?:\s+)([\w ]+[\s\S]*)/i;
@@ -23,9 +32,9 @@ module.exports = async ({ github, context }) => {
 
   try {
     await github.rest.issues.addLabels({
+      owner,
+      repo,
       issue_number: number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
       labels: [typeLabel],
     });
   } catch (e) {
@@ -33,6 +42,9 @@ module.exports = async ({ github, context }) => {
   }
 };
 
+/**
+ * @param {string} type
+ */
 function getLabelName(type) {
   switch (type) {
     case "feat":

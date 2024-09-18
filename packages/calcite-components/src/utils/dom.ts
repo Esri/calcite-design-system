@@ -1,5 +1,5 @@
 import { tabbable } from "tabbable";
-import { IconName } from "../components/icon/interfaces";
+import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
@@ -148,14 +148,14 @@ export function getHost(root: Document | ShadowRoot): Element | null {
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  *
- * @param {Element} element An element.
+ * @param {Element} el An element.
  * @param root0
  * @param root0.selector
  * @param root0.id
  * @returns {Element} An element.
  */
 export function queryElementRoots<T extends Element = Element>(
-  element: Element,
+  el: Element,
   {
     selector,
     id,
@@ -164,56 +164,55 @@ export function queryElementRoots<T extends Element = Element>(
     id?: string;
   },
 ): T | null {
-  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
-  // Based on: https://stackoverflow.com/q/54520554/194216
-  function queryFrom<T extends Element = Element>(el: Element): T | null {
-    if (!el) {
-      return null;
-    }
+  if (!el) {
+    return null;
+  }
 
-    if ((el as Slottable).assignedSlot) {
-      el = (el as Slottable).assignedSlot;
-    }
+  if ((el as Slottable).assignedSlot) {
+    el = (el as Slottable).assignedSlot;
+  }
 
-    const rootNode = getRootNode(el);
+  const rootNode = getRootNode(el);
 
-    const found = id
-      ? "getElementById" in rootNode
-        ? /*
+  const found = id
+    ? "getElementById" in rootNode
+      ? /*
           Check to make sure 'getElementById' exists in cases where element is no longer connected to the DOM and getRootNode() returns the element.
           https://github.com/Esri/calcite-design-system/pull/4280
            */
-          (rootNode.getElementById(id) as Element as T)
-        : null
-      : selector
-        ? (rootNode.querySelector(selector) as T)
-        : null;
+        (rootNode.getElementById(id) as Element as T)
+      : null
+    : selector
+      ? rootNode.querySelector<T>(selector)
+      : null;
 
-    const host = getHost(rootNode);
-
-    return found ? found : host ? queryFrom(host) : null;
-  }
-
-  return queryFrom(element);
+  return found || queryElementRoots<T>(getHost(rootNode), { selector, id });
 }
 
 /**
  * This helper returns the closest element matching the selector by crossing he shadow boundary if necessary.
  *
+ * Based on https://stackoverflow.com/q/54520554/194216
+ *
  * @param {Element} element The starting element.
  * @param {string} selector The selector.
  * @returns {Element} The targeted element.
  */
+export function closestElementCrossShadowBoundary<TagName extends keyof HTMLElementTagNameMap>(
+  element: Element,
+  selector: TagName,
+): HTMLElementTagNameMap[TagName] | null;
+export function closestElementCrossShadowBoundary<T extends Element = Element>(
+  element: Element,
+  selector: string,
+): T | null;
 export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string,
 ): T | null {
-  // based on https://stackoverflow.com/q/54520554/194216
-  function closestFrom<T extends Element = Element>(el: Element): T | null {
-    return el ? el.closest(selector) || closestFrom(getHost(getRootNode(el))) : null;
-  }
-
-  return closestFrom(element);
+  return element
+    ? element.closest(selector) || closestElementCrossShadowBoundary(getHost(getRootNode(element)), selector)
+    : null;
 }
 
 /**
@@ -439,10 +438,10 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  * @returns {string|undefined} The resulting icon value.
  */
 export function setRequestedIcon(
-  iconObject: Record<string, IconName>,
-  iconValue: IconName | boolean | "",
+  iconObject: Record<string, IconNameOrString>,
+  iconValue: IconNameOrString | boolean | "",
   matchedValue: string,
-): IconName | undefined {
+): IconNameOrString | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
   } else if (iconValue === "") {
@@ -737,7 +736,7 @@ export async function whenTransitionOrAnimationDone(
   const allProps = type === "transition" ? style.transitionProperty : style.animationName;
 
   const allDurationsArray = allDurations.split(",");
-  const allPropsArray = allProps.split(",");
+  const allPropsArray = allProps.split(",").map((prop) => prop.trim());
   const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
   const duration =
     allDurationsArray[propIndex] ??
@@ -745,13 +744,17 @@ export async function whenTransitionOrAnimationDone(
             so we fall back to it if there's no matching prop duration */
     allDurationsArray[0];
 
-  function startEndImmediately(): void {
-    onStart?.();
-    onEnd?.();
+  function triggerFallbackStartEnd(): void {
+    // offset callbacks by a frame to simulate event counterparts
+    requestAnimationFrame(() => {
+      onStart?.();
+
+      requestAnimationFrame(() => onEnd?.());
+    });
   }
 
   if (duration === "0s") {
-    startEndImmediately();
+    triggerFallbackStartEnd();
     return;
   }
 
@@ -765,7 +768,7 @@ export async function whenTransitionOrAnimationDone(
         targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
         targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
         targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-        startEndImmediately();
+        triggerFallbackStartEnd();
         resolve();
       },
       parseFloat(duration) * 1000,

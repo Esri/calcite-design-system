@@ -15,7 +15,7 @@ For comprehensive guidance on using and implementing `calcite-radio-button-group
 | `scale`             | `scale`              | Specifies the size of the component.                                                                 | `"l" \| "m" \| "s"`                    | `"m"`          |
 | `selectedItem`      | --                   | Specifies the component's selected item.                                                             | `HTMLCalciteRadioButtonElement`        | `null`         |
 | `status`            | `status`             | Specifies the status of the validation message.                                                      | `"idle" \| "invalid" \| "valid"`       | `"idle"`       |
-| `validationIcon`    | `validation-icon`    | Specifies the validation icon to display under the component.                                        | `boolean \| IconName`                  | `undefined`    |
+| `validationIcon`    | `validation-icon`    | Specifies the validation icon to display under the component.                                        | `boolean \| string`                    | `undefined`    |
 | `validationMessage` | `validation-message` | Specifies the validation message to display under the component.                                     | `string`                               | `undefined`    |
 
 ## Events

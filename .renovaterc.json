@@ -8,7 +8,7 @@
     ":widenPeerDependencies"
   ],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
-  "platformCommit": true,
+  "platformCommit": "auto",
   "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
   "schedule": ["before 5am on every weekday"],
@@ -28,6 +28,7 @@
     "ts-jest",
     "typescript"
   ],
+  "ignorePaths": ["packages/calcite-ui-icons/**", "examples/**"],
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],

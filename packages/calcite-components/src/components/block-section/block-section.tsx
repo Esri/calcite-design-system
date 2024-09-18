@@ -28,7 +28,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -50,13 +50,13 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   // --------------------------------------------------------------------------
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /**
    * When `true`, expands the component and its contents.

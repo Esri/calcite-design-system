@@ -45,7 +45,15 @@ describe("calcite-tile-select", () => {
       "calcite-tile-select",
 
       /* focusing on child since tile appends to light DOM */
-      { focusTarget: "child" },
+      {
+        focusTarget: {
+          tab: "calcite-radio-button",
+          click: {
+            pointer: "calcite-radio-button",
+            method: "calcite-radio-button",
+          },
+        },
+      },
     );
   });
 

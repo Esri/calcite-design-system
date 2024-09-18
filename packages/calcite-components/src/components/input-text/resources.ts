@@ -12,6 +12,10 @@ export const CSS = {
   resizeIconWrapper: "resize-icon-wrapper",
 };
 
+export const IDS = {
+  validationMessage: "inputTextValidationMessage",
+};
+
 export const SLOTS = {
   action: "action",
 };

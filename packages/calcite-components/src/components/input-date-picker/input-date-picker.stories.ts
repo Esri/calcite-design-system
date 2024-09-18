@@ -110,11 +110,11 @@ export const mediumIconForLargeInput_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       open
-      value="1/1/1"
+      value="1-1-1"
       lang="zh-CN"
       scale="l"
-      start="2020-12-12"
-      end="2020-12-16"
+      min="2020-12-12"
+      max="2020-12-16"
       range
       layout="horizontal"
     ></calcite-input-date-picker>
@@ -187,8 +187,8 @@ export const scales_TestOnly = (): string => html`
       <calcite-input-date-picker
         scale="s"
         open
-        start="2020-12-12"
-        end="2020-12-16"
+        min="2020-12-12"
+        max="2020-12-16"
         range
         layout="horizontal"
         value="2020-12-12"
@@ -196,8 +196,8 @@ export const scales_TestOnly = (): string => html`
       <calcite-input-date-picker
         scale="m"
         open
-        start="2020-12-12"
-        end="2020-12-16"
+        min="2020-12-12"
+        max="2020-12-16"
         range
         layout="horizontal"
         value="2020-12-12"
@@ -205,8 +205,8 @@ export const scales_TestOnly = (): string => html`
       <calcite-input-date-picker
         scale="l"
         open
-        start="2020-12-12"
-        end="2020-12-16"
+        min="2020-12-12"
+        max="2020-12-16"
         range
         layout="horizontal"
         value="2020-12-12"
@@ -247,3 +247,10 @@ export const Focus = (): string =>
 Focus.parameters = {
   chromatic: { delay: 2000 },
 };
+
+export const localeFormatting = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker value="2020-12-12" lang="bs"></calcite-input-date-picker>
+    <calcite-input-date-picker value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
+  </div>
+`;

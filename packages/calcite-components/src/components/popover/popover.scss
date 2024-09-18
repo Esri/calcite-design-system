@@ -10,8 +10,8 @@
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floating-ui-host();
+@include floating-ui-arrow();
 
 :host([scale="s"]) {
   .heading {

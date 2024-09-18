@@ -11,7 +11,10 @@ export const CSS = {
   paginationItems: "pagination-items",
   paginationItem: "pagination-item",
   paginationItemIndividual: "pagination-item--individual",
+  paginationItemVisible: "pagination-item--visible",
+  paginationItemOutOfRange: "pagination-item--out-of-range",
   paginationItemSelected: "pagination-item--selected",
+  paginationItemRangeEdge: "pagination-item--range-edge",
   pageNext: "page-next",
   pagePrevious: "page-previous",
   autoplayControl: "autoplay-control",
@@ -26,3 +29,10 @@ export const ICONS = {
   pause: "pause-f",
   play: "play-f",
 } as const;
+
+export const centerItemsByBreakpoint = {
+  medium: 7,
+  small: 5,
+  xsmall: 3,
+  xxsmall: 1,
+};

@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -129,7 +127,6 @@ export class InlineEditable
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    connectInteractive(this);
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
@@ -147,7 +144,6 @@ export class InlineEditable
   }
 
   disconnectedCallback() {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);

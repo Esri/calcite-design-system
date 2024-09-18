@@ -1,5 +1,5 @@
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
-import { OffsetStyle, TimeZoneItem, TimeZoneMode, TimeZoneName } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
@@ -35,7 +35,7 @@ function timeZoneOffsetToDecimal(shortOffsetTimeZoneName: string): string {
   );
 }
 
-function toOffsetValue(timeZoneName: TimeZoneName, referenceDateInMs: number): number {
+function toOffsetValue(timeZoneName: TimeZone, referenceDateInMs: number): number {
   // we use "en-US" to allow us to reliably remove the standard time token
   const offset = getTimeZoneShortOffset(timeZoneName, "en-US", referenceDateInMs).replace("GMT", "");
 
@@ -56,108 +56,144 @@ export function getUserTimeZoneName(): string {
   return dateFormatter.resolvedOptions().timeZone;
 }
 
-/**
- * The lazy-loaded timezone-groups lib to be used across instances.
- */
-let timeZoneGroups: Promise<[any, any]>;
-
 export async function createTimeZoneItems(
   locale: SupportedLocale,
   messages: InputTimeZoneMessages,
   mode: TimeZoneMode,
   referenceDate: Date,
   standardTime: OffsetStyle,
-): Promise<TimeZoneItem[]> {
-  const referenceDateInMs: number = referenceDate.getTime();
-  const timeZoneNames = Intl.supportedValuesOf("timeZone");
+): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
+  if (mode === "name") {
+    const { groupByName } = await import("timezone-groups/dist/groupByName/index.mjs");
+    const groups = await groupByName();
 
-  if (mode === "offset") {
-    if (!timeZoneGroups) {
-      timeZoneGroups = Promise.all([
-        import("timezone-groups/dist/index.js"),
-        import("timezone-groups/dist/strategy/native/index.js"),
-      ]);
-    }
+    return groups
+      .map<TimeZoneItem<string>>(({ label: timeZone }) => {
+        const label = toUserFriendlyName(timeZone);
+        const value = timeZone;
 
-    return timeZoneGroups.then(async ([{ groupTimeZones }, { DateEngine }]) => {
-      const timeZoneGroups: { labelTzIndices: number[]; tzs: TimeZoneName[] }[] = await groupTimeZones({
-        dateEngine: new DateEngine(),
-        groupDateRange: 1,
-        startDate: new Date(referenceDateInMs).toISOString(),
-      });
-
-      const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
-
-      // we remove blocked entries from tzs and adjust label indices accordingly
-      timeZoneGroups.forEach((group) => {
-        const indexOffsets: number[] = [];
-        let removedSoFar = 0;
-
-        group.tzs.forEach((tz, index) => {
-          if (timeZoneNameBlockList.includes(tz)) {
-            removedSoFar++;
-          }
-          indexOffsets[index] = removedSoFar;
-        });
-
-        group.tzs = group.tzs.filter((tz) => !timeZoneNameBlockList.includes(tz));
-
-        group.labelTzIndices = group.labelTzIndices
-          .map((index) => index - indexOffsets[index])
-          .filter((index) => index >= 0 && index < group.tzs.length);
-      });
-
-      const effectiveLocale =
-        standardTime === "user"
-          ? locale
-          : // we use locales that will always yield a short offset that matches `standardTime`
-            standardTime === "utc"
-            ? "fr"
-            : "en-GB";
-
-      return timeZoneGroups
-        .map<TimeZoneItem<number>>(({ labelTzIndices, tzs }) => {
-          const groupRepTz = tzs[0];
-          const decimalOffset = timeZoneOffsetToDecimal(
-            getTimeZoneShortOffset(groupRepTz, effectiveLocale, referenceDateInMs),
-          );
-          const value = toOffsetValue(groupRepTz, referenceDateInMs);
-          const tzLabels = labelTzIndices.map((index: number) => {
-            const timeZone = tzs[index];
-            const timeZoneLabel = messages[timeZone];
-            return (
-              timeZoneLabel ||
-              // get city token
-              timeZone.split("/").pop()
-            );
-          });
-
-          const label = createTimeZoneOffsetLabel(messages, decimalOffset, listFormatter.format(tzLabels));
-
-          return {
-            label,
-            value,
-            filterValue: tzs.map((tz) => toUserFriendlyName(tz)),
-          };
-        })
-        .filter((group) => !!group)
-        .sort((groupA, groupB) => groupA.value - groupB.value);
-    });
+        return {
+          label,
+          value,
+          filterValue: timeZone,
+        };
+      })
+      .filter((group) => !!group)
+      .sort();
   }
 
-  return timeZoneNames
-    .map<TimeZoneItem<string>>((timeZone) => {
-      const label = toUserFriendlyName(timeZone);
-      const value = timeZone;
+  const effectiveLocale =
+    standardTime === "user"
+      ? locale
+      : // we use locales that will always yield a short offset that matches `standardTime`
+        standardTime === "utc"
+        ? "fr"
+        : "en-GB";
+  const referenceDateInMs: number = referenceDate.getTime();
+
+  if (mode === "region") {
+    const [{ groupByRegion }, { getCountry }] = await Promise.all([
+      import("timezone-groups/dist/groupByRegion/index.mjs"),
+      import("timezone-groups/dist/utils/country.mjs"),
+    ]);
+    const groups = await groupByRegion();
+
+    return groups
+      .map<TimeZoneItemGroup>(({ label: region, tzs }) => {
+        return {
+          label: region,
+          items: tzs.map((timeZone) => {
+            const decimalOffset = timeZoneOffsetToDecimal(
+              getTimeZoneShortOffset(timeZone, effectiveLocale, referenceDateInMs),
+            );
+
+            return {
+              label: getTimeZoneLabel(timeZone, messages),
+              value: timeZone,
+              filterValue: toUserFriendlyName(timeZone),
+              metadata: {
+                offset: decimalOffset,
+                country: getCountry(timeZone),
+              },
+            };
+          }),
+        };
+      })
+      .sort((groupA, groupB) => groupA.label.localeCompare(groupB.label));
+  }
+
+  const [{ groupByOffset }, { DateEngine }] = await Promise.all([
+    import("timezone-groups/dist/groupByOffset/index.mjs"),
+    import("timezone-groups/dist/groupByOffset/strategy/native/index.mjs"),
+  ]);
+
+  const groups = await groupByOffset({
+    dateEngine: new DateEngine(),
+    groupDateRange: 1,
+    startDate: new Date(referenceDateInMs).toISOString(),
+  });
+
+  const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
+
+  // we remove blocked entries from tzs and adjust label indices accordingly
+  groups.forEach((group) => {
+    const indexOffsets: number[] = [];
+    let removedSoFar = 0;
+
+    group.tzs.forEach((tz, index) => {
+      if (timeZoneNameBlockList.includes(tz)) {
+        removedSoFar++;
+      }
+      indexOffsets[index] = removedSoFar;
+    });
+
+    group.tzs = group.tzs.filter((tz) => !timeZoneNameBlockList.includes(tz));
+
+    group.labelTzIdx = group.labelTzIdx
+      .map((index) => index - indexOffsets[index])
+      .filter((index) => index >= 0 && index < group.tzs.length);
+  });
+
+  return groups
+    .map<TimeZoneItem<number>>(({ labelTzIdx, tzs }) => {
+      const groupRepTz = tzs[0];
+      const decimalOffset = timeZoneOffsetToDecimal(
+        getTimeZoneShortOffset(groupRepTz, effectiveLocale, referenceDateInMs),
+      );
+      const value = toOffsetValue(groupRepTz, referenceDateInMs);
+      const tzLabels = labelTzIdx.map((index: number) => getTimeZoneLabel(tzs[index], messages));
+      const label = createTimeZoneOffsetLabel(messages, decimalOffset, listFormatter.format(tzLabels));
 
       return {
         label,
         value,
-        filterValue: timeZone,
+        filterValue: tzs.map((tz) => toUserFriendlyName(tz)),
       };
     })
     .filter((group) => !!group)
-    .sort();
+    .sort((groupA, groupB) => groupA.value - groupB.value);
+}
+
+function getTimeZoneLabel(timeZone: string, messages: InputTimeZoneMessages): string {
+  return messages[timeZone] || getCity(timeZone);
+}
+
+export function getSelectedRegionTimeZoneLabel(city: string, country: string, messages: InputTimeZoneMessages): string {
+  const template = messages.timeZoneRegionLabel;
+  return template.replace("{city}", city).replace("{country}", getMessageOrKeyFallback(messages, country));
+}
+
+export function getMessageOrKeyFallback(messages: InputTimeZoneMessages, key: string): string {
+  return messages[key] || key;
+}
+
+/**
+ * Exported for testing purposes only
+ *
+ * @internal
+ */
+export function getCity(timeZone: string): string {
+  return timeZone.split("/").pop();
 }
 
 /**
@@ -174,7 +210,7 @@ function createTimeZoneOffsetLabel(messages: InputTimeZoneMessages, offsetLabel:
 }
 
 function getTimeZoneShortOffset(
-  timeZone: TimeZoneName,
+  timeZone: TimeZone,
   locale: SupportedLocale,
   referenceDateInMs: number = Date.now(),
 ): string {
@@ -183,14 +219,22 @@ function getTimeZoneShortOffset(
   return parts.find(({ type }) => type === "timeZoneName").value;
 }
 
+function isGroup(item: TimeZoneItem | TimeZoneItemGroup): item is TimeZoneItemGroup {
+  return (item as TimeZoneItemGroup).items !== undefined;
+}
+
+function flattenTimeZoneItems(timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[]): TimeZoneItem[] {
+  return isGroup(timeZoneItems[0]) ? timeZoneItems.flatMap((item) => item.items) : timeZoneItems;
+}
+
 export function findTimeZoneItemByProp(
-  timeZoneItems: TimeZoneItem[],
+  timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[],
   prop: string,
   valueToMatch: string | number | null,
 ): TimeZoneItem | null {
   return valueToMatch == null
     ? null
-    : timeZoneItems.find(
+    : flattenTimeZoneItems(timeZoneItems).find(
         (item) =>
           // intentional == to match string to number
           item[prop] == valueToMatch,

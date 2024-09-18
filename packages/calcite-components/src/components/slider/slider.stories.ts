@@ -212,7 +212,7 @@ rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
 };
 
 export const Histogram = (): HTMLCalciteSliderElement => {
-  const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
+  const slider = document.createElement("calcite-slider");
   slider.min = -100;
   slider.minValue = -33.32;
   slider.max = 100;
@@ -232,7 +232,7 @@ export const Histogram = (): HTMLCalciteSliderElement => {
 };
 
 export const HistogramWithColors = (): HTMLCalciteSliderElement => {
-  const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
+  const slider = document.createElement("calcite-slider");
   slider.min = 0;
   slider.minValue = 35;
   slider.max = 100;
@@ -254,7 +254,7 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
 };
 
 export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
-  const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
+  const slider = document.createElement("calcite-slider");
   slider.min = 0;
   slider.minValue = 25;
   slider.max = 100;

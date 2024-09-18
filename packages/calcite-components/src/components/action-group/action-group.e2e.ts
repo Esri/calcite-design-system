@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
@@ -71,5 +72,21 @@ describe("calcite-action-group", () => {
 
   describe("translation support", () => {
     t9n("calcite-action-group");
+  });
+
+  describe("theme", () => {
+    describe("border", () => {
+      themed(
+        html`<calcite-action-menu open
+          ><calcite-action-group></calcite-action-group><calcite-action-group></calcite-action-group
+        ></calcite-action-menu>`,
+        {
+          "--calcite-action-group-border-color": {
+            selector: "calcite-action-group",
+            targetProp: "borderBlockEndColor",
+          },
+        },
+      );
+    });
   });
 });

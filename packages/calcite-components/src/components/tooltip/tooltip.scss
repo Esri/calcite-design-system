@@ -10,8 +10,8 @@
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floating-ui-host();
+@include floating-ui-arrow();
 
 .container {
   @apply text-color-1

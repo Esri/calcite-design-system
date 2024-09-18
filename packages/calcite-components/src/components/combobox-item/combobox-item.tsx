@@ -17,8 +17,6 @@ import {
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -27,7 +25,7 @@ import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
 
 /**
@@ -60,6 +58,12 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  @Watch("disabled")
+  @Watch("textLabel")
+  handleComboboxItemPropsChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
+
   /**
    * When `true`, omits the component from the `calcite-combobox` filtered search results.
    */
@@ -76,7 +80,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) guid = guid();
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconName;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -131,10 +135,20 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop() shortHeading: string;
 
   /** The component's text. */
+  @Prop() heading: string;
+
+  /**
+   * The component's text.
+   *
+   * @deprecated Use `heading` instead.
+   */
   @Prop({ reflect: true }) textLabel!: string;
 
   /** The component's value. */
   @Prop() value!: any;
+
+  /** The component's label. */
+  @Prop() label: any;
 
   // --------------------------------------------------------------------------
   //
@@ -153,12 +167,10 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentDidRender(): void {
@@ -176,6 +188,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    *
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
+
+  /**
+   * Fires whenever a property the parent combobox needs to know about is changed.
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalComboboxItemChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -203,7 +222,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(iconPath: IconName): VNode {
+  renderIcon(iconPath: IconNameOrString): VNode {
     return this.icon ? (
       <calcite-icon
         class={{
@@ -219,8 +238,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   renderSelectIndicator(showDot: boolean): VNode;
-  renderSelectIndicator(showDot: boolean, iconPath: IconName): VNode;
-  renderSelectIndicator(showDot: boolean, iconPath?: IconName): VNode {
+  renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): VNode {
     return showDot ? (
       <span
         class={{
@@ -255,11 +274,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, heading, label, textLabel, value } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const showDot = isSingleSelect && !disabled;
     const defaultIcon = isSingleSelect ? undefined : "check";
+    const headingText = heading || textLabel;
     const iconPath = disabled ? undefined : defaultIcon;
+    const itemLabel = label || value;
+    const showDot = isSingleSelect && !disabled;
 
     const classes = {
       [CSS.label]: true,
@@ -270,7 +291,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     const depth = getDepth(this.el) + 1;
 
     return (
-      <Host aria-hidden="true">
+      <Host aria-hidden="true" aria-label={itemLabel}>
         <InteractiveContainer disabled={disabled}>
           <div
             class={{
@@ -283,7 +304,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
               <div class={CSS.centerContent}>
-                <div class={CSS.title}>{this.renderTextContent(this.textLabel)}</div>
+                <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
                 {this.description ? (
                   <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
                 ) : null}

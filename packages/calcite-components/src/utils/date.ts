@@ -40,10 +40,10 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
   const beforeMin = min instanceof Date && time < min.getTime();
   const afterMax = max instanceof Date && time > max.getTime();
   if (beforeMin) {
-    return min as Date;
+    return min;
   }
   if (afterMax) {
-    return max as Date;
+    return max;
   }
   return date;
 }

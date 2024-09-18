@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
+import { accessible, renders, hidden, disabled, themed } from "../../tests/commonTests";
 import { CSS } from "../card/resources";
 import { createSelectedItemsAsserter } from "../../tests/utils";
 
@@ -440,5 +440,24 @@ describe("calcite-card-group", () => {
 
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
     await selectedItemAsserter([card4.id, card5.id]);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-card-group", {
+        "--calcite-card-group-space": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
+      });
+    });
+    describe("deprecated", () => {
+      themed("calcite-card-group", {
+        "--calcite-card-group-gap": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
+      });
+    });
   });
 });

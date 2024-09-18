@@ -28,14 +28,12 @@ import {
 } from "../../utils/loadable";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { CardMessages } from "./assets/card/t9n";
 
@@ -151,7 +149,6 @@ export class Card
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -165,7 +162,6 @@ export class Card
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -277,7 +273,7 @@ export class Card
   }
 
   private renderSelectionIcon(): VNode {
-    const icon: IconName =
+    const icon: IconNameOrString =
       this.selectionMode === "multiple" && this.selected
         ? ICONS.selected
         : this.selectionMode === "multiple"

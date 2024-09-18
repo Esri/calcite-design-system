@@ -296,3 +296,22 @@ export const horizontalSingleLayout_TestOnly = (): string => html`
     </calcite-stepper>
   </div>
 `;
+
+export const verticalLayoutFullWidth = (): string =>
+  html`<calcite-stepper layout="vertical" scale="s" style="width: 1000px;">
+      <calcite-stepper-item heading="Scale s" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper layout="vertical">
+      <calcite-stepper-item heading="Scale m" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper layout="vertical" scale="l">
+      <calcite-stepper-item heading="Scale l" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>`;

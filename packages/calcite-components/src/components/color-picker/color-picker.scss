@@ -74,6 +74,11 @@
   @apply flex relative cursor-pointer touch-none;
 }
 
+.color-field,
+.control-and-scope {
+  user-select: none;
+}
+
 .scope {
   @apply text-n1
     focus-base

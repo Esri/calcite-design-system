@@ -10,14 +10,16 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
-import { selectText } from "../../tests/utils";
+import { isElementFocused, selectText } from "../../tests/utils";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
   testWorkaroundForGlobalPropRemoval,
 } from "../input/common/tests";
 import { assertCaretPosition } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -408,6 +410,29 @@ describe("calcite-input-text", () => {
     });
   });
 
+  it("should not focus when clicking validation message", async () => {
+    const page = await newE2EPage();
+    const componentTag = "calcite-input-text";
+    await page.setContent(
+      html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
+    );
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+      element.click();
+    });
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(false);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, componentTag)).toBe(true);
+  });
+
   it("allows disabling slotted action", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -477,5 +502,27 @@ describe("calcite-input-text", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-text");
+  });
+
+  describe("theme", () => {
+    themed(
+      html`
+        <calcite-input-text
+          placeholder="Placeholder text"
+          prefix-text="prefix"
+          suffix-text="suffix"
+        ></calcite-input-text>
+      `,
+      {
+        "--calcite-input-prefix-size": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-input-suffix-size": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "inlineSize",
+        },
+      },
+    );
   });
 });

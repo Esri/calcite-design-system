@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -45,8 +44,6 @@ import {
   submitForm,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -66,6 +63,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
+  getDateFormatSupportedLocale,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -88,11 +86,12 @@ import { guid } from "../../utils/guid";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
+import { isBrowser } from "../../utils/browser";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -201,7 +200,7 @@ export class InputDatePicker
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -279,7 +278,7 @@ export class InputDatePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -387,7 +386,7 @@ export class InputDatePicker
       return;
     }
 
-    const date = dateFromLocalizedString(value, this.localeData) as Date;
+    const date = dateFromLocalizedString(value, this.localeData);
 
     if (inRange(date, this.min, this.max)) {
       this.datePickerActiveDate = date;
@@ -437,7 +436,8 @@ export class InputDatePicker
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed If true, the repositioning is delayed.
+   * @returns void
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -464,27 +464,11 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
+    this.handleDateTimeFormatChange();
 
     const { open } = this;
     open && this.openHandler();
-    if (Array.isArray(this.value)) {
-      this.valueAsDate = getValueAsDateRange(this.value);
-    } else if (this.value) {
-      try {
-        this.valueAsDate = dateFromISO(this.value);
-      } catch (error) {
-        this.warnAboutInvalidValue(this.value);
-        this.value = "";
-      }
-    } else if (this.valueAsDate) {
-      if (this.range) {
-        this.setRangeValue(this.valueAsDate as Date[]);
-      } else if (!Array.isArray(this.valueAsDate)) {
-        this.value = dateToISO(this.valueAsDate);
-      }
-    }
 
     if (this.min) {
       this.minAsDate = dateFromISO(this.min);
@@ -492,6 +476,25 @@ export class InputDatePicker
 
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
+    }
+
+    if (Array.isArray(this.value)) {
+      this.valueAsDate = getValueAsDateRange(this.value);
+    } else if (this.value) {
+      try {
+        const date = dateFromISO(this.value);
+        const dateInRange = dateFromRange(date, this.minAsDate, this.maxAsDate);
+        this.valueAsDate = dateInRange;
+      } catch (error) {
+        this.warnAboutInvalidValue(this.value);
+        this.value = "";
+      }
+    } else if (this.valueAsDate) {
+      if (this.range && Array.isArray(this.valueAsDate)) {
+        this.value = [dateToISO(this.valueAsDate[0]), dateToISO(this.valueAsDate[1])];
+      } else if (!this.range && !Array.isArray(this.valueAsDate)) {
+        this.value = dateToISO(this.valueAsDate);
+      }
     }
 
     connectLabel(this);
@@ -528,7 +531,6 @@ export class InputDatePicker
 
   disconnectedCallback(): void {
     deactivateFocusTrap(this);
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
@@ -564,8 +566,10 @@ export class InputDatePicker
                   aria-autocomplete="none"
                   aria-controls={this.dialogId}
                   aria-describedby={this.placeholderTextId}
+                  aria-errormessage={IDS.validationMessage}
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
+                  aria-invalid={toAriaBoolean(this.status === "invalid")}
                   class={{
                     [CSS.input]: true,
                     [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
@@ -657,8 +661,10 @@ export class InputDatePicker
                   <calcite-input-text
                     aria-autocomplete="none"
                     aria-controls={this.dialogId}
+                    aria-errormessage={IDS.validationMessage}
                     aria-expanded={toAriaBoolean(this.open)}
                     aria-haspopup="dialog"
+                    aria-invalid={toAriaBoolean(this.status === "invalid")}
                     class={{
                       [CSS.input]: true,
                       [CSS.inputBorderTopColorOne]: this.layout === "vertical" && this.range,
@@ -685,6 +691,7 @@ export class InputDatePicker
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}
@@ -734,6 +741,8 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
+  private dateTimeFormat: Intl.DateTimeFormat;
+
   @State() datePickerActiveDate: Date;
 
   @State() defaultMessages: InputDatePickerMessages;
@@ -744,6 +753,21 @@ export class InputDatePicker
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
     this.loadLocaleData();
+  }
+
+  @Watch("effectiveLocale")
+  @Watch("numberingSystem")
+  handleDateTimeFormatChange(): void {
+    const formattingOptions: Intl.DateTimeFormatOptions = {
+      // we explicitly set numberingSystem to prevent the browser-inferred value
+      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
+    };
+
+    this.dateTimeFormat = new Intl.DateTimeFormat(
+      getDateFormatSupportedLocale(this.effectiveLocale),
+      formattingOptions,
+    );
   }
 
   @State() focusedInput: "start" | "end" = "start";
@@ -820,7 +844,7 @@ export class InputDatePicker
       : null;
   };
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
@@ -876,7 +900,7 @@ export class InputDatePicker
     const { focusedInput, value } = this;
     const focusedInputName = `${focusedInput}Input`;
     const focusedInputValue = this[focusedInputName].value;
-    const date = dateFromLocalizedString(focusedInputValue, this.localeData) as Date;
+    const date = dateFromLocalizedString(focusedInputValue, this.localeData);
     const dateAsISO = dateToISO(date);
     const valueIsArray = Array.isArray(value);
     if (this.range) {
@@ -981,7 +1005,7 @@ export class InputDatePicker
   };
 
   private async loadLocaleData(): Promise<void> {
-    if (!Build.isBrowser) {
+    if (!isBrowser()) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {
@@ -1062,18 +1086,8 @@ export class InputDatePicker
         )
       : null;
 
-    const formattingOptions = {
-      // we explicitly set numberingSystem to prevent the browser-inferred value
-      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
-      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
-    };
-
-    const localizedDate = date && date.toLocaleDateString(this.effectiveLocale, formattingOptions);
-    const localizedEndDate =
-      endDate && endDate.toLocaleDateString(this.effectiveLocale, formattingOptions);
-
-    this.setInputValue(localizedDate ?? "", "start");
-    this.setInputValue((this.range && localizedEndDate) ?? "", "end");
+    this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
+    this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
 
   private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
@@ -1124,7 +1138,7 @@ export class InputDatePicker
         this.setInputValue(oldValue[1], "end");
       } else {
         this.value = oldValue;
-        this.setInputValue(oldValue as string);
+        this.setInputValue(oldValue);
       }
     }
   };

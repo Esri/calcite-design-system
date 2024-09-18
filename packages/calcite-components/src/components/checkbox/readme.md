@@ -39,9 +39,12 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                      | Description                                 |
-| ------------------------- | ------------------------------------------- |
-| `--calcite-checkbox-size` | Specifies the component's height and width. |
+| Name                                    | Description                                   |
+| --------------------------------------- | --------------------------------------------- |
+| `--calcite-checkbox-border-color`       | Specifies the component's color.              |
+| `--calcite-checkbox-border-color-hover` | Specifies the component's color when hovered. |
+| `--calcite-checkbox-icon-color`         | Specifies the component's font color.         |
+| `--calcite-checkbox-size`               | Specifies the component's height and width.   |
 
 ## Dependencies
 
@@ -49,7 +52,6 @@ Type: `Promise<void>`
 
 - [calcite-card](../card)
 - [calcite-tile-select](../tile-select)
-- [calcite-tree-item](../tree-item)
 
 ### Graph
 
@@ -57,7 +59,6 @@ Type: `Promise<void>`
 graph TD;
   calcite-card --> calcite-checkbox
   calcite-tile-select --> calcite-checkbox
-  calcite-tree-item --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

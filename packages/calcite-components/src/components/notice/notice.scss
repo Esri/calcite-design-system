@@ -75,13 +75,14 @@
     pointer-events-none
     my-0
     box-border
-    hidden
+    flex
     w-full
-    opacity-0
-    transition-default;
+    opacity-0;
   max-block-size: 0;
+  transition-property: opacity, max-block-size;
+  transition-duration: var(--calcite-animation-timing);
   text-align: start;
-  border-inline-start: 0 solid;
+  border-inline-start: var(--calcite-border-width-md) solid;
   box-shadow: 0 0 0 0 transparent;
 }
 
@@ -100,10 +101,8 @@
 :host([open]) .container {
   @apply shadow-1
     pointer-events-auto
-    flex
     max-h-full
     items-center
-    border-2
     opacity-100;
 }
 
@@ -163,16 +162,16 @@
   @apply flex self-stretch;
 }
 
-$noticeKinds:
+$notice-kinds:
   "brand" var(--calcite-color-brand),
   "info" var(--calcite-color-status-info),
   "danger" var(--calcite-color-status-danger),
   "success" var(--calcite-color-status-success),
   "warning" var(--calcite-color-status-warning);
 
-@each $noticeKind in $noticeKinds {
-  $name: nth($noticeKind, 1);
-  $kind: nth($noticeKind, 2);
+@each $notice-kind in $notice-kinds {
+  $name: nth($notice-kind, 1);
+  $kind: nth($notice-kind, 2);
 
   :host([kind="#{$name}"]) .container {
     border-color: $kind;

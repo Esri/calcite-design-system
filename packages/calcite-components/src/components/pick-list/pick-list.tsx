@@ -10,12 +10,7 @@ import {
   State,
   VNode,
 } from "@stencil/core";
-import {
-  connectInteractive,
-  disconnectInteractive,
-  InteractiveComponent,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
@@ -52,9 +47,9 @@ import {
 import List from "./shared-list-render";
 
 logger.deprecated("component", {
-  name: "pick-list-item",
+  name: "pick-list",
   removalVersion: 3,
-  suggested: "list-item",
+  suggested: "list",
 });
 
 /**
@@ -170,12 +165,10 @@ export class PickList<
   connectedCallback(): void {
     initialize.call(this);
     initializeObserver.call(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
-    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {

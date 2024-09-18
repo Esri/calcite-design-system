@@ -41,3 +41,10 @@ export const CSS_UTILITY = {
 export const TEXT = {
   loading: "Loading",
 };
+
+export const DEBOUNCE = {
+  filter: 250,
+  nextTick: 0,
+  resize: 150,
+  reposition: 100,
+};

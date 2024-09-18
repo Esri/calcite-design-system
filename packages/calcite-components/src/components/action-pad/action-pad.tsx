@@ -153,8 +153,6 @@ export class ActionPad
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
   );
 
-  expandToggleEl: HTMLCalciteActionElement;
-
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -231,10 +229,6 @@ export class ActionPad
     this.calciteActionPadToggle.emit();
   };
 
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
-  };
-
   updateGroups(): void {
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
   }
@@ -244,17 +238,17 @@ export class ActionPad
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
+    const groups = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionGroupElement => el?.matches("calcite-action-group"),
+    );
 
     this.setGroupLayout(groups);
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
@@ -288,7 +282,6 @@ export class ActionPad
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

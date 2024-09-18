@@ -67,11 +67,9 @@ describe("calcite-date-picker", () => {
       return page.$eval(
         "calcite-date-picker",
         (datePicker: HTMLCalciteDatePickerElement) =>
-          (
-            datePicker.shadowRoot
-              .querySelector("calcite-date-picker-month-header")
-              .shadowRoot.querySelector(".year") as HTMLInputElement
-          ).value,
+          datePicker.shadowRoot
+            .querySelector("calcite-date-picker-month-header")
+            .shadowRoot.querySelector<HTMLInputElement>(".year").value,
       );
     }
 

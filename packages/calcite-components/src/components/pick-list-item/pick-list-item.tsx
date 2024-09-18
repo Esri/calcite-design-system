@@ -17,8 +17,6 @@ import {
 } from "../../utils/conditionalSlot";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -43,9 +41,9 @@ import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 logger.deprecated("component", {
-  name: "pick-list",
+  name: "pick-list-item",
   removalVersion: 3,
-  suggested: "list",
+  suggested: "list-item",
 });
 
 /**
@@ -203,7 +201,6 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     connectConditionalSlotComponent(this);
@@ -219,7 +216,6 @@ export class PickListItem
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);

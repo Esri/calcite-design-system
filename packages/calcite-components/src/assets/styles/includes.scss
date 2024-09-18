@@ -1,5 +1,5 @@
 @import "~@esri/calcite-colors/dist/colors";
-@import "~@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-base/dist/index";
 @import "~@esri/calcite-design-tokens/dist/scss/index";
 @import "~@esri/calcite-design-tokens/dist/scss/core";
 
@@ -90,7 +90,7 @@
 }
 
 // mixin to provide default invisibility and disabling of pointer events for components.
-@mixin calciteHydratedHidden() {
+@mixin calcite-hydrated-hidden() {
   :host([calcite-hydrated-hidden]) {
     visibility: hidden !important; // 'important' is being used here to temporarily handle precendence of visibility set with calcite-hydrated. Do not follow this pattern. See #991.
     pointer-events: none;
@@ -107,7 +107,7 @@
   }
 }
 
-@mixin xButton() {
+@mixin x-button() {
   :host([scale="s"]) {
     .x-button {
       inline-size: theme("spacing.4");

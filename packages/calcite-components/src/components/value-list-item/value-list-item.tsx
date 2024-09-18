@@ -18,8 +18,6 @@ import {
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -32,8 +30,15 @@ import {
 } from "../../utils/loadable";
 import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICON_TYPES } from "../pick-list/resources";
+import { logger } from "../../utils/logger";
 import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
+
+logger.deprecated("component", {
+  name: "value-list-item",
+  removalVersion: 3,
+  suggested: "list-item",
+});
 
 /**
  * @deprecated Use the `calcite-list` component instead.
@@ -136,12 +141,10 @@ export class ValueListItem
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {
@@ -274,7 +277,7 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
-          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
+          ref={(el) => (this.handleEl = el)}
           role="button"
           tabindex="0"
         >

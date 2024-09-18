@@ -188,6 +188,10 @@
   }
 }
 
+:host([layout="vertical"]) {
+  @apply w-full;
+}
+
 :host([layout="vertical"]) .container {
   @apply border-color-3
   mx-0
