@@ -225,13 +225,19 @@
     &.container--range {
       .thumb--value {
         --calcite-slider-thumb-y-offset: -0.125rem;
-        &.thumb--vertical.thumb--vertical-reversed.mirrored {
+        &.thumb--vertical.thumb--vertical-reversed.mirrored,
+        &.thumb--horizontal:not(.mirrored),
+        &.thumb--horizontal:not(.thumb--horizontal-reversed),
+        &.thumb--horizontal.mirrored.thumb--horizontal-reversed {
           --calcite-slider-thumb-y-offset: -2.125rem;
         }
       }
       .thumb--minValue {
         --calcite-slider-thumb-y-offset: -2.125rem;
-        &.thumb--vertical.thumb--vertical-reversed.mirrored {
+        &.thumb--vertical.thumb--vertical-reversed.mirrored,
+        &.thumb--horizontal:not(.mirrored),
+        &.thumb--horizontal:not(.thumb--horizontal-reversed),
+        &.thumb--horizontal.mirrored.thumb--horizontal-reversed {
           --calcite-slider-thumb-y-offset: -0.125rem;
         }
       }
@@ -250,10 +256,14 @@
     &.container--range {
       .thumb--value {
         &.thumb--vertical.mirrored,
-        &.thumb--vertical.thumb--vertical-reversed {
+        &.thumb--vertical.thumb--vertical-reversed,
+        &.thumb--horizontal.mirrored,
+        &.thumb--horizontal.thumb--horizontal-reversed {
           --calcite-slider-thumb-y-offset: -0.125rem;
         }
-        &.thumb--vertical.thumb--vertical-reversed.mirrored {
+        &.thumb--vertical.thumb--vertical-reversed.mirrored,
+        &.thumb--horizontal:not(.mirrored):not(.thumb--horizontal-reversed),
+        &.thumb--horizontal.mirrored.thumb--horizontal-reversed {
           --calcite-slider-thumb-y-offset: -2.9rem;
         }
       }
@@ -261,7 +271,9 @@
         &.thumb--vertical.mirrored:not(.thumb--vertical-reversed) {
           --calcite-slider-thumb-y-offset: -2.75rem;
         }
-        &.thumb--vertical.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
+        &.thumb--vertical.thumb--vertical.thumb--vertical-reversed:not(.mirrored),
+        &.thumb--horizontal.mirrored:not(.thumb--horizontal-reversed),
+        &.thumb--horizontal.thumb--horizontal-reversed:not(.mirrored) {
           --calcite-slider-thumb-y-offset: -2.9rem;
         }
       }
