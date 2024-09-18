@@ -3,7 +3,7 @@ import { JSXAttributes, JSXBase } from "@stencil/core/internal";
 import { Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 
-export interface XButtonProps extends JSXAttributes {
+export interface XButtonProps extends JSXAttributes<HTMLButtonElement> {
   disabled: boolean;
   label: string;
   scale: Scale;

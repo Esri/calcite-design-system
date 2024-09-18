@@ -304,7 +304,7 @@ export class ListItem
 
   @Listen("calciteInternalListItemGroupDefaultSlotChange")
   @Listen("calciteInternalListDefaultSlotChange")
-  handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
+  handleCalciteInternalListDefaultSlotChanges(event: CustomEvent): void {
     event.stopPropagation();
     this.handleOpenableChange(this.defaultSlotEl);
   }
