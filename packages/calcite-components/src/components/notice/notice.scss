@@ -162,16 +162,16 @@
   @apply flex self-stretch;
 }
 
-$noticeKinds:
+$notice-kinds:
   "brand" var(--calcite-color-brand),
   "info" var(--calcite-color-status-info),
   "danger" var(--calcite-color-status-danger),
   "success" var(--calcite-color-status-success),
   "warning" var(--calcite-color-status-warning);
 
-@each $noticeKind in $noticeKinds {
-  $name: nth($noticeKind, 1);
-  $kind: nth($noticeKind, 2);
+@each $notice-kind in $notice-kinds {
+  $name: nth($notice-kind, 1);
+  $kind: nth($notice-kind, 2);
 
   :host([kind="#{$name}"]) .container {
     border-color: $kind;

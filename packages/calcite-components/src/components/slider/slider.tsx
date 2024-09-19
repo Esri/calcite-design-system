@@ -22,8 +22,6 @@ import {
   HiddenFormInputSlot,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -46,6 +44,7 @@ import {
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale } from "../interfaces";
+import { BigDecimal } from "../../utils/number";
 import { CSS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 
@@ -219,7 +218,6 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
@@ -228,7 +226,6 @@ export class Slider
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -564,7 +561,7 @@ export class Slider
     }
 
     const x = event.clientX || event.pageX;
-    const position = this.translate(x);
+    const position = this.mapToRange(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -806,7 +803,7 @@ export class Slider
 
     event.preventDefault();
     if (this.dragProp) {
-      const value = this.translate(event.clientX || event.pageX);
+      const value = this.mapToRange(event.clientX || event.pageX);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -945,7 +942,7 @@ export class Slider
    * @param x
    * @internal
    */
-  private translate(x: number): number {
+  private mapToRange(x: number): number {
     const range = this.max - this.min;
     const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;
@@ -964,8 +961,14 @@ export class Slider
    */
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
-    let snappedValue = Math.floor((value - min) / step) * step + min;
-    snappedValue = Math.min(Math.max(snappedValue, min), max);
+
+    // prevents floating point precision issues
+    const bigDecimalString = new BigDecimal(`${Math.floor((value - min) / step)}`)
+      .multiply(`${step}`)
+      .add(`${min}`)
+      .toString();
+
+    let snappedValue = this.clamp(Number(bigDecimalString));
 
     if (snappedValue > max) {
       snappedValue -= step;

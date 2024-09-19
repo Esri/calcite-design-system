@@ -38,7 +38,6 @@ import { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
 import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
-import { OverlayPositioning as OverlayPositioning1 } from "./components";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
@@ -134,7 +133,6 @@ export { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
 export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
-export { OverlayPositioning as OverlayPositioning1 } from "./components";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
@@ -439,7 +437,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -1270,7 +1268,7 @@ export namespace Components {
          */
         "filteredItems": HTMLCalciteComboboxItemElement[];
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -1697,6 +1695,10 @@ export namespace Components {
          */
         "description": string;
         /**
+          * When `true`, the component is draggable.
+         */
+        "dragEnabled": boolean;
+        /**
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "embedded": boolean;
@@ -1748,11 +1750,15 @@ export namespace Components {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning": OverlayPositioning1;
+        "overlayPositioning": OverlayPositioning;
         /**
           * Specifies the placement of the dialog.
          */
         "placement": DialogPlacement;
+        /**
+          * When `true`, the component is resizable.
+         */
+        "resizable": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -1788,7 +1794,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -2423,7 +2429,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -3327,6 +3333,10 @@ export namespace Components {
     }
     interface CalciteLoader {
         /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete": boolean;
+        /**
           * When `true`, displays smaller and appears to the left of the text.
          */
         "inline": boolean;
@@ -3514,6 +3524,9 @@ export namespace Components {
          */
         "valueLabelType": MeterLabelType;
     }
+    /**
+     * @deprecated Use the `calcite-dialog` component instead.
+     */
     interface CalciteModal {
         /**
           * Passes a function to run before the component closes.
@@ -4038,7 +4051,7 @@ export namespace Components {
          */
         "flipDisabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -4765,7 +4778,7 @@ export namespace Components {
          */
         "dropdownLabel": string;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -7149,6 +7162,9 @@ declare global {
         "calciteModalBeforeOpen": void;
         "calciteModalOpen": void;
     }
+    /**
+     * @deprecated Use the `calcite-dialog` component instead.
+     */
     interface HTMLCalciteModalElement extends Components.CalciteModal, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteModalElementEventMap>(type: K, listener: (this: HTMLCalciteModalElement, ev: CalciteModalCustomEvent<HTMLCalciteModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7834,9 +7850,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerBlur": void;
         "calciteInternalTimePickerChange": string;
-        "calciteInternalTimePickerFocus": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8347,7 +8361,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -9230,7 +9244,7 @@ declare namespace LocalJSX {
          */
         "filteredItems"?: HTMLCalciteComboboxItemElement[];
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -9704,6 +9718,10 @@ declare namespace LocalJSX {
          */
         "description"?: string;
         /**
+          * When `true`, the component is draggable.
+         */
+        "dragEnabled"?: boolean;
+        /**
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "embedded"?: boolean;
@@ -9775,11 +9793,15 @@ declare namespace LocalJSX {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning"?: OverlayPositioning1;
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Specifies the placement of the dialog.
          */
         "placement"?: DialogPlacement;
+        /**
+          * When `true`, the component is resizable.
+         */
+        "resizable"?: boolean;
         /**
           * Specifies the size of the component.
          */
@@ -9799,7 +9821,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -10450,7 +10472,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -11443,6 +11465,10 @@ declare namespace LocalJSX {
     }
     interface CalciteLoader {
         /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete"?: boolean;
+        /**
           * When `true`, displays smaller and appears to the left of the text.
          */
         "inline"?: boolean;
@@ -11627,6 +11653,9 @@ declare namespace LocalJSX {
          */
         "valueLabelType"?: MeterLabelType;
     }
+    /**
+     * @deprecated Use the `calcite-dialog` component instead.
+     */
     interface CalciteModal {
         /**
           * Passes a function to run before the component closes.
@@ -12161,7 +12190,7 @@ declare namespace LocalJSX {
          */
         "flipDisabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -12924,7 +12953,7 @@ declare namespace LocalJSX {
          */
         "dropdownLabel"?: string;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -13784,9 +13813,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerBlur"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
-        "onCalciteInternalTimePickerFocus"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */
@@ -14304,6 +14331,9 @@ declare module "@stencil/core" {
             "calcite-menu": LocalJSX.CalciteMenu & JSXBase.HTMLAttributes<HTMLCalciteMenuElement>;
             "calcite-menu-item": LocalJSX.CalciteMenuItem & JSXBase.HTMLAttributes<HTMLCalciteMenuItemElement>;
             "calcite-meter": LocalJSX.CalciteMeter & JSXBase.HTMLAttributes<HTMLCalciteMeterElement>;
+            /**
+             * @deprecated Use the `calcite-dialog` component instead.
+             */
             "calcite-modal": LocalJSX.CalciteModal & JSXBase.HTMLAttributes<HTMLCalciteModalElement>;
             "calcite-navigation": LocalJSX.CalciteNavigation & JSXBase.HTMLAttributes<HTMLCalciteNavigationElement>;
             "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo & JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;

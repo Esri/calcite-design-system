@@ -42,9 +42,14 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                               | Description                                       |
-| ---------------------------------- | ------------------------------------------------- |
-| `--calcite-action-indicator-color` | Specifies the color of the component's indicator. |
+| Name                                        | Description                                                         |
+| ------------------------------------------- | ------------------------------------------------------------------- |
+| `--calcite-action-background-color`         | Specifies the component's background color.                         |
+| `--calcite-action-background-color-hover`   | Specifies the component's background color when hovered or focused. |
+| `--calcite-action-background-color-pressed` | Specifies the component's background color when active.             |
+| `--calcite-action-indicator-color`          | Specifies the component's indicator color.                          |
+| `--calcite-action-text-color`               | Specifies the text color of the component.                          |
+| `--calcite-action-text-color-pressed`       | Specifies the component's text color when hovered.                  |
 
 ## Dependencies
 

@@ -9,7 +9,7 @@
   @apply flex;
 }
 
-@include calciteHydratedHidden();
+@include calcite-hydrated-hidden();
 @include disabled();
 
 :host([scale="s"]) {

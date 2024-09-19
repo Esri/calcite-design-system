@@ -1,8 +1,6 @@
 import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -68,10 +66,6 @@ export class Link implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -82,10 +76,6 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   render(): VNode {
@@ -123,7 +113,9 @@ export class Link implements InteractiveComponent, LoadableComponent {
           When the 'download' property of type 'boolean | string' is set to true, the value is "".
           This works around that issue for now.
           */
-            download={Tag === "a" && (download === "" || download) ? download : null}
+            download={
+              Tag === "a" ? (download === true || download === "" ? "" : download || null) : null
+            }
             href={Tag === "a" && this.href}
             onClick={this.childElClickHandler}
             ref={this.storeTagRef}
@@ -184,7 +176,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
 
-  private childElClickHandler = (event: PointerEvent): void => {
+  private childElClickHandler = (event: MouseEvent): void => {
     if (!event.isTrusted) {
       // click was invoked internally, we stop it here
       event.stopPropagation();

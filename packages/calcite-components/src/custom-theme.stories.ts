@@ -1,14 +1,32 @@
-import { accordion } from "./custom-theme/accordion";
+import { setCSSVariables } from "../src/tests/utils/cssTokenValues";
+import { html } from "../support/formatting";
+import {
+  actionBar,
+  actionMenu,
+  actionPad,
+  actionTokens,
+  actionBarTokens,
+  actionMenuTokens,
+  actionPadTokens,
+  actionGroupTokens,
+} from "./custom-theme/action";
+import { accordionItemTokens } from "./custom-theme/accordion-item";
+import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
-import { card, cardTokens } from "./custom-theme/card";
-import { checkbox } from "./custom-theme/checkbox";
+import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
+import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
+import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
+import { input, inputTokens } from "./custom-theme/input";
+import { inputNumber } from "./custom-theme/input-number";
+import { inputText } from "./custom-theme/input-text";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
+import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
@@ -44,22 +62,22 @@ function convertToParamCase(str) {
   return str.replace(/([A-Z])/g, "-$1").toLowerCase();
 }
 
-function addTokens(args) {
-  return Object.entries(args)
-    .map(([tokenName, tokenValue]) =>
-      !!tokenValue && tokenValue !== "" ? `--${convertToParamCase(tokenName)}: ${tokenValue};` : null,
-    )
-    .filter((token) => token)
-    .join("");
+function customTheme(args: Record<string, string>, useTestValues = false) {
+  if (useTestValues) {
+    const tokensAsCSSVars = Object.keys(args).map((tokenName) => `--${convertToParamCase(tokenName)}`);
+    return setCSSVariables(tokensAsCSSVars, " ");
+  } else {
+    return Object.entries(args)
+      .map(([tokenName, tokenValue]) =>
+        !!tokenValue && tokenValue !== "" ? `--${convertToParamCase(tokenName)}: ${tokenValue};` : null,
+      )
+      .filter((token) => token)
+      .join("");
+  }
 }
 
-export default {
-  title: "Theming/Custom Theme",
-  args: { ...globalTokens, ...cardTokens },
-};
-
-export const themingInteractive = (args: Record<string, string>): string => {
-  return `<div style="${addTokens(args)}">
+const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
+  html`<div style="${customTheme(args, useTestValues)}">
     <style>
       .demo {
         display: flex;
@@ -77,33 +95,66 @@ export const themingInteractive = (args: Record<string, string>): string => {
       }
     </style>
     <div class="demo">
-      <div class="demo-column">
-        ${accordion}
-        ${notices}
-        ${segmentedControl}
-        ${icon}
-      </div>
-      <div class="demo-column">
-        <div>
-          ${card}
+        <div class="demo-column">
+          ${accordion} ${actionBar} ${notices} ${segmentedControl}
+          <div style="display: flex">
+            ${actionPad}
+            <div style="width: 40px; height: 40px;">${actionMenu}</div>
+            ${icon}
+          </div>
+          ${input} ${inputNumber} ${inputText}
         </div>
-        <div>
-          ${dropdown}
-          ${buttons}
+        <div class="demo-column">
+          <div>${card}</div>
+          ${cardThumbnail}
+          <div>${dropdown} ${buttons}</div>
+          <div>${checkbox}</div>
+          ${chips} ${pagination} ${slider}
         </div>
-        <div>
-          ${checkbox}
-        </div>
-        ${chips}
-        ${pagination}
-        ${slider}
-      </div>
-      <div class="demo-column">
-        ${datePicker}
-        ${tabs}
-        ${loader}
-        ${calciteSwitch}
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress} ${handle}</div>
       </div>
     </div>
   </div>`;
+
+export default {
+  title: "Theming/Custom Theme",
+  args: {
+    ...globalTokens,
+    ...accordionTokens,
+    ...accordionItemTokens,
+    ...actionTokens,
+    ...actionBarTokens,
+    ...actionMenuTokens,
+    ...actionPadTokens,
+    ...actionGroupTokens,
+    ...cardTokens,
+    ...checkboxTokens,
+    ...handleTokens,
+    ...progressTokens,
+    ...inputTokens,
+  },
+};
+
+export const themingInteractive = (args: Record<string, string>): string => {
+  return kitchenSink(args);
+};
+
+export const theming_TestOnly = (): string => {
+  return kitchenSink(
+    {
+      ...accordionTokens,
+      ...accordionItemTokens,
+      ...actionTokens,
+      ...actionBarTokens,
+      ...actionMenuTokens,
+      ...actionPadTokens,
+      ...actionGroupTokens,
+      ...cardTokens,
+      ...checkboxTokens,
+      ...handleTokens,
+      ...progressTokens,
+      ...inputTokens,
+    },
+    true,
+  );
 };

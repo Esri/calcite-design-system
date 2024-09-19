@@ -20,6 +20,8 @@ type DialogStoryArgs = Pick<
   | "menuOpen"
   | "modal"
   | "overlayPositioning"
+  | "dragEnabled"
+  | "resizable"
   | "outsideCloseDisabled"
 >;
 
@@ -38,6 +40,8 @@ export default {
     loading: false,
     menuOpen: false,
     modal: false,
+    dragEnabled: false,
+    resizable: false,
     overlayPositioning: overlayPositioning.defaultValue,
     outsideCloseDisabled: false,
   },
@@ -89,6 +93,8 @@ const menuActionsContent = html` <calcite-action
 
 export const simple = (args: DialogStoryArgs): string => html`
   <calcite-dialog
+    ${boolean("drag-enabled", args.dragEnabled)}
+    ${boolean("resizable", args.resizable)}
     ${boolean("modal", args.modal)}
     ${boolean("open", args.open)}
     ${boolean("menu-open", args.menuOpen)}

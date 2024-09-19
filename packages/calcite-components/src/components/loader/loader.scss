@@ -29,7 +29,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   stroke-width: $stroke-width;
   fill: none;
   transform: scale(1, 1);
-  animation: loader-color-shift scaleDuration(--calcite-internal-animation-timing-slow, 2) alternate-reverse infinite
+  animation: loader-color-shift scale-duration(--calcite-internal-animation-timing-slow, 2) alternate-reverse infinite
     linear;
   padding-block: var(--calcite-loader-padding, theme("spacing.16"));
   will-change: contents;
@@ -88,7 +88,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  animation-duration: scaleDuration(--calcite-internal-animation-timing-slow, 6.66);
+  animation-duration: scale-duration(--calcite-internal-animation-timing-slow, 6.66);
   animation-name: loader-clockwise;
   display: flex;
 }
@@ -184,7 +184,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
               (size + growth should not exceed 100)
   - duration  how long the segment takes to rotate 360° (seconds)
 */
-@mixin generateSegment($i, $size, $growth, $duration) {
+@mixin generate-segment($i, $size, $growth, $duration) {
   $circumference: calc($loader-circumference / $loader-scale) * 100;
   $length: ($size * 0.01) * $circumference;
   $end: $length + ($growth * 0.01) * $circumference;
@@ -209,9 +209,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include generateSegment(1, 10, 40, scaleDuration(--calcite-internal-animation-timing-slow, 4.8));
-@include generateSegment(2, 20, 30, scaleDuration(--calcite-internal-animation-timing-slow, 6.4));
-@include generateSegment(3, 05, 45, scaleDuration(--calcite-internal-animation-timing-slow, 7.734));
+@include generate-segment(1, 10, 40, scale-duration(--calcite-internal-animation-timing-slow, 4.8));
+@include generate-segment(2, 20, 30, scale-duration(--calcite-internal-animation-timing-slow, 6.4));
+@include generate-segment(3, 05, 45, scale-duration(--calcite-internal-animation-timing-slow, 7.734));
 
 @keyframes loader-color-shift {
   0% {

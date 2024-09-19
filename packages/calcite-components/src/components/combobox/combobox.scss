@@ -11,7 +11,7 @@
 }
 
 @include disabled();
-@include xButton();
+@include x-button();
 
 :host([scale="s"]) {
   @apply text-n2;
@@ -202,14 +202,14 @@
 
 .floating-ui-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floatingUIContainer();
-  @include floatingUIWrapper();
+  @include floating-ui-container();
+  @include floating-ui-wrapper();
 }
 
-@include floatingUIElemAnim(".floating-ui-container");
+@include floating-ui-elem-anim(".floating-ui-container");
 
 .floating-ui-container--active {
-  @include floatingUIWrapperActive();
+  @include floating-ui-wrapper-active();
 }
 
 @media (forced-colors: active) {
@@ -227,7 +227,7 @@
   @apply bg-foreground-1
     max-h-menu
     overflow-y-auto;
-  inline-size: var(--calcite-dropdown-width);
+  inline-size: var(--calcite-dropdown-width, 100%);
 }
 
 .list {

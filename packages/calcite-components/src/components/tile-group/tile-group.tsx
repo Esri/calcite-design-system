@@ -10,8 +10,6 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -201,7 +199,6 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateTiles();
   }
@@ -211,7 +208,6 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     this.mutationObserver?.disconnect();
   }
 

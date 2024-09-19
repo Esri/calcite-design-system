@@ -39,8 +39,6 @@ import {
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -303,7 +301,7 @@ export class Combobox
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -483,7 +481,6 @@ export class Combobox
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     connectLabel(this);
@@ -534,7 +531,6 @@ export class Combobox
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
@@ -812,16 +808,6 @@ export class Combobox
         break;
       }
     }
-  };
-
-  private toggleCloseEnd = (): void => {
-    this.open = false;
-    this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
-  };
-
-  private toggleOpenEnd = (): void => {
-    this.open = false;
-    this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
   onBeforeOpen(): void {
@@ -1186,7 +1172,7 @@ export class Combobox
     const children = getItemChildren(item);
     if (item.selected) {
       ancestors.forEach((el) => {
-        (el as HTMLCalciteComboboxItemElement).selected = true;
+        el.selected = true;
       });
     } else {
       children.forEach((el) => (el.selected = false));
@@ -1654,7 +1640,7 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           readOnly={this.readOnly}
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
+          ref={(el) => (this.textInput = el)}
           role="combobox"
           tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"

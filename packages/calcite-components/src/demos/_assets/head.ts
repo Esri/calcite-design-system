@@ -31,8 +31,7 @@
   };
 
   const loadHeader = async (): Promise<void> => {
-    const root = window.location.pathname.split(DEMO_ROOT).shift();
-    const response = await window.fetch(`${root}${ASSETS_PATH}/demo-template.html`);
+    const response = await window.fetch(`${ROOT}${ASSETS_PATH}/demo-template.html`);
     const text = await response.text();
     const template = parseTemplate(text);
     if (template) {
@@ -45,7 +44,7 @@
     document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", loadHeader) : loadHeader();
   }
 
-  const ROOT = window.location.pathname.split(DEMO_ROOT).shift();
+  const ROOT = window.location.pathname.split(DEMO_ROOT)[0];
 
   function loadCss(url: string): void {
     const link = document.createElement("link");

@@ -17,7 +17,9 @@ describe("calcite-filter", () => {
   });
 
   describe("is focused", () => {
-    focusable("calcite-filter");
+    focusable("calcite-filter", {
+      shadowFocusTargetSelector: "calcite-input",
+    });
   });
 
   describe("disabled", () => {

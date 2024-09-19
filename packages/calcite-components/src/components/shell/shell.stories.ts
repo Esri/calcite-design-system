@@ -1670,3 +1670,214 @@ export const resizeHandlePositioning = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+export const shellPanelWithTabs = (): string =>
+  html`<calcite-shell>
+    <calcite-shell-panel slot="panel-start" position="start" id="shell-panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action active text="Layers" indicator icon="layers"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Undo" icon="undo"></calcite-action>
+          <calcite-action text="Redo" indicator icon="redo"></calcite-action>
+          <calcite-action text="Save" disabled icon="save"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="bottom-actions">
+          <calcite-action text="Tips" icon="question"></calcite-action>
+          <calcite-action text="Settings" indicator icon="gear"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" id="panel-start" closable>
+        <calcite-block
+          collapsible
+          heading="Symbology"
+          description="Select type, color, and transparency"
+          icon-start="map-pin"
+        >
+          <calcite-notice open>
+            <div slot="message">The viewers are going to love this</div>
+          </calcite-notice>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel slot="panel-bottom" position="end" layout="horizontal">
+      <calcite-panel heading="Content">
+        <calcite-tabs>
+          <calcite-tab-nav slot="title-group">
+            <calcite-tab-title selected> Watercraft </calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab selected>
+            <calcite-notice icon="embark" open>
+              <div slot="message">Recommended for coastal use</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+        </calcite-tabs>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel slot="panel-end" position="end" layout="vertical">
+      <calcite-panel heading="Content">
+        <calcite-tabs>
+          <calcite-tab-nav slot="title-group">
+            <calcite-tab-title selected> Watercraft </calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab selected>
+            <calcite-notice icon="embark" open>
+              <div slot="message">Recommended for coastal use</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+        </calcite-tabs>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
+
+export const panelWithPopoverZIndex = (): string =>
+  html` <style>
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        background-color: gray;
+      }
+    </style>
+    <calcite-shell content-behind>
+      <div id="viewDiv"></div>
+      <calcite-shell-panel slot="panel-start"></calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">
+        <calcite-flow>
+          <calcite-flow-item heading="panel header">
+            <calcite-button id="button" style="margin-top:20px">open popover</calcite-button>
+          </calcite-flow-item>
+        </calcite-flow>
+      </calcite-shell-panel> </calcite-shell
+    ><calcite-popover open reference-element="button" offset-distance="-50" offset-skidding="15" style="z-index: 100">
+      <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel>
+    </calcite-popover>`;
+
+export const popoverZIndex = (): string =>
+  html`<calcite-shell>
+    <calcite-shell-panel slot="panel-start" position="start" id="shell-panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action id="target-element" text="Save" icon="save" indicator></calcite-action>
+        <calcite-action active icon="map" text="Map"></calcite-action>
+        <calcite-action icon="layer" text="Layer"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Map" id="panel-start">
+        <calcite-block heading="Block 1" collapsible></calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+
+    <!--  Popover here  -->
+    <calcite-popover reference-element="target-element" open><p>This is a popover</p></calcite-popover>
+
+    <calcite-shell-panel slot="panel-end" position="end" id="shell-panel-end" collapsed>
+      <calcite-action-bar slot="action-bar">
+        <calcite-action text="Layer" icon="sliders-horizontal"></calcite-action>
+        <calcite-action text="Styles" icon="shapes"></calcite-action>
+        <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+        <calcite-action text="Configure" icon="popup"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading id="panel-end" closable closed>
+        <calcite-block heading="Block 1" collapsible></calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>`;

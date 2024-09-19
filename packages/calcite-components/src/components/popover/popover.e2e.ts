@@ -693,7 +693,7 @@ describe("calcite-popover", () => {
       });
     });
 
-    describe.skip("should focus close button", () => {
+    describe("should focus close button", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`,
       });

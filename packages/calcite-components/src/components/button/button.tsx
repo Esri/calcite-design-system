@@ -11,8 +11,6 @@ import {
 } from "@stencil/core";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -193,7 +191,6 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
@@ -203,7 +200,6 @@ export class Button
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -283,7 +279,11 @@ export class Button
           }}
           disabled={childElType === "button" ? this.disabled || this.loading : null}
           download={
-            childElType === "a" && (this.download === "" || this.download) ? this.download : null
+            childElType === "a"
+              ? this.download === true || this.download === ""
+                ? ""
+                : this.download || null
+              : null
           }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}

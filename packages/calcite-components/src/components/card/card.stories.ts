@@ -144,38 +144,6 @@ export const thumbnail = (): string => html`
   </div>
 `;
 
-export const thumbnailRounded = (): string => html`
-  <div id="card-container" style="width:260px;">
-    <style>
-      calcite-card {
-        --calcite-border-radius-base: 12px;
-      }
-    </style>
-    <calcite-card>
-      ${thumbnailHtml}
-      <h3 slot="heading">Portland Businesses</h3>
-      <span slot="description"
-        >by
-        <calcite-link>example_user</calcite-link>
-      </span>
-      <div>
-        Created: Apr 22, 2019
-        <br />
-        Updated: Dec 9, 2019
-        <br />
-        View Count: 0
-      </div>
-      <calcite-button
-        slot="footer-start"
-        kind="neutral"
-        scale="s"
-        id="card-icon-test-1"
-        icon-start="circle"
-      ></calcite-button>
-    </calcite-card>
-  </div>
-`;
-
 export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="heading">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>

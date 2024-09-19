@@ -1,8 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import Sortable from "sortablejs";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -103,11 +101,9 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   connectedCallback(): void {
     this.setUpSorting();
     this.beginObserving();
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectSortableComponent(this);
     this.endObserving();
   }
