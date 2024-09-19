@@ -11,9 +11,9 @@ export type TagAndPage = {
   page: E2EPage;
 };
 
-export type TagOrHTMLWithBeforeContent = {
-  tagOrHTML: TagOrHTML;
+export type TagOrHTMLWithBeforeContent = WithBeforeContent<{ tagOrHTML: TagOrHTML }>;
 
+export type WithBeforeContent<TestContent> = TestContent & {
   /**
    * Allows for custom setup of the page.
    *
