@@ -289,6 +289,7 @@ export class Popover
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
@@ -317,6 +318,7 @@ export class Popover
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.removeReferences();
     disconnectLocalized(this);
     disconnectMessages(this);
