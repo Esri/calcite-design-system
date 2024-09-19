@@ -94,8 +94,7 @@
         await customElements.whenDefined("calcite-input-time-picker");
 
         locales.forEach((options) => {
-          const localeObject = new Intl.Locale(options.locale);
-          if (localeObject.hourCycles[0] === "h12") {
+          if (options.hourFormat === "12") {
             h12.append(createInputTimePicker(options));
             h12.append(
               createInputTimePicker({
