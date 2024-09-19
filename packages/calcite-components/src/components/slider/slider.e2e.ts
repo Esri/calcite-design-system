@@ -85,7 +85,7 @@ describe("calcite-slider", () => {
   });
 
   it("sets aria attributes properly for single value", async () => {
-    for (const l in ["horizontal", "vertical"]) {
+    for (const l of ["horizontal", "vertical"]) {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-slider
@@ -108,7 +108,7 @@ describe("calcite-slider", () => {
   });
 
   it("sets aria attributes properly for range values", async () => {
-    for (const l in ["horizontal", "vertical"]) {
+    for (const l of ["horizontal", "vertical"]) {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-slider
@@ -140,7 +140,7 @@ describe("calcite-slider", () => {
   });
 
   it("can be controlled via keyboard", async () => {
-    for (const l in ["horizontal", "vertical"]) {
+    for (const l of ["horizontal", "vertical"]) {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-slider
@@ -184,7 +184,7 @@ describe("calcite-slider", () => {
 
   describe("slider taking the precision of the provided step", () => {
     it("takes the precision of the decimal step when controlled through keyboard", async () => {
-      for (const l in ["horizontal", "vertical"]) {
+      for (const l of ["horizontal", "vertical"]) {
         const page = await newE2EPage();
         await page.setContent(html`
           <calcite-slider value="30" min="0" max="100" step="1.12" layout=${l}> </calcite-slider>
@@ -240,7 +240,7 @@ describe("calcite-slider", () => {
   });
 
   it("only selects values on step interval when snap prop is passed", async () => {
-    for (const l in ["horizontal", "vertical"]) {
+    for (const l of ["horizontal", "vertical"]) {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-slider
@@ -265,7 +265,7 @@ describe("calcite-slider", () => {
   });
 
   it("displays tick marks when ticks prop is passed", async () => {
-    for (const l in ["horizontal", "vertical"]) {
+    for (const l of ["horizontal", "vertical"]) {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-slider
@@ -284,7 +284,7 @@ describe("calcite-slider", () => {
   });
 
   it("should cap the rendered last tick label to the slider's provided max", async () => {
-    for (const l in ["horizontal", "vertical"]) {
+    for (const l of ["horizontal", "vertical"]) {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-slider
@@ -305,7 +305,7 @@ describe("calcite-slider", () => {
   });
 
   it("key press should change the value and emit input and change events", async () => {
-    for (const l in ["horizontal", "vertical"]) {
+    for (const l of ["horizontal", "vertical"]) {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-slider
