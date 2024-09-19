@@ -172,12 +172,14 @@ export class ActionPad
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
+    this.mutationObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
