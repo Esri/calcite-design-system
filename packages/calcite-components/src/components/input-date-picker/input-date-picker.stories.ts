@@ -262,11 +262,11 @@ rangeWithValue.parameters = {
   chromatic: { delay: 2000 },
 };
 
-export const rangeWithMinBeforeCurrentDate = (): string => html`
-  <calcite-input-date-picker range open min="2016-08-09"></calcite-input-date-picker>
+export const rangeWithMinAfterCurrentDate = (): string => html`
+  <calcite-input-date-picker range open min="2050-08-09"></calcite-input-date-picker>
 `;
 
-rangeWithMinBeforeCurrentDate.parameters = {
+rangeWithMinAfterCurrentDate.parameters = {
   chromatic: { delay: 2000 },
 };
 

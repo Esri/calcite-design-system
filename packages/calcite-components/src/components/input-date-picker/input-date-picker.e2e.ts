@@ -1551,6 +1551,70 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
+  describe("last valid month", () => {
+    it("should not close date-picker when user navigate to last valid month", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-date-picker
+          min="2024-08-10"
+          value="2024-09-15"
+          max="2024-10-14"
+        ></calcite-input-date-picker>`,
+      );
+
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      await input.click();
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "next");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+    });
+
+    it("should not close date-picker when user navigate to last valid month in range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-date-picker min="2024-07-10" max="2024-10-14" range></calcite-input-date-picker>`,
+      );
+
+      await page.$eval("calcite-input-date-picker", (element: HTMLCalciteInputDatePickerElement) => {
+        element.value = ["2024-08-15", "2024-09-15"];
+      });
+
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      await input.click();
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "next", true);
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous", true);
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous", true);
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+    });
+  });
+
   it("should update activeDate when user selects date from different month using keyboard", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);

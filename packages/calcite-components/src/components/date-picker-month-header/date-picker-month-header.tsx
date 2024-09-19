@@ -247,11 +247,13 @@ export class DatePickerMonthHeader {
         aria-label={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
         compact={true}
+        data-direction={direction}
         disabled={isDisabled}
         icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}
         iconFlipRtl={true}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
+        ref={(el) => (isDirectionRight ? (this.nextMonthAction = el) : (this.prevMonthAction = el))}
         role="button"
         scale={this.scale === "l" ? "l" : "m"}
         text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
@@ -280,6 +282,10 @@ export class DatePickerMonthHeader {
   private yearInputEl: HTMLInputElement;
 
   private selectMenuIconOffsetWidth: number;
+
+  private prevMonthAction: HTMLCalciteActionElement;
+
+  private nextMonthAction: HTMLCalciteActionElement;
 
   @Watch("min")
   @Watch("max")
@@ -322,8 +328,13 @@ export class DatePickerMonthHeader {
   /*
    * Update active month on clicks of left/right arrows
    */
-  private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
+  private handleArrowClick = async (
+    event: MouseEvent | KeyboardEvent,
+    date: Date,
+  ): Promise<void> => {
     event.preventDefault();
+
+    await this.handlePenultimateValidMonth(event);
     this.calciteInternalDatePickerMonthHeaderSelect.emit(date);
   };
 
@@ -483,4 +494,29 @@ export class DatePickerMonthHeader {
       commit: false,
     });
   };
+
+  private async handlePenultimateValidMonth(event: MouseEvent | KeyboardEvent): Promise<void> {
+    const target = event.target as HTMLCalciteActionElement;
+    const direction = target.getAttribute("data-direction");
+
+    let isTargetLastValidMonth: boolean;
+
+    if (direction === "left" && this.min) {
+      const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+      isTargetLastValidMonth = hasSameMonthAndYear(prevMonthDate, this.min);
+    } else if (this.max) {
+      const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
+      isTargetLastValidMonth = hasSameMonthAndYear(nextMonthDate, this.max);
+    }
+
+    if (isTargetLastValidMonth) {
+      if (!this.position) {
+        direction === "left"
+          ? await this.nextMonthAction.setFocus()
+          : await this.prevMonthAction.setFocus();
+      } else {
+        this.yearInputEl.focus();
+      }
+    }
+  }
 }

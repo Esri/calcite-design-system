@@ -713,8 +713,8 @@ describe("calcite-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker value="2025-09-25" max="2025-11-11"></calcite-date-picker>`);
 
-      const [prevMonth, nextMonth] = await page.findAll(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action",
+      const nextMonth = await page.find(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action[aria-label='Next month']",
       );
 
       await nextMonth.click();
@@ -725,30 +725,17 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       expect(await getActiveMonth(page)).toBe("November");
 
-      await prevMonth.click();
-      await page.waitForChanges();
-      expect(await getActiveMonth(page)).toBe("October");
-
-      await nextMonth.click();
-      await page.waitForChanges();
-      expect(await getActiveMonth(page)).toBe("November");
-
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("Tab");
-      await page.keyboard.up("Shift");
-      await page.waitForChanges();
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
       expect(await getActiveMonth(page)).toBe("October");
     });
 
     it("should navigate to next month from first valid month", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-date-picker min="2024-11-11"></calcite-date-picker>`);
+      await page.setContent(html`<calcite-date-picker min="2024-11-11" value="2025-01-01"></calcite-date-picker>`);
 
-      await setActiveDate(page, "01-01-2025");
-
-      const [prevMonth, nextMonth] = await page.findAll(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action",
+      const prevMonth = await page.find(
+        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action[aria-label='Previous month']",
       );
 
       await prevMonth.click();
@@ -759,25 +746,6 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       expect(await getActiveMonth(page)).toBe("November");
 
-      await prevMonth.click();
-      await page.waitForChanges();
-      expect(await getActiveMonth(page)).toBe("November");
-
-      await nextMonth.click();
-      await page.waitForChanges();
-      expect(await getActiveMonth(page)).toBe("December");
-
-      await prevMonth.click();
-      await page.waitForChanges();
-      expect(await getActiveMonth(page)).toBe("November");
-
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("Tab");
-      await page.keyboard.up("Shift");
-      await page.waitForChanges();
-
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
       await page.keyboard.press("Enter");
       await page.waitForChanges();
       expect(await getActiveMonth(page)).toBe("December");
