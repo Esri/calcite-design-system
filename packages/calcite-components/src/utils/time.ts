@@ -244,10 +244,6 @@ export function getMeridiemFormatToken(locale: SupportedLocale): "a" | "A" | "a 
 }
 
 export function getMeridiemOrder(locale: SupportedLocale): number {
-  const isRtl = locale === "ar" || locale === "he";
-  if (isRtl) {
-    return 0;
-  }
   const timeParts = getTimeParts({
     hour12: true,
     value: "00:00:00",
