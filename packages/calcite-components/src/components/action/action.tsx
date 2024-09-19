@@ -345,7 +345,7 @@ export class Action
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+      .filter((el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"));
 
     const tooltip = tooltips[0];
 

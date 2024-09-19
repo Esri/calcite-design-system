@@ -320,6 +320,17 @@ describe("calcite-input-date-picker", () => {
       expect(await getDateInputValue(page)).toEqual("6/28/2023");
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
+
+    it("should not emit change event when valueAsDate is set programmatically", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+
+      await page.$eval("calcite-input-date-picker", (element: HTMLCalciteInputDatePickerElement) => {
+        element.valueAsDate = [new Date(1, 1, 2020), new Date(31, 1, 2020)];
+      });
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+    });
   });
 
   it("should clear active date properly when deleted and committed via keyboard", async () => {
