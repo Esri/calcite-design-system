@@ -1171,9 +1171,9 @@ export class Input
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
-    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
-    const enterKeyHint = this.el.enterKeyHint || this.el.getAttribute("enterkeyhint");
-    const inputMode = this.el.inputMode || this.el.getAttribute("inputmode");
+    const autofocus = this.el.autofocus ? true : null;
+    const enterKeyHint = this.el.enterKeyHint;
+    const inputMode = this.el.inputMode;
 
     const localeNumberInput =
       this.type === "number" ? (
