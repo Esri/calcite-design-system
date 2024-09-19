@@ -153,8 +153,6 @@ export class ActionPad
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
   );
 
-  expandToggleEl: HTMLCalciteActionElement;
-
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -231,10 +229,6 @@ export class ActionPad
     this.calciteActionPadToggle.emit();
   };
 
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
-  };
-
   updateGroups(): void {
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
   }
@@ -288,7 +282,6 @@ export class ActionPad
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

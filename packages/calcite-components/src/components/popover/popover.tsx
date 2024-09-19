@@ -269,7 +269,7 @@ export class Popover
 
   @State() defaultMessages: PopoverMessages;
 
-  arrowEl: SVGElement;
+  arrowEl: SVGSVGElement;
 
   closeButtonEl: HTMLCalciteActionElement;
 
@@ -524,7 +524,7 @@ export class Popover
     deactivateFocusTrap(this);
   }
 
-  storeArrowEl = (el: SVGElement): void => {
+  storeArrowEl = (el: SVGSVGElement): void => {
     this.arrowEl = el;
     this.reposition(true);
   };

@@ -279,7 +279,11 @@ export class Button
           }}
           disabled={childElType === "button" ? this.disabled || this.loading : null}
           download={
-            childElType === "a" && (this.download === "" || this.download) ? this.download : null
+            childElType === "a"
+              ? this.download === true || this.download === ""
+                ? ""
+                : this.download || null
+              : null
           }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
