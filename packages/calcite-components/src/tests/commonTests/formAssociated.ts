@@ -482,7 +482,7 @@ export function formAssociated(
       element.setProperty("id", "radio-button");
       await page.waitForChanges();
       testProps = await page.evaluate(() => {
-        const groupEl = closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
+        const groupEl = closestElementCrossShadowBoundary(
           document.querySelector("#radio-button"),
           "calcite-radio-button-group",
         );

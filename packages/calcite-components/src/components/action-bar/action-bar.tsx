@@ -181,8 +181,6 @@ export class ActionBar
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
-  expandToggleEl: HTMLCalciteActionElement;
-
   actionGroups: HTMLCalciteActionGroupElement[];
 
   @State() effectiveLocale: string;
@@ -336,10 +334,6 @@ export class ActionBar
     this.calciteActionBarToggle.emit();
   };
 
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
-  };
-
   updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
@@ -363,9 +357,9 @@ export class ActionBar
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
@@ -399,7 +393,6 @@ export class ActionBar
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
