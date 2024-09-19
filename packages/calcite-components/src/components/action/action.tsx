@@ -298,10 +298,7 @@ export class Action
       buttonId,
       messages,
     } = this;
-    const labelFallback = label || text;
-    const ariaLabel = labelFallback
-      ? `${labelFallback}${indicator ? ` (${messages.indicator})` : ""}`
-      : "";
+    const ariaLabel = messages.indicatorLabel?.replace("{label}", label || text) ?? "";
 
     const buttonClasses = {
       [CSS.button]: true,
