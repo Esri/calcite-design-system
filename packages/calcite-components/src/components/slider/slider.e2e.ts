@@ -65,6 +65,14 @@ describe("calcite-slider", () => {
         propertyName: "value",
         defaultValue: 0,
       },
+      {
+        propertyName: "layout",
+        defaultValue: "horizontal",
+      },
+      {
+        propertyName: "flipLabels",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -77,112 +85,125 @@ describe("calcite-slider", () => {
   });
 
   it("sets aria attributes properly for single value", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        value="23"
-        min="0"
-        max="100"
-        min-label="Yeah! Slider!"
-      >
-      </calcite-slider>
-    `);
-    const button = await page.find("calcite-slider >>> .thumb");
-    expect(button).toEqualAttribute("role", "slider");
-    expect(button).toEqualAttribute("aria-label", "Yeah! Slider!");
-    expect(button).toEqualAttribute("aria-valuenow", "23");
-    expect(button).toEqualAttribute("aria-valuemin", "0");
-    expect(button).toEqualAttribute("aria-valuemax", "100");
-    expect(button).toEqualAttribute("aria-orientation", "horizontal");
+    for (const l in ["horizontal", "vertical"]) {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-slider
+          value="23"
+          min="0"
+          max="100"
+          min-label="Yeah! Slider!"
+          layout=${l}
+        >
+        </calcite-slider>
+      `);
+      const button = await page.find("calcite-slider >>> .thumb");
+      expect(button).toEqualAttribute("role", "slider");
+      expect(button).toEqualAttribute("aria-label", "Yeah! Slider!");
+      expect(button).toEqualAttribute("aria-valuenow", "23");
+      expect(button).toEqualAttribute("aria-valuemin", "0");
+      expect(button).toEqualAttribute("aria-valuemax", "100");
+      expect(button).toEqualAttribute("aria-orientation", `${l}`);
+    }
   });
 
   it("sets aria attributes properly for range values", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        min-value="23"
-        max-value="47"
-        min="0"
-        max="100"
-        min-label="Min Label"
-        max-label="Max Label"
-      >
-      </calcite-slider>
-    `);
-    const maxButton = await page.find("calcite-slider >>> .thumb--value");
-    const minButton = await page.find("calcite-slider >>> .thumb--minValue");
-    expect(minButton).toEqualAttribute("role", "slider");
-    expect(maxButton).toEqualAttribute("role", "slider");
-    expect(minButton).toEqualAttribute("aria-label", "Min Label");
-    expect(maxButton).toEqualAttribute("aria-label", "Max Label");
-    expect(minButton).toEqualAttribute("aria-valuenow", "23");
-    expect(maxButton).toEqualAttribute("aria-valuenow", "47");
-    expect(minButton).toEqualAttribute("aria-valuemin", "0");
-    expect(maxButton).toEqualAttribute("aria-valuemin", "0");
-    expect(minButton).toEqualAttribute("aria-valuemax", "100");
-    expect(maxButton).toEqualAttribute("aria-valuemax", "100");
-    expect(minButton).toEqualAttribute("aria-orientation", "horizontal");
-    expect(maxButton).toEqualAttribute("aria-orientation", "horizontal");
+    for (const l in ["horizontal", "vertical"]) {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-slider
+          min-value="23"
+          max-value="47"
+          min="0"
+          max="100"
+          min-label="Min Label"
+          max-label="Max Label"
+          layout=${l}
+        >
+        </calcite-slider>
+      `);
+      const maxButton = await page.find("calcite-slider >>> .thumb--value");
+      const minButton = await page.find("calcite-slider >>> .thumb--minValue");
+      expect(minButton).toEqualAttribute("role", "slider");
+      expect(maxButton).toEqualAttribute("role", "slider");
+      expect(minButton).toEqualAttribute("aria-label", "Min Label");
+      expect(maxButton).toEqualAttribute("aria-label", "Max Label");
+      expect(minButton).toEqualAttribute("aria-valuenow", "23");
+      expect(maxButton).toEqualAttribute("aria-valuenow", "47");
+      expect(minButton).toEqualAttribute("aria-valuemin", "0");
+      expect(maxButton).toEqualAttribute("aria-valuemin", "0");
+      expect(minButton).toEqualAttribute("aria-valuemax", "100");
+      expect(maxButton).toEqualAttribute("aria-valuemax", "100");
+      expect(minButton).toEqualAttribute("aria-orientation", `${l}`);
+      expect(maxButton).toEqualAttribute("aria-orientation", `${l}`);
+    }
   });
 
   it("can be controlled via keyboard", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        value="30"
-        min="0"
-        max="100"
-        step="1"
-        page-step="10"
-      >
-      </calcite-slider>
-    `);
-    const slider = await page.find("calcite-slider");
-    const handle = await page.find("calcite-slider >>> .thumb");
-    await page.waitForChanges();
-    const value = await slider.getProperty("value");
-    expect(value).toBe(30);
-    await handle.press("ArrowRight");
-    expect(await slider.getProperty("value")).toBe(31);
-    await handle.press("ArrowLeft");
-    expect(await slider.getProperty("value")).toBe(30);
-    await handle.press("ArrowUp");
-    expect(await slider.getProperty("value")).toBe(31);
-    await handle.press("ArrowDown");
-    expect(await slider.getProperty("value")).toBe(30);
-    await handle.press("PageUp");
-    expect(await slider.getProperty("value")).toBe(40);
-    await handle.press("PageDown");
-    expect(await slider.getProperty("value")).toBe(30);
-    await handle.press("Home");
-    expect(await slider.getProperty("value")).toBe(0);
-    await handle.press("End");
-    expect(await slider.getProperty("value")).toBe(100);
-
-    // activation keys should not affect the value
-    await handle.press(" ");
-    await handle.press("Enter");
-    expect(await slider.getProperty("value")).toBe(100);
-  });
-
-  describe("slider taking the precision of the provided step", () => {
-    it("takes the precision of the decimal step when controlled through keyboard", async () => {
+    for (const l in ["horizontal", "vertical"]) {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-slider value="30" min="0" max="100" step="1.12"> </calcite-slider> `);
+      await page.setContent(`
+        <calcite-slider
+          value="30"
+          min="0"
+          max="100"
+          step="1"
+          page-step="10"
+          layout=${l}
+        >
+        </calcite-slider>
+      `);
       const slider = await page.find("calcite-slider");
       const handle = await page.find("calcite-slider >>> .thumb");
       await page.waitForChanges();
       const value = await slider.getProperty("value");
       expect(value).toBe(30);
-
       await handle.press("ArrowRight");
-      expect(await slider.getProperty("value")).toBe(31.12);
+      expect(await slider.getProperty("value")).toBe(31);
       await handle.press("ArrowLeft");
       expect(await slider.getProperty("value")).toBe(30);
       await handle.press("ArrowUp");
-      expect(await slider.getProperty("value")).toBe(31.12);
+      expect(await slider.getProperty("value")).toBe(31);
       await handle.press("ArrowDown");
       expect(await slider.getProperty("value")).toBe(30);
+      await handle.press("PageUp");
+      expect(await slider.getProperty("value")).toBe(40);
+      await handle.press("PageDown");
+      expect(await slider.getProperty("value")).toBe(30);
+      await handle.press("Home");
+      expect(await slider.getProperty("value")).toBe(0);
+      await handle.press("End");
+      expect(await slider.getProperty("value")).toBe(100);
+
+      // activation keys should not affect the value
+      await handle.press(" ");
+      await handle.press("Enter");
+      expect(await slider.getProperty("value")).toBe(100);
+    }
+  });
+
+  describe("slider taking the precision of the provided step", () => {
+    it("takes the precision of the decimal step when controlled through keyboard", async () => {
+      for (const l in ["horizontal", "vertical"]) {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-slider value="30" min="0" max="100" step="1.12" layout=${l}> </calcite-slider>
+        `);
+        const slider = await page.find("calcite-slider");
+        const handle = await page.find("calcite-slider >>> .thumb");
+        await page.waitForChanges();
+        const value = await slider.getProperty("value");
+        expect(value).toBe(30);
+
+        await handle.press("ArrowRight");
+        expect(await slider.getProperty("value")).toBe(31.12);
+        await handle.press("ArrowLeft");
+        expect(await slider.getProperty("value")).toBe(30);
+        await handle.press("ArrowUp");
+        expect(await slider.getProperty("value")).toBe(31.12);
+        await handle.press("ArrowDown");
+        expect(await slider.getProperty("value")).toBe(30);
+      }
     });
 
     it("single handle: takes the precision of the decimal step when clicking and dragging the track", async () => {
