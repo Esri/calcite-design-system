@@ -797,7 +797,7 @@ export class Dialog
   };
 
   private handlePanelKeyDown = (event: KeyboardEvent): void => {
-    if (this.escapeDisabled) {
+    if (this.escapeDisabled && event.key === "Escape") {
       event.preventDefault();
     }
   };
