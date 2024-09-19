@@ -334,6 +334,7 @@ describe("calcite-slider", () => {
     }
   });
 
+  /* Need to add vertical */
   describe("thumb focus for single value", () => {
     const sliderForThumbFocusTests = html`<calcite-slider
       style="width:${sliderWidthFor1To1PixelValueTrack}"
@@ -389,79 +390,103 @@ describe("calcite-slider", () => {
   });
 
   describe("thumb focus in range", () => {
-    const sliderForThumbFocusTests = html`<calcite-slider
-      style="width:${sliderWidthFor1To1PixelValueTrack}"
-      min="0"
-      max="100"
-      min-value="0"
-      max-value="100"
-      ticks="10"
-    ></calcite-slider>`;
-
     it("should focus the min thumb when clicked on track close to minValue", async () => {
-      const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`,
-      });
-      await page.waitForChanges();
-      const slider = await page.find("calcite-slider");
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+      for (const l of ["horizontal", "vertical"]) {
+        const sliderForThumbFocusTests = html`<calcite-slider
+          style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}"
+          min="0"
+          max="100"
+          min-value="0"
+          max-value="100"
+          ticks="10"
+          layout=${l}
+        ></calcite-slider>`;
+        const page = await newE2EPage({
+          html: `${sliderForThumbFocusTests}`,
+        });
+        await page.waitForChanges();
+        const slider = await page.find("calcite-slider");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 30, trackY);
-      await page.mouse.down();
-      await page.mouse.up();
-      await page.waitForChanges();
+        await page.mouse.move(trackX + 30, trackY);
+        await page.mouse.down();
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      const isMinThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--minValue"),
-      );
+        const isMinThumbFocused = await page.$eval("calcite-slider", (slider) =>
+          slider.shadowRoot.activeElement?.classList.contains("thumb--minValue"),
+        );
 
-      expect(await slider.getProperty("minValue")).toBe(0);
-      expect(await slider.getProperty("maxValue")).toBe(100);
-      expect(isMinThumbFocused).toBe(true);
+        expect(await slider.getProperty("minValue")).toBe(0);
+        expect(await slider.getProperty("maxValue")).toBe(100);
+        expect(isMinThumbFocused).toBe(true);
+      }
     });
 
     it("should focus the max thumb when clicked on track close to maxValue", async () => {
-      const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`,
-      });
-      await page.waitForChanges();
-      const slider = await page.find("calcite-slider");
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+      for (const l of ["horizontal", "vertical"]) {
+        const sliderForThumbFocusTests = html`<calcite-slider
+          style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}"
+          min="0"
+          max="100"
+          min-value="0"
+          max-value="100"
+          ticks="10"
+          layout=${l}
+        ></calcite-slider>`;
+        const page = await newE2EPage({
+          html: `${sliderForThumbFocusTests}`,
+        });
+        await page.waitForChanges();
+        const slider = await page.find("calcite-slider");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 60, trackY);
-      await page.mouse.down();
-      await page.mouse.up();
-      await page.waitForChanges();
+        await page.mouse.move(trackX + 60, trackY);
+        await page.mouse.down();
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
-      );
+        const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+          slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+        );
 
-      expect(await slider.getProperty("minValue")).toBe(0);
-      expect(await slider.getProperty("maxValue")).toBe(100);
-      expect(isMaxThumbFocused).toBe(true);
+        expect(await slider.getProperty("minValue")).toBe(0);
+        expect(await slider.getProperty("maxValue")).toBe(100);
+        expect(isMaxThumbFocused).toBe(true);
+      }
     });
 
     it("should focus the max thumb when clicked on middle of the track", async () => {
-      const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`,
-      });
-      await page.waitForChanges();
-      const slider = await page.find("calcite-slider");
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+      for (const l of ["horizontal", "vertical"]) {
+        const sliderForThumbFocusTests = html`<calcite-slider
+          style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}"
+          min="0"
+          max="100"
+          min-value="0"
+          max-value="100"
+          ticks="10"
+          layout=${l}
+        ></calcite-slider>`;
+        const page = await newE2EPage({
+          html: `${sliderForThumbFocusTests}`,
+        });
+        await page.waitForChanges();
+        const slider = await page.find("calcite-slider");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 50, trackY);
-      await page.mouse.down();
-      await page.mouse.up();
-      await page.waitForChanges();
+        await page.mouse.move(trackX + 50, trackY);
+        await page.mouse.down();
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
-      );
+        const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+          slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+        );
 
-      expect(await slider.getProperty("minValue")).toBe(0);
-      expect(await slider.getProperty("maxValue")).toBe(100);
-      expect(isMaxThumbFocused).toBe(true);
+        expect(await slider.getProperty("minValue")).toBe(0);
+        expect(await slider.getProperty("maxValue")).toBe(100);
+        expect(isMaxThumbFocused).toBe(true);
+      }
     });
   });
 
