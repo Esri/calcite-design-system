@@ -8965,5 +8965,10 @@
     "alias": ["3.32.0", "windows", "text", "line", "image inline", "right", "image wrap"],
     "category": "Windows",
     "release": "3.32.0"
+  },
+  "validate": {
+    "alias": ["3.32.0", "symbols", "check", "circle", "validated", "arrow", "complete"],
+    "category": "Symbols",
+    "release": "3.32.0"
   }
 }
