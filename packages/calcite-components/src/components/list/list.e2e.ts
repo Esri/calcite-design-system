@@ -447,53 +447,45 @@ describe("calcite-list", () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-list filter-enabled filter-text="">
-        <calcite-list-item value="list1" label="${matchingFont}"></calcite-list-item>
-        <calcite-list-item value="list1" label="${matchingFont} 2"></calcite-list-item>
-        <calcite-list-item value="list1" label="Other Font"></calcite-list-item>
+        <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+        <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+        <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
       </calcite-list>
     `);
     await page.waitForChanges();
 
     const list = await page.find("calcite-list");
-    let listItems = await page.findAll("calcite-list-item");
+    let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(listItems).toHaveLength(3);
-    listItems.forEach(async (item) => {
-      expect(await item.getProperty("value")).toBe("list1");
+    expect(visibleItems).toHaveLength(3);
+    visibleItems.forEach(async (item) => {
+      expect(await item.getProperty("description")).toBe("list1");
     });
-    expect(await listItems[0].getProperty("filterHidden")).toBe(false);
-    expect(await listItems[1].getProperty("filterHidden")).toBe(false);
-    expect(await listItems[2].getProperty("filterHidden")).toBe(false);
 
     list.setProperty("filterText", matchingFont);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    expect(listItems).toHaveLength(3);
-    listItems.forEach(async (item) => {
-      expect(await item.getProperty("value")).toBe("list1");
+    visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+    expect(visibleItems).toHaveLength(2);
+    visibleItems.forEach(async (item) => {
+      expect(await item.getProperty("description")).toBe("list1");
     });
-    expect(await listItems[0].getProperty("filterHidden")).toBe(false);
-    expect(await listItems[1].getProperty("filterHidden")).toBe(false);
-    expect(await listItems[2].getProperty("filterHidden")).toBe(true);
 
     list.innerHTML = html`
-      <calcite-list-item value="list2" label="${matchingFont}"></calcite-list-item>
-      <calcite-list-item value="list2" label="${matchingFont} 2"></calcite-list-item>
-      <calcite-list-item value="list2" label="Other Font"></calcite-list-item>
+      <calcite-list-item value="item4" label="${matchingFont}" description="list2"></calcite-list-item>
+      <calcite-list-item value="item5" label="${matchingFont} 2" description="list2"></calcite-list-item>
+      <calcite-list-item value="item6" label="Other Font" description="list2"></calcite-list-item>
     `;
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
     expect(await list.getProperty("filterText")).toBe(matchingFont);
-    listItems = await page.findAll("calcite-list-item");
-    expect(listItems).toHaveLength(3);
-    listItems.forEach(async (item) => {
-      expect(await item.getProperty("value")).toBe("list2");
+    visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+    expect(visibleItems).toHaveLength(2);
+    visibleItems.forEach(async (item) => {
+      expect(await item.getProperty("description")).toBe("list2");
     });
-    expect(await listItems[0].getProperty("filterHidden")).toBe(false);
-    expect(await listItems[1].getProperty("filterHidden")).toBe(false);
-    expect(await listItems[2].getProperty("filterHidden")).toBe(true);
   });
 
   it("filters initially", async () => {
