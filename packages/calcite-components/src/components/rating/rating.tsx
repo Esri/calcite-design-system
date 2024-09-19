@@ -356,7 +356,7 @@ export class Rating
     }
   };
 
-  private handleInputChange = (event: InputEvent) => {
+  private handleInputChange = (event: Event) => {
     if (this.isKeyboardInteraction === true) {
       const inputVal = Number(event.target["value"]);
       this.hoverValue = inputVal;
