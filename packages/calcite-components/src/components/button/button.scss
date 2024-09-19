@@ -3,17 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-button-background-color: defines the component's background color.
- * @prop --calcite-button-border-color: defines the component's border color.
- * @prop --calcite-button-corner-radius: defines the component's corner radius.
- * @prop --calcite-button-corner-radius-start-start: defines the component's top-left corner radius. will fallback to --calcite-button-corner-radius.
- * @prop --calcite-button-corner-radius-start-end: defines the component's top-right corner radius. Will fallback to --calcite-button-corner-radius.
- * @prop --calcite-button-corner-radius-end-start: defines the component's bottom-left corner radius. Will fallback to --calcite-button-corner-radius.
- * @prop --calcite-button-corner-radius-end-end: defines the component's bottom-right corner radius. Will fallback to --calcite-button-corner-radius.
- * @prop --calcite-button-icon-color: defines the color of an icon in the component.
- * @prop --calcite-button-loader-color: defines the component's loader color.
- * @prop --calcite-button-shadow: defines the component's shadow.
- * @prop --calcite-button-text-color: defines the component's text color.
+ * @prop --calcite-button-background-color: Specifies the component's background color.
+ * @prop --calcite-button-border-color: Specifies the component's border color.
+ * @prop --calcite-button-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-button-corner-radius-start-start: Specifies the component's top-left corner radius. will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-start-end: Specifies the component's top-right corner radius. Will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-end-start: Specifies the component's bottom-left corner radius. Will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-end-end: Specifies the component's bottom-right corner radius. Will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-icon-color: Specifies the color of an icon in the component.
+ * @prop --calcite-button-loader-color: Specifies the component's loader color.
+ * @prop --calcite-button-shadow-color: Specifies the component's shadow.
+ * @prop --calcite-button-text-color: Specifies the component's text color.
  */
 
 :host {
@@ -36,38 +36,33 @@
   );
 }
 
-// fab variants
-:host([round]) {
-  --calcite-internal-button-corner-radius: 50px;
-}
-
-// button base
-button,
-a {
+a,
+button {
   --calcite-internal-button-content-margin: theme("margin.2");
   --calcite-internal-button-padding-x: 7px;
   --calcite-internal-button-padding-y: 3px;
 
-  padding-block: var(--calcite-internal-button-padding-y);
-  padding-inline: var(--calcite-internal-button-padding-x);
-
   @apply appearance-none
-    border-none
-    box-border
-    cursor-pointer
-    flex
-    focus-base
-    font-inherit
-    font-normal
-    h-full
-    items-center
-    justify-center
-    no-underline
-    relative
-    select-none
-    text-center
-    w-full;
-
+  border-none
+  box-border
+  cursor-pointer
+  flex
+  focus-base
+  font-inherit
+  font-normal
+  h-full
+  items-center
+  justify-center
+  no-underline
+  relative
+  rounded-none
+  select-none
+  text-center
+  w-full;
+  background-color: var(
+    --calcite-button-background-color,
+    var(--calcite-internal-button-background-color, transparent)
+  );
   border-start-start-radius: var(
     --calcite-button-corner-radius-start-start,
     var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
@@ -84,17 +79,29 @@ a {
     --calcite-button-corner-radius-end-end,
     var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
   );
-  border-color: var(
+  border-block-start-color: var(
     --calcite-button-border-color,
-    var(--calcite-internal-button-background-color, var(--calcite-color-transparent))
+    var(--calcite-internal-button-border-block-start-color, var(--calcite-internal-button-border-color, transparent))
   );
-  border-width: var(--calcite-border-width-sm);
+  border-block-end-color: var(
+    --calcite-button-border-color,
+    var(--calcite-internal-button-border-block-end-color, var(--calcite-internal-button-border-color, transparent))
+  );
+  border-inline-start-color: var(
+    --calcite-button-border-color,
+    var(--calcite-internal-button-border-inline-start-color, var(--calcite-internal-button-border-color, transparent))
+  );
+  border-inline-end-color: var(
+    --calcite-button-border-color,
+    var(--calcite-internal-button-border-inline-end-color, var(--calcite-internal-button-border-color, transparent))
+  );
   border-style: solid;
-  background-color: var(
-    --calcite-button-background-color,
-    var(--calcite-internal-button-background-color, var(--calcite-color-transparent))
-  );
-  color: var(--calcite-button-text-color, var(--calcite-internal-button-text-color, currentColor));
+  border-width: var(--calcite-border-width-sm);
+  box-shadow: inset 0 0 0 var(--calcite-internal-button-shadow-spread, 0)
+    var(--calcite-button-shadow-color, var(--calcite-internal-button-shadow-color, transparent));
+  color: var(--calcite-button-text-color, var(--calcite-internal-button-text-color, var(--calcite-color-text-3)));
+  padding-block: var(--calcite-internal-button-padding-y);
+  padding-inline: var(--calcite-internal-button-padding-x);
 
   // include transition from focus
   transition:
@@ -105,14 +112,29 @@ a {
 
   &:focus {
     @apply focus-outset;
+    --calcite-internal-button-shadow-spread: 2px;
   }
   &:hover {
     @apply no-underline;
+    --calcite-internal-button-shadow-spread: 1px;
+  }
+  &:active {
+    --calcite-internal-button-shadow-spread: 2px;
   }
 
   span {
     @apply truncate;
   }
+}
+
+calcite-loader {
+  color: var(
+    --calcite-button-loader-color,
+    var(
+      --calcite-internal-button-loader-color,
+      var(--calcite-button-text-color, var(--calcite-internal-button-text-color))
+    )
+  );
 }
 
 .content {
@@ -136,12 +158,205 @@ a {
     inline-flex
     font-normal;
   line-height: inherit;
+  color: var(--calcite-button-icon-color, currentColor);
 }
 
-.calcite-button--loader {
-  @apply flex;
-  calcite-loader {
-    @apply m-0;
+// fab variants
+:host([round]) {
+  --calcite-internal-button-corner-radius: 50px;
+}
+
+// button styles
+:host([appearance="solid"]) {
+  &:host([kind="inverse"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
+    --calcite-internal-button-background-color: var(--calcite-color-inverse);
+    --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
+
+    &:host(:hover),
+    &:host(:focus) {
+      --calcite-internal-button-background-color: var(--calcite-color-inverse-hover);
+    }
+    &:host(:active) {
+      --calcite-internal-button-background-color: var(--calcite-color-inverse-press);
+    }
+  }
+
+  &:host([kind="neutral"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-text-1);
+    --calcite-internal-button-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-button-loader-color: var(--calcite-color-text-1);
+
+    &:host(:hover),
+    &:host(:focus) {
+      --calcite-internal-button-background-color: var(--calcite-color-foreground-2);
+    }
+    &:host(:active) {
+      --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
+    }
+  }
+
+  &:host([kind="danger"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
+    --calcite-internal-button-background-color: var(--calcite-color-status-danger);
+    --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
+
+    &:host(:hover),
+    &:host(:focus) {
+      --calcite-internal-button-background-color: var(--calcite-color-status-danger-hover);
+    }
+    &:host(:active) {
+      --calcite-internal-button-background-color: var(--calcite-color-status-danger-press);
+    }
+  }
+
+  &:host([kind="brand"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
+    --calcite-internal-button-background-color: var(--calcite-color-brand);
+    --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
+
+    &:host(:hover),
+    &:host(:focus) {
+      --calcite-internal-button-background-color: var(--calcite-color-brand-hover);
+    }
+    &:host(:active) {
+      --calcite-internal-button-background-color: var(--calcite-color-brand-press);
+    }
+  }
+}
+
+// outline
+:host([appearance="outline"]),
+:host([appearance="outline-fill"]) {
+  &:host([kind="neutral"]),
+  &:host([kind="inverse"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-text-1);
+    --calcite-internal-button-loader-color: var(--calcite-color-text-1);
+  }
+  &:host([kind="inverse"]) {
+    --calcite-internal-button-border-color: var(--calcite-color-inverse);
+
+    &:host(:hover) {
+      --calcite-internal-button-border-color: var(--calcite-color-inverse-hover);
+      --calcite-internal-button-shadow-color: var(--calcite-color-inverse-hover);
+    }
+    &:host(:focus) {
+      --calcite-internal-button-border-color: var(--calcite-color-inverse);
+      --calcite-internal-button-shadow-color: var(--calcite-color-inverse);
+    }
+    &:host(:active) {
+      --calcite-internal-button-border-color: var(--calcite-color-inverse-press);
+      --calcite-internal-button-shadow-color: var(--calcite-color-inverse-press);
+    }
+  }
+
+  &:host([kind="neutral"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-text-1);
+    --calcite-internal-button-loader-color: var(--calcite-color-text-1);
+    --calcite-internal-button-border-color: var(--calcite-color-border-1);
+
+    &:host(:hover),
+    &:host(:focus),
+    &:host(:active) {
+      --calcite-internal-button-shadow-color: var(--calcite-color-foreground-3);
+    }
+  }
+
+  &:host([kind="brand"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-brand);
+    --calcite-internal-button-loader-color: var(--calcite-color-brand);
+    --calcite-internal-button-border-color: var(--calcite-color-brand);
+
+    &:host(:hover) {
+      --calcite-internal-button-text-color: var(--calcite-color-brand-hover);
+      --calcite-internal-button-border-color: var(--calcite-color-brand-hover);
+      --calcite-internal-button-shadow-color: var(--calcite-color-brand-hover);
+    }
+    &:host(:focus) {
+      --calcite-internal-button-text-color: var(--calcite-color-brand);
+      --calcite-internal-button-border-color: var(--calcite-color-brand);
+      --calcite-internal-button-shadow-color: var(--calcite-color-brand);
+    }
+    &:host(:active) {
+      --calcite-internal-button-text-color: var(--calcite-color-brand-press);
+      --calcite-internal-button-border-color: var(--calcite-color-brand-press);
+      --calcite-internal-button-shadow-color: var(--calcite-color-brand-press);
+    }
+  }
+
+  &:host([kind="danger"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-status-danger);
+    --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
+    --calcite-internal-button-border-color: var(--calcite-color-status-danger);
+
+    &:host(:hover) {
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-hover);
+      --calcite-internal-button-border-color: var(--calcite-color-status-danger-hover);
+      --calcite-internal-button-shadow-color: var(--calcite-color-status-danger-hover);
+    }
+    &:host(:focus) {
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger);
+      --calcite-internal-button-border-color: var(--calcite-color-status-danger);
+      --calcite-internal-button-shadow-color: var(--calcite-color-status-danger);
+    }
+    &:host(:active) {
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-press);
+      --calcite-internal-button-border-color: var(--calcite-color-status-danger-press);
+      --calcite-internal-button-shadow-color: var(--calcite-color-status-danger-press);
+    }
+  }
+}
+
+:host([appearance="outline-fill"]) {
+  --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
+}
+
+:host([appearance="transparent"]),
+:host([appearance="outline"]) {
+  --calcite-internal-button-background-color: var(--calcite-color-transparent);
+}
+
+// transparent
+:host([appearance="transparent"]) {
+  &:host(:hover) {
+    --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
+  }
+  &:host(:focus) {
+    --calcite-internal-button-background-color: var(--calcite-color-transparent);
+  }
+  &:host(:active) {
+    --calcite-internal-button-background-color: var(--calcite-color-transparent-press);
+  }
+
+  &:host([kind="brand"]) {
+    --calcite-internal-button-loader-color: var(--calcite-color-brand);
+    --calcite-internal-button-text-color: var(--calcite-color-brand);
+
+    &:host(:hover) {
+      --calcite-internal-button-text-color: var(--calcite-color-brand-hover);
+    }
+    &:host(:focus) {
+      --calcite-internal-button-text-color: var(--calcite-color-brand);
+    }
+    &:host(:active) {
+      --calcite-internal-button-text-color: var(--calcite-color-brand-press);
+    }
+  }
+  &:host([kind="neutral"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-text-1);
+  }
+  &:host([kind="danger"]) {
+    --calcite-internal-button-text-color: var(--calcite-color-status-danger);
+    --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
+    &:host(:hover) {
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-hover);
+    }
+    &:host(:focus) {
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger);
+    }
+    &:host(:active) {
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-press);
+    }
   }
 }
 
@@ -172,48 +387,46 @@ a {
 }
 
 // alignment
-:host(:not([width="auto"])) {
-  &:host([alignment="center"]) {
-    a,
-    button {
-      @apply justify-center;
-    }
+:host([alignment="center"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-center;
   }
-  &:host([alignment="start"]) {
-    a,
-    button {
-      @apply justify-start;
-    }
+}
+:host([alignment="start"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-start;
   }
-  &:host([alignment="end"]) {
-    a,
-    button {
-      @apply justify-end;
-    }
+}
+:host([alignment="end"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-end;
   }
-  &:host([alignment*="space-between"]) {
-    a,
-    button {
-      @apply justify-between;
-    }
+}
+:host([alignment*="space-between"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-between;
   }
-  &:host([alignment="icon-start-space-between"]) {
-    .icon--start {
-      margin-inline-end: auto;
-    }
-    a,
-    button {
-      text-align: unset;
-    }
+}
+:host([alignment="icon-start-space-between"]:not([width="auto"])) {
+  .icon--start {
+    margin-inline-end: auto;
   }
-  &:host([alignment="icon-end-space-between"]) {
-    .icon--end {
-      margin-inline-start: auto;
-    }
-    a,
-    button {
-      text-align: unset;
-    }
+  a,
+  button {
+    text-align: unset;
+  }
+}
+:host([alignment="icon-end-space-between"]:not([width="auto"])) {
+  .icon--end {
+    margin-inline-start: auto;
+  }
+  a,
+  button {
+    text-align: unset;
   }
 }
 
@@ -224,6 +437,40 @@ a {
     .icon--start + .icon--end {
       margin-inline-start: var(--calcite-internal-button-content-margin);
     }
+  }
+}
+
+@include disabled();
+
+@keyframes loader-in {
+  0% {
+    inline-size: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    inline-size: 1em;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes loader-out {
+  0% {
+    inline-size: 1em;
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    inline-size: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.calcite-button--loader {
+  @apply flex;
+  calcite-loader {
+    @apply m-0;
   }
 }
 
@@ -245,279 +492,6 @@ a {
   }
 }
 
-// button styles
-:host([appearance]) {
-  button,
-  a {
-    @apply border-color-transparent
-      border
-      border-solid;
-  }
-}
-
-:host([kind="brand"]) {
-  button,
-  a {
-    @apply text-color-inverse bg-brand;
-    &:hover,
-    &:focus {
-      @apply bg-brand-hover;
-    }
-    &:active {
-      @apply bg-brand-press;
-    }
-    calcite-loader {
-      @apply text-color-inverse;
-    }
-  }
-}
-:host([kind="danger"]) {
-  button,
-  a {
-    @apply text-color-inverse bg-danger;
-    &:hover,
-    &:focus {
-      @apply bg-danger-hover;
-    }
-    &:active {
-      @apply bg-danger-press;
-    }
-    calcite-loader {
-      @apply text-color-inverse;
-    }
-  }
-}
-:host([kind="neutral"]) {
-  button,
-  a {
-    @apply text-color-1 bg-foreground-3;
-    &:hover,
-    &:focus {
-      @apply bg-foreground-2;
-    }
-    &:active {
-      @apply bg-foreground-1;
-    }
-    calcite-loader {
-      @apply text-color-1;
-    }
-  }
-}
-:host([kind="inverse"]) {
-  button,
-  a {
-    @apply text-color-inverse;
-    background-color: var(--calcite-color-inverse);
-    &:hover,
-    &:focus {
-      background-color: var(--calcite-color-inverse-hover);
-    }
-    &:active {
-      background-color: var(--calcite-color-inverse-press);
-    }
-    calcite-loader {
-      @apply text-color-inverse;
-    }
-  }
-}
-// outline
-:host([appearance="outline-fill"]) {
-  button,
-  a {
-    @apply bg-foreground-1 border border-solid;
-    box-shadow: inset 0 0 0 1px transparent;
-  }
-}
-:host([appearance="outline-fill"][kind="brand"]) {
-  button,
-  a {
-    @apply border-color-brand bg-foreground-1;
-    color: theme("colors.brand");
-    &:hover {
-      @apply border-color-brand-hover;
-      color: theme("colors.brand-hover");
-      box-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
-    }
-    &:focus {
-      @apply border-color-brand;
-      color: theme("colors.brand");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
-    }
-    &:active {
-      @apply border-color-brand-press;
-      color: theme("colors.brand-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-brand-press);
-    }
-    calcite-loader {
-      color: theme("colors.brand");
-    }
-  }
-}
-:host([appearance="outline-fill"][kind="danger"]) {
-  button,
-  a {
-    @apply border-color-danger bg-foreground-1;
-    color: theme("colors.danger");
-    &:hover {
-      @apply border-color-danger-hover;
-      color: theme("colors.danger-hover");
-      box-shadow: inset 0 0 0 1px var(--calcite-color-status-danger-hover);
-    }
-    &:focus {
-      @apply border-color-danger;
-      color: theme("colors.danger");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger);
-    }
-    &:active {
-      @apply border-color-danger-press;
-      color: theme("colors.danger-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger-press);
-    }
-    calcite-loader {
-      color: theme("colors.danger");
-    }
-  }
-}
-:host([appearance="outline-fill"][kind="neutral"]) {
-  button,
-  a {
-    @apply text-color-1 bg-foreground-1;
-    border-color: theme("borderColor.color.1");
-    &:hover {
-      box-shadow: inset 0 0 0 1px var(--calcite-color-foreground-3);
-    }
-    &:focus {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
-    }
-    &:active {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
-    }
-    calcite-loader {
-      @apply text-color-1;
-    }
-  }
-}
-:host([appearance="outline-fill"][kind="inverse"]) {
-  button,
-  a {
-    @apply text-color-1 bg-foreground-1;
-    border-color: var(--calcite-color-inverse);
-    &:hover {
-      border-color: var(--calcite-color-inverse-hover);
-      box-shadow: inset 0 0 0 1px var(--calcite-color-inverse-hover);
-    }
-    &:focus {
-      border-color: var(--calcite-color-inverse);
-      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse);
-    }
-    &:active {
-      border-color: var(--calcite-color-inverse-press);
-      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse-press);
-    }
-    calcite-loader {
-      @apply text-color-1;
-    }
-  }
-}
-:host([appearance="outline"]) {
-  button,
-  a {
-    @apply border border-solid bg-transparent;
-    box-shadow: inset 0 0 0 1px transparent;
-  }
-}
-:host([appearance="outline"][kind="brand"]) {
-  button,
-  a {
-    @apply border-color-brand bg-transparent;
-    color: theme("colors.brand");
-    &:hover {
-      @apply border-color-brand-hover;
-      color: theme("colors.brand-hover");
-      box-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
-    }
-    &:focus {
-      @apply border-color-brand;
-      color: theme("colors.brand");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
-    }
-    &:active {
-      @apply border-color-brand-press;
-      color: theme("colors.brand-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-brand-press);
-    }
-    calcite-loader {
-      color: theme("colors.brand");
-    }
-  }
-}
-:host([appearance="outline"][kind="danger"]) {
-  button,
-  a {
-    @apply border-color-danger bg-transparent;
-    color: theme("colors.danger");
-    &:hover {
-      @apply border-color-danger-hover;
-      color: theme("colors.danger-hover");
-      box-shadow: inset 0 0 0 1px var(--calcite-color-status-danger-hover);
-    }
-    &:focus {
-      @apply border-color-danger;
-      color: theme("colors.danger");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger);
-    }
-    &:active {
-      @apply border-color-danger-press;
-      color: theme("colors.danger-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger-press);
-    }
-    calcite-loader {
-      color: theme("colors.danger");
-    }
-  }
-}
-:host([appearance="outline"][kind="neutral"]) {
-  button,
-  a {
-    @apply text-color-1  bg-transparent;
-    border-color: theme("borderColor.color.1");
-    &:hover {
-      box-shadow: inset 0 0 0 1px var(--calcite-color-foreground-3);
-    }
-    &:focus {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
-    }
-    &:active {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
-    }
-    calcite-loader {
-      @apply text-color-1;
-    }
-  }
-}
-:host([appearance="outline"][kind="inverse"]) {
-  button,
-  a {
-    @apply text-color-1  bg-transparent;
-    border-color: var(--calcite-color-inverse);
-    &:hover {
-      border-color: var(--calcite-color-inverse-hover);
-      box-shadow: inset 0 0 0 1px var(--calcite-color-inverse-hover);
-    }
-    &:focus {
-      border-color: var(--calcite-color-inverse);
-      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse);
-    }
-    &:active {
-      border-color: var(--calcite-color-inverse-press);
-      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse-press);
-    }
-    calcite-loader {
-      @apply text-color-1;
-    }
-  }
-}
-
 :host([appearance="outline-fill"][split-child="primary"]) button,
 :host([appearance="outline"][split-child="primary"]) button {
   border-inline-end-width: 0;
@@ -530,88 +504,11 @@ a {
   border-inline-end-width: theme("borderWidth.DEFAULT");
 }
 
-// transparent
-:host([appearance="transparent"]:not(.enable-editing-button)) {
-  button,
-  a {
-    @apply bg-transparent;
-    &:hover,
-    &:focus {
-      background-color: var(--calcite-color-transparent-hover);
-    }
-    &:active {
-      background-color: var(--calcite-color-transparent-press);
-    }
-  }
-}
-:host([appearance="transparent"][kind="brand"]) {
-  button,
-  a {
-    color: theme("colors.brand");
-    &:hover {
-      color: theme("colors.brand-hover");
-    }
-    &:focus {
-      color: theme("colors.brand");
-    }
-    &:active {
-      color: theme("colors.brand-press");
-    }
-    calcite-loader {
-      color: theme("colors.brand");
-    }
-  }
-}
-
-:host([appearance="transparent"][kind="danger"]) {
-  button,
-  a {
-    color: theme("colors.danger");
-    &:hover {
-      color: theme("colors.danger-hover");
-    }
-    &:focus {
-      color: theme("colors.danger");
-    }
-    &:active {
-      color: theme("colors.danger-press");
-    }
-    calcite-loader {
-      color: theme("colors.danger");
-    }
-  }
-}
-
-:host([appearance="transparent"][kind="neutral"]:not(.cancel-editing-button)) {
-  button,
-  a,
-  calcite-loader {
-    @apply text-color-1;
-  }
-}
-
 :host([appearance="transparent"][kind="neutral"].cancel-editing-button) {
   button {
-    @apply text-color-3
-      border-t-color-input
-      border-b-color-input
-      border-t
-      border-b;
-    border-block-style: solid;
-
     &:not(.content--slotted) {
       --calcite-internal-button-padding-y: 0;
     }
-
-    &:hover {
-      @apply text-color-1;
-    }
-  }
-}
-
-:host([appearance="transparent"][kind="neutral"].enable-editing-button) {
-  button {
-    @apply bg-transparent;
   }
 }
 
@@ -622,14 +519,6 @@ a {
     &:focus {
       outline-offset: -2px; // ensure focus outlines work in Safari
     }
-  }
-}
-
-:host([appearance="transparent"][kind="inverse"]) {
-  button,
-  a,
-  calcite-loader {
-    @apply text-color-inverse;
   }
 }
 
@@ -759,29 +648,3 @@ a {
 }
 
 @include base-component();
-@include disabled();
-
-@keyframes loader-in {
-  0% {
-    inline-size: 0;
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  100% {
-    inline-size: 1em;
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes loader-out {
-  0% {
-    inline-size: 1em;
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    inline-size: 0;
-    opacity: 0;
-    transform: scale(0.5);
-  }
-}
