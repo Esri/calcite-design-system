@@ -580,6 +580,7 @@ export class Popover
       >
         <div
           class={{
+            [CSS.container]: true,
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
@@ -589,7 +590,7 @@ export class Popover
           <div
             class={{
               [CSS.hasHeader]: !!heading,
-              [CSS.container]: true,
+              [CSS.headerContainer]: true,
             }}
           >
             {this.renderHeader()}

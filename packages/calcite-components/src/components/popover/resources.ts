@@ -6,6 +6,7 @@ export const CSS = {
   content: "content",
   hasHeader: "has-header",
   header: "header",
+  headerContainer: "headerContainer",
   headerContent: "header-content",
   heading: "heading",
 };
