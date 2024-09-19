@@ -592,16 +592,15 @@ describe("calcite-input-time-picker", () => {
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
 
-          let valueToType;
           const meridiemOrder = getMeridiemOrder(locale);
           const localizedMeridiem = getLocalizedMeridiem(locale, "PM");
 
-          valueToType = `2${localizedHourSuffix}30${localizedMinuteSuffix}45`;
+          let localizedTime = `2${localizedHourSuffix}30${localizedMinuteSuffix}45`;
           if (localizedSecondSuffix) {
-            valueToType += localizedSecondSuffix;
+            localizedTime += localizedSecondSuffix;
           }
-          valueToType =
-            meridiemOrder === 0 ? `${localizedMeridiem} ${valueToType}` : `${valueToType} ${localizedMeridiem}`;
+          let valueToType =
+            meridiemOrder === 0 ? `${localizedMeridiem} ${localizedTime}` : `${localizedTime} ${localizedMeridiem}`;
 
           await page.keyboard.type(valueToType);
           await page.keyboard.press("Enter");
@@ -628,12 +627,12 @@ describe("calcite-input-time-picker", () => {
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
 
-          valueToType = `4${localizedHourSuffix}15${localizedMinuteSuffix}30`;
+          localizedTime = `4${localizedHourSuffix}15${localizedMinuteSuffix}30`;
           if (localizedSecondSuffix) {
-            valueToType += localizedSecondSuffix;
+            localizedTime += localizedSecondSuffix;
           }
           valueToType =
-            meridiemOrder === 0 ? `${localizedMeridiem} ${valueToType}` : `${valueToType} ${localizedMeridiem}`;
+            meridiemOrder === 0 ? `${localizedMeridiem} ${localizedTime}` : `${localizedTime} ${localizedMeridiem}`;
 
           await page.keyboard.type(valueToType);
           await input.focus();
@@ -692,10 +691,7 @@ describe("calcite-input-time-picker", () => {
           await page.waitForChanges();
 
           expect(changeEvent).toHaveReceivedEventTimes(1);
-
-          const typedValue = await inputTimePicker.getProperty("value");
-
-          expect(typedValue).toBe("14:30:45");
+          expect(await inputTimePicker.getProperty("value")).toBe("14:30:45");
           expect(await getInputValue(page)).toBe(localizedInputValue);
 
           await page.keyboard.press("Enter");
