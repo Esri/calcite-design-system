@@ -345,7 +345,7 @@ export function localizeTimePart({ value, part, locale, numberingSystem }: Local
   return getLocalizedTimePart(part, parts);
 }
 
-export interface LocalizeTimeStringParameters {
+interface LocalizeTimeStringParameters {
   value: string;
   includeSeconds?: boolean;
   fractionalSecondDigits?: FractionalSecondDigits;
