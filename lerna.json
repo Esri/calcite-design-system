@@ -3,9 +3,6 @@
   "version": "independent",
   "changelogPreset": {
     "name": "conventionalcommits",
-    "issueUrlFormat": "{{host}}/{{owner}}/{{repository}}/issues/{{id}}",
-    "commitUrlFormat": "{{host}}/{{owner}}/{{repository}}/commit/{{hash}}",
-    "issuePrefixes": ["#"],
     "types": [
       { "type": "feat", "section": "Features" },
       { "type": "feature", "section": "Features" },
