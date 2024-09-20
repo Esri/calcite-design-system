@@ -273,7 +273,7 @@ export class Dialog
             aria-modal={toAriaBoolean(this.modal)}
             class={{
               [CSS.dialog]: true,
-              [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.widthScale}-${this.widthScale}` : ""}`]:
+              [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
                 !!this.width || !!this.widthScale,
             }}
             onKeyDown={this.handleKeyDown}

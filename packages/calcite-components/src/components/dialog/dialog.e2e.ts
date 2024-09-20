@@ -131,6 +131,10 @@ describe("calcite-dialog", () => {
         propertyName: "widthScale",
         value: "s",
       },
+      {
+        propertyName: "width",
+        value: "s",
+      },
     ]);
   });
 
@@ -1118,6 +1122,17 @@ describe("calcite-dialog", () => {
 
       const dialog = await page.find("calcite-dialog");
       expect(await dialog.getProperty("open")).toBe(true);
+    });
+  });
+
+  describe("deprecate widthScale", () => {
+    it("width takes precedence over widthScale", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-dialog ${CSS.widthScale}="l" ${CSS.width}="s"></calcite-dialog>`);
+      const dialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+      await page.waitForChanges();
+
+      expect(dialog.classList.contains(`${CSS.width}-s`)).toBe(true);
     });
   });
 });
