@@ -776,7 +776,8 @@ export class Combobox
         break;
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
-          this.toggleSelection(this.filteredItems[this.activeItemIndex]);
+          const item = this.filteredItems[this.activeItemIndex];
+          this.toggleSelection(item, !item.selected);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1132,7 +1133,7 @@ export class Combobox
 
   private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
-  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
+  toggleSelection(item: HTMLCalciteComboboxItemElement, value: boolean): void {
     if (
       !item ||
       (this.selectionMode === "single-persist" &&
