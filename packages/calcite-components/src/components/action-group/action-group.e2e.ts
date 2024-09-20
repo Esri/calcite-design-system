@@ -31,11 +31,11 @@ describe("calcite-action-group", () => {
         defaultValue: "absolute",
       },
       {
-        propertyName: "placement",
+        propertyName: "menuPlacement",
         defaultValue: undefined,
       },
       {
-        propertyName: "flipPlacements",
+        propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
     ]);
@@ -44,7 +44,7 @@ describe("calcite-action-group", () => {
   describe("reflects", () => {
     reflects("calcite-action-group", [
       {
-        propertyName: "placement",
+        propertyName: "menuPlacement",
         value: "bottom",
       },
     ]);
@@ -72,7 +72,7 @@ describe("calcite-action-group", () => {
 
   describe("handles action-menu placement and flipPlacements", () => {
     handlesActionMenuPlacements(html`
-      <calcite-action-group scale="l" overlay-positioning="fixed" placement="top">
+      <calcite-action-group scale="l" overlay-positioning="fixed" menu-placement="top">
         <calcite-action id="plus" slot="${SLOTS.menuActions}" text="Add" icon="plus"></calcite-action>
         <calcite-action id="banana" slot="${SLOTS.menuActions}" text="Banana" icon="banana"></calcite-action>
       </calcite-action-group>

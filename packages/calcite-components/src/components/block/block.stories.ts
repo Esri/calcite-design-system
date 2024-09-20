@@ -10,7 +10,7 @@ const { toggleDisplay } = ATTRIBUTES;
 interface BlockStoryArgs
   extends Pick<
       Block,
-      "heading" | "description" | "open" | "collapsible" | "loading" | "disabled" | "headingLevel" | "placement"
+      "heading" | "description" | "open" | "collapsible" | "loading" | "disabled" | "headingLevel" | "menuPlacement"
     >,
     Pick<BlockSection, "toggleDisplay"> {
   text: string;
@@ -20,7 +20,7 @@ interface BlockStoryArgs
 export default {
   title: "Components/Block",
   args: {
-    placement: defaultEndMenuPlacement,
+    menuPlacement: defaultEndMenuPlacement,
     heading: "Heading",
     description: "description",
     open: true,
@@ -33,7 +33,7 @@ export default {
     toggleDisplay: toggleDisplay.defaultValue,
   },
   argTypes: {
-    placement: {
+    menuPlacement: {
       options: placements,
       control: { type: "select" },
     },
@@ -51,7 +51,7 @@ export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
-    placement="${args.placement}"
+    menu-placement="${args.menuPlacement}"
     ${boolean("open", args.open)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}

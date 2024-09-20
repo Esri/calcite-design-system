@@ -60,11 +60,6 @@ export class ActionGroup
   }
 
   /**
-   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() flipPlacements: FlipPlacement[];
-
-  /**
    *  Accessible name for the component.
    */
   @Prop() label: string;
@@ -96,14 +91,19 @@ export class ActionGroup
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the action menu will be positioned.
-   */
-  @Prop({ reflect: true }) placement: LogicalPlacement;
-
-  /**
    * Specifies the size of the `calcite-action-menu`.
    */
   @Prop({ reflect: true }) scale: Scale;
+
+  /**
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+   */
+  @Prop() menuFlipPlacements: FlipPlacement[];
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) menuPlacement: LogicalPlacement;
 
   /**
    * Made into a prop for testing purposes only
@@ -196,22 +196,22 @@ export class ActionGroup
       messages,
       overlayPositioning,
       hasMenuActions,
-      flipPlacements,
-      placement,
+      menuFlipPlacements,
+      menuPlacement,
     } = this;
 
     return (
       <calcite-action-menu
         expanded={expanded}
         flipPlacements={
-          flipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
+          menuFlipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
         }
         hidden={!hasMenuActions}
         label={messages.more}
         onCalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
         overlayPositioning={overlayPositioning}
-        placement={placement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
+        placement={menuPlacement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
         scale={scale}
       >
         <calcite-action

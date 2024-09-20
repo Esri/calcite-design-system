@@ -100,11 +100,6 @@ export class Block
   @Prop({ reflect: true }) dragHandle = false;
 
   /**
-   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() flipPlacements: FlipPlacement[];
-
-  /**
    * The component header text.
    */
   @Prop() heading!: string;
@@ -129,6 +124,16 @@ export class Block
   @Prop({ reflect: true }) loading = false;
 
   /**
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+   */
+  @Prop() menuFlipPlacements: FlipPlacement[];
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
+
+  /**
    * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -137,11 +142,6 @@ export class Block
   openHandler(): void {
     onToggleOpenCloseComponent(this);
   }
-
-  /**
-   * Determines where the action menu will be positioned.
-   */
-  @Prop({ reflect: true }) placement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * Displays a status-related indicator icon.
@@ -428,8 +428,8 @@ export class Block
       heading,
       messages,
       description,
-      flipPlacements,
-      placement,
+      menuFlipPlacements,
+      menuPlacement,
     } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
@@ -484,10 +484,10 @@ export class Block
         ) : null}
         {hasMenuActions ? (
           <calcite-action-menu
-            flipPlacements={flipPlacements ?? ["top", "bottom"]}
+            flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
             label={messages.options}
             overlayPositioning={this.overlayPositioning}
-            placement={placement}
+            placement={menuPlacement}
           >
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>

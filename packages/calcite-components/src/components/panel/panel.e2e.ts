@@ -92,7 +92,7 @@ describe("calcite-panel", () => {
 
   describe("handles action-menu placement and flipPlacements", () => {
     handlesActionMenuPlacements(html`
-      <calcite-panel placement="top">
+      <calcite-panel menu-placement="top">
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
       </calcite-panel>
     `);
@@ -133,11 +133,11 @@ describe("calcite-panel", () => {
         defaultValue: "m",
       },
       {
-        propertyName: "placement",
+        propertyName: "menuPlacement",
         defaultValue: defaultEndMenuPlacement,
       },
       {
-        propertyName: "flipPlacements",
+        propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
     ]);
@@ -162,7 +162,7 @@ describe("calcite-panel", () => {
         value: "fixed",
       },
       {
-        propertyName: "placement",
+        propertyName: "menuPlacement",
         value: "bottom",
       },
     ]);

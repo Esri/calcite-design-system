@@ -46,11 +46,11 @@ describe("calcite-block", () => {
         defaultValue: "absolute",
       },
       {
-        propertyName: "placement",
+        propertyName: "menuPlacement",
         defaultValue: defaultEndMenuPlacement,
       },
       {
-        propertyName: "flipPlacements",
+        propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
     ]);
@@ -75,7 +75,7 @@ describe("calcite-block", () => {
         value: "fixed",
       },
       {
-        propertyName: "placement",
+        propertyName: "menuPlacement",
         value: "bottom",
       },
     ]);
@@ -149,7 +149,7 @@ describe("calcite-block", () => {
 
   describe("handles action-menu placement and flipPlacements", () => {
     handlesActionMenuPlacements(html`
-      <calcite-block heading="heading" description="description" placement="top">
+      <calcite-block heading="heading" description="description" menu-placement="top">
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
         <div class="content">content</div>
       </calcite-block>

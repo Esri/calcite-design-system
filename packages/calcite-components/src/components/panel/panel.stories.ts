@@ -17,7 +17,7 @@ interface PanelStoryArgs
     | "collapseDirection"
     | "loading"
     | "scale"
-    | "placement"
+    | "menuPlacement"
   > {
   heightScale: string;
 }
@@ -25,7 +25,7 @@ interface PanelStoryArgs
 export default {
   title: "Components/Panel",
   args: {
-    placement: defaultEndMenuPlacement,
+    menuPlacement: defaultEndMenuPlacement,
     closed: false,
     disabled: false,
     closable: false,
@@ -37,7 +37,7 @@ export default {
     loading: false,
   },
   argTypes: {
-    placement: {
+    menuPlacement: {
       options: placements,
       control: { type: "select" },
     },
@@ -105,7 +105,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     heightScale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
-    placement="${args.placement}"
+    menu-placement="${args.menuPlacement}"
     heading="Heading"
     description="A great panel description"
   >

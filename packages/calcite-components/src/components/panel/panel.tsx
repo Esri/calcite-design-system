@@ -118,11 +118,6 @@ export class Panel
   @Prop({ reflect: true }) collapsible = false;
 
   /**
-   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() flipPlacements: FlipPlacement[];
-
-  /**
    * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
@@ -141,9 +136,19 @@ export class Panel
   @Prop() description: string;
 
   /**
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+   */
+  @Prop() menuFlipPlacements: FlipPlacement[];
+
+  /**
    * When `true`, the action menu items in the `header-menu-actions` slot are open.
    */
   @Prop({ reflect: true }) menuOpen = false;
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * Use this property to override individual strings used by the component.
@@ -173,11 +178,6 @@ export class Panel
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
-
-  /**
-   * Determines where the action menu will be positioned.
-   */
-  @Prop({ reflect: true }) placement: LogicalPlacement = defaultEndMenuPlacement;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -563,17 +563,17 @@ export class Panel
   }
 
   renderMenu(): VNode {
-    const { hasMenuItems, messages, menuOpen, flipPlacements, placement } = this;
+    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
 
     return (
       <calcite-action-menu
-        flipPlacements={flipPlacements ?? ["top", "bottom"]}
+        flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
         label={messages.options}
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
-        placement={placement}
+        placement={menuPlacement}
       >
         <calcite-action
           icon={ICONS.menu}
