@@ -334,58 +334,59 @@ describe("calcite-slider", () => {
     }
   });
 
-  /* Need to add vertical */
   describe("thumb focus for single value", () => {
-    const sliderForThumbFocusTests = html`<calcite-slider
-      style="width:${sliderWidthFor1To1PixelValueTrack}"
-      min="0"
-      max="100"
-      snap
-      ticks="10"
-      value="50"
-    ></calcite-slider>`;
-
     it("should focus thumb when clicked near", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`${sliderForThumbFocusTests}`);
-      const slider = await page.find("calcite-slider");
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+      for (const l of ["horizontal", "vertical"]) {
+        const sliderForThumbFocusTests = html`<calcite-slider
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
+          min="0"
+          max="100"
+          snap
+          ticks="10"
+          value="50"
+          layout=${l}
+        ></calcite-slider>`;
+        const page = await newE2EPage();
+        await page.setContent(html`${sliderForThumbFocusTests}`);
+        const slider = await page.find("calcite-slider");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 50, trackY);
-      await page.mouse.down();
-      await page.mouse.up();
-      await page.waitForChanges();
+        l === "horizontal" ? await page.mouse.move(trackX + 50, trackY) : await page.mouse.move(trackX, trackY + 50);
+        await page.mouse.down();
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
-      );
+        let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+          slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+        );
 
-      expect(isThumbFocused).toBe(true);
-      expect(await slider.getProperty("value")).toBe(50);
+        expect(isThumbFocused).toBe(true);
+        expect(await slider.getProperty("value")).toBe(50);
 
-      await page.mouse.move(trackX + 40, trackY);
-      await page.mouse.down();
-      await page.mouse.up();
-      await page.waitForChanges();
+        l === "horizontal" ? await page.mouse.move(trackX + 40, trackY) : await page.mouse.move(trackX, trackY + 60);
+        await page.mouse.down();
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
-      );
+        isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+          slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+        );
 
-      expect(isThumbFocused).toBe(true);
-      expect(await slider.getProperty("value")).toBe(40);
+        expect(isThumbFocused).toBe(true);
+        expect(await slider.getProperty("value")).toBe(40);
 
-      await page.mouse.move(trackX + 60, trackY);
-      await page.mouse.down();
-      await page.mouse.up();
-      await page.waitForChanges();
+        l === "horizontal" ? await page.mouse.move(trackX + 60, trackY) : await page.mouse.move(trackX, trackY + 40);
+        await page.mouse.down();
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
-      );
+        isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+          slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+        );
 
-      expect(isThumbFocused).toBe(true);
-      expect(await slider.getProperty("value")).toBe(60);
+        expect(isThumbFocused).toBe(true);
+        expect(await slider.getProperty("value")).toBe(60);
+      }
     });
   });
 
