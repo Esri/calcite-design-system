@@ -186,16 +186,44 @@ calcite-panel {
 /**
  * Sizes
  */
+// @mixin dialog-size($size, $width) {
+//   :host([width-scale="#{$size}"]) .dialog,
+//   :host([width="#{$size}"]) .dialog {
+//     inline-size: var(--calcite-dialog-size-x, $width);
+//     block-size: var(--calcite-dialog-size-y, auto);
+//   }
+
+//   @media screen and (max-width: $width + 2 * $baseline) {
+//     :host([width-scale="#{$size}"]),
+//     :host([width="#{$size}"]) {
+//       .dialog {
+//         @apply m-0
+//           h-full
+//           max-h-full
+//           w-full
+//           max-w-full;
+//         inset-inline-start: 0;
+//         inset-block-start: var(--calcite-internal-dialog-animation-offset);
+//         &--opening {
+//           &-active {
+//             inset-block-start: 0;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
 @mixin dialog-size($size, $width) {
-  :host([width-scale="#{$size}"]) .dialog,
-  :host([width="#{$size}"]) .dialog {
-    inline-size: var(--calcite-dialog-size-x, $width);
+  :host .width-scale-#{$size} .dialog,
+  :host .width-#{$size} .dialog {
+    inline-size: var(--calcite-dialog-size-x, width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
 
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([width-scale="#{$size}"]),
-    :host([width="#{$size}"]) {
+    :host .width-scale-#{$size},
+    :host .width-#{$size} {
       .dialog {
         @apply m-0
           h-full
@@ -214,7 +242,11 @@ calcite-panel {
   }
 }
 
-:host([width="small"]) .dialog {
+// :host([width="small"]) .dialog {
+//   @apply w-auto;
+// }
+
+:host .width-s .dialog {
   @apply w-auto;
 }
 

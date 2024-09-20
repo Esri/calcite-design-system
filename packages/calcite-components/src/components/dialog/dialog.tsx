@@ -213,7 +213,7 @@ export class Dialog
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   //--------------------------------------------------------------------------
   //
@@ -271,7 +271,11 @@ export class Dialog
             aria-description={description}
             aria-label={heading}
             aria-modal={toAriaBoolean(this.modal)}
-            class={CSS.dialog}
+            class={{
+              [CSS.dialog]: true,
+              [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.widthScale}-${this.widthScale}` : ""}`]:
+                !!this.width || !!this.widthScale,
+            }}
             onKeyDown={this.handleKeyDown}
             ref={this.setTransitionEl}
             role="dialog"
