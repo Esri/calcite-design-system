@@ -11,7 +11,6 @@ export const textAreaTokens = {
   calciteTextAreaMinHeight: "",
   calciteTextAreaMaxWidth: "",
   calciteTextAreaMinWidth: "",
-  calciteTextAreaPlaceholderTextColor: "",
   calciteTextAreaTextColor: "",
 };
 
