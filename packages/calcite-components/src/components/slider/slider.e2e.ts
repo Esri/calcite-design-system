@@ -426,7 +426,7 @@ describe("calcite-slider", () => {
     it("should focus the max thumb when clicked on track close to maxValue", async () => {
       for (const l of ["horizontal", "vertical"]) {
         const sliderForThumbFocusTests = html`<calcite-slider
-          style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}"
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
           min="0"
           max="100"
           min-value="0"
@@ -441,7 +441,7 @@ describe("calcite-slider", () => {
         const slider = await page.find("calcite-slider");
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        await page.mouse.move(trackX + 60, trackY);
+        l === "horizontal" ? await page.mouse.move(trackX + 60, trackY) : await page.mouse.move(trackX, trackY + 40);
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -459,7 +459,7 @@ describe("calcite-slider", () => {
     it("should focus the max thumb when clicked on middle of the track", async () => {
       for (const l of ["horizontal", "vertical"]) {
         const sliderForThumbFocusTests = html`<calcite-slider
-          style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}"
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
           min="0"
           max="100"
           min-value="0"
@@ -474,7 +474,7 @@ describe("calcite-slider", () => {
         const slider = await page.find("calcite-slider");
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        await page.mouse.move(trackX + 50, trackY);
+        l === "horizontal" ? await page.mouse.move(trackX + 50, trackY) : await page.mouse.move(trackX, trackY + 50);
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -494,7 +494,7 @@ describe("calcite-slider", () => {
     it("single handle: clicking the track changes value on mousedown, emits on mouseup", async () => {
       for (const l of ["horizontal", "vertical"]) {
         const page = await newE2EPage({
-          html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}" layout=${l}></calcite-slider>`,
+          html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}" layout=${l}></calcite-slider>`,
         });
         await page.waitForChanges();
         const slider = await page.find("calcite-slider");
@@ -504,12 +504,12 @@ describe("calcite-slider", () => {
 
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        await page.mouse.move(trackX + 50, trackY);
+        l === "horizontal" ? await page.mouse.move(trackX + 50, trackY) : await page.mouse.move(trackX, trackY + 50);
         await page.mouse.down();
         await page.waitForChanges();
         await page.mouse.up();
 
-        expect(await slider.getProperty("value")).toBe(l === "horizontal" ? 50 : 100);
+        expect(await slider.getProperty("value")).toBe(50);
         expect(inputEvent).toHaveReceivedEventTimes(1);
         expect(changeEvent).toHaveReceivedEventTimes(1);
       }
@@ -518,7 +518,7 @@ describe("calcite-slider", () => {
     it("single handle: clicking and dragging the track changes and emits the value", async () => {
       for (const l of ["horizontal", "vertical"]) {
         const page = await newE2EPage({
-          html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}" layout=${l}></calcite-slider>`,
+          html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}; margin-top: 100px" layout=${l}></calcite-slider>`,
         });
         await page.waitForChanges();
         const slider = await page.find("calcite-slider");
@@ -536,189 +536,233 @@ describe("calcite-slider", () => {
           await page.mouse.move(trackX + 4, trackY);
           await page.mouse.move(trackX + 5, trackY);
         } else {
-          await page.mouse.move(trackX, trackY + 1);
+          await page.mouse.move(trackX, trackY + 99);
+          await page.mouse.move(trackX, trackY + 98);
+          await page.mouse.move(trackX, trackY + 97);
+          await page.mouse.move(trackX, trackY + 96);
+          await page.mouse.move(trackX, trackY + 95);
         }
         await page.waitForChanges();
         await page.mouse.up();
 
-        expect(await slider.getProperty("value")).toBe(l === "horizontal" ? 5 : 50);
-        expect(inputEvent).toHaveReceivedEventTimes(l === "horizontal" ? 5 : 1);
+        expect(await slider.getProperty("value")).toBe(5);
+        expect(inputEvent).toHaveReceivedEventTimes(l === "horizontal" ? 5 : 6);
         expect(changeEvent).toHaveReceivedEventTimes(1);
       }
     });
 
-    // it("range: clicking the track to the left of the min handle changes minValue on mousedown, emits on mouseup", async () => {
-    //   for (const l of ["vertical"]) {
-    //     const page = await newE2EPage({
-    //       html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}" layout=${l}></calcite-slider>`,
-    //     });
-    //     await page.waitForChanges();
+    it("range: clicking the track to the left of the min handle changes minValue on mousedown, emits on mouseup", async () => {
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage({
+          html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}" layout=${l}></calcite-slider>`,
+        });
+        await page.waitForChanges();
 
-    //     const slider = await page.find("calcite-slider");
-    //     const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-    //     const inputEvent = await slider.spyOnEvent("calciteSliderInput");
-    //     expect(await slider.getProperty("minValue")).toBe(50);
-    //     expect(await slider.getProperty("maxValue")).toBe(75);
+        const slider = await page.find("calcite-slider");
+        const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+        const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+        expect(await slider.getProperty("minValue")).toBe(50);
+        expect(await slider.getProperty("maxValue")).toBe(75);
 
-    //     const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+        l === "horizontal" ? await page.mouse.move(trackX + 25, trackY) : await page.mouse.move(trackX, trackY + 75);
+        await page.mouse.down();
+        await page.waitForChanges();
 
-    //     await page.mouse.move(trackX + 25, trackY);
-    //     await page.mouse.down();
-    //     await page.waitForChanges();
+        expect(await slider.getProperty("minValue")).toBe(25);
+        expect(await slider.getProperty("maxValue")).toBe(75);
+        expect(changeEvent).toHaveReceivedEventTimes(0);
 
-    //     expect(await slider.getProperty("minValue")).toBe(25);
-    //     expect(await slider.getProperty("maxValue")).toBe(75);
-    //     expect(changeEvent).toHaveReceivedEventTimes(0);
+        await page.mouse.up();
+        await page.waitForChanges();
 
-    //     await page.mouse.up();
-    //     await page.waitForChanges();
-
-    //     expect(changeEvent).toHaveReceivedEventTimes(1);
-    //     expect(inputEvent).toHaveReceivedEventTimes(1);
-    //   }
-    // });
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(inputEvent).toHaveReceivedEventTimes(1);
+      }
+    });
 
     it("range: clicking and dragging the track to the left of the min handle changes minValue and emits", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
-      });
-      await page.waitForChanges();
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage({
+          html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}" layout=${l}></calcite-slider>`,
+        });
+        await page.waitForChanges();
 
-      const slider = await page.find("calcite-slider");
-      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
-      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-      expect(await slider.getProperty("minValue")).toBe(50);
-      expect(await slider.getProperty("maxValue")).toBe(75);
+        const slider = await page.find("calcite-slider");
+        const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+        const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+        expect(await slider.getProperty("minValue")).toBe(50);
+        expect(await slider.getProperty("maxValue")).toBe(75);
 
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 21, trackY);
-      await page.mouse.down();
-      await page.mouse.move(trackX + 22, trackY);
-      await page.mouse.move(trackX + 23, trackY);
-      await page.mouse.move(trackX + 24, trackY);
-      await page.mouse.move(trackX + 25, trackY);
-      await page.waitForChanges();
-      await page.mouse.up();
+        if (l === "horizontal") {
+          await page.mouse.move(trackX + 21, trackY);
+          await page.mouse.down();
+          await page.mouse.move(trackX + 22, trackY);
+          await page.mouse.move(trackX + 23, trackY);
+          await page.mouse.move(trackX + 24, trackY);
+          await page.mouse.move(trackX + 25, trackY);
+        } else {
+          await page.mouse.move(trackX, trackY + 79);
+          await page.mouse.down();
+          await page.mouse.move(trackX, trackY + 78);
+          await page.mouse.move(trackX, trackY + 77);
+          await page.mouse.move(trackX, trackY + 76);
+          await page.mouse.move(trackX, trackY + 75);
+        }
+        await page.waitForChanges();
+        await page.mouse.up();
 
-      expect(await slider.getProperty("minValue")).toBe(25);
-      expect(await slider.getProperty("maxValue")).toBe(75);
-      expect(inputEvent).toHaveReceivedEventTimes(5);
-      expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(await slider.getProperty("minValue")).toBe(25);
+        expect(await slider.getProperty("maxValue")).toBe(75);
+        expect(inputEvent).toHaveReceivedEventTimes(5);
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+      }
     });
 
     it("range: clicking the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
-      });
-      await page.waitForChanges();
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage({
+          html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}; margin-top: 100px" layout=${l}></calcite-slider>`,
+        });
+        await page.waitForChanges();
 
-      const slider = await page.find("calcite-slider");
-      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+        const slider = await page.find("calcite-slider");
+        const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+        const inputEvent = await slider.spyOnEvent("calciteSliderInput");
 
-      expect(await slider.getProperty("minValue")).toBe(25);
-      expect(await slider.getProperty("maxValue")).toBe(50);
+        expect(await slider.getProperty("minValue")).toBe(25);
+        expect(await slider.getProperty("maxValue")).toBe(50);
 
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 75, trackY);
-      await page.mouse.down();
-      await page.waitForChanges();
-      await page.mouse.up();
+        l === "horizontal" ? await page.mouse.move(trackX + 75, trackY) : await page.mouse.move(trackX, trackY + 25);
+        await page.mouse.down();
+        await page.waitForChanges();
+        await page.mouse.up();
 
-      expect(await slider.getProperty("minValue")).toBe(25);
-      expect(await slider.getProperty("maxValue")).toBe(75);
-      expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(inputEvent).toHaveReceivedEventTimes(1);
+        expect(await slider.getProperty("minValue")).toBe(25);
+        expect(await slider.getProperty("maxValue")).toBe(75);
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(inputEvent).toHaveReceivedEventTimes(1);
+      }
     });
 
     it("range: clicking and dragging the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
-      });
-      await page.waitForChanges();
-      const slider = await page.find("calcite-slider");
-      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
-      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-      expect(await slider.getProperty("minValue")).toBe(25);
-      expect(await slider.getProperty("maxValue")).toBe(50);
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage({
+          html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}; margin-top: 100px" layout=${l}></calcite-slider>`,
+        });
+        await page.waitForChanges();
+        const slider = await page.find("calcite-slider");
+        const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+        const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+        expect(await slider.getProperty("minValue")).toBe(25);
+        expect(await slider.getProperty("maxValue")).toBe(50);
 
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 71, trackY);
-      await page.mouse.down();
-      await page.mouse.move(trackX + 72, trackY);
-      await page.mouse.move(trackX + 73, trackY);
-      await page.mouse.move(trackX + 74, trackY);
-      await page.mouse.move(trackX + 75, trackY);
-      await page.mouse.up();
-      await page.waitForChanges();
+        if (l === "horizontal") {
+          await page.mouse.move(trackX + 71, trackY);
+          await page.mouse.down();
+          await page.mouse.move(trackX + 72, trackY);
+          await page.mouse.move(trackX + 73, trackY);
+          await page.mouse.move(trackX + 74, trackY);
+          await page.mouse.move(trackX + 75, trackY);
+        } else {
+          await page.mouse.move(trackX, trackY + 29);
+          await page.mouse.down();
+          await page.mouse.move(trackX, trackY + 28);
+          await page.mouse.move(trackX, trackY + 27);
+          await page.mouse.move(trackX, trackY + 26);
+          await page.mouse.move(trackX, trackY + 25);
+        }
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      expect(await slider.getProperty("minValue")).toBe(25);
-      expect(await slider.getProperty("maxValue")).toBe(75);
-      expect(inputEvent).toHaveReceivedEventTimes(5);
-      expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(await slider.getProperty("minValue")).toBe(25);
+        expect(await slider.getProperty("maxValue")).toBe(75);
+        expect(inputEvent).toHaveReceivedEventTimes(5);
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+      }
     });
 
     it("range: clicking and dragging the range changes minValue and maxValue on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-slider
-          min-value="0"
-          max-value="50"
-          snap
-          style="width:${sliderWidthFor1To1PixelValueTrack}"
-        ></calcite-slider>`,
-      );
-      const slider = await page.find("calcite-slider");
-      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
-      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`<calcite-slider
+            min-value="0"
+            max-value="50"
+            snap
+            style="width:${sliderWidthFor1To1PixelValueTrack}; margin-top: 100px"
+            layout=${l}
+          ></calcite-slider>`,
+        );
+        const slider = await page.find("calcite-slider");
+        const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+        const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+        const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackX + 25, trackY);
-      await page.mouse.down();
-      await page.mouse.move(trackX + 26, trackY);
-      await page.mouse.move(trackX + 27, trackY);
-      await page.mouse.move(trackX + 28, trackY);
-      await page.mouse.move(trackX + 29, trackY);
-      await page.mouse.move(trackX + 30, trackY);
-      await page.mouse.move(trackX + 31, trackY);
-      await page.mouse.up();
-      await page.waitForChanges();
+        if (l === "horizontal") {
+          await page.mouse.move(trackX + 25, trackY);
+          await page.mouse.down();
+          await page.mouse.move(trackX + 26, trackY);
+          await page.mouse.move(trackX + 27, trackY);
+          await page.mouse.move(trackX + 28, trackY);
+          await page.mouse.move(trackX + 29, trackY);
+          await page.mouse.move(trackX + 30, trackY);
+          await page.mouse.move(trackX + 31, trackY);
+        } else {
+          await page.mouse.move(trackX, trackY + 75);
+          await page.mouse.down();
+          await page.mouse.move(trackX, trackY + 74);
+          await page.mouse.move(trackX, trackY + 73);
+          await page.mouse.move(trackX, trackY + 72);
+          await page.mouse.move(trackX, trackY + 71);
+          await page.mouse.move(trackX, trackY + 70);
+          await page.mouse.move(trackX, trackY + 69);
+        }
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      expect(await slider.getProperty("minValue")).toBe(5);
-      expect(await slider.getProperty("maxValue")).toBe(55);
-      expect(inputEvent).toHaveReceivedEventTimes(6);
-      expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(await slider.getProperty("minValue")).toBe(5);
+        expect(await slider.getProperty("maxValue")).toBe(55);
+        expect(inputEvent).toHaveReceivedEventTimes(6);
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+      }
     });
 
     it("does not allow text selection when slider is used", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider 
-          value="30" 
-          label-handles 
-          label-ticks 
-          max-label="100" 
-          ticks="10" 
-          min="0" 
-          max="100" 
-          value="50" 
-          step="1"
-        >
-        </calcite-slider>`,
-      });
-      await page.waitForChanges();
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage({
+          html: `<calcite-slider 
+            value="30" 
+            label-handles 
+            label-ticks 
+            max-label="100" 
+            ticks="10" 
+            min="0" 
+            max="100" 
+            value="50" 
+            step="1"
+            layout=${l}
+          >
+          </calcite-slider>`,
+        });
+        await page.waitForChanges();
 
-      const thumbRect = await getElementRect(page, "calcite-slider", ".thumb");
+        const thumbRect = await getElementRect(page, "calcite-slider", ".thumb");
 
-      await page.mouse.move(thumbRect.x, thumbRect.y);
-      await page.mouse.down();
-      await page.mouse.move(thumbRect.x + 500, thumbRect.y + 200);
-      await page.mouse.up();
-      await page.waitForChanges();
+        await page.mouse.move(thumbRect.x, thumbRect.y);
+        await page.mouse.down();
+        await page.mouse.move(thumbRect.x + 500, thumbRect.y + 200);
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
+        expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
+      }
     });
   });
 
