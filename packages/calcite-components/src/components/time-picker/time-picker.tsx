@@ -77,7 +77,7 @@ export class TimePicker
   //
   //--------------------------------------------------------------------------
 
-  /** Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting. */
+  /** Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting. */
   @Prop({ reflect: true, mutable: true }) hourFormat: HourFormat;
 
   @Watch("hourFormat")
