@@ -298,7 +298,7 @@ export class Action
       buttonId,
       messages,
     } = this;
-    const labelFallback = label || text;
+    const labelFallback = label || text || "";
     const ariaLabel = indicator
       ? messages.indicatorLabel?.replace("{label}", labelFallback)
       : labelFallback;
