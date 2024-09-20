@@ -226,7 +226,7 @@ export class InputTimePicker
   @Prop({ reflect: true }) form: string;
 
   /**
-   * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+   * Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
    */
   @Prop({ mutable: true, reflect: true }) hourFormat: HourFormat;
 
