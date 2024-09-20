@@ -298,7 +298,10 @@ export class Action
       buttonId,
       messages,
     } = this;
-    const ariaLabel = messages.indicatorLabel?.replace("{label}", label || text) ?? "";
+    const labelFallback = label || text;
+    const ariaLabel = indicator
+      ? messages.indicatorLabel?.replace("{label}", labelFallback)
+      : labelFallback;
 
     const buttonClasses = {
       [CSS.button]: true,
