@@ -52,6 +52,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { decimalPlaces, getDecimals } from "../../utils/math";
+import { getElementDir } from "../../utils/dom";
 import { CSS } from "./resources";
 import { TimePickerMessages } from "./assets/time-picker/t9n";
 
@@ -1124,7 +1125,7 @@ export class TimePicker
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0,
+              [CSS.meridiemStart]: this.meridiemOrder === 0 || getElementDir(this.el) === "rtl",
             }}
             role="group"
           >
