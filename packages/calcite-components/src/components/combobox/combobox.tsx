@@ -1135,7 +1135,10 @@ export class Combobox
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (
       !item ||
-      (this.selectionMode === "single-persist" && item.selected && item.value === this.value)
+      (this.selectionMode === "single-persist" &&
+        item.selected &&
+        item.value === this.value &&
+        !value)
     ) {
       return;
     }
