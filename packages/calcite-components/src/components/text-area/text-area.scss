@@ -52,7 +52,6 @@
 
   &::placeholder {
     @apply font-normal;
-    color: var(--calcite-text-area-placeholder-text-color, var(--calcite-color-text-3));
   }
 
   @media screen and (max-width: 480px) {
