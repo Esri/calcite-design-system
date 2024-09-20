@@ -31,6 +31,7 @@ import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { calciteSwitch } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
+import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -111,7 +112,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress} ${handle}</div>
+
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}  ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle}</div>
+
       </div>
     </div>
   </div>`;
@@ -124,9 +127,10 @@ export default {
     ...accordionItemTokens,
     ...actionTokens,
     ...actionBarTokens,
+    ...actionGroupTokens,
     ...actionMenuTokens,
     ...actionPadTokens,
-    ...actionGroupTokens,
+    ...avatarTokens,
     ...cardTokens,
     ...checkboxTokens,
     ...handleTokens,
@@ -146,9 +150,10 @@ export const theming_TestOnly = (): string => {
       ...accordionItemTokens,
       ...actionTokens,
       ...actionBarTokens,
+      ...actionGroupTokens,
       ...actionMenuTokens,
       ...actionPadTokens,
-      ...actionGroupTokens,
+      ...avatarTokens,
       ...cardTokens,
       ...checkboxTokens,
       ...handleTokens,
