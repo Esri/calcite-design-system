@@ -10,12 +10,13 @@ import {
   actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
-import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
+import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { buttons } from "./custom-theme/button";
+import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
-import { chips } from "./custom-theme/chips";
+import { chips, chipTokens } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -29,7 +30,6 @@ import { pagination } from "./custom-theme/pagination";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
-import { calciteSwitch } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 
@@ -132,6 +132,7 @@ export default {
     ...actionPadTokens,
     ...avatarTokens,
     ...cardTokens,
+    ...chipTokens,
     ...checkboxTokens,
     ...handleTokens,
     ...progressTokens,
@@ -155,6 +156,7 @@ export const theming_TestOnly = (): string => {
       ...actionPadTokens,
       ...avatarTokens,
       ...cardTokens,
+      ...chipTokens,
       ...checkboxTokens,
       ...handleTokens,
       ...progressTokens,
