@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -39,7 +39,36 @@ describe("calcite-sheet properties", () => {
         propertyName: "opened",
         defaultValue: false,
       },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "heightScale",
+        defaultValue: "m",
+      },
     ]);
+
+    describe("reflects", () => {
+      reflects("calcite-sheet", [
+        {
+          propertyName: "height",
+          value: "m",
+        },
+        {
+          propertyName: "heightScale",
+          value: "m",
+        },
+        {
+          propertyName: "width",
+          value: "m",
+        },
+        {
+          propertyName: "widthScale",
+          value: "m",
+        },
+      ]);
+    });
   });
 
   describe("renders", () => {
@@ -553,6 +582,25 @@ describe("calcite-sheet properties", () => {
 
       expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
       expect(closeSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("deprecate widthScale and heightScale", () => {
+    it("width takes precedence over widthScale", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-sheet width-scale="l" width="s"></calcite-dropdown>`);
+      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
+      await page.waitForChanges();
+
+      expect(container.classList.contains(`${CSS.width}-s`)).toBe(true);
+    });
+    it("height takes precedence over heightScale", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-sheet height-scale="l" height="s"></calcite-dropdown>`);
+      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
+      await page.waitForChanges();
+
+      expect(container.classList.contains(`${CSS.height}-s`)).toBe(true);
     });
   });
 });

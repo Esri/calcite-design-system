@@ -4,4 +4,6 @@ export const CSS = {
   containerOpen: "container--open",
   content: "content",
   containerEmbedded: "container--embedded",
+  height: "height",
+  width: "width",
 };

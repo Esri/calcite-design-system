@@ -77,7 +77,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ reflect: true }) heightScale: Scale = "m";
 
   /** Specifies the height of the component. */
-  @Prop({ reflect: true }) height: Height = "m";
+  @Prop({ reflect: true }) height: Height;
 
   /**
    * When `true`, prevents focus trapping.
@@ -140,7 +140,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -186,6 +186,10 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             [CSS.containerOpen]: this.opened,
             [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
+            [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
+              !!this.width || !!this.widthScale,
+            [`${this.height ? `${CSS.height}-${this.height}` : this.heightScale ? `${CSS.height}-${this.heightScale}` : ""}`]:
+              !!this.height || !!this.heightScale,
           }}
           ref={this.setTransitionEl}
         >
