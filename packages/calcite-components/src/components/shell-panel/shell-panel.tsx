@@ -111,7 +111,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
    *
    * @deprecated Use the `height` property instead.
    */
-  @Prop({ reflect: true }) heightScale: Scale;
+  @Prop({ reflect: true }) heightScale: Scale = "m";
 
   @Watch("heightScale")
   handleHeightScale(value: Scale): void {
@@ -119,7 +119,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /** Specifies the height of the component. */
-  @Prop({ reflect: true }) height: Height = "m";
+  @Prop({ reflect: true }) height: Height;
 
   /**
    * When `layout` is `vertical`, specifies the width of the component.
@@ -129,7 +129,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   /**
    *  The direction of the component.
@@ -348,6 +348,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
+          [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
+            !!this.width || !!this.widthScale,
+          [`${this.height ? `${CSS.height}-${this.height}` : this.heightScale ? `${CSS.height}-${this.heightScale}` : ""}`]:
+            !!this.height || !!this.heightScale,
         }}
         hidden={collapsed}
         key="content"

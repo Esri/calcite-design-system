@@ -3,11 +3,13 @@ export const CSS = {
   content: "content",
   contentHeader: "content__header",
   contentBody: "content__body",
-  floatContent: "float--content",
   contentOverlay: "content--overlay",
-  separator: "separator",
   float: "float",
   floatAll: "float-all",
+  floatContent: "float--content",
+  height: "height",
+  separator: "separator",
+  width: "width",
 };
 
 export const SLOTS = {
