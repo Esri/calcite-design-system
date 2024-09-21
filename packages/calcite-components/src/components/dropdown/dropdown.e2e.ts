@@ -18,6 +18,7 @@ import {
   isElementFocused,
   skipAnimations,
 } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -38,6 +39,10 @@ describe("calcite-dropdown", () => {
         defaultValue: "m",
       },
       {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "placement",
         defaultValue: "bottom-start",
       },
@@ -48,6 +53,14 @@ describe("calcite-dropdown", () => {
     reflects("calcite-dropdown", [
       {
         propertyName: "scale",
+        value: "m",
+      },
+      {
+        propertyName: "widthScale",
+        value: "m",
+      },
+      {
+        propertyName: "width",
         value: "m",
       },
       {
@@ -1307,6 +1320,17 @@ describe("calcite-dropdown", () => {
       await page.waitForChanges();
 
       expect(await isElementFocused(page, "#item-3")).toBe(true);
+    });
+  });
+
+  describe("deprecate widthScale", () => {
+    it("width takes precedence over widthScale", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-dropdown ${CSS.widthScale}="l" ${CSS.width}="s"></calcite-dropdown>`);
+      const wrapper = await page.find(`calcite-dropdown >>> .${CSS.calciteDropdownWrapper}`);
+      await page.waitForChanges();
+
+      expect(wrapper.classList.contains(`${CSS.width}-s`)).toBe(true);
     });
   });
 });
