@@ -188,14 +188,12 @@ calcite-panel {
  */
 
 @mixin dialog-size($size, $width) {
-  .width-scale-#{$size},
   .width-#{$size} {
     inline-size: var(--calcite-dialog-size-x, $width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
 
   @media screen and (max-width: $width + 2 * $baseline) {
-    .width-scale-#{$size},
     .width-#{$size} {
       .dialog {
         @apply m-0

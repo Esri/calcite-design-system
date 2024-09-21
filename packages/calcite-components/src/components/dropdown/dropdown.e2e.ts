@@ -1326,7 +1326,7 @@ describe("calcite-dropdown", () => {
   describe("deprecate widthScale", () => {
     it("width takes precedence over widthScale", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-dropdown ${CSS.widthScale}="l" ${CSS.width}="s"></calcite-dropdown>`);
+      await page.setContent(`<calcite-dropdown width-scale="l" width="s"></calcite-dropdown>`);
       const wrapper = await page.find(`calcite-dropdown >>> .${CSS.calciteDropdownWrapper}`);
       await page.waitForChanges();
 

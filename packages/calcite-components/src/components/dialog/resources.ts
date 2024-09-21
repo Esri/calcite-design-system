@@ -10,7 +10,6 @@ export const CSS = {
   assistiveText: "assistive-text",
   openingActive: "dialog--opening-active",
   width: "width",
-  widthScale: "width-scale",
 };
 
 export const SLOTS = {

@@ -151,7 +151,7 @@ export class Modal
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width> = "m";
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @Prop({ reflect: true }) fullscreen: boolean;
@@ -239,6 +239,8 @@ export class Modal
           <div
             class={{
               [CSS.modal]: true,
+              [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
+                !!this.width || !!this.widthScale,
             }}
             ref={this.setTransitionEl}
           >

@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
+import { defaults, focusable, hidden, openClose, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
@@ -29,6 +29,28 @@ describe("calcite-modal", () => {
 
   describe("translation support", () => {
     t9n("calcite-modal");
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-modal", [
+      {
+        propertyName: "width-scale",
+        value: "m",
+      },
+      {
+        propertyName: "width",
+        value: "m",
+      },
+    ]);
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-modal", [
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+    ]);
   });
 
   it("should hide closeButton when disabled", async () => {
@@ -656,5 +678,16 @@ describe("calcite-modal", () => {
     await page.waitForChanges();
     closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="m"]');
     expect(closeIcon).not.toBe(null);
+  });
+
+  describe("deprecate widthScale", () => {
+    it("width takes precedence over widthScale", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-modal width-scale="l" width="s"></calcite-modal>`);
+      const modal = await page.find(`calcite-modal >>> .${CSS.modal}`);
+      await page.waitForChanges();
+
+      expect(modal.classList.contains(`${CSS.width}-s`)).toBe(true);
+    });
   });
 });

@@ -1128,7 +1128,7 @@ describe("calcite-dialog", () => {
   describe("deprecate widthScale", () => {
     it("width takes precedence over widthScale", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog ${CSS.widthScale}="l" ${CSS.width}="s"></calcite-dialog>`);
+      await page.setContent(`<calcite-dialog width-scale="l" width="s"></calcite-dialog>`);
       const dialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
       await page.waitForChanges();
 
