@@ -25,31 +25,19 @@
 button {
   border-end-end-radius: var(
     --calcite-action-corner-radius-end-end,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-end-end, var(--calcite-corner-radius))
-    )
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
   );
   border-end-start-radius: var(
     --calcite-action-corner-radius-end-start,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-end-start, var(--calcite-corner-radius))
-    )
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
   );
   border-start-end-radius: var(
     --calcite-action-corner-radius-start-end,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-start-end, var(--calcite-corner-radius))
-    )
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
   );
   border-start-start-radius: var(
     --calcite-action-corner-radius-start-start,
-    var(
-      --calcite-action-corner-radius,
-      var(--calcite-internal-action-corner-radius-start-start, var(--calcite-corner-radius))
-    )
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
   );
 }
 

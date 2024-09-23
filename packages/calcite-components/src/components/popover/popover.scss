@@ -3,11 +3,14 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-action-corner-radius-start-end: Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius-end-end: Specifies the component's corner radius end end.
  * @prop --calcite-popover-background-color: Specifies the background color of the component.
  * @prop --calcite-popover-border-color: Specifies the border color of the component.
  * @prop --calcite-popover-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-popover-text-color: Specifies the text color of the component.
  * @prop --calcite-popover-z-index: Sets the z-index value for the component.
+ 
  */
 
 :host {
@@ -111,14 +114,8 @@
   flex: 0 0 auto;
   border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
   border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-  --calcite-internal-action-corner-radius-start-end: var(
-    --calcite-popover-corner-radius,
-    var(--calcite-corner-radius-sharp)
-  );
-  --calcite-internal-action-corner-radius-end-end: var(
-    --calcite-popover-corner-radius,
-    var(--calcite-corner-radius-sharp)
-  );
+  --calcite-action-corner-radius-start-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
+  --calcite-action-corner-radius-end-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 ::slotted(calcite-panel),
