@@ -1851,3 +1851,33 @@ export const panelWithPopoverZIndex = (): string =>
     ><calcite-popover open reference-element="button" offset-distance="-50" offset-skidding="15" style="z-index: 100">
       <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel>
     </calcite-popover>`;
+
+export const popoverZIndex = (): string =>
+  html`<calcite-shell>
+    <calcite-shell-panel slot="panel-start" position="start" id="shell-panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action id="target-element" text="Save" icon="save" indicator></calcite-action>
+        <calcite-action active icon="map" text="Map"></calcite-action>
+        <calcite-action icon="layer" text="Layer"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Map" id="panel-start">
+        <calcite-block heading="Block 1" collapsible></calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+
+    <!--  Popover here  -->
+    <calcite-popover reference-element="target-element" open><p>This is a popover</p></calcite-popover>
+
+    <calcite-shell-panel slot="panel-end" position="end" id="shell-panel-end" collapsed>
+      <calcite-action-bar slot="action-bar">
+        <calcite-action text="Layer" icon="sliders-horizontal"></calcite-action>
+        <calcite-action text="Styles" icon="shapes"></calcite-action>
+        <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+        <calcite-action text="Configure" icon="popup"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading id="panel-end" closable closed>
+        <calcite-block heading="Block 1" collapsible></calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>`;

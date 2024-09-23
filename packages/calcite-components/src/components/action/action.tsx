@@ -315,7 +315,6 @@ export class Action
           <button
             aria-busy={toAriaBoolean(loading)}
             aria-controls={indicator ? indicatorId : null}
-            aria-disabled={toAriaBoolean(disabled)}
             aria-label={ariaLabel}
             aria-pressed={toAriaBoolean(active)}
             class={buttonClasses}
