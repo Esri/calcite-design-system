@@ -339,7 +339,6 @@ export class Card
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-checked={this.selectionMode !== "none" ? toAriaBoolean(this.selected) : undefined}
-            aria-disabled={this.disabled}
             aria-label={this.label}
             class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
             onClick={this.cardBodyClickHandler}

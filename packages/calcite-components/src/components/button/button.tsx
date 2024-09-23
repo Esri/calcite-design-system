@@ -33,7 +33,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { toAriaBoolean } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
 import { ButtonMessages } from "./assets/button/t9n";
@@ -266,7 +265,6 @@ export class Button
     return (
       <InteractiveContainer disabled={this.disabled}>
         <Tag
-          aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
           aria-expanded={this.el.getAttribute("aria-expanded")}
           aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
           aria-live="polite"

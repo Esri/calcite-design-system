@@ -409,7 +409,6 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <tr
-            aria-disabled={this.disabled}
             aria-rowindex={this.positionAll + 1}
             aria-selected={this.selected}
             class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
