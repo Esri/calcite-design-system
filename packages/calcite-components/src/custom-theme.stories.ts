@@ -31,6 +31,7 @@ import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { tabs } from "./custom-theme/tabs";
+import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 
 const globalTokens = {
@@ -113,7 +114,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           ${chips} ${pagination} ${slider}
         </div>
 
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch}  ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea}</div>
 
       </div>
     </div>
@@ -137,6 +138,7 @@ export default {
     ...handleTokens,
     ...progressTokens,
     ...inputTokens,
+    ...textAreaTokens,
   },
 };
 
@@ -161,6 +163,7 @@ export const theming_TestOnly = (): string => {
       ...handleTokens,
       ...progressTokens,
       ...inputTokens,
+      ...textAreaTokens,
     },
     true,
   );
