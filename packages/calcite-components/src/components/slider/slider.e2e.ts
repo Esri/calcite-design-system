@@ -391,6 +391,7 @@ describe("calcite-slider", () => {
   });
 
   describe("thumb focus in range", () => {
+    /* Need to add vertical */
     it("should focus the min thumb when clicked on track close to minValue", async () => {
       for (const l of ["horizontal", "vertical"]) {
         const sliderForThumbFocusTests = html`<calcite-slider

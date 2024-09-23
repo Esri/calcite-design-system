@@ -162,11 +162,6 @@
 
   &.thumb--precise {
     --calcite-slider-thumb-y-offset: -0.125rem;
-
-    &.thumb--vertical-reversed:not(.mirrored),
-    &.thumb--minValue.thumb--horizontal-reversed:not(.mirrored) {
-      --calcite-slider-thumb-y-offset: -3.125rem;
-    }
   }
 }
 
@@ -176,23 +171,17 @@
   }
   &:host(:not([has-histogram])) {
     .scale--s {
-      .thumb:not(.thumb--precise):not(.thumb--vertical) {
+      .thumb:not(.thumb--precise) {
         --calcite-slider-thumb-y-offset: -1.4375rem;
-      }
-      .thumb:not(.thumb--precise).thumb--horizontal.thumb--horizontal-reversed {
-        --calcite-slider-thumb-y-offset: -0.375rem;
       }
     }
     .scale--m {
-      .thumb:not(.thumb--precise).thumb--horizontal {
+      .thumb:not(.thumb--precise) {
         --calcite-slider-thumb-y-offset: -1.875rem;
-      }
-      .thumb:not(.thumb--precise).thumb--horizontal.thumb--horizontal-reversed {
-        --calcite-slider-thumb-y-offset: -0.5rem;
       }
     }
     .scale--l {
-      .thumb:not(.thumb--precise):not(.thumb--vertical):not(.thumb--horizontal-reversed) {
+      .thumb:not(.thumb--precise) {
         --calcite-slider-thumb-y-offset: -2rem;
       }
     }
@@ -213,106 +202,14 @@
 }
 
 :host([label-handles][precise]) {
-  &:host(:not([has-histogram])) .scale--s {
-    &:not(.container--range) .thumb--value {
-      --calcite-slider-thumb-y-offset: -2.075rem;
-      &.thumb--vertical.thumb--vertical-reversed {
-        --calcite-slider-thumb-y-offset: -0.075rem;
-      }
-      &.thumb--horizontal.thumb--horizontal-reversed {
-        --calcite-slider-thumb-y-offset: -0.125rem;
-      }
-    }
-    &.container--range {
-      .thumb--value {
-        --calcite-slider-thumb-y-offset: -0.125rem;
-        &.thumb--vertical.thumb--vertical-reversed.mirrored,
-        &.thumb--horizontal:not(.mirrored),
-        &.thumb--horizontal:not(.thumb--horizontal-reversed),
-        &.thumb--horizontal.mirrored.thumb--horizontal-reversed {
-          --calcite-slider-thumb-y-offset: -2.125rem;
-        }
-      }
-      .thumb--minValue {
-        --calcite-slider-thumb-y-offset: -2.125rem;
-        &.thumb--vertical.thumb--vertical-reversed.mirrored,
-        &.thumb--horizontal:not(.mirrored),
-        &.thumb--horizontal:not(.thumb--horizontal-reversed),
-        &.thumb--horizontal.mirrored.thumb--horizontal-reversed {
-          --calcite-slider-thumb-y-offset: -0.125rem;
-        }
-      }
-    }
+  &:host(:not([has-histogram])) .scale--s .thumb--value {
+    --calcite-slider-thumb-y-offset: -2.075rem;
   }
-  &:host(:not([has-histogram])) .scale--m {
-    &:not(.container--range) .thumb--value {
-      --calcite-slider-thumb-y-offset: -2.75rem;
-      &.thumb--vertical.thumb--vertical-reversed {
-        --calcite-slider-thumb-y-offset: 0;
-      }
-      &.thumb--horizontal.thumb--horizontal-reversed {
-        --calcite-slider-thumb-y-offset: -0.125rem;
-      }
-    }
-    &.container--range {
-      .thumb--value {
-        &.thumb--vertical.mirrored,
-        &.thumb--vertical.thumb--vertical-reversed,
-        &.thumb--horizontal.mirrored,
-        &.thumb--horizontal.thumb--horizontal-reversed {
-          --calcite-slider-thumb-y-offset: -0.125rem;
-        }
-        &.thumb--vertical.thumb--vertical-reversed.mirrored,
-        &.thumb--horizontal:not(.mirrored):not(.thumb--horizontal-reversed),
-        &.thumb--horizontal.mirrored.thumb--horizontal-reversed {
-          --calcite-slider-thumb-y-offset: -2.9rem;
-        }
-      }
-      .thumb--minValue {
-        &.thumb--vertical.mirrored:not(.thumb--vertical-reversed) {
-          --calcite-slider-thumb-y-offset: -2.75rem;
-        }
-        &.thumb--vertical.thumb--vertical.thumb--vertical-reversed:not(.mirrored),
-        &.thumb--horizontal.mirrored:not(.thumb--horizontal-reversed),
-        &.thumb--horizontal.thumb--horizontal-reversed:not(.mirrored) {
-          --calcite-slider-thumb-y-offset: -2.9rem;
-        }
-      }
-    }
+  &:host(:not([has-histogram])) .scale--m .thumb--value {
+    --calcite-slider-thumb-y-offset: -2.75rem;
   }
-  &:host(:not([has-histogram])) .scale--l {
-    &:not(.container--range) {
-      .thumb--value {
-        --calcite-slider-thumb-y-offset: -3.0625rem;
-        &.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
-          --calcite-slider-thumb-y-offset: -0.0625rem;
-        }
-        &.thumb--vertical.thumb--vertical-reversed.mirrored,
-        &.thumb--horizontal-reversed {
-          --calcite-slider-thumb-y-offset: -0.125rem;
-        }
-      }
-    }
-    &.container--range {
-      .thumb--value {
-        --calcite-slider-thumb-y-offset: -3.0625rem;
-        &.thumb--horizontal.mirrored:not(.thumb--horizontal-reversed),
-        &.thumb--horizontal-reversed:not(.mirrored),
-        &.thumb--vertical.mirrored:not(.thumb--vertical-reversed),
-        &.thumb--vertical.thumb--vertical-reversed:not(.mirrored) {
-          --calcite-slider-thumb-y-offset: -0.125rem;
-        }
-      }
-      .thumb--minValue {
-        &.thumb--horizontal:not(.thumb--horizontal-reversed).mirrored,
-        &.thumb--vertical.mirrored {
-          --calcite-slider-thumb-y-offset: -3.125rem;
-        }
-        &.thumb--vertical.thumb--vertical-reversed.mirrored {
-          --calcite-slider-thumb-y-offset: -0.125rem;
-        }
-      }
-    }
+  &:host(:not([has-histogram])) .scale--l .thumb--value {
+    --calcite-slider-thumb-y-offset: -3.0625rem;
   }
 }
 
@@ -401,10 +298,6 @@
     mt-3.5
     flex
     justify-center;
-
-  &.tick__label--horizontal-reversed {
-    margin-block-start: -1.3rem;
-  }
 }
 
 .tick__label--min {
@@ -413,14 +306,6 @@
 
 .tick__label--max {
   transition: opacity var(--calcite-internal-animation-timing-fast);
-}
-
-.tick__label--vertical {
-  transform: rotate(90deg) translateX(12px);
-
-  &.tick__label--vertical-reversed {
-    transform: rotate(90deg) translate(0);
-  }
 }
 
 :host([has-histogram][label-handles]),
@@ -486,14 +371,6 @@
       );
     }
   }
-}
-
-.track--vertical {
-  transform: rotate(-90deg);
-}
-
-.handle__label--vertical {
-  transform: rotate(90deg);
 }
 
 @include hidden-form-input();
