@@ -1,7 +1,9 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { renders } from "../../tests/commonTests";
+import { focusable, renders } from "../../tests/commonTests";
 import { DateLocaleData } from "../date-picker/utils";
+import { ComponentTestContent } from "../../tests/commonTests/interfaces";
+import { CSS } from "./resources";
 
 describe("calcite-date-picker-month-header", () => {
   describe("renders", () => {
@@ -38,13 +40,9 @@ describe("calcite-date-picker-month-header", () => {
     },
   } as DateLocaleData;
 
-  it("displays next/previous options", async () => {
-    const page = await newE2EPage({
-      // intentionally using calcite-date-picker to wire up supporting components to be used in `evaluate` fn below
-      html: "<calcite-date-picker></calcite-date-picker>",
-    });
-    await page.waitForChanges();
-
+  async function setUpPage(page: E2EPage): Promise<void> {
+    // intentionally using calcite-date-picker to wire up supporting components to be used in `evaluate` fn below
+    await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
     await page.evaluate((localeData) => {
       const dateMonthHeader = document.createElement("calcite-date-picker-month-header");
       const now = new Date();
@@ -63,6 +61,26 @@ describe("calcite-date-picker-month-header", () => {
       document.body.append(dateMonthHeader);
     }, localeDataFixture);
     await page.waitForChanges();
+  }
+
+  async function setUpProvider(): Promise<ComponentTestContent> {
+    const page = await newE2EPage();
+    await setUpPage(page);
+    return {
+      tag: "calcite-date-picker-month-header",
+      page,
+    };
+  }
+
+  describe("focusable", () => {
+    focusable(() => setUpProvider(), {
+      shadowFocusTargetSelector: `.${CSS.chevron}`,
+    });
+  });
+
+  it("displays next/previous options", async () => {
+    const page = await newE2EPage();
+    await setUpPage(page);
 
     const [prev, next] = await page.findAll("calcite-date-picker-month-header >>> .chevron");
 

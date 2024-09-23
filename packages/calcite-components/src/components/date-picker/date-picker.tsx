@@ -183,7 +183,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    await this.datePickerMonthHeaderEl?.setFocus();
   }
 
   /**
@@ -324,11 +324,17 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @State() startAsDate: Date;
 
+  private datePickerMonthHeaderEl: HTMLCalciteDatePickerMonthHeaderElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private setDatePickerMonthHeaderEl = (el: HTMLCalciteDatePickerMonthHeaderElement): void => {
+    this.datePickerMonthHeaderEl = el;
+  };
 
   keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
@@ -486,6 +492,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           messages={this.messages}
           min={minDate}
           onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
+          ref={this.setDatePickerMonthHeaderEl}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
         />,

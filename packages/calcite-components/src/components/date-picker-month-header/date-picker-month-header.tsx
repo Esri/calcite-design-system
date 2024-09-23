@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Fragment,
   h,
+  Method,
   Prop,
   State,
   VNode,
@@ -18,7 +19,7 @@ import {
   prevMonth,
   formatCalendarYear,
 } from "../../utils/date";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -26,6 +27,12 @@ import { DateLocaleData } from "../date-picker/utils";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
 import { CSS, ICON } from "./resources";
 
 @Component({
@@ -33,7 +40,7 @@ import { CSS, ICON } from "./resources";
   styleUrl: "date-picker-month-header.scss",
   shadow: true,
 })
-export class DatePickerMonthHeader {
+export class DatePickerMonthHeader implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -87,16 +94,34 @@ export class DatePickerMonthHeader {
 
   //--------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.setNextPrevMonthDates();
+  }
+
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
-  connectedCallback(): void {
-    this.setNextPrevMonthDates();
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   render(): VNode {

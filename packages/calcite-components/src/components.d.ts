@@ -1680,6 +1680,10 @@ export namespace Components {
           * Already selected date.
          */
         "selectedDate": Date;
+        /**
+          * Sets focus on the component's first focusable element.
+         */
+        "setFocus": () => Promise<void>;
     }
     interface CalciteDialog {
         /**
