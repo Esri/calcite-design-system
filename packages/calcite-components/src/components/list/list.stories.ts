@@ -90,6 +90,11 @@ export const simple = (args: ListStoryArgs): string => html`
       description="Vestibulum auctor dapibus neque.
     "
     ></calcite-list-item>
+    <calcite-list-item
+      unavailable
+      label="Vestibulum commodo felis quis tortor."
+      description="Vestibulum auctor dapibus neque."
+    ></calcite-list-item>
   </calcite-list>
 `;
 
