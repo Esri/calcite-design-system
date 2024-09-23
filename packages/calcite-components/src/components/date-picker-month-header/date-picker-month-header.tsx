@@ -18,7 +18,7 @@ import {
   prevMonth,
   formatCalendarYear,
 } from "../../utils/date";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -129,7 +129,7 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <a
-          aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
+          aria-disabled={toAriaBoolean(this.prevMonthDate.getMonth() === activeMonth)}
           aria-label={messages.prevMonth}
           class={CSS.chevron}
           href="#"
@@ -166,7 +166,7 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
+          aria-disabled={toAriaBoolean(this.nextMonthDate.getMonth() === activeMonth)}
           aria-label={messages.nextMonth}
           class={CSS.chevron}
           href="#"
