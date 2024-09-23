@@ -299,8 +299,8 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   render(): VNode {
     return (
       <InteractiveContainer disabled={this.disabled}>
-        // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
         <span
+          // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
           aria-checked={this.disabled ? null : toAriaBoolean(this.selected)}
           aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
           aria-label={this.disabled ? null : this.getAriaText("label")}
