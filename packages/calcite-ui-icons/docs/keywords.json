@@ -9010,5 +9010,10 @@
     "alias": ["3.32.0", "text", "variables", "math", "calculation", "letter"],
     "category": "Text",
     "release": "3.32.0"
+  },
+  "zoning-parameter": {
+    "alias": ["3.32.0", "gis", "forms", "variable", "text", "letter"],
+    "category": "GIS",
+    "release": "3.32.0"
   }
 }
