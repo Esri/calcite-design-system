@@ -51,7 +51,6 @@ import { CSS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
-  getMessageOrKeyFallback,
   getNormalizer,
   getSelectedRegionTimeZoneLabel,
   getUserTimeZoneName,
@@ -580,10 +579,7 @@ export class InputTimeZone
 
   private renderRegionItems(): VNode[] {
     return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
-      <calcite-combobox-item-group
-        key={label}
-        label={getMessageOrKeyFallback(this.messages, label)}
-      >
+      <calcite-combobox-item-group key={label} label={label}>
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, value } = item;
@@ -591,7 +587,7 @@ export class InputTimeZone
           return (
             <calcite-combobox-item
               data-value={value}
-              description={getMessageOrKeyFallback(this.messages, item.metadata.country)}
+              description={item.metadata.country}
               key={label}
               metadata={item.metadata}
               selected={selected}

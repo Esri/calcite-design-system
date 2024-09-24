@@ -4,23 +4,6 @@ import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
 
-// TODO: revisit
-const timeZoneNameBlockList = [
-  "CET",
-  "CST6CDT",
-  "EET",
-  "EST",
-  "EST5EDT",
-  "Factory",
-  "HST",
-  "MET",
-  "MST",
-  "MST7MDT",
-  "PST8PDT",
-  "UTC",
-  "WET",
-];
-
 function timeZoneOffsetToDecimal(shortOffsetTimeZoneName: string): string {
   const minusSign = "−";
   const hyphen = "-";
@@ -79,7 +62,7 @@ export async function createTimeZoneItems(
 
     return groups
       .map<TimeZoneItem<string>>(({ label: timeZone }) => {
-        const label = toUserFriendlyName(timeZone);
+        const label = getTimeZoneLabel(timeZone, messages);
         const value = timeZone;
 
         return {
@@ -89,11 +72,8 @@ export async function createTimeZoneItems(
         };
       })
       .filter((group) => !!group)
-      .sort();
+      .sort((groupA, groupB) => groupA.label.localeCompare(groupB.label));
   }
-
-  // TODO: handle label for global group (invert GMT value, etc...)
-  // TODO: update messages (include global entries, add missing countries)
 
   const effectiveLocale =
     standardTime === "user"
@@ -114,19 +94,28 @@ export async function createTimeZoneItems(
     return groups
       .map<TimeZoneItemGroup>(({ label: region, tzs }) => {
         return {
-          label: region,
+          label: getMessageOrKeyFallback(messages, region),
           items: tzs.map((timeZone) => {
             const decimalOffset = timeZoneOffsetToDecimal(
               getTimeZoneShortOffset(timeZone, effectiveLocale, referenceDateInMs),
             );
+            const filterValue =
+              toUserFriendlyName(timeZone) +
+              (region === globalLabel
+                ? // we add the global label as global group items do not have a unifying region/name
+                  getTimeZoneLabel(globalLabel, messages)
+                : "");
+            const label = getTimeZoneLabel(timeZone, messages);
+            const countryCode = getCountry(timeZone);
+            const country = getMessageOrKeyFallback(messages, countryCode);
 
             return {
-              label: getTimeZoneLabel(timeZone, messages),
+              label,
               value: timeZone,
-              filterValue: toUserFriendlyName(timeZone),
+              filterValue,
               metadata: {
                 offset: decimalOffset,
-                country: getCountry(timeZone),
+                country: country === label ? undefined : country,
               },
             };
           }),
@@ -149,6 +138,7 @@ export async function createTimeZoneItems(
   });
 
   const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
+  const offsetTimeZoneNameBlockList = ["Factory", "Etc/UTC"];
 
   // we remove blocked entries from tzs and adjust label indices accordingly
   groups.forEach((group) => {
@@ -156,13 +146,13 @@ export async function createTimeZoneItems(
     let removedSoFar = 0;
 
     group.tzs.forEach((tz, index) => {
-      if (timeZoneNameBlockList.includes(tz)) {
+      if (offsetTimeZoneNameBlockList.includes(tz)) {
         removedSoFar++;
       }
       indexOffsets[index] = removedSoFar;
     });
 
-    group.tzs = group.tzs.filter((tz) => !timeZoneNameBlockList.includes(tz));
+    group.tzs = group.tzs.filter((tz) => !offsetTimeZoneNameBlockList.includes(tz));
 
     group.labelTzIdx = group.labelTzIdx
       .map((index) => index - indexOffsets[index])
