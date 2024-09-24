@@ -340,26 +340,10 @@ export class Card
       <header class={CSS.header} hidden={!showHeader}>
         {this.selectable ? this.renderCheckboxDeprecated() : null}
         <div class={CSS.headerTextContainer}>
-          <slot
-            key="heading-slot"
-            name={SLOTS.heading}
-            onSlotchange={this.handleHeadingSlotChange}
-          />
-          <slot
-            key="description-slot"
-            name={SLOTS.description}
-            onSlotchange={this.handleDescriptionSlotChange}
-          />
-          <slot
-            key="deprecated-title-slot"
-            name={SLOTS.title}
-            onSlotchange={this.handleTitleSlotChange}
-          />
-          <slot
-            key="deprecated-subtitle-slot"
-            name={SLOTS.subtitle}
-            onSlotchange={this.handleSubtitleSlotChange}
-          />
+          <slot name={SLOTS.heading} onSlotchange={this.handleHeadingSlotChange} />
+          <slot name={SLOTS.description} onSlotchange={this.handleDescriptionSlotChange} />
+          <slot name={SLOTS.title} onSlotchange={this.handleTitleSlotChange} />
+          <slot name={SLOTS.subtitle} onSlotchange={this.handleSubtitleSlotChange} />
         </div>
         {this.selectionMode !== "none" && this.renderSelectionIcon()}
       </header>
