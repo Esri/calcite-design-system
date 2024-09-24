@@ -42,7 +42,7 @@ export const simple = (args: ActionPadStoryArgs): string => html`
   </calcite-action-pad>
 `;
 
-export const withGroups_TestOnly = (): string =>
+export const withGroups = (): string =>
   html`<calcite-action-pad layout="horizontal">
     <calcite-action-group>
       <calcite-action text="Add" icon="plus" appearance="solid" scale="m"></calcite-action>
