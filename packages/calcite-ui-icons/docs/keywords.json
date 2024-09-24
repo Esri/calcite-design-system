@@ -8965,5 +8965,55 @@
     "alias": ["3.32.0", "windows", "text", "line", "image inline", "right", "image wrap"],
     "category": "Windows",
     "release": "3.32.0"
+  },
+  "validate": {
+    "alias": ["3.32.0", "symbols", "check", "circle", "validated", "arrow", "complete"],
+    "category": "Symbols",
+    "release": "3.32.0"
+  },
+  "spaces": {
+    "alias": ["3.32.0", "gis", "lines", "grid", "workspace", "work mode"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "square-brackets-x": {
+    "alias": ["3.32.0", "gis", "code", "syntax", "script", "text", "letter"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "spaces-parameter": {
+    "alias": ["3.32.0", "gis", "forms", "display", "space", "text"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "3d-building": {
+    "alias": ["3.32.0", "objects", "three dimesional", "infrastructure"],
+    "category": "Objects",
+    "release": "3.32.0"
+  },
+  "3d-building-parameter": {
+    "alias": ["3.32.0", "gis", "three dimensional", "building", "infrastructure", "parameter", "text", "parantheses"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "divide": {
+    "alias": ["3.32.0", "symbols", "sign", "math", "split", "halve", "cut"],
+    "category": "Symbols",
+    "release": "3.32.0"
+  },
+  "parcel": {
+    "alias": ["3.32.0", "gis", "features", "assets", "data", "points", "lines"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "n-variable": {
+    "alias": ["3.32.0", "text", "variables", "math", "calculation", "letter"],
+    "category": "Text",
+    "release": "3.32.0"
+  },
+  "zoning-parameter": {
+    "alias": ["3.32.0", "gis", "forms", "variable", "text", "letter"],
+    "category": "GIS",
+    "release": "3.32.0"
   }
 }

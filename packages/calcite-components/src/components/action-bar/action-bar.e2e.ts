@@ -532,6 +532,18 @@ describe("calcite-action-bar", () => {
     await page.waitForChanges();
 
     expect(await group.getProperty("layout")).toBe("vertical");
+
+    actionBar.innerHTML = html`
+      <calcite-action-group></calcite-action-group>
+      <calcite-action-group></calcite-action-group>
+    `;
+    await page.waitForChanges();
+
+    const groups = await page.findAll("calcite-action-group");
+
+    groups.forEach(async (group) => {
+      expect(await group.getProperty("layout")).toBe("vertical");
+    });
   });
 
   describe("theme", () => {

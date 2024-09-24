@@ -292,7 +292,7 @@ describe("calcite-segmented-control", () => {
 
       async function cycleThroughItemsAndAssertValue(keys: "left-right" | "up-down"): Promise<void> {
         const [moveBeforeArrowKey, moveAfterArrowKey] =
-          keys === "left-right" ? ["ArrowLeft", "ArrowRight"] : ["ArrowUp", "ArrowDown"];
+          keys === "left-right" ? (["ArrowLeft", "ArrowRight"] as const) : (["ArrowUp", "ArrowDown"] as const);
 
         await element.press(moveAfterArrowKey);
         await page.waitForChanges();

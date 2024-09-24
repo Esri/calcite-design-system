@@ -90,9 +90,9 @@ export class Loader implements LocalizedComponent {
     return (
       <Host
         aria-label={label}
-        aria-valuemax={isDeterminate ? 100 : undefined}
-        aria-valuemin={isDeterminate ? 0 : undefined}
-        aria-valuenow={isDeterminate ? valueNow : undefined}
+        aria-valuemax={isDeterminate ? "100" : undefined}
+        aria-valuemin={isDeterminate ? "0" : undefined}
+        aria-valuenow={isDeterminate ? valueNow.toString() : undefined}
         id={id}
         role="progressbar"
       >
