@@ -219,6 +219,18 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
+  it("honors closed prop initially", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel closed closable>test</calcite-panel>");
+
+    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(false);
+  });
+
   it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
 
