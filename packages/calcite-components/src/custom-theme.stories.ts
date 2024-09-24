@@ -27,6 +27,7 @@ import { inputText } from "./custom-theme/input-text";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
+import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
@@ -113,9 +114,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea}</div>
-
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover}</div>
       </div>
     </div>
   </div>`;
@@ -136,6 +135,7 @@ export default {
     ...chipTokens,
     ...checkboxTokens,
     ...handleTokens,
+    ...popoverTokens,
     ...progressTokens,
     ...inputTokens,
     ...textAreaTokens,
@@ -146,7 +146,7 @@ export const themingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
 
-export const theming_TestOnly = (): string => {
+export const theming = (): string => {
   return kitchenSink(
     {
       ...accordionTokens,
@@ -161,6 +161,7 @@ export const theming_TestOnly = (): string => {
       ...chipTokens,
       ...checkboxTokens,
       ...handleTokens,
+      ...popoverTokens,
       ...progressTokens,
       ...inputTokens,
       ...textAreaTokens,
