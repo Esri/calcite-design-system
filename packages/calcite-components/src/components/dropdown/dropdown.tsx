@@ -238,7 +238,7 @@ export class Dropdown
           <div
             class="calcite-trigger-container"
             id={`${guid}-menubutton`}
-            onClick={this.clickHandler}
+            onClick={this.openDropdown}
             onKeyDown={this.keyDownHandler}
             ref={this.setReferenceEl}
           >
@@ -354,7 +354,7 @@ export class Dropdown
       return;
     }
 
-    this.clickHandler();
+    this.openDropdown();
   }
 
   @Listen("pointerleave")
@@ -543,7 +543,6 @@ export class Dropdown
 
   onOpen(): void {
     this.calciteDropdownOpen.emit();
-    this.focusOnFirstActiveOrDefaultItem();
   }
 
   onBeforeClose(): void {
@@ -589,11 +588,12 @@ export class Dropdown
     }
 
     if (isActivationKey(key)) {
-      this.clickHandler();
+      this.openDropdown();
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
       this.focusLastDropdownItem = key === "ArrowUp";
-      this.open = true;
+      this.openDropdown();
+      event.preventDefault();
     }
   };
 
@@ -652,8 +652,16 @@ export class Dropdown
     focusElement(target);
   };
 
-  private clickHandler = (): void => {
+  private toggleOpenEnd = (): void => {
+    this.focusOnFirstActiveOrDefaultItem();
+    this.el.removeEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+  };
+
+  private openDropdown = () => {
     this.open = !this.open;
+    if (this.open) {
+      this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+    }
   };
 
   private updateTabIndexOfItems(target: HTMLCalciteDropdownItemElement): void {
