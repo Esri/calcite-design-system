@@ -4,7 +4,7 @@
   "regionPlaceholder": "按城市、國家、地區或偏移搜尋",
   "namePlaceholder": "按時區搜尋",
   "timeZoneLabel": "({offset}) {cities}",
-  "timeZoneRegionLabel": "{city}, {country}",
+  "timeZoneRegionLabel": "{city}、{country}",
   "Africa/Abidjan": "阿必尚",
   "Africa/Accra": "阿克拉",
   "Africa/Addis_Ababa": "阿迪斯阿貝巴",
