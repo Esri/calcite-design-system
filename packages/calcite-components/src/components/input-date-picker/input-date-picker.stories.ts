@@ -64,6 +64,8 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       status="${args.status}"
       value="${args.value}"
       lang="${args.lang}"
+      min="${args.min}"
+      max="${args.max}"
       placement="${args.placement}"
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
@@ -76,26 +78,22 @@ export const withMinMax = (): string =>
   html`<calcite-input-date-picker min="2016-08-09" max="2023-12-18" open></calcite-input-date-picker>`;
 
 export const range = (): string => html`
-  <div style="width: 400px">
-  <calcite-input-date-picker range open></calcite-input-date-picker
-  </div>
+  <calcite-input-date-picker range open ></calcite-input-date-picker
 `;
 
 export const rangeWithMinMax = (): string => html`
-  <div style="width: 400px">
-    <calcite-input-date-picker
-      scale="m"
-      status="idle"
-      min="2016-08-09"
-      max="2023-12-18"
-      lang="en"
-      next-month-label="Next month"
-      prev-month-label="Previous month"
-      range
-      layout="horizontal"
-      open
-    ></calcite-input-date-picker>
-  </div>
+  <calcite-input-date-picker
+    scale="m"
+    status="idle"
+    min="2016-08-09"
+    max="2023-12-18"
+    lang="en"
+    next-month-label="Next month"
+    prev-month-label="Previous month"
+    range
+    layout="horizontal"
+    open
+  ></calcite-input-date-picker>
 `;
 
 export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
@@ -124,7 +122,6 @@ export const flipPlacements_TestOnly = (): string => html`
 
 export const chineseLang_TestOnly = (): string => html`
   <calcite-input-date-picker
-    style="width: 400px"
     open
     value="1-1-1"
     lang="zh-CN"
@@ -137,7 +134,7 @@ export const chineseLang_TestOnly = (): string => html`
 `;
 
 export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
-  <calcite-input-date-picker style="width: 400px" read-only value="2020-12-12"></calcite-input-date-picker>
+  <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
 readOnlyHasNoDropdownAffordance_TestOnly.parameters = { chromatic: { delay: 500 } };
@@ -234,7 +231,6 @@ export const scales_TestOnly = (): string => html`
 
 export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
     <calcite-input-date-picker
-    style="width: 400px"
       class="calcite-mode-dark"
       dir="rtl"
       value="2020-12-12"
@@ -296,8 +292,8 @@ export const Focus = (): string =>
     </script>`;
 
 export const localeFormatting = (): string => html`
-  <calcite-input-date-picker style="width: 400px" value="2020-12-12" lang="bs"></calcite-input-date-picker>
-  <calcite-input-date-picker style="width: 400px" value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
+  <calcite-input-date-picker value="2020-12-12" lang="bs"></calcite-input-date-picker>
+  <calcite-input-date-picker value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
 `;
 
 localeFormatting.parameters = { chromatic: { delay: 500 } };
