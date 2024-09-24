@@ -62,7 +62,7 @@ export async function createTimeZoneItems(
 
     return groups
       .map<TimeZoneItem<string>>(({ label: timeZone }) => {
-        const label = getTimeZoneLabel(timeZone, messages);
+        const label = toUserFriendlyName(timeZone);
         const value = timeZone;
 
         return {
@@ -72,7 +72,7 @@ export async function createTimeZoneItems(
         };
       })
       .filter((group) => !!group)
-      .sort((groupA, groupB) => groupA.label.localeCompare(groupB.label));
+      .sort();
   }
 
   const effectiveLocale =
