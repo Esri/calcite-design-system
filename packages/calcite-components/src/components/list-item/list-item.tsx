@@ -710,7 +710,7 @@ export class ListItem
   //
   // --------------------------------------------------------------------------
 
-  private dragHandleSelectedChangeHandler = (event: CustomEvent): void => {
+  private dragHandleSelectedChangeHandler = (event: CustomEvent<void>): void => {
     this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
     this.calciteListItemDragHandleChange.emit();
     event.stopPropagation();
