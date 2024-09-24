@@ -138,7 +138,12 @@ export class InputTimeZone
   @Watch("mode")
   @Watch("referenceDate")
   handleTimeZoneItemPropsChange(): void {
-    this.updateTimeZoneItemsAndSelection();
+    if (!this.timeZoneItems) {
+      return;
+    }
+
+    this.updateTimeZoneItems();
+    this.updateTimeZoneSelection();
   }
 
   /**
@@ -370,10 +375,13 @@ export class InputTimeZone
     }
 
     const { label, metadata } = this.selectedTimeZoneItem;
+
     requestAnimationFrame(() => {
-      this.comboboxEl.selectedItems[0].textLabel = open
-        ? label
-        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+      const itemLabel =
+        !metadata.country || open
+          ? label
+          : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+      this.comboboxEl.selectedItems[0].textLabel = itemLabel;
     });
   }
 
@@ -433,9 +441,11 @@ export class InputTimeZone
     return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
   }
 
-  private async updateTimeZoneItemsAndSelection(): Promise<void> {
+  private async updateTimeZoneItems(): Promise<void> {
     this.timeZoneItems = await this.createTimeZoneItems();
+  }
 
+  private async updateTimeZoneSelection(): Promise<void> {
     if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;
@@ -494,16 +504,17 @@ export class InputTimeZone
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
+    const [, normalizer] = await Promise.all([setUpMessages(this), getNormalizer(this.mode)]);
 
-    this.normalizer = await getNormalizer(this.mode);
+    this.normalizer = normalizer;
+    await this.updateTimeZoneItems();
     this.value = this.normalizeValue(this.value);
 
-    await this.updateTimeZoneItemsAndSelection();
+    await this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : null;
     afterConnectDefaultValueSet(this, selectedValue);
-    this.value = this.normalizeValue(selectedValue);
+    this.value = selectedValue;
   }
 
   componentDidLoad(): void {
