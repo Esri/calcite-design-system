@@ -111,7 +111,7 @@ function removeInteractionListeners(element: HTMLElement): void {
   );
 }
 
-export interface InteractiveContainerProps extends JSXAttributes<HTMLDivElement> {
+export interface InteractiveContainerProps extends JSXAttributes {
   disabled: boolean;
 }
 

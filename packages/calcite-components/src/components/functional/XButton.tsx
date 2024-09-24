@@ -3,7 +3,7 @@ import { JSXAttributes, JSXBase } from "@stencil/core/internal";
 import { Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 
-export interface XButtonProps extends JSXAttributes<HTMLButtonElement> {
+export interface XButtonProps extends JSXAttributes {
   disabled: boolean;
   label: string;
   scale: Scale;
@@ -18,8 +18,6 @@ export const XButton: FunctionalComponent<XButtonProps> = ({
   disabled,
   key,
   label,
-  onClick,
-  ref,
   scale,
 }): VNode => (
   <button
@@ -27,8 +25,6 @@ export const XButton: FunctionalComponent<XButtonProps> = ({
     class={CSS.button}
     disabled={disabled}
     key={key}
-    onClick={onClick}
-    ref={ref}
     tabIndex={-1}
     type="button"
   >
