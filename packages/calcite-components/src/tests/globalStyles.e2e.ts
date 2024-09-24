@@ -216,8 +216,8 @@ describe("global styles", () => {
         await testEscapeAndCheckOpenState([inputPicker, popover, secondModal, firstModal, sheet]);
       }
 
-      await testStackEscapeSequence(page, "calcite-input-date-picker");
       await testStackEscapeSequence(page, "calcite-input-time-picker");
+      await testStackEscapeSequence(page, "calcite-input-date-picker");
     });
   });
 });
