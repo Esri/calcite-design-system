@@ -267,7 +267,7 @@ export class Button
       <InteractiveContainer disabled={this.disabled}>
         <Tag
           aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
-          aria-expanded={this.el.getAttribute("aria-expanded")}
+          aria-expanded={this.el.ariaExpanded}
           aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
           aria-live="polite"
           class={{
