@@ -5,12 +5,10 @@ export const CSS = {
   chevronContainerLeft: "chevron-container--left",
   chevronContainerRight: "chevron-container--right",
   monthYearContainer: "month-year-container",
-  monthYearContainerReverse: "month-year-container--reverse",
   monthPicker: "month-select",
   rangeCalendar: "range-calendar",
   suffix: "suffix",
   yearContainer: "year-container",
-  textReverse: "text--reverse",
 };
 
 export const ICON = {

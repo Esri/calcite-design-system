@@ -50,6 +50,7 @@ export class DatePickerMonthHeader {
   @Prop() activeDate: Date;
 
   @Watch("activeDate")
+  @Watch("localeData")
   updateSelectMenuWidth(): void {
     this.setSelectMenuWidth(this.monthPickerEl);
   }
@@ -148,9 +149,7 @@ export class DatePickerMonthHeader {
       };
     }
 
-    const activeMonth = activeDate.getMonth();
-    const { months, unitOrder } = localeData;
-    const order = getOrder(unitOrder);
+    const order = getOrder(localeData.unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
 
     return (
@@ -163,12 +162,10 @@ export class DatePickerMonthHeader {
         <div
           class={{
             [CSS.monthYearContainer]: true,
-            [CSS.monthYearContainerReverse]: reverse,
             [CSS.rangeCalendar]: !!this.position,
           }}
         >
-          {this.renderMonthPicker(months, activeMonth)}
-          {this.renderYearInput()}
+          {this.renderMonthYearContainer(reverse)}
         </div>
         {!this.position && (
           <div class={{ [CSS.chevronContainer]: true }}>{this.renderChevron("left")}</div>
@@ -180,8 +177,23 @@ export class DatePickerMonthHeader {
     );
   }
 
-  private renderMonthPicker(months: DateLocaleData["months"], activeMonth: number): VNode {
-    const monthData = months[this.monthStyle];
+  private renderMonthYearContainer(reverse: boolean): VNode {
+    return reverse ? (
+      <Fragment>
+        {this.renderYearInput()}
+        {this.renderMonthPicker()}
+      </Fragment>
+    ) : (
+      <Fragment>
+        {this.renderMonthPicker()}
+        {this.renderYearInput()}
+      </Fragment>
+    );
+  }
+
+  private renderMonthPicker(): VNode {
+    const activeMonth = this.activeDate.getMonth();
+    const monthData = this.localeData.months[this.monthStyle];
     return (
       <calcite-select
         class={CSS.monthPicker}

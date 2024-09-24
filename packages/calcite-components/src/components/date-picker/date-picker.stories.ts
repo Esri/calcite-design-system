@@ -96,6 +96,23 @@ export const rangeValuesNotInSameMonthAndYear_TestOnly = (): string => html`
   </script>
 `;
 
+export const Focus_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker range></calcite-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker");
+      await datePicker.setFocus();
+    })();
+  </script>
+`;
+
+Focus_TestOnly.parameters = {
+  chromatic: { delay: 2000 },
+};
+
 export const rangeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker value="2020-02-28" dir="rtl" range></calcite-date-picker>
