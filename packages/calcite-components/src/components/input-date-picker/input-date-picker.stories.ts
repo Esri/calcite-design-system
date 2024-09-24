@@ -1,4 +1,4 @@
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales, defaultLocale } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
@@ -50,6 +50,11 @@ export default {
       control: { type: "select" },
     },
   },
+  parameters: {
+    chromatic: {
+      delay: 2000,
+    },
+  },
 };
 
 export const simple = (args: InputDatePickerStoryArgs): string => html`
@@ -62,16 +67,17 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       placement="${args.placement}"
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
+      open="${boolean("open", true)}"
     ></calcite-input-date-picker>
   </div>
 `;
 
-export const WithMinMax = (): string =>
-  html`<calcite-input-date-picker min="2016-08-09" max="2023-12-18"></calcite-input-date-picker>`;
+export const withMinMax = (): string =>
+  html`<calcite-input-date-picker min="2016-08-09" max="2023-12-18" open></calcite-input-date-picker>`;
 
 export const range = (): string => html`
   <div style="width: 400px">
-  <calcite-input-date-picker range></calcite-input-date-picker
+  <calcite-input-date-picker range open></calcite-input-date-picker
   </div>
 `;
 
@@ -94,6 +100,8 @@ export const rangeWithMinMax = (): string => html`
 
 export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
+disabled_TestOnly.parameters = { chromatic: { delay: 500 } };
+
 export const flipPlacements_TestOnly = (): string => html`
   <style>
     .my-input-date-picker-div {
@@ -114,15 +122,15 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const mediumIconForLargeInput_TestOnly = (): string => html`
+export const chineseLang_TestOnly = (): string => html`
   <calcite-input-date-picker
     style="width: 400px"
     open
-    value="1/1/1"
+    value="1-1-1"
     lang="zh-CN"
     scale="l"
-    start="2020-12-12"
-    end="2020-12-16"
+    min="2020-12-12"
+    max="2020-12-16"
     range
     layout="horizontal"
   ></calcite-input-date-picker>
@@ -131,6 +139,8 @@ export const mediumIconForLargeInput_TestOnly = (): string => html`
 export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
   <calcite-input-date-picker style="width: 400px" read-only value="2020-12-12"></calcite-input-date-picker>
 `;
+
+readOnlyHasNoDropdownAffordance_TestOnly.parameters = { chromatic: { delay: 500 } };
 
 export const validationMessageAllScales_TestOnly = (): string => html`
   <style>
@@ -166,6 +176,8 @@ export const validationMessageAllScales_TestOnly = (): string => html`
     ></calcite-input-date-picker>
   </div>
 `;
+
+validationMessageAllScales_TestOnly.parameters = { chromatic: { delay: 500 } };
 
 export const scales_TestOnly = (): string => html`
   <style>
@@ -228,6 +240,7 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
       value="2020-12-12"
       numbering-system="arab"
       lang="ar"
+      open
       validation-message="This should not appear because the status is not 'invalid'"
     ></calcite-input-date-picker
 `;
@@ -246,10 +259,6 @@ export const rangeWithValueAsDate = (): string => html`
   </script>
 `;
 
-rangeWithValueAsDate.parameters = {
-  chromatic: { delay: 2000 },
-};
-
 export const rangeWithValue = (): string => html`
   <calcite-input-date-picker range open></calcite-input-date-picker>
   <script>
@@ -258,25 +267,13 @@ export const rangeWithValue = (): string => html`
   </script>
 `;
 
-rangeWithValue.parameters = {
-  chromatic: { delay: 2000 },
-};
-
 export const rangeWithMinAfterCurrentDate = (): string => html`
   <calcite-input-date-picker range open min="2050-08-09"></calcite-input-date-picker>
 `;
 
-rangeWithMinAfterCurrentDate.parameters = {
-  chromatic: { delay: 2000 },
-};
-
 export const rangeWithMaxBeforeCurrentDate = (): string => html`
   <calcite-input-date-picker range open max="2016-08-09"></calcite-input-date-picker>
 `;
-
-rangeWithMaxBeforeCurrentDate.parameters = {
-  chromatic: { delay: 2000 },
-};
 
 export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
   <calcite-input-date-picker range open></calcite-input-date-picker>
@@ -288,10 +285,6 @@ export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
   </script>
 `;
 
-rangeWithMinAsDateAfterCurrentDate.parameters = {
-  chromatic: { delay: 2000 },
-};
-
 export const Focus = (): string =>
   html`<calcite-input-date-picker></calcite-input-date-picker>
     <script>
@@ -302,11 +295,9 @@ export const Focus = (): string =>
       })();
     </script>`;
 
-Focus.parameters = {
-  chromatic: { delay: 2000 },
-};
-
 export const localeFormatting = (): string => html`
   <calcite-input-date-picker style="width: 400px" value="2020-12-12" lang="bs"></calcite-input-date-picker>
   <calcite-input-date-picker style="width: 400px" value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
 `;
+
+localeFormatting.parameters = { chromatic: { delay: 500 } };
