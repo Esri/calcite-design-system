@@ -1,11 +1,67 @@
 #!/usr/bin/env sh
 
-lint-staged
+ensure_types_are_up_to_date() {
+  types_path="packages/calcite-components/src/components.d.ts"
 
-types_path="packages/calcite-components/src/components.d.ts"
-
-# make sure the types are always up to date
-if [ -n "$(git diff --name-only -- "$types_path")" ]; then
+  if [ -n "$(git diff --name-only -- "$types_path")" ]; then
     echo "Automatically staging changes to \"$types_path\""
-    git add "$types_path"
-fi
+    git add "$types_path" >/dev/null 2>&1 || true
+  fi
+}
+
+update_stylelint_config_if_sass_file_edited() {
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACM -- packages/**/*.scss
+  )" 
+
+  if [ -n "$staged_files" ]; then
+    npm run util:update-stylelint-custom-sass-functions
+    git add "packages/calcite-components/.stylelintrc.cjs" >/dev/null 2>&1 || true
+  fi
+
+  unset staged_files
+}
+
+check_ui_icon_name_consistency() {
+  # this pattern checks for `<iconName>-<size>.svg` or `<iconName>-<size>-f.svg` for filled icons
+  # where `<iconName>` is kebab-case, `<size>` is 16, 24, or 32
+  valid_pattern="^[a-z0-9-]+-(16|24|32)(-f)?\\.svg$"
+
+  # this pattern will check for invalid use of "-f-" anywhere except right before the size
+  invalid_pattern="-[a-z0-9]+-f-"
+
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACM -- packages/calcite-ui-icons/icons/*.svg
+  )"
+
+  if [ -n "$staged_files" ]; then
+    for file in $staged_files; do
+      filename="$(basename "$file")"
+
+      # first, ensure the filename follows the valid pattern
+      if ! echo "$filename" | grep -qE "$valid_pattern"; then
+        printf "%s\n%s" \
+          "error: file '$file' does not follow the naming convention:" \
+          "(<iconname>-<size>.svg | <iconname>-<size>-f.svg)"
+        exit 1
+      fi
+
+      # then, ensure there's no invalid use of "-f-" anywhere except right before the size
+      if echo "$filename" | grep -qE "$invalid_pattern"; then
+        printf '%s\n%s' \
+          "error: file '$file' has an invalid '-f-' and does not follow the naming convention:" \
+          "(<iconname>-<size>.svg | <iconname>-<size>-f.svg)"
+        exit 1
+      fi
+    done
+  fi
+
+  unset staged_files
+}
+
+lint-staged
+check_ui_icon_name_consistency
+ensure_types_are_up_to_date
+update_stylelint_config_if_sass_file_edited
+
+exit 0

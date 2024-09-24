@@ -230,7 +230,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     const { localName } = this.input;
 
     if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = true;
+      this.input.hovered = true;
     }
   }
 
@@ -243,7 +243,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     const { localName } = this.input;
 
     if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = false;
+      this.input.hovered = false;
     }
   }
 

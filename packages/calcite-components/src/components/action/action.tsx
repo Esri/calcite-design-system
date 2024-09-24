@@ -315,7 +315,6 @@ export class Action
           <button
             aria-busy={toAriaBoolean(loading)}
             aria-controls={indicator ? indicatorId : null}
-            aria-disabled={toAriaBoolean(disabled)}
             aria-label={ariaLabel}
             aria-pressed={toAriaBoolean(active)}
             class={buttonClasses}
@@ -345,7 +344,7 @@ export class Action
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+      .filter((el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"));
 
     const tooltip = tooltips[0];
 

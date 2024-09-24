@@ -119,7 +119,7 @@ export class Popover
   @Prop({ reflect: true }) pointerDisabled = false;
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -268,7 +268,7 @@ export class Popover
 
   @State() defaultMessages: PopoverMessages;
 
-  arrowEl: SVGElement;
+  arrowEl: SVGSVGElement;
 
   closeButtonEl: HTMLCalciteActionElement;
 
@@ -289,6 +289,7 @@ export class Popover
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
@@ -335,6 +336,7 @@ export class Popover
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.removeReferences();
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -537,7 +539,7 @@ export class Popover
     this.open = false;
   }
 
-  storeArrowEl = (el: SVGElement): void => {
+  storeArrowEl = (el: SVGSVGElement): void => {
     this.arrowEl = el;
     this.reposition(true);
   };
@@ -602,6 +604,7 @@ export class Popover
       >
         <div
           class={{
+            [CSS.container]: true,
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
@@ -611,7 +614,7 @@ export class Popover
           <div
             class={{
               [CSS.hasHeader]: !!heading,
-              [CSS.container]: true,
+              [CSS.headerContainer]: true,
             }}
           >
             {this.renderHeader()}

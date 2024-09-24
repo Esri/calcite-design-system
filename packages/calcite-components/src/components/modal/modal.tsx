@@ -360,8 +360,6 @@ export class Modal
 
   modalContent: HTMLDivElement;
 
-  initialOverflowCSS: string;
-
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );

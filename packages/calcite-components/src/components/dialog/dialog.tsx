@@ -43,7 +43,7 @@ import {
 import { componentOnReady } from "../../utils/component";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
-import { OverlayPositioning } from "../../components";
+import type { OverlayPositioning } from "../../utils/floating-ui";
 import { DialogMessages } from "./assets/dialog/t9n";
 import {
   CSS,
@@ -806,7 +806,7 @@ export class Dialog
   };
 
   private handlePanelKeyDown = (event: KeyboardEvent): void => {
-    if (this.escapeDisabled) {
+    if (this.escapeDisabled && event.key === "Escape") {
       event.preventDefault();
     }
   };

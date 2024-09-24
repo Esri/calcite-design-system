@@ -20,7 +20,11 @@ module.exports = {
         name: label,
       });
     } catch (err) {
-      console.log(`The '${label}' label is not associated with the issue`, err);
+      if (err.status === 404) {
+        console.log(`The label '${label}' is not associated with issue #${issue_number}.`, err);
+      } else {
+        console.log("Error while attempting to remove issue label.", err);
+      }
     }
   },
 

@@ -72,6 +72,13 @@ Type: `Promise<void>`
 | ---------- | ------------------------------------------------------ |
 | `"action"` | A slot for positioning a button next to the component. |
 
+## CSS Custom Properties
+
+| Name                          | Description                             |
+| ----------------------------- | --------------------------------------- |
+| `--calcite-input-prefix-size` | Specifies the component's prefix width. |
+| `--calcite-input-suffix-size` | Specifies the component's suffix width. |
+
 ## Dependencies
 
 ### Used by
