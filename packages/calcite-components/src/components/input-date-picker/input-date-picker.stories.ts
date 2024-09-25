@@ -61,6 +61,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
   <style>
     .container {
       width: 400px;
+      height: 400px;
     }
   </style>
   <div class="container">
