@@ -897,29 +897,39 @@ describe("calcite-slider", () => {
       const expectedValue = 100;
 
       it("click/tap should grab the min value thumb", async () => {
-        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}"`);
+        for (const l of ["horizontal", "vertical"]) {
+          await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" layout=${l}`);
 
-        await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
-        await page.waitForChanges();
+          l === "horizontal"
+            ? await page.mouse.click(trackRect.x + trackRect.width, trackRect.y)
+            : await page.mouse.click(trackRect.x, trackRect.y);
+          await page.waitForChanges();
 
-        const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
+          const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
 
-        expect(isMinThumbFocused).toBe(true);
-        await assertValuesUnchanged(expectedValue);
+          expect(isMinThumbFocused).toBe(true);
+          await assertValuesUnchanged(expectedValue);
+        }
       });
 
       it("mirrored: click/tap should grab the max value thumb", async () => {
-        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored`);
+        for (const l of ["horizontal", "vertical"]) {
+          await setUpTest(
+            `${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored layout=${l}`,
+          );
 
-        await assertValuesUnchanged(expectedValue);
+          await assertValuesUnchanged(expectedValue);
 
-        await page.mouse.click(trackRect.x, trackRect.y);
-        await page.waitForChanges();
+          l === "horizontal"
+            ? await page.mouse.click(trackRect.x, trackRect.y)
+            : await page.mouse.click(trackRect.x, trackRect.y + trackRect.height);
+          await page.waitForChanges();
 
-        const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
+          const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
 
-        expect(isMinThumbFocused).toBe(true);
-        await assertValuesUnchanged(expectedValue);
+          expect(isMinThumbFocused).toBe(true);
+          await assertValuesUnchanged(expectedValue);
+        }
       });
     });
   });
