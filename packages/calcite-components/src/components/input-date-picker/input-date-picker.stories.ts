@@ -52,13 +52,18 @@ export default {
   },
   parameters: {
     chromatic: {
-      delay: 2000,
+      //delay: 2500,
     },
   },
 };
 
 export const simple = (args: InputDatePickerStoryArgs): string => html`
-  <div style="width: 400px">
+  <style>
+    .container {
+      width: 400px;
+    }
+  </style>
+  <div class="container">
     <calcite-input-date-picker
       scale="${args.scale}"
       status="${args.status}"
