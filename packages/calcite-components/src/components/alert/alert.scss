@@ -6,10 +6,6 @@
  * @prop --calcite-alert-width: Specifies the width of the component.
  * @prop --calcite-alert-background-color: Specifies the component's background color.
  * @prop --calcite-alert-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-alert-corner-radius-start-start: Specifies the component's corner radius start start.
- * @prop --calcite-alert-corner-radius-start-end: Specifies the component's corner radius start end.
- * @prop --calcite-alert-corner-radius-end-start: Specifies the component's corner radius end start.
- * @prop --calcite-alert-corner-radius-end-end: Specifies the component's corner radius end end.
  * @prop --calcite-alert-shadow: Specifies the component's shadow.
  */
 
@@ -44,22 +40,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
   );
   background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
-  border-start-start-radius: var(
-    --calcite-alert-corner-radius-start-start,
-    var(--calcite-alert-corner-radius, var(--calcite-border-radius))
-  );
-  border-start-end-radius: var(
-    --calcite-alert-corner-radius-start-end,
-    var(--calcite-alert-corner-radius, var(--calcite-border-radius))
-  );
-  border-end-start-radius: var(
-    --calcite-alert-corner-radius-end-start,
-    var(--calcite-alert-corner-radius, var(--calcite-border-radius))
-  );
-  border-end-end-radius: var(
-    --calcite-alert-corner-radius-end-end,
-    var(--calcite-alert-corner-radius, var(--calcite-border-radius))
-  );
+  border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
   border-block-start: 0 solid transparent;
   border-inline: $border-style;
   border-block-end: $border-style;
@@ -100,14 +81,8 @@ $border-style: 1px solid var(--calcite-color-border-3);
 .close {
   @apply bg-transparent border-none cursor-pointer flex items-center justify-end outline-none self-stretch text-color-3;
   -webkit-appearance: none;
-  border-start-end-radius: var(
-    --calcite-alert-corner-radius-start-end,
-    var(--calcite-alert-corner-radius, var(--calcite-border-radius))
-  );
-  border-end-end-radius: var(
-    --calcite-alert-corner-radius-end-end,
-    var(--calcite-alert-corner-radius, var(--calcite-border-radius))
-  );
+  border-start-end-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
+  border-end-end-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
 
   @apply focus-base;
   &:focus {

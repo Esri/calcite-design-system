@@ -597,51 +597,11 @@ describe("calcite-alert", () => {
       "--calcite-alert-corner-radius": [
         {
           shadowSelector: `.${CSS.container}`,
-          targetProp: "borderStartStartRadius",
-        },
-        {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderEndStartRadius",
-        },
-        {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderEndEndRadius",
+          targetProp: "borderRadius",
         },
         {
           shadowSelector: `.${CSS.close}`,
           targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderEndEndRadius",
-        },
-      ],
-      "--calcite-alert-corner-radius-start-start": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderStartStartRadius",
-      },
-      "--calcite-alert-corner-radius-start-end": [
-        {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderStartEndRadius",
-        },
-      ],
-      "--calcite-alert-corner-radius-end-start": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderEndStartRadius",
-      },
-      "--calcite-alert-corner-radius-end-end": [
-        {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderEndEndRadius",
         },
         {
           shadowSelector: `.${CSS.close}`,
