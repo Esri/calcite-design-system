@@ -60,9 +60,10 @@
 
 .calcite-floating-ui-arrow {
   fill: var(--calcite-popover-background-color, var(--calcite-color-foreground-1));
-  .calcite-floating-ui-arrow__stroke {
-    stroke: var(--calcite-popover-border-color, var(--calcite-color-border-3));
-  }
+}
+
+.calcite-floating-ui-arrow__stroke {
+  stroke: var(--calcite-popover-border-color, var(--calcite-color-border-3));
 }
 
 .header {
