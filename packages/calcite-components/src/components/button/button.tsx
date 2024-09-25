@@ -277,7 +277,7 @@ export class Button
             [CSS.iconStartEmpty]: !this.iconStart,
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
-          disabled={childElType === "button" ? this.disabled || this.loading : null}
+          disabled={childElType === "button" ? this.disabled : null}
           download={
             childElType === "a"
               ? this.download === true || this.download === ""
