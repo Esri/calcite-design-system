@@ -267,9 +267,7 @@ export class InputTimeZone
     }
 
     this.selectedTimeZoneItem = timeZoneItem;
-    requestAnimationFrame(() => {
-      this.overrideSelectedLabelForRegion(this.open);
-    });
+    this.overrideSelectedLabelForRegion(this.open);
   }
 
   /**
@@ -345,6 +343,8 @@ export class InputTimeZone
 
   labelEl: HTMLCalciteLabelElement;
 
+  @State() private selectedRegionTimeZoneItemLabel: string;
+
   private selectedTimeZoneItem: TimeZoneItem;
 
   private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
@@ -376,13 +376,10 @@ export class InputTimeZone
 
     const { label, metadata } = this.selectedTimeZoneItem;
 
-    requestAnimationFrame(() => {
-      const itemLabel =
-        !metadata.country || open
-          ? label
-          : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
-      this.comboboxEl.selectedItems[0].textLabel = itemLabel;
-    });
+    this.selectedRegionTimeZoneItemLabel =
+      !metadata.country || open
+        ? label
+        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
   }
 
   private onComboboxBeforeClose = (event: CustomEvent): void => {
@@ -409,7 +406,7 @@ export class InputTimeZone
       return;
     }
 
-    const selected = this.findTimeZoneItemByLabel(selectedItem.textLabel);
+    const selected = this.findTimeZoneItemByLabel(selectedItem.getAttribute("data-label"));
     const selectedValue = `${selected.value}`;
 
     if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
@@ -574,15 +571,16 @@ export class InputTimeZone
 
     return this.timeZoneItems.map((group) => {
       const selected = this.selectedTimeZoneItem === group;
-      const { label, value } = group;
+      const { label, metadata, value } = group;
 
       return (
         <calcite-combobox-item
-          data-value={value}
+          data-label={label}
           key={label}
+          metadata={metadata}
           selected={selected}
           textLabel={label}
-          value={`${group.filterValue}`}
+          value={value}
         />
       );
     });
@@ -593,20 +591,20 @@ export class InputTimeZone
       <calcite-combobox-item-group key={label} label={label}>
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
-          const { label, value } = item;
+          const { label, metadata, value } = item;
 
           return (
             <calcite-combobox-item
-              data-value={value}
-              description={item.metadata.country}
+              data-label={label}
+              description={metadata.country}
               key={label}
-              metadata={item.metadata}
+              metadata={metadata}
               selected={selected}
-              textLabel={label}
-              value={`${item.filterValue}`}
+              textLabel={selected ? this.selectedRegionTimeZoneItemLabel : label}
+              value={value}
             >
               <span class={CSS.offset} slot="content-end">
-                {item.metadata.offset}
+                {metadata.offset}
               </span>
             </calcite-combobox-item>
           );

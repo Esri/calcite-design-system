@@ -68,7 +68,9 @@ export async function createTimeZoneItems(
         return {
           label,
           value,
-          filterValue: timeZone,
+          metadata: {
+            filterValue: timeZone,
+          },
         };
       })
       .filter((group) => !!group)
@@ -93,29 +95,49 @@ export async function createTimeZoneItems(
 
     return groups
       .map<TimeZoneItemGroup>(({ label: region, tzs }) => {
+        tzs.sort((timeZoneA, timeZoneB) => {
+          const labeledTimeZoneA = getTimeZoneLabel(timeZoneA, messages);
+          const labeledTimeZoneB = getTimeZoneLabel(timeZoneB, messages);
+          const gmtTimeZoneString = "Etc/GMT";
+
+          if (timeZoneA.startsWith(gmtTimeZoneString) && timeZoneB.startsWith(gmtTimeZoneString)) {
+            // we use the IANA timezone for simpler and consistent sorting across locales
+            const offsetStringA = timeZoneA.substring(gmtTimeZoneString.length);
+            const offsetStringB = timeZoneB.substring(gmtTimeZoneString.length);
+
+            const offsetA = offsetStringA === "" ? 0 : parseInt(offsetStringA);
+            const offsetB = offsetStringB === "" ? 0 : parseInt(offsetStringB);
+
+            return offsetB - offsetA;
+          }
+
+          return labeledTimeZoneA.localeCompare(labeledTimeZoneB);
+        });
+
         return {
           label: getMessageOrKeyFallback(messages, region),
           items: tzs.map((timeZone) => {
             const decimalOffset = timeZoneOffsetToDecimal(
               getTimeZoneShortOffset(timeZone, effectiveLocale, referenceDateInMs),
             );
-            const filterValue =
-              toUserFriendlyName(timeZone) +
-              (region === globalLabel
-                ? // we add the global label as global group items do not have a unifying region/name
-                  getTimeZoneLabel(globalLabel, messages)
-                : "");
             const label = getTimeZoneLabel(timeZone, messages);
+            const filterValue =
+              region === globalLabel
+                ? // we rely on the label for search since GMT items have their signs inverted (see https://en.wikipedia.org/wiki/Tz_database#Area)
+                  // in addition to the label we also add "Global" and "Etc" to allow searching for these items
+                  getTimeZoneLabel(globalLabel, messages) + " " + "Etc"
+                : toUserFriendlyName(timeZone);
+
             const countryCode = getCountry(timeZone);
             const country = getMessageOrKeyFallback(messages, countryCode);
 
             return {
               label,
               value: timeZone,
-              filterValue,
               metadata: {
-                offset: decimalOffset,
                 country: country === label ? undefined : country,
+                filterValue,
+                offset: decimalOffset,
               },
             };
           }),
@@ -172,7 +194,9 @@ export async function createTimeZoneItems(
       return {
         label,
         value,
-        filterValue: tzs.map((tz) => toUserFriendlyName(tz)),
+        metadata: {
+          filterValue: tzs.map((tz) => toUserFriendlyName(tz)),
+        },
       };
     })
     .filter((group) => !!group)
