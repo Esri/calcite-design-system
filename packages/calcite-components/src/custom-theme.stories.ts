@@ -10,8 +10,9 @@ import {
   actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
-import { accordion, accordionTokens } from "./custom-theme/accordion";
+import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
+import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
@@ -115,6 +116,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           ${chips} ${pagination} ${slider}
         </div>
         <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover}</div>
+        ${alert}
       </div>
     </div>
   </div>`;
@@ -132,6 +134,7 @@ export default {
     ...actionPadTokens,
     ...avatarTokens,
     ...cardTokens,
+    ...alertTokens,
     ...chipTokens,
     ...checkboxTokens,
     ...handleTokens,
@@ -158,6 +161,7 @@ export const theming = (): string => {
       ...actionPadTokens,
       ...avatarTokens,
       ...cardTokens,
+      ...alertTokens,
       ...chipTokens,
       ...checkboxTokens,
       ...handleTokens,
