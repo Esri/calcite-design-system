@@ -44,6 +44,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { getWidth } from "../../utils/dynamicCSSConst";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
 import { ItemKeyboardEvent } from "./interfaces";
@@ -259,8 +260,7 @@ export class Dropdown
             aria-hidden={toAriaBoolean(!open)}
             class={{
               [`${CSS.calciteDropdownWrapper}`]: true,
-              [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
-                !!this.width || !!this.widthScale,
+              [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
             }}
             ref={this.setFloatingEl}
           >

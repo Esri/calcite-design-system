@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -95,6 +95,6 @@ export class ShellCenterRow implements ConditionalSlotComponent {
       children.reverse();
     }
 
-    return <Fragment>{children}</Fragment>;
+    return <div>{children}</div>;
   }
 }

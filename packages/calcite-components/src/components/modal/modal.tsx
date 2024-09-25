@@ -39,6 +39,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { getWidth } from "../../utils/dynamicCSSConst";
 import { Kind, Scale, Width } from "../interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -239,8 +240,7 @@ export class Modal
           <div
             class={{
               [CSS.modal]: true,
-              [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
-                !!this.width || !!this.widthScale,
+              [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
             }}
             ref={this.setTransitionEl}
           >

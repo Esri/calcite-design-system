@@ -30,6 +30,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
+import { getWidth } from "../../utils/dynamicCSSConst";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -273,8 +274,7 @@ export class Dialog
             aria-modal={toAriaBoolean(this.modal)}
             class={{
               [CSS.dialog]: true,
-              [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
-                !!this.width || !!this.widthScale,
+              [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
             }}
             onKeyDown={this.handleKeyDown}
             ref={this.setTransitionEl}

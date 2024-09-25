@@ -23,6 +23,7 @@ import {
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
+import { getHeight, getWidth } from "../../utils/dynamicCSSConst";
 import {
   connectMessages,
   disconnectMessages,
@@ -348,10 +349,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
-          [`${this.width ? `${CSS.width}-${this.width}` : this.widthScale ? `${CSS.width}-${this.widthScale}` : ""}`]:
-            !!this.width || !!this.widthScale,
-          [`${this.height ? `${CSS.height}-${this.height}` : this.heightScale ? `${CSS.height}-${this.heightScale}` : ""}`]:
-            !!this.height || !!this.heightScale,
+          [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
+          [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
         }}
         hidden={collapsed}
         key="content"
