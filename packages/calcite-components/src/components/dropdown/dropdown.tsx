@@ -238,7 +238,7 @@ export class Dropdown
           <div
             class="calcite-trigger-container"
             id={`${guid}-menubutton`}
-            onClick={this.openDropdown}
+            onClick={this.toggleDropdown}
             onKeyDown={this.keyDownHandler}
             ref={this.setReferenceEl}
           >
@@ -354,7 +354,7 @@ export class Dropdown
       return;
     }
 
-    this.openDropdown();
+    this.toggleDropdown();
   }
 
   @Listen("pointerleave")
@@ -588,12 +588,12 @@ export class Dropdown
     }
 
     if (isActivationKey(key)) {
-      this.openDropdown();
+      this.toggleDropdown();
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
       this.focusLastDropdownItem = key === "ArrowUp";
-      this.openDropdown();
-      event.preventDefault();
+      this.open = true;
+      this.el.addEventListener("calciteDropdownOpen", this.onOpenEnd);
     }
   };
 
@@ -652,15 +652,15 @@ export class Dropdown
     focusElement(target);
   };
 
-  private toggleOpenEnd = (): void => {
+  private onOpenEnd = (): void => {
     this.focusOnFirstActiveOrDefaultItem();
-    this.el.removeEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+    this.el.removeEventListener("calciteDropdownOpen", this.onOpenEnd);
   };
 
-  private openDropdown = () => {
+  private toggleDropdown = () => {
     this.open = !this.open;
     if (this.open) {
-      this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+      this.el.addEventListener("calciteDropdownOpen", this.onOpenEnd);
     }
   };
 
