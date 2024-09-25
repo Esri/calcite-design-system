@@ -4610,10 +4610,6 @@ export namespace Components {
          */
         "fillPlacement": "start" | "none" | "end";
         /**
-          * Displays tick and thumb labels on the opposite side
-         */
-        "flipLabels": boolean;
-        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -12781,10 +12777,6 @@ declare namespace LocalJSX {
           * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
          */
         "fillPlacement"?: "start" | "none" | "end";
-        /**
-          * Displays tick and thumb labels on the opposite side
-         */
-        "flipLabels"?: boolean;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */

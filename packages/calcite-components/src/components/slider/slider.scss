@@ -373,5 +373,14 @@
   }
 }
 
+.track--vertical {
+  transform: rotate(-90deg);
+}
+
+.handle__label--vertical,
+.tick__label--vertical {
+  transform: rotate(90deg);
+}
+
 @include hidden-form-input();
 @include base-component();

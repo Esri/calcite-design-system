@@ -69,10 +69,6 @@ describe("calcite-slider", () => {
         propertyName: "layout",
         defaultValue: "horizontal",
       },
-      {
-        propertyName: "flipLabels",
-        defaultValue: false,
-      },
     ]);
   });
 
@@ -206,23 +202,31 @@ describe("calcite-slider", () => {
       }
     });
 
-    /* Need to add vertical */
     it("single handle: takes the precision of the decimal step when clicking and dragging the track", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-slider step="1.12" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>
-      `);
-      const slider = await page.find("calcite-slider");
-      expect(await slider.getProperty("value")).toBe(0);
-      const trackRect = await getElementRect(page, "calcite-slider", ".track");
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-slider
+            step="1.12"
+            snap
+            style="width:${sliderWidthFor1To1PixelValueTrack}; margin-top: 100px"
+            layout=${l}
+          ></calcite-slider>
+        `);
+        const slider = await page.find("calcite-slider");
+        expect(await slider.getProperty("value")).toBe(0);
+        const trackRect = await getElementRect(page, "calcite-slider", ".track");
 
-      await page.mouse.move(trackRect.x, trackRect.y);
-      await page.mouse.down();
-      await page.mouse.move(trackRect.x + 5, trackRect.y);
-      await page.mouse.up();
-      await page.waitForChanges();
+        await page.mouse.move(trackRect.x, trackRect.y);
+        await page.mouse.down();
+        l === "horizontal"
+          ? await page.mouse.move(trackRect.x + 5, trackRect.y)
+          : await page.mouse.move(trackRect.x, trackRect.y + 95);
+        await page.mouse.up();
+        await page.waitForChanges();
 
-      expect(await slider.getProperty("value")).toBe(4.48);
+        expect(await slider.getProperty("value")).toBe(4.48);
+      }
     });
   });
 

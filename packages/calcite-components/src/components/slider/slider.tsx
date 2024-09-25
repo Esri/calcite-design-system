@@ -187,9 +187,6 @@ export class Slider
   /** Displays tick marks on the number line at a specified interval. */
   @Prop({ reflect: true }) ticks: number;
 
-  /** Displays tick and thumb labels on the opposite side */
-  @Prop({ reflect: true }) flipLabels = false;
-
   @Watch("ticks")
   ticksWatcher(): void {
     this.tickValues = this.generateTickValues();
@@ -252,25 +249,17 @@ export class Slider
   }
 
   componentDidRender(): void {
+    if (this.layout === "vertical") {
+      return;
+    }
     if (this.labelHandles) {
-      if (this.layout === "vertical") {
-        this.adjustHandleLabelVertical("value");
-      } else {
-        this.adjustHostObscuredHandleLabel("value");
-      }
+      this.adjustHostObscuredHandleLabel("value");
       if (isRange(this.value)) {
-        if (this.layout === "vertical") {
-          this.adjustHandleLabelVertical("minValue");
-        } else {
-          this.adjustHostObscuredHandleLabel("minValue");
-        }
+        this.adjustHostObscuredHandleLabel("minValue");
         if (!(this.precise && !this.hasHistogram)) {
           this.hyphenateCollidingRangeHandleLabels();
         }
       }
-    }
-    if (this.layout === "vertical" && this.flipLabels) {
-      this.flipTickLabels();
     }
     this.hideObscuredBoundingTickLabels();
     updateHostInteraction(this);
@@ -290,42 +279,7 @@ export class Slider
     const thumb = this.renderThumb({
       type: thumbTypes,
       thumbPlacement:
-        thumbTypes.includes("histogram") ||
-        (this.layout === "vertical" &&
-          !valueIsRange &&
-          this.mirrored &&
-          this.flipLabels &&
-          this.precise) ||
-        (this.layout === "vertical" &&
-          !valueIsRange &&
-          this.flipLabels &&
-          this.precise &&
-          !this.mirrored) ||
-        (this.layout === "vertical" &&
-          valueIsRange &&
-          this.mirrored &&
-          this.precise &&
-          !this.flipLabels) ||
-        (this.layout === "vertical" &&
-          valueIsRange &&
-          this.flipLabels &&
-          this.precise &&
-          !this.mirrored) ||
-        (this.layout === "vertical" && !this.precise) ||
-        (this.layout === "horizontal" && !valueIsRange && this.flipLabels) ||
-        (this.layout === "horizontal" &&
-          valueIsRange &&
-          this.mirrored &&
-          this.precise &&
-          !this.flipLabels) ||
-        (this.layout === "horizontal" &&
-          valueIsRange &&
-          !this.mirrored &&
-          this.precise &&
-          this.flipLabels) ||
-        (this.layout === "horizontal" && valueIsRange && !this.precise && this.flipLabels)
-          ? "below"
-          : "above",
+        this.layout === "horizontal" && thumbTypes.includes("histogram") ? "below" : "above",
       maxInterval,
       minInterval,
       mirror,
@@ -337,29 +291,10 @@ export class Slider
       this.renderThumb({
         type: minThumbTypes,
         thumbPlacement:
-          minThumbTypes.includes("histogram") ||
-          (this.layout === "vertical" &&
-            valueIsRange &&
-            this.precise &&
-            !this.mirrored &&
-            !this.flipLabels) ||
-          (this.layout === "vertical" &&
-            valueIsRange &&
-            this.precise &&
-            this.mirrored &&
-            this.flipLabels) ||
-          (this.layout === "vertical" && !this.precise) ||
           (this.layout === "horizontal" &&
-            valueIsRange &&
-            this.precise &&
-            !this.mirrored &&
-            !this.flipLabels) ||
-          (this.layout === "horizontal" &&
-            valueIsRange &&
-            this.precise &&
-            this.mirrored &&
-            this.flipLabels) ||
-          (this.layout === "horizontal" && valueIsRange && !this.precise && this.flipLabels)
+            (minThumbTypes.includes("histogram") || minThumbTypes.includes("precise"))) ||
+          (this.layout === "vertical" && valueIsRange && this.precise && !this.mirrored) ||
+          (this.layout === "vertical" && valueIsRange && this.precise && this.mirrored)
             ? "below"
             : "above",
         maxInterval,
@@ -533,9 +468,7 @@ export class Slider
           [CSS.thumbMinValue]: isMinThumb,
           [CSS.thumbVertical]: this.layout === "vertical",
           [CSS.thumbHorizontal]: this.layout === "horizontal",
-          [CSS.thumbVerticalReversed]: this.layout === "vertical" && this.flipLabels,
           [CSS.mirrored]: this.mirrored,
-          [CSS.thumbHorizontalReversed]: this.layout === "horizontal" && this.flipLabels,
         }}
         data-value-prop={valueProp}
         key={type}
@@ -585,7 +518,6 @@ export class Slider
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
           [CSS.tickLabelVertical]: this.layout === "vertical",
-          [CSS.tickLabelHorizontalReversed]: this.layout === "horizontal" && this.flipLabels,
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
@@ -1114,85 +1046,6 @@ export class Slider
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
     label.style.transform = `translateX(${labelStaticOffset}px) ${this.layout === "vertical" ? "rotate(90deg)" : ""}`;
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
-  }
-
-  private flipTickLabels(): void {
-    const labels = this.el.shadowRoot.querySelectorAll<HTMLSpanElement>(`.tick__label`);
-    const trackBounds = this.trackEl.getBoundingClientRect();
-    labels.forEach((l) => {
-      const labelBounds = l.getBoundingClientRect();
-      let offset: number;
-      if (labelBounds.left > trackBounds.left) {
-        offset = -(labelBounds.left - trackBounds.left) - labelBounds.height - 12;
-      }
-      l.style.transform = `rotate(90deg) translateX(${offset}px)`;
-    });
-  }
-
-  private adjustHandleLabelVertical(name: "value" | "minValue"): void {
-    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.handle__label--vertical`,
-    );
-    const labelBounds = label.getBoundingClientRect();
-    const handle: DOMRect = this.el.shadowRoot
-      .querySelector(`.thumb--${name} .handle`)
-      .getBoundingClientRect();
-    const rangeContainer: HTMLDivElement = this.el.shadowRoot.querySelector(".container--range");
-    let offset: number;
-    if (this.flipLabels) {
-      if (rangeContainer) {
-        if (!this.precise) {
-          offset = handle.right - labelBounds.left + 8;
-        }
-        if (this.precise && !this.mirrored) {
-          if (name === "minValue") {
-            offset = -(labelBounds.right - handle.left);
-          }
-          if (name === "value") {
-            offset = handle.right - labelBounds.left + 12;
-          }
-        }
-        if (this.precise && this.mirrored) {
-          if (name === "minValue") {
-            offset = handle.right - labelBounds.left + 12;
-          }
-          if (name === "value") {
-            offset = -(labelBounds.right - handle.left);
-          }
-        }
-      } else {
-        if (handle.right - labelBounds.left > 0) {
-          offset = handle.right - labelBounds.left + 8;
-        }
-      }
-    } else {
-      if (rangeContainer) {
-        if (!this.precise) {
-          offset = -(labelBounds.right - handle.left) - 6;
-        }
-        if (this.precise && !this.mirrored) {
-          if (name === "value") {
-            offset = -(labelBounds.right - handle.left) - 6;
-          }
-          if (name === "minValue" && handle.right - labelBounds.left > 0) {
-            offset = handle.right - labelBounds.left + 6;
-          }
-        }
-        if (this.precise && this.mirrored) {
-          if (name === "value") {
-            offset = handle.right - labelBounds.left + 12;
-          }
-          if (name === "minValue") {
-            offset = -(labelBounds.right - handle.left);
-          }
-        }
-      } else {
-        if (labelBounds.right > handle.left) {
-          offset = -(labelBounds.right - handle.left) - 8;
-        }
-      }
-    }
-    label.style.transform = `rotate(90deg) translateX(${offset}px)`;
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
