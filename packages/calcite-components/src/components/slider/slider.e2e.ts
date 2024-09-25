@@ -395,11 +395,10 @@ describe("calcite-slider", () => {
   });
 
   describe("thumb focus in range", () => {
-    /* Need to add vertical */
     it("should focus the min thumb when clicked on track close to minValue", async () => {
       for (const l of ["horizontal", "vertical"]) {
         const sliderForThumbFocusTests = html`<calcite-slider
-          style="width:${sliderWidthFor1To1PixelValueTrack} ${l === `vertical` ? `; transform: rotate(90deg)` : ``}"
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
           min="0"
           max="100"
           min-value="0"
@@ -414,7 +413,7 @@ describe("calcite-slider", () => {
         const slider = await page.find("calcite-slider");
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        await page.mouse.move(trackX + 30, trackY);
+        l === "horizontal" ? await page.mouse.move(trackX + 30, trackY) : await page.mouse.move(trackX, trackY + 95);
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -833,7 +832,7 @@ describe("calcite-slider", () => {
       label-handles
       label-ticks
       snap
-      style="width:${sliderWidthFor1To1PixelValueTrack}"`;
+      style="width:${sliderWidthFor1To1PixelValueTrack}; margin-top: 100px"`;
 
     async function assertValuesUnchanged(minMaxValue: number): Promise<void> {
       expect(await element.getProperty("minValue")).toBe(minMaxValue);
@@ -856,31 +855,41 @@ describe("calcite-slider", () => {
       const expectedValue = 5;
 
       it("click/tap should grab the max value thumb", async () => {
-        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}"`);
+        for (const l of ["horizontal", "vertical"]) {
+          await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" layout=${l}`);
 
-        await assertValuesUnchanged(5);
+          await assertValuesUnchanged(5);
 
-        await page.mouse.click(trackRect.x, trackRect.y);
-        await page.waitForChanges();
+          l === "horizontal"
+            ? await page.mouse.click(trackRect.x, trackRect.y)
+            : await page.mouse.click(trackRect.x, trackRect.y + trackRect.height);
+          await page.waitForChanges();
 
-        const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
+          const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
 
-        expect(isMaxThumbFocused).toBe(true);
-        await assertValuesUnchanged(5);
+          expect(isMaxThumbFocused).toBe(true);
+          await assertValuesUnchanged(5);
+        }
       });
 
       it("mirrored: click/tap should grab the max value thumb", async () => {
-        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored`);
+        for (const l of ["horizontal", "vertical"]) {
+          await setUpTest(
+            `${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored layout=${l}`,
+          );
 
-        await assertValuesUnchanged(5);
+          await assertValuesUnchanged(5);
 
-        await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
-        await page.waitForChanges();
+          l === "horizontal"
+            ? await page.mouse.click(trackRect.x + trackRect.width, trackRect.y)
+            : await page.mouse.click(trackRect.x, trackRect.y);
+          await page.waitForChanges();
 
-        const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
+          const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
 
-        expect(isMaxThumbFocused).toBe(true);
-        await assertValuesUnchanged(5);
+          expect(isMaxThumbFocused).toBe(true);
+          await assertValuesUnchanged(5);
+        }
       });
     });
 
