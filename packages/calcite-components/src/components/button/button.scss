@@ -318,11 +318,9 @@ calcite-loader {
 
 // transparent
 :host([appearance="transparent"]) {
-  &:host(:hover) {
-    --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
-  }
+  &:host(:hover),
   &:host(:focus) {
-    --calcite-internal-button-background-color: var(--calcite-color-transparent);
+    --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
   }
   &:host(:active) {
     --calcite-internal-button-background-color: var(--calcite-color-transparent-press);

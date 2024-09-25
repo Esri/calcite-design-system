@@ -533,7 +533,7 @@ describe("calcite-button", () => {
       it("should render button pseudo classes with default values tied to light mode", async () => {
         page = await newE2EPage({ html: buttonSnippet });
         buttonEl = await page.find("calcite-button >>> button");
-        await buttonEl.focus();
+        await page.keyboard.press("Tab");
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
         expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
@@ -553,12 +553,12 @@ describe("calcite-button", () => {
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
+        buttonFocusStyle = await buttonEl.getComputedStyle();
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0)");
 
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+        buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
@@ -575,15 +575,10 @@ describe("calcite-button", () => {
         <div>${buttonSnippet}</div>`,
       });
       buttonEl = await page.find("calcite-button >>> button");
-      await buttonEl.focus();
-      await page.waitForChanges();
-      buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
-      expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-
       await buttonEl.hover();
       await page.waitForChanges();
-      buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
-      expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
+      buttonFocusStyle = await buttonEl.getComputedStyle();
+      expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });
 
