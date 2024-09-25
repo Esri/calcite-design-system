@@ -772,9 +772,9 @@ export class InputDatePicker
 
   @State() private localeData: DateLocaleData;
 
-  private startInput: HTMLCalciteInputElement;
+  private startInput: HTMLCalciteInputTextElement;
 
-  private endInput: HTMLCalciteInputElement;
+  private endInput: HTMLCalciteInputTextElement;
 
   floatingEl: HTMLDivElement;
 
@@ -883,11 +883,11 @@ export class InputDatePicker
     syncHiddenFormInput("date", this, input);
   }
 
-  setStartInput = (el: HTMLCalciteInputElement): void => {
+  setStartInput = (el: HTMLCalciteInputTextElement): void => {
     this.startInput = el;
   };
 
-  setEndInput = (el: HTMLCalciteInputElement): void => {
+  setEndInput = (el: HTMLCalciteInputTextElement): void => {
     this.endInput = el;
   };
 

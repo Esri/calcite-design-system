@@ -202,7 +202,7 @@ export class TimePicker
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

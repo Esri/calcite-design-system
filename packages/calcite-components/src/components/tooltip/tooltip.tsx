@@ -147,8 +147,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   guid = `calcite-tooltip-${guid()}`;
 
-  hasLoaded = false;
-
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
@@ -178,7 +176,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.referenceEl) {
       this.setUpReferenceElement();
     }
-    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {

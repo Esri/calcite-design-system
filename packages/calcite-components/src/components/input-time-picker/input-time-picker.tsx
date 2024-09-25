@@ -362,7 +362,7 @@ export class InputTimePicker
 
   @Element() el: HTMLCalciteInputTimePickerElement;
 
-  @State() calciteInputEl: HTMLCalciteInputElement;
+  @State() calciteInputEl: HTMLCalciteInputTextElement;
 
   defaultValue: InputTimePicker["value"];
 
@@ -852,7 +852,7 @@ export class InputTimePicker
     this.openHandler();
   };
 
-  private setInputEl = (el: HTMLCalciteInputElement): void => {
+  private setInputEl = (el: HTMLCalciteInputTextElement): void => {
     this.calciteInputEl = el;
   };
 

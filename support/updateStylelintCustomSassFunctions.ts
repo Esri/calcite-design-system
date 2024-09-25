@@ -15,7 +15,7 @@ function collectSassFiles(dir: string): string[] {
 
   try {
     fs.readdirSync(dir, { recursive: true, withFileTypes: true }).forEach(dirent => {
-      const fullPath = path.join(dir, dirent.name);
+      const fullPath = path.join(dirent.parentPath, dirent.name);
 
       if (dirent.isFile() && fullPath.endsWith('.scss')) {
         sassFiles.push(fullPath);
