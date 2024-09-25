@@ -3313,6 +3313,10 @@ export namespace Components {
          */
         "setSize": number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable": boolean;
+        /**
           * The component's value.
          */
         "value": any;
@@ -7104,7 +7108,7 @@ declare global {
         new (): HTMLCalciteListItemElement;
     };
     interface HTMLCalciteListItemGroupElementEventMap {
-        "calciteInternalListItemGroupDefaultSlotChange": DragEvent;
+        "calciteInternalListItemGroupDefaultSlotChange": void;
     }
     interface HTMLCalciteListItemGroupElement extends Components.CalciteListItemGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(type: K, listener: (this: HTMLCalciteListItemGroupElement, ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7850,7 +7854,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerChange": string;
+        "calciteInternalTimePickerChange": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11441,6 +11445,10 @@ declare namespace LocalJSX {
          */
         "setSize"?: number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable"?: boolean;
+        /**
           * The component's value.
          */
         "value"?: any;
@@ -11461,7 +11469,7 @@ declare namespace LocalJSX {
         /**
           * Fires when changes occur in the default slot, notifying parent lists of the changes.
          */
-        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
+        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<void>) => void;
     }
     interface CalciteLoader {
         /**
@@ -13813,7 +13821,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
+        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */

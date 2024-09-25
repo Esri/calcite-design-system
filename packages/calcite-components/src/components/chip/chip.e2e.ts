@@ -214,7 +214,7 @@ describe("calcite-chip", () => {
       await page.setContent(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
 
       const chipEl = await page.find(`calcite-chip`);
-      chipEl.setAttribute("closed", true);
+      chipEl.toggleAttribute("closed", true);
       await page.waitForChanges();
 
       expect(await chipEl.isVisible()).toBe(false);

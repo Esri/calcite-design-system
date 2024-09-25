@@ -20,8 +20,10 @@
   max-inline-size: var(--calcite-action-pad-expanded-max-width, auto);
 }
 
-::slotted(calcite-action-group:not(:last-of-type)) {
-  @apply border-b;
+:host([layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    @apply border-b;
+  }
 }
 
 .container {
