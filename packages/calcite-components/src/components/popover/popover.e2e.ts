@@ -731,7 +731,7 @@ describe("calcite-popover", () => {
               targetProp: "borderBlockEndColor",
             },
             {
-              shadowSelector: `.${FloatingCSS.arrow} .${FloatingCSS.arrowStroke}`,
+              shadowSelector: `.${FloatingCSS.arrowStroke}`,
               targetProp: "stroke",
             },
           ],
