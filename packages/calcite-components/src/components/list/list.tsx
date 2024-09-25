@@ -232,7 +232,7 @@ export class List
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleListItemChange(): void {
-    this.updateListItems({ emitFilterChange: false, performFilter: true });
+    this.updateListItems({ performFilter: true });
   }
 
   //--------------------------------------------------------------------------
@@ -391,7 +391,7 @@ export class List
     }
 
     event.stopPropagation();
-    this.updateListItems({ emitFilterChange: false, performFilter: false });
+    this.updateListItems();
   }
 
   @Listen("calciteInternalListItemGroupDefaultSlotChange")
@@ -409,7 +409,7 @@ export class List
     connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
-    this.updateListItems({ emitFilterChange: false, performFilter: true });
+    this.updateListItems({ performFilter: true });
     this.setUpSorting();
     this.setParentList();
   }
@@ -472,7 +472,7 @@ export class List
   listItems: HTMLCalciteListItemElement[] = [];
 
   mutationObserver = createObserver("mutation", () =>
-    this.updateListItems({ emitFilterChange: false, performFilter: true }),
+    this.updateListItems({ performFilter: true }),
   );
 
   visibleItems: HTMLCalciteListItemElement[] = [];
@@ -673,7 +673,7 @@ export class List
 
   onDragSort(detail: ListDragDetail): void {
     this.setParentList();
-    this.updateListItems({ emitFilterChange: false, performFilter: false });
+    this.updateListItems();
 
     this.calciteListOrderChange.emit(detail);
   }
@@ -809,7 +809,7 @@ export class List
       this.filteredData = filterEl.filteredItems as ItemData;
     }
 
-    this.updateListItems({ emitFilterChange: emit, performFilter: false });
+    this.updateListItems({ emitFilterChange: emit });
   }
 
   private async filterAndUpdateData(): Promise<void> {
@@ -851,13 +851,10 @@ export class List
   };
 
   private updateListItems = debounce(
-    ({
-      emitFilterChange = false,
-      performFilter = false,
-    }: {
-      emitFilterChange: boolean;
-      performFilter: boolean;
-    }): void => {
+    (options?: { emitFilterChange?: boolean; performFilter?: boolean }): void => {
+      const emitFilterChange = options?.emitFilterChange ?? false;
+      const performFilter = options?.performFilter ?? false;
+
       const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
 
       const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -1009,7 +1006,7 @@ export class List
 
     parentEl.insertBefore(dragEl, referenceEl);
 
-    this.updateListItems({ emitFilterChange: false, performFilter: false });
+    this.updateListItems();
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
