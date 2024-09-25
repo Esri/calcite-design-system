@@ -5,6 +5,10 @@ export const alertTokens = {
   calciteAlertWidth: "",
   calciteAlertBackgroundColor: "",
   calciteAlertCornerRadius: "",
+  calciteAlertCornerRadiusStartStart: "",
+  calciteAlertCornerRadiusStartEnd: "",
+  calciteAlertCornerRadiusEndStart: "",
+  calciteAlertCornerRadiusEndEnd: "",
   calciteAlertShadow: "",
 };
 
