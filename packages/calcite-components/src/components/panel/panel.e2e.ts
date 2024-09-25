@@ -654,6 +654,10 @@ describe("calcite-panel", () => {
         shadowSelector: `.${CSS.contentWrapper}`,
         targetProp: "padding",
       },
+      "--calcite-panel-background-color": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "backgroundColor",
+      },
     });
   });
 });
