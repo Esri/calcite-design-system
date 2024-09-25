@@ -3313,6 +3313,10 @@ export namespace Components {
          */
         "setSize": number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable": boolean;
+        /**
           * The component's value.
          */
         "value": any;
@@ -11440,6 +11444,10 @@ declare namespace LocalJSX {
           * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
          */
         "setSize"?: number;
+        /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable"?: boolean;
         /**
           * The component's value.
          */
