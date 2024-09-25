@@ -1632,7 +1632,7 @@ describe("calcite-combobox", () => {
     let element: E2EElement;
     let comboboxItem: E2EElement;
     let itemNestedLi: E2EElement;
-    let closeEvent: Promise<void>;
+    let closeEvent: Promise<unknown>;
 
     beforeEach(async () => {
       page = await newE2EPage();
