@@ -92,7 +92,7 @@ describe("calcite-panel", () => {
 
   describe("handles action-menu placement and flipPlacements", () => {
     handlesActionMenuPlacements(html`
-      <calcite-panel menu-placement="top">
+      <calcite-panel>
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
       </calcite-panel>
     `);

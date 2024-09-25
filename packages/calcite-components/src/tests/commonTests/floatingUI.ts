@@ -156,8 +156,9 @@ export async function handlesActionMenuPlacements(componentTagOrHTML: TagOrHTML)
 
     const flipPlacements = ["top", "bottom"];
 
-    const panel = await page.find(tag);
-    panel.setProperty("menuFlipPlacements", flipPlacements);
+    const component = await page.find(tag);
+    component.setProperty("menuFlipPlacements", flipPlacements);
+    component.setProperty("menuPlacement", "top");
     await page.waitForChanges();
 
     const actionMenu = await page.find(`${tag} >>> calcite-action-menu`);
