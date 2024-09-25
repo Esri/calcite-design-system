@@ -3,5 +3,5 @@ export const getWidth = (width: string, widthScale: string): string => {
 };
 
 export const getHeight = (height: string, heightScale: string): string => {
-  return height ? `height-${height}` : heightScale ? `width-${heightScale}` : "";
+  return height ? `height-${height}` : heightScale ? `height-${heightScale}` : "";
 };
