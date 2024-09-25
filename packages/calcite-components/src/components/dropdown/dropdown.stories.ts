@@ -495,5 +495,3 @@ export const openInAllScales = (): string => html`
     </calcite-dropdown>
   </div>
 `;
-
-openInAllScales.parameters = { chromatic: { delay: 1000 } };
