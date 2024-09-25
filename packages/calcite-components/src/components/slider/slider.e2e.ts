@@ -1254,84 +1254,90 @@ describe("calcite-slider", () => {
 
     describe("min/max value", () => {
       it("allows formatting of the min/max handle and ticks", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html` <calcite-slider
-            min="0"
-            max="100"
-            min-value="25"
-            max-value="75"
-            label-handles
-            label-ticks
-            ticks="25"
-          ></calcite-slider>`,
-        );
+        for (const l of ["horizontal", "vertical"]) {
+          const page = await newE2EPage();
+          await page.setContent(
+            html` <calcite-slider
+              min="0"
+              max="100"
+              min-value="25"
+              max-value="75"
+              label-handles
+              label-ticks
+              ticks="25"
+              layout=${l}
+            ></calcite-slider>`,
+          );
 
-        await page.$eval(
-          "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
-            (slider.labelFormatter = (value, type) => {
-              if (type === "min") {
-                return `-${value}%`;
-              }
+          await page.$eval(
+            "calcite-slider",
+            (slider: HTMLCalciteSliderElement) =>
+              (slider.labelFormatter = (value, type) => {
+                if (type === "min") {
+                  return `-${value}%`;
+                }
 
-              if (type === "max") {
-                return `+${value}%`;
-              }
+                if (type === "max") {
+                  return `+${value}%`;
+                }
 
-              if (type === "tick") {
-                return "^";
-              }
+                if (type === "tick") {
+                  return "^";
+                }
 
-              return undefined;
-            }),
-        );
-        await page.waitForChanges();
+                return undefined;
+              }),
+          );
+          await page.waitForChanges();
 
-        const minValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelMinValue}`);
-        const maxValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
-        const tickLabels = await page.findAll(`calcite-slider >>> .${CSS.tickLabel}`);
+          const minValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelMinValue}`);
+          const maxValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
+          const tickLabels = await page.findAll(`calcite-slider >>> .${CSS.tickLabel}`);
 
-        expect(minValueLabel.innerText).toBe("-25%");
-        expect(maxValueLabel.innerText).toBe("+75%");
+          expect(minValueLabel.innerText).toBe("-25%");
+          expect(maxValueLabel.innerText).toBe("+75%");
 
-        expect(tickLabels).toHaveLength(5);
-        tickLabels.forEach((tickLabel) => {
-          expect(tickLabel.innerText).toBe("^");
-        });
+          expect(tickLabels).toHaveLength(5);
+          tickLabels.forEach((tickLabel) => {
+            expect(tickLabel.innerText).toBe("^");
+          });
+        }
       });
 
       it("allows formatting with the default formatter", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html` <calcite-slider
-            min="0"
-            max="10000"
-            min-value="2500"
-            max-value="7500"
-            label-handles
-            lang="fr"
-            group-separator
-          ></calcite-slider>`,
-        );
+        for (const l of ["horizontal", "vertical"]) {
+          const page = await newE2EPage();
+          await page.setContent(
+            html` <calcite-slider
+              min="0"
+              max="10000"
+              min-value="2500"
+              max-value="7500"
+              label-handles
+              lang="fr"
+              group-separator
+              layout=${l}
+            ></calcite-slider>`,
+          );
 
-        await page.$eval(
-          "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
-            (slider.labelFormatter = (value, type, defaultFormatter) =>
-              type === "min"
-                ? // default formatting
-                  undefined
-                : // using the default formatter
-                  defaultFormatter(value)),
-        );
-        await page.waitForChanges();
+          await page.$eval(
+            "calcite-slider",
+            (slider: HTMLCalciteSliderElement) =>
+              (slider.labelFormatter = (value, type, defaultFormatter) =>
+                type === "min"
+                  ? // default formatting
+                    undefined
+                  : // using the default formatter
+                    defaultFormatter(value)),
+          );
+          await page.waitForChanges();
 
-        const minValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelMinValue}`);
-        const maxValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
+          const minValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelMinValue}`);
+          const maxValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
 
-        expect(minValueLabel.innerText).toBe(`2${frGroupSeparator}500`);
-        expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
+          expect(minValueLabel.innerText).toBe(`2${frGroupSeparator}500`);
+          expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
+        }
       });
     });
   });
