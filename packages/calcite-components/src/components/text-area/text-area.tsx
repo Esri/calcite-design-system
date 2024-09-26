@@ -366,7 +366,12 @@ export class TextArea
           </footer>
           <HiddenFormInputSlot component={this} />
           {this.isCharacterLimitExceeded() && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+            <span
+              aria-hidden={toAriaBoolean(true)}
+              aria-live="polite"
+              class={CSS.assistiveText}
+              id={this.guid}
+            >
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}

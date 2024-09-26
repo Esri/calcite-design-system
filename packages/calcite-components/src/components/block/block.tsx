@@ -500,7 +500,7 @@ export class Block
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <article
-            aria-busy={toAriaBoolean(loading)}
+            aria-busy={loading ? toAriaBoolean(loading) : null}
             class={{
               [CSS.container]: true,
             }}

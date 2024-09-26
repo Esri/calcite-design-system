@@ -9,7 +9,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
-import { focusElement, nodeListToArray } from "../../utils/dom";
+import { focusElement, nodeListToArray, toAriaBoolean } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import { getTraversableItems, isTreeItem } from "./utils";
@@ -88,9 +88,9 @@ export class Tree {
         aria-multiselectable={
           this.child
             ? undefined
-            : (
-                this.selectionMode === "multiple" || this.selectionMode === "multichildren"
-              ).toString()
+            : toAriaBoolean(
+                this.selectionMode === "multiple" || this.selectionMode === "multichildren",
+              )
         }
         onKeyDown={this.keyDownHandler}
         role={!this.child ? "tree" : undefined}

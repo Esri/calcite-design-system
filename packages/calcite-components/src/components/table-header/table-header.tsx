@@ -16,6 +16,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
+import { toAriaBoolean } from "../../utils/dom";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
 import { CSS, ICONS } from "./resources";
 
@@ -262,7 +263,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           )}
           {(this.selectionCell || this.numberCell) && (
             <span
-              aria-hidden={true}
+              aria-hidden={toAriaBoolean(true)}
               aria-live={this.focused ? "polite" : "off"}
               class={CSS.assistiveText}
             >

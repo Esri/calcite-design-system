@@ -20,7 +20,7 @@ import {
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { RowType, TableInteractionMode } from "../table/interfaces";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { TableCellMessages } from "./assets/table-cell/t9n";
@@ -244,7 +244,7 @@ export class TableCell
           >
             {(this.selectionCell || this.readCellContentsToAT) && (
               <span
-                aria-hidden={true}
+                aria-hidden={toAriaBoolean(true)}
                 aria-live={this.focused ? "polite" : "off"}
                 class={CSS.assistiveText}
               >

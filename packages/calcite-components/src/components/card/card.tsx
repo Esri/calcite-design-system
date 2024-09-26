@@ -388,7 +388,10 @@ export class Card
               </div>
             ) : null}
             {thumbnailStart && this.renderThumbnail()}
-            <section aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
+            <section
+              aria-busy={this.loading ? toAriaBoolean(this.loading) : null}
+              class={{ [CSS.container]: true }}
+            >
               {this.renderHeader()}
               <div
                 class={{

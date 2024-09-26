@@ -537,7 +537,7 @@ export class List
           {this.renderItemAriaLive()}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <table
-            aria-busy={toAriaBoolean(loading)}
+            aria-busy={loading ? toAriaBoolean(loading) : null}
             aria-label={label || ""}
             class={CSS.table}
             onKeyDown={this.handleListKeydown}
