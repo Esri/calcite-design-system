@@ -278,6 +278,10 @@ describe("calcite-text-area", () => {
           shadowSelector: `.${CSS.characterLimit}`,
           targetProp: "color",
         },
+        "--calcite-text-area-border-color-invalid": {
+          shadowSelector: `.${CSS.textAreaInvalid}`,
+          targetProp: "borderColor",
+        },
       });
     });
   });
