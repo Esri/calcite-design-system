@@ -109,7 +109,8 @@ export class DatePickerMonthHeader {
    *
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerMonthHeaderSelect: EventEmitter<Date>;
+  @Event({ cancelable: false })
+  calciteInternalDatePickerMonthHeaderSelectChange: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -340,7 +341,7 @@ export class DatePickerMonthHeader {
     event.preventDefault();
 
     await this.handlePenultimateValidMonth(event);
-    this.calciteInternalDatePickerMonthHeaderSelect.emit(date);
+    this.calciteInternalDatePickerMonthHeaderSelectChange.emit(date);
   };
 
   private handleMonthChange = (event: CustomEvent): void => {
@@ -352,7 +353,7 @@ export class DatePickerMonthHeader {
     if (!inRange(newDate, this.min, this.max)) {
       newDate = dateFromRange(newDate, this.min, this.max);
     }
-    this.calciteInternalDatePickerMonthHeaderSelect.emit(newDate);
+    this.calciteInternalDatePickerMonthHeaderSelectChange.emit(newDate);
     this.setSelectMenuWidth(this.monthPickerEl);
   };
 
@@ -406,7 +407,7 @@ export class DatePickerMonthHeader {
 
     // if you've supplied a year and it's in range, update active date
     if (inRangeDate) {
-      this.calciteInternalDatePickerMonthHeaderSelect.emit(inRangeDate);
+      this.calciteInternalDatePickerMonthHeaderSelectChange.emit(inRangeDate);
     }
 
     if (commit) {
@@ -503,10 +504,11 @@ export class DatePickerMonthHeader {
   private async handlePenultimateValidMonth(event: MouseEvent | KeyboardEvent): Promise<void> {
     const target = event.target as HTMLCalciteActionElement;
     const direction = target.getAttribute("data-direction");
+    const isDirectionLeft = direction === "left";
 
     let isTargetLastValidMonth: boolean;
 
-    if (direction === "left" && this.min) {
+    if (isDirectionLeft && this.min) {
       const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
       isTargetLastValidMonth = hasSameMonthAndYear(prevMonthDate, this.min);
     } else if (this.max) {
@@ -516,7 +518,7 @@ export class DatePickerMonthHeader {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        direction === "left"
+        isDirectionLeft
           ? await this.nextMonthAction.setFocus()
           : await this.prevMonthAction.setFocus();
       } else {

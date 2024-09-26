@@ -6701,7 +6701,7 @@ declare global {
         new (): HTMLCalciteDatePickerElement;
     };
     interface HTMLCalciteDatePickerDayElementEventMap {
-        "calciteDaySelect": void;
+        "calciteInternalDaySelect": void;
         "calciteInternalDayHover": void;
     }
     interface HTMLCalciteDatePickerDayElement extends Components.CalciteDatePickerDay, HTMLStencilElement {
@@ -6743,7 +6743,7 @@ declare global {
         new (): HTMLCalciteDatePickerMonthElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-        "calciteInternalDatePickerMonthHeaderSelect": Date;
+        "calciteInternalDatePickerMonthHeaderSelectChange": Date;
     }
     interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9626,13 +9626,13 @@ declare namespace LocalJSX {
          */
         "highlighted"?: boolean;
         /**
-          * Fires when user selects day.
-         */
-        "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
-        /**
           * Fires when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
+        /**
+          * Fires when user selects day.
+         */
+        "onCalciteInternalDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
           * When `true`, activates the component's range mode to allow a start and end date.
          */
@@ -9777,7 +9777,7 @@ declare namespace LocalJSX {
         /**
           * Fires to active date
          */
-        "onCalciteInternalDatePickerMonthHeaderSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerMonthHeaderSelectChange"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
         /**
           * Specifies the position of the component in a range date-picker.
          */

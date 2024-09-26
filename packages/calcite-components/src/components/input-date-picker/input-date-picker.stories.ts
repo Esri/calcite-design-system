@@ -89,7 +89,6 @@ export const withMinMax = (): string =>
 export const range = (): string => html`
   <style>
     .container {
-      width: 400px;
       height: 400px;
     }
   </style>

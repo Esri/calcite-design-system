@@ -180,8 +180,6 @@ export class DatePickerMonth {
 
   @State() focusedDate: Date;
 
-  private endCalendarStartIndex = 50;
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -476,6 +474,7 @@ export class DatePickerMonth {
     const target = event.target as HTMLCalciteDatePickerDayElement;
     this.activeFocus = false;
     this.calciteInternalDatePickerDaySelect.emit(target.value);
+    event.stopPropagation();
   };
 
   /**
@@ -510,9 +509,9 @@ export class DatePickerMonth {
         <calcite-date-picker-day
           active={active}
           class={{
-            "current-day": currentDay,
-            "inside-range--hover": this.startDate && isHoverInRange,
-            "outside-range--hover": this.startDate && !isHoverInRange,
+            [CSS.currentDay]: currentDay,
+            [CSS.insideRangeHover]: this.startDate && isHoverInRange,
+            [CSS.outsideRangeHover]: this.startDate && !isHoverInRange,
             noncurrent: this.range && !currentMonth,
           }}
           currentMonth={currentMonth}
@@ -521,8 +520,8 @@ export class DatePickerMonth {
           disabled={!isDateInRange}
           endOfRange={this.isEndOfRange(date)}
           highlighted={this.betweenSelectedRange(date)}
-          onCalciteDaySelect={this.daySelect}
           onCalciteInternalDayHover={this.dayHover}
+          onCalciteInternalDaySelect={this.daySelect}
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
           rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={isDateInRange && this.isRangeHover(date)}
@@ -545,8 +544,8 @@ export class DatePickerMonth {
     return (
       <div
         class={{
-          calendar: true,
-          "calendar--start": !isEndCalendar,
+          [CSS.calendar]: true,
+          [CSS.calendarStart]: !isEndCalendar,
         }}
       >
         <calcite-date-picker-month-header
@@ -558,7 +557,7 @@ export class DatePickerMonth {
           messages={this.messages}
           min={this.min}
           monthStyle={this.monthStyle}
-          onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
+          onCalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
           position={isEndCalendar ? "end" : this.range ? "start" : null}
           scale={this.scale}
           selectedDate={this.selectedDate}
@@ -680,6 +679,7 @@ export class DatePickerMonth {
   };
 
   private renderMonthCalendar(weekDays: string[], days: Day[], isEndCalendar = false): VNode {
+    const endCalendarStartIndex = 50;
     return (
       <div class={{ [CSS.month]: true }} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.weekHeaderContainer]: true }} role="row">
@@ -692,7 +692,7 @@ export class DatePickerMonth {
 
         <div class={{ [CSS.weekDays]: true }} role="row">
           {days.map((day, index) =>
-            this.renderDateDay(day, isEndCalendar ? this.endCalendarStartIndex + index : index),
+            this.renderDateDay(day, isEndCalendar ? endCalendarStartIndex + index : index),
           )}
         </div>
       </div>
@@ -703,6 +703,7 @@ export class DatePickerMonth {
     const date = new Date(event.detail);
     const target = event.target as HTMLCalciteDatePickerMonthHeaderElement;
     this.updateFocusableDate(date);
+    event.stopPropagation();
     this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position });
   };
 
