@@ -243,11 +243,7 @@ export class TableCell
             tabIndex={staticCell ? -1 : 0}
           >
             {(this.selectionCell || this.readCellContentsToAT) && (
-              <span
-                aria-hidden={true}
-                aria-live={this.focused ? "polite" : "off"}
-                class={CSS.assistiveText}
-              >
+              <span aria-live={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
                 {this.selectionCell && this.selectionText}
                 {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
               </span>

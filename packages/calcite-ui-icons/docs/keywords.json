@@ -9006,6 +9006,11 @@
     "category": "GIS",
     "release": "3.32.0"
   },
+  "parcel-parameter": {
+    "alias": ["3.32.0", "gis", "feature", "data", "points", "lines", "assets"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
   "n-variable": {
     "alias": ["3.32.0", "text", "variables", "math", "calculation", "letter"],
     "category": "Text",
