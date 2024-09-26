@@ -594,10 +594,20 @@ describe("calcite-alert", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-alert-corner-radius": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-      },
+      "--calcite-alert-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
       "--calcite-alert-shadow": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "boxShadow",

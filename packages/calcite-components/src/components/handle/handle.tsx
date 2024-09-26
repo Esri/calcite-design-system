@@ -25,7 +25,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  InteractiveComponent,
+  InteractiveContainer,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { HandleMessages } from "./assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
@@ -294,24 +298,26 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
 
   render(): VNode {
     return (
-      // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
-      <span
-        aria-checked={this.disabled ? null : toAriaBoolean(this.selected)}
-        aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
-        aria-label={this.disabled ? null : this.getAriaText("label")}
-        class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
-        onBlur={this.handleBlur}
-        onKeyDown={this.handleKeyDown}
-        ref={(el): void => {
-          this.handleButton = el;
-        }}
-        // role of radio is being applied to allow space key to select in screen readers
-        role="radio"
-        tabIndex={this.disabled ? null : 0}
-        title={this.getTooltip()}
-      >
-        <calcite-icon icon={ICONS.drag} scale="s" />
-      </span>
+      <InteractiveContainer disabled={this.disabled}>
+        <span
+          // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
+          aria-checked={this.disabled ? null : toAriaBoolean(this.selected)}
+          aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
+          aria-label={this.disabled ? null : this.getAriaText("label")}
+          class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
+          onBlur={this.handleBlur}
+          onKeyDown={this.handleKeyDown}
+          ref={(el): void => {
+            this.handleButton = el;
+          }}
+          // role of radio is being applied to allow space key to select in screen readers
+          role="radio"
+          tabIndex={this.disabled ? null : 0}
+          title={this.getTooltip()}
+        >
+          <calcite-icon icon={ICONS.drag} scale="s" />
+        </span>
+      </InteractiveContainer>
     );
   }
 }
