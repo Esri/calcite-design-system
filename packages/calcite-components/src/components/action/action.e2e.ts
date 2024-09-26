@@ -133,6 +133,23 @@ describe("calcite-action", () => {
     expect(iconContainer).not.toBeNull();
   });
 
+  it("should set aria-attributes attributes when necessary", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
+
+    const button = await page.find(`calcite-action >>> .${CSS.button}`);
+    expect(button.getAttribute("aria-busy")).toBe(null);
+    expect(button.getAttribute("aria-pressed")).toBe(null);
+
+    const action = await page.find("calcite-action");
+    action.setProperty("active", true);
+    action.setProperty("loading", true);
+    await page.waitForChanges();
+
+    expect(button.getAttribute("aria-busy")).toBe("true");
+    expect(button.getAttribute("aria-pressed")).toBe("true");
+  });
+
   it("should use text prop for a11y attributes when text is not enabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action text="hello world"></calcite-action>`);

@@ -313,10 +313,10 @@ export class Action
       <Host>
         <InteractiveContainer disabled={disabled}>
           <button
-            aria-busy={toAriaBoolean(loading)}
+            aria-busy={loading ? toAriaBoolean(loading) : null}
             aria-controls={indicator ? indicatorId : null}
             aria-label={ariaLabel}
-            aria-pressed={toAriaBoolean(active)}
+            aria-pressed={active ? toAriaBoolean(active) : null}
             class={buttonClasses}
             disabled={disabled}
             id={buttonId}
