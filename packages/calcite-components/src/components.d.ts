@@ -394,6 +394,10 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement[];
+        /**
           * Accessible name for the component.
          */
         "label": string;
@@ -418,6 +422,10 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "placement": LogicalPlacement;
         /**
           * Specifies the size of the `calcite-action-menu`.
          */
@@ -625,6 +633,10 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement[];
+        /**
           * The component header text.
          */
         "heading": string;
@@ -664,6 +676,10 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "placement": LogicalPlacement;
         /**
           * Sets focus on the component's first tabbable element.
          */
@@ -3313,6 +3329,10 @@ export namespace Components {
          */
         "setSize": number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable": boolean;
+        /**
           * The component's value.
          */
         "value": any;
@@ -3861,6 +3881,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement[];
+        /**
           * The component header text.
          */
         "heading": string;
@@ -3888,6 +3912,10 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "placement": LogicalPlacement;
         /**
           * Specifies the size of the component.
          */
@@ -7104,7 +7132,7 @@ declare global {
         new (): HTMLCalciteListItemElement;
     };
     interface HTMLCalciteListItemGroupElementEventMap {
-        "calciteInternalListItemGroupDefaultSlotChange": DragEvent;
+        "calciteInternalListItemGroupDefaultSlotChange": void;
     }
     interface HTMLCalciteListItemGroupElement extends Components.CalciteListItemGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(type: K, listener: (this: HTMLCalciteListItemGroupElement, ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7850,7 +7878,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerChange": string;
+        "calciteInternalTimePickerChange": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8322,6 +8350,10 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement[];
+        /**
           * Accessible name for the component.
          */
         "label"?: string;
@@ -8346,6 +8378,10 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "placement"?: LogicalPlacement;
         /**
           * Specifies the size of the `calcite-action-menu`.
          */
@@ -8560,6 +8596,10 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement[];
+        /**
           * The component header text.
          */
         "heading": string;
@@ -8620,6 +8660,10 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "placement"?: LogicalPlacement;
         /**
           * Displays a status-related indicator icon.
           * @deprecated Use `icon-start` instead.
@@ -11441,6 +11485,10 @@ declare namespace LocalJSX {
          */
         "setSize"?: number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable"?: boolean;
+        /**
           * The component's value.
          */
         "value"?: any;
@@ -11461,7 +11509,7 @@ declare namespace LocalJSX {
         /**
           * Fires when changes occur in the default slot, notifying parent lists of the changes.
          */
-        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
+        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<void>) => void;
     }
     interface CalciteLoader {
         /**
@@ -11985,6 +12033,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement[];
+        /**
           * The component header text.
          */
         "heading"?: string;
@@ -12024,6 +12076,10 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "placement"?: LogicalPlacement;
         /**
           * Specifies the size of the component.
          */
@@ -13813,7 +13869,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
+        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */

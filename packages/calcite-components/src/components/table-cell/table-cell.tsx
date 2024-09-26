@@ -222,7 +222,6 @@ export class TableCell
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <td
-            aria-disabled={this.disabled}
             class={{
               [CSS.footerCell]: this.parentRowType === "foot",
               [CSS.contentCell]: !this.numberCell && !this.selectionCell,
