@@ -1094,10 +1094,6 @@ describe("calcite-slider", () => {
   describe("snap + step interaction", () => {
     let page: E2EPage;
 
-    beforeEach(async () => {
-      page = await newE2EPage();
-    });
-
     async function dragThumbToMax(layout = "horizontal"): Promise<void> {
       const trackRect = await getElementRect(page, "calcite-slider", ".track");
       const thumbRect = await getElementRect(page, "calcite-slider", ".thumb--value");
@@ -1145,27 +1141,31 @@ describe("calcite-slider", () => {
     });
 
     it("snaps to max limit beyond upper bound", async () => {
-      await page.setContent(
-        html`<calcite-slider max="10.5" min="0" snap step="1" ticks="1" value="10.5"></calcite-slider>`,
-      );
-      const slider = await page.find("calcite-slider");
+      for (const l of ["horizontal", "vertical"]) {
+        page = await newE2EPage({
+          html: `<calcite-slider max="10.5" min="0" snap step="1" ticks="1" value="10.5" layout=${l} style="margin-top: 369px"></calcite-slider>`,
+        });
+        const slider = await page.find("calcite-slider");
 
-      expect(await slider.getProperty("value")).toBe(10);
+        expect(await slider.getProperty("value")).toBe(10);
 
-      await dragThumbToMax();
-      expect(await slider.getProperty("value")).toBe(10);
+        await dragThumbToMax(l);
+        expect(await slider.getProperty("value")).toBe(10);
+      }
     });
 
     it("snaps to max limit at upper bound", async () => {
-      await page.setContent(
-        html`<calcite-slider max="10.4" min="0" snap step="1" ticks="1" value="10.4"></calcite-slider>`,
-      );
-      const slider = await page.find("calcite-slider");
+      for (const l of ["horizontal", "vertical"]) {
+        page = await newE2EPage({
+          html: `<calcite-slider max="10.4" min="0" snap step="1" ticks="1" value="10.4" layout=${l}></calcite-slider>`,
+        });
+        const slider = await page.find("calcite-slider");
 
-      expect(await slider.getProperty("value")).toBe(10);
+        expect(await slider.getProperty("value")).toBe(10);
 
-      await dragThumbToMax();
-      expect(await slider.getProperty("value")).toBe(10);
+        await dragThumbToMax(l);
+        expect(await slider.getProperty("value")).toBe(10);
+      }
     });
   });
 
