@@ -7,10 +7,10 @@
  * @prop --calcite-text-area-border-color: Specifies the border color of the text area.
  * @prop --calcite-text-area-character-limit-text-color: Specifies the color of the character limit text displayed in footer of the component.
  * @prop --calcite-text-area-divider-color: Specifies the color of the divider between the text area and footer.
- * @prop --calcite-text-area-font-size: Specifies the font size of the thext area and footer.
- * @prop --calcite-text-area-max-height: Specifies the the maximum height of the text area in the component.
+ * @prop --calcite-text-area-font-size: Specifies the font size of the text area and footer.
+ * @prop --calcite-text-area-max-height: Specifies the maximum height of the text area in the component.
  * @prop --calcite-text-area-min-height: Specifies the minimum height of the text area in the component.
- * @prop --calcite-text-area-max-width: Specifies the the maximum width of the text area in the component.
+ * @prop --calcite-text-area-max-width: Specifies the maximum width of the text area in the component.
  * @prop --calcite-text-area-min-width: Specifies the minimum width of the text area in the component.
  * @prop --calcite-text-area-text-color: Specifies the color of text in the component.
  * @prop --calcite-text-area-footer-border-color: Specifies the border color of the footer.
@@ -62,10 +62,7 @@
   }
 
   &.text-area--invalid {
-    --calcite-internal-text-area-border-color: var(
-      --calcite-text-area-border-color,
-      var(--calcite-color-status-danger)
-    );
+    --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
     &:focus {
       @apply focus-inset-danger;
@@ -192,7 +189,7 @@
 }
 
 :host([status="invalid"]) {
-  --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-status-danger));
+  --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
   .text-area:focus {
     @apply focus-inset-danger;
