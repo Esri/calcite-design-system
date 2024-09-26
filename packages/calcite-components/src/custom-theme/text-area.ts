@@ -3,7 +3,6 @@ import { html } from "../../support/formatting";
 export const textAreaTokens = {
   calciteTextAreaBackgroundColor: "",
   calciteTextAreaBorderColor: "",
-  calciteTextAreaBorderColorInvalid: "",
   calciteTextAreaCharacterLimitTextColor: "",
   calciteTextAreaDividerColor: "",
   calciteTextAreaFontSize: "",

@@ -5,7 +5,6 @@
  *
  * @prop --calcite-text-area-background-color: Specifies the background color of the component.
  * @prop --calcite-text-area-border-color: Specifies the border color of the text area.
- * @prop --calcite-text-area-border-color-invalid: Specifies the border color of the text area when the status is invalid.
  * @prop --calcite-text-area-character-limit-text-color: Specifies the color of the character limit text displayed in footer of the component.
  * @prop --calcite-text-area-divider-color: Specifies the color of the divider between the text area and footer.
  * @prop --calcite-text-area-font-size: Specifies the font size of the text area and footer.
@@ -63,10 +62,7 @@
   }
 
   &.text-area--invalid {
-    --calcite-internal-text-area-border-color: var(
-      --calcite-text-area-border-color-invalid,
-      var(--calcite-color-status-danger)
-    );
+    --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
     &:focus {
       @apply focus-inset-danger;
@@ -193,10 +189,7 @@
 }
 
 :host([status="invalid"]) {
-  --calcite-internal-text-area-border-color: var(
-    --calcite-text-area-border-color-invalid,
-    var(--calcite-color-status-danger)
-  );
+  --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
   .text-area:focus {
     @apply focus-inset-danger;
