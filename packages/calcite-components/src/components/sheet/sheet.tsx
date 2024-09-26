@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   VNode,
@@ -152,7 +151,17 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        escapeDeactivates: (event) => {
+          if (event.defaultPrevented || this.escapeDisabled) {
+            return false;
+          }
+          event.preventDefault();
+          return true;
+        },
+      },
+    });
   }
 
   disconnectedCallback(): void {
@@ -217,20 +226,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
 
   //--------------------------------------------------------------------------
   //

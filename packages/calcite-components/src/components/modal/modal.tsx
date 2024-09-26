@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -201,6 +200,13 @@ export class Modal
     connectFocusTrap(this, {
       focusTrapOptions: {
         clickOutsideDeactivates: false,
+        escapeDeactivates: (event) => {
+          if (event.defaultPrevented || this.escapeDisabled) {
+            return false;
+          }
+          event.preventDefault();
+          return true;
+        },
       },
     });
   }
@@ -398,20 +404,6 @@ export class Modal
   }
 
   @State() defaultMessages: ModalMessages;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
 
   //--------------------------------------------------------------------------
   //

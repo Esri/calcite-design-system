@@ -234,10 +234,11 @@ export class Dialog
       focusTrapOptions: {
         clickOutsideDeactivates: false,
         escapeDeactivates: (event) => {
-          if (!this.escapeDisabled && !event.defaultPrevented) {
-            event.preventDefault();
-            return true;
+          if (event.defaultPrevented || this.escapeDisabled) {
+            return false;
           }
+          event.preventDefault();
+          return true;
         },
       },
     });
