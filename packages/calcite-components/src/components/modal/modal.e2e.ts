@@ -391,6 +391,8 @@ describe("calcite-modal", () => {
     expect(modal).toEqualAttribute("aria-modal", "true");
   });
 
+  const delayInMilliseconds = 300;
+
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal></calcite-modal>`);
@@ -408,6 +410,7 @@ describe("calcite-modal", () => {
 
     modal.setProperty("open", true);
     await page.waitForChanges();
+    await page.waitForTimeout(delayInMilliseconds);
     expect(await modal.isVisible()).toBe(true);
   });
 
@@ -418,10 +421,12 @@ describe("calcite-modal", () => {
 
     const modal = await page.find("calcite-modal");
     await page.waitForChanges();
+    await page.waitForTimeout(delayInMilliseconds);
     expect(modal).toHaveAttribute("open");
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
+    await page.waitForTimeout(delayInMilliseconds);
     expect(modal).not.toHaveAttribute("open");
 
     await modal.setProperty("open", true);
