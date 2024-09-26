@@ -197,6 +197,11 @@ export class ListItem
   }
 
   /**
+   * When `true`, the component's content appears inactive.
+   */
+  @Prop({ reflect: true }) unavailable = false;
+
+  /**
    * The component's value.
    */
   @Prop() value: any;
@@ -613,7 +618,7 @@ export class ListItem
   }
 
   renderContentContainer(): VNode {
-    const { description, label, selectionMode, hasCustomContent } = this;
+    const { description, label, selectionMode, hasCustomContent, unavailable } = this;
     const hasCenterContent = hasCustomContent || !!label || !!description;
     const content = [
       this.renderContentStart(),
@@ -627,6 +632,7 @@ export class ListItem
         aria-label={label}
         class={{
           [CSS.contentContainer]: true,
+          [CSS.contentContainerUnavailable]: unavailable,
           [CSS.contentContainerSelectable]: selectionMode !== "none",
           [CSS.contentContainerHasCenterContent]: hasCenterContent,
         }}
@@ -710,7 +716,7 @@ export class ListItem
   //
   // --------------------------------------------------------------------------
 
-  private dragHandleSelectedChangeHandler = (event: CustomEvent): void => {
+  private dragHandleSelectedChangeHandler = (event: CustomEvent<void>): void => {
     this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
     this.calciteListItemDragHandleChange.emit();
     event.stopPropagation();

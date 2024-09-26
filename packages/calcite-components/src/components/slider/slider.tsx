@@ -438,7 +438,6 @@ export class Slider
 
     return (
       <div
-        aria-disabled={this.disabled}
         aria-label={ariaLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}

@@ -75,6 +75,10 @@
     p-0;
 }
 
+.content-container--unavailable {
+  @apply opacity-disabled;
+}
+
 tr,
 td {
   @apply focus-base;
