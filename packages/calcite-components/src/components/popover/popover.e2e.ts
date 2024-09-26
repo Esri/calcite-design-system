@@ -745,7 +745,7 @@ describe("calcite-popover", () => {
             },
           ],
           "--calcite-popover-corner-radius": {
-            shadowSelector: `.${CSS.positionContainer}`,
+            shadowSelector: `.${CSS.container}`,
             targetProp: "borderRadius",
           },
           "--calcite-popover-text-color": [
