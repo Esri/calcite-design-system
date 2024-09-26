@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -234,6 +233,12 @@ export class Dialog
     connectFocusTrap(this, {
       focusTrapOptions: {
         clickOutsideDeactivates: false,
+        escapeDeactivates: (event) => {
+          if (!this.escapeDisabled && !event.defaultPrevented) {
+            event.preventDefault();
+            return true;
+          }
+        },
       },
     });
     connectFocusTrap(this);
@@ -383,20 +388,6 @@ export class Dialog
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
 
   //--------------------------------------------------------------------------
   //
