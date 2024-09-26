@@ -466,8 +466,6 @@ export class Slider
           [CSS.thumbActive]: this.lastDragProp !== "minMaxValue" && this.dragProp === valueProp,
           [CSS.thumbPrecise]: isPrecise,
           [CSS.thumbMinValue]: isMinThumb,
-          [CSS.thumbHorizontal]: this.layout === "horizontal",
-          [CSS.mirrored]: this.mirrored,
         }}
         data-value-prop={valueProp}
         key={type}

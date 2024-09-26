@@ -17,8 +17,6 @@ export const CSS = {
   thumbMinValue: "thumb--minValue",
   thumbPrecise: "thumb--precise",
   thumbValue: "thumb--value",
-  thumbHorizontal: "thumb--horizontal",
-  mirrored: "mirrored",
   tick: "tick",
   tickActive: "tick--active",
   tickLabel: "tick__label",
