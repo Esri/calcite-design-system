@@ -1097,7 +1097,6 @@ describe("calcite-input-date-picker", () => {
     await navigateMonth(page, "previous");
     await selectDayInMonthByIndex(page, 1);
     expect(await calendar.isVisible()).toBe(true);
-    expect(await calendar.isVisible()).toBe(true);
 
     await navigateMonth(page, "previous");
     await selectDayInMonthByIndex(page, 31);
@@ -1785,10 +1784,11 @@ async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", 
     "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-select.month-select",
   );
 
-  if (position === "start") {
-    return (await startMonth.find("calcite-option[selected]")).textContent;
-  }
-  return (await endMonth.find("calcite-option[selected]")).textContent;
+  const selectedMonth =
+    position === "start"
+      ? await startMonth.find("calcite-option[selected]")
+      : await endMonth.find("calcite-option[selected]");
+  return selectedMonth.textContent;
 }
 
 async function getDateInputValue(page: E2EPage, type: "start" | "end" = "start"): Promise<string> {

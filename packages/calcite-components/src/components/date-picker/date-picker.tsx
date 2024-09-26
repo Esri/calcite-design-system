@@ -683,7 +683,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private setActiveStartAndEndDates(): void {
     if (this.range) {
-      const date = dateFromRange(
+      const startDate = dateFromRange(
         Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
         this.minAsDate,
         this.maxAsDate,
@@ -695,7 +695,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.maxAsDate,
       );
 
-      this.activeStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+      this.activeStartDate = this.getActiveDate(startDate, this.minAsDate, this.maxAsDate);
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
       if (sameDate(this.activeStartDate, this.activeEndDate)) {

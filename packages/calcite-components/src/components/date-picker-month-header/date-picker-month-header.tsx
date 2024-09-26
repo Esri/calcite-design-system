@@ -21,7 +21,7 @@ import {
   hasSameMonthAndYear,
   inRange,
 } from "../../utils/date";
-import { closestElementCrossShadowBoundary, getTextWidth } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -178,17 +178,10 @@ export class DatePickerMonthHeader {
   }
 
   private renderMonthYearContainer(reverse: boolean): VNode {
-    return reverse ? (
-      <Fragment>
-        {this.renderYearInput()}
-        {this.renderMonthPicker()}
-      </Fragment>
-    ) : (
-      <Fragment>
-        {this.renderMonthPicker()}
-        {this.renderYearInput()}
-      </Fragment>
-    );
+    const content = reverse
+      ? [this.renderYearInput(), this.renderMonthPicker()]
+      : [this.renderMonthPicker(), this.renderYearInput()];
+    return <Fragment>{content}</Fragment>;
   }
 
   private renderMonthPicker(): VNode {
@@ -255,7 +248,7 @@ export class DatePickerMonthHeader {
     return (
       <calcite-action
         alignment="center"
-        aria-disabled={`${isDisabled}`}
+        aria-disabled={toAriaBoolean(isDisabled)}
         aria-label={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
         compact={true}
@@ -448,7 +441,7 @@ export class DatePickerMonthHeader {
         ),
         fontStyle,
       );
-      if (this.localeData?.year?.suffix) {
+      if (this.localeData.year?.suffix) {
         selectedOptionWidth += getTextWidth(this.localeData.year.suffix, fontStyle);
       }
     }

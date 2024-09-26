@@ -24,6 +24,7 @@ import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { HeadingLevel } from "../functional/Heading";
+import { CSS } from "./resources";
 
 const DAYS_PER_WEEK = 7;
 const DAYS_MAXIMUM_INDEX = 6;
@@ -179,6 +180,8 @@ export class DatePickerMonth {
 
   @State() focusedDate: Date;
 
+  private endCalendarStartIndex = 50;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -273,9 +276,10 @@ export class DatePickerMonth {
     const curMonDays = this.getCurrentMonthDays(month, year);
     const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
-    const endCalendarPrevMonDays = this.getPreviousMonthDays(month + 1, year, startOfWeek);
-    const endCalendarCurrMonDays = this.getCurrentMonthDays(month + 1, year);
-    const endCalendarNextMonDays = this.getNextMonthDays(month + 1, year, startOfWeek);
+    const nextMonth = month + 1;
+    const endCalendarPrevMonDays = this.getPreviousMonthDays(nextMonth, year, startOfWeek);
+    const endCalendarCurrMonDays = this.getCurrentMonthDays(nextMonth, year);
+    const endCalendarNextMonDays = this.getNextMonthDays(nextMonth, year, startOfWeek);
     const days = this.getDays(prevMonDays, curMonDays, nextMonDays);
 
     const nextMonthDays = this.getDays(
@@ -287,7 +291,7 @@ export class DatePickerMonth {
 
     return (
       <Host onFocusout={this.disableActiveFocus}>
-        <div class="calendar-container" role="grid">
+        <div class={{ [CSS.calendarContainer]: true }} role="grid">
           {this.renderCalendar(adjustedWeekDays, days)}
           {this.range && this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
         </div>
@@ -502,7 +506,7 @@ export class DatePickerMonth {
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
-      <div class="day-container" key={key} role="gridcell">
+      <div class={{ [CSS.dayContainer]: true }} key={key} role="gridcell">
         <calcite-date-picker-day
           active={active}
           class={{
@@ -627,7 +631,8 @@ export class DatePickerMonth {
     position: "start" | "end" = "start",
   ): Day[] => {
     let month = this.activeDate.getMonth();
-    month = position === "end" ? month + 1 : month;
+    const nextMonth = month + 1;
+    month = position === "end" ? nextMonth : month;
     let dayInWeek = 0;
     const getDayInWeek = () => dayInWeek++ % 7;
     const year = this.activeDate.getFullYear();
@@ -666,7 +671,7 @@ export class DatePickerMonth {
           active: false,
           day,
           dayInWeek: getDayInWeek(),
-          date: new Date(year, month + 1, day),
+          date: new Date(year, nextMonth, day),
         };
       }),
     ];
@@ -676,17 +681,19 @@ export class DatePickerMonth {
 
   private renderMonthCalendar(weekDays: string[], days: Day[], isEndCalendar = false): VNode {
     return (
-      <div class="month" onKeyDown={this.keyDownHandler}>
-        <div class="week-header-container" role="row">
+      <div class={{ [CSS.month]: true }} onKeyDown={this.keyDownHandler}>
+        <div class={{ [CSS.weekHeaderContainer]: true }} role="row">
           {weekDays.map((weekday) => (
-            <span class="week-header" role="columnheader">
+            <span class={{ [CSS.weekHeader]: true }} role="columnheader">
               {weekday}
             </span>
           ))}
         </div>
 
-        <div class="week-days" role="row">
-          {days.map((day, index) => this.renderDateDay(day, isEndCalendar ? 50 + index : index))}
+        <div class={{ [CSS.weekDays]: true }} role="row">
+          {days.map((day, index) =>
+            this.renderDateDay(day, isEndCalendar ? this.endCalendarStartIndex + index : index),
+          )}
         </div>
       </div>
     );
