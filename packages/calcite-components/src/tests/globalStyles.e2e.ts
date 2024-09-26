@@ -98,7 +98,7 @@ describe("global styles", () => {
   describe("stacked focus-trap components", () => {
     const componentStack = html`
     <calcite-sheet id="example-sheet" label="libero nunc" position="inline-start" display-mode="overlay">
-      <calcite-panel closable>
+      <calcite-panel>
         <calcite-block open heading="Preview Sheet options"> </calcite-block>
         <calcite-button onClick="openComponent('example-modal')"> Open Modal from Sheet</calcite-button>
       </calcite-panel>
