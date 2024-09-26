@@ -214,6 +214,8 @@ describe("calcite-dialog", () => {
     accessible(`<calcite-dialog heading="My Dialog" description="My Description" open>Hello world!</calcite-dialog>`);
   });
 
+  const delayInMilliseconds = 300;
+
   it("should set internal panel properties", async () => {
     const page = await newE2EPage();
     await page.exposeFunction("beforeClose", () => Promise.reject());
@@ -430,6 +432,7 @@ describe("calcite-dialog", () => {
       await page.setContent(`
       <calcite-dialog></calcite-dialog>
     `);
+      await skipAnimations(page);
 
       const dialog = await page.find("calcite-dialog");
       await page.$eval(
@@ -697,6 +700,7 @@ describe("calcite-dialog", () => {
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
+    await page.waitForTimeout(delayInMilliseconds);
     expect(await dialog.isVisible()).toBe(true);
 
     await page.keyboard.press("Escape");
@@ -711,12 +715,12 @@ describe("calcite-dialog", () => {
 
   it("closes when Escape key is pressed and dialog is open on page load", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog  open></calcite-dialog>`);
+    await page.setContent(`<calcite-dialog open></calcite-dialog>`);
 
     const dialog = await page.find("calcite-dialog");
     await page.waitForChanges();
     expect(dialog).toHaveAttribute("open");
-    await page.waitForChanges();
+    await page.waitForTimeout(delayInMilliseconds);
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
@@ -733,9 +737,11 @@ describe("calcite-dialog", () => {
     await skipAnimations(page);
     const dialog = await page.find("calcite-dialog");
     const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
+    await page.waitForChanges();
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
+    await page.waitForTimeout(delayInMilliseconds);
     expect(await container.isVisible()).toBe(true);
 
     const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
