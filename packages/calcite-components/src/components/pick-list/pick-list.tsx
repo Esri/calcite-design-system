@@ -305,11 +305,7 @@ export class PickList<
 
   render(): VNode {
     return (
-      <Host
-        aria-busy={this.loading ? toAriaBoolean(this.loading) : null}
-        onKeyDown={this.keyDownHandler}
-        role="menu"
-      >
+      <Host aria-busy={toAriaBoolean(this.loading)} onKeyDown={this.keyDownHandler} role="menu">
         <List props={this} />
       </Host>
     );

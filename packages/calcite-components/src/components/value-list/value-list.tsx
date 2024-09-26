@@ -513,7 +513,7 @@ export class ValueList<
   render(): VNode {
     return (
       <Host
-        aria-busy={this.loading ? toAriaBoolean(this.loading) : null}
+        aria-busy={toAriaBoolean(this.loading)}
         onBlur={this.handleBlur}
         onFocusin={this.handleFocusIn}
         onKeyDown={this.keyDownHandler}

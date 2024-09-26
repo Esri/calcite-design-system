@@ -720,7 +720,7 @@ export class Panel
 
     const panelNode = (
       <article
-        aria-busy={loading ? toAriaBoolean(loading) : null}
+        aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
         hidden={isClosed}
         ref={this.setContainerRef}

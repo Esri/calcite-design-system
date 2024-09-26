@@ -266,7 +266,7 @@ export class Button
     return (
       <InteractiveContainer disabled={this.disabled}>
         <Tag
-          aria-busy={this.loading ? toAriaBoolean(this.loading) : null}
+          aria-busy={toAriaBoolean(this.loading)}
           aria-expanded={this.el.ariaExpanded ? this.el.ariaExpanded : null}
           aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
           aria-live="polite"
