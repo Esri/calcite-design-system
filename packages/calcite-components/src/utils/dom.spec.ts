@@ -665,8 +665,8 @@ describe("dom", () => {
 
     let element: HTMLDivElement;
     let dispatchTransitionEvent: TransitionEventDispatcher;
-    let onStartCallback: jest.Mock<any, any, any>;
-    let onEndCallback: jest.Mock<any, any, any>;
+    let onStartCallback: jest.Mock;
+    let onEndCallback: jest.Mock;
 
     beforeEach(() => {
       dispatchTransitionEvent = createTransitionEventDispatcher();
@@ -766,8 +766,8 @@ describe("dom", () => {
 
     let element: HTMLDivElement;
     let dispatchAnimationEvent: AnimationEventDispatcher;
-    let onStartCallback: jest.Mock<any, any, any>;
-    let onEndCallback: jest.Mock<any, any, any>;
+    let onStartCallback: jest.Mock;
+    let onEndCallback: jest.Mock;
 
     beforeEach(() => {
       dispatchAnimationEvent = createAnimationEventDispatcher();

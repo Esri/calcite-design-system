@@ -7,6 +7,7 @@ export const CSS = {
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
+  contentContainerUnavailable: "content-container--unavailable",
   contentContainerSelectable: "content-container--selectable",
   contentContainerHasCenterContent: "content-container--has-center-content",
   nestedContainer: "nested-container",

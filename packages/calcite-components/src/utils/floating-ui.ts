@@ -271,6 +271,7 @@ export type MenuPlacement = Extract<
 >;
 
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
+export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
   /**
@@ -319,6 +320,8 @@ export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
   animationActive: "calcite-floating-ui-anim--active",
+  arrow: "calcite-floating-ui-arrow",
+  arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
 function getMiddleware({

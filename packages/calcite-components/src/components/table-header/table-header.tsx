@@ -261,11 +261,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             />
           )}
           {(this.selectionCell || this.numberCell) && (
-            <span
-              aria-hidden={true}
-              aria-live={this.focused ? "polite" : "off"}
-              class={CSS.assistiveText}
-            >
+            <span aria-live={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
               {this.screenReaderText}
             </span>
           )}

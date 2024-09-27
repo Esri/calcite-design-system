@@ -454,7 +454,6 @@ export class Slider
 
     return (
       <div
-        aria-disabled={this.disabled}
         aria-label={ariaLabel}
         aria-orientation={this.layout}
         aria-valuemax={this.max}

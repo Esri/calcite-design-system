@@ -9,7 +9,9 @@ import {
   openClose,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -697,6 +699,79 @@ describe("calcite-popover", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`,
       });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!">
+            Lorem Ipsum
+          </calcite-popover>
+        `,
+        {
+          "--calcite-popover-background-color": [
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${FloatingCSS.arrow}`,
+              targetProp: "fill",
+            },
+          ],
+          "--calcite-popover-border-color": [
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.header}`,
+              targetProp: "borderBlockEndColor",
+            },
+            {
+              shadowSelector: `.${FloatingCSS.arrowStroke}`,
+              targetProp: "stroke",
+            },
+          ],
+          "--calcite-popover-corner-radius": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          "--calcite-popover-text-color": [
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.headerContainer}`,
+              targetProp: "color",
+            },
+          ],
+        },
+      );
+    });
+    describe("closable", () => {
+      themed(
+        html`
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
+            Lorem Ipsum
+          </calcite-popover>
+        `,
+        {
+          "--calcite-popover-corner-radius": [
+            {
+              shadowSelector: `.${CSS.closeButtonContainer}`,
+              targetProp: "borderStartEndRadius",
+            },
+            {
+              shadowSelector: `.${CSS.closeButtonContainer}`,
+              targetProp: "borderEndEndRadius",
+            },
+          ],
+        },
+      );
     });
   });
 });

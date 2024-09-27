@@ -2,7 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils";
-import { openClose } from "../../tests/commonTests";
+import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 
@@ -346,17 +346,6 @@ describe("calcite-alert", () => {
     let alertDismissProgressBar;
     let progressBarStyles;
 
-    it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage();
-      await page.setContent(alertSnippet);
-      progressBarStyles = await page.evaluate(() => {
-        const alert = document.querySelector("calcite-alert");
-        alert.style.setProperty("--calcite-alert-dismiss-progress-background", "white");
-        return window.getComputedStyle(alert).getPropertyValue("--calcite-alert-dismiss-progress-background");
-      });
-      expect(progressBarStyles).toEqual("white");
-    });
-
     describe("when mode attribute is not provided", () => {
       it("should render alert dismiss progress bar with default value tied to light mode", async () => {
         page = await newE2EPage();
@@ -593,5 +582,36 @@ describe("calcite-alert", () => {
 
   describe("translation support", () => {
     t9n("calcite-alert");
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-alert label="this is a default alert"> </calcite-alert>`, {
+      "--calcite-alert-width": {
+        selector: `calcite-alert`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-alert-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-alert-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
+      "--calcite-alert-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
+    });
   });
 });

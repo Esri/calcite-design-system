@@ -17,7 +17,7 @@ export const Heading: FunctionalComponent<HeadingProps> = (props, children): VNo
   delete props.level;
 
   return (
-    <HeadingTag class={props.class} key={props.key} level={props.level}>
+    <HeadingTag class={props.class} key={props.key}>
       {children}
     </HeadingTag>
   );

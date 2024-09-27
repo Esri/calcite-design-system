@@ -51,13 +51,13 @@ import { CSS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
-  getMessageOrKeyFallback,
+  getNormalizer,
   getSelectedRegionTimeZoneLabel,
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { OffsetStyle, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -138,7 +138,12 @@ export class InputTimeZone
   @Watch("mode")
   @Watch("referenceDate")
   handleTimeZoneItemPropsChange(): void {
-    this.updateTimeZoneItemsAndSelection();
+    if (!this.timeZoneItems) {
+      return;
+    }
+
+    this.updateTimeZoneItems();
+    this.updateTimeZoneSelection();
   }
 
   /**
@@ -242,9 +247,15 @@ export class InputTimeZone
   handleValueChange(value: string, oldValue: string): void {
     value = this.normalizeValue(value);
 
-    if (!value && this.clearable) {
-      this.value = value;
-      this.selectedTimeZoneItem = null;
+    if (!value) {
+      if (this.clearable) {
+        this.value = value;
+        this.selectedTimeZoneItem = null;
+        return;
+      }
+
+      this.value = oldValue;
+      this.selectedTimeZoneItem = this.findTimeZoneItem(oldValue);
       return;
     }
 
@@ -256,6 +267,9 @@ export class InputTimeZone
     }
 
     this.selectedTimeZoneItem = timeZoneItem;
+    requestAnimationFrame(() => {
+      this.overrideSelectedLabelForRegion(this.open);
+    });
   }
 
   /**
@@ -356,14 +370,19 @@ export class InputTimeZone
    * @private
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
-    if (this.mode !== "region" || !this.selectedTimeZoneItem) {
+    if (this.mode !== "region" || !this.selectedTimeZoneItem || !this.comboboxEl?.selectedItems) {
       return;
     }
 
     const { label, metadata } = this.selectedTimeZoneItem;
-    this.comboboxEl.selectedItems[0].textLabel = open
-      ? label
-      : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+
+    requestAnimationFrame(() => {
+      const itemLabel =
+        !metadata.country || open
+          ? label
+          : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+      this.comboboxEl.selectedItems[0].textLabel = itemLabel;
+    });
   }
 
   private onComboboxBeforeClose = (event: CustomEvent): void => {
@@ -391,7 +410,6 @@ export class InputTimeZone
     }
 
     const selected = this.findTimeZoneItemByLabel(selectedItem.textLabel);
-
     const selectedValue = `${selected.value}`;
 
     if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
@@ -423,9 +441,11 @@ export class InputTimeZone
     return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
   }
 
-  private async updateTimeZoneItemsAndSelection(): Promise<void> {
+  private async updateTimeZoneItems(): Promise<void> {
     this.timeZoneItems = await this.createTimeZoneItems();
+  }
 
+  private async updateTimeZoneSelection(): Promise<void> {
     if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;
@@ -475,15 +495,22 @@ export class InputTimeZone
   }
 
   private normalizeValue(value: string | null): string {
-    return value === null ? "" : value;
+    value = value === null ? "" : value;
+
+    return value ? this.normalizer(value) : value;
   }
+
+  private normalizer: (timeZone: TimeZone) => TimeZone;
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
+    const [, normalizer] = await Promise.all([setUpMessages(this), getNormalizer(this.mode)]);
+
+    this.normalizer = normalizer;
+    await this.updateTimeZoneItems();
     this.value = this.normalizeValue(this.value);
 
-    await this.updateTimeZoneItemsAndSelection();
+    await this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : null;
     afterConnectDefaultValueSet(this, selectedValue);
@@ -563,10 +590,7 @@ export class InputTimeZone
 
   private renderRegionItems(): VNode[] {
     return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
-      <calcite-combobox-item-group
-        key={label}
-        label={getMessageOrKeyFallback(this.messages, label)}
-      >
+      <calcite-combobox-item-group key={label} label={label}>
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, value } = item;
@@ -574,7 +598,7 @@ export class InputTimeZone
           return (
             <calcite-combobox-item
               data-value={value}
-              description={getMessageOrKeyFallback(this.messages, item.metadata.country)}
+              description={item.metadata.country}
               key={label}
               metadata={item.metadata}
               selected={selected}

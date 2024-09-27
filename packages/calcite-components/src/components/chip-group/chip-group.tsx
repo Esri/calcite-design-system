@@ -10,7 +10,7 @@ import {
   Method,
   Watch,
 } from "@stencil/core";
-import { focusElementInGroup, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
+import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -275,12 +275,7 @@ export class ChipGroup implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <div
-          aria-disabled={toAriaBoolean(disabled)}
-          aria-label={this.label}
-          class="container"
-          role={role}
-        >
+        <div aria-label={this.label} class="container" role={role}>
           <slot
             onSlotchange={this.updateItems}
             ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}

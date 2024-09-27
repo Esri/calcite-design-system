@@ -1,6 +1,5 @@
-import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
-import { toAriaBoolean } from "../../utils/dom";
 import { InteractiveContainer } from "../../utils/interactive";
 import { CSS, SLOTS } from "./resources";
 import { handleFilter, handleFilterEvent } from "./shared-list-logic";
@@ -25,9 +24,7 @@ interface ListProps extends DOMAttributes {
   storeAssistiveEl?: (el: HTMLSpanElement) => void;
 }
 
-export const List: FunctionalComponent<
-  { props: ListProps } & Pick<DOMAttributes, "onBlur" | "onFocusin" | "onKeyDown">
-> = ({
+export const List: FunctionalComponent<{ props: ListProps }> = ({
   props: {
     disabled,
     loading,
@@ -40,43 +37,32 @@ export const List: FunctionalComponent<
     dragEnabled,
     storeAssistiveEl,
   },
-  onBlur,
-  onFocusin,
-  onKeyDown,
 }): VNode => {
   const defaultSlot = <slot />;
   return (
-    <Host
-      aria-busy={toAriaBoolean(loading)}
-      onBlur={onBlur}
-      onFocusin={onFocusin}
-      onKeyDown={onKeyDown}
-      role="menu"
-    >
-      <InteractiveContainer disabled={disabled}>
-        <section>
-          {dragEnabled ? (
-            <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} />
+    <InteractiveContainer disabled={disabled}>
+      <section>
+        {dragEnabled ? (
+          <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} />
+        ) : null}
+        <header class={{ [CSS.sticky]: true }}>
+          {filterEnabled ? (
+            <calcite-filter
+              aria-label={filterPlaceholder}
+              disabled={disabled}
+              items={dataForFilter}
+              onCalciteFilterChange={handleFilterEvent}
+              placeholder={filterPlaceholder}
+              ref={setFilterEl}
+              value={filterText}
+            />
           ) : null}
-          <header class={{ [CSS.sticky]: true }}>
-            {filterEnabled ? (
-              <calcite-filter
-                aria-label={filterPlaceholder}
-                disabled={disabled}
-                items={dataForFilter}
-                onCalciteFilterChange={handleFilterEvent}
-                placeholder={filterPlaceholder}
-                ref={setFilterEl}
-                value={filterText}
-              />
-            ) : null}
-            <slot name={SLOTS.menuActions} />
-          </header>
-          {loading ? <calcite-scrim loading={loading} /> : null}
-          {defaultSlot}
-        </section>
-      </InteractiveContainer>
-    </Host>
+          <slot name={SLOTS.menuActions} />
+        </header>
+        {loading ? <calcite-scrim loading={loading} /> : null}
+        {defaultSlot}
+      </section>
+    </InteractiveContainer>
   );
 };
 

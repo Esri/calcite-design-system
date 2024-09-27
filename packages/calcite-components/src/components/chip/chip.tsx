@@ -413,7 +413,6 @@ export class Chip
                 ? toAriaBoolean(this.selected)
                 : undefined
             }
-            aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
             aria-label={this.label}
             class={{
               [CSS.container]: true,

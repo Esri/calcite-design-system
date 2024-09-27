@@ -5,6 +5,7 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
+  handlesActionMenuPlacements,
   hidden,
   reflects,
   renders,
@@ -14,6 +15,7 @@ import {
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
@@ -43,6 +45,14 @@ describe("calcite-block", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: defaultEndMenuPlacement,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -63,6 +73,10 @@ describe("calcite-block", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
       },
     ]);
   });
@@ -131,6 +145,15 @@ describe("calcite-block", () => {
       </calcite-block>`,
       "calcite-action-menu",
     );
+  });
+
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-block heading="heading" description="description">
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+        <div class="content">content</div>
+      </calcite-block>
+    `);
   });
 
   it("has a loading state", async () => {

@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -21,6 +22,7 @@ import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
 import type { ValueUnion } from "../types";
 import { logger } from "../../utils/logger";
+import { toAriaBoolean } from "../../utils/dom";
 import { ICON_TYPES } from "./resources";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -302,6 +304,10 @@ export class PickList<
   }
 
   render(): VNode {
-    return <List onKeyDown={this.keyDownHandler} props={this} />;
+    return (
+      <Host aria-busy={toAriaBoolean(this.loading)} onKeyDown={this.keyDownHandler} role="menu">
+        <List props={this} />
+      </Host>
+    );
   }
 }

@@ -114,15 +114,19 @@ export class Link implements InteractiveComponent, LoadableComponent {
           This works around that issue for now.
           */
             download={
-              Tag === "a" ? (download === true || download === "" ? "" : download || null) : null
+              childElType === "a"
+                ? download === true || download === ""
+                  ? ""
+                  : download || null
+                : null
             }
-            href={Tag === "a" && this.href}
+            href={childElType === "a" && this.href}
             onClick={this.childElClickHandler}
             ref={this.storeTagRef}
-            rel={Tag === "a" && this.rel}
+            rel={childElType === "a" && this.rel}
             role={role}
             tabIndex={tabIndex}
-            target={Tag === "a" && this.target}
+            target={childElType === "a" && this.target}
           >
             {this.iconStart ? iconStartEl : null}
             <slot />

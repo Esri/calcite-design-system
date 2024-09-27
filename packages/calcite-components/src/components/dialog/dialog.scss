@@ -15,6 +15,7 @@
  * @prop --calcite-dialog-border-color: Specifies the component's border color.
  * @prop --calcite-dialog-offset-x: Specifies the horizontal offset of the component.
  * @prop --calcite-dialog-offset-y: Specifies the vertical offset of the component.
+ * @prop --calcite-dialog-background-color: Specifies the background color of the component.
  */
 
 :host {
@@ -117,6 +118,7 @@ calcite-panel {
   --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-footer-padding: var(--calcite-dialog-footer-space);
   --calcite-panel-header-border-block-end: var(--calcite-border-width-sm) solid var(--calcite-dialog-border-color);
+  --calcite-panel-background-color: var(--calcite-dialog-background-color);
 }
 
 .dialog {

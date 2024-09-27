@@ -364,20 +364,35 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
-    const panel = await page.find(`calcite-dialog >>> calcite-panel`);
     expect(await dialog.getProperty("open")).toBe(true);
-
-    await panel.press("Escape");
+    await dialog.callMethod("setFocus");
     await page.waitForChanges();
 
+    const eventSpy = await page.spyOnEvent("keydown");
+
+    await page.keyboard.down("Escape");
+    await page.keyboard.up("Escape");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
     expect(await dialog.getProperty("open")).toBe(true);
+
+    await page.keyboard.down("Enter");
+    await page.keyboard.up("Enter");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
 
     dialog.setProperty("escapeDisabled", false);
     await page.waitForChanges();
 
-    await panel.press("Escape");
+    await page.keyboard.down("Escape");
+    await page.keyboard.up("Escape");
     await page.waitForChanges();
 
+    expect(eventSpy).toHaveReceivedEventTimes(3);
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
     expect(await dialog.getProperty("open")).toBe(false);
   });
 
@@ -1094,6 +1109,10 @@ describe("calcite-dialog", () => {
         "--calcite-dialog-offset-y": {
           shadowSelector: `.${CSS.dialog}`,
           targetProp: "insetBlockStart",
+        },
+        "--calcite-dialog-background-color": {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-background-color",
         },
       },
     );

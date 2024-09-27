@@ -44,7 +44,12 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
 import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -117,6 +122,16 @@ export class Block
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
+
+  /**
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+   */
+  @Prop() menuFlipPlacements: FlipPlacement[];
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * When `true`, expands the component and its contents.
@@ -405,7 +420,17 @@ export class Block
   }
 
   render(): VNode {
-    const { collapsible, el, loading, open, heading, messages, description } = this;
+    const {
+      collapsible,
+      el,
+      loading,
+      open,
+      heading,
+      messages,
+      description,
+      menuFlipPlacements,
+      menuPlacement,
+    } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
@@ -459,8 +484,10 @@ export class Block
         ) : null}
         {hasMenuActions ? (
           <calcite-action-menu
+            flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
             label={messages.options}
             overlayPositioning={this.overlayPositioning}
+            placement={menuPlacement}
           >
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>
