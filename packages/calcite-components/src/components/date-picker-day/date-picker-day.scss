@@ -27,7 +27,7 @@
   line-height: var(--calcite-font-line-height-fixed-base);
   background: none;
   block-size: var(--calcite-internal-day-size);
-  outline-color: transparent;
+  outline-color: var(--calcite-color-transparent);
 }
 
 .text {

@@ -54,10 +54,11 @@
 
 :host([scale="s"]) {
   .week-days {
-    @apply px-1.5 pb-1.5;
+    padding: var(--calcite-size-xs);
   }
   .week-header-container {
-    @apply py-2 px-1.5;
+    padding-inline: var(--calcite-size-xs);
+    padding-block: var(--calcite-size-sm);
   }
   .day {
     font-size: var(--calcite-font-size-sm);
@@ -66,10 +67,11 @@
 
 :host([scale="m"]) {
   .week-days {
-    @apply px-2 pb-2;
+    padding: var(--calcite-size-sm);
   }
   .week-header-container {
-    @apply px-2 py-3;
+    padding-inline: var(--calcite-size-sm);
+    padding-block: var(--calcite-size-md);
   }
   .day {
     font-size: var(--calcite-font-size);
@@ -81,10 +83,11 @@
     @apply text-n1h;
   }
   .week-days {
-    @apply px-3 pb-3;
+    padding: var(--calcite-size-md);
   }
   .week-header-container {
-    @apply px-3 py-3.5;
+    padding-inline: var(--calcite-size-md);
+    padding-block: var(--calcite-size-md-plus);
   }
   .day {
     font-size: var(--calcite-font-size-md);

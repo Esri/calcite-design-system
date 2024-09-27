@@ -89,7 +89,8 @@
 }
 
 .divider {
-  @apply my-1 inline-block w-px;
+  @apply inline-block w-px;
+  margin-block: var(--calcite-size-xxs);
   background-color: var(--calcite-color-border-2);
 }
 
@@ -133,7 +134,8 @@
 }
 
 .vertical-chevron-container {
-  @apply flex items-center border border-solid border-color-input border-l-0 px-3;
+  @apply flex items-center border border-solid border-color-input border-l-0;
+  padding-inline: var(--calcite-size-md);
   background-color: var(--calcite-color-foreground-1);
 
   calcite-icon {
@@ -146,18 +148,14 @@
 }
 
 :host([range][layout="vertical"][scale="s"]) {
-  .vertical-chevron-container {
-    @apply px-2;
-  }
+  .vertical-chevron-container,
   .divider-container {
     padding-inline: var(--calcite-size-sm);
   }
 }
 
 :host([range][layout="vertical"][scale="l"]) {
-  .vertical-chevron-container {
-    @apply px-4;
-  }
+  .vertical-chevron-container,
   .divider-container {
     padding-inline: var(--calcite-size-lg);
   }

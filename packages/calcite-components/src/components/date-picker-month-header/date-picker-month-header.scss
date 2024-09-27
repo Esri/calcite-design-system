@@ -15,8 +15,8 @@
 }
 
 :host([scale="s"]) {
-  @apply m-1.5;
   block-size: #{$calcite-size-24};
+  margin: var(--calcite-size-xs);
   margin-inline-start: var(--calcite-size-sm);
 
   .chevron-container,
@@ -27,8 +27,8 @@
 }
 
 :host([scale="m"]) {
-  @apply m-2;
   block-size: #{$calcite-size-32};
+  margin: var(--calcite-size-sm);
   margin-inline-start: var(--calcite-size-sm-plus);
 
   .chevron-container,
@@ -40,9 +40,9 @@
 }
 
 :host([scale="l"]) {
-  @apply m-1.5;
   block-size: #{$calcite-size-44};
-  margin-inline-start: 0.5rem;
+  margin: var(--calcite-size-xs);
+  margin-inline-start: var(--calcite-size-sm);
 
   .chevron-container,
   .chevron {
@@ -109,12 +109,12 @@
 
 .year {
   @apply relative
-  w-11
   py-0
   border-none
   inline-block
   bg-transparent
   text-center;
+  inline-size: #{$calcite-size-44};
   &:hover {
     @apply duration-100 ease-in-out;
     transition-property: outline-color;
@@ -129,8 +129,8 @@
 .year,
 .suffix {
   @apply bg-foreground-1
-    h-full
-    mx-1;
+    h-full;
+  margin-inline: var(--calcite-size-lg);
   font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-color-text-1);
   font-size: var(--calcite-font-size-md);
@@ -156,7 +156,7 @@
   }
 
   .year {
-    @apply w-10;
+    inline-size: #{$calcite-size-40};
   }
 
   .year,
@@ -176,7 +176,7 @@
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }
   .year {
-    @apply w-12;
+    inline-size: #{$calcite-size-48};
   }
   .year,
   .suffix {

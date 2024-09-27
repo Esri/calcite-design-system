@@ -75,7 +75,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       return;
     }
 
-    if (!this.userChangeRangeValue) {
+    if (!this.rangeValueChangedByUser) {
       if (newValue) {
         this.activeStartDate = newValue;
         this.activeEndDate = nextMonth(this.activeStartDate);
@@ -99,7 +99,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
-      if (!this.userChangeRangeValue) {
+      if (!this.rangeValueChangedByUser) {
         this.resetActiveDates();
       }
     } else if (value) {
@@ -120,7 +120,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("valueAsDate")
   valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
-    if (this.range && Array.isArray(newValueAsDate) && !this.userChangeRangeValue) {
+    if (this.range && Array.isArray(newValueAsDate) && !this.rangeValueChangedByUser) {
       this.setActiveStartAndEndDates();
     } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
@@ -229,7 +229,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Method()
   async reset(): Promise<void> {
     this.resetActiveDates();
-    this.userChangeRangeValue = false;
+    this.rangeValueChangedByUser = false;
   }
 
   // --------------------------------------------------------------------------
@@ -344,7 +344,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @State() startAsDate: Date;
 
-  private userChangeRangeValue = false;
+  private rangeValueChangedByUser = false;
 
   //--------------------------------------------------------------------------
   //
@@ -399,16 +399,16 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.activeDate = date;
     } else {
       const month = date.getMonth();
-      const isDateOutsideCurrentMonths =
+      const isDateOutOfCurrentRange =
         month !== this.activeStartDate.getMonth() &&
         month !== nextMonth(this.activeStartDate).getMonth();
       if (this.activeRange === "end") {
-        if (!this.activeEndDate || (this.activeStartDate && isDateOutsideCurrentMonths)) {
+        if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {
           this.activeEndDate = date;
           this.activeStartDate = prevMonth(date);
         }
       } else {
-        if ((this.activeStartDate && isDateOutsideCurrentMonths) || !this.activeStartDate) {
+        if ((this.activeStartDate && isDateOutOfCurrentRange) || !this.activeStartDate) {
           this.activeStartDate = date;
           this.activeEndDate = nextMonth(date);
         }
@@ -564,7 +564,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private setEndDate(date: Date): void {
     const startDate = this.getStartDate();
-    this.userChangeRangeValue = true;
+    this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
     if (date) {
@@ -578,7 +578,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private setStartDate(date: Date): void {
     const endDate = this.getEndDate();
-    this.userChangeRangeValue = true;
+    this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
     this.valueAsDate = [date, endDate];
     this.calciteDatePickerRangeChange.emit();

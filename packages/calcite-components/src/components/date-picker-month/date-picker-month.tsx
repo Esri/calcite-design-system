@@ -500,9 +500,6 @@ export class DatePickerMonth {
     key: number,
   ): VNode {
     const isDateInRange = inRange(date, this.min, this.max);
-    const isHoverInRange =
-      this.isHoverInRange() ||
-      (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
       <div class={{ [CSS.dayContainer]: true }} key={key} role="gridcell">
@@ -510,9 +507,9 @@ export class DatePickerMonth {
           active={active}
           class={{
             [CSS.currentDay]: currentDay,
-            [CSS.insideRangeHover]: this.startDate && isHoverInRange,
-            [CSS.outsideRangeHover]: this.startDate && !isHoverInRange,
-            noncurrent: this.range && !currentMonth,
+            [CSS.insideRangeHover]: this.isHoverInRange(),
+            [CSS.outsideRangeHover]: !this.isHoverInRange(),
+            [CSS.noncurrent]: this.range && !currentMonth,
           }}
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}
@@ -572,7 +569,7 @@ export class DatePickerMonth {
   }
 
   private isHoverInRange(): boolean {
-    if (!this.hoverRange) {
+    if (!this.hoverRange || !this.startDate) {
       return false;
     }
     const { start, end } = this.hoverRange;
@@ -583,11 +580,11 @@ export class DatePickerMonth {
     const isStartBeforeEnd = this.endDate && start < this.endDate;
 
     const isEndDateAfterStartAndBeforeEnd =
-      !isStartFocused && !!this.startDate && isEndAfterStart && (!this.endDate || isEndBeforeEnd);
+      !isStartFocused && this.startDate && isEndAfterStart && (!this.endDate || isEndBeforeEnd);
     const isStartDateBeforeEndAndAfterStart =
-      isStartFocused && !!this.startDate && isStartAfterStart && isStartBeforeEnd;
+      isStartFocused && this.startDate && isStartAfterStart && isStartBeforeEnd;
 
-    return !!(isEndDateAfterStartAndBeforeEnd || isStartDateBeforeEndAndAfterStart);
+    return isEndDateAfterStartAndBeforeEnd || isStartDateBeforeEndAndAfterStart;
   }
 
   private isRangeHover(date: Date): boolean {
@@ -595,7 +592,7 @@ export class DatePickerMonth {
       return false;
     }
     const { start, end } = this.hoverRange;
-    const isStart = this.isFocusedOnStart();
+    const isStartFocused = this.isFocusedOnStart();
     const insideRange = this.isHoverInRange();
 
     const isDateBeforeStartDateAndAfterStart = date > start && date < this.startDate;
@@ -604,21 +601,24 @@ export class DatePickerMonth {
     const isDateAfterStartDateAndBeforeStart = date < start && date > this.startDate;
     const isDateAfterStartDateAndBeforeEnd = date < end && date > this.startDate;
     const isDateBeforeEndDateAndAfterStart = date > start && date < this.endDate;
+    const hasBothStartAndEndDate = this.startDate && this.endDate;
 
     if (insideRange) {
-      if (!!this.startDate && !!this.endDate) {
-        return isStart
+      if (hasBothStartAndEndDate) {
+        return isStartFocused
           ? date < this.endDate &&
               (isDateAfterStartDateAndBeforeStart || isDateBeforeStartDateAndAfterStart)
           : isDateBeforeEndDateAndAfterEnd || isDateAfterEndDateAndBeforeEnd;
-      } else if (!!this.startDate && !this.endDate) {
-        return isStart ? isDateBeforeStartDateAndAfterStart : isDateAfterStartDateAndBeforeEnd;
-      } else if (!this.startDate && !!this.endDate) {
-        return isStart ? isDateBeforeEndDateAndAfterStart : isDateAfterEndDateAndBeforeEnd;
+      } else if (this.startDate && !this.endDate) {
+        return isStartFocused
+          ? isDateBeforeStartDateAndAfterStart
+          : isDateAfterStartDateAndBeforeEnd;
+      } else if (!this.startDate && this.endDate) {
+        return isStartFocused ? isDateBeforeEndDateAndAfterStart : isDateAfterEndDateAndBeforeEnd;
       }
     } else {
-      if (!!this.startDate && !!this.endDate) {
-        return isStart ? isDateBeforeStartDateAndAfterStart : isDateAfterEndDateAndBeforeEnd;
+      if (hasBothStartAndEndDate) {
+        return isStartFocused ? isDateBeforeStartDateAndAfterStart : isDateAfterEndDateAndBeforeEnd;
       }
     }
   }

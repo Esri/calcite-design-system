@@ -973,6 +973,7 @@ describe("calcite-date-picker", () => {
       nextMonth: "Next month",
       prevMonth: "Previous month",
       monthMenu: "Month menu",
+      yearMenu: "Year menu",
       year: "Year",
     });
   });

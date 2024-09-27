@@ -6,6 +6,7 @@ export const CSS = {
   dayContainer: "day-container",
   insideRangeHover: "inside-range--hover",
   month: "month",
+  noncurrent: "noncurrent",
   outsideRangeHover: "outside-range--hover",
   weekDays: "week-days",
   weekHeader: "week-header",

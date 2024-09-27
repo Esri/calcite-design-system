@@ -89,6 +89,7 @@ export const withMinMax = (): string =>
 export const range = (): string => html`
   <style>
     .container {
+      width: 650px;
       height: 400px;
     }
   </style>
@@ -100,7 +101,7 @@ export const range = (): string => html`
 export const rangeWithMinMax = (): string => html`
   <style>
     .container {
-      width: 400px;
+      width: 650px;
       height: 400px;
     }
   </style>
@@ -145,7 +146,7 @@ export const flipPlacements_TestOnly = (): string => html`
 export const chineseLang_TestOnly = (): string => html`
   <style>
     .container {
-      width: 400px;
+      width: 650px;
       height: 400px;
     }
   </style>
@@ -284,7 +285,7 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
 export const rangeWithValueAsDate = (): string => html`
   <style>
     .container {
-      width: 400px;
+      width: 650px;
       height: 400px;
     }
   </style>
@@ -300,7 +301,7 @@ export const rangeWithValueAsDate = (): string => html`
 export const rangeWithValue = (): string => html`
   <style>
     .container {
-      width: 400px;
+      width: 650px;
       height: 400px;
     }
   </style>
@@ -316,7 +317,7 @@ export const rangeWithValue = (): string => html`
 export const rangeWithMinAfterCurrentDate = (): string => html`
   <style>
     .container {
-      width: 400px;
+      width: 650px;
       height: 400px;
     }
   </style>
@@ -328,7 +329,7 @@ export const rangeWithMinAfterCurrentDate = (): string => html`
 export const rangeWithMaxBeforeCurrentDate = (): string => html`
   <style>
     .container {
-      width: 400px;
+      width: 650px;
       height: 400px;
     }
   </style>
@@ -340,7 +341,7 @@ export const rangeWithMaxBeforeCurrentDate = (): string => html`
 export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
   <style>
     .container {
-      width: 400px;
+      width: 650px;
       height: 400px;
     }
   </style>

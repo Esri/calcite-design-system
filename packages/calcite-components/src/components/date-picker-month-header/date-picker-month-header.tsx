@@ -99,6 +99,18 @@ export class DatePickerMonthHeader {
    */
   @Prop() position: Extract<"start" | "end", Position>;
 
+  @Watch("min")
+  @Watch("max")
+  @Watch("activeDate")
+  setNextPrevMonthDates(): void {
+    if (!this.activeDate) {
+      return;
+    }
+
+    this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
+    this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -279,37 +291,65 @@ export class DatePickerMonthHeader {
 
   @State() prevMonthDate: Date;
 
-  @State() yearList: number[] = [];
-
-  private parentDatePickerEl: HTMLCalciteDatePickerElement;
-
   private monthPickerEl: HTMLCalciteSelectElement;
-
-  private yearInputEl: HTMLInputElement;
-
-  private selectMenuIconOffsetWidth: number;
-
-  private prevMonthAction: HTMLCalciteActionElement;
 
   private nextMonthAction: HTMLCalciteActionElement;
 
-  @Watch("min")
-  @Watch("max")
-  @Watch("activeDate")
-  setNextPrevMonthDates(): void {
-    if (!this.activeDate) {
-      return;
-    }
+  private parentDatePickerEl: HTMLCalciteDatePickerElement;
 
-    this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
-    this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
-  }
+  private prevMonthAction: HTMLCalciteActionElement;
+
+  private selectMenuIconOffsetWidth: number;
+
+  private yearInputEl: HTMLInputElement;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * Increment year on UP/DOWN keys
+   *
+   * @param event
+   */
+  private onYearKey = (event: KeyboardEvent): void => {
+    const localizedYear = this.parseCalendarYear((event.target as HTMLInputElement).value);
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault();
+        this.setYear({ localizedYear, offset: -1 });
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        this.setYear({ localizedYear, offset: 1 });
+        break;
+    }
+  };
+
+  private formatCalendarYear(year: number): string {
+    return numberStringFormatter.localize(`${formatCalendarYear(year, this.localeData)}`);
+  }
+
+  private parseCalendarYear(year: string): string {
+    return numberStringFormatter.localize(
+      `${parseCalendarYear(Number(numberStringFormatter.delocalize(year)), this.localeData)}`,
+    );
+  }
+
+  private onYearChange = (event: Event): void => {
+    this.setYear({
+      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
+    });
+  };
+
+  private onYearInput = (event: Event): void => {
+    this.setYear({
+      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
+      commit: false,
+    });
+  };
 
   private prevMonthClick = (event: KeyboardEvent | MouseEvent): void => {
     this.handleArrowClick(event, this.prevMonthDate);
@@ -350,6 +390,7 @@ export class DatePickerMonthHeader {
     const localeMonths = this.monthStyle === "wide" ? wide : abbreviated;
     const monthIndex = localeMonths.indexOf(target.value);
     let newDate = getDateInMonth(this.activeDate, monthIndex);
+
     if (!inRange(newDate, this.min, this.max)) {
       newDate = dateFromRange(newDate, this.min, this.max);
     }
@@ -427,25 +468,10 @@ export class DatePickerMonthHeader {
 
   private setSelectMenuWidth(select: HTMLCalciteSelectElement): void {
     const selectEl = select.shadowRoot.querySelector("select");
-    let selectedOptionWidth: number;
     const fontStyle = getComputedStyle(selectEl).font;
-
-    if (select === this.monthPickerEl) {
-      const { abbreviated, wide } = this.localeData.months;
-      const localeMonths = this.monthStyle === "wide" ? wide : abbreviated;
-      const activeMonthIndex = this.activeDate.getMonth();
-      selectedOptionWidth = getTextWidth(localeMonths[activeMonthIndex], fontStyle);
-    } else {
-      selectedOptionWidth = getTextWidth(
-        numberStringFormatter.localize(
-          `${parseCalendarYear(this.activeDate.getFullYear(), this.localeData)}`,
-        ),
-        fontStyle,
-      );
-      if (this.localeData.year?.suffix) {
-        selectedOptionWidth += getTextWidth(this.localeData.year.suffix, fontStyle);
-      }
-    }
+    const localeMonths = this.localeData.months[this.monthStyle];
+    const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
+    const selectedOptionWidth = getTextWidth(activeLocaleMonth, fontStyle);
     selectEl.style.width = `${selectedOptionWidth + this.selectMenuIconOffsetWidth}px`;
   }
 
@@ -455,50 +481,7 @@ export class DatePickerMonthHeader {
     if (!this.min && !this.max) {
       return true;
     }
-
     return (!!this.max && newActiveDate < this.max) || (!!this.min && newActiveDate > this.min);
-  };
-
-  /**
-   * Increment year on UP/DOWN keys
-   *
-   * @param event
-   */
-  private onYearKey = (event: KeyboardEvent): void => {
-    const localizedYear = this.parseCalendarYear((event.target as HTMLInputElement).value);
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        this.setYear({ localizedYear, offset: -1 });
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.setYear({ localizedYear, offset: 1 });
-        break;
-    }
-  };
-
-  private formatCalendarYear(year: number): string {
-    return numberStringFormatter.localize(`${formatCalendarYear(year, this.localeData)}`);
-  }
-
-  private parseCalendarYear(year: string): string {
-    return numberStringFormatter.localize(
-      `${parseCalendarYear(Number(numberStringFormatter.delocalize(year)), this.localeData)}`,
-    );
-  }
-
-  private onYearChange = (event: Event): void => {
-    this.setYear({
-      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
-    });
-  };
-
-  private onYearInput = (event: Event): void => {
-    this.setYear({
-      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
-      commit: false,
-    });
   };
 
   private async handlePenultimateValidMonth(event: MouseEvent | KeyboardEvent): Promise<void> {
