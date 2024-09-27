@@ -59,7 +59,7 @@
     "@tokens-studio/sd-transforms": "0.12.2",
     "@types/dedent": "0.7.2",
     "@types/eslint": "8.56.12",
-    "@types/estree": "1.0.5",
+    "@types/estree": "1.0.6",
     "@types/github-script": "github:actions/github-script",
     "@types/jest": "29.5.12",
     "@types/jest-axe": "3.5.9",
