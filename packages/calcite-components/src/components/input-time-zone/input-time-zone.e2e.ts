@@ -551,10 +551,11 @@ describe("calcite-input-time-zone", () => {
         await page.waitForTimeout(DEBOUNCE.filter);
 
         const selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+        const itemMetadata = await selectedTimeZoneItem.getProperty("metadata");
         const expectedTimeZoneItem = testTimeZoneItems[3];
 
         expect(await input.getProperty("value")).toBe(`${expectedTimeZoneItem.offset}`);
-        expect(await selectedTimeZoneItem.getProperty("value")).toMatch(expectedTimeZoneItem.name);
+        expect(itemMetadata.filterValue).toContain(expectedTimeZoneItem.name);
       });
     });
   });
