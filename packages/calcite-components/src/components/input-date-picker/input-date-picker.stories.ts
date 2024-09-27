@@ -146,7 +146,7 @@ export const flipPlacements_TestOnly = (): string => html`
 export const chineseLang_TestOnly = (): string => html`
   <style>
     .container {
-      width: 650px;
+      width: 1000px;
       height: 400px;
     }
   </style>
