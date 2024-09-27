@@ -773,46 +773,48 @@ describe("calcite-slider", () => {
 
   describe("histogram", () => {
     it("creates calcite-graph with color stops", async () => {
-      const page = await newE2EPage({ html: `<calcite-slider></calcite-slider>` });
+      for (const l of ["horizontal", "vertical"]) {
+        const page = await newE2EPage({ html: `<calcite-slider layout=${l}></calcite-slider>` });
 
-      const props = {
-        histogram: [
-          [0, 4],
-          [1, 7],
-          [4, 6],
-          [6, 2],
-        ],
-        histogramStops: [
-          { offset: 0, color: "red" },
-          { offset: 0.5, color: "green" },
-          { offset: 1, color: "blue" },
-        ],
-      };
+        const props = {
+          histogram: [
+            [0, 4],
+            [1, 7],
+            [4, 6],
+            [6, 2],
+          ],
+          histogramStops: [
+            { offset: 0, color: "red" },
+            { offset: 0.5, color: "green" },
+            { offset: 1, color: "blue" },
+          ],
+        };
 
-      await page.$eval(
-        "calcite-slider",
-        (elm: any, { histogram, histogramStops }) => {
-          elm.histogram = histogram;
-          elm.histogramStops = histogramStops;
-        },
-        props,
-      );
+        await page.$eval(
+          "calcite-slider",
+          (elm: any, { histogram, histogramStops }) => {
+            elm.histogram = histogram;
+            elm.histogramStops = histogramStops;
+          },
+          props,
+        );
 
-      await page.waitForChanges();
+        await page.waitForChanges();
 
-      const graph = await page.find("calcite-slider >>> calcite-graph");
+        const graph = await page.find("calcite-slider >>> calcite-graph");
 
-      const linearGradient = await page.find("pierce/linearGradient");
-      const linearGradientId = linearGradient.getAttribute("id");
+        const linearGradient = await page.find("pierce/linearGradient");
+        const linearGradientId = linearGradient.getAttribute("id");
 
-      const path = await graph.find("pierce/path.graph-path");
-      const fill = path.getAttribute("fill");
-      expect(fill).toBe(`url(#${linearGradientId})`);
+        const path = await graph.find("pierce/path.graph-path");
+        const fill = path.getAttribute("fill");
+        expect(fill).toBe(`url(#${linearGradientId})`);
 
-      for (let i = 0; i < props.histogramStops.length; i += 1) {
-        const { offset, color } = props.histogramStops[i];
-        const stop = await linearGradient.find(`stop[offset="${offset * 100}%"][stop-color="${color}"]`);
-        expect(stop).toBeTruthy();
+        for (let i = 0; i < props.histogramStops.length; i += 1) {
+          const { offset, color } = props.histogramStops[i];
+          const stop = await linearGradient.find(`stop[offset="${offset * 100}%"][stop-color="${color}"]`);
+          expect(stop).toBeTruthy();
+        }
       }
     });
   });
