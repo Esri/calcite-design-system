@@ -97,11 +97,11 @@
     flex-row
     flex-nowrap
     rounded;
+  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
+
   &.has-header {
     @apply flex-col;
   }
-
-  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
 }
 
 .content {
