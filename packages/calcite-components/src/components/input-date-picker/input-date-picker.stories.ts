@@ -86,18 +86,6 @@ export const withMinMax = (): string =>
       <calcite-input-date-picker min="2016-08-09" max="2023-12-18" open></calcite-input-date-picker>
     </div>`;
 
-export const range = (): string => html`
-  <style>
-    .container {
-      width: 650px;
-      height: 400px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker range open></calcite-input-date-picker>
-  </div>
-`;
-
 export const rangeWithMinMax = (): string => html`
   <style>
     .container {
@@ -338,26 +326,8 @@ export const rangeWithMaxBeforeCurrentDate = (): string => html`
   </div>
 `;
 
-export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
-  <style>
-    .container {
-      width: 650px;
-      height: 400px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker range open></calcite-input-date-picker>
-  </div>
-  <script>
-    const datePicker = document.querySelector("calcite-input-date-picker");
-    const currentDate = new Date();
-    currentDate.setMonth(currentDate.getMonth() + 10);
-    datePicker.minAsDate = currentDate;
-  </script>
-`;
-
-export const Focus = (): string =>
-  html`<calcite-input-date-picker></calcite-input-date-picker>
+export const focus = (): string =>
+  html`<calcite-input-date-picker value="2020-01-01"></calcite-input-date-picker>
     <script>
       (async () => {
         await customElements.whenDefined("calcite-input-date-picker");
