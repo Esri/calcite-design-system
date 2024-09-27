@@ -63,23 +63,25 @@ export default {
 const simple = {};
 for (const l of ["horizontal", "vertical"]) {
   simple[l] = (args: SliderStoryArgs): string => html`
-    <calcite-slider
-      min="${args.min}"
-      max="${args.max}"
-      value="${args.value}"
-      step="${args.step}"
-      min-label="${args.minLabel}"
-      ${boolean("disabled", args.disabled)}
-      ${boolean("label-handles", args.labelHandles)}
-      ${boolean("label-ticks", args.labelTicks)}
-      ticks="${args.ticks}"
-      page-step="${args.pageStep}"
-      ${boolean("precise", args.precise)}
-      ${boolean("mirrored", args.mirrored)}
-      ${boolean("snap", args.snap)}
-      scale="${args.scale}"
-      layout=${l}
-    ></calcite-slider>
+    <div style="margin-top: 100px">
+      <calcite-slider
+        min="${args.min}"
+        max="${args.max}"
+        value="${args.value}"
+        step="${args.step}"
+        min-label="${args.minLabel}"
+        ${boolean("disabled", args.disabled)}
+        ${boolean("label-handles", args.labelHandles)}
+        ${boolean("label-ticks", args.labelTicks)}
+        ticks="${args.ticks}"
+        page-step="${args.pageStep}"
+        ${boolean("precise", args.precise)}
+        ${boolean("mirrored", args.mirrored)}
+        ${boolean("snap", args.snap)}
+        scale="${args.scale}"
+        layout=${l}
+      ></calcite-slider>
+    </div>
   `;
 }
 export const simpleH = simple["horizontal"];
