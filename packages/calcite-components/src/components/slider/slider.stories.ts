@@ -536,44 +536,48 @@ for (const l of ["horizontal", "vertical"]) {
   maxTickRendering[l] = (): string => html`
     <style>
       ${l === "horizontal"
-        ? "calcite-slider {width: 60vw;}"
-        : "calcite-slider {height: 100px; margin-top: 200px; width: auto; max-width: none; margin-bottom: 80px}"}
+          ? "calcite-slider {width: 60vw;}"
+          : "calcite-slider {height: 100px; margin-top: 200px; width: auto; max-width: none; margin-bottom: 80px}"}
+        div {
+        width: 400px;
+        padding: 20px;
+      }
     </style>
 
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-100" max="100" ticks="1" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-100" max="100" ticks="5" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-100" max="100" ticks="10" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-250" max="250" ticks="1" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-250" max="250" ticks="5" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-250" max="250" ticks="10" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-500" max="500" ticks="1" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-500" max="500" ticks="5" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-500" max="500" ticks="10" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-1000" max="1000" ticks="1" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-1000" max="1000" ticks="5" layout=${l}></calcite-slider>
     </div>
-    <div style="width: 400px; padding: 20px">
+    <div>
       <calcite-slider min="-1000" max="1000" ticks="10" layout=${l}></calcite-slider>
     </div>
   `;
