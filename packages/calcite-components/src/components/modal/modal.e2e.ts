@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-modal", () => {
@@ -426,7 +426,7 @@ describe("calcite-modal", () => {
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await page.waitForTimeout(delayInMilliseconds);
+    await waitForAnimationFrame();
     expect(modal).not.toHaveAttribute("open");
 
     await modal.setProperty("open", true);
