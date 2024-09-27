@@ -267,7 +267,6 @@ export class InputTimeZone
     }
 
     this.selectedTimeZoneItem = timeZoneItem;
-    this.overrideSelectedLabelForRegion(this.open);
   }
 
   /**
@@ -343,8 +342,6 @@ export class InputTimeZone
 
   labelEl: HTMLCalciteLabelElement;
 
-  @State() private selectedRegionTimeZoneItemLabel: string;
-
   private selectedTimeZoneItem: TimeZoneItem;
 
   private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
@@ -370,13 +367,13 @@ export class InputTimeZone
    * @private
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
-    if (this.mode !== "region" || !this.selectedTimeZoneItem || !this.comboboxEl?.selectedItems) {
+    if (this.mode !== "region" || !this.selectedTimeZoneItem) {
       return;
     }
 
     const { label, metadata } = this.selectedTimeZoneItem;
 
-    this.selectedRegionTimeZoneItemLabel =
+    this.comboboxEl.selectedItems[0].textLabel =
       !metadata.country || open
         ? label
         : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
@@ -516,12 +513,12 @@ export class InputTimeZone
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
+    this.overrideSelectedLabelForRegion(this.open);
   }
 
   render(): VNode {
@@ -600,7 +597,7 @@ export class InputTimeZone
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={selected ? this.selectedRegionTimeZoneItemLabel : label}
+              textLabel={label}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">
