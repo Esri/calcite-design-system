@@ -125,7 +125,7 @@ export async function createTimeZoneItems(
               region === globalLabel
                 ? // we rely on the label for search since GMT items have their signs inverted (see https://en.wikipedia.org/wiki/Tz_database#Area)
                   // in addition to the label we also add "Global" and "Etc" to allow searching for these items
-                  getTimeZoneLabel(globalLabel, messages) + " " + "Etc"
+                  `${getTimeZoneLabel(globalLabel, messages)} Etc`
                 : toUserFriendlyName(timeZone);
 
             const countryCode = getCountry(timeZone);
