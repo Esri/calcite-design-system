@@ -9,7 +9,10 @@ describe("openCloseComponent", () => {
     let dispatchTransitionEvent: TransitionEventDispatcher;
 
     beforeEach(() => {
-      jest.spyOn(openCloseComponent, "internalReadTask").mockImplementation((task) => task(1337));
+      jest.spyOn(openCloseComponent, "internalRaf").mockImplementation((task) => {
+        task(1337);
+        return 1337;
+      });
       dispatchTransitionEvent = createTransitionEventDispatcher();
     });
 
