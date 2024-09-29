@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
@@ -591,8 +592,7 @@ describe("calcite-modal", () => {
   });
 
   it("should render calcite-scrim with default background color", async () => {
-    const page = await newE2EPage({
-      html: `
+    const page = await newE2EPage(`
       <calcite-modal aria-labelledby="modal-title" open>
         <h3 slot="header" id="modal-title">Title of the modal</h3>
         <div slot="content">The actual content of the modal</div>
@@ -602,8 +602,7 @@ describe("calcite-modal", () => {
         <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
         <calcite-button slot="primary" width="full"> Save </calcite-button>
       </calcite-modal>
-      `,
-    });
+      `);
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
@@ -613,8 +612,7 @@ describe("calcite-modal", () => {
 
   it("when modal css override set, scrim should adhere to requested color", async () => {
     const overrideStyle = "rgba(160, 20, 10, 0.5)";
-    const page = await newE2EPage({
-      html: `
+    const page = await newE2EPage(`
       <calcite-modal aria-labelledby="modal-title" open style="--calcite-modal-scrim-background:${overrideStyle}">
         <h3 slot="header" id="modal-title">Title of the modal</h3>
         <div slot="content">The actual content of the modal</div>
@@ -624,8 +622,7 @@ describe("calcite-modal", () => {
         <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
         <calcite-button slot="primary" width="full"> Save </calcite-button>
       </calcite-modal>
-      `,
-    });
+      `);
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");

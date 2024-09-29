@@ -1,5 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
+import { newE2EPage } from "../../tests/utils/e2e";
 import {
   accessible,
   defaults,
@@ -16,6 +15,7 @@ import {
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
@@ -318,7 +318,7 @@ describe("calcite-panel", () => {
   });
 
   it("close event should fire when closed", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
+    const page = await newE2EPage("<calcite-panel closable>test</calcite-panel>");
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
@@ -433,9 +433,7 @@ describe("calcite-panel", () => {
   });
 
   it("honors calcitePanelScroll event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-panel>test</calcite-panel>",
-    });
+    const page = await newE2EPage("<calcite-panel>test</calcite-panel>");
 
     const scrollSpy = await page.spyOnEvent("calcitePanelScroll");
 

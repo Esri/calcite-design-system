@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
@@ -80,7 +81,7 @@ describe("calcite-link", () => {
   });
 
   it("should update childElType when href changes", async () => {
-    const page = await newE2EPage({ html: `<calcite-link>Continue</calcite-link>` });
+    const page = await newE2EPage(`<calcite-link>Continue</calcite-link>`);
     const link = await page.find("calcite-link");
     let elementAsLink: E2EElement;
     let elementAsSpan: E2EElement;
@@ -210,9 +211,7 @@ describe("calcite-link", () => {
     let targetUrl: string;
 
     beforeEach(async () => {
-      page = await newE2EPage({
-        html: `<calcite-link href="/${targetPage}">link</calcite-link>`,
-      });
+      page = await newE2EPage(`<calcite-link href="/${targetPage}">link</calcite-link>`);
 
       pageUrl = page.url();
       targetUrl = `${pageUrl}${targetPage}`;
@@ -265,7 +264,7 @@ describe("calcite-link", () => {
     let linkUnderlineStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: linkHtml });
+      page = await newE2EPage(linkHtml);
       linkUnderlineStyle = await page.evaluate(() => {
         link = document.querySelector("calcite-link");
         link.style.setProperty("--calcite-color-brand-underline", "red");
@@ -276,7 +275,7 @@ describe("calcite-link", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render link background with default value tied to mode", async () => {
-        page = await newE2EPage({ html: linkHtml });
+        page = await newE2EPage(linkHtml);
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();
         linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
@@ -288,9 +287,7 @@ describe("calcite-link", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render link background with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<article class="calcite-mode-dark">${linkHtml}</article>`,
-        });
+        page = await newE2EPage(`<article class="calcite-mode-dark">${linkHtml}</article>`);
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();
         linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
@@ -302,16 +299,14 @@ describe("calcite-link", () => {
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 244, 40, 0.5)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           :root {
             --calcite-color-brand-underline: ${overrideStyle};
           }
         </style>
         ${linkHtml}
-        `,
-      });
+        `);
       link = await page.find("calcite-link >>> a");
       linkStyles = await link.getComputedStyle();
       linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, disabled, hidden, renders, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
@@ -29,9 +29,7 @@ describe("calcite-fab", () => {
   });
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
-    const page = await newE2EPage({
-      html: "<calcite-fab></calcite-fab>",
-    });
+    const page = await newE2EPage("<calcite-fab></calcite-fab>");
 
     const buttons = await page.findAll("calcite-fab >>> calcite-button");
 
@@ -116,15 +114,13 @@ describe("calcite-fab", () => {
   describe("when invalid appearance values are passed", () => {
     describe("when value is 'transparent'", () => {
       it("should render with default 'outline-fill' appearance", async () => {
-        const page = await newE2EPage({
-          html: `
+        const page = await newE2EPage(`
           <calcite-fab
             text="FAB"
             text-enabled
             appearance="transparent"
           ></calcite-fab>
-          `,
-        });
+          `);
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
         expect(fab.getAttribute("appearance")).toBe("outline-fill");
       });
@@ -132,15 +128,13 @@ describe("calcite-fab", () => {
 
     describe("when value is 'clear'", () => {
       it("should render with default 'outline-fill' appearance", async () => {
-        const page = await newE2EPage({
-          html: `
+        const page = await newE2EPage(`
           <calcite-fab
             text="FAB"
             text-enabled
             appearance="outline"
           ></calcite-fab>
-          `,
-        });
+          `);
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
         expect(fab.getAttribute("appearance")).toBe("outline-fill");
       });

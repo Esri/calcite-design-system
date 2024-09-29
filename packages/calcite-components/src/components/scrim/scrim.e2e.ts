@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
@@ -236,7 +236,7 @@ describe("calcite-scrim", () => {
     let scrimBgStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: scrimSnippet });
+      page = await newE2EPage(scrimSnippet);
       scrimBgStyle = await page.evaluate(() => {
         scrim = document.querySelector("calcite-scrim");
         scrim.style.setProperty("--calcite-scrim-background", "green");
@@ -247,7 +247,7 @@ describe("calcite-scrim", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render scrim background with default value tied to mode", async () => {
-        page = await newE2EPage({ html: scrimSnippet });
+        page = await newE2EPage(scrimSnippet);
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -257,9 +257,7 @@ describe("calcite-scrim", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render scrim background with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`,
-        });
+        page = await newE2EPage(`<div class="calcite-mode-dark">${scrimSnippet}</div>`);
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -269,16 +267,14 @@ describe("calcite-scrim", () => {
 
     it("should allow the CSS custom property to be overridden when parent token is altered at :root", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           :root {
             --calcite-color-transparent-scrim: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}
-        `,
-      });
+        `);
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -287,16 +283,14 @@ describe("calcite-scrim", () => {
 
     it("should allow the CSS custom property to be overridden when applied to element", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           calcite-scrim {
             --calcite-scrim-background: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}
-        `,
-      });
+        `);
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");

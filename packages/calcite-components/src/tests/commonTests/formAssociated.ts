@@ -1,6 +1,7 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import {
   getClearValidationEventName,

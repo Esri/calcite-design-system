@@ -1,6 +1,8 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { config } from "../../../stencil.config";
+import { html } from "../../../support/formatting";
 import type {
   ComponentTag,
   TagOrHTML,
@@ -35,10 +37,9 @@ export function getTag(tagOrHTML: string): ComponentTag {
 
 export async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
-  const page = await newE2EPage({
-    html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
-    failOnConsoleError: true,
-  });
+  const page = await newE2EPage(
+    isHTML(componentTagOrHTML) ? componentTagOrHTML : html`<${componentTag}></${componentTag}>`,
+  );
   await page.waitForChanges();
 
   return page;

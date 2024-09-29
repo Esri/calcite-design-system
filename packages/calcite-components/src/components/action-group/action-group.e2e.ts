@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import {
   accessible,
   defaults,
@@ -80,7 +80,7 @@ describe("calcite-action-group", () => {
   });
 
   it("should honor scale of expand icon", async () => {
-    const page = await newE2EPage({ html: actionGroupHTML });
+    const page = await newE2EPage(actionGroupHTML);
     const menu = await page.find(`calcite-action-group >>> calcite-action-menu`);
     expect(await menu.getProperty("scale")).toBe("l");
   });

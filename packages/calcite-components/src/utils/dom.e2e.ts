@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../tests/utils/e2e";
 import { getHost, getRootNode, queryElementRoots } from "./dom";
 
 interface SetUpTestComponentOptions {
@@ -36,9 +37,7 @@ describe("queries", () => {
   let page: E2EPage;
 
   beforeEach(async () => {
-    page = await newE2EPage({
-      html: outsideHostHTML,
-    });
+    page = await newE2EPage(outsideHostHTML);
 
     function setUpTestComponent({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions) {
       class TestComponent extends HTMLElement {

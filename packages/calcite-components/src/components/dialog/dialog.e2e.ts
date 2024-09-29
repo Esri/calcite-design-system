@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import {
   accessible,
   defaults,
@@ -884,8 +885,7 @@ describe("calcite-dialog", () => {
 
   it("when dialog css override set, scrim should adhere to requested color", async () => {
     const overrideStyle = "rgba(160, 20, 10, 0.5)";
-    const page = await newE2EPage({
-      html: `
+    const page = await newE2EPage(`
       <calcite-dialog modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background-color:${overrideStyle}">
         <div>The actual content of the dialog</div>
         <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full">
@@ -894,8 +894,7 @@ describe("calcite-dialog", () => {
         <calcite-button slot="footer-end" width="full" appearance="outline"> Cancel </calcite-button>
         <calcite-button slot="footer-end" width="full"> Save </calcite-button>
       </calcite-dialog>
-      `,
-    });
+      `);
     const scrimStyles = await page.evaluate((className) => {
       const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
@@ -1118,11 +1117,11 @@ describe("calcite-dialog", () => {
     );
 
     it("should not close when slotted panels are closed", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog open>
+      const page = await newE2EPage(
+        html`<calcite-dialog open>
           <calcite-panel closable heading="test"></calcite-panel>
         </calcite-dialog>`,
-      });
+      );
       await page.waitForChanges();
 
       const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);

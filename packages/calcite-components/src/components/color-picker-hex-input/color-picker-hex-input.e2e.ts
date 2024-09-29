@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
 import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";

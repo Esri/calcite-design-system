@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -40,9 +41,12 @@ describe("calcite-input-time-zone", () => {
   ];
 
   async function simpleTestProvider(): Promise<TagAndPage> {
-    const page = await newE2EPage();
-    await page.emulateTimezone(testTimeZoneItems[0].name);
-    await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+    const page = await newE2EPage(
+      html` <calcite-input-time-zone></calcite-input-time-zone>`,
+      async (page): Promise<void> => {
+        await page.emulateTimezone(testTimeZoneItems[0].name);
+      },
+    );
 
     return {
       page,
@@ -146,10 +150,12 @@ describe("calcite-input-time-zone", () => {
       describe("selects user's matching time zone offset on initialization", () => {
         testTimeZoneItems.forEach(({ name, offset, label }) => {
           it(`selects default time zone for "${name}"`, async () => {
-            const page = await newE2EPage();
-            await page.emulateTimezone(name);
-            await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
-            await page.waitForChanges();
+            const page = await newE2EPage(
+              html` <calcite-input-time-zone></calcite-input-time-zone>`,
+              async (page): Promise<void> => {
+                await page.emulateTimezone(testTimeZoneItems[0].name);
+              },
+            );
 
             const input = await page.find("calcite-input-time-zone");
             expect(await input.getProperty("value")).toBe(`${offset}`);
@@ -162,10 +168,11 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("allows users to preselect a time zone offset", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(
-          html`<calcite-input-time-zone value="${testTimeZoneItems[1].offset}"></calcite-input-time-zone>`,
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone value="${testTimeZoneItems[1].offset}"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -178,9 +185,12 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("ignores invalid values", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(html`<calcite-input-time-zone value="9000"></calcite-input-time-zone>`);
+        const page = await newE2EPage(
+          html`<calcite-input-time-zone value="9000"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
+        );
 
         const input = await page.find("calcite-input-time-zone");
 
@@ -192,9 +202,12 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("omits filtered or non-localized time zones (incoming to browser)", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(await html`<calcite-input-time-zone value="600"></calcite-input-time-zone>`);
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone value="600"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
+        );
 
         const input = await page.find("calcite-input-time-zone");
 
@@ -211,9 +224,12 @@ describe("calcite-input-time-zone", () => {
         const gmtSearchTerm = "GMT-12";
         const searchTerms = [displayLabelSearchTerm, groupedTimeZoneSearchTerm, gmtSearchTerm];
 
-        const page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
+        );
 
         const input = await page.find("calcite-input-time-zone");
 
@@ -269,10 +285,12 @@ describe("calcite-input-time-zone", () => {
       describe("selects user's matching time zone name on initialization", () => {
         testTimeZoneItems.forEach(({ name }) => {
           it(`selects default time zone for "${name}"`, async () => {
-            const page = await newE2EPage();
-            await page.emulateTimezone(name);
-            await page.setContent(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`);
-            await page.waitForChanges();
+            const page = await newE2EPage(
+              html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`,
+              async (page): Promise<void> => {
+                await page.emulateTimezone(name);
+              },
+            );
 
             const input = await page.find("calcite-input-time-zone");
             expect(await input.getProperty("value")).toBe(name);
@@ -285,10 +303,11 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("allows users to preselect a time zone by name", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(
-          html`<calcite-input-time-zone mode="name" value="${testTimeZoneItems[1].name}"></calcite-input-time-zone>`,
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone mode="name" value="${testTimeZoneItems[1].name}"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -301,10 +320,11 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("ignores invalid values", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(
-          html`<calcite-input-time-zone mode="name" value="Does/Not/Exist"></calcite-input-time-zone>`,
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone mode="name" value="Does/Not/Exist"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -321,10 +341,12 @@ describe("calcite-input-time-zone", () => {
       describe("selects user's matching time zone name on initialization", () => {
         testTimeZoneItems.forEach(({ name }) => {
           it(`selects default time zone for "${name}"`, async () => {
-            const page = await newE2EPage();
-            await page.emulateTimezone(name);
-            await page.setContent(html`<calcite-input-time-zone mode="region"></calcite-input-time-zone>`);
-            await page.waitForChanges();
+            const page = await newE2EPage(
+              html` <calcite-input-time-zone mode="region"></calcite-input-time-zone>`,
+              async (page): Promise<void> => {
+                await page.emulateTimezone(name);
+              },
+            );
 
             const input = await page.find("calcite-input-time-zone");
             expect(await input.getProperty("value")).toBe(name);
@@ -337,10 +359,11 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("allows users to preselect a time zone by name", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(
-          html`<calcite-input-time-zone mode="region" value="${testTimeZoneItems[1].name}"></calcite-input-time-zone>`,
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone mode="region" value="${testTimeZoneItems[1].name}"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -355,11 +378,11 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("ignores invalid values", async () => {
-        const page = await newE2EPage();
-
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(
-          html`<calcite-input-time-zone mode="region" value="Does/Not/Exist"></calcite-input-time-zone>`,
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone mode="region" value="Does/Not/Exist"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -374,10 +397,12 @@ describe("calcite-input-time-zone", () => {
       });
 
       it("properly sets region label when setting value programmatically", async () => {
-        const page = await newE2EPage();
-
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(html`<calcite-input-time-zone mode="region"></calcite-input-time-zone>`);
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone mode="region"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
+        );
 
         const input = await page.find("calcite-input-time-zone");
         const region = "America/New_York";
@@ -396,11 +421,11 @@ describe("calcite-input-time-zone", () => {
         const deprecatedTimeZone1 = "Asia/Calcutta";
         const aliasTimeZone1 = "Asia/Kolkata";
 
-        const page = await newE2EPage();
-
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(
-          html`<calcite-input-time-zone mode="region" value="${deprecatedTimeZone1}"></calcite-input-time-zone>`,
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone mode="region" value="${deprecatedTimeZone1}"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -420,12 +445,12 @@ describe("calcite-input-time-zone", () => {
 
   describe("clearable", () => {
     it("does not allow users to deselect a time zone value by default", async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone(testTimeZoneItems[1].name);
-      await page.setContent(html`
-        <calcite-input-time-zone value="${testTimeZoneItems[1].offset}" open></calcite-input-time-zone>
-      `);
-      await page.waitForChanges();
+      const page = await newE2EPage(
+        html` <calcite-input-time-zone value="${testTimeZoneItems[1].offset}" open></calcite-input-time-zone>`,
+        async (page): Promise<void> => {
+          await page.emulateTimezone(testTimeZoneItems[1].name);
+        },
+      );
 
       let selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
@@ -435,7 +460,7 @@ describe("calcite-input-time-zone", () => {
       selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
       const input = await page.find("calcite-input-time-zone");
 
-      expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
+      expect(await input.getProperty("value")).toBe(testTimeZoneItems[1].offset);
       expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
 
       input.setProperty("value", "");
@@ -451,10 +476,11 @@ describe("calcite-input-time-zone", () => {
       let input: E2EElement;
 
       beforeEach(async () => {
-        page = await newE2EPage();
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.setContent(
+        page = await newE2EPage(
           html` <calcite-input-time-zone value="${testTimeZoneItems[1].offset}" clearable></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
         );
         input = await page.find("calcite-input-time-zone");
       });
@@ -475,10 +501,11 @@ describe("calcite-input-time-zone", () => {
     });
 
     it("allows users to deselect a time zone value when clearable is enabled", async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone(testTimeZoneItems[0].name);
-      await page.setContent(
-        html`<calcite-input-time-zone value="${testTimeZoneItems[1].offset}" clearable></calcite-input-time-zone>`,
+      const page = await newE2EPage(
+        html` <calcite-input-time-zone value="${testTimeZoneItems[1].offset}" clearable></calcite-input-time-zone>`,
+        async (page): Promise<void> => {
+          await page.emulateTimezone(testTimeZoneItems[0].name);
+        },
       );
 
       const input = await page.find("calcite-input-time-zone");
@@ -493,18 +520,24 @@ describe("calcite-input-time-zone", () => {
     });
 
     it("can be cleared on initialization when clearable is enabled", async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone(testTimeZoneItems[0].name);
-      await page.setContent(html`<calcite-input-time-zone value="" clearable></calcite-input-time-zone>`);
+      const page = await newE2EPage(
+        html` <calcite-input-time-zone value="" clearable></calcite-input-time-zone>`,
+        async (page): Promise<void> => {
+          await page.emulateTimezone(testTimeZoneItems[0].name);
+        },
+      );
 
       const input = await page.find("calcite-input-time-zone");
       expect(await input.getProperty("value")).toBe("");
     });
 
     it("selects user time zone value when value is not set and clearable is enabled", async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone(testTimeZoneItems[0].name);
-      await page.setContent(html`<calcite-input-time-zone clearable></calcite-input-time-zone>`);
+      const page = await newE2EPage(
+        html` <calcite-input-time-zone clearable></calcite-input-time-zone>`,
+        async (page): Promise<void> => {
+          await page.emulateTimezone(testTimeZoneItems[0].name);
+        },
+      );
 
       const input = await page.find("calcite-input-time-zone");
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[0].offset}`);
@@ -528,10 +561,11 @@ describe("calcite-input-time-zone", () => {
 
     testCases.forEach(({ name, initialTimeZoneItem }) => {
       it(`${name}`, async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(initialTimeZoneItem.name);
-        await page.setContent(
-          html`<calcite-input-time-zone value="${initialTimeZoneItem.offset}"></calcite-input-time-zone> `,
+        const page = await newE2EPage(
+          html` <calcite-input-time-zone value="${initialTimeZoneItem.offset}"></calcite-input-time-zone> `,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(initialTimeZoneItem.name);
+          },
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -561,9 +595,12 @@ describe("calcite-input-time-zone", () => {
   });
 
   it("supports setting maxItems to display", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone(testTimeZoneItems[0].name);
-    await page.setContent(html`<calcite-input-time-zone max-items="7"></calcite-input-time-zone>`);
+    const page = await newE2EPage(
+      html`<calcite-input-time-zone max-items="7"></calcite-input-time-zone>`,
+      async (page): Promise<void> => {
+        await page.emulateTimezone(testTimeZoneItems[0].name);
+      },
+    );
     const internalCombobox = await page.find("calcite-input-time-zone >>> calcite-combobox");
 
     // we assume maxItems works properly on combobox
@@ -571,10 +608,12 @@ describe("calcite-input-time-zone", () => {
   });
 
   it("recreates time zone items when item-dependent props change", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone(testTimeZoneItems[0].name);
-    await page.setContent(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`);
-    await page.waitForChanges();
+    const page = await newE2EPage(
+      html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`,
+      async (page): Promise<void> => {
+        await page.emulateTimezone(testTimeZoneItems[0].name);
+      },
+    );
     const inputTimeZone = await page.find("calcite-input-time-zone");
 
     let prevComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
@@ -603,8 +642,6 @@ describe("calcite-input-time-zone", () => {
     const gmtTimeZoneLocale = "en-GB";
     const utcTimeZoneLocale = "fr";
 
-    let page: E2EPage;
-
     async function assertItemLabelMatches(page: E2EPage, offsetMarker: "GMT" | "UTC"): Promise<void> {
       // all items are formatted equally, so we only need to check the first one
       const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
@@ -612,36 +649,47 @@ describe("calcite-input-time-zone", () => {
       expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
     }
 
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.emulateTimezone(testTimeZoneItems[0].name);
-    });
-
     describe("displays UTC or GMT based on user's locale (default)", () => {
       it("displays GMT for GMT-preferred locale", async () => {
-        await page.setContent(html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}"></calcite-input-time-zone>`);
+        const page = await newE2EPage(
+          html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
+        );
 
         await assertItemLabelMatches(page, "GMT");
       });
 
       it("displays UTC for UTC-preferred locale", async () => {
-        await page.setContent(html`<calcite-input-time-zone lang="${utcTimeZoneLocale}"></calcite-input-time-zone>`);
+        const page = await newE2EPage(
+          html`<calcite-input-time-zone lang="${utcTimeZoneLocale}"></calcite-input-time-zone>`,
+          async (page): Promise<void> => {
+            await page.emulateTimezone(testTimeZoneItems[0].name);
+          },
+        );
 
         await assertItemLabelMatches(page, "UTC");
       });
     });
 
     it("supports GMT as a style", async () => {
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-input-time-zone lang="${utcTimeZoneLocale}" offset-style="gmt"></calcite-input-time-zone>`,
+        async (page): Promise<void> => {
+          await page.emulateTimezone(testTimeZoneItems[0].name);
+        },
       );
 
       await assertItemLabelMatches(page, "GMT");
     });
 
     it("supports UTC as a style", async () => {
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}" offset-style="utc"></calcite-input-time-zone>`,
+        async (page): Promise<void> => {
+          await page.emulateTimezone(testTimeZoneItems[0].name);
+        },
       );
 
       await assertItemLabelMatches(page, "UTC");

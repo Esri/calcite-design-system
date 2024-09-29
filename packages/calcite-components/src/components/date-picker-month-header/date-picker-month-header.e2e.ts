@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import { renders } from "../../tests/commonTests";
 import { DateLocaleData } from "../date-picker/utils";
@@ -39,11 +39,10 @@ describe("calcite-date-picker-month-header", () => {
   } as DateLocaleData;
 
   it("displays next/previous options", async () => {
-    const page = await newE2EPage({
+    const page = await newE2EPage(
       // intentionally using calcite-date-picker to wire up supporting components to be used in `evaluate` fn below
-      html: "<calcite-date-picker></calcite-date-picker>",
-    });
-    await page.waitForChanges();
+      html`<calcite-date-picker></calcite-date-picker>`,
+    );
 
     await page.evaluate((localeData) => {
       const dateMonthHeader = document.createElement("calcite-date-picker-month-header");

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import {
   accessible,
   defaults,
@@ -135,7 +135,7 @@ describe("calcite-action-pad", () => {
     });
 
     it("should toggle expanded", async () => {
-      const page = await newE2EPage({ html: "<calcite-action-pad></calcite-action-pad>" });
+      const page = await newE2EPage("<calcite-action-pad></calcite-action-pad>");
 
       const pad = await page.find("calcite-action-pad");
 
@@ -271,8 +271,7 @@ describe("calcite-action-pad", () => {
   });
 
   it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-action-pad>
+    const page = await newE2EPage(`<calcite-action-pad>
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"></calcite-action>
             <calcite-action text="Add" icon="plus"></calcite-action>
@@ -288,8 +287,7 @@ describe("calcite-action-pad", () => {
             <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
             <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
           </calcite-action-group>
-        </calcite-action-pad>`,
-    });
+        </calcite-action-pad>`);
 
     const eventSpy = await page.spyOnEvent("calciteActionMenuOpen", "window");
 
@@ -314,7 +312,7 @@ describe("calcite-action-pad", () => {
   });
 
   it("should honor scale of expand icon", async () => {
-    const page = await newE2EPage({ html: `<calcite-action-pad scale="l"></calcite-action-pad>` });
+    const page = await newE2EPage(`<calcite-action-pad scale="l"></calcite-action-pad>`);
 
     const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupEnd}`);
 

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
 
 describe("calcite-dropdown-item", () => {

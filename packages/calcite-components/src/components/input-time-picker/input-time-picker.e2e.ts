@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage, E2EElement } from "@stencil/core/testing";
+import { E2EPage, E2EElement } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { localizeTimeString } from "../../utils/time";
 import {
   accessible,

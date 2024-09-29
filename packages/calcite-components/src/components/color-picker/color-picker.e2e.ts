@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
 import {
   GlobalTestProps,
@@ -913,9 +914,7 @@ describe("calcite-color-picker", () => {
 
     it("value as property", async () => {
       // initialize page with calcite-color-picker to make it available in the evaluate callback below
-      const page = await newE2EPage({
-        html: "<calcite-color-picker></calcite-color-picker>",
-      });
+      const page = await newE2EPage("<calcite-color-picker></calcite-color-picker>");
       await page.setContent("");
 
       await page.evaluate(async (color) => {

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import {
   accessible,
   defaults,
@@ -157,13 +157,11 @@ describe("calcite-block", () => {
   });
 
   it("has a loading state", async () => {
-    const page = await newE2EPage({
-      html: `
+    const page = await newE2EPage(`
         <calcite-block heading="heading" description="description" open collapsible>
           <div class="content">content</div>
         </calcite-block>
-    `,
-    });
+    `);
 
     await page.waitForChanges();
 
@@ -337,11 +335,11 @@ describe("calcite-block", () => {
     });
 
     it("allows users to slot in actions in a header menu", async () => {
-      const page = await newE2EPage({
-        html: html` <calcite-block heading="With header actions" description="has header actions">
+      const page = await newE2EPage(
+        html` <calcite-block heading="With header actions" description="has header actions">
           <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
         </calcite-block>`,
-      });
+      );
 
       const menuSlot = await page.find(`calcite-block >>> calcite-action-menu slot[name=${SLOTS.headerMenuActions}]`);
       expect(menuSlot).toBeDefined();

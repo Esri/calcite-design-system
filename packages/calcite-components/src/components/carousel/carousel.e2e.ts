@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
@@ -755,12 +755,10 @@ describe("calcite-carousel", () => {
 
   describe("pagination", () => {
     it("should select the first item by default and change the selectedIndex when the previous or next buttons are clicked", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-carousel label="Carousel example">
+      const page = await newE2EPage(`<calcite-carousel label="Carousel example">
       <calcite-carousel-item label="Carousel Item 1" id="one"><p>first item default selected</p></calcite-carousel-item>
       <calcite-carousel-item label="Carousel Item 2" id="two"><p>next/prev behavior</p></calcite-carousel-item>
-    </calcite-carousel>`,
-      });
+    </calcite-carousel>`);
 
       await page.waitForChanges();
 
@@ -800,11 +798,9 @@ describe("calcite-carousel", () => {
 
   describe("handling dom updates after initial render", () => {
     it("should update if items are added after initial load", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-carousel label="Carousel example">
+      const page = await newE2EPage(`<calcite-carousel label="Carousel example">
       <calcite-carousel-item label="Carousel Item 1"><p>dynamically adding/removing items</p></calcite-carousel-item>
-    </calcite-carousel>`,
-      });
+    </calcite-carousel>`);
 
       const carousel = await page.find("calcite-carousel");
       const newItemId = "newItem";

@@ -1,4 +1,5 @@
-import { newE2EPage, E2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-graph", () => {

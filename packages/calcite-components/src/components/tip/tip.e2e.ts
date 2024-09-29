@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, hidden, renders, defaults, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
@@ -38,7 +38,7 @@ describe("calcite-tip", () => {
   });
 
   it("should be hidden after the close button is clicked", async () => {
-    const page = await newE2EPage({ html: `<calcite-tip><p>testing close button</p></calcite-tip>` });
+    const page = await newE2EPage(`<calcite-tip><p>testing close button</p></calcite-tip>`);
 
     const eventSpy = await page.spyOnEvent("calciteTipDismiss", "window");
 

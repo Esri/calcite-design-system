@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { dragAndDrop } from "../../tests/utils";
@@ -35,11 +36,12 @@ describe("calcite-value-list", () => {
   });
 
   it("should not display screen reader only text when drag-enabled", async () => {
-    const page = await newE2EPage({});
-    await page.setContent(`<calcite-value-list drag-enabled>
-      <calcite-value-list-item label="Lakes" description="Summary lorem ipsum" value="lakes">
-      </calcite-value-list-item>
-    </calcite-value-list>`);
+    const page = await newE2EPage(
+      html`<calcite-value-list drag-enabled>
+        <calcite-value-list-item label="Lakes" description="Summary lorem ipsum" value="lakes">
+        </calcite-value-list-item>
+      </calcite-value-list>`,
+    );
 
     const srOnlyElement = await page.find("calcite-value-list >>> span");
     await page.keyboard.press("Tab");
@@ -67,22 +69,18 @@ describe("calcite-value-list", () => {
 
   describe("icon logic", () => {
     it("should be 'grip' when in `configuration` mode drag and drop is enabled", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-value-list drag-enabled>
+      const page = await newE2EPage(`<calcite-value-list drag-enabled>
         <calcite-value-list-item value="one"></calcite-value-list-item>
-      </calcite-value-list>`,
-      });
+      </calcite-value-list>`);
 
       const item = await page.find("calcite-value-list-item");
       const icon = await item.getProperty("icon");
       expect(icon).toBe(ICON_TYPES.grip);
     });
     it("should be null when drag and drop is disabled", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-value-list>
+      const page = await newE2EPage(`<calcite-value-list>
         <calcite-value-list-item value="one"></calcite-value-list-item>
-      </calcite-value-list>`,
-      });
+      </calcite-value-list>`);
 
       const item = await page.find("calcite-value-list-item");
       const icon = await item.getProperty("icon");
@@ -104,13 +102,11 @@ describe("calcite-value-list", () => {
 
   describe("drag and drop", () => {
     async function createSimpleValueList(): Promise<E2EPage> {
-      return newE2EPage({
-        html: `<calcite-value-list drag-enabled>
+      return newE2EPage(`<calcite-value-list drag-enabled>
         <calcite-value-list-item value="one" label="One"></calcite-value-list-item>
         <calcite-value-list-item value="two" label="Two"></calcite-value-list-item>
         <calcite-value-list-item value="three" label="Three"></calcite-value-list-item>
-      </calcite-value-list>`,
-      });
+      </calcite-value-list>`);
     }
 
     it("works using a mouse", async () => {
@@ -170,8 +166,7 @@ describe("calcite-value-list", () => {
     });
 
     it("supports dragging items between lists", async () => {
-      const page = await newE2EPage({
-        html: `
+      const page = await newE2EPage(`
         <calcite-value-list id="first-letters" drag-enabled group="letters">
           <calcite-value-list-item value="a" label="A"></calcite-value-list-item>
           <calcite-value-list-item value="b" label="B"></calcite-value-list-item>
@@ -192,8 +187,7 @@ describe("calcite-value-list", () => {
           <calcite-value-list-item value="e" label="E"></calcite-value-list-item>
           <calcite-value-list-item value="f" label="F"></calcite-value-list-item>
         </calcite-value-list>
-        `,
-      });
+        `);
 
       await dragAndDrop(
         page,

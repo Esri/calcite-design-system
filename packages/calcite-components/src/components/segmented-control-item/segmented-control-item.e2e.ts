@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { renders, hidden } from "../../tests/commonTests";
 import { CSS } from "./resources";
 

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
@@ -209,10 +209,10 @@ describe("calcite-accordion", () => {
   });
 
   it("clicking on an accordion with selection-mode=single does not toggle unrelated accordions with the same selection mode", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
+    const page = await newE2EPage(
+      html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
         <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`,
-    });
+    );
     await page.waitForChanges();
 
     const firstAccordion = await page.find("calcite-accordion[id='first']");

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
@@ -107,9 +107,7 @@ describe("calcite-split-button", () => {
   });
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-split-button primary-text="primary action"></calcite-split-button>`,
-    });
+    const page = await newE2EPage(html`<calcite-split-button primary-text="primary action"></calcite-split-button>`);
 
     const buttons = await page.findAll("calcite-split-button >>> calcite-button");
 

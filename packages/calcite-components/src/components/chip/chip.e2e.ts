@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -154,7 +154,7 @@ describe("calcite-chip", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render chip pseudo classes with default values tied to mode", async () => {
-        page = await newE2EPage({ html: chipSnippet });
+        page = await newE2EPage(chipSnippet);
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
         await page.waitForChanges();
@@ -170,9 +170,7 @@ describe("calcite-chip", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${chipSnippet}</div>`,
-        });
+        page = await newE2EPage(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
         await page.waitForChanges();
@@ -188,15 +186,13 @@ describe("calcite-chip", () => {
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(55, 5, 10, 0.19)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           :root {
             --calcite-color-transparent-hover: ${overrideStyle};
           }
         </style>
-        <div>${chipSnippet}</div>`,
-      });
+        <div>${chipSnippet}</div>`);
       chipCloseButton = await page.find("calcite-chip >>> button");
       await chipCloseButton.focus();
       await page.waitForChanges();

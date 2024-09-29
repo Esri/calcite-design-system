@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -111,7 +111,7 @@ describe("calcite-input-text", () => {
   });
 
   it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
-    const page = await newE2EPage({ html: "<calcite-input-text></calcite-input-text>" });
+    const page = await newE2EPage("<calcite-input-text></calcite-input-text>");
     const input = await page.find("calcite-input-text");
     const inputEventSpy = await input.spyOnEvent("calciteInputTextInput");
     const changeEventSpy = await input.spyOnEvent("calciteInputTextChange");

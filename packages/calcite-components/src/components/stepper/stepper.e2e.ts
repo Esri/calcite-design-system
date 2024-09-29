@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
@@ -459,7 +460,7 @@ describe("calcite-stepper", () => {
         <calcite-button id="next">Next Step</calcite-button>
       `;
 
-      const page = await newE2EPage({ html: templateHTML });
+      const page = await newE2EPage(templateHTML);
 
       await page.waitForChanges();
 

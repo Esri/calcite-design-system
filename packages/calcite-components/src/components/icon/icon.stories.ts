@@ -2,7 +2,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { setCSSVariables } from "../../tests/utils/cssTokenValues";
+import { createInlineStyleDeclaration } from "../../tests/utils/cssTokenValues";
 import { Icon } from "./icon";
 const { scale } = ATTRIBUTES;
 
@@ -50,7 +50,7 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 export const theming_TestOnly = (): string => html`
   <style>
     .container {
-        ${setCSSVariables(["--calcite-icon-color"])}
+        ${createInlineStyleDeclaration(["--calcite-icon-color"])}
   </style>
   <div class="container">
     <calcite-icon icon="banana" scale="s"></calcite-icon>

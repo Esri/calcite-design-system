@@ -99,6 +99,13 @@ module.exports = {
     "no-restricted-imports": [
       "error",
       {
+        paths: [
+          {
+            name: "@stencil/core/testing",
+            importNames: ["newE2EPage"],
+            message: "use `newE2EPage` from `test/utils/e2e.ts` instead",
+          },
+        ],
         patterns: [
           {
             group: ["tests/commonTests/*"],

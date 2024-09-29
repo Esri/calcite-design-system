@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
@@ -141,9 +141,7 @@ describe("calcite-tile-select", () => {
   });
 
   it("emits change event on checkbox toggle and suppresses internal checkbox change event", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-tile-select type="checkbox" input-enabled></calcite-tile-select>`,
-    });
+    const page = await newE2EPage(html`<calcite-tile-select type="checkbox" input-enabled></calcite-tile-select>`);
 
     const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
     const checkboxSpy = await page.spyOnEvent("calciteCheckboxChange");
@@ -165,12 +163,10 @@ describe("calcite-tile-select", () => {
   });
 
   it("emits change event on radio check and suppresses internal radio change event", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-tile-select name="change" type="radio" input-enabled value="one"></calcite-tile-select>
-        <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>
-      `,
-    });
+    const page = await newE2EPage(html`
+      <calcite-tile-select name="change" type="radio" input-enabled value="one"></calcite-tile-select>
+      <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>
+    `);
 
     const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
     const radioButtonSpy = await page.spyOnEvent("calciteRadioButtonChange");

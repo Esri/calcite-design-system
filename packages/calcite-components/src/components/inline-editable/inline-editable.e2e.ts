@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -50,11 +51,11 @@ describe("calcite-inline-editable", () => {
     });
 
     it(`should set all internal calcite-button types to 'button'`, async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-inline-editable controls editing-enabled>
+      const page = await newE2EPage(
+        html`<calcite-inline-editable controls editing-enabled>
           <calcite-input />
         </calcite-inline-editable>`,
-      });
+      );
 
       const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
 

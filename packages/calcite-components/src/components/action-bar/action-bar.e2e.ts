@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -109,8 +109,8 @@ describe("calcite-action-bar", () => {
 
   describe("expand functionality", () => {
     it("should not modify actions within an action-menu", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-action-bar expanded>
+      const page = await newE2EPage(
+        html`<calcite-action-bar expanded>
           <calcite-action-group>
             <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
           </calcite-action-group>
@@ -120,7 +120,7 @@ describe("calcite-action-bar", () => {
             </calcite-action-menu>
           </calcite-action-group>
         </calcite-action-bar>`,
-      });
+      );
       await page.waitForChanges();
       const actionBar = await page.find("calcite-action-bar");
       const actionBarAction = await page.find("#my-action");
@@ -157,7 +157,7 @@ describe("calcite-action-bar", () => {
     });
 
     it("should toggle expanded", async () => {
-      const page = await newE2EPage({ html: "<calcite-action-bar></calcite-action-bar>" });
+      const page = await newE2EPage("<calcite-action-bar></calcite-action-bar>");
 
       const bar = await page.find("calcite-action-bar");
 
@@ -378,7 +378,7 @@ describe("calcite-action-bar", () => {
   });
 
   it("should honor scale of expand icon", async () => {
-    const page = await newE2EPage({ html: html`<calcite-action-bar scale="l"></calcite-action-bar>` });
+    const page = await newE2EPage(html`<calcite-action-bar scale="l"></calcite-action-bar>`);
 
     const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
@@ -392,8 +392,8 @@ describe("calcite-action-bar", () => {
 
   describe("overflow actions", () => {
     it("should slot 'menu-actions' on sublist changes", async () => {
-      const page = await newE2EPage({
-        html: html`<div style="width:500px; height:500px;">
+      const page = await newE2EPage(
+        html`<div style="width:500px; height:500px;">
           <calcite-action-bar style="height: 290px">
             <calcite-action-group id="dynamic-group"
               ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
@@ -406,7 +406,7 @@ describe("calcite-action-bar", () => {
             <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
-      });
+      );
       await page.waitForTimeout(DEBOUNCE.resize);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(2);
@@ -470,8 +470,8 @@ describe("calcite-action-bar", () => {
     });
 
     it.skip("should slot 'menu-actions' on resize of component", async () => {
-      const page = await newE2EPage({
-        html: html`<div style="width:500px; height:500px;">
+      const page = await newE2EPage(
+        html`<div style="width:500px; height:500px;">
           <calcite-action-bar style="height: 290px">
             <calcite-action-group id="dynamic-group"
               ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
@@ -490,7 +490,7 @@ describe("calcite-action-bar", () => {
             <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
-      });
+      );
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);

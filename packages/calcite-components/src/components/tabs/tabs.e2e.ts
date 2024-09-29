@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
@@ -164,9 +165,7 @@ describe("calcite-tabs", () => {
 
   describe("when layout is inline and bordered is true", () => {
     it("should render tabs, tab-nav, and tab-title with bordered attribute", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs bordered>${tabsContent}</calcite-tabs>`,
-      });
+      const page = await newE2EPage(`<calcite-tabs bordered>${tabsContent}</calcite-tabs>`);
       expect(await page.find("calcite-tabs")).toEqualAttribute("bordered", "");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("bordered", "");
       expect(await page.find("calcite-tab-title")).toEqualAttribute("bordered", "");
@@ -175,9 +174,7 @@ describe("calcite-tabs", () => {
   });
 
   it("should not ignore bordered attribute when layout is center", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`,
-    });
+    const page = await newE2EPage(`<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`);
     expect(await page.find("calcite-tabs")).toHaveAttribute("bordered");
   });
 
@@ -193,13 +190,11 @@ describe("calcite-tabs", () => {
       </calcite-tabs>
     `;
 
-    const page = await newE2EPage({
+    const page = await newE2EPage(
       // load page with the tab template,
       // so they're available in the browser-evaluated fn below
-      html: wrappedTabTemplateHTML,
-    });
-
-    await page.waitForChanges();
+      wrappedTabTemplateHTML,
+    );
 
     const finalSelectedItem = await page.evaluate(
       async (templateHTML: string): Promise<{ tabTitle: string; tab: string }> => {
@@ -250,29 +245,27 @@ describe("calcite-tabs", () => {
   });
 
   it("item selection should work with nested tabs", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-tabs id="parentTabs">
-          <calcite-tab-nav slot="title-group">
-            <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
-            <calcite-tab-title>Parent 2</calcite-tab-title>
-          </calcite-tab-nav>
-          <calcite-tab id="parentTabA">
-            <calcite-tabs>
-              <calcite-tab-nav slot="title-group">
-                <calcite-tab-title>Child 1</calcite-tab-title>
-                <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
-                <calcite-tab-title>Child 3</calcite-tab-title>
-              </calcite-tab-nav>
-              <calcite-tab>child content 1</calcite-tab>
-              <calcite-tab id="kidBTab">child content 2</calcite-tab>
-              <calcite-tab>child content 3</calcite-tab>
-            </calcite-tabs>
-          </calcite-tab>
-          <calcite-tab>Parent content 2</calcite-tab>
-        </calcite-tabs>
-      `,
-    });
+    const page = await newE2EPage(html`
+      <calcite-tabs id="parentTabs">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
+          <calcite-tab-title>Parent 2</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab id="parentTabA">
+          <calcite-tabs>
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title>Child 1</calcite-tab-title>
+              <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
+              <calcite-tab-title>Child 3</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab>child content 1</calcite-tab>
+            <calcite-tab id="kidBTab">child content 2</calcite-tab>
+            <calcite-tab>child content 3</calcite-tab>
+          </calcite-tabs>
+        </calcite-tab>
+        <calcite-tab>Parent content 2</calcite-tab>
+      </calcite-tabs>
+    `);
 
     await page.waitForChanges();
 

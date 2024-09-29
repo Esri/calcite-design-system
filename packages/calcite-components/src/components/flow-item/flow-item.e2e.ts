@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import {
   accessible,
   defaults,
@@ -310,9 +310,7 @@ describe("calcite-flow-item", () => {
   });
 
   it("honors calciteFlowItemScroll event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-flow-item>test</calcite-flow-item>",
-    });
+    const page = await newE2EPage("<calcite-flow-item>test</calcite-flow-item>");
 
     const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
     const panel = await page.find("calcite-flow-item >>> calcite-panel");
@@ -323,9 +321,7 @@ describe("calcite-flow-item", () => {
   });
 
   it("honors calciteFlowItemToggle event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-flow-item collapsible>test</calcite-flow-item>",
-    });
+    const page = await newE2EPage("<calcite-flow-item collapsible>test</calcite-flow-item>");
 
     const toggleSpy = await page.spyOnEvent("calciteFlowItemToggle");
     const panel = await page.find("calcite-flow-item >>> calcite-panel");
@@ -336,9 +332,7 @@ describe("calcite-flow-item", () => {
   });
 
   it("honors calciteFlowItemClose event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-flow-item closable>test</calcite-flow-item>",
-    });
+    const page = await newE2EPage("<calcite-flow-item closable>test</calcite-flow-item>");
 
     const toggleSpy = await page.spyOnEvent("calciteFlowItemClose");
     const panel = await page.find("calcite-flow-item >>> calcite-panel");
@@ -350,15 +344,15 @@ describe("calcite-flow-item", () => {
   });
 
   it("should set embedded on slotted alerts", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-flow-item closable>
+    const page = await newE2EPage(
+      html`<calcite-flow-item closable>
         test
         <calcite-alert slot="alerts" open label="this is a default alert">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
       </calcite-flow-item>`,
-    });
+    );
     await page.waitForChanges();
 
     const alert = await page.find("calcite-alert");
@@ -367,11 +361,11 @@ describe("calcite-flow-item", () => {
   });
 
   it("should not close when slotted panels are closed", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-flow-item closable>
+    const page = await newE2EPage(
+      html`<calcite-flow-item closable>
         <calcite-panel closable heading="test"></calcite-panel>
       </calcite-flow-item>`,
-    });
+    );
     await page.waitForChanges();
 
     const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);

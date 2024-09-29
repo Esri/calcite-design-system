@@ -1,4 +1,5 @@
-import { E2EElement, newE2EPage } from "@stencil/core/testing";
+import { E2EElement } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -178,7 +179,7 @@ describe("calcite-button", () => {
   });
 
   it("should update childElType when href changes", async () => {
-    const page = await newE2EPage({ html: `<calcite-button>Continue</calcite-button>` });
+    const page = await newE2EPage(`<calcite-button>Continue</calcite-button>`);
     const link = await page.find("calcite-button");
     let elementAsLink: E2EElement;
     let elementAsSpan: E2EElement;
@@ -513,7 +514,7 @@ describe("calcite-button", () => {
     let buttonHoverStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: buttonSnippet });
+      page = await newE2EPage(buttonSnippet);
       const buttonStyles = await page.evaluate(() => {
         buttonEl = document.querySelector("calcite-button");
         buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
@@ -529,7 +530,7 @@ describe("calcite-button", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render button pseudo classes with default values tied to light mode", async () => {
-        page = await newE2EPage({ html: buttonSnippet });
+        page = await newE2EPage(buttonSnippet);
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
@@ -545,9 +546,7 @@ describe("calcite-button", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`,
-        });
+        page = await newE2EPage(`<div class="calcite-mode-dark">${buttonSnippet}</div>`);
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
@@ -563,15 +562,13 @@ describe("calcite-button", () => {
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 255, 0, 0.9)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           :root {
             --calcite-color-transparent-hover: ${overrideStyle};
           }
         </style>
-        <div>${buttonSnippet}</div>`,
-      });
+        <div>${buttonSnippet}</div>`);
       buttonEl = await page.find("calcite-button >>> button");
       await buttonEl.focus();
       await page.waitForChanges();

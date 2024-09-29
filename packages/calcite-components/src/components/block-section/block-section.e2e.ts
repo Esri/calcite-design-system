@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e";
 import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -80,9 +81,9 @@ describe("calcite-block-section", () => {
     });
 
     it("can display/hide content", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`,
-      });
+      const page = await newE2EPage(
+        `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`,
+      );
       await assertContentIsDisplayedAndHidden(page);
     });
 
@@ -93,9 +94,9 @@ describe("calcite-block-section", () => {
     });
 
     it("renders section text", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`,
-      });
+      const page = await newE2EPage(
+        `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`,
+      );
       const element = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
       expect(element.textContent).toBe("test text");
     });
@@ -113,7 +114,7 @@ describe("calcite-block-section", () => {
     });
 
     it("can display/hide content", async () => {
-      const page = await newE2EPage({ html: "<calcite-block-section><div>some content</div></calcite-block-section>" });
+      const page = await newE2EPage("<calcite-block-section><div>some content</div></calcite-block-section>");
       await assertContentIsDisplayedAndHidden(page);
     });
 
@@ -126,9 +127,9 @@ describe("calcite-block-section", () => {
 
   describe("status = 'invalid'", () => {
     it("displays a status indicator when `status` is an accepted value", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-block-section status="invalid"><div>content</div></calcite-block-section>`,
-      });
+      const page = await newE2EPage(
+        `<calcite-block-section status="invalid"><div>content</div></calcite-block-section>`,
+      );
       const statusIconEl = await page.find(`calcite-block-section >>> .${CSS.statusIcon}`);
       expect(statusIconEl).not.toBeNull();
     });
@@ -136,9 +137,7 @@ describe("calcite-block-section", () => {
 
   describe("status = 'foo'", () => {
     it("does not display a status indicator when `status` is not an accepted value", async () => {
-      const page2 = await newE2EPage({
-        html: `<calcite-block-section status="foo"><div>content</div></calcite-block-section>`,
-      });
+      const page2 = await newE2EPage(`<calcite-block-section status="foo"><div>content</div></calcite-block-section>`);
       const statusIconEl2 = await page2.find(`calcite-block-section >>> .${CSS.statusIcon}`);
       await page2.waitForChanges();
       expect(statusIconEl2).toBeNull();
