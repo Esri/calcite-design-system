@@ -222,6 +222,14 @@ describe("calcite-filter", () => {
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
+
+      await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
+        filter.items = [];
+      });
+      await page.waitForTimeout(DEBOUNCE.filter);
+      await page.waitForChanges();
+      assertMatchingItems(await filter.getProperty("filteredItems"), []);
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
 
     it("searches recursively in items and works and matches on a partial string ignoring case", async () => {

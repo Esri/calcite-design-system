@@ -13,7 +13,11 @@ import {
 } from "@stencil/core";
 import { LocalizedComponent } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
+import {
+  focusElementInGroup,
+  FocusElementInGroupDestination,
+  toAriaBoolean,
+} from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
@@ -409,9 +413,8 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <tr
-            aria-disabled={this.disabled}
             aria-rowindex={this.positionAll + 1}
-            aria-selected={this.selected}
+            aria-selected={toAriaBoolean(this.selected)}
             class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
             onKeyDown={this.keyDownHandler}
             ref={(el) => (this.tableRowEl = el)}
