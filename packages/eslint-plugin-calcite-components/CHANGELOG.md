@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.0...@esri/eslint-plugin-calcite-components@1.2.1) (2024-09-30)
+
+
+### Deprecations
+
+* Deprecate `enforce-ref-last-prop` rule ([#10421](https://github.com/Esri/calcite-design-system/issues/10421)) ([5fde52d](https://github.com/Esri/calcite-design-system/commit/5fde52da05ec10db713e5ae119a6d77499d39ff7))
+
 ## [1.2.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.1-next.3...@esri/eslint-plugin-calcite-components@1.2.1-next.4) (2024-09-18)
 
 **Note:** Version bump only for package @esri/eslint-plugin-calcite-components

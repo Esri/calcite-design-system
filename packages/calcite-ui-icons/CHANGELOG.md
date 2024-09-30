@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.32.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.31.0...@esri/calcite-ui-icons@3.32.0) (2024-09-30)
+
+
+### Features
+
+* Add 3d building, 3d building parameter, divide, parcel, spaces, spaces parameter, square brackets x, n variable, zoning parameter ([#10373](https://github.com/Esri/calcite-design-system/issues/10373)) ([3ed86ce](https://github.com/Esri/calcite-design-system/commit/3ed86ce9a45501eb36c820233ae55d751916e9f9))
+* Add content inline right ([#10338](https://github.com/Esri/calcite-design-system/issues/10338)) ([b4530ab](https://github.com/Esri/calcite-design-system/commit/b4530ab4b36f2b16c95f39c2a331eeace60fc3af))
+* Add dashboard-graph ([#10417](https://github.com/Esri/calcite-design-system/issues/10417)) ([737085a](https://github.com/Esri/calcite-design-system/commit/737085aed10464985dec9ea015e6ba9497a19b36))
+* Add justify ([#10272](https://github.com/Esri/calcite-design-system/issues/10272)) ([3d6c013](https://github.com/Esri/calcite-design-system/commit/3d6c013d193403cf7f5c669150f62266c919c7dc))
+* Add model-history, raster-function-history, raster function-template-history, raster-tool-history, tool-history ([#10305](https://github.com/Esri/calcite-design-system/issues/10305)) ([1e31d43](https://github.com/Esri/calcite-design-system/commit/1e31d435d4d0846facb9dab8914c3dd5f0c9a7dc))
+* Add parcel parameter ([#10384](https://github.com/Esri/calcite-design-system/issues/10384)) ([c99be67](https://github.com/Esri/calcite-design-system/commit/c99be674d3bb3b721ce0e8d39b0cb266b5aac840))
+* Add trace path and trace path  complete ([#10196](https://github.com/Esri/calcite-design-system/issues/10196)) ([c37ced5](https://github.com/Esri/calcite-design-system/commit/c37ced57fc08884639ed3cacafa2023104a33696))
+* Add validate ([#10354](https://github.com/Esri/calcite-design-system/issues/10354)) ([4160af1](https://github.com/Esri/calcite-design-system/commit/4160af11ccb6bfb79314720e6f53b811f1cc6cb4))
+* Add web adaptor ([#10286](https://github.com/Esri/calcite-design-system/issues/10286)) ([791fd78](https://github.com/Esri/calcite-design-system/commit/791fd782ac275c27e7a32b37b62e9c48b4a18f42))
+* Added connection end left, connection end right, connection middle, connection to connection ([#10198](https://github.com/Esri/calcite-design-system/issues/10198)) ([3d0f703](https://github.com/Esri/calcite-design-system/commit/3d0f703e552db63d4b44b67e7f2590336d227f7c))
+
+
+### Bug Fixes
+
+* Correct non-standard filled icon names ([#10309](https://github.com/Esri/calcite-design-system/issues/10309)) ([7d67334](https://github.com/Esri/calcite-design-system/commit/7d67334d4f2f5c4439efb7de372778063b203fc6))
+
 ## [3.32.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.32.0-next.4...@esri/calcite-ui-icons@3.32.0-next.5) (2024-09-18)
 
 ### Features
