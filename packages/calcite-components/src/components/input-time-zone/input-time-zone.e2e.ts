@@ -460,7 +460,7 @@ describe("calcite-input-time-zone", () => {
       selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
       const input = await page.find("calcite-input-time-zone");
 
-      expect(await input.getProperty("value")).toBe(testTimeZoneItems[1].offset);
+      expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
       expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
 
       input.setProperty("value", "");
