@@ -321,8 +321,6 @@ export class InlineEditable
   };
 
   mutationObserverCallback(): void {
-    // todo: kind of odd to be setting scale based on a slotted element scale.
-    // would require a scale event to properly handle this which would be better than a mutation observer
     this.scale = this.scale || this.inputElement?.scale;
   }
 
