@@ -63,7 +63,7 @@ export default {
 const simple = {};
 for (const l of ["horizontal", "vertical"]) {
   simple[l] = (args: SliderStoryArgs): string => html`
-    <div style="margin-top: 100px; padding-top: 100px; height: 900px; width: 300px;">
+    <div style="padding-top: 200px; height: 900px; width: 300px;">
       <calcite-slider
         min="${args.min}"
         max="${args.max}"
