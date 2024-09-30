@@ -11,11 +11,10 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
+  focusFirstTabbable,
+  setRequestedIcon,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -59,12 +58,7 @@ import { CSS, SLOTS } from "./resources";
   assetsDirs: ["assets"],
 })
 export class Notice
-  implements
-    ConditionalSlotComponent,
-    LoadableComponent,
-    T9nComponent,
-    LocalizedComponent,
-    OpenCloseComponent
+  implements LoadableComponent, T9nComponent, LocalizedComponent, OpenCloseComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -135,13 +129,11 @@ export class Notice
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -160,19 +152,11 @@ export class Notice
   }
 
   render(): VNode {
-    const { el } = this;
     const closeButton = (
-      <button
-        aria-label={this.messages.close}
-        class={CSS.close}
-        onClick={this.close}
-        ref={(el) => (this.closeButton = el)}
-      >
+      <button aria-label={this.messages.close} class={CSS.close} onClick={this.close}>
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
-
-    const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
       <div class={CSS.container} ref={this.setTransitionEl}>
@@ -190,11 +174,9 @@ export class Notice
           <slot name={SLOTS.message} />
           <slot name={SLOTS.link} />
         </div>
-        {hasActionEnd ? (
-          <div class={CSS.actionsEnd}>
-            <slot name={SLOTS.actionsEnd} />
-          </div>
-        ) : null}
+        <div class={CSS.actionsEnd} hidden={!this.hasActionEnd}>
+          <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+        </div>
         {this.closable ? closeButton : null}
       </div>
     );
@@ -228,17 +210,7 @@ export class Notice
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-
-    const noticeLinkEl = this.el.querySelector("calcite-link");
-
-    if (!this.closeButton && !noticeLinkEl) {
-      return;
-    }
-    if (noticeLinkEl) {
-      return noticeLinkEl.setFocus();
-    } else if (this.closeButton) {
-      this.closeButton.focus();
-    }
+    focusFirstTabbable(this.el);
   }
 
   onBeforeClose(): void {
@@ -266,8 +238,13 @@ export class Notice
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
   private close = (): void => {
     this.open = false;
+  };
+
+  private handleActionsEndSlotChange = (event: Event): void => {
+    this.hasActionEnd = slotChangeHasAssignedElement(event);
   };
 
   //--------------------------------------------------------------------------
@@ -277,9 +254,6 @@ export class Notice
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteNoticeElement;
-
-  /** The close button element. */
-  private closeButton?: HTMLButtonElement;
 
   /** The computed icon to render. */
   private requestedIcon?: IconNameOrString;
@@ -296,4 +270,6 @@ export class Notice
   openTransitionProp = "opacity";
 
   transitionEl: HTMLElement;
+
+  @State() hasActionEnd = false;
 }
