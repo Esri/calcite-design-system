@@ -36,10 +36,11 @@ describe("calcite-shell-center-row", () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-shell-center-row></calcite-shell-center-row>");
+    await page.waitForChanges();
 
     const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
 
-    expect(actionBarContainer).toBeNull();
+    expect(await actionBarContainer.isVisible()).toBe(false);
   });
 
   it("should render action bar container first when action bar has start position", async () => {
@@ -59,6 +60,10 @@ describe("calcite-shell-center-row", () => {
 
     await page.waitForChanges();
     expect(element).toHaveClass(CSS.actionBarContainer);
+
+    const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
+
+    expect(await actionBarContainer.isVisible()).toBe(true);
   });
 
   it("should render action bar container last when action bar has end position", async () => {
