@@ -1,7 +1,7 @@
 import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-sheet properties", () => {
@@ -273,7 +273,7 @@ describe("calcite-sheet properties", () => {
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-sheet ></calcite-sheet>`);
-    await skipAnimations(page);
+
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -492,7 +492,6 @@ describe("calcite-sheet properties", () => {
 
     it("emits when set to open on initial render and duration is 0", async () => {
       const page = await newProgrammaticE2EPage();
-      await skipAnimations(page);
 
       const beforeOpenSpy = await page.spyOnEvent("calciteSheetBeforeOpen");
       const openSpy = await page.spyOnEvent("calciteSheetOpen");
@@ -516,7 +515,6 @@ describe("calcite-sheet properties", () => {
 
     it("emits when duration is set to 0", async () => {
       const page = await newProgrammaticE2EPage();
-      await skipAnimations(page);
 
       const beforeOpenSpy = await page.spyOnEvent("calciteSheetBeforeOpen");
       const openSpy = await page.spyOnEvent("calciteSheetOpen");

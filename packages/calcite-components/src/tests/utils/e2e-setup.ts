@@ -24,6 +24,7 @@ export async function newE2EPage(
   }
 
   if (!allowAnimations) {
+    // eslint-disable-next-line no-restricted-syntax -- this is our replacement util, so we need to skip animations here
     await skipAnimations(page);
   }
 

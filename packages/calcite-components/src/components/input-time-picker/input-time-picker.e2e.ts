@@ -13,7 +13,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import { getFocusedElementProp, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 
@@ -864,7 +864,7 @@ describe("calcite-input-time-picker", () => {
         html`<calcite-input-time-picker></calcite-input-time-picker>
           <div id="next-sibling" tabindex="0">next sibling</div>`,
       );
-      await skipAnimations(page);
+
       const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       await page.keyboard.press("Tab");
@@ -912,7 +912,7 @@ describe("calcite-input-time-picker", () => {
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(html` <calcite-input-time-picker></calcite-input-time-picker>`);
-      await skipAnimations(page);
+
       await page.waitForChanges();
       inputTimePicker = await page.find("calcite-input-time-picker");
     });

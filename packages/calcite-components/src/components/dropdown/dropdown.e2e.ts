@@ -12,12 +12,7 @@ import {
   reflects,
   renders,
 } from "../../tests/commonTests";
-import {
-  createSelectedItemsAsserter,
-  getFocusedElementProp,
-  isElementFocused,
-  skipAnimations,
-} from "../../tests/utils";
+import { createSelectedItemsAsserter, getFocusedElementProp, isElementFocused } from "../../tests/utils";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -1205,7 +1200,6 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
-      await skipAnimations(page);
 
       const dropdown = await page.find("calcite-dropdown");
       await dropdown.callMethod("setFocus");
@@ -1267,7 +1261,6 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
-      await skipAnimations(page);
 
       const dropdown = await page.find("calcite-dropdown");
       await dropdown.callMethod("setFocus");
@@ -1316,7 +1309,6 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
-      await skipAnimations(page);
 
       const dropdown = await page.find("calcite-dropdown");
       await dropdown.callMethod("setFocus");
@@ -1348,7 +1340,6 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
-      await skipAnimations(page);
 
       const dropdown = await page.find("calcite-dropdown");
       await dropdown.callMethod("setFocus");
@@ -1380,7 +1371,6 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
-      await skipAnimations(page);
 
       const dropdown = await page.find("calcite-dropdown");
       await dropdown.callMethod("setFocus");
@@ -1412,7 +1402,6 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
-      await skipAnimations(page);
 
       const dropdown = await page.find("calcite-dropdown");
       await dropdown.callMethod("setFocus");

@@ -75,7 +75,6 @@ describe("calcite-tree-item", () => {
           <calcite-tree-item>😃</calcite-tree-item>
         </calcite-tree>
       `);
-      await page.waitForChanges();
     });
 
     disabled(() => ({ tag: "calcite-tree-item", page }));

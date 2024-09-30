@@ -2,7 +2,7 @@ import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, isElementFocused } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-modal", () => {
@@ -281,7 +281,7 @@ describe("calcite-modal", () => {
         <button id="${initiallyFocusedId}">Focus</button>
         <calcite-modal></calcite-modal>
       `);
-      await skipAnimations(page);
+
       const modal = await page.find("calcite-modal");
       await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
         button.focus();
@@ -305,7 +305,7 @@ describe("calcite-modal", () => {
           </div>
         </calcite-modal>`,
       );
-      await skipAnimations(page);
+
       const modal = await page.find("calcite-modal");
 
       await modal.setProperty("open", true);
@@ -326,7 +326,7 @@ describe("calcite-modal", () => {
 
     it("subsequently opening a modal dynamically gets focus trapped", async () => {
       const page = await newE2EPage();
-      await skipAnimations(page);
+
       await page.setContent(html`
         <calcite-modal open id="modal1">
           <div slot="header">Modal 1</div>
@@ -393,7 +393,7 @@ describe("calcite-modal", () => {
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal ></calcite-modal>`);
-    await skipAnimations(page);
+
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -427,7 +427,7 @@ describe("calcite-modal", () => {
   it("closes and allows re-opening when Close button is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal></calcite-modal>`);
-    await skipAnimations(page);
+
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
     await page.waitForChanges();

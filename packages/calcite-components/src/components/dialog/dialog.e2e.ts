@@ -13,7 +13,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, isElementFocused } from "../../tests/utils";
 import { IDS as PanelIDS } from "../panel/resources";
 import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, dialogDragStep, dialogResizeStep, SLOTS } from "./resources";
@@ -258,7 +258,7 @@ describe("calcite-dialog", () => {
     const page = await newE2EPage();
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await skipAnimations(page);
+
     await page.setContent(`<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`);
     await page.waitForChanges();
 
@@ -361,7 +361,7 @@ describe("calcite-dialog", () => {
   it("escapeDisabled", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dialog open escape-disabled heading="My Dialog">Some content</calcite-dialog>`);
-    await skipAnimations(page);
+
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
@@ -561,7 +561,6 @@ describe("calcite-dialog", () => {
         <button id="${initiallyFocusedId}">Focus</button>
         <calcite-dialog></calcite-dialog>
       `);
-      await skipAnimations(page);
 
       const dialog = await page.find("calcite-dialog");
       await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
@@ -589,7 +588,7 @@ describe("calcite-dialog", () => {
           </div>
         </calcite-dialog>`,
       );
-      await skipAnimations(page);
+
       const dialog = await page.find("calcite-dialog");
 
       dialog.setProperty("open", true);
@@ -612,7 +611,7 @@ describe("calcite-dialog", () => {
 
     it("subsequently opening a dialog dynamically gets focus trapped", async () => {
       const page = await newE2EPage();
-      await skipAnimations(page);
+
       await page.setContent(html`
         <calcite-dialog open id="dialog1" heading="Dialog 1">
           <calcite-button id="openButton">open second dialog</calcite-button>
@@ -691,7 +690,6 @@ describe("calcite-dialog", () => {
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-dialog></calcite-dialog>`);
-    await skipAnimations(page);
 
     const dialog = await page.find("calcite-dialog");
     const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
@@ -733,7 +731,7 @@ describe("calcite-dialog", () => {
   it("closes and allows re-opening when Close button is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-dialog></calcite-dialog>`);
-    await skipAnimations(page);
+
     const dialog = await page.find("calcite-dialog");
     const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
 
@@ -926,7 +924,7 @@ describe("calcite-dialog", () => {
       await page.setContent(
         html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open>Hello world!</calcite-dialog>`,
       );
-      await skipAnimations(page);
+
       await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
       const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
@@ -952,7 +950,7 @@ describe("calcite-dialog", () => {
       await page.setContent(
         html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
       );
-      await skipAnimations(page);
+
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).toBeNull();
@@ -963,7 +961,7 @@ describe("calcite-dialog", () => {
       await page.setContent(
         html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
       );
-      await skipAnimations(page);
+
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
@@ -977,7 +975,7 @@ describe("calcite-dialog", () => {
       await page.setContent(
         html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
       );
-      await skipAnimations(page);
+
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
@@ -993,7 +991,7 @@ describe("calcite-dialog", () => {
           >Hello world!</calcite-dialog
         >`,
       );
-      await skipAnimations(page);
+
       await page.waitForChanges();
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
@@ -1017,7 +1015,7 @@ describe("calcite-dialog", () => {
           </p></calcite-dialog
         >`,
       );
-      await skipAnimations(page);
+
       await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
       const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
@@ -1061,7 +1059,7 @@ describe("calcite-dialog", () => {
         await page.setContent(html`<calcite-dialog width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`);
         // set large page to ensure test dialog isn't becoming fullscreen
         await page.setViewport({ width: 1440, height: 1440 });
-        await skipAnimations(page);
+
         return { page, tag: "calcite-dialog" };
       },
       {

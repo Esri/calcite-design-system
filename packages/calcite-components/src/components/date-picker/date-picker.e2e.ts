@@ -2,7 +2,6 @@ import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 
 describe("calcite-date-picker", () => {
@@ -137,8 +136,6 @@ describe("calcite-date-picker", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker value='2000-11-27' open></calcite-date-picker>");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
-
-    await skipAnimations(page);
 
     await selectSelectedDay(page, "mouse");
     expect(changedEvent).toHaveReceivedEventTimes(0);

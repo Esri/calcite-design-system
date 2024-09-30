@@ -14,7 +14,6 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, SLOTS } from "./resources";
 
@@ -209,7 +208,7 @@ describe("calcite-block", () => {
     const heading = "heading";
     const page = await newE2EPage();
     await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
-    await skipAnimations(page);
+
     const messages = await import(`./assets/block/t9n/messages.json`);
 
     const element = await page.find("calcite-block");
@@ -272,7 +271,7 @@ describe("calcite-block", () => {
           <div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div>
         </calcite-block>
       `);
-      await skipAnimations(page);
+
       const control = await page.find(".nested-control");
       expect(await control.isVisible()).toBe(true);
 

@@ -15,7 +15,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp } from "../../tests/utils";
 import { CSS } from "./resources";
 const animationDurationInMs = 200;
 
@@ -367,7 +367,7 @@ describe("calcite-input-date-picker", () => {
       beforeEach(async () => {
         page = await newE2EPage();
         await page.setContent(html` <calcite-input-date-picker value="2000-11-27"></calcite-input-date-picker>`);
-        await skipAnimations(page);
+
         await page.waitForChanges();
         inputDatePicker = await page.find("calcite-input-date-picker");
       });
@@ -415,7 +415,7 @@ describe("calcite-input-date-picker", () => {
       beforeEach(async () => {
         page = await newE2EPage();
         await page.setContent(html` <calcite-input-date-picker range></calcite-input-date-picker>`);
-        await skipAnimations(page);
+
         await page.waitForChanges();
         inputDatePicker = await page.find("calcite-input-date-picker");
       });
@@ -1197,7 +1197,6 @@ describe("calcite-input-date-picker", () => {
   it("should sync its date-pickers when updated programmatically after a user modifies the range", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
-    await skipAnimations(page);
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
     inputDatePicker.setProperty("value", ["2023-02-01", "2023-02-28"]);
@@ -1293,7 +1292,6 @@ describe("calcite-input-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input-date-picker value="2024-01-01"></calcite-input-date-picker>`);
       await page.waitForChanges();
-      await skipAnimations(page);
 
       const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
       const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
@@ -1341,7 +1339,6 @@ describe("calcite-input-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
       await page.waitForChanges();
-      await skipAnimations(page);
 
       await page.evaluate(() => {
         const inputDatePicker = document.querySelector("calcite-input-date-picker");

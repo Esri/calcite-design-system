@@ -16,7 +16,7 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
-import { getElementXY, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { getElementXY, newProgrammaticE2EPage } from "../../tests/utils";
 import { assertCaretPosition } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { CSS } from "./resources";
@@ -977,7 +977,7 @@ describe("calcite-combobox", () => {
 
     it("should replace current value to new custom value in single selection mode", async () => {
       const page = await newE2EPage();
-      await skipAnimations(page);
+
       await page.setContent(html`
         <calcite-combobox allow-custom-values selection-mode="single">
           <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
@@ -2089,7 +2089,7 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
       </calcite-combobox>`,
     );
-    await skipAnimations(page);
+
     const item = await page.find("calcite-combobox-item");
     await item.click();
     await page.waitForChanges();
@@ -2108,7 +2108,7 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
       </calcite-combobox>`,
     );
-    await skipAnimations(page);
+
     await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
@@ -2121,7 +2121,7 @@ describe("calcite-combobox", () => {
   describe("active item when opened", () => {
     async function assertActiveItem(html: string, expectedActiveItemValue: string): Promise<void> {
       const page = await newE2EPage();
-      await skipAnimations(page);
+
       await page.setContent(html);
       await page.click("calcite-combobox");
       await page.waitForChanges();

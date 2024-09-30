@@ -115,6 +115,13 @@ module.exports = {
         ],
       },
     ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector: "AwaitExpression CallExpression[callee.name='skipAnimations']",
+        message: "Do not use `skipAnimations` directly. Use the local `newE2EPage` util instead, which disables animations by default.",
+      }
+    ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
     "react/forbid-component-props": [
