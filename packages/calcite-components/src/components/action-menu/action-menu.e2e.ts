@@ -108,8 +108,6 @@ describe("calcite-action-menu", () => {
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>`);
 
-    await page.waitForChanges();
-
     const clickSpy = await page.spyOnEvent("calciteActionMenuOpen");
 
     const actionMenu = await page.find("calcite-action-menu");
@@ -146,8 +144,6 @@ describe("calcite-action-menu", () => {
         <button id="outside">outside</button>
         </div>`);
 
-    await page.waitForChanges();
-
     const actionMenu = await page.find("calcite-action-menu");
 
     const popover = await page.find("calcite-action-menu >>> calcite-popover");
@@ -178,8 +174,6 @@ describe("calcite-action-menu", () => {
         <div>
         <button id="outside">outside</button>
         </div>`);
-
-    await page.waitForChanges();
 
     const actionMenu = await page.find("calcite-action-menu");
 
@@ -241,8 +235,6 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu> `,
       );
 
-      await page.waitForChanges();
-
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
@@ -281,8 +273,6 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu> `,
       );
 
-      await page.waitForChanges();
-
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
@@ -319,8 +309,6 @@ describe("calcite-action-menu", () => {
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
         </calcite-action-menu> `,
       );
-
-      await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
@@ -359,8 +347,6 @@ describe("calcite-action-menu", () => {
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
         </calcite-action-menu> `,
       );
-
-      await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
@@ -422,8 +408,6 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu> `,
       );
 
-      await page.waitForChanges();
-
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
 
@@ -455,8 +439,6 @@ describe("calcite-action-menu", () => {
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
         </calcite-action-menu> `,
       );
-
-      await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
@@ -491,8 +473,6 @@ describe("calcite-action-menu", () => {
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
         </calcite-action-menu> `,
       );
-
-      await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");

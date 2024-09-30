@@ -462,8 +462,6 @@ describe("calcite-stepper", () => {
 
       const page = await newE2EPage(templateHTML);
 
-      await page.waitForChanges();
-
       const finalSelectedItem = await page.evaluate(async (templateHTML: string): Promise<string> => {
         const wrapperName = "test-calcite-stepper";
 

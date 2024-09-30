@@ -760,8 +760,6 @@ describe("calcite-carousel", () => {
       <calcite-carousel-item label="Carousel Item 2" id="two"><p>next/prev behavior</p></calcite-carousel-item>
     </calcite-carousel>`);
 
-      await page.waitForChanges();
-
       const carousel = await page.find("calcite-carousel");
       let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("one");

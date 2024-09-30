@@ -367,7 +367,6 @@ describe("calcite-slider", () => {
 
     it("should focus the min thumb when clicked on track close to minValue", async () => {
       const page = await newE2EPage(`${sliderForThumbFocusTests}`);
-      await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
@@ -387,7 +386,6 @@ describe("calcite-slider", () => {
 
     it("should focus the max thumb when clicked on track close to maxValue", async () => {
       const page = await newE2EPage(`${sliderForThumbFocusTests}`);
-      await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
@@ -407,7 +405,6 @@ describe("calcite-slider", () => {
 
     it("should focus the max thumb when clicked on middle of the track", async () => {
       const page = await newE2EPage(`${sliderForThumbFocusTests}`);
-      await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
@@ -431,7 +428,6 @@ describe("calcite-slider", () => {
       const page = await newE2EPage(
         `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       );
-      await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
@@ -453,7 +449,6 @@ describe("calcite-slider", () => {
       const page = await newE2EPage(
         `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       );
-      await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
@@ -479,8 +474,6 @@ describe("calcite-slider", () => {
       const page = await newE2EPage(
         `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       );
-      await page.waitForChanges();
-
       const slider = await page.find("calcite-slider");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
@@ -508,8 +501,6 @@ describe("calcite-slider", () => {
       const page = await newE2EPage(
         `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       );
-      await page.waitForChanges();
-
       const slider = await page.find("calcite-slider");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
@@ -537,8 +528,6 @@ describe("calcite-slider", () => {
       const page = await newE2EPage(
         `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       );
-      await page.waitForChanges();
-
       const slider = await page.find("calcite-slider");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
@@ -563,7 +552,6 @@ describe("calcite-slider", () => {
       const page = await newE2EPage(
         `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       );
-      await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
@@ -632,8 +620,6 @@ describe("calcite-slider", () => {
           step="1"
         >
         </calcite-slider>`);
-      await page.waitForChanges();
-
       const thumbRect = await getElementRect(page, "calcite-slider", ".thumb");
 
       await page.mouse.move(thumbRect.x, thumbRect.y);

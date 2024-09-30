@@ -267,8 +267,6 @@ describe("calcite-tabs", () => {
       </calcite-tabs>
     `);
 
-    await page.waitForChanges();
-
     const kidB = await page.find("#kidB");
     await kidB.click();
     await page.waitForChanges();

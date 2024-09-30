@@ -1122,8 +1122,6 @@ describe("calcite-dialog", () => {
           <calcite-panel closable heading="test"></calcite-panel>
         </calcite-dialog>`,
       );
-      await page.waitForChanges();
-
       const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);
 
       await closeButton.click();

@@ -99,8 +99,6 @@ describe("calcite-tip-manager", () => {
       <calcite-tip id="two"><p>next/prev behavior</p></calcite-tip>
     </calcite-tip-manager>`);
 
-      await page.waitForChanges();
-
       const tipManager = await page.find("calcite-tip-manager");
 
       let selectedTip = await tipManager.find(`calcite-tip[selected]`);
@@ -145,8 +143,6 @@ describe("calcite-tip-manager", () => {
       </calcite-tip-group>
       <calcite-tip><p>default title</p></calcite-tip>
     </calcite-tip-manager>`);
-
-      await page.waitForChanges();
 
       const title = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
       expect(title.innerText).toBe(sharedTitle);

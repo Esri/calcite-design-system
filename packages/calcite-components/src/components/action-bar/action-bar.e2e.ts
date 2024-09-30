@@ -121,7 +121,6 @@ describe("calcite-action-bar", () => {
           </calcite-action-group>
         </calcite-action-bar>`,
       );
-      await page.waitForChanges();
       const actionBar = await page.find("calcite-action-bar");
       const actionBarAction = await page.find("#my-action");
       const menuAction = await page.find("#menu-action");

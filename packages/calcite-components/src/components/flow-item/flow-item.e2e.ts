@@ -353,8 +353,6 @@ describe("calcite-flow-item", () => {
         </calcite-alert>
       </calcite-flow-item>`,
     );
-    await page.waitForChanges();
-
     const alert = await page.find("calcite-alert");
 
     expect(await alert.getProperty("embedded")).toBe(true);
@@ -366,8 +364,6 @@ describe("calcite-flow-item", () => {
         <calcite-panel closable heading="test"></calcite-panel>
       </calcite-flow-item>`,
     );
-    await page.waitForChanges();
-
     const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);
 
     await closeButton.click();

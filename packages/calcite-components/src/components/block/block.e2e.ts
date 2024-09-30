@@ -163,8 +163,6 @@ describe("calcite-block", () => {
         </calcite-block>
     `);
 
-    await page.waitForChanges();
-
     expect(await page.find("calcite-block >>> calcite-scrim")).toBeNull();
 
     const content = await page.find(".content");

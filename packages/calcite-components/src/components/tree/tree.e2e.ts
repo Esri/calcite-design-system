@@ -288,7 +288,6 @@ describe("calcite-tree", () => {
         </calcite-tree>`,
       );
 
-      await page.waitForChanges();
       const tree = await page.find("calcite-tree");
       const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
       const grandchildOne = await page.find("#grandchild-one");

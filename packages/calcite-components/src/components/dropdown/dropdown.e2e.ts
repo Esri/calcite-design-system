@@ -1130,8 +1130,6 @@ describe("calcite-dropdown", () => {
         </calcite-tab>
       </calcite-tabs>`,
     );
-    await page.waitForChanges();
-
     const button = await page.find("calcite-button");
 
     await button.click();
@@ -1162,8 +1160,6 @@ describe("calcite-dropdown", () => {
         </calcite-pick-list>
       </calcite-panel>`,
     );
-    await page.waitForChanges();
-
     const dropdownContentHeight = await (
       await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper")
     ).getComputedStyle();

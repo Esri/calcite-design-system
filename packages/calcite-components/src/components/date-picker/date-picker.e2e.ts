@@ -283,7 +283,6 @@ describe("calcite-date-picker", () => {
       const page = await newE2EPage(
         `<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`,
       );
-      await page.waitForChanges();
       const text: string = await page.evaluate(
         () =>
           document

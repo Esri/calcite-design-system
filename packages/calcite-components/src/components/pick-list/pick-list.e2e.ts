@@ -203,8 +203,6 @@ describe("calcite-pick-list", () => {
       </calcite-pick-list-group>
     </calcite-pick-list>`);
 
-    await page.waitForChanges();
-
     const pickList = await page.find("calcite-pick-list");
 
     expect(await pickList.getProperty("headingLevel")).toEqual(1);

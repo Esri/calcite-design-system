@@ -149,8 +149,6 @@ describe("calcite-list-item", () => {
       `<calcite-list-item label="test" description="test"><div slot="content">My custom content</div></calcite-list-item>`,
     );
 
-    await page.waitForChanges();
-
     const contentNode = await page.find(`calcite-list-item >>> .${CSS.content}`);
 
     expect(contentNode).toBeNull();
@@ -164,8 +162,6 @@ describe("calcite-list-item", () => {
     const page = await newE2EPage(
       `<calcite-list-item selection-mode="single" label="hello" description="world" active></calcite-list-item>`,
     );
-
-    await page.waitForChanges();
 
     const container = await page.find(`calcite-list-item >>> .${CSS.container}`);
 
@@ -220,8 +216,6 @@ describe("calcite-list-item", () => {
       `<calcite-list-item selection-mode="single" label="hello" description="world"></calcite-list-item>`,
     );
 
-    await page.waitForChanges();
-
     const contentContainer = await page.find(`calcite-list-item >>> .${CSS.contentContainer}`);
 
     const eventSpy = await page.spyOnEvent("calciteListItemSelect");
@@ -236,8 +230,6 @@ describe("calcite-list-item", () => {
       `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`,
     );
 
-    await page.waitForChanges();
-
     const contentContainer = await page.find(`calcite-list-item >>> .${CSS.contentContainer}`);
 
     const eventSpy = await page.spyOnEvent("calciteListItemSelect");
@@ -251,8 +243,6 @@ describe("calcite-list-item", () => {
     const page = await newE2EPage(`<calcite-list-item selection-mode="single" label="hello" description="world">
       <div slot="content">Hi</div>
       </calcite-list-item>`);
-
-    await page.waitForChanges();
 
     await page.$eval("div", (div: HTMLDivElement) => {
       div.addEventListener("click", (event) => event.preventDefault());
@@ -274,8 +264,6 @@ describe("calcite-list-item", () => {
     const page = await newE2EPage(
       `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`,
     );
-
-    await page.waitForChanges();
 
     const contentContainer = await page.find(`calcite-list-item >>> .${CSS.contentContainer}`);
 
