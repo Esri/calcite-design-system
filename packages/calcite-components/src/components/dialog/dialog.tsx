@@ -242,7 +242,6 @@ export class Dialog
         },
       },
     });
-    connectFocusTrap(this);
     this.setupInteractions();
   }
 
