@@ -8,6 +8,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
 } from "@stencil/core";
 import {
@@ -18,7 +19,7 @@ import {
 import {
   closestElementCrossShadowBoundary,
   getElementDir,
-  getSlotted,
+  slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -141,21 +142,19 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   // --------------------------------------------------------------------------
 
   renderActionsStart(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsStart) ? (
-      <div class={CSS.actionsStart}>
-        <slot name={SLOTS.actionsStart} />
+    return (
+      <div class={CSS.actionsStart} hidden={!this.hasActionsStart}>
+        <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   renderActionsEnd(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsEnd) ? (
-      <div class={CSS.actionsEnd}>
-        <slot name={SLOTS.actionsEnd} />
+    return (
+      <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -302,6 +301,10 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   private headerEl: HTMLDivElement;
 
+  @State() hasActionsStart = false;
+
+  @State() hasActionsEnd = false;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -320,6 +323,14 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private handleActionsStartSlotChange = (event: Event): void => {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
+  };
+
+  private handleActionsEndSlotChange = (event: Event): void => {
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+  };
 
   private storeHeaderEl = (el: HTMLDivElement): void => {
     this.headerEl = el;
