@@ -12,11 +12,6 @@ import {
   VNode,
 } from "@stencil/core";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   closestElementCrossShadowBoundary,
   getElementDir,
   slotChangeHasAssignedElement,
@@ -45,7 +40,7 @@ import { RequestedItem } from "./interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true,
 })
-export class AccordionItem implements ConditionalSlotComponent, LoadableComponent {
+export class AccordionItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -119,20 +114,12 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------
