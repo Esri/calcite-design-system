@@ -48,13 +48,9 @@ module.exports = async ({ github, context, core }) => {
         }
 
         for (const label of issue.labels) {
-          if (typeof label === "string" || !label?.name) {
-            continue;
-          }
+          const estimateLabelMatch = (typeof label === "string" ? label : label?.name)?.match(/estimate - (\d+)/);
 
-          const estimateLabelMatch = label.name.match(/estimate - (\d+)/);
-
-          if (estimateLabelMatch && estimateLabelMatch?.length > 1) {
+          if (estimateLabelMatch?.length > 1) {
             outputJson[milestone.number][issue.state === "open" ? "remaining_estimate" : "completed_estimate"] +=
               Number.parseInt(estimateLabelMatch[1]);
 
@@ -69,7 +65,7 @@ module.exports = async ({ github, context, core }) => {
     const stringifiedOutputJson = JSON.stringify(outputJson, null, 2);
 
     core.debug(`JSON Output:\n${stringifiedOutputJson}`);
-    core.debug(`\nCSV Output:\n${outputCsv}`);
+    core.debug(`CSV Output:\n${outputCsv}`);
 
     await writeFile("./milestone-estimates.csv", outputCsv);
     await writeFile("./milestone-estimates.json", stringifiedOutputJson);
