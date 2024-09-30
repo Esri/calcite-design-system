@@ -326,8 +326,8 @@ export const rangeWithMaxBeforeCurrentDate = (): string => html`
   </div>
 `;
 
-export const focus = (): string =>
-  html`<calcite-input-date-picker value="2020-01-01"></calcite-input-date-picker>
+export const Focus = (): string =>
+  html`<calcite-input-date-picker></calcite-input-date-picker>
     <script>
       (async () => {
         await customElements.whenDefined("calcite-input-date-picker");

@@ -96,9 +96,9 @@ export const rangeValuesNotInSameMonthAndYear_TestOnly = (): string => html`
   </script>
 `;
 
-export const Focus_TestOnly = (): string => html`
+export const Focus = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker range></calcite-date-picker>
+    <calcite-date-picker value="2020-01-01"></calcite-date-picker>
   </div>
   <script>
     (async () => {
@@ -109,7 +109,7 @@ export const Focus_TestOnly = (): string => html`
   </script>
 `;
 
-Focus_TestOnly.parameters = {
+Focus.parameters = {
   chromatic: { delay: 2000 },
 };
 
