@@ -11,11 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
 import { focusFirstTabbable, toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -66,7 +61,6 @@ import { BlockMessages } from "./assets/block/t9n";
 })
 export class Block
   implements
-    ConditionalSlotComponent,
     InteractiveComponent,
     LocalizedComponent,
     T9nComponent,
@@ -249,7 +243,6 @@ export class Block
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
 
@@ -259,7 +252,6 @@ export class Block
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectConditionalSlotComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -376,16 +368,15 @@ export class Block
 
   private renderActionsEnd(): VNode {
     return (
-      <div class={CSS.actionsEnd}>
+      <div class={CSS.actionsEnd} hidden={!this.hasEndActions}>
         <slot name={SLOTS.actionsEnd} onSlotchange={this.actionsEndSlotChangeHandler} />
       </div>
     );
   }
 
   private renderContentStart(): VNode {
-    const { hasContentStart } = this;
     return (
-      <div class={CSS.contentStart} hidden={!hasContentStart}>
+      <div class={CSS.contentStart} hidden={!this.hasContentStart}>
         <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
       </div>
     );
@@ -485,22 +476,18 @@ export class Block
         ) : (
           headerContent
         )}
-        {
-          <div aria-labelledby={IDS.header} class={CSS.controlContainer} hidden={!this.hasControl}>
-            <slot name={SLOTS.control} onSlotchange={this.controlSlotChangeHandler} />
-          </div>
-        }
-        {
-          <calcite-action-menu
-            flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
-            hidden={!this.hasMenuActions}
-            label={messages.options}
-            overlayPositioning={this.overlayPositioning}
-            placement={menuPlacement}
-          >
-            <slot name={SLOTS.headerMenuActions} onSlotchange={this.menuActionsSlotChangeHandler} />
-          </calcite-action-menu>
-        }
+        <div aria-labelledby={IDS.header} class={CSS.controlContainer} hidden={!this.hasControl}>
+          <slot name={SLOTS.control} onSlotchange={this.controlSlotChangeHandler} />
+        </div>
+        <calcite-action-menu
+          flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
+          hidden={!this.hasMenuActions}
+          label={messages.options}
+          overlayPositioning={this.overlayPositioning}
+          placement={menuPlacement}
+        >
+          <slot name={SLOTS.headerMenuActions} onSlotchange={this.menuActionsSlotChangeHandler} />
+        </calcite-action-menu>
         {this.renderActionsEnd()}
       </div>
     );

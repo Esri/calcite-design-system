@@ -186,26 +186,25 @@ describe("calcite-block", () => {
 
   it("can display/hide content", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-block><div>some content</div></calcite-block>");
-    let element = await page.find("calcite-block");
-    let content = await page.find(`calcite-block >>> .${CSS.content}`);
+    await page.setContent(
+      html`<calcite-block heading="heading" description="description"><div>Hello world!</div></calcite-block>`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
 
+    const element = await page.find("calcite-block");
+    const content = await page.find(`calcite-block >>> section.${CSS.content}`);
+    expect(content).not.toBeNull();
+    expect(await element.getProperty("open")).toBe(false);
     expect(await content.isVisible()).toBe(false);
 
     element.setProperty("open", true);
     await page.waitForChanges();
-    element = await page.find("calcite-block[open]");
-    content = await page.find(`calcite-block >>> .${CSS.content}`);
-
-    expect(element).toBeTruthy();
     expect(await content.isVisible()).toBe(true);
 
     element.setProperty("open", false);
     await page.waitForChanges();
-    element = await page.find("calcite-block[open]");
-    content = await page.find(`calcite-block >>> .${CSS.content}`);
 
-    expect(element).toBeNull();
     expect(await content.isVisible()).toBe(false);
   });
 
