@@ -163,7 +163,6 @@ export class ComboboxItem implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    // todo: refactor: if grandparent is removed, this will not update
     this.ancestors = getAncestors(this.el);
   }
 
