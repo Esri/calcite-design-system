@@ -7,10 +7,12 @@ import { skipAnimations } from "../utils";
  *
  * @param testHtml
  * @param beforeContent
+ * @param allowAnimations
  */
 export async function newE2EPage(
   testHtml?: string,
   beforeContent?: (page: E2EPage) => Promise<void>,
+  allowAnimations = false,
 ): Promise<E2EPage> {
   const page = await newStencilE2EPage({
     failOnConsoleError: true,
@@ -21,6 +23,9 @@ export async function newE2EPage(
     await page.setContent(testHtml);
   }
 
-  await skipAnimations(page);
+  if (!allowAnimations) {
+    await skipAnimations(page);
+  }
+
   return page;
 }
