@@ -18,6 +18,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: milestone-estimates
-          path: .github/milestone-estimates.*
-          if-no-files-found: error
-          overwrite: true
+          path: milestone-estimates.*
