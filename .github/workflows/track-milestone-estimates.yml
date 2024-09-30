@@ -1,19 +1,23 @@
 name: Track Milestone Estimates
 on:
   workflow_dispatch:
+  issues:
+    types: [closed]
 jobs:
   estimates:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Create estimates data
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/trackMilestoneEstimates.js')
             await action({github, context, core})
-      - name: Archive estimate artifacts
+      - name: Upload estimates data
         uses: actions/upload-artifact@v4
         with:
           name: milestone-estimates
-          path: .github/milestone-estimates.json
+          path: .github/milestone-estimates.*
+          if-no-files-found: error
+          overwrite: true

@@ -1,59 +1,73 @@
+// @ts-check
+const { resolve } = require("path");
 const { writeFile } = require("fs/promises");
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
-  const outputData = {};
-  const outputPath = resolve(__dirname, "..", "milestone-estimates.json");
+  const { repo, owner } = context.repo;
+
+  const outputJson = {};
+  let outputCsv = "id,title,open_issues,closed_issues,due_on,description,remaining_estimate,completed_estimate";
+
+  const outputJsonPath = resolve(__dirname, "..", "milestone-estimates.json");
+  const outputCsvPath = resolve(__dirname, "..", "milestone-estimates.csv");
 
   try {
     const milestones = await github.rest.issues.listMilestones({
-      owner: repoOwner,
-      repo: repoName,
-      state: "closed",
+      owner: owner,
+      repo: repo,
+      state: "all",
       sort: "due_on",
-      per_page: 1,
+      per_page: 100,
       direction: "desc",
     });
 
     if (milestones.data.length === 0) {
-      console.error("No closed milestones found.");
+      console.error("No milestones found.");
       process.exit(1);
     }
 
-    const milestone = milestones.data[0];
+    for (const milestone of milestones.data) {
+      outputJson[milestone.number] = {
+        title: milestone.title,
+        due_on: milestone.due_on,
+        open_issues: milestone.open_issues,
+        closed_issues: milestone.closed_issues,
+        remaining_estimate: 0,
+        completed_estimate: 0,
+      };
 
-    outputData[milestone.number] = {
-      due_on: milestone.due_on,
-      title: milestone.title,
-      description: milestone.description,
-      open_issues: milestone.open_issues,
-      closed_issues: milestone.closed_issues,
-      issues_with_estimate: 0,
-      effort_estimate: 0,
-    };
+      const issues = await github.paginate(github.rest.issues.listForRepo, {
+        owner: owner,
+        repo: repo,
+        milestone: milestone.number,
+        state: "all",
+        per_page: 100,
+      });
 
-    const issues = await github.rest.issues.listForRepo({
-      owner: repoOwner,
-      repo: repoName,
-      milestone: milestone.number,
-      state: "closed",
-      per_page: 100,
-    });
+      for (const issue of issues) {
+        if (issue.pull_request) {
+          continue;
+        }
 
-    for (const issue of issues.data) {
-      if ("pull_request" in issue) {
-        continue;
-      }
+        for (const label of issue.labels) {
+          const estimateLabelMatch = label.name.match(/estimate \- (\d+)/);
 
-      for (const label of issue.labels) {
-        if (label.name.match(/estimate/)) {
-          outputData[milestone.number].issues_with_estimate++;
-          outputData[milestone.number].effort_estimate += Number.parseInt(label.name.replace(/\D/g, ""));
-          break;
+          if (estimateLabelMatch?.length > 1) {
+            outputJson[milestone.number][issue.state === "open" ? "remaining_estimate" : "completed_estimate"] +=
+              Number.parseInt(estimateLabelMatch[1]);
+
+            break; // assumes an issue will only have one estimate label
+          }
         }
       }
+
+      outputCsv = `${outputCsv}\n${milestone.number},${Object.values(outputJson[milestone.number]).join(",")}`;
     }
 
-    await writeFile(outputPath, JSON.stringify(outputData, null, 2));
+    await writeFile(outputCsvPath, outputCsv);
+    await writeFile(outputJsonPath, JSON.stringify(outputJson, null, 2));
+
     process.exit(0);
   } catch (error) {
     console.error(error);
