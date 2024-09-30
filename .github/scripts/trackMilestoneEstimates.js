@@ -7,7 +7,7 @@ module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
 
   const outputJson = {};
-  let outputCsv = "id,title,open_issues,closed_issues,due_on,description,remaining_estimate,completed_estimate";
+  let outputCsv = "id,title,due_on,open_issues,closed_issues,remaining_estimate,completed_estimate";
 
   const outputJsonPath = resolve(__dirname, "..", "milestone-estimates.json");
   const outputCsvPath = resolve(__dirname, "..", "milestone-estimates.csv");
@@ -38,9 +38,10 @@ module.exports = async ({ github, context }) => {
       };
 
       const issues = await github.paginate(github.rest.issues.listForRepo, {
+        // @ts-ignore milestone.number is valid: https://docs.github.com/en/rest/issues/issues#list-repository-issues--parameters
+        milestone: milestone.number,
         owner: owner,
         repo: repo,
-        milestone: milestone.number,
         state: "all",
         per_page: 100,
       });
@@ -51,9 +52,13 @@ module.exports = async ({ github, context }) => {
         }
 
         for (const label of issue.labels) {
-          const estimateLabelMatch = label.name.match(/estimate \- (\d+)/);
+          if (typeof label === "string" || !label?.name) {
+            continue;
+          }
 
-          if (estimateLabelMatch?.length > 1) {
+          const estimateLabelMatch = label.name.match(/estimate - (\d+)/);
+
+          if (estimateLabelMatch && estimateLabelMatch?.length > 1) {
             outputJson[milestone.number][issue.state === "open" ? "remaining_estimate" : "completed_estimate"] +=
               Number.parseInt(estimateLabelMatch[1]);
 
