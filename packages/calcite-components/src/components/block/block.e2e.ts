@@ -190,11 +190,9 @@ describe("calcite-block", () => {
       html`<calcite-block heading="heading" description="description"><div>Hello world!</div></calcite-block>`,
     );
     await skipAnimations(page);
-    await page.waitForChanges();
 
     const element = await page.find("calcite-block");
     const content = await page.find(`calcite-block >>> #${IDS.content}`);
-    expect(content).not.toBeNull();
     expect(await element.getProperty("open")).toBe(false);
     expect(await content.isVisible()).toBe(false);
 
