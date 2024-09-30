@@ -16,7 +16,7 @@ import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   describe("renders", () => {
@@ -193,7 +193,7 @@ describe("calcite-block", () => {
     await page.waitForChanges();
 
     const element = await page.find("calcite-block");
-    const content = await page.find(`calcite-block >>> section.${CSS.content}`);
+    const content = await page.find(`calcite-block >>> #${IDS.content}`);
     expect(content).not.toBeNull();
     expect(await element.getProperty("open")).toBe(false);
     expect(await content.isVisible()).toBe(false);
