@@ -1,5 +1,5 @@
 import { E2EElement } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";

@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { renders, hidden } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils";
 import { html } from "../../../support/formatting";

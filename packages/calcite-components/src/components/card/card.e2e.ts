@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, renders, slots, hidden, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";

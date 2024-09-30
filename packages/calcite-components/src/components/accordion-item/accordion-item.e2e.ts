@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, renders, slots, hidden, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";

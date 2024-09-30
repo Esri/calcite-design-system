@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";

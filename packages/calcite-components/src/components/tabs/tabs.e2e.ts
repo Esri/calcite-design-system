@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";

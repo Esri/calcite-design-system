@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { BoundingBox } from "puppeteer";
 import type { JSX } from "../components";
-import { newE2EPage } from "./utils/e2e";
+import { newE2EPage } from "./utils/e2e-setup";
 import { ComponentTag } from "./commonTests/interfaces";
 
 /**

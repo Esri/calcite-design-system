@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 

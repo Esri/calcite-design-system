@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {

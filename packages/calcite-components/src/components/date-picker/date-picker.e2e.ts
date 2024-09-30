@@ -1,5 +1,5 @@
 import { E2EPage } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";

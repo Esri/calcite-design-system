@@ -1,5 +1,5 @@
 import { E2EPage } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { CSS as PICK_LIST_ITEM_CSS, SLOTS } from "../pick-list-item/resources";
 import { accessible, disabled, focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";

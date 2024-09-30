@@ -1,5 +1,5 @@
 import { E2EPage, E2EElement } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import {
   accessible,
   defaults,

@@ -1,5 +1,5 @@
 import { E2EPage } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";

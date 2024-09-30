@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, disabled, reflects, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { createSelectedItemsAsserter, isElementFocused } from "../../tests/utils";

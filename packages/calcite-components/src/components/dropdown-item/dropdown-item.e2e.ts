@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
 
 describe("calcite-dropdown-item", () => {

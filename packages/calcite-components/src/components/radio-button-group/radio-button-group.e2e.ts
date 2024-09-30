@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils";

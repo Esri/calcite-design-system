@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { KeyInput } from "puppeteer";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import {
   defaults,

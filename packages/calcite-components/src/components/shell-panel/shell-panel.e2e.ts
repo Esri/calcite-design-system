@@ -1,5 +1,5 @@
 import { E2EElement } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";

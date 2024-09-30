@@ -1,5 +1,5 @@
 import { E2EPage } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";

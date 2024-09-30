@@ -1,5 +1,5 @@
 import { E2EPage, E2EElement } from "@stencil/core/testing";
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";

@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";

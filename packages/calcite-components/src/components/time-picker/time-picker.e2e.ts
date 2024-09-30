@@ -1,4 +1,4 @@
-import { newE2EPage } from "../../tests/utils/e2e";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils";

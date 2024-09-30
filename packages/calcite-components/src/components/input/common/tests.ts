@@ -1,6 +1,6 @@
 /* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
 
-import { newE2EPage } from "../../../tests/utils/e2e";
+import { newE2EPage } from "../../../tests/utils/e2e-setup";
 import { isElementFocused } from "../../../tests/utils";
 import { hiddenFormInputSlotName } from "../../../utils/form";
 import { html } from "../../../../support/formatting";

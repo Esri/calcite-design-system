@@ -1,5 +1,5 @@
 import { html } from "../../support/formatting";
-import { newE2EPage } from "./utils/e2e";
+import { newE2EPage } from "./utils/e2e-setup";
 describe("global styles", () => {
   describe("animation", () => {
     const snippet = `<calcite-notice width="half" id="in" class="calcite-animate ">
