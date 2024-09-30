@@ -24,7 +24,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -130,8 +129,6 @@ export class InlineEditable
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.mutationObserverCallback();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -147,7 +144,6 @@ export class InlineEditable
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.mutationObserver?.disconnect();
   }
 
   componentDidRender(): void {
@@ -274,8 +270,6 @@ export class InlineEditable
 
   labelEl: HTMLCalciteLabelElement;
 
-  mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
-
   @State() defaultMessages: InlineEditableMessages;
 
   @State() effectiveLocale: string;
@@ -318,11 +312,8 @@ export class InlineEditable
 
     inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
-  };
-
-  mutationObserverCallback(): void {
     this.scale = this.scale || this.inputElement?.scale;
-  }
+  };
 
   onLabelClick(): void {
     this.setFocus();
