@@ -29,12 +29,12 @@ import {
 } from "../../utils/t9n";
 import {
   formatTimePart,
-  getLocaleHourCycle,
+  getLocaleHourFormat,
   getLocalizedDecimalSeparator,
   getLocalizedTimePartSuffix,
   getMeridiem,
   getMeridiemOrder,
-  HourCycle,
+  HourFormat,
   isValidTime,
   localizeTimePart,
   localizeTimeStringToParts,
@@ -52,6 +52,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { decimalPlaces, getDecimals } from "../../utils/math";
+import { getElementDir } from "../../utils/dom";
 import { CSS } from "./resources";
 import { TimePickerMessages } from "./assets/time-picker/t9n";
 
@@ -75,6 +76,14 @@ export class TimePicker
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /** Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting. */
+  @Prop({ reflect: true, mutable: true }) hourFormat: HourFormat;
+
+  @Watch("hourFormat")
+  hourFormatWatcher(): void {
+    this.setValue(this.value);
+  }
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -161,8 +170,6 @@ export class TimePicker
 
   @State() hour: string;
 
-  @State() hourCycle: HourCycle;
-
   @State() localizedDecimalSeparator = ".";
 
   @State() localizedHour: string;
@@ -242,7 +249,7 @@ export class TimePicker
             if (this.step !== 60) {
               this.focusPart("second");
               event.preventDefault();
-            } else if (this.hourCycle === "12") {
+            } else if (this.hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -258,7 +265,7 @@ export class TimePicker
           case "ArrowRight":
             if (this.showFractionalSecond) {
               this.focusPart("fractionalSecond");
-            } else if (this.hourCycle === "12") {
+            } else if (this.hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -272,7 +279,7 @@ export class TimePicker
             event.preventDefault();
             break;
           case "ArrowRight":
-            if (this.hourCycle === "12") {
+            if (this.hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -331,7 +338,7 @@ export class TimePicker
   }
 
   private decrementHour = (): void => {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    const newHour = !this.hour ? 0 : parseInt(this.hour) === 0 ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
   };
 
@@ -430,7 +437,7 @@ export class TimePicker
       const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.hour)) {
-        switch (this.hourCycle) {
+        switch (this.hourFormat) {
           case "12":
             newHour =
               this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
@@ -709,7 +716,7 @@ export class TimePicker
   private setValue = (value: string): void => {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-      const { effectiveLocale: locale, numberingSystem } = this;
+      const { effectiveLocale: locale, numberingSystem, hourFormat } = this;
       const {
         localizedHour,
         localizedHourSuffix,
@@ -720,7 +727,12 @@ export class TimePicker
         localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
-      } = localizeTimeStringToParts({ value, locale, numberingSystem });
+      } = localizeTimeStringToParts({
+        value,
+        locale,
+        numberingSystem,
+        hour12: hourFormat === "12",
+      });
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -775,7 +787,7 @@ export class TimePicker
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value: number | string | Meridiem,
   ): void => {
-    const { effectiveLocale: locale, numberingSystem } = this;
+    const { effectiveLocale: locale, hourFormat, numberingSystem } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -840,8 +852,12 @@ export class TimePicker
     }
     this.value = newValue;
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
-          ?.localizedMeridiem || null
+      ? localizeTimeStringToParts({
+          hour12: hourFormat === "12",
+          locale,
+          numberingSystem,
+          value: this.value,
+        })?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
       this.calciteInternalTimePickerChange.emit();
@@ -855,7 +871,9 @@ export class TimePicker
 
   private updateLocale() {
     updateMessages(this, this.effectiveLocale);
-    this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
+    if (!this.hourFormat) {
+      this.hourFormat = getLocaleHourFormat(this.effectiveLocale);
+    }
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.effectiveLocale,
       this.numberingSystem,
@@ -872,7 +890,6 @@ export class TimePicker
 
   connectedCallback() {
     connectLocalized(this);
-    this.updateLocale();
     connectMessages(this);
     this.toggleSecond();
   }
@@ -903,7 +920,7 @@ export class TimePicker
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
-    const showMeridiem = this.hourCycle === "12";
+    const showMeridiem = this.hourFormat === "12";
     return (
       <div
         class={{
@@ -1108,7 +1125,7 @@ export class TimePicker
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0,
+              [CSS.meridiemStart]: this.meridiemOrder === 0 || getElementDir(this.el) === "rtl",
             }}
             role="group"
           >
