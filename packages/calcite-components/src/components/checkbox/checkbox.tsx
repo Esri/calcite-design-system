@@ -189,14 +189,6 @@ export class Checkbox
     }
   };
 
-  clickHandler = (): void => {
-    if (this.disabled) {
-      return;
-    }
-
-    this.toggle();
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -277,7 +269,7 @@ export class Checkbox
     const rtl = getElementDir(this.el) === "rtl";
 
     return (
-      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.toggle} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-checked={toAriaBoolean(this.checked)}

@@ -63,7 +63,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
 
   @Watch("selectionMode")
   onSelectionModeChange(): void {
-    this.udpateItemsOnSelectionModeChange();
+    this.updateItemsOnSelectionModeChange();
   }
 
   /**
@@ -169,7 +169,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private udpateItemsOnSelectionModeChange = (): void => {
+  private updateItemsOnSelectionModeChange = (): void => {
     this.updateSlottedItems(this.slotRefEl);
     this.updateSelectedItems();
   };
@@ -215,7 +215,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
       });
     }
 
-    this.selectedItems = this.items.filter((el) => el.selected);
+    this.selectedItems = this.items.filter((el) => el.selected || el.hasAttribute("selected"));
 
     if (emit && this.selectionMode !== "none" && !this.disabled) {
       this.calciteCardGroupSelect.emit();
