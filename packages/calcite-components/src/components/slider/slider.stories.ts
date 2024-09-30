@@ -90,19 +90,21 @@ export const simpleV = simple["vertical"];
 const range = {};
 for (const l of ["horizontal", "vertical"]) {
   range[l] = (): string => html`
-    <calcite-slider
-      min="0"
-      min-label="Temperature, lower bound"
-      min-value="25"
-      max="100"
-      max-label="Temperature, upper bound"
-      max-value="75"
-      step="1"
-      ticks="20"
-      snap
-      scale="m"
-      layout=${l}
-    ></calcite-slider>
+    <div style="padding-top: 200px; height: 200px">
+      <calcite-slider
+        min="0"
+        min-label="Temperature, lower bound"
+        min-value="25"
+        max="100"
+        max-label="Temperature, upper bound"
+        max-value="75"
+        step="1"
+        ticks="20"
+        snap
+        scale="m"
+        layout=${l}
+      ></calcite-slider>
+    </div>
   `;
 }
 export const rangeH = range["horizontal"];
