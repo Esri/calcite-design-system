@@ -153,7 +153,7 @@ describe("calcite-input-time-zone", () => {
             const page = await newE2EPage(
               html` <calcite-input-time-zone></calcite-input-time-zone>`,
               async (page): Promise<void> => {
-                await page.emulateTimezone(testTimeZoneItems[0].name);
+                await page.emulateTimezone(name);
               },
             );
 
