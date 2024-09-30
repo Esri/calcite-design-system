@@ -21,8 +21,7 @@ describe("calcite-input-message", () => {
   });
 
   it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-input-message></calcite-input-message>
     `);
 
@@ -31,8 +30,7 @@ describe("calcite-input-message", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-input-message status="valid">Text</calcite-input-message>
     `);
 
@@ -41,8 +39,7 @@ describe("calcite-input-message", () => {
   });
 
   it("does not render an icon if not requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-input-message>Text</calcite-input-message>
     `);
 
@@ -51,19 +48,14 @@ describe("calcite-input-message", () => {
   });
 
   describe("when icon prop is provided", () => {
-    let page;
     let element;
     let iconEl;
     let requestedIcon;
 
-    beforeEach(async () => {
-      page = await newE2EPage();
-    });
-
     describe("when it's a boolean type", () => {
       describe("when value is true", () => {
         it("should render the default status icon", async () => {
-          await page.setContent(`
+          const page = await newE2EPage(`
           <calcite-input-message icon>Text</calcite-input-message>
           `);
           iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
@@ -74,7 +66,7 @@ describe("calcite-input-message", () => {
 
         describe("when element status is changed", () => {
           it("should render icon based on new status", async () => {
-            await page.setContent(`
+            const page = await newE2EPage(`
               <calcite-input-message icon status="invalid">An example with icon</calcite-input-message>
             `);
             element = await page.find("calcite-input-message");
@@ -96,8 +88,7 @@ describe("calcite-input-message", () => {
 
       describe("when value is false", () => {
         it("should render no icon", async () => {
-          const page = await newE2EPage();
-          await page.setContent(`
+          const page = await newE2EPage(`
           <calcite-input-message !icon>Text</calcite-input-message>
           `);
           iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
@@ -108,7 +99,7 @@ describe("calcite-input-message", () => {
 
     describe("when it's a string type", () => {
       it("should render the requested custom icon", async () => {
-        await page.setContent("<calcite-input-message icon='banana'>Nah</calcite-input-message>");
+        const page = await newE2EPage("<calcite-input-message icon='banana'>Nah</calcite-input-message>");
         element = await page.find("calcite-input-message");
         iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
         requestedIcon = await iconEl.getAttribute("icon");
@@ -117,7 +108,7 @@ describe("calcite-input-message", () => {
 
       describe("when the icon is changed", () => {
         it("should render the new icon", async () => {
-          await page.setContent("<calcite-input-message icon='information'>More info</calcite-input-message>");
+          const page = await newE2EPage("<calcite-input-message icon='information'>More info</calcite-input-message>");
           element = await page.find("calcite-input-message");
           iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
           requestedIcon = await iconEl.getAttribute("icon");

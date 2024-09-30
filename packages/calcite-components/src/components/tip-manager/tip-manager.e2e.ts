@@ -14,9 +14,7 @@ describe("calcite-tip-manager", () => {
 
   describe("first render", () => {
     it("should render and show the default title", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-tip-manager><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager>`,
       );
       const tipManager = await page.find("calcite-tip-manager");
@@ -46,8 +44,7 @@ describe("calcite-tip-manager", () => {
     });
 
     it("should pre-select the correct tip if the selected attribute is set", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-tip-manager>
           <calcite-tip id="one"><p>no pre-selected attribute</p></calcite-tip>
           <calcite-tip id="two" selected><p>pre-selected and not first</p></calcite-tip>
@@ -164,8 +161,7 @@ describe("calcite-tip-manager", () => {
       expect(defaultTitleNode.innerText).toBe(TEXT.defaultGroupTitle);
     });
     it("pagination should be hidden if there is 1 or fewer tips", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-tip-manager><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager>`,
       );
 
@@ -200,8 +196,7 @@ describe("calcite-tip-manager", () => {
       expect(selectedTip.id).toEqual(newTipId);
     });
     it("should update visible tip if active tip is removed", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-tip-manager>
           <calcite-tip id="one"><p>dynamically adding/removing tips</p></calcite-tip>
           <calcite-tip id="two"><p>dynamically adding/removing tips</p></calcite-tip>
@@ -220,9 +215,7 @@ describe("calcite-tip-manager", () => {
   });
 
   it("should set headingLevel of tip", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-tip-manager heading-level="1">
         <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
       </calcite-tip-manager>`,

@@ -28,9 +28,7 @@ describe("calcite-flow", () => {
   });
 
   it("frame defaults", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-flow></calcite-flow>");
+    const page = await newE2EPage("<calcite-flow></calcite-flow>");
 
     const element = await page.find(`calcite-flow >>> .${CSS.frame}`);
 
@@ -41,9 +39,7 @@ describe("calcite-flow", () => {
 
   describe("works with flow-items", () => {
     it("back() method should remove item", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
+      const page = await newE2EPage(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
       const flow = await page.find("calcite-flow");
 
@@ -57,9 +53,7 @@ describe("calcite-flow", () => {
     });
 
     it("should call setFocus() on back button click", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-flow
           ><calcite-flow-item id="one"></calcite-flow-item><calcite-flow-item id="two"></calcite-flow-item
         ></calcite-flow>`,
@@ -78,14 +72,12 @@ describe("calcite-flow", () => {
     });
 
     it("goes back when item back button is clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-flow show-back-button>
           <calcite-flow-item id="first"></calcite-flow-item>
           <calcite-flow-item id="second"></calcite-flow-item>
         </calcite-flow>`,
       );
-      await page.waitForChanges();
 
       let items = await page.findAll("calcite-flow-item");
 
@@ -104,8 +96,7 @@ describe("calcite-flow", () => {
     });
 
     it("does not go back when item back button is clicked and defaultPrevented", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-flow show-back-button>
           <calcite-flow-item id="first"></calcite-flow-item>
           <calcite-flow-item id="second"></calcite-flow-item>
@@ -135,12 +126,9 @@ describe("calcite-flow", () => {
     });
 
     it("setting 'beforeBack' should be called in 'back()'", async () => {
-      const page = await newE2EPage();
-
+      const page = await newE2EPage(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
       const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
       await page.exposeFunction("beforeBack", mockCallBack);
-
-      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
       expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
 
@@ -160,12 +148,9 @@ describe("calcite-flow", () => {
     });
 
     it("should handle rejected 'beforeBack' promise'", async () => {
-      const page = await newE2EPage();
-
+      const page = await newE2EPage(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
       const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
       await page.exposeFunction("beforeBack", mockCallBack);
-
-      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
       await page.$eval(
         "calcite-flow-item",
@@ -181,11 +166,8 @@ describe("calcite-flow", () => {
     });
 
     it("should not remove flow-item on rejected 'beforeBack' promise'", async () => {
-      const page = await newE2EPage();
-
+      const page = await newE2EPage(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
       await page.exposeFunction("beforeBack", () => Promise.reject());
-
-      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
       expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
 
@@ -203,9 +185,7 @@ describe("calcite-flow", () => {
     });
 
     it("frame advancing should add animation class", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
+      const page = await newE2EPage(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
       const items = await page.findAll("calcite-flow-item");
 
@@ -227,9 +207,7 @@ describe("calcite-flow", () => {
     });
 
     it("frame advancing should add animation class when subtree is modified", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(`<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>`);
+      const page = await newE2EPage(`<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>`);
 
       const element = await page.find("calcite-flow");
 
@@ -249,9 +227,7 @@ describe("calcite-flow", () => {
     });
 
     it("frame retreating should add animation class", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-flow></calcite-flow>");
+      const page = await newE2EPage("<calcite-flow></calcite-flow>");
 
       await page.$eval("calcite-flow", (elm: HTMLElement): void => {
         elm.innerHTML = `
@@ -287,9 +263,7 @@ describe("calcite-flow", () => {
     });
 
     it("frame animation class should not exist if frame count remains the same", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-flow><calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item></calcite-flow>`,
       );
 
@@ -309,9 +283,7 @@ describe("calcite-flow", () => {
     });
 
     it("item properties should be set", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-flow></calcite-flow>");
+      const page = await newE2EPage("<calcite-flow></calcite-flow>");
 
       await page.$eval("calcite-flow", (elm: HTMLElement): void => {
         elm.innerHTML = `
@@ -346,9 +318,7 @@ describe("calcite-flow", () => {
     });
 
     it("should also work with descendant slotted items", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-flow>
           <calcite-flow-item>Assigned item</calcite-flow-item>
           <calcite-flow-item>Assigned item</calcite-flow-item>
@@ -383,8 +353,7 @@ describe("calcite-flow", () => {
   });
 
   it("supports custom flow-items", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-flow custom-item-selectors="custom-flow-item">
         <calcite-flow-item heading="flow-item-1" id="first">
           <p>😃</p>

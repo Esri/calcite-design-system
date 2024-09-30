@@ -51,9 +51,7 @@ describe("calcite-tabs", () => {
   });
 
   it("sets up basic aria attributes", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-tabs>
         <calcite-tab-nav slot="title-group">
           <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
@@ -88,9 +86,7 @@ describe("calcite-tabs", () => {
   });
 
   it("keeps aria attributes in sync across DOM mutations", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-tabs>
         <calcite-tab-nav slot="title-group">
           <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -133,8 +129,9 @@ describe("calcite-tabs", () => {
     const scaleName = scale === "m" ? "default medium" : scale;
 
     it(`should render itself and child tab elements with corresponding scale (${scaleName}) and position (${position})`, async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-tabs scale="${scale}" position="${position}">${tabsContent}</calcite-tabs>`);
+      const page = await newE2EPage(
+        html`<calcite-tabs scale="${scale}" position="${position}">${tabsContent}</calcite-tabs>`,
+      );
       await page.waitForChanges();
 
       const tabs = await page.find("calcite-tabs");
@@ -286,8 +283,7 @@ describe("calcite-tabs", () => {
   });
 
   it("should set selected title when tab change is emitted", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tab-nav slot="title-group">
         <calcite-tab-title tab="boats">Boats</calcite-tab-title>
         <calcite-tab-title selected tab="ships">Ships</calcite-tab-title>
@@ -323,8 +319,7 @@ describe("calcite-tabs", () => {
     let allTabs: E2EElement[];
 
     beforeEach(async (): Promise<void> => {
-      page = await newE2EPage();
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <calcite-tabs>
           <calcite-tab-nav slot="title-group">
             <calcite-tab-title id="tab-title-1" closable>Tab 1 Title</calcite-tab-title>

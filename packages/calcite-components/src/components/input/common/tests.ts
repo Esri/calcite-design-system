@@ -10,10 +10,8 @@ export function testPostValidationFocusing(
   inputTag: Extract<keyof JSX.IntrinsicElements, "calcite-input" | "calcite-input-text" | "calcite-input-number">,
 ): void {
   it("restores focus on invalid input if user continues typing", async () => {
-    const page = await newE2EPage();
     const inputName = "test";
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
         <form>
           <${inputTag} required name="${inputName}"></${inputTag}>
         </form>
@@ -56,8 +54,7 @@ export function testHiddenInputSyncing(
   >,
 ): void {
   it("syncs hidden input with the input component", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <form>
         <${inputTag} name="form-name"></${inputTag}>
       </form>
@@ -123,8 +120,7 @@ export function testWorkaroundForGlobalPropRemoval(
   const testEnterKeyHint = "done";
 
   it("supports global attribute kebab-casing (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
         <${inputTag} autofocus input-mode="${testInputMode}" enter-key-hint="${testEnterKeyHint}"></${inputTag}>
     `);
 
@@ -136,8 +132,7 @@ export function testWorkaroundForGlobalPropRemoval(
   });
 
   it("supports global attribute casing", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
         <${inputTag} autofocus inputmode="${testInputMode}" enterkeyhint="${testEnterKeyHint}"></${inputTag}>
     `);
 
@@ -149,8 +144,7 @@ export function testWorkaroundForGlobalPropRemoval(
   });
 
   it("supports global props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<${inputTag}></${inputTag}>`);
+    const page = await newE2EPage(html`<${inputTag}></${inputTag}>`);
 
     const input = await page.find(inputTag);
     const internalInput = await page.find(`${inputTag} >>> input`);

@@ -19,8 +19,7 @@ describe("calcite-graph", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent("<calcite-graph></calcite-graph>");
+      page = await newE2EPage("<calcite-graph></calcite-graph>");
       await page.$eval("calcite-graph", (el: HTMLCalciteGraphElement) => {
         el.data = [
           [0, 4],
@@ -46,8 +45,7 @@ describe("calcite-graph", () => {
   });
 
   it("draws an area graph", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-graph style="height:100px; width:300px;"></calcite-graph>`);
+    const page = await newE2EPage(`<calcite-graph style="height:100px; width:300px;"></calcite-graph>`);
     await page.$eval("calcite-graph", (elm: any) => {
       elm.data = [
         [0, 4],
@@ -65,8 +63,7 @@ describe("calcite-graph", () => {
   });
 
   it("uses color-stops when provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-graph></calcite-graph>`);
+    const page = await newE2EPage(`<calcite-graph></calcite-graph>`);
     await page.$eval("calcite-graph", (elm: any) => {
       elm.data = [
         [0, 4],

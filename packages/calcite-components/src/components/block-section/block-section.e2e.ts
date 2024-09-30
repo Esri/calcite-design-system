@@ -88,8 +88,9 @@ describe("calcite-block-section", () => {
     });
 
     it("can be toggled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-block-section text="text" toggle-display="switch"></calcite-block-section>`);
+      const page = await newE2EPage(
+        html`<calcite-block-section text="text" toggle-display="switch"></calcite-block-section>`,
+      );
       await assertToggleBehavior(page);
     });
 
@@ -119,8 +120,7 @@ describe("calcite-block-section", () => {
     });
 
     it("can be toggled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-block-section text="text"></calcite-block-section>`);
+      const page = await newE2EPage(html`<calcite-block-section text="text"></calcite-block-section>`);
       await assertToggleBehavior(page);
     });
   });

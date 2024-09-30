@@ -78,8 +78,7 @@ describe("calcite-slider", () => {
   });
 
   it("sets aria attributes properly for single value", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-slider
         value="23"
         min="0"
@@ -98,8 +97,7 @@ describe("calcite-slider", () => {
   });
 
   it("sets aria attributes properly for range values", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-slider
         min-value="23"
         max-value="47"
@@ -127,8 +125,7 @@ describe("calcite-slider", () => {
   });
 
   it("can be controlled via keyboard", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-slider
         value="30"
         min="0"
@@ -168,8 +165,9 @@ describe("calcite-slider", () => {
 
   describe("slider taking the precision of the provided step", () => {
     it("takes the precision of the decimal step when controlled through keyboard", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-slider value="30" min="0" max="100" step="1.12"> </calcite-slider> `);
+      const page = await newE2EPage(html`
+        <calcite-slider value="30" min="0" max="100" step="1.12"> </calcite-slider>
+      `);
       const slider = await page.find("calcite-slider");
       const handle = await page.find("calcite-slider >>> .thumb");
       await page.waitForChanges();
@@ -187,8 +185,7 @@ describe("calcite-slider", () => {
     });
 
     it("single handle: takes the precision of the decimal step when clicking and dragging the track", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-slider step="1.12" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>
       `);
       const slider = await page.find("calcite-slider");
@@ -208,8 +205,7 @@ describe("calcite-slider", () => {
   // skipped due to a bug where value is rounded down instead of up:
   // https://github.com/Esri/calcite-design-system/issues/9684
   it.skip("step floating point precision", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-slider value="1.4" label-handles max="10" min="0.1" snap step="0.1"></calcite-slider>`,
     );
     const slider = await page.find("calcite-slider");
@@ -219,8 +215,7 @@ describe("calcite-slider", () => {
   });
 
   it("only selects values on step interval when snap prop is passed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-slider
         value="23"
         min="0"
@@ -241,8 +236,7 @@ describe("calcite-slider", () => {
   });
 
   it("displays tick marks when ticks prop is passed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-slider
         value="23"
         min="0"
@@ -257,8 +251,7 @@ describe("calcite-slider", () => {
   });
 
   it("should cap the rendered last tick label to the slider's provided max", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-slider
       min="5"
       max="100"
@@ -275,8 +268,7 @@ describe("calcite-slider", () => {
   });
 
   it("key press should change the value and emit input and change events", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-slider
         value="23"
         min="0"
@@ -312,8 +304,7 @@ describe("calcite-slider", () => {
     ></calcite-slider>`;
 
     it("should focus thumb when clicked near", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`${sliderForThumbFocusTests}`);
+      const page = await newE2EPage(html`${sliderForThumbFocusTests}`);
       const slider = await page.find("calcite-slider");
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
@@ -576,8 +567,7 @@ describe("calcite-slider", () => {
     });
 
     it("range: clicking and dragging the range changes minValue and maxValue on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-slider
           min-value="0"
           max-value="50"
@@ -703,8 +693,7 @@ describe("calcite-slider", () => {
     }
 
     async function setUpTest(sliderAttrs: string): Promise<void> {
-      page = await newE2EPage();
-      await page.setContent(html`<calcite-slider ${sliderAttrs}></calcite-slider>`);
+      page = await newE2EPage(html`<calcite-slider ${sliderAttrs}></calcite-slider>`);
 
       element = await page.find("calcite-slider");
       trackRect = await getElementRect(page, "calcite-slider", `.${CSS.track}`);
@@ -860,8 +849,7 @@ describe("calcite-slider", () => {
     };
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(
+      page = await newE2EPage(
         html`<calcite-slider
           group-separator
           lang="en"
@@ -928,13 +916,7 @@ describe("calcite-slider", () => {
   });
 
   describe("snap + step interaction", () => {
-    let page: E2EPage;
-
-    beforeEach(async () => {
-      page = await newE2EPage();
-    });
-
-    async function dragThumbToMax(): Promise<void> {
+    async function dragThumbToMax(page: E2EPage): Promise<void> {
       const trackRect = await getElementRect(page, "calcite-slider", ".track");
       const thumbRect = await getElementRect(page, "calcite-slider", ".thumb--value");
       const thumbWidth = thumbRect.width;
@@ -949,46 +931,46 @@ describe("calcite-slider", () => {
     }
 
     it("honors snap value with step", async () => {
-      await page.setContent(html`<calcite-slider max="10" min="1" snap step="2" ticks="2"></calcite-slider>`);
+      const page = await newE2EPage(html`<calcite-slider max="10" min="1" snap step="2" ticks="2"></calcite-slider>`);
       const slider = await page.find("calcite-slider");
 
       expect(await slider.getProperty("value")).toBe(1);
 
-      await dragThumbToMax();
+      await dragThumbToMax(page);
       expect(await slider.getProperty("value")).toBe(9);
     });
 
     it("honors snap value with step (fractional)", async () => {
-      await page.setContent(html`<calcite-slider max="10" min="1.5" snap step="1" ticks="1"></calcite-slider>`);
+      const page = await newE2EPage(html`<calcite-slider max="10" min="1.5" snap step="1" ticks="1"></calcite-slider>`);
       const slider = await page.find("calcite-slider");
 
       expect(await slider.getProperty("value")).toBe(1.5);
 
-      await dragThumbToMax();
+      await dragThumbToMax(page);
       expect(await slider.getProperty("value")).toBe(9.5);
     });
 
     it("snaps to max limit beyond upper bound", async () => {
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-slider max="10.5" min="0" snap step="1" ticks="1" value="10.5"></calcite-slider>`,
       );
       const slider = await page.find("calcite-slider");
 
       expect(await slider.getProperty("value")).toBe(10);
 
-      await dragThumbToMax();
+      await dragThumbToMax(page);
       expect(await slider.getProperty("value")).toBe(10);
     });
 
     it("snaps to max limit at upper bound", async () => {
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-slider max="10.4" min="0" snap step="1" ticks="1" value="10.4"></calcite-slider>`,
       );
       const slider = await page.find("calcite-slider");
 
       expect(await slider.getProperty("value")).toBe(10);
 
-      await dragThumbToMax();
+      await dragThumbToMax(page);
       expect(await slider.getProperty("value")).toBe(10);
     });
   });
@@ -998,8 +980,7 @@ describe("calcite-slider", () => {
 
     describe("single value", () => {
       it("allows formatting of the handle and ticks", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html` <calcite-slider min="0" max="100" value="50" label-handles label-ticks ticks="25"></calcite-slider>`,
         );
 
@@ -1032,8 +1013,7 @@ describe("calcite-slider", () => {
       });
 
       it("allows formatting with the default formatter", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html` <calcite-slider
             min="0"
             max="10000"
@@ -1065,8 +1045,7 @@ describe("calcite-slider", () => {
 
     describe("min/max value", () => {
       it("allows formatting of the min/max handle and ticks", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html` <calcite-slider
             min="0"
             max="100"
@@ -1113,8 +1092,7 @@ describe("calcite-slider", () => {
       });
 
       it("allows formatting with the default formatter", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html` <calcite-slider
             min="0"
             max="10000"

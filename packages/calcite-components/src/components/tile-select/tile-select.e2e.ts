@@ -58,16 +58,16 @@ describe("calcite-tile-select", () => {
   });
 
   it("renders a calcite-tile", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-tile-select></calcite-tile-select>");
+    const page = await newE2EPage("<calcite-tile-select></calcite-tile-select>");
 
     const tile = await page.find("calcite-tile-select >>> calcite-tile");
     expect(tile).toBeDefined();
   });
 
   it("renders a calcite-radio-button when in radio mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-tile-select name='radio' heading='test' value='one'></calcite-tile-select>");
+    const page = await newE2EPage(
+      "<calcite-tile-select name='radio' heading='test' value='one'></calcite-tile-select>",
+    );
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");
     expect(calciteRadio).toBeDefined();
@@ -76,8 +76,7 @@ describe("calcite-tile-select", () => {
   });
 
   it("renders a calcite-checkbox when in checkbox mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       "<calcite-tile-select name='checkbox-tile-select' heading='test' value='one' type='checkbox'></calcite-tile-select>",
     );
 
@@ -89,8 +88,7 @@ describe("calcite-tile-select", () => {
   });
 
   it("removing a tile-select also removes its corresponding calcite-radio-button", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-tile-select name="radio" value="first"></calcite-tile-select>
     `);
 
@@ -109,8 +107,7 @@ describe("calcite-tile-select", () => {
   });
 
   it("removing a tile-select also removes its corresponding calcite-checkbox", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-tile-select name="checky" value="first" type="checkbox"></calcite-tile-select>
     `);
 

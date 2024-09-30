@@ -44,8 +44,7 @@ describe("calcite-notice", () => {
   });
 
   it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-notice>
     <div slot="title">Title Text</div>
     <div slot="message">Message Text</div>
@@ -60,8 +59,7 @@ describe("calcite-notice", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-notice kind="warning" closable>
     ${noticeContent}
     </calcite-notice>`);
@@ -76,8 +74,7 @@ describe("calcite-notice", () => {
   });
 
   it("renders an icon and close button when requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-notice icon closable>
     ${noticeContent}
     </calcite-notice>`);
@@ -89,8 +86,9 @@ describe("calcite-notice", () => {
   });
 
   it("successfully closes a closable notice", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice>`);
+    const page = await newE2EPage(
+      html`<calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice>`,
+    );
 
     const notice1 = await page.find("#notice-1 >>> .container");
     const noticeClose1 = await page.find(`#notice-1 >>> .${CSS.close}`);

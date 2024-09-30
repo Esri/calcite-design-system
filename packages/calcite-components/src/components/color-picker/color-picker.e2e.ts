@@ -413,13 +413,7 @@ describe("calcite-color-picker", () => {
 
   describe("color format", () => {
     describe("when set initially", () => {
-      let page: E2EPage;
       let spy: EventSpy;
-
-      beforeEach(async () => {
-        page = await newE2EPage();
-        spy = await page.spyOnEvent("calciteColorPickerChange");
-      });
 
       function assertNoChangeEvents(): void {
         expect(spy).toHaveReceivedEventTimes(0);
@@ -428,7 +422,12 @@ describe("calcite-color-picker", () => {
       // this suite uses a subset of supported formats as other tests cover the rest
 
       it("changes the default value to the format", async () => {
-        await page.setContent(html`<calcite-color-picker format="rgb"></calcite-color-picker>`);
+        const page = await newE2EPage(
+          html`<calcite-color-picker format="rgb"></calcite-color-picker>`,
+          async (page): Promise<void> => {
+            spy = await page.spyOnEvent("calciteColorPickerChange");
+          },
+        );
         const color = await page.find("calcite-color-picker");
 
         expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.rgb().round().object());
@@ -437,7 +436,12 @@ describe("calcite-color-picker", () => {
 
       it("initial value and format are both set if compatible", async () => {
         const initialValue = "rgb(255, 128, 255)";
-        await page.setContent(`<calcite-color-picker format='rgb-css' value='${initialValue}'></calcite-color-picker>`);
+        const page = await newE2EPage(
+          `<calcite-color-picker format='rgb-css' value='${initialValue}'></calcite-color-picker>`,
+          async (page): Promise<void> => {
+            spy = await page.spyOnEvent("calciteColorPickerChange");
+          },
+        );
         const color = await page.find("calcite-color-picker");
 
         const initialValueIsRendered = await page.$eval(
@@ -454,7 +458,12 @@ describe("calcite-color-picker", () => {
       });
 
       it("falls back to format-compliant default if initial value is not compatible with initial format", async () => {
-        await page.setContent(html`<calcite-color-picker format="hsl-css" value="#f00f00"></calcite-color-picker>`);
+        const page = await newE2EPage(
+          html` <calcite-color-picker format="hsl-css" value="#f00f00"></calcite-color-picker>`,
+          async (page): Promise<void> => {
+            spy = await page.spyOnEvent("calciteColorPickerChange");
+          },
+        );
         const color = await page.find("calcite-color-picker");
 
         expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.hsl().round().string());

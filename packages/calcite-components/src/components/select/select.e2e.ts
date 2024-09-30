@@ -354,8 +354,7 @@ describe("calcite-select", () => {
   });
 
   it("honors empty value", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-select id="calcite-select">
         <calcite-option id="1" value="uno">uno</calcite-option>
         <calcite-option id="2" value="">dos</calcite-option>
@@ -386,8 +385,7 @@ describe("calcite-select", () => {
   });
 
   it("selects initial value", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-select value="">
         <calcite-option value="uno">One</calcite-option>
         <calcite-option value="dos">Two</calcite-option>

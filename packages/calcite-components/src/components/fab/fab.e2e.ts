@@ -41,8 +41,7 @@ describe("calcite-fab", () => {
   });
 
   it("should have visible text when text is enabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
+    const page = await newE2EPage(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
 
     const button = await page.find(`calcite-fab >>> .${CSS.button}`);
     const text = button.textContent;
@@ -51,16 +50,14 @@ describe("calcite-fab", () => {
   });
 
   it("should not have a tooltip when text-enabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
+    const page = await newE2EPage(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
 
     const button = await page.find(`calcite-fab >>> .${CSS.button}`);
     expect(button.getAttribute("title")).toBe(null);
   });
 
   it("should have a tooltip when not text-enabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-fab text="hello world"></calcite-fab>`);
+    const page = await newE2EPage(`<calcite-fab text="hello world"></calcite-fab>`);
     const button = await page.find(`calcite-fab >>> .${CSS.button}`);
     expect(button.getAttribute("title")).toBe("hello world");
 
@@ -72,8 +69,7 @@ describe("calcite-fab", () => {
   });
 
   it("should not have visible text when text is not enabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-fab text="hello world"></calcite-fab>`);
+    const page = await newE2EPage(`<calcite-fab text="hello world"></calcite-fab>`);
 
     const button = await page.find(`calcite-fab >>> .${CSS.button}`);
     const text = button.textContent;
@@ -82,8 +78,7 @@ describe("calcite-fab", () => {
   });
 
   it("should have label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-fab text="hello world" label="hi"></calcite-fab>`);
+    const page = await newE2EPage(`<calcite-fab text="hello world" label="hi"></calcite-fab>`);
 
     const calciteButton = await page.find(`calcite-fab >>> .${CSS.button}`);
     expect(calciteButton.getAttribute("title")).toBe("hi");
@@ -91,16 +86,14 @@ describe("calcite-fab", () => {
   });
 
   it("should have appearance=solid", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-fab text="hello world"></calcite-fab>`);
+    const page = await newE2EPage(`<calcite-fab text="hello world"></calcite-fab>`);
 
     const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
     expect(fab.getAttribute("appearance")).toBe("solid");
   });
 
   it("should have appearance=outline-fill", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-fab appearance="outline-fill" text="hello world"></calcite-fab>`);
+    const page = await newE2EPage(`<calcite-fab appearance="outline-fill" text="hello world"></calcite-fab>`);
 
     const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
     expect(fab.getAttribute("appearance")).toBe("outline-fill");

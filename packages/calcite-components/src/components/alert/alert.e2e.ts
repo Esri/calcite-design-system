@@ -50,8 +50,7 @@ describe("calcite-alert", () => {
 
   describe("accessible", () => {
     accessible(async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
+      const page = await newE2EPage(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
 
       await page.waitForTimeout(alertQueueTimeoutMs);
       return { page, tag: "calcite-alert" };
@@ -60,8 +59,7 @@ describe("calcite-alert", () => {
 
   describe("accessible with auto-close", () => {
     accessible(async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
       `);
 
@@ -75,8 +73,7 @@ describe("calcite-alert", () => {
   });
 
   it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-alert>
     ${alertContent}
     </calcite-alert>`);
@@ -89,8 +86,7 @@ describe("calcite-alert", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-alert kind="warning" auto-close-duration="fast" auto-close>
     ${alertContent}
     </calcite-alert>`);
@@ -104,8 +100,7 @@ describe("calcite-alert", () => {
   });
 
   it("renders with an icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-alert icon>
     ${alertContent}
     </calcite-alert>`);
@@ -119,9 +114,7 @@ describe("calcite-alert", () => {
   });
 
   it("closes on time based on alert duration", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <div>
         <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('open', '')"
           >open alert-1</calcite-button
@@ -149,9 +142,7 @@ describe("calcite-alert", () => {
   });
 
   it("opens and then closes a single alert", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
     <div>
     <calcite-button id="button-1" onclick="document.querySelector('#alert-1').setAttribute('open', '')">open alert-1</calcite-button>
     <calcite-alert id="alert-1">
@@ -175,9 +166,7 @@ describe("calcite-alert", () => {
   });
 
   it("opens the correct alert when multiple have been opened at once", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
     <div>
     <calcite-button id="button-1" onclick="document.querySelector('#alert-1').setAttribute('open', '')">open alert-1</calcite-button>
     <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('open', '')">open alert-2</calcite-button>
@@ -219,9 +208,7 @@ describe("calcite-alert", () => {
   });
 
   it("should queue alerts", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-alert id="alert-1"> ${alertContent} </calcite-alert>
       <calcite-alert id="alert-2"> ${alertContent} </calcite-alert>
       <calcite-alert id="alert-3"> ${alertContent} </calcite-alert>
@@ -298,8 +285,7 @@ describe("calcite-alert", () => {
   });
 
   it("correctly assigns a default placement class", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-alert>
     ${alertContent}
     </calcite-alert>`);
@@ -309,8 +295,7 @@ describe("calcite-alert", () => {
   });
 
   it("correctly assigns a requested placement class", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-alert placement="top-end">
     ${alertContent}
     </calcite-alert>`);
@@ -349,9 +334,7 @@ describe("calcite-alert", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render alert dismiss progress bar with default value tied to light mode", async () => {
-        page = await newE2EPage();
-
-        await page.setContent(alertSnippet);
+        page = await newE2EPage(alertSnippet);
         await page.waitForTimeout(alertQueueTimeoutMs);
         alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
         progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
@@ -361,9 +344,7 @@ describe("calcite-alert", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render alert dismiss progress bar with value tied to dark mode", async () => {
-        page = await newE2EPage();
-
-        await page.setContent(html`<div class="calcite-mode-dark">${alertSnippet}</div>`);
+        page = await newE2EPage(html`<div class="calcite-mode-dark">${alertSnippet}</div>`);
         await page.waitForTimeout(alertQueueTimeoutMs);
         alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
         progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
@@ -373,9 +354,7 @@ describe("calcite-alert", () => {
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 0, 0, 0.5)";
-      page = await newE2EPage();
-
-      await page.setContent(
+      page = await newE2EPage(
         html` <style>
             :root {
               --calcite-color-transparent-tint: ${overrideStyle};
@@ -391,9 +370,7 @@ describe("calcite-alert", () => {
   });
 
   it("should update number of queued alerts with a calcite-chip when removing an alert", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-button id="buttonOne" onclick="document.querySelector('#first-open').setAttribute('open', '')"
         >open alert</calcite-button
       >
@@ -464,9 +441,7 @@ describe("calcite-alert", () => {
 
   describe("auto-close behavior on queued items", () => {
     it("should display number of queued alerts with a calcite-chip", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-button id="buttonOne" onclick="document.querySelector('#first-open').setAttribute('open', '')"
           >open alert</calcite-button
         >
@@ -517,9 +492,7 @@ describe("calcite-alert", () => {
     let playState: string;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <div>
           <calcite-button id="button" onclick="document.querySelector('#alert').setAttribute('open', '')"
             >open alert</calcite-button

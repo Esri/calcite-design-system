@@ -85,11 +85,12 @@ describe("calcite-sheet properties", () => {
   });
 
   it("sets custom width correctly", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test sheet isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-sheet position="inline-start" style="--calcite-sheet-width:600px;"></calcite-sheet>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test component isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
     );
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -106,11 +107,12 @@ describe("calcite-sheet properties", () => {
   });
 
   it("sets custom width and max correctly", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test sheet isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-sheet position="inline-start" style="--calcite-sheet-width:600px;--calcite-sheet-max-width:600px;"></calcite-sheet>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test component isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
     );
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -127,11 +129,12 @@ describe("calcite-sheet properties", () => {
   });
 
   it("sets custom height correctly", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test sheet isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-sheet position="block-start" style="--calcite-sheet-height:600px;" open></calcite-sheet>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test component isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
     );
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -148,12 +151,9 @@ describe("calcite-sheet properties", () => {
   });
 
   it("calls the beforeClose method prior to closing via click", async () => {
-    const page = await newE2EPage();
+    const page = await newE2EPage(`<calcite-sheet open></calcite-sheet>`);
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
-      <calcite-sheet open></calcite-sheet>
-    `);
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
@@ -172,12 +172,9 @@ describe("calcite-sheet properties", () => {
   });
 
   it("calls the beforeClose method prior to closing via escape", async () => {
-    const page = await newE2EPage();
+    const page = await newE2EPage(`<calcite-sheet open></calcite-sheet>`);
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
-      <calcite-sheet open></calcite-sheet>
-    `);
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
@@ -196,12 +193,11 @@ describe("calcite-sheet properties", () => {
   });
 
   it("calls the beforeClose method prior to closing via attribute", async () => {
-    const page = await newE2EPage();
-    const mockCallBack = jest.fn();
-    await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-sheet open></calcite-sheet>
     `);
+    const mockCallBack = jest.fn();
+    await page.exposeFunction("beforeClose", mockCallBack);
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
@@ -221,12 +217,9 @@ describe("calcite-sheet properties", () => {
   });
 
   it("should handle rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
-
+    const page = await newE2EPage(`<calcite-sheet open></calcite-sheet>`);
     const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
-
-    await page.setContent(`<calcite-sheet open></calcite-sheet>`);
 
     await page.$eval(
       "calcite-sheet",
@@ -242,10 +235,8 @@ describe("calcite-sheet properties", () => {
   });
 
   it("should remain open with rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
-
+    const page = await newE2EPage(`<calcite-sheet open></calcite-sheet>`);
     await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent(`<calcite-sheet open></calcite-sheet>`);
 
     await page.$eval(
       "calcite-sheet",
@@ -263,16 +254,14 @@ describe("calcite-sheet properties", () => {
   });
 
   it("has correct aria role/attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet></calcite-sheet>`);
+    const page = await newE2EPage(`<calcite-sheet></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     expect(sheet).toEqualAttribute("role", "dialog");
     expect(sheet).toEqualAttribute("aria-modal", "true");
   });
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet ></calcite-sheet>`);
+    const page = await newE2EPage(`<calcite-sheet ></calcite-sheet>`);
 
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -288,8 +277,7 @@ describe("calcite-sheet properties", () => {
   });
 
   it("should close when the scrim is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet ></calcite-sheet>`);
+    const page = await newE2EPage(`<calcite-sheet></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -300,8 +288,7 @@ describe("calcite-sheet properties", () => {
   });
 
   it("should not close when the scrim is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet outside-close-disabled ></calcite-sheet>`);
+    const page = await newE2EPage(`<calcite-sheet outside-close-disabled ></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -312,8 +299,7 @@ describe("calcite-sheet properties", () => {
   });
 
   it("does not close when Escape is pressed and escape-disabled is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet escape-disabled></calcite-sheet>`);
+    const page = await newE2EPage(`<calcite-sheet escape-disabled></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -324,8 +310,7 @@ describe("calcite-sheet properties", () => {
   });
 
   it("correctly adds overflow class on document when open", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet></calcite-sheet>`);
+    const page = await newE2EPage(`<calcite-sheet></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -336,8 +321,7 @@ describe("calcite-sheet properties", () => {
   });
 
   it("correctly removes overflow class on document once closed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet></calcite-sheet>`);
+    const page = await newE2EPage(`<calcite-sheet></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -351,8 +335,7 @@ describe("calcite-sheet properties", () => {
 
   describe("opening and closing behavior", () => {
     it("opens and closes", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-sheet></calcite-sheet>`);
+      const page = await newE2EPage(html`<calcite-sheet></calcite-sheet>`);
       const sheet = await page.find("calcite-sheet");
 
       type SheetEventOrderWindow = GlobalTestProps<{ events: string[] }>;
@@ -419,8 +402,7 @@ describe("calcite-sheet properties", () => {
     });
 
     it("emits when closing on click", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-sheet></calcite-sheet>`);
+      const page = await newE2EPage(html`<calcite-sheet></calcite-sheet>`);
       const sheet = await page.find("calcite-sheet");
 
       const beforeOpenSpy = await sheet.spyOnEvent("calciteSheetBeforeOpen");

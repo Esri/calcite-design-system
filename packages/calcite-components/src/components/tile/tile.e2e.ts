@@ -37,16 +37,14 @@ describe("calcite-tile", () => {
 
   describe("click", () => {
     it("should not receive focus when clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile id="tile-1"></calcite-tile> `);
       await page.click("#tile-1");
       await page.waitForChanges();
 
       expect(await isElementFocused(page, "#tile-1")).toBe(false);
     });
     it("should receive focus when clicked and interactive", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile interactive id="tile-1"></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile interactive id="tile-1"></calcite-tile> `);
       await page.click("#tile-1");
       await page.waitForChanges();
 
@@ -77,8 +75,7 @@ describe("calcite-tile", () => {
 
   describe("events", () => {
     it("should not emit select event after the tile is clicked if interactive is not set", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile id="tile-1"></calcite-tile> `);
 
       const eventSpy = await page.spyOnEvent("calciteTileSelect");
 
@@ -89,8 +86,7 @@ describe("calcite-tile", () => {
     });
 
     it("should emit select event after the tile is clicked when interactive", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile id="tile-1" interactive></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile id="tile-1" interactive></calcite-tile> `);
 
       const eventSpy = await page.spyOnEvent("calciteTileSelect");
 
@@ -111,8 +107,7 @@ describe("calcite-tile", () => {
 
   describe("keyboard", () => {
     it("should receive focus when tabbed to with keyboard", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile interactive id="tile-1"></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile interactive id="tile-1"></calcite-tile> `);
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
@@ -146,15 +141,13 @@ describe("calcite-tile", () => {
     renders("calcite-tile", { display: "inline-block" });
 
     it("renders without a link by default", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile></calcite-tile> `);
       const link = await page.find("calcite-tile >>> calcite-link");
       expect(link).toBeNull();
     });
 
     it("renders a link when href attribute is supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile href="http://www.esri.com"></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile href="http://www.esri.com"></calcite-tile> `);
 
       const link = await page.find("calcite-tile >>> calcite-link");
       const anchor = await page.find("calcite-tile >>> calcite-link >>> a");
@@ -163,8 +156,7 @@ describe("calcite-tile", () => {
     });
 
     it("renders heading only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile heading="My Calcite Tile"></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile heading="My Calcite Tile"></calcite-tile> `);
 
       const icon = await page.find("calcite-tile >>> .icon");
       const heading = await page.find("calcite-tile >>> .heading");
@@ -175,8 +167,7 @@ describe("calcite-tile", () => {
     });
 
     it("renders icon only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile icon="layers"></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile icon="layers"></calcite-tile> `);
 
       const icon = await page.find("calcite-tile >>> .icon");
       const heading = await page.find("calcite-tile >>> .heading");
@@ -187,8 +178,7 @@ describe("calcite-tile", () => {
     });
 
     it("renders description only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile description="My Calcite Tile Description."></calcite-tile> `);
+      const page = await newE2EPage(html` <calcite-tile description="My Calcite Tile Description."></calcite-tile> `);
 
       const icon = await page.find("calcite-tile >>> .icon");
       const heading = await page.find("calcite-tile >>> .heading");
@@ -199,8 +189,9 @@ describe("calcite-tile", () => {
     });
 
     it("renders large icon when only icon and heading are supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile icon="layers" heading="My Large Visual Calcite Tile"></calcite-tile> `);
+      const page = await newE2EPage(html`
+        <calcite-tile icon="layers" heading="My Large Visual Calcite Tile"></calcite-tile>
+      `);
 
       const icon = await page.find("calcite-tile >>> calcite-icon");
       const heading = await page.find("calcite-tile >>> .heading");

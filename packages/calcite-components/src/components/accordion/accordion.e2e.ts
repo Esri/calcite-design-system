@@ -86,8 +86,7 @@ describe("calcite-accordion", () => {
   });
 
   it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion icon-position="start" icon-type="plus-minus" selection-mode="single-persist" scale="l">
     ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
@@ -102,8 +101,7 @@ describe("calcite-accordion", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion appearance="solid" icon-position="start" scale="l" selection-mode="single-persist" icon-type="caret">
     ${accordionContent}
     </calcite-accordion>`);
@@ -116,8 +114,7 @@ describe("calcite-accordion", () => {
   });
 
   it("renders icon if requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion appearance="solid" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
     <calcite-accordion-item heading="Accordion Title 1" icon-start="car" id="1">Accordion Item Content
     </calcite-accordion-item>
@@ -135,8 +132,7 @@ describe("calcite-accordion", () => {
   });
 
   it("renders expanded item based on attribute in dom", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion>
     ${accordionContent}
     </calcite-accordion>`);
@@ -158,8 +154,7 @@ describe("calcite-accordion", () => {
   });
 
   it("renders multiple expanded items when in multiple selection mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion>
     ${accordionContent}
     </calcite-accordion>`);
@@ -183,8 +178,7 @@ describe("calcite-accordion", () => {
   });
 
   it("renders just one expanded item when in single selection mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion selection-mode="single">
     ${accordionContent}
     </calcite-accordion>`);
@@ -229,8 +223,7 @@ describe("calcite-accordion", () => {
   });
 
   it("prevents closing the last expanded item when in single-persist selection mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion selection-mode="single-persist">
     ${accordionContent}
     </calcite-accordion>`);
@@ -255,8 +248,7 @@ describe("calcite-accordion", () => {
   });
 
   it("renders multiple expanded items when selection mode changes from single to multiple", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-accordion selection-mode="single">
     ${accordionContent}
     </calcite-accordion>`);

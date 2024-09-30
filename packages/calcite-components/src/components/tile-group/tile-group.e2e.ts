@@ -56,8 +56,7 @@ describe("calcite-tile-group", () => {
     ]);
 
     it("selectedItems property is set correctly at load when tiles include the selected attribute in initial HTML", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label" selection-mode="multiple">
           <calcite-tile label="test-label"></calcite-tile>
           <calcite-tile label="test-label"></calcite-tile>
@@ -108,8 +107,7 @@ describe("calcite-tile-group", () => {
 
   describe("keyboard", () => {
     it("focuses tiles with the tab key and arrow keys and allows selection with the enter and space key", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label" selection-mode="multiple">
           <calcite-tile id="item-1" label="test-label"></calcite-tile>
           <calcite-tile id="item-2" label="test-label"></calcite-tile>
@@ -197,8 +195,7 @@ describe("calcite-tile-group", () => {
 
   describe("prop passing", () => {
     it("tiles receive parent scale prop on initial load and when scale attribute is mutated", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group scale="s">
           <calcite-tile></calcite-tile>
           <calcite-tile></calcite-tile>
@@ -225,8 +222,7 @@ describe("calcite-tile-group", () => {
 
   describe("selection modes", () => {
     it("none selection mode (default) allows no item to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label">
           <calcite-tile id="item-1" label="test-label"></calcite-tile>
           <calcite-tile id="item-2" label="test-label"></calcite-tile>
@@ -280,8 +276,7 @@ describe("calcite-tile-group", () => {
     });
 
     it("single selection-mode allows only 1 item to be selected and allows deselecting", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label" selection-mode="single">
           <calcite-tile id="item-1" label="test-label"></calcite-tile>
           <calcite-tile id="item-2" selected label="test-label"></calcite-tile>
@@ -343,8 +338,7 @@ describe("calcite-tile-group", () => {
     });
 
     it("single-persist selection-mode allows only 1 item to be selected and disallows deselecting", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label" selection-mode="single-persist">
           <calcite-tile id="item-1" label="test-label"></calcite-tile>
           <calcite-tile id="item-2" selected label="test-label"></calcite-tile>
@@ -406,8 +400,7 @@ describe("calcite-tile-group", () => {
     });
 
     it("multiple selection-mode allows multiple items to be selected and allows deselecting", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label" selection-mode="multiple">
           <calcite-tile id="item-1" label="test-label"></calcite-tile>
           <calcite-tile id="item-2" label="test-label"></calcite-tile>
@@ -494,8 +487,7 @@ describe("calcite-tile-group", () => {
     });
 
     it("single selection mode allows only one tile with selected attribute", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label" selection-mode="single">
           <calcite-tile id="item-1" selected label="test-label"></calcite-tile>
           <calcite-tile id="item-2" selected label="test-label"></calcite-tile>
@@ -512,8 +504,7 @@ describe("calcite-tile-group", () => {
     });
 
     it("single-persist selection mode allows only one tile with selected attribute", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tile-group label="test-label" selection-mode="single-persist">
           <calcite-tile id="item-1" selected label="test-label"></calcite-tile>
           <calcite-tile id="item-2" selected label="test-label"></calcite-tile>

@@ -80,9 +80,7 @@ describe("calcite-action-pad", () => {
 
   describe("messageOverrides", () => {
     it("should honor expandLabel and collapseLabel", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-action-pad></calcite-action-pad>");
+      const page = await newE2EPage("<calcite-action-pad></calcite-action-pad>");
       await page.waitForChanges();
 
       const actionPad = await page.find("calcite-action-pad");
@@ -111,9 +109,7 @@ describe("calcite-action-pad", () => {
 
   describe("expand functionality", () => {
     it("should be expandable by default", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-action-pad></calcite-action-pad>");
+      const page = await newE2EPage("<calcite-action-pad></calcite-action-pad>");
 
       await page.waitForChanges();
 
@@ -123,9 +119,7 @@ describe("calcite-action-pad", () => {
     });
 
     it("allows disabling expandable behavior", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-action-pad expand-disabled></calcite-action-pad>");
+      const page = await newE2EPage("<calcite-action-pad expand-disabled></calcite-action-pad>");
 
       await page.waitForChanges();
 
@@ -151,9 +145,7 @@ describe("calcite-action-pad", () => {
     });
 
     it("should fire not expanded event when expanded programmatically", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-action-pad></calcite-action-pad>");
+      const page = await newE2EPage("<calcite-action-pad></calcite-action-pad>");
 
       const element = await page.find("calcite-action-pad");
 
@@ -167,9 +159,7 @@ describe("calcite-action-pad", () => {
     });
 
     it("should fire expanded event on user interaction", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-action-pad></calcite-action-pad>");
+      const page = await newE2EPage("<calcite-action-pad></calcite-action-pad>");
 
       const element = await page.find("calcite-action-pad");
       const actionElement = await page.find("calcite-action-pad >>> calcite-action-group calcite-action");
@@ -184,9 +174,7 @@ describe("calcite-action-pad", () => {
     });
 
     it("should have child actions be textEnabled when expanded is set", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-action-pad expanded></calcite-action-pad>");
+      const page = await newE2EPage("<calcite-action-pad expanded></calcite-action-pad>");
 
       const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupEnd}`);
 
@@ -199,9 +187,7 @@ describe("calcite-action-pad", () => {
   });
 
   it("should not have bottomGroup when not expandable", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-action-pad expand-disabled></calcite-action-pad>`);
+    const page = await newE2EPage(`<calcite-action-pad expand-disabled></calcite-action-pad>`);
 
     const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupEnd}`);
 
@@ -209,9 +195,7 @@ describe("calcite-action-pad", () => {
   });
 
   it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-action-pad expand-disabled expanded>
         <calcite-action-group>
           <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
@@ -326,9 +310,7 @@ describe("calcite-action-pad", () => {
   });
 
   it("should set layout on child action-groups", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-action-pad layout="horizontal">
         <calcite-action-group></calcite-action-group>
       </calcite-action-pad>`,

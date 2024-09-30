@@ -71,8 +71,7 @@ describe("calcite-carousel", () => {
 
   describe("first render", () => {
     it("should not render arrow items when requested", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" arrow-type="none">
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -92,9 +91,7 @@ describe("calcite-carousel", () => {
 
   describe("events", () => {
     it("emit change event on arrow click", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example">
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -131,9 +128,7 @@ describe("calcite-carousel", () => {
     });
 
     it("emit change event on keyboard movement", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example">
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -189,9 +184,7 @@ describe("calcite-carousel", () => {
     });
 
     it("emit event on navigation via direct pagination item click", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" arrow-type="none">
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -243,9 +236,7 @@ describe("calcite-carousel", () => {
 
   describe("autoplay", () => {
     it("emit autoplay change event but not carousel change on autoplay button click", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -288,9 +279,7 @@ describe("calcite-carousel", () => {
     });
 
     it("when autoplay, should stop autoplay and emit autoplay change event when item clicked", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -375,9 +364,7 @@ describe("calcite-carousel", () => {
     });
 
     it("when autoplay, should stop autoplay and emit autoplay change event when arrow clicked", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -461,9 +448,7 @@ describe("calcite-carousel", () => {
     });
 
     it("correctly rotates to a new carousel item after duration elapses", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -494,9 +479,7 @@ describe("calcite-carousel", () => {
     });
 
     it("correctly rotates to a new carousel item after custom duration elapses", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay autoplay-duration="2000">
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -528,9 +511,7 @@ describe("calcite-carousel", () => {
     });
 
     it("correctly stops and starts autoplay after control clicked", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -578,9 +559,7 @@ describe("calcite-carousel", () => {
     });
 
     it("correctly stops and starts autoplay after keyboard play and pause", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay="paused" id="example-carousel>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -681,9 +660,7 @@ describe("calcite-carousel", () => {
     });
 
     it("does not begin autoplay after keyboard interaction if not enabled via property", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" id="example-carousel>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -780,8 +757,7 @@ describe("calcite-carousel", () => {
     });
 
     it("pagination should be hidden if there is 1 or fewer items", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-carousel label="Carousel example"
           ><calcite-carousel-item label="Carousel Item 1" id="one"
             ><p>first item default selected</p></calcite-carousel-item
@@ -822,8 +798,7 @@ describe("calcite-carousel", () => {
     });
 
     it("should update visible item if selected item is removed", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example">
           <calcite-carousel-item id="one"><p>dynamically adding/removing items</p></calcite-carousel-item>
           <calcite-carousel-item id="two"><p>dynamically adding/removing items</p></calcite-carousel-item>
@@ -843,8 +818,7 @@ describe("calcite-carousel", () => {
 
   describe("public methods", () => {
     it("plays and stops correctly when autoplay", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -907,8 +881,7 @@ describe("calcite-carousel", () => {
     });
 
     it("plays and stops correctly when autoplay is paused", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example" autoplay="paused">
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -946,8 +919,7 @@ describe("calcite-carousel", () => {
       expect(selectedItem.id).toEqual("three");
     });
     it("correctly does not play or stop when autoplay not present", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-carousel label="Carousel example">
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
@@ -1000,8 +972,7 @@ describe("calcite-carousel", () => {
   });
 
   it("item slide animation finishes between paging/selection", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-carousel label="carousel">
         <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
@@ -1052,8 +1023,7 @@ describe("calcite-carousel", () => {
 });
 describe("renders the expected number of pagination items when overflowing", () => {
   it("correctly limits the number of slide pagination items shown when overflowing xxsmall first selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-carousel label="carousel" style="width:200px")">
         <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
@@ -1073,8 +1043,7 @@ describe("renders the expected number of pagination items when overflowing", () 
   });
 
   it("correctly limits the number of slide pagination items shown when overflowing xsmall first selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-carousel label="carousel" style="width:${breakpoints.width["xxsmall"]}px">
         <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
@@ -1093,8 +1062,7 @@ describe("renders the expected number of pagination items when overflowing", () 
     expect(items).toHaveLength(centerItemsByBreakpoint["xsmall"] + 2);
   });
   it("correctly limits the number of slide pagination items shown when overflowing xsmall middle selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-carousel label="carousel" style="width:${breakpoints.width["xsmall"]}px">
         <calcite-carousel-item label="item 1"><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
@@ -1113,8 +1081,7 @@ describe("renders the expected number of pagination items when overflowing", () 
     expect(items).toHaveLength(centerItemsByBreakpoint["small"] + 2);
   });
   it("correctly limits the number of slide pagination items shown when overflowing small last selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-carousel label="carousel" style="width:${breakpoints.width["small"]}px">
         <calcite-carousel-item label="item 1"><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>

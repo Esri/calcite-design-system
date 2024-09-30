@@ -57,8 +57,7 @@ describe("calcite-card-group", () => {
 
   describe("selection modes function as intended", () => {
     it("selection mode single allows one or no cards to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-card-group label="test-label" selection-mode="single">
           <calcite-card id="card-1" label="test-label"><span slot="heading">Heading</span></calcite-card>
           <calcite-card id="card-2" selected label="test-label"><span slot="heading">Heading</span></calcite-card>
@@ -120,8 +119,7 @@ describe("calcite-card-group", () => {
     });
 
     it("selection mode single-persist allows one card to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-card-group label="test-label" selection-mode="single-persist">
           <calcite-card id="card-1" selected label="test-label"><span slot="heading">Heading</span></calcite-card>
           <calcite-card id="card-2" label="test-label"><span slot="heading">Heading</span></calcite-card>
@@ -172,8 +170,7 @@ describe("calcite-card-group", () => {
     });
 
     it("selection mode multiple allows none, one, or multiple to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-card-group label="test-label" selection-mode="multiple">
           <calcite-card id="card-1" label="test-label"><span slot="heading">Heading</span></calcite-card>
           <calcite-card id="card-2" label="test-label"><span slot="heading">Heading</span></calcite-card>
@@ -259,8 +256,7 @@ describe("calcite-card-group", () => {
 
   describe("focus and interaction function as intended", () => {
     it("navigation and selection with keyboard works as expected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-card-group label="test-label" selection-mode="multiple">
           <calcite-card id="card-1" label="test-label"><span slot="heading">Heading</span></calcite-card>
           <calcite-card id="card-2" label="test-label"><span slot="heading">Heading</span></calcite-card>
@@ -337,8 +333,7 @@ describe("calcite-card-group", () => {
       expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
     });
     it("navigation with keyboard works as expected when selection mode none (default)", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-card-group label="test-label">
           <calcite-card id="card-1" label="test-label"><span slot="heading">Heading</span></calcite-card>
           <calcite-card id="card-2" label="test-label"><span slot="heading">Heading</span></calcite-card>
@@ -417,8 +412,7 @@ describe("calcite-card-group", () => {
   });
 
   it("selectedItems property is correctly populated at load when property is set on cards in DOM", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-card-group label="test-label" selection-mode="multiple">
         <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
         <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>

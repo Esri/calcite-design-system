@@ -142,8 +142,7 @@ describe("calcite-pick-list-item", () => {
   });
 
   it("slot keyboard navigation", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-pick-list style="width: 400px">
         <calcite-pick-list-item label="apple" value="apple" icon="circle">
           <calcite-action slot="actions-end" icon="information"></calcite-action>

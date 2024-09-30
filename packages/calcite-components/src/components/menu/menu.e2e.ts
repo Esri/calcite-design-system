@@ -30,8 +30,7 @@ describe("calcite-menu", () => {
 
   describe("mouse support", () => {
     it("should open the submenu on click", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-menu>
           <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
             <calcite-menu-item id="ArcGISJS" text="ArcGISJS" slot="submenu-item">
@@ -63,8 +62,7 @@ describe("calcite-menu", () => {
     });
 
     it("should close any opened submenu when clicked outside", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-menu>
           <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
             <calcite-menu-item text="ArcGISJS" slot="submenu-item"> </calcite-menu-item>
@@ -93,8 +91,7 @@ describe("calcite-menu", () => {
 
   describe("keyboard support", () => {
     it("should open and close horizontal calcite-menu", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-menu>
           <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
             <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item">
@@ -179,8 +176,7 @@ describe("calcite-menu", () => {
     });
 
     it("should open and close vertical calcite-menu", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-menu layout="vertical">
           <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
             <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item">
@@ -266,8 +262,7 @@ describe("calcite-menu", () => {
   });
 
   it("should close opened submenu on Escape", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-menu>
         <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
           <calcite-menu-item text="ArcGISJS" slot="submenu-item"> </calcite-menu-item>

@@ -180,8 +180,7 @@ describe("calcite-block", () => {
   });
 
   it("can display/hide content", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-block><div>some content</div></calcite-block>");
+    const page = await newE2EPage("<calcite-block><div>some content</div></calcite-block>");
     let element = await page.find("calcite-block");
     let content = await page.find(`calcite-block >>> .${CSS.content}`);
 
@@ -206,8 +205,7 @@ describe("calcite-block", () => {
 
   it("allows toggling its content", async () => {
     const heading = "heading";
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
+    const page = await newE2EPage(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
 
     const messages = await import(`./assets/block/t9n/messages.json`);
 
@@ -240,9 +238,7 @@ describe("calcite-block", () => {
 
   describe("header", () => {
     it("renders a heading", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(`<calcite-block heading="test-heading"></calcite-block>`);
+      const page = await newE2EPage(`<calcite-block heading="test-heading"></calcite-block>`);
 
       const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
       expect(heading).toBeTruthy();
@@ -253,9 +249,9 @@ describe("calcite-block", () => {
     });
 
     it("renders a heading with optional description", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(`<calcite-block heading="test-heading" description="test-description"></calcite-block>`);
+      const page = await newE2EPage(
+        `<calcite-block heading="test-heading" description="test-description"></calcite-block>`,
+      );
 
       const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
       expect(heading).toBeTruthy();
@@ -265,8 +261,7 @@ describe("calcite-block", () => {
     });
 
     it("allows users to add a control in a collapsible block", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-block heading="test-heading" collapsible>
           <div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div>
         </calcite-block>
@@ -298,8 +293,7 @@ describe("calcite-block", () => {
     });
 
     it("displays a status icon instead of a header icon when `status` is an accepted value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-block status="invalid">
           <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
         </calcite-block>`,
@@ -314,8 +308,7 @@ describe("calcite-block", () => {
 
     it("displays a loading icon  when `loading` is set to true and `open` is set to false", async () => {
       const headerIcon = "header-icon";
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-block status="invalid" loading>
           <div class="${headerIcon}" slot=${SLOTS.icon} /></calcite-block>
         </calcite-block>`,
@@ -346,9 +339,7 @@ describe("calcite-block", () => {
     });
 
     it("applies correct header spacing when heading or description properties are present", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(`<calcite-block></calcite-block>`);
+      const page = await newE2EPage(`<calcite-block></calcite-block>`);
 
       const block = await page.find("calcite-block");
       const header = await page.find(`calcite-block >>> .${CSS.header}`);
@@ -371,8 +362,7 @@ describe("calcite-block", () => {
 
   it("should allow the CSS custom property to be overridden when applied to :root", async () => {
     const overrideStyle = "0px";
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<style>
         :root {
           --calcite-block-padding: ${overrideStyle}
@@ -390,8 +380,7 @@ describe("calcite-block", () => {
 
   it("should allow the CSS custom property to be overridden when applied to element", async () => {
     const overrideStyle = "0px";
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
           <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
         </calcite-block>`,

@@ -86,8 +86,7 @@ describe("calcite-accordion-item", () => {
   it("properly uses ARIA and roles", async () => {
     // this test covers a11y relationships not reported by axe-core/accessible test helper
 
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-accordion-item></calcite-accordion-item>`);
+    const page = await newE2EPage(html`<calcite-accordion-item></calcite-accordion-item>`);
 
     const headerContent = await page.find(`calcite-accordion-item >>> .${CSS.headerContent}`);
 

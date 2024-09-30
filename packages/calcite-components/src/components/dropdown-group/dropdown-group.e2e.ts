@@ -30,9 +30,7 @@ describe("calcite-dropdown-group", () => {
   });
 
   it("sets selectionMode on slotted dropdown item children", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-dropdown-group>
         <calcite-dropdown-item>Mountain</calcite-dropdown-item>
         <calcite-dropdown-item>River</calcite-dropdown-item>

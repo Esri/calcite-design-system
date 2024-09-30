@@ -109,8 +109,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`,
     );
 
@@ -140,8 +139,7 @@ describe("calcite-input-time-picker", () => {
     const locale = "fr";
     const numberingSystem = "latn";
 
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="1"></calcite-input-time-picker>`,
     );
 
@@ -207,8 +205,7 @@ describe("calcite-input-time-picker", () => {
     const locale = "en";
     const numberingSystem = "latn";
 
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-input-time-picker step="1" lang="${locale}" numbering-system="${numberingSystem}" value="11:00:00"></calcite-input-time-picker>`,
     );
 
@@ -242,8 +239,7 @@ describe("calcite-input-time-picker", () => {
     const numberingSystem = "arab";
     const initialValue = "11:00:00";
 
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-input-time-picker step="1" lang="${locale}" numbering-system="${numberingSystem}" value=${initialValue}></calcite-input-time-picker>`,
     );
 
@@ -274,8 +270,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm value when step=60 with the Enter key works as expected for a 12-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -303,8 +298,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm value when step=60 with the Enter key works as expected for a 24-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker lang="fr"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker lang="fr"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -332,8 +326,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm:ss value when step=60 with the Enter key works as expected for a 12-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -361,8 +354,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm:ss value when step=60 with the Enter key works as expected for a 24-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker lang="fr"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker lang="fr"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -390,8 +382,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm:ss value when step=1 with the Enter key works as expected for a 12-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -418,8 +409,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm:ss value when step=1 with the Enter key works as expected for a 24-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -446,8 +436,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm value when step=1 with the Enter key works as expected for a 12-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -474,8 +463,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("committing hh:mm value when step=1 with the Enter key works as expected for a 24-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -502,8 +490,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("attempting to commit an invalid time value fails, but leaves the typed value intact", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -536,8 +523,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("blurring the input with a valid time commits the value for 12-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
@@ -551,8 +537,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("blurring the input with a valid time commits the value for 24-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
@@ -566,8 +551,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("resets to previous value when default event behavior is prevented", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
@@ -591,8 +575,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("empties initial value when it is not a valid time value", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
@@ -610,8 +593,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("updates value appropriately as step changes", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker value="1:2:3"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker value="1:2:3"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
@@ -632,8 +614,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("allows editing just a portion of the time value in the input for a 12-hour locale", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1" value="14:00:00"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1" value="14:00:00"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     await inputTimePicker.callMethod("setFocus");
@@ -656,8 +637,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("correctly relocalizes the display value when the lang and numbering systems change", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
+    const page = await newE2EPage(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
     expect(await getInputValue(page)).toBe("02:30:25 PM");
@@ -691,8 +671,7 @@ describe("calcite-input-time-picker", () => {
 
   describe("arabic locale support", () => {
     it("localizes initial display value in arab numbering system", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab" value="14:02:30"></calcite-input-time-picker>`,
       );
 
@@ -705,8 +684,7 @@ describe("calcite-input-time-picker", () => {
     });
 
     it("converts latn numbers to arab while typing", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab"></calcite-input-time-picker>`,
       );
 
@@ -720,8 +698,7 @@ describe("calcite-input-time-picker", () => {
     });
 
     it("committing typed value works as expected in arab numbering system", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab"></calcite-input-time-picker>`,
       );
 
@@ -742,8 +719,7 @@ describe("calcite-input-time-picker", () => {
       const locale = "ar";
       const numberingSystem = "arab";
 
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="1"></calcite-input-time-picker>`,
       );
 
@@ -772,8 +748,7 @@ describe("calcite-input-time-picker", () => {
 
   describe("danish locale support", () => {
     it("localizes initial display value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-input-time-picker step="1" lang="da" value="14:02:30"></calcite-input-time-picker>`,
       );
 
@@ -786,8 +761,7 @@ describe("calcite-input-time-picker", () => {
     });
 
     it("allows typing in danish format", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input-time-picker step="1" lang="da"></calcite-input-time-picker>`);
+      const page = await newE2EPage(`<calcite-input-time-picker step="1" lang="da"></calcite-input-time-picker>`);
 
       const inputTimePicker = await page.find("calcite-input-time-picker");
       const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -821,8 +795,7 @@ describe("calcite-input-time-picker", () => {
 
   describe("australian english locale support", () => {
     it("allows typing in australian english format", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input-time-picker step="1" lang="en-AU"></calcite-input-time-picker>`);
+      const page = await newE2EPage(`<calcite-input-time-picker step="1" lang="en-AU"></calcite-input-time-picker>`);
 
       const inputTimePicker = await page.find("calcite-input-time-picker");
       const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -859,8 +832,7 @@ describe("calcite-input-time-picker", () => {
 
   describe("focus trapping", () => {
     it("traps focus only when open", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-input-time-picker></calcite-input-time-picker>
           <div id="next-sibling" tabindex="0">next sibling</div>`,
       );
@@ -910,8 +882,7 @@ describe("calcite-input-time-picker", () => {
     let inputTimePicker: E2EElement;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html` <calcite-input-time-picker></calcite-input-time-picker>`);
+      page = await newE2EPage(html` <calcite-input-time-picker></calcite-input-time-picker>`);
 
       await page.waitForChanges();
       inputTimePicker = await page.find("calcite-input-time-picker");

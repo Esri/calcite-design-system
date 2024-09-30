@@ -191,9 +191,7 @@ describe("calcite-combobox", () => {
 
   describe("filtering", () => {
     it("should toggle the combobox when typing within the input", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
           <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
@@ -225,9 +223,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should not toggle the combobox when typing within the input does not match any results", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
           <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
@@ -250,9 +246,7 @@ describe("calcite-combobox", () => {
     });
 
     it("filtering does not match property with value of undefined", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
           <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
@@ -278,8 +272,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should filter the items in listbox when typing into the input", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox>
           <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
           <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
@@ -339,8 +332,7 @@ describe("calcite-combobox", () => {
     });
 
     it("does not clear filter if pointer down/up on an item has a delay in between events", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox clear-disabled="true" selection-mode="single-persist" placeholder="Select a field">
           <calcite-combobox-item id="item-1" value="France/Germany" text-label="France/Germany"></calcite-combobox-item>
           <calcite-combobox-item id="item-2" value="Spain/Portugal" text-label="Spain/Portugal"></calcite-combobox-item>
@@ -372,8 +364,7 @@ describe("calcite-combobox", () => {
     });
 
     it("respects the filterDisabled item property", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
+      const page = await newE2EPage(`
       <calcite-combobox selection-mode="single">
         <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
         <calcite-combobox-item id="two" value="two" text-label="Two" ></calcite-combobox-item>
@@ -422,8 +413,9 @@ describe("calcite-combobox", () => {
     `;
 
     it("should filter on initial load", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-combobox filter-text="1.2"> ${nestedComboboxChildren} </calcite-combobox> `);
+      const page = await newE2EPage(html`
+        <calcite-combobox filter-text="1.2"> ${nestedComboboxChildren} </calcite-combobox>
+      `);
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
@@ -446,8 +438,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should display all groups/items when filter is cleared", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-combobox> ${nestedComboboxChildren} </calcite-combobox> `);
+      const page = await newE2EPage(html` <calcite-combobox> ${nestedComboboxChildren} </calcite-combobox> `);
       await page.waitForChanges();
 
       const combobox = await page.find("calcite-combobox");
@@ -538,8 +529,7 @@ describe("calcite-combobox", () => {
 
   it("should control max items displayed", async () => {
     const maxItems = 7;
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-combobox max-items="${maxItems}">
         <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
           <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
@@ -569,11 +559,8 @@ describe("calcite-combobox", () => {
   });
 
   it("should control max items displayed with group", async () => {
-    const page = await newE2EPage();
-
     const maxItems = 8;
-
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-combobox max-items="${maxItems}">
         <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
           <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
@@ -590,7 +577,6 @@ describe("calcite-combobox", () => {
         </calcite-combobox-item-group>
       </calcite-combobox>
     `);
-    await page.waitForChanges();
 
     const element = await page.find("calcite-combobox");
     await element.click();
@@ -604,11 +590,8 @@ describe("calcite-combobox", () => {
   });
 
   it("should show correct max items when nested", async () => {
-    const page = await newE2EPage();
-
     const maxItems = 6;
-
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
       <calcite-combobox-item value="Trees" text-label="Trees" selected>
         <calcite-combobox-item value="Pine" text-label="Pine">
@@ -632,7 +615,6 @@ describe("calcite-combobox", () => {
       <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
     </calcite-combobox>
     `);
-    await page.waitForChanges();
 
     const element = await page.find("calcite-combobox");
     await element.click();
@@ -645,9 +627,8 @@ describe("calcite-combobox", () => {
   });
 
   it("should show correct max items after selection", async () => {
-    const page = await newE2EPage();
     const maxItems = 6;
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
         <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
         <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
@@ -696,8 +677,7 @@ describe("calcite-combobox", () => {
 
       async function assertSelectionModeToggling(selectItem: (item: E2EElement) => Promise<void>): Promise<void> {
         it("single-selection mode allows toggling selection once the selected item is selected", async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`
+          const page = await newE2EPage(html`
             <calcite-combobox selection-mode="single">
               <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
               <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
@@ -722,8 +702,7 @@ describe("calcite-combobox", () => {
         });
 
         it("single-persist-selection mode does not allow toggling selection once the selected item is selected", async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`
+          const page = await newE2EPage(html`
             <calcite-combobox selection-mode="single-persist">
               <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
               <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
@@ -749,8 +728,7 @@ describe("calcite-combobox", () => {
         });
 
         it("single-persist-selection mode correctly selects different items with the same value", async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`
+          const page = await newE2EPage(html`
             <calcite-combobox selection-mode="single-persist">
               <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
               <calcite-combobox-item value="one" heading="two"></calcite-combobox-item>
@@ -786,8 +764,7 @@ describe("calcite-combobox", () => {
         });
 
         it("multiple-selection mode allows toggling selection once the selected item is selected", async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`
+          const page = await newE2EPage(html`
             <calcite-combobox selection-mode="multiple">
               <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
               <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
@@ -811,8 +788,7 @@ describe("calcite-combobox", () => {
         });
 
         it("ancestors-selection mode allows toggling selection once the selected item is selected", async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`
+          const page = await newE2EPage(html`
             <calcite-combobox selection-mode="ancestors">
               <calcite-combobox-item value="one" text-label="parent">
                 <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
@@ -840,8 +816,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should select parent in ancestor selection mode", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-mode="ancestors">
           <calcite-combobox-item value="one" text-label="one">
             <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
@@ -865,8 +840,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should clear children in ancestor selection mode", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-mode="ancestors">
           <calcite-combobox-item value="parent" text-label="parent">
             <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
@@ -898,8 +872,7 @@ describe("calcite-combobox", () => {
     });
 
     it("clicking a chip should remove the selected item", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox>
           <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
@@ -931,9 +904,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should honor calciteComboboxChipClose", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-combobox>
           <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
         </calcite-combobox>`,
@@ -951,8 +922,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should auto-select new custom value if selection is empty", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox allow-custom-values selection-mode="single">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -976,9 +946,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should replace current value to new custom value in single selection mode", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox allow-custom-values selection-mode="single">
           <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1004,8 +972,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should auto-select new custom values in multiple selection mode", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox allow-custom-values>
           <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1140,8 +1107,7 @@ describe("calcite-combobox", () => {
       mode: "mouse" | "keyboard",
       expectedBehavior: "clear" | "no-clear",
     ): Promise<void> {
-      const page = await newE2EPage();
-      await page.setContent(html);
+      const page = await newE2EPage(html);
 
       const combobox = await page.find("calcite-combobox");
       if (mode === "mouse") {
@@ -1169,8 +1135,7 @@ describe("calcite-combobox", () => {
   describe("keyboard navigation with chips", () => {
     let page: E2EPage;
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <calcite-combobox id="myCombobox" placeholder="Select a field">
           <calcite-combobox-item value="Natural Resources" text-label="Natural Resources"></calcite-combobox-item>
           <calcite-combobox-item value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
@@ -1292,8 +1257,7 @@ describe("calcite-combobox", () => {
     const scrollTestDelayInMilliseconds = 500;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1529,8 +1493,7 @@ describe("calcite-combobox", () => {
 
   describe("deleting items with the keyboard in single and fit selection-display modes", () => {
     it("should not delete any items on Delete in single selection-display mode", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-display="single">
           <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
@@ -1556,8 +1519,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should not delete any items on Delete in fit selection-display mode when there are overflowed chips", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-display="fit" style="width:350px">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1583,8 +1545,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should delete last item on Delete in fit selection-display mode when there are no overflowed chips", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-display="fit" style="width:450px">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1612,8 +1573,7 @@ describe("calcite-combobox", () => {
 
   describe("calciteComboboxChange", () => {
     it("should have 1 selectedItem when single select", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-mode="single">
           <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1640,8 +1600,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should have 2 selectedItems when not in single select", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-mode="multiple">
           <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1673,8 +1632,7 @@ describe("calcite-combobox", () => {
     let closeEvent: Promise<unknown>;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item value="Trees">
             <calcite-combobox-item value="Pine">
@@ -1730,8 +1688,7 @@ describe("calcite-combobox", () => {
 
   describe("allows free entry of text", () => {
     it("should allow typing a new unknown tag", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox allow-custom-values>
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1760,8 +1717,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should fire calciteComboboxChange when entering new unknown tag", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox allow-custom-values>
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1778,8 +1734,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should allow enter unknown tag when tabbing away", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox allow-custom-values>
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1820,8 +1775,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should select known tag when input", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox allow-custom-values>
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -1849,8 +1803,7 @@ describe("calcite-combobox", () => {
 
   describe("single select", () => {
     it("should allow selection of single item", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-mode="single">
           <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="Two"></calcite-combobox-item>
@@ -1889,8 +1842,7 @@ describe("calcite-combobox", () => {
 
   describe("custom icons", () => {
     it("should use icons if set on items", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox>
           <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
           <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
@@ -1922,8 +1874,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should use icon in single select", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-combobox selection-mode="single">
           <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
           <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
@@ -1966,8 +1917,7 @@ describe("calcite-combobox", () => {
   });
 
   it("works correctly inside a shadowRoot", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <div></div>
       <template>
         <calcite-combobox selection-mode="single">
@@ -2018,8 +1968,7 @@ describe("calcite-combobox", () => {
   });
 
   it("should have input--icon class when placeholder-icon is parsed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html` <calcite-combobox placeholder="What's scarier than 5G?" selection-mode="single" placeholder-icon="car">
         <calcite-combobox-item value="Bluetooth" text-label="Bluetooth" icon="bluetooth"> </calcite-combobox-item>
         <calcite-combobox-item value="Exercise" text-label="Exercise"> </calcite-combobox-item>
@@ -2041,8 +1990,7 @@ describe("calcite-combobox", () => {
   });
 
   it("should be able to type when tab through the component once", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html` <calcite-combobox>
         <calcite-combobox-item value="Bluetooth" text-label="Bluetooth"> </calcite-combobox-item>
       </calcite-combobox>`,
@@ -2063,8 +2011,7 @@ describe("calcite-combobox", () => {
   });
 
   it("should not focus on the combobox when items are programmatically selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html` <calcite-combobox open id="demoId">
         <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
       </calcite-combobox>`,
@@ -2083,8 +2030,7 @@ describe("calcite-combobox", () => {
   });
 
   it("should gain focus when it's items are selected via click", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html` <calcite-combobox open id="demoId">
         <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
       </calcite-combobox>`,
@@ -2102,8 +2048,7 @@ describe("calcite-combobox", () => {
   });
 
   it("should gain focus when it's items are selected via keyboard interaction", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html` <calcite-combobox id="demoId">
         <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
       </calcite-combobox>`,
@@ -2120,9 +2065,7 @@ describe("calcite-combobox", () => {
 
   describe("active item when opened", () => {
     async function assertActiveItem(html: string, expectedActiveItemValue: string): Promise<void> {
-      const page = await newE2EPage();
-
-      await page.setContent(html);
+      const page = await newE2EPage(html);
       await page.click("calcite-combobox");
       await page.waitForChanges();
 
@@ -2201,8 +2144,7 @@ describe("calcite-combobox", () => {
   });
 
   it("inheritable props: `selectionMode` and `scale` modified on the parent get passed to items", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-combobox label="Trees" value="Trees" scale="l" selection-mode="single">
         <calcite-combobox-item-group label="Conifers">
           <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
@@ -2221,8 +2163,7 @@ describe("calcite-combobox", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -2272,8 +2213,7 @@ describe("calcite-combobox", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
@@ -2310,8 +2250,7 @@ describe("calcite-combobox", () => {
   });
 
   it("should not open combobox menu with spacebar while focusing on chip's close button", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m">
         <calcite-combobox-item-group label="Pokemon">
           <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
@@ -2357,8 +2296,7 @@ describe("calcite-combobox", () => {
   });
 
   it("prevents toggling items when combobox is closed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m">
         <calcite-combobox-item-group label="Pokemon">
           <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
@@ -2394,8 +2332,7 @@ describe("calcite-combobox", () => {
   });
 
   it("prevents opening a readonly combobox", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-combobox id="myCombobox" read-only>
         <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
         <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
@@ -2422,8 +2359,7 @@ describe("calcite-combobox", () => {
   });
 
   it("allow selecting an item that was previously disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-combobox>
         <calcite-combobox-item text-label="Item 1" value="one"></calcite-combobox-item>
         <calcite-combobox-item text-label="Item 2" value="two"></calcite-combobox-item>

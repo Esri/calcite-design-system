@@ -3,8 +3,7 @@ import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable 
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-switch checked></calcite-switch>");
+    const page = await newE2EPage("<calcite-switch checked></calcite-switch>");
 
     const calciteSwitch = await page.find("calcite-switch");
 
@@ -37,8 +36,7 @@ describe("calcite-switch", () => {
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-switch></calcite-switch>");
+    const page = await newE2EPage("<calcite-switch></calcite-switch>");
 
     const calciteSwitch = await page.find("calcite-switch");
 
@@ -52,8 +50,7 @@ describe("calcite-switch", () => {
   });
 
   it("toggles the checked attributes appropriately when click is called", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-switch></calcite-switch>");
+    const page = await newE2EPage("<calcite-switch></calcite-switch>");
     const calciteSwitch = await page.find("calcite-switch");
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
@@ -72,8 +69,7 @@ describe("calcite-switch", () => {
   });
 
   it("appropriately triggers the custom change event", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch></calcite-switch>`);
+    const page = await newE2EPage(`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
 
@@ -87,8 +83,7 @@ describe("calcite-switch", () => {
   });
 
   it("doesn't emit when controlling checked attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-switch></calcite-switch>");
+    const page = await newE2EPage("<calcite-switch></calcite-switch>");
     const element = await page.find("calcite-switch");
     const spy = await element.spyOnEvent("calciteSwitchChange");
 
@@ -100,8 +95,7 @@ describe("calcite-switch", () => {
   });
 
   it("toggles the checked attributes when the checkbox is toggled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch></calcite-switch>`);
+    const page = await newE2EPage(`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
 
@@ -114,16 +108,14 @@ describe("calcite-switch", () => {
   });
 
   it("renders requested props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch scale="l" ></calcite-switch>`);
+    const page = await newE2EPage(`<calcite-switch scale="l" ></calcite-switch>`);
     const element = await page.find("calcite-switch");
 
     expect(element).toEqualAttribute("scale", "l");
   });
 
   it("renders default props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-switch></calcite-switch>`);
 
     await page.waitForChanges();

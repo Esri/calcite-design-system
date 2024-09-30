@@ -81,16 +81,14 @@ describe("calcite-list-item", () => {
   });
 
   it("always displays hover class", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    const page = await newE2EPage(`<calcite-list-item></calcite-list-item>`);
     await page.waitForChanges();
 
     expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
   });
 
   it("adds unavailable class", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    const page = await newE2EPage(`<calcite-list-item></calcite-list-item>`);
     await page.waitForChanges();
 
     expect(await page.find(`calcite-list-item >>> .${CSS.contentContainerUnavailable}`)).toBeNull();
@@ -103,8 +101,7 @@ describe("calcite-list-item", () => {
   });
 
   it("renders dragHandle when property is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    const page = await newE2EPage(`<calcite-list-item></calcite-list-item>`);
     await page.waitForChanges();
 
     let handleNode = await page.find("calcite-list-item >>> calcite-handle");
@@ -174,8 +171,7 @@ describe("calcite-list-item", () => {
   });
 
   it("does not emit calciteListItemSelect on Enter within action slots", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-list-item selection-mode="single" label="hello" description="world" active
         ><calcite-action
           appearance="transparent"
@@ -275,9 +271,7 @@ describe("calcite-list-item", () => {
   });
 
   it("honors closed prop", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-list-item closable>test</calcite-list-item>");
+    const page = await newE2EPage("<calcite-list-item closable>test</calcite-list-item>");
 
     const element = await page.find("calcite-list-item");
     const container = await page.find(`calcite-list-item >>> .${CSS.container}`);

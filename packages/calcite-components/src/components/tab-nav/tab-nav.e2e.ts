@@ -27,8 +27,7 @@ describe("calcite-tab-nav", () => {
   });
 
   it("emits on user interaction", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-tab-nav>
         <calcite-tab-title>Tab 1 Title</calcite-tab-title>
       </calcite-tab-nav>`,
@@ -50,8 +49,7 @@ describe("calcite-tab-nav", () => {
   });
 
   it("focuses on keyboard interaction", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-tab-nav>
         <calcite-tab-title id="tab1">Tab 1 Title</calcite-tab-title>
         <calcite-tab-title id="tab2">Tab 2 Title</calcite-tab-title>
@@ -117,8 +115,7 @@ describe("calcite-tab-nav", () => {
     }
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(tabsHTML);
+      page = await newE2EPage(tabsHTML);
       await page.setViewport(sizeShowingSomeTabs);
       await page.waitForChanges();
       scrollBackButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollBackwardContainerButton}`);

@@ -119,8 +119,13 @@ module.exports = {
       "error",
       {
         selector: "AwaitExpression CallExpression[callee.name='skipAnimations']",
-        message: "Do not use `skipAnimations` directly. Use the local `newE2EPage` util instead, which disables animations by default.",
-      }
+        message:
+          "Do not use `skipAnimations` directly. Use the local `newE2EPage` util instead, which disables animations by default.",
+      },
+      {
+        selector: 'MemberExpression > Identifier[name="setContent"]',
+        message: "Do not use `setContent` directly. Use the local `newE2EPage` util instead",
+      },
     ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],

@@ -9,8 +9,7 @@ describe("calcite-label", () => {
   });
 
   it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-label>
     Label text
     <calcite-input></calcite-input>
@@ -22,8 +21,7 @@ describe("calcite-label", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-label layout="inline-space-between">
     Label text
     <calcite-input></calcite-input>
@@ -120,8 +118,7 @@ describe("calcite-label", () => {
   });
 
   it("does not pass id to child label element", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
     Label text
     <calcite-input></calcite-input>
@@ -136,8 +133,7 @@ describe("calcite-label", () => {
   });
 
   it("should not focus on the slotted form element when a label's text is selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-label layout="inline-space-between">
         Label text
         <calcite-input></calcite-input>

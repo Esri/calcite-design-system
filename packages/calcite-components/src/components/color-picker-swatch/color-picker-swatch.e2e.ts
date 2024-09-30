@@ -1,4 +1,3 @@
-import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
 import { CSS } from "./resources";
@@ -38,13 +37,12 @@ describe("calcite-color-picker-swatch", () => {
   });
 
   describe("accepts CSS color strings", () => {
-    let page: E2EPage;
     const fillSwatchPartSelector = `.${CSS.swatch} rect:nth-child(4)`;
 
-    beforeEach(async () => (page = await newE2EPage()));
-
     it("supports rgb", async () => {
-      await page.setContent("<calcite-color-picker-swatch color='rgb(255, 255, 255)'></calcite-color-picker-swatch>");
+      const page = await newE2EPage(
+        "<calcite-color-picker-swatch color='rgb(255, 255, 255)'></calcite-color-picker-swatch>",
+      );
       const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
       const style = await swatch.getComputedStyle();
 
@@ -52,7 +50,7 @@ describe("calcite-color-picker-swatch", () => {
     });
 
     it("supports keywords", async () => {
-      await page.setContent("<calcite-color-picker-swatch color='chartreuse'></calcite-color-picker-swatch>");
+      const page = await newE2EPage("<calcite-color-picker-swatch color='chartreuse'></calcite-color-picker-swatch>");
       const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
       const style = await swatch.getComputedStyle();
 
@@ -60,7 +58,9 @@ describe("calcite-color-picker-swatch", () => {
     });
 
     it("supports hsl", async () => {
-      await page.setContent("<calcite-color-picker-swatch color='hsl(120, 100%, 97%)'></calcite-color-picker-swatch>");
+      const page = await newE2EPage(
+        "<calcite-color-picker-swatch color='hsl(120, 100%, 97%)'></calcite-color-picker-swatch>",
+      );
       const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
       const style = await swatch.getComputedStyle();
 
@@ -68,7 +68,7 @@ describe("calcite-color-picker-swatch", () => {
     });
 
     it("supports hex", async () => {
-      await page.setContent("<calcite-color-picker-swatch color='#ff8200'></calcite-color-picker-swatch>");
+      const page = await newE2EPage("<calcite-color-picker-swatch color='#ff8200'></calcite-color-picker-swatch>");
       const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
       const style = await swatch.getComputedStyle();
 
@@ -79,7 +79,7 @@ describe("calcite-color-picker-swatch", () => {
       const fillSwatchPartSelector = `.${CSS.swatch} rect:nth-child(5)`;
 
       it("supports rgba", async () => {
-        await page.setContent(
+        const page = await newE2EPage(
           "<calcite-color-picker-swatch color='rgba(255, 255, 255, 0.5)'></calcite-color-picker-swatch>",
         );
         const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
@@ -89,7 +89,7 @@ describe("calcite-color-picker-swatch", () => {
       });
 
       it("supports hsla", async () => {
-        await page.setContent(
+        const page = await newE2EPage(
           "<calcite-color-picker-swatch color='hsla(120, 100%, 97%, 0.5)'></calcite-color-picker-swatch>",
         );
         const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
@@ -99,7 +99,7 @@ describe("calcite-color-picker-swatch", () => {
       });
 
       it("supports hexa", async () => {
-        await page.setContent("<calcite-color-picker-swatch color='#ff820080'></calcite-color-picker-swatch>");
+        const page = await newE2EPage("<calcite-color-picker-swatch color='#ff820080'></calcite-color-picker-swatch>");
         const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
         const style = await swatch.getComputedStyle();
 

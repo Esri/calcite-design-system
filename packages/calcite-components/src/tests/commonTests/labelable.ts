@@ -110,10 +110,7 @@ export function labelable(
   describe("label wraps labelables", () => {
     it("is labelable when component is wrapped in a label", async () => {
       const wrappedHtml = html`<calcite-label>${labelTitle} ${componentHtml}</calcite-label>`;
-      const wrappedPage: E2EPage = await newE2EPage();
-      beforeContent?.(wrappedPage);
-      await wrappedPage.setContent(wrappedHtml);
-      await wrappedPage.waitForChanges();
+      const wrappedPage: E2EPage = await newE2EPage(wrappedHtml, beforeContent);
 
       await assertLabelable({
         page: wrappedPage,
@@ -125,12 +122,13 @@ export function labelable(
     });
 
     it("is labelable when wrapping label is set prior to component", async () => {
-      const labelFirstWrappedPage: E2EPage = await newE2EPage();
-      beforeContent?.(labelFirstWrappedPage);
-      await labelFirstWrappedPage.setContent(html`
-        <calcite-label></calcite-label>
-        <template>${componentHtml}</template>
-      `);
+      const labelFirstWrappedPage: E2EPage = await newE2EPage(
+        html`
+          <calcite-label></calcite-label>
+          <template>${componentHtml}</template>
+        `,
+        beforeContent,
+      );
       await labelFirstWrappedPage.waitForChanges();
       await labelFirstWrappedPage.evaluate(() => {
         const template = document.querySelector("template");
@@ -150,10 +148,7 @@ export function labelable(
     });
 
     it("is labelable when a component is set first before being wrapped in a label", async () => {
-      const componentFirstWrappedPage: E2EPage = await newE2EPage();
-      beforeContent?.(componentFirstWrappedPage);
-      await componentFirstWrappedPage.setContent(componentHtml);
-      await componentFirstWrappedPage.waitForChanges();
+      const componentFirstWrappedPage: E2EPage = await newE2EPage(componentHtml, beforeContent);
       await componentFirstWrappedPage.evaluate((id: string) => {
         const componentEl = document.querySelector(`[id='${id}']`);
         const labelEl = document.createElement("calcite-label");
@@ -173,8 +168,6 @@ export function labelable(
 
     it("only sets focus on the first labelable when label is clicked", async () => {
       const firstLabelableId = `${id}`;
-      const componentFirstWrappedPage: E2EPage = await newE2EPage();
-      beforeContent?.(componentFirstWrappedPage);
       const content = html`
         <calcite-label>
           <!-- duplicate tags should be fine as assertion uses first match -->
@@ -182,9 +175,7 @@ export function labelable(
           ${componentHtml.replace(id, `${id}-3`)}
         </calcite-label>
       `;
-
-      await componentFirstWrappedPage.setContent(content);
-      await componentFirstWrappedPage.waitForChanges();
+      const componentFirstWrappedPage: E2EPage = await newE2EPage(content, beforeContent);
 
       const firstLabelableSelector = `#${firstLabelableId}`;
 
@@ -206,11 +197,7 @@ export function labelable(
         <calcite-label for="${id}">${labelTitle}</calcite-label>
         ${componentHtml}
       `;
-      const siblingPage: E2EPage = await newE2EPage();
-      beforeContent?.(siblingPage);
-
-      await siblingPage.setContent(siblingHtml);
-      await siblingPage.waitForChanges();
+      const siblingPage: E2EPage = await newE2EPage(siblingHtml, beforeContent);
 
       await assertLabelable({
         page: siblingPage,
@@ -222,13 +209,13 @@ export function labelable(
     });
 
     it("is labelable when sibling label is set prior to component", async () => {
-      const labelFirstSiblingPage: E2EPage = await newE2EPage();
-      beforeContent?.(labelFirstSiblingPage);
-      await labelFirstSiblingPage.setContent(html`
-        <calcite-label for="${id}"></calcite-label>
-        <template>${componentHtml}</template>
-      `);
-      await labelFirstSiblingPage.waitForChanges();
+      const labelFirstSiblingPage: E2EPage = await newE2EPage(
+        html`
+          <calcite-label for="${id}"></calcite-label>
+          <template>${componentHtml}</template>
+        `,
+        beforeContent,
+      );
       await labelFirstSiblingPage.evaluate(() => {
         const template = document.querySelector("template");
         document.body.append(template.content.cloneNode(true));
@@ -245,10 +232,7 @@ export function labelable(
     });
 
     it("is labelable for a component set before sibling label", async () => {
-      const componentFirstSiblingPage: E2EPage = await newE2EPage();
-      beforeContent?.(componentFirstSiblingPage);
-      await componentFirstSiblingPage.setContent(componentHtml);
-      await componentFirstSiblingPage.waitForChanges();
+      const componentFirstSiblingPage: E2EPage = await newE2EPage(componentHtml, beforeContent);
       await componentFirstSiblingPage.evaluate((id: string) => {
         const label = document.createElement("calcite-label");
         label.setAttribute("for", `${id}`);
@@ -270,11 +254,7 @@ export function labelable(
         <calcite-label>${labelTitle}</calcite-label>
         ${componentHtml}
       `;
-      const siblingPage: E2EPage = await newE2EPage();
-      beforeContent?.(siblingPage);
-
-      await siblingPage.setContent(siblingHtml);
-      await siblingPage.waitForChanges();
+      const siblingPage: E2EPage = await newE2EPage(siblingHtml, beforeContent);
 
       const label = await siblingPage.find("calcite-label");
       label.setProperty("for", id);

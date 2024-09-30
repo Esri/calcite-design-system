@@ -78,8 +78,7 @@ describe("calcite-stepper", () => {
   });
 
   it("root container display is set to grid in horizontal layout", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-stepper>
         <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
@@ -95,8 +94,7 @@ describe("calcite-stepper", () => {
   });
 
   it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-stepper layout="vertical" scale="l" numbered icon>
         <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
@@ -128,8 +126,7 @@ describe("calcite-stepper", () => {
   });
 
   it("adds selected attribute to requested item", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-stepper layout="vertical" scale="l" numbered icon>
         <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
@@ -159,8 +156,7 @@ describe("calcite-stepper", () => {
   });
 
   it("adds selected attribute to first item if none are requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-stepper layout="vertical" scale="l" numbered icon>
         <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
@@ -191,8 +187,7 @@ describe("calcite-stepper", () => {
 
   describe("navigation", () => {
     it("navigates correctly with nextStep and prevStep methods", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper>
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
@@ -248,8 +243,7 @@ describe("calcite-stepper", () => {
     });
 
     it("navigates disabled items correctly with nextStep and prevStep methods", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper>
           <calcite-stepper-item heading="Step 1" id="step-1" selected>
             <div>Step 1 content</div>
@@ -294,8 +288,7 @@ describe("calcite-stepper", () => {
     });
 
     it("navigates correctly with startStep and endStep methods", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper>
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
@@ -343,8 +336,7 @@ describe("calcite-stepper", () => {
     });
 
     it("navigates disabled items correctly with startStep and endStep methods", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper>
           <calcite-stepper-item heading="Step 1" id="step-1" disabled>
             <div>Step 1 content</div>
@@ -392,8 +384,7 @@ describe("calcite-stepper", () => {
     });
 
     it("navigates to requested step with goToStep method", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper>
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
@@ -571,8 +562,7 @@ describe("calcite-stepper", () => {
       });
 
       it("emits with content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<calcite-stepper layout="${layout}">
             <calcite-stepper-item heading="Step 1" id="step-1">
               <div>Step 1 content</div>
@@ -593,8 +583,7 @@ describe("calcite-stepper", () => {
       });
 
       it("emits without content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<calcite-stepper layout="${layout}">
             <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
             <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
@@ -613,8 +602,7 @@ describe("calcite-stepper", () => {
       });
 
       it("emits with content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<calcite-stepper layout="${layout}">
             <calcite-stepper-item heading="Step 1" id="step-1">
               <div>Step 1 content</div>
@@ -635,8 +623,7 @@ describe("calcite-stepper", () => {
       });
 
       it("emits without content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<calcite-stepper layout="${layout}">
             <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
             <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
@@ -651,8 +638,7 @@ describe("calcite-stepper", () => {
   });
 
   it("should render correct numbering-system with multiple stepper component", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-stepper numbered>
+    const page = await newE2EPage(html`<calcite-stepper numbered>
       <calcite-stepper-item heading="Add info" description="Subtitle lorem ipsum" complete id="step-one"
         >Step 1 Content here lorem ipsum</calcite-stepper-item
       >
@@ -688,8 +674,7 @@ describe("calcite-stepper", () => {
   });
 
   it("should have correct ARIA attributes", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-stepper>
         <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
@@ -713,8 +698,7 @@ describe("calcite-stepper", () => {
   });
 
   it("should select the first stepper-item if none of the stepper-item's are selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-stepper>
+    const page = await newE2EPage(html`<calcite-stepper>
       <calcite-stepper-item heading="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -734,8 +718,7 @@ describe("calcite-stepper", () => {
   });
 
   it("should select the next enabled stepper-item if first stepper-item is disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-stepper>
         <calcite-stepper-item heading="Step 1" id="step-1" disabled>
           <div>Step 1 content</div>
@@ -753,8 +736,7 @@ describe("calcite-stepper", () => {
 
   describe("horizontal-single layout", () => {
     it("should display action buttons when layout is horizontal-single.", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
@@ -781,8 +763,7 @@ describe("calcite-stepper", () => {
     });
 
     it("focus order", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <calcite-button id="button1">Click</calcite-button>
@@ -828,8 +809,7 @@ describe("calcite-stepper", () => {
     });
 
     it("should emit calciteStepperItemChange on user interaction", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
@@ -870,8 +850,7 @@ describe("calcite-stepper", () => {
     });
 
     it(`switching to layout="horizontal-single" dynamically from another option should display a single item (#8931)`, async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`
           <calcite-stepper layout="horizontal">
             <calcite-stepper-item heading="Step 1" selected>

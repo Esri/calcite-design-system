@@ -189,9 +189,7 @@ describe("calcite-flow-item", () => {
   });
 
   it("showBackButton", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-flow-item></calcite-flow-item>");
+    const page = await newE2EPage("<calcite-flow-item></calcite-flow-item>");
 
     const element = await page.find("calcite-flow-item");
 
@@ -228,9 +226,8 @@ describe("calcite-flow-item", () => {
   });
 
   it("sets beforeClose on internal panel", async () => {
-    const page = await newE2EPage();
+    const page = await newE2EPage("<calcite-flow-item closable></calcite-flow-item>");
     await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent("<calcite-flow-item closable></calcite-flow-item>");
 
     await page.$eval(
       "calcite-flow-item",
@@ -245,9 +242,7 @@ describe("calcite-flow-item", () => {
   });
 
   it("sets collapsible and collapsed on internal panel", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-flow-item collapsible collapsed></calcite-flow-item>");
+    const page = await newE2EPage("<calcite-flow-item collapsible collapsed></calcite-flow-item>");
 
     const flowItem = await page.find("calcite-flow-item");
     const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
@@ -266,8 +261,7 @@ describe("calcite-flow-item", () => {
   });
 
   it("allows scrolling content", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-flow style="height: 300px">
         <calcite-flow-item heading="Flow heading" id="flowOrPanel">
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>

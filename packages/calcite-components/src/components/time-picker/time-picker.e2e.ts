@@ -61,8 +61,7 @@ describe("calcite-time-picker", () => {
 
   describe("focusing", () => {
     it("should focus input when corresponding nudge up button is clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
+      const page = await newE2EPage(`<calcite-time-picker step=".001"></calcite-time-picker>`);
 
       const minuteElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.minute}`)).getAttribute("aria-label");
       const minuteUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteUp}`);
@@ -110,8 +109,7 @@ describe("calcite-time-picker", () => {
     });
 
     it("should focus input when corresponding nudge down button is clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
+      const page = await newE2EPage(`<calcite-time-picker step=".001"></calcite-time-picker>`);
 
       const minuteElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.minute}`)).getAttribute("aria-label");
       const minuteDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteDown}`);
@@ -1120,8 +1118,7 @@ describe("calcite-time-picker", () => {
 
   describe("fractional second support", () => {
     it("upward nudge of empty fractional second sets to 0 for step=0.1", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-time-picker step="0.1"></calcite-time-picker>`);
+      const page = await newE2EPage(`<calcite-time-picker step="0.1"></calcite-time-picker>`);
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",
@@ -1134,8 +1131,7 @@ describe("calcite-time-picker", () => {
     });
 
     it("upward nudge of empty fractional second sets to 00 for step=0.01", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-time-picker step="0.01"></calcite-time-picker>`);
+      const page = await newE2EPage(`<calcite-time-picker step="0.01"></calcite-time-picker>`);
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",
@@ -1148,8 +1144,7 @@ describe("calcite-time-picker", () => {
     });
 
     it("upward nudge of empty fractional second sets to 000 for step=0.001", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-time-picker step="0.001"></calcite-time-picker>`);
+      const page = await newE2EPage(`<calcite-time-picker step="0.001"></calcite-time-picker>`);
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",

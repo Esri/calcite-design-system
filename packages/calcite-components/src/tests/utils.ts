@@ -301,9 +301,8 @@ export async function waitForAnimationFrame(): Promise<void> {
  * @returns {Promise<E2EPage>} an e2e page
  */
 export async function newProgrammaticE2EPage(): Promise<E2EPage> {
-  const page = await newE2EPage();
   // we need to initialize the page with any component to ensure they are available in the browser context
-  await page.setContent("<calcite-icon></calcite-icon>");
+  const page = await newE2EPage("<calcite-icon></calcite-icon>");
   await page.evaluate(() => document.querySelector("calcite-icon").remove());
 
   return page;

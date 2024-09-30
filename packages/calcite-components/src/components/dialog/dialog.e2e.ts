@@ -216,9 +216,8 @@ describe("calcite-dialog", () => {
   });
 
   it("should set internal panel properties", async () => {
-    const page = await newE2EPage();
+    const page = await newE2EPage("<calcite-dialog></calcite-dialog>");
     await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent("<calcite-dialog></calcite-dialog>");
 
     const panel = await page.find(`calcite-dialog >>> calcite-panel`);
     const dialog = await page.find("calcite-dialog");
@@ -255,12 +254,13 @@ describe("calcite-dialog", () => {
   });
 
   it("outsideCloseDisabled", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-
-    await page.setContent(`<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`);
-    await page.waitForChanges();
+    const page = await newE2EPage(
+      `<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test component isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
+    );
 
     const dialog = await page.find("calcite-dialog");
 
@@ -277,10 +277,13 @@ describe("calcite-dialog", () => {
   });
 
   it("sets custom width correctly", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-size-x:600px;"></calcite-dialog>`);
+    const page = await newE2EPage(
+      `<calcite-dialog style="--calcite-dialog-size-x:600px;"></calcite-dialog>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test sheet isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
+    );
 
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
@@ -292,10 +295,13 @@ describe("calcite-dialog", () => {
   });
 
   it("sets custom height correctly", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-size-y:600px;" open></calcite-dialog>`);
+    const page = await newE2EPage(
+      `<calcite-dialog style="--calcite-dialog-size-y:600px;" open></calcite-dialog>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test sheet isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
+    );
 
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
@@ -307,11 +313,12 @@ describe("calcite-dialog", () => {
   });
 
   it(`expectedly does not set custom width when "placement=cover" is true`, async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-dialog style="--calcite-dialog-size-x:600px;" placement="cover" open></calcite-dialog>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test sheet isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
     );
 
     const dialog = await page.find("calcite-dialog");
@@ -324,11 +331,12 @@ describe("calcite-dialog", () => {
   });
 
   it(`expectedly does not set custom height when "placement=cover" is true`, async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-dialog style="--calcite-dialog-size-y:600px;" placement="cover" open></calcite-dialog>`,
+      async (page): Promise<void> => {
+        // set large page to ensure test sheet isn't becoming fullscreen
+        await page.setViewport({ width: 1440, height: 1440 });
+      },
     );
 
     const dialog = await page.find("calcite-dialog");
@@ -341,11 +349,12 @@ describe("calcite-dialog", () => {
   });
 
   it("does not overflow page bounds when requested css variable sizes are larger than viewport", async () => {
-    const page = await newE2EPage();
-    // set small page to test overflow
-    await page.setViewport({ width: 800, height: 800 });
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open></calcite-dialog>`,
+      async (page): Promise<void> => {
+        // set small page to test overflow
+        await page.setViewport({ width: 800, height: 800 });
+      },
     );
 
     const dialog = await page.find("calcite-dialog");
@@ -359,8 +368,9 @@ describe("calcite-dialog", () => {
   });
 
   it("escapeDisabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-dialog open escape-disabled heading="My Dialog">Some content</calcite-dialog>`);
+    const page = await newE2EPage(
+      html`<calcite-dialog open escape-disabled heading="My Dialog">Some content</calcite-dialog>`,
+    );
 
     await page.waitForChanges();
 
@@ -399,12 +409,11 @@ describe("calcite-dialog", () => {
 
   describe("beforeClose()", () => {
     it("calls the beforeClose method prior to closing via click", async () => {
-      const page = await newE2EPage();
-      const mockCallBack = jest.fn();
-      await page.exposeFunction("beforeClose", mockCallBack);
-      await page.setContent(`
+      const page = await newE2EPage(`
       <calcite-dialog></calcite-dialog>
     `);
+      const mockCallBack = jest.fn();
+      await page.exposeFunction("beforeClose", mockCallBack);
 
       const dialog = await page.find("calcite-dialog");
       await page.$eval(
@@ -425,12 +434,11 @@ describe("calcite-dialog", () => {
     });
 
     it("calls the beforeClose method prior to closing via ESC key", async () => {
-      const page = await newE2EPage();
-      const mockCallBack = jest.fn();
-      await page.exposeFunction("beforeClose", mockCallBack);
-      await page.setContent(`
+      const page = await newE2EPage(`
       <calcite-dialog></calcite-dialog>
     `);
+      const mockCallBack = jest.fn();
+      await page.exposeFunction("beforeClose", mockCallBack);
 
       const dialog = await page.find("calcite-dialog");
       await page.$eval(
@@ -451,12 +459,11 @@ describe("calcite-dialog", () => {
     });
 
     it("calls the beforeClose method prior to closing via attribute", async () => {
-      const page = await newE2EPage();
-      const mockCallBack = jest.fn();
-      await page.exposeFunction("beforeClose", mockCallBack);
-      await page.setContent(`
+      const page = await newE2EPage(`
     <calcite-dialog></calcite-dialog>
   `);
+      const mockCallBack = jest.fn();
+      await page.exposeFunction("beforeClose", mockCallBack);
 
       const dialog = await page.find("calcite-dialog");
       await page.$eval(
@@ -477,12 +484,9 @@ describe("calcite-dialog", () => {
     });
 
     it("should handle rejected 'beforeClose' promise'", async () => {
-      const page = await newE2EPage();
-
+      const page = await newE2EPage(`<calcite-dialog open></calcite-dialog>`);
       const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
       await page.exposeFunction("beforeClose", mockCallBack);
-
-      await page.setContent(`<calcite-dialog open></calcite-dialog>`);
 
       await page.$eval(
         "calcite-dialog",
@@ -498,10 +502,8 @@ describe("calcite-dialog", () => {
     });
 
     it("should remain open with rejected 'beforeClose' promise'", async () => {
-      const page = await newE2EPage();
-
+      const page = await newE2EPage(`<calcite-dialog open></calcite-dialog>`);
       await page.exposeFunction("beforeClose", () => Promise.reject());
-      await page.setContent(`<calcite-dialog open></calcite-dialog>`);
 
       await page.$eval(
         "calcite-dialog",
@@ -522,8 +524,7 @@ describe("calcite-dialog", () => {
     it("traps focus within the dialog when open", async () => {
       const button1Id = "button1";
       const button2Id = "button2";
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog>
           <div>
             <button id="${button1Id}">Focus1</button>
@@ -556,8 +557,7 @@ describe("calcite-dialog", () => {
     it("restores focus to previously focused element when closed", async () => {
       const initiallyFocusedId = "initially-focused";
       const initiallyFocusedIdSelector = `#${initiallyFocusedId}`;
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <button id="${initiallyFocusedId}">Focus</button>
         <calcite-dialog></calcite-dialog>
       `);
@@ -579,8 +579,7 @@ describe("calcite-dialog", () => {
     it("traps focus within the dialog when open and disabled close button", async () => {
       const button1Id = "button1";
       const button2Id = "button2";
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog close-disabled>
           <div slot="content">
             <button id="${button1Id}">Focus1</button>
@@ -610,9 +609,7 @@ describe("calcite-dialog", () => {
     });
 
     it("subsequently opening a dialog dynamically gets focus trapped", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-dialog open id="dialog1" heading="Dialog 1">
           <calcite-button id="openButton">open second dialog</calcite-button>
         </calcite-dialog>
@@ -669,8 +666,7 @@ describe("calcite-dialog", () => {
   });
 
   it("has correct aria role/attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog open>Hello world!</calcite-dialog>`);
+    const page = await newE2EPage(`<calcite-dialog open>Hello world!</calcite-dialog>`);
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
@@ -688,8 +684,7 @@ describe("calcite-dialog", () => {
   });
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog></calcite-dialog>`);
+    const page = await newE2EPage(`<calcite-dialog></calcite-dialog>`);
 
     const dialog = await page.find("calcite-dialog");
     const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
@@ -709,8 +704,7 @@ describe("calcite-dialog", () => {
   });
 
   it("closes when Escape key is pressed and dialog is open on page load", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog  open></calcite-dialog>`);
+    const page = await newE2EPage(`<calcite-dialog  open></calcite-dialog>`);
 
     const dialog = await page.find("calcite-dialog");
     await page.waitForChanges();
@@ -729,8 +723,7 @@ describe("calcite-dialog", () => {
   });
 
   it("closes and allows re-opening when Close button is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog></calcite-dialog>`);
+    const page = await newE2EPage(`<calcite-dialog></calcite-dialog>`);
 
     const dialog = await page.find("calcite-dialog");
     const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
@@ -751,8 +744,7 @@ describe("calcite-dialog", () => {
   });
 
   it("should close when the scrim is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
+    const page = await newE2EPage(`<calcite-dialog modal></calcite-dialog>`);
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();
@@ -773,8 +765,7 @@ describe("calcite-dialog", () => {
     }
 
     it("does not set overflow style on document when opened/closed and non modal", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog></calcite-dialog>`);
+      const page = await newE2EPage(`<calcite-dialog></calcite-dialog>`);
       const dialog = await page.find("calcite-dialog");
 
       dialog.setProperty("open", true);
@@ -789,8 +780,7 @@ describe("calcite-dialog", () => {
     });
 
     it("correctly sets overflow style on document when opened/closed", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
+      const page = await newE2EPage(`<calcite-dialog modal></calcite-dialog>`);
       const dialog = await page.find("calcite-dialog");
 
       dialog.setProperty("open", true);
@@ -805,8 +795,7 @@ describe("calcite-dialog", () => {
     });
 
     it("preserves existing overflow style when dialog is opened/closed", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
+      const page = await newE2EPage(`<calcite-dialog modal></calcite-dialog>`);
       await page.evaluate(() => (document.documentElement.style.overflow = "scroll"));
       const dialog = await page.find("calcite-dialog");
 
@@ -822,8 +811,9 @@ describe("calcite-dialog", () => {
     });
 
     it("correctly does not add overflow style on document when open and slotted in shell dialogs slot", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-shell><calcite-dialog slot="dialogs" modal></calcite-dialog></calcite-shell>`);
+      const page = await newE2EPage(
+        `<calcite-shell><calcite-dialog slot="dialogs" modal></calcite-dialog></calcite-shell>`,
+      );
       const dialog = await page.find("calcite-dialog");
 
       dialog.setProperty("open", true);
@@ -833,8 +823,7 @@ describe("calcite-dialog", () => {
     });
 
     it("correctly removes overflow style on document when multiple dialogs are closed in first-in-last-out order", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-dialog id="dialog-1" modal></calcite-dialog>
         <calcite-dialog id="dialog-2" modal></calcite-dialog>
       `);
@@ -857,8 +846,7 @@ describe("calcite-dialog", () => {
     });
 
     it("correctly removes overflow style on document when multiple dialogs are closed in first-in-first-out order", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-dialog id="dialog-1" modal></calcite-dialog>
         <calcite-dialog id="dialog-2" modal></calcite-dialog>
       `);
@@ -901,8 +889,7 @@ describe("calcite-dialog", () => {
   });
 
   it("should set embedded on slotted alerts", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-dialog open>
         test
         <calcite-alert slot="alerts" open label="this is a default alert">
@@ -920,8 +907,7 @@ describe("calcite-dialog", () => {
 
   describe("keyboard movement", () => {
     it("should move properly via arrow keys", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open>Hello world!</calcite-dialog>`,
       );
 
@@ -946,8 +932,7 @@ describe("calcite-dialog", () => {
 
   describe("keyboard assistive text", () => {
     it("should not have assistive text by default", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
       );
 
@@ -957,8 +942,7 @@ describe("calcite-dialog", () => {
     });
 
     it("should have assistive text when resizable", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
       );
 
@@ -971,8 +955,7 @@ describe("calcite-dialog", () => {
     });
 
     it("should have assistive text when dragEnabled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
       );
 
@@ -985,8 +968,7 @@ describe("calcite-dialog", () => {
     });
 
     it("should have assistive text when resizable and dragEnabled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
           >Hello world!</calcite-dialog
         >`,
@@ -1003,8 +985,7 @@ describe("calcite-dialog", () => {
 
   describe("keyboard resize", () => {
     it("should resize properly via shift and arrow keys", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
           ><p>
             Lorem ipsum odor amet, consectetuer adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
@@ -1055,9 +1036,10 @@ describe("calcite-dialog", () => {
   describe("theme", () => {
     themed(
       async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`<calcite-dialog width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`);
-        // set large page to ensure test dialog isn't becoming fullscreen
+        const page = await newE2EPage(
+          html`<calcite-dialog width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`,
+        );
+        // set large page to ensure test component isn't becoming fullscreen
         await page.setViewport({ width: 1440, height: 1440 });
 
         return { page, tag: "calcite-dialog" };

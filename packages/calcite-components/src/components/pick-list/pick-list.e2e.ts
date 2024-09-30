@@ -54,8 +54,7 @@ describe("calcite-pick-list", () => {
 
   describe("icon logic", () => {
     it("should be 'circle' when multi-select is disabled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pick-list>
+      const page = await newE2EPage(`<calcite-pick-list>
         <calcite-pick-list-item value="one"></calcite-pick-list-item>
       </calcite-pick-list>`);
 
@@ -65,8 +64,7 @@ describe("calcite-pick-list", () => {
     });
 
     it("should be 'square' when multi-select is enabled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pick-list multiple>
+      const page = await newE2EPage(`<calcite-pick-list multiple>
         <calcite-pick-list-item value="one"></calcite-pick-list-item>
       </calcite-pick-list>`);
 

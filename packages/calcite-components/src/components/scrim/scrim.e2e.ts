@@ -35,9 +35,7 @@ describe("calcite-scrim", () => {
   });
 
   it("shows loading component", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-scrim></calcite-scrim>");
+    const page = await newE2EPage("<calcite-scrim></calcite-scrim>");
 
     let loader = await page.find("calcite-scrim >>> calcite-loader");
 
@@ -55,9 +53,7 @@ describe("calcite-scrim", () => {
   });
 
   it("does not allow clicks in underlying nodes", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-panel>
         <calcite-button>Test</calcite-button>
         <calcite-scrim></calcite-scrim>
@@ -72,9 +68,7 @@ describe("calcite-scrim", () => {
   });
 
   it("does allow clicks inside default node", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-scrim>
         <calcite-button>Test</calcite-button>
       </calcite-scrim>
@@ -90,9 +84,7 @@ describe("calcite-scrim", () => {
   });
 
   it("does not display content if the default slot if it is empty", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-scrim></calcite-scrim>`);
+    const page = await newE2EPage(`<calcite-scrim></calcite-scrim>`);
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
     expect(contentNode).toHaveAttribute("hidden");
 
@@ -107,9 +99,7 @@ describe("calcite-scrim", () => {
   });
 
   it("renders content in the default slot has content", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-scrim>This is a test.</calcite-scrim>`);
+    const page = await newE2EPage(`<calcite-scrim>This is a test.</calcite-scrim>`);
 
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
@@ -155,8 +145,7 @@ describe("calcite-scrim", () => {
 
     testValues.forEach((scaleSize) => {
       it(`should have a scale="${scaleSize.scale}" loading spinner`, async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<style>
               .scrim-container {
                 position: relative;
@@ -180,8 +169,7 @@ describe("calcite-scrim", () => {
     });
 
     it("should responsively scale loading spinner on resize", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<style>
             .scrim-container {
               display: flex;

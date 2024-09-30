@@ -221,9 +221,7 @@ describe("calcite-panel", () => {
   });
 
   it("honors closed prop", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel closable>test</calcite-panel>");
+    const page = await newE2EPage("<calcite-panel closable>test</calcite-panel>");
 
     const element = await page.find("calcite-panel");
     const container = await page.find(`calcite-panel >>> .${CSS.container}`);
@@ -242,9 +240,7 @@ describe("calcite-panel", () => {
   });
 
   it("honors closed prop initially", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel closed closable>test</calcite-panel>");
+    const page = await newE2EPage("<calcite-panel closed closable>test</calcite-panel>");
 
     const container = await page.find(`calcite-panel >>> .${CSS.container}`);
 
@@ -254,12 +250,9 @@ describe("calcite-panel", () => {
   });
 
   it("should handle rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
-
+    const page = await newE2EPage(`<calcite-panel closable></calcite-panel>`);
     const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
-
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
 
     await page.$eval(
       "calcite-panel",
@@ -276,10 +269,8 @@ describe("calcite-panel", () => {
   });
 
   it("should remain open with rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
-
+    const page = await newE2EPage(`<calcite-panel closable></calcite-panel>`);
     await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
 
     await page.$eval(
       "calcite-panel",
@@ -295,9 +286,7 @@ describe("calcite-panel", () => {
   });
 
   it("honors collapsed & collapsible properties", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel collapsed>test</calcite-panel>");
+    const page = await newE2EPage("<calcite-panel collapsed>test</calcite-panel>");
 
     const element = await page.find("calcite-panel");
     const container = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
@@ -330,8 +319,7 @@ describe("calcite-panel", () => {
   });
 
   it("toggle event should fire when collapsed", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-panel collapsible>Hello World!</calcite-panel>");
+    const page = await newE2EPage("<calcite-panel collapsible>Hello World!</calcite-panel>");
     await page.waitForChanges();
 
     const calcitePanelToggle = await page.spyOnEvent("calcitePanelToggle", "window");
@@ -344,8 +332,7 @@ describe("calcite-panel", () => {
   });
 
   it("should set embedded on slotted alerts", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-panel>
         Hello World!
         <calcite-alert slot="alerts" open label="this is a default alert">
@@ -451,9 +438,7 @@ describe("calcite-panel", () => {
   });
 
   it("should have default heading", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent('<calcite-panel heading="test heading"></calcite-panel>');
+    const page = await newE2EPage('<calcite-panel heading="test heading"></calcite-panel>');
 
     const element = await page.find(`calcite-panel >>> .${CSS.heading}`);
 
@@ -461,9 +446,7 @@ describe("calcite-panel", () => {
   });
 
   it("should have default description", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent('<calcite-panel description="test description"></calcite-panel>');
+    const page = await newE2EPage('<calcite-panel description="test description"></calcite-panel>');
 
     const element = await page.find(`calcite-panel >>> .${CSS.description}`);
 
@@ -471,9 +454,7 @@ describe("calcite-panel", () => {
   });
 
   it("should not render a header if there are no actions or content", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel>test</calcite-panel>");
+    const page = await newE2EPage("<calcite-panel>test</calcite-panel>");
 
     const header = await page.find(`calcite-panel >>> .${CSS.header}`);
 
@@ -481,9 +462,7 @@ describe("calcite-panel", () => {
   });
 
   it("menuOpen should show/hide when toggled", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-panel>
         <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
         <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
@@ -514,9 +493,7 @@ describe("calcite-panel", () => {
   });
 
   it("should not render start or end actions containers when there are no start or end actions", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel></calcite-panel>");
+    const page = await newE2EPage("<calcite-panel></calcite-panel>");
 
     const actionsContainerStart = await page.find(`calcite-panel >>> .${CSS.headerActionsStart}`);
     const actionsContainerEnd = await page.find(`calcite-panel >>> .${CSS.headerActionsEnd}`);
@@ -526,9 +503,7 @@ describe("calcite-panel", () => {
   });
 
   it("header-content should override heading and description properties", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-panel heading="test heading" description="test description">
         <div slot=${SLOTS.headerContent}>custom header content</div>
       </calcite-panel>`,
@@ -544,9 +519,7 @@ describe("calcite-panel", () => {
   });
 
   it("should not render footer node if there are no actions or content", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel>test</calcite-panel>");
+    const page = await newE2EPage("<calcite-panel>test</calcite-panel>");
 
     const footer = await page.find(`calcite-panel >>> .${CSS.footer}`);
 
@@ -554,9 +527,7 @@ describe("calcite-panel", () => {
   });
 
   it("should set tabIndex of -1 on a non-scrollable panel", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(panelTemplate());
+    const page = await newE2EPage(panelTemplate());
 
     const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
 
@@ -564,9 +535,7 @@ describe("calcite-panel", () => {
   });
 
   it("should set tabIndex of 0 on a scrollable panel", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(panelTemplate(true));
+    const page = await newE2EPage(panelTemplate(true));
 
     const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
 
@@ -574,9 +543,7 @@ describe("calcite-panel", () => {
   });
 
   it("handles scrollContentTo method", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(panelTemplate(true));
+    const page = await newE2EPage(panelTemplate(true));
 
     const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
 
@@ -592,8 +559,7 @@ describe("calcite-panel", () => {
   describe("closable", () => {
     describe("with scrollable content (Escape emits from scroll container)", () => {
       it("should close when Escape key is pressed and closable is true", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
         );
         const panel = await page.find("calcite-panel");
@@ -617,8 +583,7 @@ describe("calcite-panel", () => {
       });
 
       it("should not close when Escape key is prevented and closable is true", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
         );
         const panel = await page.find("calcite-panel");
@@ -647,8 +612,7 @@ describe("calcite-panel", () => {
 
     describe("without scrollable content (Escape emits from close button)", () => {
       it("should close when Escape key is pressed and closable is true", async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`<calcite-panel closable>non-scrolling content</calcite-panel>`);
+        const page = await newE2EPage(html`<calcite-panel closable>non-scrolling content</calcite-panel>`);
         const panel = await page.find("calcite-panel");
         const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
         const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);

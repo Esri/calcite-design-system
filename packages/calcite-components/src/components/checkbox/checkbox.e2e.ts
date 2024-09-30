@@ -50,8 +50,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("renders with correct default attributes", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-checkbox></calcite-checkbox>");
+    const page = await newE2EPage("<calcite-checkbox></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
@@ -61,8 +60,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-checkbox></calcite-checkbox>");
+    const page = await newE2EPage("<calcite-checkbox></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
@@ -84,8 +82,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("appropriately triggers the custom change event", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-checkbox></calcite-checkbox>`);
+    const page = await newE2EPage(`<calcite-checkbox></calcite-checkbox>`);
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
@@ -99,8 +96,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("doesn't emit when controlling checked attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-checkbox value='test-value'></calcite-checkbox>");
+    const page = await newE2EPage("<calcite-checkbox value='test-value'></calcite-checkbox>");
     const element = await page.find("calcite-checkbox");
     const spy = await element.spyOnEvent("calciteCheckboxChange");
 
@@ -112,8 +108,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("removes the indeterminate attribute when clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-checkbox indeterminate></calcite-checkbox>");
+    const page = await newE2EPage("<calcite-checkbox indeterminate></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
@@ -125,8 +120,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("behaves as expected when wrapped in a calcite-label with inline layout mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
@@ -135,8 +129,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("behaves as expected when wrapped in a calcite-label with inline-space-between layout mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
@@ -145,8 +138,7 @@ describe("calcite-checkbox", () => {
   });
 
   it("resets to initial value when form reset event is triggered", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <form>
         <calcite-checkbox id="unchecked"></calcite-checkbox>
         <calcite-checkbox id="checked" checked></calcite-checkbox>
@@ -183,8 +175,7 @@ describe("calcite-checkbox", () => {
 
   describe("WCAG AA recommended minimum 24px click area", () => {
     const testCheckboxClick = async (scale: Scale, maxExtraPixels: number, direction: "ltr" | "rtl"): Promise<void> => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-checkbox dir="${direction}" scale="${scale}"></calcite-checkbox>`);
+      const page = await newE2EPage(html`<calcite-checkbox dir="${direction}" scale="${scale}"></calcite-checkbox>`);
       const checkbox = await page.find("calcite-checkbox");
       const { left, top, right, bottom } = await page.evaluate(() =>
         document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),

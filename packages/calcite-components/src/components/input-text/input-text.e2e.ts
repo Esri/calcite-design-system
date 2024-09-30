@@ -89,16 +89,14 @@ describe("calcite-input-text", () => {
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text icon="key"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text icon="key"></calcite-input-text>`);
 
     const icon = await page.find("calcite-input-text >>> .icon");
     expect(icon).not.toBeNull();
   });
 
   it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text icon></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text icon></calcite-input-text>`);
 
     const icon = await page.find("calcite-input-text >>> .icon");
     expect(icon).toBeNull();
@@ -130,8 +128,7 @@ describe("calcite-input-text", () => {
   });
 
   it.skip("emits events when value is modified", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text></calcite-input-text>`);
 
     const element = await page.find("calcite-input-text");
     const calciteInputTextInput = await element.spyOnEvent("calciteInputTextInput");
@@ -198,32 +195,28 @@ describe("calcite-input-text", () => {
   });
 
   it("renders clear button when clearable is requested and value is populated at load", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
     const clearButton = await page.find("calcite-input-text >>> .clear-button");
     expect(clearButton).not.toBe(null);
     expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text clearable></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text clearable></calcite-input-text>`);
 
     const clearButton = await page.find("calcite-input-text >>> .clear-button");
     expect(clearButton).toBe(null);
   });
 
   it("does not render clear button when clearable is not requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text></calcite-input-text>`);
 
     const clearButton = await page.find("calcite-input-text >>> .clear-button");
     expect(clearButton).toBe(null);
   });
 
   it("when clearable is requested, value is cleared on escape key press", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
 
     const element = await page.find("calcite-input-text");
     await element.callMethod("setFocus");
@@ -234,8 +227,7 @@ describe("calcite-input-text", () => {
   });
 
   it("when clearable is requested, value is cleared on clear button click", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
 
     const element = await page.find("calcite-input-text");
     const clearButton = await page.find("calcite-input-text >>> .clear-button");
@@ -245,8 +237,7 @@ describe("calcite-input-text", () => {
   });
 
   it("when clearable is requested and clear button is clicked, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
 
     const calciteInputTextInput = await page.spyOnEvent("calciteInputTextInput");
     const element = await page.find("calcite-input-text");
@@ -259,8 +250,7 @@ describe("calcite-input-text", () => {
   });
 
   it("when clearable is requested and input is cleared via escape key, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
 
     const calciteInputTextInput = await page.spyOnEvent("calciteInputTextInput");
     const element = await page.find("calcite-input-text");
@@ -275,8 +265,7 @@ describe("calcite-input-text", () => {
   });
 
   it("when clearable is not requested and input is cleared via escape key, event is not received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text value="John Doe"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text value="John Doe"></calcite-input-text>`);
 
     const calciteInputTextInput = await page.spyOnEvent("calciteInputTextInput");
     const element = await page.find("calcite-input-text");
@@ -291,8 +280,9 @@ describe("calcite-input-text", () => {
   });
 
   it("allows restricting input length", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text min-length="2" max-length="3" value=""></calcite-input-text>`);
+    const page = await newE2EPage(
+      html`<calcite-input-text min-length="2" max-length="3" value=""></calcite-input-text>`,
+    );
 
     const getInputValidity = async () =>
       page.$eval("calcite-input-text", (element: HTMLCalciteInputTextElement) => {
@@ -323,8 +313,7 @@ describe("calcite-input-text", () => {
   });
 
   it(`allows clearing value`, async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text value="hello"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text value="hello"></calcite-input-text>`);
     const input = await page.find("calcite-input-text");
 
     input.setProperty("value", null);
@@ -339,8 +328,7 @@ describe("calcite-input-text", () => {
   });
 
   it("cannot be modified when readOnly is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text read-only value="John Doe" clearable></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text read-only value="John Doe" clearable></calcite-input-text>`);
 
     const calciteInputTextInput = await page.spyOnEvent("calciteInputTextInput");
     const element = await page.find("calcite-input-text");
@@ -359,8 +347,7 @@ describe("calcite-input-text", () => {
   });
 
   it("sets internals to readOnly or disabled when readOnly is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text read-only></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text read-only></calcite-input-text>`);
 
     const inputs = await page.findAll("calcite-input-text >>> input");
 
@@ -376,15 +363,13 @@ describe("calcite-input-text", () => {
   });
 
   it("sets internals to pattern when the attribute is used", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-text type="file" pattern="[a-z]{4,8}"></calcite-input-text>`);
+    const page = await newE2EPage(html`<calcite-input-text type="file" pattern="[a-z]{4,8}"></calcite-input-text>`);
     const input = await page.find("calcite-input-text >>> input");
     expect(await input.getProperty("pattern")).toBe("[a-z]{4,8}");
   });
 
   it("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-text></calcite-input-text>`);
+    const page = await newE2EPage(`<calcite-input-text></calcite-input-text>`);
     const element = await page.find("calcite-input-text");
 
     await element.callMethod("setFocus");
@@ -411,12 +396,10 @@ describe("calcite-input-text", () => {
   });
 
   it("should not focus when clicking validation message", async () => {
-    const page = await newE2EPage();
     const componentTag = "calcite-input-text";
-    await page.setContent(
+    const page = await newE2EPage(
       html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
     );
-    await page.waitForChanges();
 
     expect(await isElementFocused(page, componentTag)).toBe(false);
 
@@ -434,8 +417,7 @@ describe("calcite-input-text", () => {
   });
 
   it("allows disabling slotted action", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-input-text><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-text>`,
     );
 

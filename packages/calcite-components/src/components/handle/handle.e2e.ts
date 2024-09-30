@@ -21,10 +21,8 @@ describe("calcite-handle", () => {
   });
 
   it("sets handle tooltip", async () => {
-    const page = await newE2EPage();
     const label = "Hello World";
-    await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
-    await page.waitForChanges();
+    const page = await newE2EPage(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
 
     const handle = await page.find("calcite-handle");
     await handle.callMethod("setFocus");
@@ -35,8 +33,7 @@ describe("calcite-handle", () => {
   });
 
   it("sets selected to true when focused and space is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle></calcite-handle>");
+    const page = await newE2EPage("<calcite-handle></calcite-handle>");
 
     const handle = await page.find("calcite-handle");
     const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
@@ -55,8 +52,7 @@ describe("calcite-handle", () => {
   });
 
   it("sets selected to false when blurred", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle></calcite-handle>");
+    const page = await newE2EPage("<calcite-handle></calcite-handle>");
 
     const handle = await page.find("calcite-handle");
     const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
@@ -79,8 +75,7 @@ describe("calcite-handle", () => {
   });
 
   it("does not set selected to false when blurUnselectDisabled and blurred", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle blur-unselect-disabled></calcite-handle>");
+    const page = await newE2EPage("<calcite-handle blur-unselect-disabled></calcite-handle>");
 
     const handle = await page.find("calcite-handle");
     const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
@@ -104,8 +99,7 @@ describe("calcite-handle", () => {
   });
 
   it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle></calcite-handle>");
+    const page = await newE2EPage("<calcite-handle></calcite-handle>");
 
     const calciteHandleNudgeSpy = await page.spyOnEvent("calciteHandleNudge");
 
@@ -127,10 +121,8 @@ describe("calcite-handle", () => {
   });
 
   it("sets radio role properly", async () => {
-    const page = await newE2EPage();
     const label = "Hello World";
-    await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
-    await page.waitForChanges();
+    const page = await newE2EPage(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
 
     const handle = await page.find("calcite-handle");
 

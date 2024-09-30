@@ -20,8 +20,7 @@ describe("calcite-stepper-item", () => {
   });
 
   it("emits selection event on user interaction", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-stepper-item heading="heading"></calcite-stepper-item>`);
+    const page = await newE2EPage(html`<calcite-stepper-item heading="heading"></calcite-stepper-item>`);
     const stepperItem = await page.find("calcite-stepper-item");
     const stepperItemSelect = await page.spyOnEvent("calciteStepperItemSelect");
 

@@ -44,8 +44,7 @@ describe("calcite-navigation", () => {
   });
 
   it("should emit calciteNavigationActionSelect event when user interacts with navigation-action", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-navigation navigation-action><calcite-navigation-logo heading="Test" /></calcite-navigation>`,
     );
     const eventSpy = await page.spyOnEvent("calciteNavigationActionSelect");

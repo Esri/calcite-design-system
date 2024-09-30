@@ -20,6 +20,7 @@ export async function newE2EPage(
   await beforeContent?.(page);
 
   if (testHtml) {
+    // eslint-disable-next-line no-restricted-syntax -- this is our replacement util, so we need to set content here
     await page.setContent(testHtml);
   }
 

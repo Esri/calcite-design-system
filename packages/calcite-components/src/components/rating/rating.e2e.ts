@@ -62,8 +62,7 @@ describe("calcite-rating", () => {
 
   describe("rendering", () => {
     it("should render a rating", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
@@ -110,8 +109,7 @@ describe("calcite-rating", () => {
     });
 
     it("should render a rating with an average", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating average=3.4></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating average=3.4></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
@@ -157,8 +155,7 @@ describe("calcite-rating", () => {
     });
 
     it("should render a rating with a value", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=4></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=4></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
@@ -203,8 +200,7 @@ describe("calcite-rating", () => {
     });
 
     it("should render a rating with a value when an average is set", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=3 average=4.2></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=3 average=4.2></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
@@ -249,8 +245,7 @@ describe("calcite-rating", () => {
     });
 
     it("should render a calcite chip", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating show-chip average=3 count=200></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating show-chip average=3 count=200></calcite-rating>");
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
       const countSpan = await page.find("calcite-rating >>> .number--count");
       const averageSpan = await page.find("calcite-rating >>> .number--average");
@@ -261,8 +256,7 @@ describe("calcite-rating", () => {
     });
 
     it("should render a calcite chip when count is missing", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating show-chip average=3></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating show-chip average=3></calcite-rating>");
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
       const countSpan = await page.find("calcite-rating >>> .number--count");
       const averageSpan = await page.find("calcite-rating >>> .number--average");
@@ -272,8 +266,7 @@ describe("calcite-rating", () => {
     });
 
     it("should not render a calcite chip when average is missing", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating show-chip count=200></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating show-chip count=200></calcite-rating>");
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
       const countSpan = await page.find("calcite-rating >>> .number--count");
       const averageSpan = await page.find("calcite-rating >>> .number--average");
@@ -286,8 +279,7 @@ describe("calcite-rating", () => {
 
   describe("set props", () => {
     it("should render the expected UI when the value is updated programmatically without emitting an event", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
@@ -311,8 +303,7 @@ describe("calcite-rating", () => {
     });
 
     it("should render the expected UI when the value is updated programmatically after an average is already set", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating average=4.25></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating average=4.25></calcite-rating>");
       const element = await page.find("calcite-rating");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
@@ -336,8 +327,7 @@ describe("calcite-rating", () => {
     });
 
     it("should not reset the rating when rating is required", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=3 required></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=3 required></calcite-rating>");
       const element = await page.find("calcite-rating");
 
       await element.setProperty("value", 3);
@@ -349,8 +339,7 @@ describe("calcite-rating", () => {
 
   describe("mouse interaction", () => {
     it("should update the rating and emit an event when a click event triggers on a rating label", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating average=3.5></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating average=3.5></calcite-rating>");
       const element = await page.find("calcite-rating");
       const labels = await page.findAll("calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
@@ -400,8 +389,7 @@ describe("calcite-rating", () => {
     });
 
     it("should update the ui of the rating when a hover event triggers on a rating label", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating average=3.5></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating average=3.5></calcite-rating>");
       const element = await page.find("calcite-rating");
       const labels = await page.findAll("calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
@@ -450,8 +438,7 @@ describe("calcite-rating", () => {
     });
 
     it("should update the UI when a hover event triggers on a rating label after a value has been set", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=3></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
 
@@ -492,8 +479,7 @@ describe("calcite-rating", () => {
     });
 
     it("should not update the rating when a click event triggers after the read-only attribute is set", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=4 read-only></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=4 read-only></calcite-rating>");
       const element = await page.find("calcite-rating");
       const ratingItem1 = await page.find("calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
@@ -512,8 +498,7 @@ describe("calcite-rating", () => {
     });
 
     it("should reset the rating when the current value is equal to the value of the clicked input", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=3></calcite-rating>");
       const element = await page.find("calcite-rating");
       const labels = await page.findAll("calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
@@ -533,8 +518,7 @@ describe("calcite-rating", () => {
     });
 
     it("should not allow rating to be cleared/reset when required props is set true", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating required></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating required></calcite-rating>");
       const element = await page.find("calcite-rating");
       const labels = await page.findAll("calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
@@ -555,8 +539,7 @@ describe("calcite-rating", () => {
     });
 
     it("should not allow click interaction when read-only is set", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=4 read-only></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=4 read-only></calcite-rating>");
       const element = await page.find("calcite-rating");
       const ratingItem1 = await page.find("calcite-rating >>> .star");
 
@@ -575,8 +558,7 @@ describe("calcite-rating", () => {
 
   describe("keyboard interaction", () => {
     it("should update the UI when the element's focusedIn event is triggered", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=3></calcite-rating>");
       const element = await page.find("calcite-rating");
 
       await page.keyboard.press("Tab");
@@ -594,8 +576,7 @@ describe("calcite-rating", () => {
     });
 
     it("should update the UI when the element's blur event is triggered", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating> <calcite-button> Click</calcite-button>");
+      const page = await newE2EPage("<calcite-rating></calcite-rating> <calcite-button> Click</calcite-button>");
       const element = await page.find("calcite-rating");
 
       await page.keyboard.press("Tab");
@@ -613,8 +594,7 @@ describe("calcite-rating", () => {
     });
 
     it("should retain the rating value when the element's blur event is triggered and then the element is re-focused", async () => {
-      const page = await newE2EPage();
-      await page.setContent('<calcite-rating value="3"></calcite-rating>');
+      const page = await newE2EPage('<calcite-rating value="3"></calcite-rating>');
       const element = await page.find("calcite-rating");
 
       await page.keyboard.press("Tab");
@@ -635,8 +615,7 @@ describe("calcite-rating", () => {
     });
 
     it("should select the first star when tabbing into a rating with an average set", async () => {
-      const page = await newE2EPage();
-      await page.setContent('<calcite-rating average="3"></calcite-rating>');
+      const page = await newE2EPage('<calcite-rating average="3"></calcite-rating>');
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
 
@@ -661,8 +640,7 @@ describe("calcite-rating", () => {
     });
 
     it("should update the UI when the arrow keys are pressed", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
@@ -699,8 +677,7 @@ describe("calcite-rating", () => {
     });
 
     it("should update the rating when a number key is pressed", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -715,8 +692,7 @@ describe("calcite-rating", () => {
     });
 
     it("should update the rating when the enter key is pressed", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
       await page.keyboard.press("Tab");
@@ -726,8 +702,7 @@ describe("calcite-rating", () => {
     });
 
     it("should reset the rating when the enter key is triggered on an element with the same value as the current value", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=3></calcite-rating>");
       const element = await page.find("calcite-rating");
 
       await page.keyboard.press("Tab");
@@ -738,8 +713,7 @@ describe("calcite-rating", () => {
     });
 
     it("should not allow the rating to be cleared/reset when required props is set true", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating required></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating required></calcite-rating>");
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -753,8 +727,7 @@ describe("calcite-rating", () => {
     });
 
     it("should not allow keyboard events on the rating when read-only is set true", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=2 read-only></calcite-rating>");
+      const page = await newE2EPage("<calcite-rating value=2 read-only></calcite-rating>");
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 

@@ -70,8 +70,7 @@ describe("calcite-date-picker-month-header", () => {
   });
 
   it("should set the input aria-label to year", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
+    const page = await newE2EPage(html`<calcite-date-picker></calcite-date-picker>`);
 
     await page.evaluate((localeData) => {
       const dateMonthHeader = document.createElement("calcite-date-picker-month-header");

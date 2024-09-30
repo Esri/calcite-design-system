@@ -27,9 +27,7 @@ describe("calcite-popover", () => {
   });
 
   it("should have zIndex of 900", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
@@ -111,8 +109,7 @@ describe("calcite-popover", () => {
   });
 
   it("popover positions when referenceElement is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-popover open placement="auto"></calcite-popover>
         <div id="ref">referenceElement</div>`,
     );
@@ -134,9 +131,7 @@ describe("calcite-popover", () => {
   });
 
   it("open popover should be visible", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`);
+    const page = await newE2EPage(`<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`);
 
     const element = await page.find("calcite-popover");
 
@@ -160,9 +155,7 @@ describe("calcite-popover", () => {
   });
 
   it("should accept referenceElement as string id", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
@@ -182,9 +175,7 @@ describe("calcite-popover", () => {
   });
 
   it("should accept referenceElement as a virtual element", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-popover placement="auto" open>content</calcite-popover>`);
+    const page = await newE2EPage(`<calcite-popover placement="auto" open>content</calcite-popover>`);
 
     await page.$eval("calcite-popover", (popover: HTMLCalcitePopoverElement) => {
       const virtualElement = {
@@ -214,9 +205,7 @@ describe("calcite-popover", () => {
   });
 
   it("should show closeButton when enabled with closable prop", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
@@ -236,9 +225,7 @@ describe("calcite-popover", () => {
   });
 
   it("should honor click interaction", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
@@ -256,9 +243,7 @@ describe("calcite-popover", () => {
   });
 
   it("should honor Enter key interaction", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
@@ -284,9 +269,7 @@ describe("calcite-popover", () => {
   });
 
   it("should honor Space key interaction", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
@@ -312,9 +295,7 @@ describe("calcite-popover", () => {
   });
 
   it("should open popovers", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-popover reference-element="ref">Content</calcite-popover>
       <div id="ref">Button</div>
     `);
@@ -335,9 +316,7 @@ describe("calcite-popover", () => {
   });
 
   it("should open popovers 2", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-popover reference-element="ref">Content</calcite-popover>
       <div id="ref"><span>Button</span></div>
     `);
@@ -358,9 +337,7 @@ describe("calcite-popover", () => {
   });
 
   it("should not be visible if reference is hidden", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html` <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
         <div id="scrollEl" style="height: 200px; overflow: auto;">
           <div id="ref">referenceElement</div>
@@ -390,9 +367,7 @@ describe("calcite-popover", () => {
   });
 
   it("do not autoClose popovers when clicked outside", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <div id="outsideNode">Outside node</div>
       <calcite-popover reference-element="ref" open>Content</calcite-popover>
       <div id="ref">Button</div>
@@ -412,9 +387,7 @@ describe("calcite-popover", () => {
   });
 
   it("autoClose popovers when clicked outside", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <div id="outsideNode">Outside node</div>
       <calcite-popover auto-close reference-element="ref" open>
         <div id="insideNode">Inside node</div>
@@ -446,9 +419,7 @@ describe("calcite-popover", () => {
   });
 
   it("should autoClose popovers when clicked on another referenceElement", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <p>
         Some text
         <button id="ref1">Button</button>
@@ -485,9 +456,7 @@ describe("calcite-popover", () => {
   });
 
   it("should not be visible if ui has escaped", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<div id="scrollEl" style="height: 200px; overflow: auto;">
         <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
         <div id="ref">referenceElement</div>
@@ -517,9 +486,7 @@ describe("calcite-popover", () => {
   });
 
   it("should not toggle popovers with triggerDisabled", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html` <div id="outsideNode">Outside node</div>
         <calcite-popover trigger-disabled reference-element="ref" open> Hello World </calcite-popover>
         <div id="ref">Button</div>`,
@@ -557,8 +524,7 @@ describe("calcite-popover", () => {
   });
 
   it("should not toggle popovers when the ref element (component) is disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html` <calcite-popover reference-element="ref"> Hello World</calcite-popover>
         <calcite-button id="ref" disabled>Button</calcite-button>`,
     );
@@ -580,9 +546,7 @@ describe("calcite-popover", () => {
   });
 
   it("should autoClose shadow popovers when clicked outside", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <div id="host"></div>
       <div id="outsideNode">Outside node</div>
       <calcite-popover id="dummy" reference-element="ref">dummy popover</calcite-popover>
@@ -624,9 +588,7 @@ describe("calcite-popover", () => {
   });
 
   it("should still function when disconnected and reconnected", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
       <div id="transfer"></div>
       <div id="ref">referenceElement</div>`,
@@ -653,9 +615,7 @@ describe("calcite-popover", () => {
   });
 
   it("should close popovers with ESC key", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-popover reference-element="ref">Content</calcite-popover>
       <button id="ref">Button</button>
     `);

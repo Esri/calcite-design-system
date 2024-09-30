@@ -29,9 +29,7 @@ describe("calcite-chip", () => {
   });
 
   it("should not render a calcite-icon when selectionMode is single and not selected", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-chip selection-mode="single" id="chip-1" >cheetos</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip selection-mode="single" id="chip-1" >cheetos</calcite-chip>`);
 
     await page.waitForChanges();
 
@@ -41,8 +39,7 @@ describe("calcite-chip", () => {
   });
 
   it("should not emit event after the chip is clicked if interactive if not set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
 
     const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
 
@@ -54,8 +51,7 @@ describe("calcite-chip", () => {
   });
 
   it("should emit event after the chip button is clicked when interactive", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip id="chip-1" interactive>cheetos</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip id="chip-1" interactive>cheetos</calcite-chip>`);
 
     const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
 
@@ -67,8 +63,7 @@ describe("calcite-chip", () => {
   });
 
   it("should emit event after the close button is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip closable>cheetos</calcite-chip>`);
 
     const eventSpy = await page.spyOnEvent("calciteChipClose", "window");
 
@@ -80,8 +75,7 @@ describe("calcite-chip", () => {
   });
 
   it("should receive focus when clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
 
     const chip1 = await page.find("#chip-1");
     await chip1.click();
@@ -90,8 +84,7 @@ describe("calcite-chip", () => {
   });
 
   it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip>Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "solid");
@@ -100,8 +93,9 @@ describe("calcite-chip", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="outline" kind="brand" scale="l">Chip content</calcite-chip>`);
+    const page = await newE2EPage(
+      `<calcite-chip appearance="outline" kind="brand" scale="l">Chip content</calcite-chip>`,
+    );
 
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "outline");
@@ -110,8 +104,9 @@ describe("calcite-chip", () => {
   });
 
   it("renders outline-fill chip when appearance='outline-fill'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="outline-fill" kind="brand" scale="l">Chip content</calcite-chip>`);
+    const page = await newE2EPage(
+      `<calcite-chip appearance="outline-fill" kind="brand" scale="l">Chip content</calcite-chip>`,
+    );
 
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "outline-fill");
@@ -120,16 +115,14 @@ describe("calcite-chip", () => {
   });
 
   it("renders a close button when requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip closable>Chip content</calcite-chip>`);
 
     const close = await page.find("calcite-chip >>> button.close");
     expect(close).not.toBeNull();
   });
 
   it("does not render a close button when not requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+    const page = await newE2EPage(`<calcite-chip>Chip content</calcite-chip>`);
 
     const close = await page.find("calcite-chip >>> button.close");
     expect(close).toBeNull();
@@ -206,8 +199,7 @@ describe("calcite-chip", () => {
     });
 
     it("should not render chip when closed set to true", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
+      const page = await newE2EPage(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
 
       const chipEl = await page.find(`calcite-chip`);
       chipEl.toggleAttribute("closed", true);

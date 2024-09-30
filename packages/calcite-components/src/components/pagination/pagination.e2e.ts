@@ -35,8 +35,7 @@ describe("calcite-pagination", () => {
 
   describe("page links", () => {
     it("should render only one page when totalItems is less than pageSize", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination total-items="10" page-size="11"></calcite-pagination>`);
+      const page = await newE2EPage(`<calcite-pagination total-items="10" page-size="11"></calcite-pagination>`);
       const links = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
       expect(links.length).toBe(1);
     });
@@ -44,8 +43,7 @@ describe("calcite-pagination", () => {
 
   describe("semantic elements are used", () => {
     it("should render a native list internally", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination total-items="10" page-size="1"></calcite-pagination>`);
+      const page = await newE2EPage(`<calcite-pagination total-items="10" page-size="1"></calcite-pagination>`);
       const list = await page.find(`calcite-pagination >>> .${CSS.list}`);
       expect(list).not.toBeNull();
       const listItems = await page.findAll(`calcite-pagination >>> .${CSS.listItem}`);
@@ -55,8 +53,7 @@ describe("calcite-pagination", () => {
 
   describe("ellipsis rendering", () => {
     it("should not render either ellipsis when total pages is less than or equal to 5", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination total-items="80"></calcite-pagination>`);
+      const page = await newE2EPage(`<calcite-pagination total-items="80"></calcite-pagination>`);
 
       const startEllipsis = await page.find(`calcite-pagination >>> [data-test-ellipsis="start"]`);
       const endEllipsis = await page.find(`calcite-pagination >>> [data-test-ellipsis="end"]`);
@@ -64,8 +61,7 @@ describe("calcite-pagination", () => {
       expect(endEllipsis).toBeNull();
     });
     it("should render start ellipsis when total pages is over 5 and the selected page more than 4 from the starting page", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-pagination style="width:400px;" start-item="101" total-items="140" page-size="20"></calcite-pagination>`,
       );
 
@@ -73,8 +69,7 @@ describe("calcite-pagination", () => {
       expect(startEllipsis).not.toBeNull();
     });
     it("should render end ellipsis when total pages is over 5 and the selected page more than 3 from the final page", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-pagination style="width:400px;" start-item="801" total-items="1200" page-size="100"></calcite-pagination>`,
       );
       const endEllipsis = await page.find(`calcite-pagination >>> [data-test-ellipsis="end"]`);
@@ -85,8 +80,7 @@ describe("calcite-pagination", () => {
     let page: E2EPage;
     let pagination: E2EElement;
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(
+      page = await newE2EPage(
         `<calcite-pagination start-item="1" total-items="124" page-size="20"></calcite-pagination>`,
       );
       pagination = await page.find("calcite-pagination");
@@ -149,8 +143,9 @@ describe("calcite-pagination", () => {
   });
   describe("page buttons", () => {
     it("should switch selected page to the page that's clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="1" total-items="36" page-size="10"></calcite-pagination>`);
+      const page = await newE2EPage(
+        `<calcite-pagination start-item="1" total-items="36" page-size="10"></calcite-pagination>`,
+      );
       const toggleSpy = await page.spyOnEvent("calcitePaginationChange");
       const pages = await page.findAll("calcite-pagination >>> .page");
       await pages[1].click();
@@ -172,8 +167,7 @@ describe("calcite-pagination", () => {
     let page: E2EPage;
     let pagination: E2EElement;
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="1" total-items="5" page-size="1"></calcite-pagination>`);
+      page = await newE2EPage(`<calcite-pagination start-item="1" total-items="5" page-size="1"></calcite-pagination>`);
       pagination = await page.find("calcite-pagination");
     });
     it("should show the first page", async () => {
@@ -203,15 +197,17 @@ describe("calcite-pagination", () => {
 
   describe("pageSize", () => {
     it("should set pageSize to one when set to zero via attribute", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="1" total-items="5" page-size="0"></calcite-pagination>`);
+      const page = await newE2EPage(
+        `<calcite-pagination start-item="1" total-items="5" page-size="0"></calcite-pagination>`,
+      );
       const pagination = await page.find("calcite-pagination");
       expect(await pagination.getProperty("pageSize")).toBe(1);
     });
 
     it("should set pageSize to one when set to zero programmatically", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="1" total-items="50" page-size="10"></calcite-pagination>`);
+      const page = await newE2EPage(
+        `<calcite-pagination start-item="1" total-items="50" page-size="10"></calcite-pagination>`,
+      );
       const pagination = await page.find("calcite-pagination");
       expect(await pagination.getProperty("pageSize")).toBe(10);
       pagination.setProperty("pageSize", 0);
@@ -245,8 +241,7 @@ describe("calcite-pagination", () => {
     }
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(
+      page = await newE2EPage(
         html`<calcite-pagination
           lang="en"
           group-separator
@@ -295,8 +290,7 @@ describe("calcite-pagination", () => {
   describe("navigation methods", () => {
     let page: E2EPage;
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(
+      page = await newE2EPage(
         `<calcite-pagination start-item="1" total-items="124" page-size="20"></calcite-pagination>`,
       );
     });

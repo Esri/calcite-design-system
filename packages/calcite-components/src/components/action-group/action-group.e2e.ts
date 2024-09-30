@@ -86,8 +86,7 @@ describe("calcite-action-group", () => {
   });
 
   it("should honor overlayPositioning", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action-group scale="l" overlay-positioning="fixed">
+    const page = await newE2EPage(`<calcite-action-group scale="l" overlay-positioning="fixed">
     <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
     <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
     </calcite-action-group>`);
@@ -97,8 +96,7 @@ describe("calcite-action-group", () => {
   });
 
   it("should honor label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action-group label="test">
+    const page = await newE2EPage(`<calcite-action-group label="test">
     <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
     <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
     </calcite-action-group>`);

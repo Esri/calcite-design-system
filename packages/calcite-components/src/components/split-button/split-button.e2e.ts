@@ -95,8 +95,7 @@ describe("calcite-split-button", () => {
   });
 
   it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button>
       </calcite-split-button>`);
     const element = await page.find("calcite-split-button");
@@ -119,8 +118,7 @@ describe("calcite-split-button", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button
           scale="s"
           kind="danger"
@@ -145,8 +143,7 @@ describe("calcite-split-button", () => {
   });
 
   it("renders primaryText without icons as inner content of primary button", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button primary-text="primary action">
       </calcite-split-button>`);
     const primaryButton = await page.find("calcite-split-button >>> calcite-button");
@@ -157,8 +154,7 @@ describe("calcite-split-button", () => {
   });
 
   it("renders primaryText + primary-icon-start as inner content of primary button", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button primary-text="primary action" primary-icon-start="save">
       </calcite-split-button>`);
     const primaryButton = await page.find("calcite-split-button >>> calcite-button");
@@ -169,8 +165,7 @@ describe("calcite-split-button", () => {
   });
 
   it("renders primaryText + primary-icon-end as inner content of primary button", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button primary-text="primary action" primary-icon-end="save">
       </calcite-split-button>`);
     const primaryButton = await page.find("calcite-split-button >>> calcite-button");
@@ -179,8 +174,7 @@ describe("calcite-split-button", () => {
     expect(primaryButton).toEqualAttribute("icon-end", "save");
   });
   it("renders primaryText + primary-icon-end and primary-icon-start as inner content of primary button", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button primary-text="primary action" primary-icon-start="save" primary-icon-end="save">
       </calcite-split-button>`);
     const primaryButton = await page.find("calcite-split-button >>> calcite-button");
@@ -200,8 +194,7 @@ describe("calcite-split-button", () => {
       m: "m",
       l: "l",
     };
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button>
       </calcite-split-button>`);
     const element = await page.find("calcite-split-button");
@@ -218,8 +211,7 @@ describe("calcite-split-button", () => {
   });
 
   it("adds split-child attributes to child button components", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-split-button>
       </calcite-split-button>`);
     const primaryButton = await page.find("calcite-split-button >>> calcite-button");
@@ -229,8 +221,7 @@ describe("calcite-split-button", () => {
   });
 
   it("should support dropdown item keyboard navigation", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-split-button scale="s" primary-text="Button">
+    const page = await newE2EPage(`<calcite-split-button scale="s" primary-text="Button">
     <calcite-dropdown-group selection-mode="none">
       <calcite-dropdown-item id="item-1">Option 2</calcite-dropdown-item>
       <calcite-dropdown-item id="item-2">Option 3</calcite-dropdown-item>

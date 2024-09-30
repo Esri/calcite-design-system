@@ -105,8 +105,7 @@ describe("calcite-text-area", () => {
   });
 
   it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-text-area></calcite-text-area>");
+    const page = await newE2EPage("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
     const inputEventSpy = await element.spyOnEvent("calciteTextAreaInput");
@@ -128,8 +127,7 @@ describe("calcite-text-area", () => {
   });
 
   it("should not emit calciteTextAreaChange & calciteTextAreaInput event when user tabs out of the textarea without typing", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-text-area></calcite-text-area>");
+    const page = await newE2EPage("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
     const changeEventSpy = await element.spyOnEvent("calciteTextAreaChange");
@@ -147,8 +145,7 @@ describe("calcite-text-area", () => {
   });
 
   it("should be able to enter characters beyond max-length", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-text-area></calcite-text-area>");
+    const page = await newE2EPage("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
     element.setAttribute("max-length", "5");
@@ -164,8 +161,7 @@ describe("calcite-text-area", () => {
   });
 
   it("should have footer--slotted class when slotted at both start and end", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-text-area>
+    const page = await newE2EPage(`<calcite-text-area>
     <calcite-button slot="footer-start">CLEAR</calcite-button>
     <calcite-button slot="footer-end">RESET</calcite-button></calcite-text-area>`);
 
@@ -179,8 +175,7 @@ describe("calcite-text-area", () => {
   // currently we are assuming resize CSS property value determines the resize behavior.
   describe("resize", () => {
     it("should set CSS resize property to horizontal", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-text-area resize="horizontal"></calcite-text-area>`);
+      const page = await newE2EPage(`<calcite-text-area resize="horizontal"></calcite-text-area>`);
 
       const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();
@@ -189,8 +184,7 @@ describe("calcite-text-area", () => {
     });
 
     it("should set CSS resize property to vertical", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-text-area resize="vertical"></calcite-text-area>`);
+      const page = await newE2EPage(`<calcite-text-area resize="vertical"></calcite-text-area>`);
 
       const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();

@@ -35,8 +35,7 @@ describe("calcite-card", () => {
   });
 
   it("renders with default props if none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-card label="example-label">
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
@@ -48,8 +47,7 @@ describe("calcite-card", () => {
   });
 
   it("renders with requested props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-card label="example-label" loading selected disabled>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
@@ -61,8 +59,7 @@ describe("calcite-card", () => {
   });
 
   it("should have a thumbnail container", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-card label="example-label">
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
@@ -75,8 +72,7 @@ describe("calcite-card", () => {
 
   describe("when a card is selectable (deprecated)", () => {
     it("should update the card's selected state when its checkbox is clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-card label="example-label" selectable>
           <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
           <span slot="subtitle">
@@ -102,8 +98,7 @@ describe("calcite-card", () => {
   });
 
   it("should have aria-live attribute set to polite on loader container when loading", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-card label="example-label" selectable loading>
       <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>

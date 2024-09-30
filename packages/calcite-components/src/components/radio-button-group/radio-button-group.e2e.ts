@@ -44,8 +44,7 @@ describe("calcite-radio-button-group", () => {
     hidden("calcite-radio-button");
 
     it("honors hidden attribute when navigating", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-radio-button-group name="first">
           <calcite-label>
             1-1
@@ -117,8 +116,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("has a radio input for form compatibility", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="hidden-input">
         <calcite-label>
           1
@@ -147,8 +145,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("does not require an item to be checked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="none-checked">
         <calcite-label>
           1
@@ -172,8 +169,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("when multiple items are checked, last one wins", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-radio-button-group name="multiple-checked">
         <calcite-label>
           1
@@ -198,8 +194,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("selects item with left and arrow keys", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="keyboard">
         <calcite-label>
           1
@@ -253,8 +248,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("selects item with up and down keys", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="up-down-keys">
         <calcite-label>
           1
@@ -306,8 +300,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("clicking a radio updates its checked status", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="radio">
         <calcite-label>
           1
@@ -337,8 +330,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("clicking outside of radio button or label text won't update checked status", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="radio" layout="vertical">
         <calcite-label>
           1
@@ -368,8 +360,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("programmatically checking a radio button updates the group's state correctly", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="radio">
         <calcite-label>
           1
@@ -399,8 +390,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("programmatically un-checking a radio button updates the group's state correctly", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="radio">
         <calcite-label>
           1
@@ -427,8 +417,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it(`has a role of 'radiogroup'`, async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-button-group></calcite-radio-button-group>");
+    const page = await newE2EPage("<calcite-radio-button-group></calcite-radio-button-group>");
     const element = await page.find("calcite-radio-button-group");
 
     const role = element.getAttribute("role");
@@ -436,8 +425,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("radio-buttons receive necessary props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="radio">
         <calcite-label>
           1
@@ -460,8 +448,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("appropriately triggers the custom change event", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="changeEvent">
         <calcite-label>
           1
@@ -507,8 +494,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("should focus the checked radio-button on setFocus()", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="Options" layout="vertical">
         <calcite-label layout="inline">
           <calcite-radio-button value="trees" disabled id="trees"></calcite-radio-button>
@@ -531,8 +517,7 @@ describe("calcite-radio-button-group", () => {
   });
 
   it("should focus the first focusable radio-button on setFocus()", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-radio-button-group name="Options" layout="vertical">
         <calcite-label layout="inline">
           <calcite-radio-button value="trees" disabled id="trees"></calcite-radio-button>

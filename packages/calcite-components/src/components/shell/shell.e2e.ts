@@ -17,9 +17,7 @@ describe("calcite-shell", () => {
   });
 
   it("content node should always be present", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-shell></calcite-shell>`);
+    const page = await newE2EPage(`<calcite-shell></calcite-shell>`);
 
     const content = await page.find(`calcite-shell >>> .${CSS.content}`);
 
@@ -40,9 +38,7 @@ describe("calcite-shell", () => {
   });
 
   it("should place content behind", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-shell content-behind>
         <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
           <p>Primary Content</p>
@@ -61,9 +57,7 @@ describe("calcite-shell", () => {
   });
 
   it("should place the panel-top and panel-bottom slots inside the content node when content-behind is false", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-shell>
         <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
           <p>Primary Content</p>
@@ -92,9 +86,7 @@ describe("calcite-shell", () => {
   });
 
   it("should place the panel-top and panel-bottom slots outside the content node when content-behind is true", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-shell content-behind>
         <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
           <p>Primary Content</p>
@@ -123,9 +115,7 @@ describe("calcite-shell", () => {
   });
 
   it("should position panel-bottom slot at content's bottom when no other panels exist", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-shell>
         <calcite-shell-panel slot="${SLOTS.panelBottom}" display-mode="float" layout="horizontal">
           <p>Primary Content</p>

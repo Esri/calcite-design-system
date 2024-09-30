@@ -27,8 +27,7 @@ describe("calcite-icon", () => {
   });
 
   it("flips icon when enabled and in RTL", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
+    const page = await newE2EPage(`<calcite-icon icon="a-z"></calcite-icon>`);
     const icon = await page.find(`calcite-icon`);
     const flipRtlIconSelector = `calcite-icon >>> .${CSS.flipRtl}`;
 
@@ -47,8 +46,7 @@ describe("calcite-icon", () => {
     });
 
     it("uses path data to render icon", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
+      const page = await newE2EPage(`<calcite-icon icon="a-z"></calcite-icon>`);
       await page.waitForChanges();
       const path = await page.find(`calcite-icon >>> path`);
 
@@ -56,8 +54,7 @@ describe("calcite-icon", () => {
     });
 
     it("supports both camelcase and kebab case for icon name", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
+      const page = await newE2EPage(`<calcite-icon icon="a-z"></calcite-icon>`);
       await page.waitForChanges();
       const icon = await page.find(`calcite-icon`);
       const path = await page.find(`calcite-icon >>> path`);
@@ -70,8 +67,7 @@ describe("calcite-icon", () => {
     });
 
     it.skip("loads icon when it's close to viewport", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
+      const page = await newE2EPage(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
       await page.waitForChanges();
 
       const icon = await page.find(`calcite-icon`);
@@ -90,8 +86,7 @@ describe("calcite-icon", () => {
 
       scales.forEach((scale) =>
         it(`${scale} scale`, async () => {
-          const page = await newE2EPage();
-          await page.setContent(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
+          const page = await newE2EPage(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
           const calciteIcon = await page.find(`calcite-icon`);
           const calciteIconComputedStyle = await calciteIcon.getComputedStyle();
           const svg = await page.find(`calcite-icon >>> svg`);

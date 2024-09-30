@@ -59,8 +59,7 @@ describe("calcite-chip-group", () => {
 
   describe("selection modes function as intended", () => {
     it("selection mode single allows one or no chips to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="single">
           <calcite-chip id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" selected label="test-label"></calcite-chip>
@@ -121,8 +120,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("selection mode none (default) allows no chip to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label">
           <calcite-chip id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" label="test-label"></calcite-chip>
@@ -169,8 +167,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("selection mode single-persist allows one chip to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="single-persist">
           <calcite-chip id="chip-1" selected label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" label="test-label"></calcite-chip>
@@ -218,8 +215,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("selection mode multiple allows none, one, or multiple to be selected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="multiple">
           <calcite-chip id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" label="test-label"></calcite-chip>
@@ -303,8 +299,7 @@ describe("calcite-chip-group", () => {
 
   describe("focus and interaction function as intended", () => {
     it("navigation with keyboard works as expected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="multiple">
           <calcite-chip id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" label="test-label"></calcite-chip>
@@ -382,8 +377,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("when chips are selectable, and a chip is focused, using tab will focus the close button", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html` <calcite-chip-group label="test-label" selection-mode="single">
           <calcite-chip closable id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip closable id="chip-2" label="test-label"></calcite-chip>
@@ -428,8 +422,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("when closing a chip, focus the previous chip, or if the first chip is closed, focus the 'next first chip'", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="single">
           <calcite-chip closable id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip closable id="chip-2" label="test-label"></calcite-chip>
@@ -462,8 +455,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("selectedItems property is correctly populated at load when property is set on chips in DOM", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="multiple">
           <calcite-chip label="test-label"></calcite-chip>
           <calcite-chip label="test-label"></calcite-chip>
@@ -489,8 +481,7 @@ describe("calcite-chip-group", () => {
 
   describe("programmatically selecting Chips", () => {
     it("programmatically setting selected on a chip should update the component but not emit public events", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="single">
           <calcite-chip label="test-label"></calcite-chip>
           <calcite-chip label="test-label"></calcite-chip>
@@ -530,8 +521,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("programmatically setting selected on a chip in single-persist should update the component but not emit public events", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="single-persist">
           <calcite-chip label="test-label"></calcite-chip>
           <calcite-chip label="test-label"></calcite-chip>
@@ -586,8 +576,7 @@ describe("calcite-chip-group", () => {
       await selectedItemAsserter([chip4.id]);
     });
     it("programmatically setting selected on a chip in multiple should update the component but not emit public events", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-chip-group label="test-label" selection-mode="multiple">
           <calcite-chip label="test-label"></calcite-chip>
           <calcite-chip label="test-label"></calcite-chip>
@@ -629,8 +618,7 @@ describe("calcite-chip-group", () => {
 
   describe("updating component after page load", () => {
     it("should update selected items without emitting event if chips are added after page load in multiple", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-chip-group label="test-label" selection-mode="multiple">
           <calcite-chip label="test-label"></calcite-chip>
           <calcite-chip label="test-label"></calcite-chip>
@@ -676,8 +664,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("should update selected items without emitting event if chips are added after page load in single", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-chip-group label="test-label" selection-mode="single">
           <calcite-chip label="test-label"></calcite-chip>
           <calcite-chip label="test-label"></calcite-chip>
@@ -719,8 +706,7 @@ describe("calcite-chip-group", () => {
     });
 
     it("should update selected items without emitting event if chips are removed after page load", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-chip-group label="test-label" selection-mode="multiple">
           <calcite-chip label="test-label"></calcite-chip>
           <calcite-chip label="test-label"></calcite-chip>

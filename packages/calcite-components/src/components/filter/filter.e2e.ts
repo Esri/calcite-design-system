@@ -59,8 +59,7 @@ describe("calcite-filter", () => {
 
   it("sets scale on the input", async () => {
     const scale = "s";
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-filter scale="${scale}"></calcite-filter>`);
+    const page = await newE2EPage(`<calcite-filter scale="${scale}"></calcite-filter>`);
 
     const input = await page.find(`calcite-filter >>> calcite-input`);
     expect(await input.getProperty("scale")).toBe(scale);
@@ -68,9 +67,8 @@ describe("calcite-filter", () => {
 
   describe("strings", () => {
     it("should update the filter placeholder when a string is provided", async () => {
-      const page = await newE2EPage();
       const placeholderText = "placeholder";
-      await page.setContent(`<calcite-filter placeholder="${placeholderText}"></calcite-filter>`);
+      const page = await newE2EPage(`<calcite-filter placeholder="${placeholderText}"></calcite-filter>`);
 
       const input = await page.find(`calcite-filter >>> calcite-input`);
       expect(await input.getProperty("placeholder")).toBe(placeholderText);
@@ -81,8 +79,7 @@ describe("calcite-filter", () => {
     let page;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent("<calcite-filter></calcite-filter>");
+      page = await newE2EPage("<calcite-filter></calcite-filter>");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = [{ foo: "bar" }];
@@ -145,8 +142,7 @@ describe("calcite-filter", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent("<calcite-filter></calcite-filter>");
+      page = await newE2EPage("<calcite-filter></calcite-filter>");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = [
@@ -262,8 +258,7 @@ describe("calcite-filter", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(`<calcite-filter value="harry"></calcite-filter>`);
+      page = await newE2EPage(`<calcite-filter value="harry"></calcite-filter>`);
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = [
@@ -302,8 +297,7 @@ describe("calcite-filter", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(`<calcite-filter></calcite-filter>`);
+      page = await newE2EPage(`<calcite-filter></calcite-filter>`);
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = [

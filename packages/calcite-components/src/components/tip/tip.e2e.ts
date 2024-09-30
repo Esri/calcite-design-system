@@ -29,9 +29,7 @@ describe("calcite-tip", () => {
   });
 
   it("should remove the closeButton if closeDisabled prop is true", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tip close-disabled><p>not dismissible</p></calcite-tip>`);
+    const page = await newE2EPage(`<calcite-tip close-disabled><p>not dismissible</p></calcite-tip>`);
 
     const closeButton = await page.find(`calcite-tip >>> .${CSS.close}`);
     expect(closeButton).toBeNull();
@@ -56,8 +54,7 @@ describe("calcite-tip", () => {
   });
 
   it("header should only be visible if has a heading", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-tip><p>testing</p></calcite-tip>`);
+    const page = await newE2EPage(`<calcite-tip><p>testing</p></calcite-tip>`);
 
     let header = await page.find(`calcite-tip >>> .${CSS.header}`);
 
