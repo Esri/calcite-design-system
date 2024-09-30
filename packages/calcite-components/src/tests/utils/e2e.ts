@@ -16,7 +16,11 @@ export async function newE2EPage(
     failOnConsoleError: true,
   });
   await beforeContent?.(page);
-  await page.setContent(testHtml);
+
+  if (testHtml) {
+    await page.setContent(testHtml);
+  }
+
   await skipAnimations(page);
   return page;
 }
