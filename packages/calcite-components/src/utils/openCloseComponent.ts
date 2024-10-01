@@ -1,11 +1,6 @@
 import { whenTransitionDone } from "./dom";
 
 /**
- * Exported for testing purposes only
- */
-export const internalRaf = requestAnimationFrame;
-
-/**
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
@@ -85,7 +80,7 @@ function isOpen(component: OpenCloseComponent): boolean {
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
-  internalRaf((): void => {
+  requestAnimationFrame((): void => {
     if (!component.transitionEl) {
       return;
     }
