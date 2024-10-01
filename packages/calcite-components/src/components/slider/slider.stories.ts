@@ -362,14 +362,15 @@ darkModeHistogramRTLH_TestOnly.parameters = darkModeHistogramRTLV_TestOnly.param
 
 const disabledSlider = {};
 for (const l of ["horizontal", "vertical"]) {
-  disabledSlider[l] = (): string => html`<calcite-slider disabled value="5" layout=${l}></calcite-slider>`;
+  disabledSlider[l] = (args: SliderStoryArgs): string =>
+    html`<calcite-slider disabled value="5" layout=${l} style="${args.style}"></calcite-slider>`;
 }
 export const disabledH_TestOnly = disabledSlider["horizontal"];
 export const disabledV_TestOnly = disabledSlider["vertical"];
 
 const wordBreakDoesNotAffectLabels = {};
 for (const l of ["horizontal", "vertical"]) {
-  wordBreakDoesNotAffectLabels[l] = (): string =>
+  wordBreakDoesNotAffectLabels[l] = (args: SliderStoryArgs): string =>
     html`<calcite-slider
       min="-100"
       max="100"
@@ -381,6 +382,7 @@ for (const l of ["horizontal", "vertical"]) {
       label-ticks
       style="word-break: break-all"
       layout=${l}
+      style="${args.style}"
     ></calcite-slider>`;
 }
 export const wordBreakDoesNotAffectLabelsH_TestOnly = wordBreakDoesNotAffectLabels["horizontal"];
@@ -388,7 +390,9 @@ export const wordBreakDoesNotAffectLabelsV_TestOnly = wordBreakDoesNotAffectLabe
 
 const withLabelHandlesAndNoValue = {};
 for (const l of ["horizontal", "vertical"]) {
-  withLabelHandlesAndNoValue[l] = (): string => html` <calcite-slider max="750" layout=${l}></calcite-slider> `;
+  withLabelHandlesAndNoValue[l] = (args: SliderStoryArgs): string => html`
+    <calcite-slider max="750" layout=${l} style="${args.style}"></calcite-slider>
+  `;
 }
 export const WithLabelHandlesAndNoValueH_TestOnly = withLabelHandlesAndNoValue["horizontal"];
 export const WithLabelHandlesAndNoValueV_TestOnly = withLabelHandlesAndNoValue["vertical"];
@@ -599,7 +603,7 @@ export const maxTickRenderingV_TestOnly = maxTickRendering["vertical"];
 
 const rendersWhenTrackRelatedPropChanges = {};
 for (const l of ["horizontal", "vertical"]) {
-  rendersWhenTrackRelatedPropChanges[l] = (): string => html`
+  rendersWhenTrackRelatedPropChanges[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       id="example-slider"
       label-ticks
@@ -610,6 +614,7 @@ for (const l of ["horizontal", "vertical"]) {
       step="8"
       ticks="8"
       layout=${l}
+      style="${args.style}"
     ></calcite-slider>
     <script>
       (async () => {
@@ -635,7 +640,7 @@ rendersWhenTrackRelatedPropChangesH_TestOnly.parameters = rendersWhenTrackRelate
 
 const spaceGroupSeparatorNoBreak = {};
 for (const l of ["horizontal", "vertical"]) {
-  spaceGroupSeparatorNoBreak[l] = (): string => html`
+  spaceGroupSeparatorNoBreak[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       lang="ru"
       value="1000"
@@ -646,6 +651,7 @@ for (const l of ["horizontal", "vertical"]) {
       max="10000"
       ticks="2000"
       layout=${l}
+      style="${args.style}"
     ></calcite-slider>
   `;
 }
