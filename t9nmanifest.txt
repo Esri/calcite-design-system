@@ -36,6 +36,7 @@ packages\calcite-components\src\components\popover\assets\popover\t9n
 packages\calcite-components\src\components\rating\assets\rating\t9n
 packages\calcite-components\src\components\scrim\assets\scrim\t9n
 packages\calcite-components\src\components\shell-panel\assets\shell-panel\t9n
+packages\calcite-components\src\components\sort-dropdown\assets\sort-dropdown\t9n
 packages\calcite-components\src\components\stepper\assets\stepper\t9n
 packages\calcite-components\src\components\stepper-item\assets\stepper-item\t9n
 packages\calcite-components\src\components\tab-nav\assets\tab-nav\t9n

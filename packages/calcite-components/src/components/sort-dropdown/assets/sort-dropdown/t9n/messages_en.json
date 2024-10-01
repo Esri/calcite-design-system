@@ -1,0 +1,10 @@
+{
+  "reorder": "Reorder",
+  "moveTo": "Move to",
+  "moveToTop": "Move to top",
+  "moveToBottom": "Move to bottom",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "label": "Reposition: {itemLabel}",
+  "untitledLabel": "Reposition"
+}

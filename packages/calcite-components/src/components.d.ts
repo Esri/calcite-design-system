@@ -79,6 +79,8 @@ import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+import { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
+import { SortDropdownMessages } from "./components/sort-dropdown/assets/sort-dropdown/t9n";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -174,6 +176,8 @@ export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+export { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
+export { SortDropdownMessages } from "./components/sort-dropdown/assets/sort-dropdown/t9n";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -4749,6 +4753,58 @@ export namespace Components {
          */
         "value": null | number | number[];
     }
+    interface CalciteSortDropdown {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement1[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label": string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems": number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<SortDropdownMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages": SortDropdownMessages;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning1;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement": MenuPlacement1;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale": Scale;
+    }
     interface CalciteSortableList {
         /**
           * When provided, the method will be called to determine whether the element can  move from the list.
@@ -7595,6 +7651,12 @@ declare global {
         prototype: HTMLCalciteSliderElement;
         new (): HTMLCalciteSliderElement;
     };
+    interface HTMLCalciteSortDropdownElement extends Components.CalciteSortDropdown, HTMLStencilElement {
+    }
+    var HTMLCalciteSortDropdownElement: {
+        prototype: HTMLCalciteSortDropdownElement;
+        new (): HTMLCalciteSortDropdownElement;
+    };
     interface HTMLCalciteSortableListElementEventMap {
         "calciteListOrderChange": void;
     }
@@ -8133,6 +8195,7 @@ declare global {
         "calcite-shell-center-row": HTMLCalciteShellCenterRowElement;
         "calcite-shell-panel": HTMLCalciteShellPanelElement;
         "calcite-slider": HTMLCalciteSliderElement;
+        "calcite-sort-dropdown": HTMLCalciteSortDropdownElement;
         "calcite-sortable-list": HTMLCalciteSortableListElement;
         "calcite-split-button": HTMLCalciteSplitButtonElement;
         "calcite-stack": HTMLCalciteStackElement;
@@ -12951,6 +13014,54 @@ declare namespace LocalJSX {
          */
         "value"?: null | number | number[];
     }
+    interface CalciteSortDropdown {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement1[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label"?: string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems"?: number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<SortDropdownMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages"?: SortDropdownMessages;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning1;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement"?: MenuPlacement1;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale"?: Scale;
+    }
     interface CalciteSortableList {
         /**
           * When provided, the method will be called to determine whether the element can  move from the list.
@@ -14299,6 +14410,7 @@ declare namespace LocalJSX {
         "calcite-shell-center-row": CalciteShellCenterRow;
         "calcite-shell-panel": CalciteShellPanel;
         "calcite-slider": CalciteSlider;
+        "calcite-sort-dropdown": CalciteSortDropdown;
         "calcite-sortable-list": CalciteSortableList;
         "calcite-split-button": CalciteSplitButton;
         "calcite-stack": CalciteStack;
@@ -14431,6 +14543,7 @@ declare module "@stencil/core" {
             "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
             "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
             "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;
+            "calcite-sort-dropdown": LocalJSX.CalciteSortDropdown & JSXBase.HTMLAttributes<HTMLCalciteSortDropdownElement>;
             "calcite-sortable-list": LocalJSX.CalciteSortableList & JSXBase.HTMLAttributes<HTMLCalciteSortableListElement>;
             "calcite-split-button": LocalJSX.CalciteSplitButton & JSXBase.HTMLAttributes<HTMLCalciteSplitButtonElement>;
             "calcite-stack": LocalJSX.CalciteStack & JSXBase.HTMLAttributes<HTMLCalciteStackElement>;

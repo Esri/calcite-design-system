@@ -1,0 +1,51 @@
+/**
+* CSS Custom Properties
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-handle-background-color: Specifies the component's background color.
+* @prop --calcite-handle-background-color-hover: Specifies the component's background color on hover.
+* @prop --calcite-handle-background-color-selected: Specifies the component's background color when selected.
+* @prop --calcite-handle-icon-color: Specifies the component's icon color.
+* @prop --calcite-handle-icon-color-hover: Specifies the component's icon color on hover.
+* @prop --calcite-handle-icon-color-selected: Specifies the component's icon color when selected.
+*/
+
+// todo: css vars for action
+:host {
+  @apply flex;
+}
+
+.handle {
+  // @apply focus-base
+  //   flex
+  //   items-center
+  //   justify-center
+  //   self-stretch
+  //   border-none;
+
+  // color: var(--calcite-handle-icon-color, var(--calcite-color-border-input));
+  // background-color: var(--calcite-handle-background-color, transparent);
+  // padding-block: theme("spacing.3");
+  // padding-inline: theme("spacing.1");
+  // line-height: 0;
+}
+
+:host(:not([disabled])) .handle {
+  @apply cursor-move; // todo: not working
+  // &:hover {
+  //   color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
+  //   background-color: var(--calcite-handle-background-color-hover, var(--calcite-color-foreground-2));
+  // }
+  // &:focus {
+  //   @apply focus-inset;
+
+  //   color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
+  // }
+  // &--selected {
+  //   color: var(--calcite-handle-icon-color-selected, var(--calcite-color-text-1));
+  //   background-color: var(--calcite-handle-background-color-selected, var(--calcite-color-foreground-3));
+  // }
+}
+
+@include base-component();
