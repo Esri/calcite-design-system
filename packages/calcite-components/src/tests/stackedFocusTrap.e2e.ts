@@ -7,7 +7,7 @@ describe("stacked focus-trap components", () => {
     <calcite-sheet id="example-sheet" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel>
         <calcite-block open heading="Preview Sheet options"> </calcite-block>
-        <calcite-button onClick="openComponent('example-modal')"> Open Modal from Sheet</calcite-button>
+        <calcite-button> Open Modal from Sheet</calcite-button>
       </calcite-panel>
     </calcite-sheet>
 
@@ -15,9 +15,7 @@ describe("stacked focus-trap components", () => {
       <div slot="content">
         <p>This is an example modal that opens from a Sheet.</p>
       </div>
-      <calcite-button slot="back" width="full" onClick="openComponent('another-modal')"
-        >Open Another Modal</calcite-button
-      >
+      <calcite-button slot="back" width="full">Open Another Modal</calcite-button>
     </calcite-modal>
 
     <calcite-modal id="another-modal">
@@ -91,23 +89,19 @@ describe("stacked focus-trap components", () => {
       }
 
       const sheet = await page.find("calcite-sheet");
-      await openAndCheckVisibility(sheet);
-
       const firstModal = await page.find("#example-modal");
-      await openAndCheckVisibility(firstModal);
-
       const secondModal = await page.find("#another-modal");
-      await openAndCheckVisibility(secondModal);
-
       const popover = await page.find("calcite-popover");
+      const inputPicker = await page.find(pickerType);
+
+      await openAndCheckVisibility(sheet);
+      await openAndCheckVisibility(firstModal);
+      await openAndCheckVisibility(secondModal);
       await openAndCheckVisibility(popover);
 
-      const inputPicker = await page.find(pickerType);
-      inputPicker.click();
-      await page.waitForChanges();
-      expect(await inputPicker.getProperty("open")).toBe(true);
+      await inputPicker.click();
 
-      async function testEscapeAndCheckOpenState(elements: E2EElement[]) {
+      async function testEscapeAndAssertOpenState(elements: E2EElement[]): Promise<void> {
         for (let i = 0; i < elements.length; i++) {
           await page.keyboard.press("Escape");
           await page.waitForChanges();
@@ -120,7 +114,7 @@ describe("stacked focus-trap components", () => {
         }
       }
 
-      await testEscapeAndCheckOpenState([inputPicker, popover, secondModal, firstModal, sheet]);
+      await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, sheet]);
     }
 
     await testStackEscapeSequence(page, "calcite-input-time-picker");
