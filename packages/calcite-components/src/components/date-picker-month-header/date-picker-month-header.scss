@@ -118,7 +118,8 @@
 }
 
 .year {
-  @apply relative
+  @apply font-inherit
+  relative
   focus-base
   border-none
   inline-block
