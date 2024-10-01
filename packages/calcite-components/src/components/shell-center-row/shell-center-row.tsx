@@ -1,11 +1,6 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
+import { Component, Element, Fragment, h, Prop, State, VNode } from "@stencil/core";
 import { Position, Scale } from "../interfaces";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 
 /**
@@ -17,7 +12,7 @@ import { CSS, SLOTS } from "./resources";
   styleUrl: "shell-center-row.scss",
   shadow: true,
 })
-export class ShellCenterRow implements ConditionalSlotComponent {
+export class ShellCenterRow {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -47,19 +42,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteShellCenterRowElement;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-  }
+  @State() actionBar: HTMLCalciteActionBarElement;
 
   // --------------------------------------------------------------------------
   //
@@ -68,7 +51,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { el } = this;
+    const { actionBar } = this;
 
     const contentNode = (
       <div class={CSS.content}>
@@ -76,13 +59,11 @@ export class ShellCenterRow implements ConditionalSlotComponent {
       </div>
     );
 
-    const actionBar = getSlotted<HTMLCalciteActionBarElement>(el, SLOTS.actionBar);
-
-    const actionBarNode = actionBar ? (
-      <div class={CSS.actionBarContainer} key="action-bar">
-        <slot name={SLOTS.actionBar} />
+    const actionBarNode = (
+      <div class={CSS.actionBarContainer} hidden={!this.actionBar} key="action-bar">
+        <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
       </div>
-    ) : null;
+    );
 
     const children: VNode[] = [actionBarNode, contentNode];
 
@@ -92,4 +73,10 @@ export class ShellCenterRow implements ConditionalSlotComponent {
 
     return <Fragment>{children}</Fragment>;
   }
+
+  private handleActionBarSlotChange = (event: Event): void => {
+    this.actionBar = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionBarElement => el.matches("calcite-action-bar"),
+    )[0];
+  };
 }

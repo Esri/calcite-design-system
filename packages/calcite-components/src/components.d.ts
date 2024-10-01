@@ -5827,6 +5827,7 @@ export namespace Components {
           * When `true`, displays indentation guide lines.
          */
         "lines": boolean;
+        "parentExpanded": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -14111,6 +14112,7 @@ declare namespace LocalJSX {
           * Fires when the user selects/deselects `calcite-tree-items`.
          */
         "onCalciteTreeSelect"?: (event: CalciteTreeCustomEvent<void>) => void;
+        "parentExpanded"?: boolean;
         /**
           * Specifies the size of the component.
          */

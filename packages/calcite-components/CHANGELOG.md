@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.2...@esri/calcite-components@2.14.0-next.3) (2024-10-01)
+
+### Bug Fixes
+
+- **tip:** fix rendering tied to named-slot content ([#10470](https://github.com/Esri/calcite-design-system/issues/10470)) ([d95825c](https://github.com/Esri/calcite-design-system/commit/d95825ca61805ed564ff4d6968badf05b4e65d70)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+
+## [2.14.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.1...@esri/calcite-components@2.14.0-next.2) (2024-10-01)
+
+### Bug Fixes
+
+- **modal:** fix rendering tied to named-slot content ([#10469](https://github.com/Esri/calcite-design-system/issues/10469)) ([3586369](https://github.com/Esri/calcite-design-system/commit/35863699540117c4f3a16340a6d350bdc5d4d5d5)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+
+## [2.14.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.0...@esri/calcite-components@2.14.0-next.1) (2024-10-01)
+
+### Bug Fixes
+
+- **accordion-item:** fix rendering tied to named-slot content ([#10447](https://github.com/Esri/calcite-design-system/issues/10447)) ([cc75101](https://github.com/Esri/calcite-design-system/commit/cc7510114cc1da54941c7112b8f7e22d06376eec)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+- **block:** fix rendering tied to named-slot content ([#10449](https://github.com/Esri/calcite-design-system/issues/10449)) ([a53540b](https://github.com/Esri/calcite-design-system/commit/a53540b7e8b11495ecbbafb90e3749e8376753af)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+- **combobox-item:** fix rendering tied to named-slot content ([#10450](https://github.com/Esri/calcite-design-system/issues/10450)) ([fcd4ed0](https://github.com/Esri/calcite-design-system/commit/fcd4ed06f228bc22771e3f4353c0ca4479086a55)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+- **inline-editable:** fix rendering tied to default slot content ([#10456](https://github.com/Esri/calcite-design-system/issues/10456)) ([7abe7d4](https://github.com/Esri/calcite-design-system/commit/7abe7d4792787338c701b6bbb45e973ef83450da)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+- **input, input-number, input-text:** should not set slotted actions to be disabled ([#10458](https://github.com/Esri/calcite-design-system/issues/10458)) ([c967333](https://github.com/Esri/calcite-design-system/commit/c96733358775d480fd1b1c287b8528473aedc543)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059) [#10055](https://github.com/Esri/calcite-design-system/issues/10055)
+- **notice:** fix rendering tied to named-slot content ([#10453](https://github.com/Esri/calcite-design-system/issues/10453)) ([e6fb639](https://github.com/Esri/calcite-design-system/commit/e6fb639f0b203151ab60a6f48711fc0a03951ecb)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+- **shell-center-row:** fix rendering tied to named-slot content ([#10451](https://github.com/Esri/calcite-design-system/issues/10451)) ([aa1e9da](https://github.com/Esri/calcite-design-system/commit/aa1e9da8f662ca58f496366b900177013b9416d3)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+- **tree, tree-item:** fix rendering tied to named-slot content ([#10462](https://github.com/Esri/calcite-design-system/issues/10462)) ([d2f9fb6](https://github.com/Esri/calcite-design-system/commit/d2f9fb6de75799e65bfd37452f53e2ec6d016584)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+
 ## [2.14.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0-next.15...@esri/calcite-components@2.14.0-next.0) (2024-10-01)
 
 ### Features
