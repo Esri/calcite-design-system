@@ -12,7 +12,7 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  getSlotted,
+  focusFirstTabbable,
   setRequestedIcon,
   slotChangeHasAssignedElement,
   toAriaBoolean,
@@ -308,7 +308,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         onClick={this.closeAlert}
         onFocusin={this.autoClose ? this.handleKeyBoardFocus : null}
         onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
-        ref={(el) => (this.closeButton = el)}
         type="button"
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
@@ -384,16 +383,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-
-    const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
-
-    if (!this.closeButton && !alertLinkEl) {
-      return;
-    } else if (alertLinkEl) {
-      return alertLinkEl.setFocus();
-    } else if (this.closeButton) {
-      this.closeButton.focus();
-    }
+    focusFirstTabbable(this.el);
   }
 
   //--------------------------------------------------------------------------
@@ -434,8 +424,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @State() isFocused = false;
 
   private autoCloseTimeoutId: number = null;
-
-  private closeButton: HTMLButtonElement;
 
   private initialOpenTime: number;
 
