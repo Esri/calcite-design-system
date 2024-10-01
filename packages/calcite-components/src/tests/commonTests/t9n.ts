@@ -82,7 +82,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
             return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
           }
 
-          return orig.call(input, init);
+          return orig.call(window, input, init);
         };
       },
       enMessages,

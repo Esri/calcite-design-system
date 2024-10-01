@@ -18,8 +18,6 @@ export const XButton: FunctionalComponent<XButtonProps> = ({
   disabled,
   key,
   label,
-  onClick,
-  ref,
   scale,
 }): VNode => (
   <button
@@ -27,8 +25,6 @@ export const XButton: FunctionalComponent<XButtonProps> = ({
     class={CSS.button}
     disabled={disabled}
     key={key}
-    onClick={onClick}
-    ref={ref}
     tabIndex={-1}
     type="button"
   >

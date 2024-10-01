@@ -181,7 +181,6 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
     return (
       <Host
-        aria-disabled={toAriaBoolean(this.disabled)}
         aria-label={dayLabel}
         aria-selected={toAriaBoolean(this.active)}
         id={dayId}
