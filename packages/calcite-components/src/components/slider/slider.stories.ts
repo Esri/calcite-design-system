@@ -113,7 +113,7 @@ export const rangeV = range["vertical"];
 const darkMode = {};
 for (const l of ["horizontal", "vertical"]) {
   darkMode[l] = (): string => html`
-    <div style="padding-top: 200px; height: 200px">
+    <div style="padding-top: 200px; padding-right: 100px; height: 200px">
       <calcite-slider
         class="calcite-mode-dark"
         mirrored
