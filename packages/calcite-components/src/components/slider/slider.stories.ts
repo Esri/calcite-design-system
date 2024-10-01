@@ -90,21 +90,20 @@ export const simpleV = simple["vertical"];
 const range = {};
 for (const l of ["horizontal", "vertical"]) {
   range[l] = (): string => html`
-    <div style="padding-top: 200px; padding-left: 100px; height: 200px">
-      <calcite-slider
-        min="0"
-        min-label="Temperature, lower bound"
-        min-value="25"
-        max="100"
-        max-label="Temperature, upper bound"
-        max-value="75"
-        step="1"
-        ticks="20"
-        snap
-        scale="m"
-        layout=${l}
-      ></calcite-slider>
-    </div>
+    <calcite-slider
+      min="0"
+      min-label="Temperature, lower bound"
+      min-value="25"
+      max="100"
+      max-label="Temperature, upper bound"
+      max-value="75"
+      step="1"
+      ticks="20"
+      snap
+      scale="m"
+      layout=${l}
+      style="${args.style}"
+    ></calcite-slider>
   `;
 }
 export const rangeH = range["horizontal"];
@@ -113,26 +112,25 @@ export const rangeV = range["vertical"];
 const darkMode = {};
 for (const l of ["horizontal", "vertical"]) {
   darkMode[l] = (): string => html`
-    <div style="padding-top: 200px; padding-left: 100px; height: 200px">
-      <calcite-slider
-        class="calcite-mode-dark"
-        mirrored
-        min="0"
-        min-label="Temperature, lower bound"
-        min-value="25"
-        max="100"
-        max-label="Temperature, upper bound"
-        max-value="75"
-        step="1"
-        label-handles
-        label-ticks
-        ticks="20"
-        precise
-        snap
-        scale="m"
-        layout=${l}
-      ></calcite-slider>
-    </div>
+    <calcite-slider
+      class="calcite-mode-dark"
+      mirrored
+      min="0"
+      min-label="Temperature, lower bound"
+      min-value="25"
+      max="100"
+      max-label="Temperature, upper bound"
+      max-value="75"
+      step="1"
+      label-handles
+      label-ticks
+      ticks="20"
+      precise
+      snap
+      scale="m"
+      layout=${l}
+      style="${args.style}"
+    ></calcite-slider>
   `;
 }
 export const darkModeMirroredRangeH_TestOnly = darkMode["horizontal"];
@@ -145,21 +143,20 @@ darkModeMirroredRangeH_TestOnly.story = darkModeMirroredRangeV_TestOnly.story = 
 const rangeLabeledTicks = {};
 for (const l of ["horizontal", "vertical"]) {
   rangeLabeledTicks[l] = (): string => html`
-    <div style="padding-top: 200px; padding-left: 100px; height: 200px">
-      <calcite-slider
-        min="5"
-        min-label="Temperature, lower bound"
-        min-value="95"
-        max="100"
-        max-label="Temperature, upper bound"
-        max-value="100"
-        step="10"
-        label-handles
-        label-ticks
-        snap
-        layout=${l}
-      ></calcite-slider>
-    </div>
+    <calcite-slider
+      min="5"
+      min-label="Temperature, lower bound"
+      min-value="95"
+      max="100"
+      max-label="Temperature, upper bound"
+      max-value="100"
+      step="10"
+      label-handles
+      label-ticks
+      snap
+      layout=${l}
+      style="${args.style}"
+    ></calcite-slider>
   `;
 }
 export const rangeLabeledTicksH_TestOnly = rangeLabeledTicks["horizontal"];
@@ -172,21 +169,20 @@ rangeLabeledTicksH_TestOnly.parameters = rangeLabeledTicksV_TestOnly.parameters 
 const rangeLabeledTicksOverlappingAtMax = {};
 for (const l of ["horizontal", "vertical"]) {
   rangeLabeledTicksOverlappingAtMax[l] = (): string => html`
-    <div style="padding-top: 200px; padding-left: 100px; height: 200px">
-      <calcite-slider
-        min="5"
-        min-label="Temperature, lower bound"
-        min-value="100"
-        max="100"
-        max-label="Temperature, upper bound"
-        max-value="100"
-        step="10"
-        label-handles
-        label-ticks
-        snap
-        layout=${l}
-      ></calcite-slider>
-    </div>
+    <calcite-slider
+      min="5"
+      min-label="Temperature, lower bound"
+      min-value="100"
+      max="100"
+      max-label="Temperature, upper bound"
+      max-value="100"
+      step="10"
+      label-handles
+      label-ticks
+      snap
+      layout=${l}
+      style="${args.style}"
+    ></calcite-slider>
   `;
 }
 export const rangeLabeledTicksOverlappingAtMaxH_TestOnly = rangeLabeledTicksOverlappingAtMax["horizontal"];
@@ -199,21 +195,20 @@ rangeLabeledTicksOverlappingAtMaxH_TestOnly.parameters = rangeLabeledTicksOverla
 const rangeLabeledTicksOverlappingAtMin = {};
 for (const l of ["horizontal", "vertical"]) {
   rangeLabeledTicksOverlappingAtMin[l] = (): string => html`
-    <div style="padding-top: 200px; padding-left: 100px; height: 200px">
-      <calcite-slider
-        min="5"
-        min-label="Temperature, lower bound"
-        min-value="5"
-        max="100"
-        max-label="Temperature, upper bound"
-        max-value="5"
-        step="10"
-        label-handles
-        label-ticks
-        snap
-        layout=${l}
-      ></calcite-slider>
-    </div>
+    <calcite-slider
+      min="5"
+      min-label="Temperature, lower bound"
+      min-value="5"
+      max="100"
+      max-label="Temperature, upper bound"
+      max-value="5"
+      step="10"
+      label-handles
+      label-ticks
+      snap
+      layout=${l}
+      style="${args.style}"
+    ></calcite-slider>
   `;
 }
 export const rangeLabeledTicksOverlappingAtMinH_TestOnly = rangeLabeledTicksOverlappingAtMin["horizontal"];
@@ -226,21 +221,20 @@ rangeLabeledTicksOverlappingAtMinH_TestOnly.parameters = rangeLabeledTicksOverla
 const rangeLabeledTicksEdgePositioningAtMax = {};
 for (const l of ["horizontal", "vertical"]) {
   rangeLabeledTicksEdgePositioningAtMax[l] = (): string => html`
-    <div style="padding-top: 200px; padding-left: 100px; height: 200px">
-      <calcite-slider
-        min="5"
-        min-label="Temperature, lower bound"
-        min-value="99.5"
-        max="100"
-        max-label="Temperature, upper bound"
-        max-value="100"
-        step="10"
-        label-handles
-        label-ticks
-        snap
-        layout=${l}
-      ></calcite-slider>
-    </div>
+    <calcite-slider
+      min="5"
+      min-label="Temperature, lower bound"
+      min-value="99.5"
+      max="100"
+      max-label="Temperature, upper bound"
+      max-value="100"
+      step="10"
+      label-handles
+      label-ticks
+      snap
+      layout=${l}
+      style="${args.style}"
+    ></calcite-slider>
   `;
 }
 export const rangeLabeledTicksEdgePositioningAtMaxH_TestOnly = rangeLabeledTicksEdgePositioningAtMax["horizontal"];
@@ -254,21 +248,20 @@ rangeLabeledTicksEdgePositioningAtMaxH_TestOnly.parameters =
 const rangeLabeledTicksEdgePositioningAtMin = {};
 for (const l of ["horizontal", "vertical"]) {
   rangeLabeledTicksEdgePositioningAtMin[l] = (): string => html`
-    <div style="padding-top: 200px; padding-left: 100px; height: 200px">
-      <calcite-slider
-        min="5"
-        min-label="Temperature, lower bound"
-        min-value="5"
-        max="100"
-        max-label="Temperature, upper bound"
-        max-value="5.5"
-        step="10"
-        label-handles
-        label-ticks
-        snap
-        layout=${l}
-      ></calcite-slider>
-    </div>
+    <calcite-slider
+      min="5"
+      min-label="Temperature, lower bound"
+      min-value="5"
+      max="100"
+      max-label="Temperature, upper bound"
+      max-value="5.5"
+      step="10"
+      label-handles
+      label-ticks
+      snap
+      layout=${l}
+      style="${args.style}"
+    ></calcite-slider>
   `;
 }
 export const rangeLabeledTicksEdgePositioningAtMinH_TestOnly = rangeLabeledTicksEdgePositioningAtMin["horizontal"];
