@@ -300,7 +300,7 @@ for (const l of ["horizontal", "vertical"]) {
     slider.style.minWidth = "60vw";
     slider.style.paddingTop = "200px";
     slider.style.paddingLeft = "100px";
-    slider.style.height = "200px";
+    slider.style.height = "400px";
     slider.layout = l;
     return slider;
   };
