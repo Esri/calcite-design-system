@@ -483,11 +483,11 @@ export class Modal
   //--------------------------------------------------------------------------
 
   private handleHeaderSlotChange = (event: Event): void => {
-    this.titleEl = slotChangeGetAssignedElements(event)[0] as HTMLElement;
+    this.titleEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
   };
 
   private handleContentSlotChange = (event: Event): void => {
-    this.contentEl = slotChangeGetAssignedElements(event)[0] as HTMLElement;
+    this.contentEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
   };
 
   private handleBackSlotChange = (event: Event): void => {
