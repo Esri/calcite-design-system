@@ -3,8 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-card-group-gap: [Deprecated] Use --calcite-card-group-space. Specifies the gap between slotted components.
- * @prop --calcite-card-group-space: Specifies the space between slotted components.
+ * @prop --calcite-card-group-gap: [Deprecated] Use `--calcite-card-group-space`. Specifies the gap between slotted elements.
+ * @prop --calcite-card-group-space: Specifies the space between slotted elements.
  */
 
 :host {

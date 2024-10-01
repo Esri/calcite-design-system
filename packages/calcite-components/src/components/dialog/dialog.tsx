@@ -255,7 +255,6 @@ export class Dialog
             [CSS.containerOpen]: opened,
             [CSS.containerEmbedded]: this.embedded,
           }}
-          ref={this.setContainerEl}
         >
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -363,8 +362,6 @@ export class Dialog
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
-
-  containerEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
 
@@ -763,10 +760,6 @@ export class Dialog
         };
     }
   }
-
-  private setContainerEl = (el: HTMLDivElement): void => {
-    this.containerEl = el;
-  };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;

@@ -163,7 +163,7 @@ export class List
   @Prop() filterProps: string[];
 
   @Watch("filterProps")
-  async handlefilterPropsChange(): Promise<void> {
+  async handleFilterPropsChange(): Promise<void> {
     this.performFilter();
   }
 
@@ -243,7 +243,7 @@ export class List
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleListItemChange(): void {
-    this.updateListItems();
+    this.updateListItems({ performFilter: true });
   }
 
   //--------------------------------------------------------------------------
@@ -420,7 +420,7 @@ export class List
     connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
-    this.updateListItems();
+    this.updateListItems({ performFilter: true });
     this.setUpSorting();
     this.setParentList();
   }
@@ -482,7 +482,9 @@ export class List
 
   listItems: HTMLCalciteListItemElement[] = [];
 
-  mutationObserver = createObserver("mutation", () => this.updateListItems());
+  mutationObserver = createObserver("mutation", () =>
+    this.updateListItems({ performFilter: true }),
+  );
 
   visibleItems: HTMLCalciteListItemElement[] = [];
 
@@ -818,10 +820,15 @@ export class List
       this.filteredData = filterEl.filteredItems as ItemData;
     }
 
-    this.updateListItems(emit);
+    this.updateListItems({ emitFilterChange: emit });
   }
 
-  private async performFilter(): Promise<void> {
+  private async filterAndUpdateData(): Promise<void> {
+    await this.filterEl?.filter(this.filterText);
+    this.updateFilteredData();
+  }
+
+  private performFilter(): void {
     const { filterEl, filterText, filterProps } = this;
 
     if (!filterEl) {
@@ -830,8 +837,7 @@ export class List
 
     filterEl.value = filterText;
     filterEl.filterProps = filterProps;
-    await filterEl.filter(filterText);
-    this.updateFilteredData();
+    this.filterAndUpdateData();
   }
 
   private setFilterEl = (el: HTMLCalciteFilterElement): void => {
@@ -855,40 +861,56 @@ export class List
     }));
   };
 
-  private updateListItems = debounce((emitFilterChange = false): void => {
-    const { selectionAppearance, selectionMode, interactionMode, dragEnabled, el } = this;
+  private updateListItems = debounce(
+    (options?: { emitFilterChange?: boolean; performFilter?: boolean }): void => {
+      const emitFilterChange = options?.emitFilterChange ?? false;
+      const performFilter = options?.performFilter ?? false;
 
-    const items = Array.from(this.el.querySelectorAll(listItemSelector));
+      const {
+        selectionAppearance,
+        selectionMode,
+        interactionMode,
+        dragEnabled,
+        el,
+        filterEl,
+        filterEnabled,
+      } = this;
 
-    items.forEach((item) => {
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      item.interactionMode = interactionMode;
-      if (item.closest("calcite-list") === el) {
-        item.dragHandle = dragEnabled;
+      const items = Array.from(this.el.querySelectorAll(listItemSelector));
+
+      items.forEach((item) => {
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
+        if (item.closest("calcite-list") === el) {
+          item.dragHandle = dragEnabled;
+        }
+      });
+
+      if (this.parentListEl) {
+        this.setUpSorting();
+        return;
       }
-    });
 
-    if (this.parentListEl) {
+      this.listItems = items;
+      if (filterEnabled && performFilter) {
+        this.dataForFilter = this.getItemData();
+
+        if (filterEl) {
+          filterEl.items = this.dataForFilter;
+          this.filterAndUpdateData();
+        }
+      }
+      this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
+      this.updateFilteredItems(emitFilterChange);
+      this.borderItems();
+      this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
+      this.setActiveListItem();
+      this.updateSelectedItems();
       this.setUpSorting();
-      return;
-    }
-
-    this.listItems = items;
-    if (this.filterEnabled) {
-      this.dataForFilter = this.getItemData();
-      if (this.filterEl) {
-        this.filterEl.items = this.dataForFilter;
-      }
-    }
-    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.updateFilteredItems(emitFilterChange);
-    this.borderItems();
-    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
-    this.setActiveListItem();
-    this.updateSelectedItems();
-    this.setUpSorting();
-  }, debounceTimeout);
+    },
+    debounceTimeout,
+  );
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
     const { focusableItems } = this;

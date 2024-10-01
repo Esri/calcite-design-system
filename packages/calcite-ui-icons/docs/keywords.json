@@ -9006,6 +9006,11 @@
     "category": "GIS",
     "release": "3.32.0"
   },
+  "parcel-parameter": {
+    "alias": ["3.32.0", "gis", "feature", "data", "points", "lines", "assets"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
   "n-variable": {
     "alias": ["3.32.0", "text", "variables", "math", "calculation", "letter"],
     "category": "Text",
@@ -9014,6 +9019,11 @@
   "zoning-parameter": {
     "alias": ["3.32.0", "gis", "forms", "variable", "text", "letter"],
     "category": "GIS",
+    "release": "3.32.0"
+  },
+  "dashboard-graph": {
+    "alias": ["3.32.0", "windows", "measure", "objects", "statistics", "measurements"],
+    "category": "Windows",
     "release": "3.32.0"
   }
 }

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { defaults, disabled, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -60,6 +60,19 @@ describe("calcite-list-item", () => {
         propertyName: "interactionMode",
         defaultValue: null,
       },
+      {
+        propertyName: "unavailable",
+        defaultValue: false,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-list-item", [
+      {
+        propertyName: "unavailable",
+        value: true,
+      },
     ]);
   });
 
@@ -97,6 +110,20 @@ describe("calcite-list-item", () => {
     await page.waitForChanges();
 
     expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
+  });
+
+  it("adds unavailable class", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.contentContainerUnavailable}`)).toBeNull();
+
+    const item = await page.find("calcite-list-item");
+    item.setProperty("unavailable", true);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.contentContainerUnavailable}`)).not.toBeNull();
   });
 
   it("renders dragHandle when property is true", async () => {

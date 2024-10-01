@@ -4,8 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-pad-corner-radius: Specifies the component's border radius.
- * @prop --calcite-action-pad-expanded-max-width: Specifies the component's maximum width when `expanded` and the `layout` is `"vertical"`.
- * @prop --calcite-action-pad-items-space: Specifies the space between slotted components in the component.
+ * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the component's maximum width when `expanded`.
+ * @prop --calcite-action-pad-items-space: Specifies the component's space between slotted components.
  */
 
 :host {
@@ -20,8 +20,10 @@
   max-inline-size: var(--calcite-action-pad-expanded-max-width, auto);
 }
 
-::slotted(calcite-action-group:not(:last-of-type)) {
-  @apply border-b;
+:host([layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    @apply border-b;
+  }
 }
 
 .container {
