@@ -107,9 +107,19 @@
   @apply flex items-center;
 }
 
+.year,
+.suffix {
+  @apply bg-foreground-1;
+  margin-inline: var(--calcite-size-xxs);
+  font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-color-text-1);
+  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-fixed-lg);
+}
+
 .year {
   @apply relative
-  py-0
+  focus-base
   border-none
   inline-block
   bg-transparent
@@ -124,17 +134,6 @@
   &:focus {
     @apply focus-inset;
   }
-}
-
-.year,
-.suffix {
-  @apply bg-foreground-1
-    h-full;
-  margin-inline: var(--calcite-size-xxs);
-  font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-color-text-1);
-  font-size: var(--calcite-font-size-md);
-  line-height: var(--calcite-font-line-height-fixed-lg);
 }
 
 .month-select {
