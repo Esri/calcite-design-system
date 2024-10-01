@@ -59,6 +59,27 @@ export const withDefinedWidths = (): string => html`
   </calcite-action-pad>
 `;
 
+export const withGroups = (): string =>
+  html`<calcite-action-pad layout="horizontal">
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus" appearance="solid" scale="m"></calcite-action>
+      <calcite-action text="Save" icon="save" appearance="solid" scale="m"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers" icon="layers" appearance="solid" scale="m"></calcite-action>
+      <calcite-action text="Basemaps" icon="layer-basemap" appearance="solid" scale="m"></calcite-action>
+    </calcite-action-group>
+    <calcite-tooltip
+      slot="expand-tooltip"
+      id="calcite-tooltip-c19274e3-ff3b-6168-ef1e-8a700b056e1c"
+      role="tooltip"
+      overlay-positioning="absolute"
+      placement="auto"
+      style="visibility: hidden; pointer-events: none; position: absolute;"
+      >Toggle Action Pad</calcite-tooltip
+    >
+  </calcite-action-pad>`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-action-pad position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>

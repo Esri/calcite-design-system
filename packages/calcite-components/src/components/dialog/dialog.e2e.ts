@@ -1110,6 +1110,10 @@ describe("calcite-dialog", () => {
           shadowSelector: `.${CSS.dialog}`,
           targetProp: "insetBlockStart",
         },
+        "--calcite-dialog-background-color": {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-background-color",
+        },
       },
     );
 

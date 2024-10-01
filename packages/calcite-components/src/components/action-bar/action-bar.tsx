@@ -13,11 +13,6 @@ import {
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -57,9 +52,7 @@ import { geActionDimensions, getOverflowCount, overflowActions, queryActions } f
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class ActionBar
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -212,7 +205,6 @@ export class ActionBar
     this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
-    connectConditionalSlotComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -228,7 +220,6 @@ export class ActionBar
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
