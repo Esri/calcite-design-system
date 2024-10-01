@@ -71,7 +71,6 @@ function isOpen(component: OpenCloseComponent): boolean {
  * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
  *
  * @example
- * ```tsx
  * import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
  *
  * async componentWillLoad() {
@@ -83,7 +82,6 @@ function isOpen(component: OpenCloseComponent): boolean {
  * async toggleModal(value: boolean): Promise<void> {
  *    onToggleOpenCloseComponent(this);
  * }
- * ```
  *
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */

@@ -96,7 +96,7 @@ export class ActionMenu implements LoadableComponent {
 
   @Watch("open")
   openHandler(open: boolean): void {
-    this.activeMenuItemIndex = this.open ? Math.max(0, this.activeMenuItemIndex) : -1;
+    this.activeMenuItemIndex = this.open ? 0 : -1;
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
     }

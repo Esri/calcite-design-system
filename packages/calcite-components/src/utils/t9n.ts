@@ -138,12 +138,10 @@ export interface T9nComponent extends LocalizedComponent {
    *
    * This method should be empty and configured to watch for changes on  `messageOverrides` property.
    *
-   * ```tsx
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/
    * }
-   * ```
    */
   onMessagesChange: () => void;
 }

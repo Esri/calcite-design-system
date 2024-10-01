@@ -212,12 +212,10 @@ export interface LocalizedComponent {
    *
    * Components should watch this prop to ensure messages are updated.
    *
-   * ```tsx
    * @Watch("effectiveLocale")
    * effectiveLocaleChange(): void {
    *   updateMessages(this, this.effectiveLocale);
    * }
-   * ```
    */
   effectiveLocale: string;
 }
