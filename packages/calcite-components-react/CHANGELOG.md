@@ -3,80 +3,9 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [3.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.2.0...@esri/calcite-components-react@3.2.1) (2025-05-29)
+## [2.14.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.13.0-next.15...@esri/calcite-components-react@2.14.0-next.0) (2024-10-01)
 
-
-### Miscellaneous Chores
-
-* **@esri/calcite-components-react:** Synchronize components versions
-
-
-### Dependencies
-
-* The following workspace dependencies were updated
-  * dependencies
-    * @esri/calcite-components bumped from 3.2.0 to 3.2.1
-
-## [3.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.1.0...@esri/calcite-components-react@3.2.0) (2025-05-14)
-
-### Bug Fixes
-
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([caf7bb2](https://github.com/Esri/calcite-design-system/commit/caf7bb28c3591ffcb48669aee25bdcfb7fecb54a))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([e625568](https://github.com/Esri/calcite-design-system/commit/e6255685ad321c465b088c00959248fd26c7bc87))
-
-### Dependencies
-
-- The following workspace dependencies were updated
-  - dependencies
-    - @esri/calcite-components bumped from 3.2.0-next.60 to 3.2.0
-
-## [3.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.0.3...@esri/calcite-components-react@3.1.0) (2025-03-26)
-
-### Dependencies
-
-- The following workspace dependencies were updated
-  - dependencies
-    - @esri/calcite-components bumped from 3.1.0-next.31 to 3.1.0
-
-## [3.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.13.2...@esri/calcite-components-react@3.0.0) (2025-02-08)
-
-### ⚠ BREAKING CHANGES
-
-- For a consistent development experience, components now convert `null` to `undefined`, so developers will need to update code with strict null checks
-
-### Code Refactoring
-
-- Migrate to Lumina ([#10482](https://github.com/Esri/calcite-design-system/issues/10482)) ([9bffc3f](https://github.com/Esri/calcite-design-system/commit/9bffc3fcbed65ffb91f089cd7846b1b06ada2b47))
-
-### Dependencies
-
-- The following workspace dependencies were updated
-  - dependencies
-    - @esri/calcite-components bumped from 3.0.0-next.135 to 3.0.0
-
-## [2.13.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.13.1...@esri/calcite-components-react@2.13.2) (2024-10-23)
-
-### Miscellaneous Chores
-
-- **@esri/calcite-components-react:** Synchronize components versions
-
-### Dependencies
-
-- The following workspace dependencies were updated
-  - dependencies
-    - @esri/calcite-components bumped from 2.13.1 to 2.13.2
-
-## [2.13.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.13.0...@esri/calcite-components-react@2.13.1) (2024-10-11)
-
-### Miscellaneous Chores
-
-- **@esri/calcite-components-react:** Synchronize components versions
-
-### Dependencies
-
-- The following workspace dependencies were updated
-  - dependencies
-    - @esri/calcite-components bumped from 2.13.0 to 2.13.1
+**Note:** Version bump only for package @esri/calcite-components-react
 
 ## [2.13.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.12.2...@esri/calcite-components-react@2.13.0) (2024-09-30)
 
