@@ -4,10 +4,10 @@ import { skipAnimations } from "../tests/utils";
 
 describe("stacked focus-trap components", () => {
   const componentStack = html`
-    <calcite-sheet id="example-sheet" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet id="example-sheet">
       <calcite-panel>
-        <calcite-block open heading="Preview Sheet options"> </calcite-block>
-        <calcite-button> Open Modal from Sheet</calcite-button>
+        <calcite-block open></calcite-block>
+        <calcite-button>Open Modal from Sheet</calcite-button>
       </calcite-panel>
     </calcite-sheet>
 
@@ -15,23 +15,16 @@ describe("stacked focus-trap components", () => {
       <div slot="content">
         <p>This is an example modal that opens from a Sheet.</p>
       </div>
-      <calcite-button slot="back" width="full">Open Another Modal</calcite-button>
+      <calcite-button slot="back">Open Another Modal</calcite-button>
     </calcite-modal>
 
     <calcite-modal id="another-modal">
-      <div slot="content" style="display: flex; flex-direction: column; gap: 12px; margin: 100px"">
+      <div slot="content">
         <p>
           This is an example of a another modal that opens from a modal. This modal an input date picker, a combobox, a
           dropdown, a popover and a tooltip.
         </p>
-        <calcite-combobox
-          label="test"
-          placeholder="placeholder"
-          max-items="8"
-          selection-mode="ancestors"
-          style="width: 200px"
-          id="combobox"
-        >
+        <calcite-combobox>
           <calcite-combobox-item value="Grand 1" text-label="Grand 1">
             <calcite-combobox-item value="Parent 1" text-label="Parent 1">
               <calcite-combobox-item value="Child 1" text-label="Child 1"></calcite-combobox-item>
@@ -39,28 +32,19 @@ describe("stacked focus-trap components", () => {
             </calcite-combobox-item>
           </calcite-combobox-item>
         </calcite-combobox>
-        <calcite-dropdown scale="s" width-scale="s" id="dropdown">
-          <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale S</calcite-button>
+        <calcite-dropdown id="dropdown">
+          <calcite-button slot="trigger">Dropdown</calcite-button>
           <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+            <calcite-dropdown-item selected>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
-        <calcite-popover
-          heading="Heading"
-          label="right end popover"
-          reference-element="popover-button"
-          placement="right-end"
-          id="popover-heading"
-          closable
-          style="width: 25vw"
-          id="popover"
-        >
-          <div style="padding: 0.5rem 1rem 0.75rem">
-            <p style="margin-top: 0">Example Popover.</p>
+        <calcite-popover reference-element="popover-button" closable id="popover">
+          <div>
+            <p>Example Popover.</p>
             <calcite-label>
               Input Date Picker
-              <calcite-input-date-picker value="2023-03-07" id="input-date-picker"></calcite-input-date-picker>
+              <calcite-input-date-picker id="input-date-picker"></calcite-input-date-picker>
             </calcite-label>
             <calcite-label>
               Input Time Picker
@@ -68,12 +52,11 @@ describe("stacked focus-trap components", () => {
             </calcite-label>
           </div>
         </calcite-popover>
-        <calcite-button appearance="outline" id="popover-button" icon-start="popup">Example Popover</calcite-button>
-        <calcite-tooltip placement="auto" reference-element="tooltip-auto-ref"> Example Tooltip </calcite-tooltip>
-        <calcite-button appearance="outline" id="tooltip-auto-ref">auto</calcite-button>
+        <calcite-button id="popover-button">Example Popover</calcite-button>
+        <calcite-tooltip reference-element="tooltip-auto-ref"> Example Tooltip </calcite-tooltip>
+        <calcite-button id="tooltip-auto-ref">auto</calcite-button>
       </div>
     </calcite-modal>
-    <calcite-button onClick="openComponent('example-sheet')"> Open Sheet </calcite-button>
   `;
 
   it("closes a stack of open components sequentially in visual order", async () => {
