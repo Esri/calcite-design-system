@@ -67,7 +67,6 @@ export class ShellCenterRow {
 
     const children: VNode[] = [actionBarNode, contentNode];
 
-    // todo: if actionBar position changes, this will not update.
     if (actionBar?.position === "end") {
       children.reverse();
     }
