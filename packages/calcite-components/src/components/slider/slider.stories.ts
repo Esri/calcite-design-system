@@ -418,7 +418,7 @@ for (const l of ["horizontal", "vertical"]) {
         </style>
       </head>
       <body>
-        <div style="width: 400px; padding: 20px">
+        <div style="width: 200px; padding: 20px">
           <calcite-label>
             precise with label-handles
             <calcite-slider
