@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.2...@esri/calcite-components@2.14.0-next.3) (2024-10-01)
+
+### Bug Fixes
+
+- **tip:** fix rendering tied to named-slot content ([#10470](https://github.com/Esri/calcite-design-system/issues/10470)) ([d95825c](https://github.com/Esri/calcite-design-system/commit/d95825ca61805ed564ff4d6968badf05b4e65d70)), closes [#6059](https://github.com/Esri/calcite-design-system/issues/6059)
+
 ## [2.14.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.1...@esri/calcite-components@2.14.0-next.2) (2024-10-01)
 
 ### Bug Fixes
