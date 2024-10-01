@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
@@ -129,8 +130,7 @@ describe("calcite-list", () => {
     );
 
     it("should set the dragHandle property on items", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-list id="root" drag-enabled group="my-list">
           <calcite-list-item open label="Depth 1" description="Item 1">
             <calcite-list group="my-list">
@@ -179,8 +179,7 @@ describe("calcite-list", () => {
     });
 
     it("should set the dragHandle property on items which are not direct children", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-list id="root" drag-enabled group="my-list">
           <div>
             <calcite-list-item open label="Depth 1" description="Item 1">
@@ -235,8 +234,7 @@ describe("calcite-list", () => {
     });
 
     it("disabling and enabling an item restores actions from being tabbable", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-list selection-mode="multiple">
           <calcite-list-item label="first">
             <calcite-action id="action-1" icon="information" slot="actions-end"></calcite-action>
@@ -277,8 +275,7 @@ describe("calcite-list", () => {
   });
 
   it("should border nested list items", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-list>
         <calcite-list-item
           id="firstItem"
@@ -328,8 +325,7 @@ describe("calcite-list", () => {
   });
 
   it("navigating items after filtering", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-list filter-enabled>
         <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
         <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
@@ -384,8 +380,7 @@ describe("calcite-list", () => {
   });
 
   it("selecting items after filtering", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-list filter-enabled>
         <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
         <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
@@ -444,8 +439,7 @@ describe("calcite-list", () => {
   it("updating items after filtering", async () => {
     const matchingFont = "Courier";
 
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-list filter-enabled filter-text="">
         <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
         <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
@@ -489,8 +483,7 @@ describe("calcite-list", () => {
   });
 
   it("filters initially", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-list filter-enabled filter-text="match">
         <calcite-list-item
           id="label-match"
@@ -532,8 +525,7 @@ describe("calcite-list", () => {
   });
 
   it("filters initially with filterProps", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-list filter-enabled filter-text="match">
         <calcite-list-item
           id="label-match"
@@ -581,8 +573,7 @@ describe("calcite-list", () => {
       item.shadowRoot.querySelector(selector).dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true }));
     };
 
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-list selection-mode="multiple">
         <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
         <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
@@ -651,8 +642,7 @@ describe("calcite-list", () => {
   });
 
   it("should update active item on init and click", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-list selection-mode="none">
         <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
         <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
@@ -683,8 +673,7 @@ describe("calcite-list", () => {
   });
 
   it("should prevent de-selection of selected item in single-persist mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-list selection-mode="single-persist">
         <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
         <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
@@ -715,8 +704,7 @@ describe("calcite-list", () => {
   });
 
   it("should correctly allow de-selection and change of selected item in single mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-list selection-mode="single">
         <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
         <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
@@ -757,8 +745,7 @@ describe("calcite-list", () => {
   });
 
   it("should emit calciteListChange on selection change", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-list selection-mode="single">
         <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
         <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
@@ -798,8 +785,7 @@ describe("calcite-list", () => {
   });
 
   it("should show no-results content when filter does not match", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-list>
         <calcite-list-item label="Apples" value="apples"></calcite-list-item>
         <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
@@ -828,8 +814,7 @@ describe("calcite-list", () => {
 
   describe("keyboard navigation", () => {
     it("should navigate via ArrowUp, ArrowDown, Home, and End", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-list>
           <calcite-list-item id="one" value="one" label="One" description="hello world"></calcite-list-item>
           <calcite-list-item id="two" value="two" label="Two" description="hello world"></calcite-list-item>
@@ -904,8 +889,7 @@ describe("calcite-list", () => {
     });
 
     it("should navigate via ArrowUp, ArrowDown with filtered items", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-list filter-enabled filter-text="water">
           <calcite-list-item id="one" value="fire" label="fire" description="fire"></calcite-list-item>
           <calcite-list-item id="two" value="fire" label="fire" description="fire"></calcite-list-item>
@@ -941,8 +925,7 @@ describe("calcite-list", () => {
     });
 
     it("should navigate via ArrowRight and ArrowLeft", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-list>
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
@@ -1005,8 +988,7 @@ describe("calcite-list", () => {
     });
 
     it("should navigate a draggable list via ArrowRight and ArrowLeft", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-list drag-enabled>
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
@@ -1077,8 +1059,7 @@ describe("calcite-list", () => {
     });
 
     it("should allow tabbing through slotted actions within a cell", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-list>
           <calcite-list-item
             id="item1"
@@ -1137,8 +1118,7 @@ describe("calcite-list", () => {
     });
 
     it("should navigate after focusing within a cell", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-list drag-enabled>
           <calcite-list-item id="one" value="one" label="One" description="hello world"> </calcite-list-item>
           <calcite-list-item id="two" value="two" label="Two" description="hello world"> </calcite-list-item>
@@ -1170,8 +1150,7 @@ describe("calcite-list", () => {
 
   describe("drag and drop", () => {
     async function createSimpleList(): Promise<E2EPage> {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-list drag-enabled>
           <calcite-list-item value="one" label="One"></calcite-list-item>
           <calcite-list-item value="two" label="Two"></calcite-list-item>
@@ -1268,8 +1247,7 @@ describe("calcite-list", () => {
     });
 
     it("supports dragging items between lists", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-list id="first-letters" drag-enabled group="letters">
           <calcite-list-item value="a" label="A"></calcite-list-item>
           <calcite-list-item value="b" label="B"></calcite-list-item>

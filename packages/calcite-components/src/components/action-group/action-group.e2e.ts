@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import {
   accessible,
   defaults,
@@ -80,14 +80,13 @@ describe("calcite-action-group", () => {
   });
 
   it("should honor scale of expand icon", async () => {
-    const page = await newE2EPage({ html: actionGroupHTML });
+    const page = await newE2EPage(actionGroupHTML);
     const menu = await page.find(`calcite-action-group >>> calcite-action-menu`);
     expect(await menu.getProperty("scale")).toBe("l");
   });
 
   it("should honor overlayPositioning", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action-group scale="l" overlay-positioning="fixed">
+    const page = await newE2EPage(`<calcite-action-group scale="l" overlay-positioning="fixed">
     <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
     <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
     </calcite-action-group>`);
@@ -97,8 +96,7 @@ describe("calcite-action-group", () => {
   });
 
   it("should honor label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action-group label="test">
+    const page = await newE2EPage(`<calcite-action-group label="test">
     <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
     <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
     </calcite-action-group>`);

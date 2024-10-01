@@ -1,4 +1,5 @@
-import { newE2EPage, E2EPage, E2EElement } from "@stencil/core/testing";
+import { E2EPage, E2EElement } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -54,8 +55,7 @@ describe("calcite-tab-title", () => {
   });
 
   it("renders with an icon-start", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-tab-title icon-start='plus'>Text</calcite-tab-title>`);
+    const page = await newE2EPage(`<calcite-tab-title icon-start='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
     const iconStart = await page.find(iconStartSelector);
     const iconEnd = await page.find(iconEndSelector);
@@ -65,8 +65,7 @@ describe("calcite-tab-title", () => {
   });
 
   it("renders with an icon-end", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-tab-title icon-end='plus'>Text</calcite-tab-title>`);
+    const page = await newE2EPage(`<calcite-tab-title icon-end='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
     const iconStart = await page.find(iconStartSelector);
     const iconEnd = await page.find(iconEndSelector);
@@ -76,8 +75,7 @@ describe("calcite-tab-title", () => {
   });
 
   it("renders with an icon-start and icon-end", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-tab-title icon-start='plus' icon-end='plus'>Text</calcite-tab-title>`);
+    const page = await newE2EPage(`<calcite-tab-title icon-start='plus' icon-end='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
     const iconStart = await page.find(iconStartSelector);
     const iconEnd = await page.find(iconEndSelector);
@@ -90,8 +88,7 @@ describe("calcite-tab-title", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(tabTitleClosableHtml);
+      page = await newE2EPage(tabTitleClosableHtml);
     });
 
     it("clicking on close button closes the tab", async () => {
@@ -105,8 +102,7 @@ describe("calcite-tab-title", () => {
     });
 
     it("becomes no longer closable when it's the last remaining tab", async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
+      page = await newE2EPage(html`
         <calcite-tabs>
           <calcite-tab-nav slot="title-group">
             <calcite-tab-title selected icon-start="tabbed-view" closable>Tab 1 Title</calcite-tab-title>
@@ -178,8 +174,7 @@ describe("calcite-tab-title", () => {
     };
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(multiTabTitleClosableMarkup);
+      page = await newE2EPage(multiTabTitleClosableMarkup);
     });
 
     it(`when closing tab-titles in sequence 1 (first selected) through 4, 
@@ -328,8 +323,7 @@ describe("calcite-tab-title", () => {
   });
 
   it.skip("emits active event on user interaction only", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-tab-title>Title</calcite-tab-title>`);
+    const page = await newE2EPage(`<calcite-tab-title>Title</calcite-tab-title>`);
     const activeEventSpy = await page.spyOnEvent("calciteTabsActivate");
     const title = await page.find("calcite-tab-title");
 

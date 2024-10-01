@@ -99,6 +99,13 @@ module.exports = {
     "no-restricted-imports": [
       "error",
       {
+        paths: [
+          {
+            name: "@stencil/core/testing",
+            importNames: ["newE2EPage"],
+            message: "use `newE2EPage` from `test/utils/e2e.ts` instead",
+          },
+        ],
         patterns: [
           {
             group: ["tests/commonTests/*"],
@@ -106,6 +113,18 @@ module.exports = {
               "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
           },
         ],
+      },
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector: "AwaitExpression CallExpression[callee.name='skipAnimations']",
+        message:
+          "Do not use `skipAnimations` directly. Use the local `newE2EPage` util instead, which disables animations by default.",
+      },
+      {
+        selector: 'MemberExpression > Identifier[name="setContent"]',
+        message: "Do not use `setContent` directly. Use the local `newE2EPage` util instead",
       },
     ],
     "no-unneeded-ternary": "error",

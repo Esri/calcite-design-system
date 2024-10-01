@@ -1,18 +1,19 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
+import { newE2EPage } from "../utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import {
+  componentsWithInputEvent,
   getClearValidationEventName,
   hiddenFormInputSlotName,
-  componentsWithInputEvent,
-  ValidationProps,
   MutableValidityState,
+  ValidationProps,
 } from "../../utils/form";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { GlobalTestProps } from "./../utils";
-import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
-import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
+import { getTag, getTagOrHTMLWithBeforeContent, isHTML } from "./utils";
+import { TagOrHTML, TagOrHTMLWithBeforeContent } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -93,19 +94,17 @@ export function formAssociated(
     const tag = getTag(tagOrHTML);
     const componentHtml = ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag);
 
-    const page = await newE2EPage();
-    await beforeContent?.(page);
-
-    const content = html` <form>
-      ${componentHtml}
-      <!--
+    const page = await newE2EPage(
+      html` <form>
+        ${componentHtml}
+        <!--
         keeping things simple by using submit-type input
         this should cover button and calcite-button submit cases
       -->
-      <input id="submitter" type="submit" />
-    </form>`;
-    await page.setContent(content);
-    await page.waitForChanges();
+        <input id="submitter" type="submit" />
+      </form>`,
+      beforeContent,
+    );
     const component = await page.find(tag);
 
     await assertValueSubmissionType(page, component, options);
@@ -122,9 +121,7 @@ export function formAssociated(
     const tag = getTag(tagOrHTML);
     const componentHtml = ensureForm(ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag), tag);
 
-    const page = await newE2EPage();
-    await beforeContent?.(page);
-    await page.setContent(
+    const page = await newE2EPage(
       html` <form id="test-form"></form>
         ${componentHtml}
         <!--
@@ -132,8 +129,9 @@ export function formAssociated(
         this should cover button and calcite-button submit cases
         -->
         <input id="submitter" form="test-form" type="submit" />`,
+      beforeContent,
     );
-    await page.waitForChanges();
+
     const component = await page.find(tag);
 
     await assertValueSubmissionType(page, component, options);
@@ -152,18 +150,16 @@ export function formAssociated(
       ensureRequired(ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag), tag),
     );
 
-    const page = await newE2EPage();
-    await beforeContent?.(page);
+    const page = await newE2EPage(
+      html`
+        <form>
+          ${componentHtml}
+          <calcite-button id="submitButton" type="submit">Submit</calcite-button>
+        </form>
+      `,
+      beforeContent,
+    );
 
-    const content = html`
-      <form>
-        ${componentHtml}
-        <calcite-button id="submitButton" type="submit">Submit</calcite-button>
-      </form>
-    `;
-
-    await page.setContent(content);
-    await page.waitForChanges();
     const component = await page.find(tag);
 
     const submitButton = await page.find("#submitButton");

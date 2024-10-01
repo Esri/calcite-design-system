@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { renders, hidden } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -9,8 +9,7 @@ describe("calcite-label", () => {
   });
 
   it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-label>
     Label text
     <calcite-input></calcite-input>
@@ -22,8 +21,7 @@ describe("calcite-label", () => {
   });
 
   it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-label layout="inline-space-between">
     Label text
     <calcite-input></calcite-input>
@@ -45,11 +43,9 @@ describe("calcite-label", () => {
 
     describe("default behavior", () => {
       it("should render with 'start' alignment", async () => {
-        page = await newE2EPage({
-          html: `<calcite-label>Label text
+        page = await newE2EPage(`<calcite-label>Label text
           <calcite-input></calcite-input>
-          </calcite-label>`,
-        });
+          </calcite-label>`);
         element = await page.find("calcite-label");
         expect(await element.getProperty("alignment")).toEqual("start");
       });
@@ -57,13 +53,11 @@ describe("calcite-label", () => {
       describe("when in a center-aligned container", () => {
         describe("when direction is left-to-right", () => {
           it("should render text left-aligned", async () => {
-            page = await newE2EPage({
-              html: `<div style="text-align: center;">
+            page = await newE2EPage(`<div style="text-align: center;">
               <calcite-label dir="ltr">Label text
               <calcite-input></calcite-input>
               </calcite-label>
-              </div>`,
-            });
+              </div>`);
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("start");
@@ -72,13 +66,11 @@ describe("calcite-label", () => {
 
         describe("when direction is right-to-left", () => {
           it("should render text right-aligned", async () => {
-            page = await newE2EPage({
-              html: `<div style="text-align: center;">
+            page = await newE2EPage(`<div style="text-align: center;">
               <calcite-label dir="rtl">Label text
               <calcite-input></calcite-input>
               </calcite-label>
-              </div>`,
-            });
+              </div>`);
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("start");
@@ -90,11 +82,9 @@ describe("calcite-label", () => {
     describe("when alignment prop is provided", () => {
       describe("'center' alignment", () => {
         it("should render text center-aligned", async () => {
-          page = await newE2EPage({
-            html: `<calcite-label alignment="center">Label text
+          page = await newE2EPage(`<calcite-label alignment="center">Label text
             <calcite-input></calcite-input>
-            </calcite-label>`,
-          });
+            </calcite-label>`);
           element = await page.find("calcite-label >>> .container");
           style = await element.getComputedStyle();
           expect(style["textAlign"]).toEqual("center");
@@ -104,11 +94,9 @@ describe("calcite-label", () => {
       describe("'end' alignment", () => {
         describe("when direction is left-to-right", () => {
           it("should render text right-aligned", async () => {
-            page = await newE2EPage({
-              html: `<calcite-label alignment="end" dir="ltr">Label text
+            page = await newE2EPage(`<calcite-label alignment="end" dir="ltr">Label text
               <calcite-input></calcite-input>
-              </calcite-label>`,
-            });
+              </calcite-label>`);
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("end");
@@ -117,11 +105,9 @@ describe("calcite-label", () => {
 
         describe("when direction is right-to-left", () => {
           it("should render text left-aligned", async () => {
-            page = await newE2EPage({
-              html: `<calcite-label alignment="end" dir="rtl">Label text
+            page = await newE2EPage(`<calcite-label alignment="end" dir="rtl">Label text
               <calcite-input></calcite-input>
-              </calcite-label>`,
-            });
+              </calcite-label>`);
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("end");
@@ -132,8 +118,7 @@ describe("calcite-label", () => {
   });
 
   it("does not pass id to child label element", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+    const page = await newE2EPage(`
     <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
     Label text
     <calcite-input></calcite-input>
@@ -148,8 +133,7 @@ describe("calcite-label", () => {
   });
 
   it("should not focus on the slotted form element when a label's text is selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-label layout="inline-space-between">
         Label text
         <calcite-input></calcite-input>

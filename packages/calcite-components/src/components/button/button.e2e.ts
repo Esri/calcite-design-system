@@ -1,4 +1,5 @@
-import { E2EElement, newE2EPage } from "@stencil/core/testing";
+import { E2EElement } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -95,8 +96,7 @@ describe("calcite-button", () => {
   });
 
   it("renders child element as disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button disabled>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button disabled>Continue</calcite-button>`);
 
     let elementAsButton = await page.find("calcite-button >>> button");
     let elementAsLink = await page.find("calcite-button >>> a");
@@ -120,8 +120,7 @@ describe("calcite-button", () => {
   });
 
   it("renders as a button with default props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button>Continue</calcite-button>`);
 
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -171,14 +170,13 @@ describe("calcite-button", () => {
   });
 
   it("should have aria-live attribute set to polite by default", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button>Continue</calcite-button>`);
     const button = await page.find("calcite-button >>> button");
     expect(button.getAttribute("aria-live")).toBe("polite");
   });
 
   it("should update childElType when href changes", async () => {
-    const page = await newE2EPage({ html: `<calcite-button>Continue</calcite-button>` });
+    const page = await newE2EPage(`<calcite-button>Continue</calcite-button>`);
     const link = await page.find("calcite-button");
     let elementAsLink: E2EElement;
     let elementAsSpan: E2EElement;
@@ -198,8 +196,7 @@ describe("calcite-button", () => {
   });
 
   it("renders as a link with default props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button href="/">Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button href="/">Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -220,8 +217,7 @@ describe("calcite-button", () => {
   });
 
   it("sets download attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button href="/">Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button href="/">Continue</calcite-button>`);
 
     const elementAsLink = await page.find("calcite-button >>> a");
 
@@ -253,8 +249,7 @@ describe("calcite-button", () => {
   });
 
   it("renders as a button with requested props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
@@ -277,8 +272,7 @@ describe("calcite-button", () => {
   });
 
   it("renders as a link with requested props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-button href="/" kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
@@ -301,8 +295,7 @@ describe("calcite-button", () => {
   });
 
   it("passes attributes to rendered child link", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
@@ -323,8 +316,7 @@ describe("calcite-button", () => {
   });
 
   it("passes attributes to rendered child button", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button type="reset" name="my-name">Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button type="reset" name="my-name">Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -342,8 +334,7 @@ describe("calcite-button", () => {
   });
 
   it("renders with an icon-start", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button icon-start='plus'>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button icon-start='plus'>Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -359,8 +350,7 @@ describe("calcite-button", () => {
   });
 
   it("renders with an icon-end", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button icon-end='plus'>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button icon-end='plus'>Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -376,8 +366,7 @@ describe("calcite-button", () => {
   });
 
   it("renders with an icon-start and icon-end", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -393,8 +382,7 @@ describe("calcite-button", () => {
   });
 
   it("renders hidden icon when both icon and loader are requested, no text", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
+    const page = await newE2EPage(`<calcite-button loading icon-start='plus'></calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
@@ -408,8 +396,7 @@ describe("calcite-button", () => {
   });
 
   it("renders with a loader and an icon-start when both icon-start and loader are requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button loading icon-start='plus'>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button loading icon-start='plus'>Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -425,8 +412,7 @@ describe("calcite-button", () => {
   });
 
   it("renders with a loader and an icon-end when both icon-end and loader are requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button loading icon-end='plus'>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button loading icon-end='plus'>Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -442,8 +428,9 @@ describe("calcite-button", () => {
   });
 
   it("renders with a loader and an icon-start and icon-end when all are requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
+    const page = await newE2EPage(
+      `<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`,
+    );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -459,8 +446,7 @@ describe("calcite-button", () => {
   });
 
   it("should not render loader with an icon-start ,width set to half and aligned space-between", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-button icon-start='plus' width='half' , alignment='space-between'>Continue</calcite-button>`,
     );
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
@@ -468,29 +454,25 @@ describe("calcite-button", () => {
   });
 
   it("contentSlotted class is present on rendered child when content (as text) is present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button>Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button>Continue</calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).toHaveClass(CSS.contentSlotted);
   });
 
   it("contentSlotted class is present on rendered child when content (as element) is present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button><calcite-icon icon="banana" /></calcite-button>`);
+    const page = await newE2EPage(`<calcite-button><calcite-icon icon="banana" /></calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).toHaveClass(CSS.contentSlotted);
   });
 
   it("contentSlotted class is present on rendered child when content (as text and element) is present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button>Banana <calcite-icon icon="banana" /></calcite-button>`);
+    const page = await newE2EPage(`<calcite-button>Banana <calcite-icon icon="banana" /></calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).toHaveClass(CSS.contentSlotted);
   });
 
   it("contentSlotted class is not present on rendered child when content is not present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button icon-start='plus'></calcite-button>`);
+    const page = await newE2EPage(`<calcite-button icon-start='plus'></calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).not.toHaveClass(CSS.contentSlotted);
   });
@@ -513,7 +495,7 @@ describe("calcite-button", () => {
     let buttonHoverStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: buttonSnippet });
+      page = await newE2EPage(buttonSnippet);
       const buttonStyles = await page.evaluate(() => {
         buttonEl = document.querySelector("calcite-button");
         buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
@@ -529,7 +511,7 @@ describe("calcite-button", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render button pseudo classes with default values tied to light mode", async () => {
-        page = await newE2EPage({ html: buttonSnippet });
+        page = await newE2EPage(buttonSnippet);
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
@@ -545,9 +527,7 @@ describe("calcite-button", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`,
-        });
+        page = await newE2EPage(`<div class="calcite-mode-dark">${buttonSnippet}</div>`);
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
@@ -563,15 +543,13 @@ describe("calcite-button", () => {
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 255, 0, 0.9)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           :root {
             --calcite-color-transparent-hover: ${overrideStyle};
           }
         </style>
-        <div>${buttonSnippet}</div>`,
-      });
+        <div>${buttonSnippet}</div>`);
       buttonEl = await page.find("calcite-button >>> button");
       await buttonEl.focus();
       await page.waitForChanges();
@@ -586,8 +564,7 @@ describe("calcite-button", () => {
   });
 
   it("should remove calcite-loader from dom when `loading` is false", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
+    const page = await newE2EPage(`<calcite-button loading icon-start='plus'></calcite-button>`);
     const element = await page.find("calcite-button");
     const loaderSelector = `calcite-button >>> .${CSS.buttonLoader}`;
 
@@ -601,8 +578,7 @@ describe("calcite-button", () => {
 
   describe("form integration", () => {
     async function assertOnFormButtonType(type: HTMLButtonElement["type"]): Promise<void> {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <form>
           <calcite-button type="${type}"></calcite-button>
         </form>
@@ -644,8 +620,7 @@ describe("calcite-button", () => {
       const longText =
         "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
 
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-button id="one" style="width: 100px">${longText}</calcite-button>
         <calcite-button id="two" style="width: 100px">${shortText}</calcite-button>
       `);
@@ -662,8 +637,7 @@ describe("calcite-button", () => {
     });
 
     it("does not show tooltip for buttons without text content", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-button style="width:32px;height:32px" scale="s">
           <calcite-icon icon="compass-needle" scale="m" />
         </calcite-button>
@@ -677,8 +651,7 @@ describe("calcite-button", () => {
   });
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-button id="test-button" label="Info">Info</calcite-button>
         <calcite-popover
           id="popover-content"
@@ -702,8 +675,7 @@ describe("calcite-button", () => {
   });
 
   it("renders child element with same width as host", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-button width="full">Continue</calcite-button>`);
+    const page = await newE2EPage(`<calcite-button width="full">Continue</calcite-button>`);
     const elementHost = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementHost).not.toBeNull();

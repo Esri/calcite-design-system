@@ -1,4 +1,5 @@
-import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
+import { E2EPage, E2EElement } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
@@ -53,13 +54,13 @@ describe("calcite-tree", () => {
 
   describe("it forwards focus", () => {
     it("to first selected item", async () => {
-      const page = await newE2EPage({
-        html: html` <calcite-tree>
+      const page = await newE2EPage(
+        html` <calcite-tree>
           <calcite-tree-item id="one">1</calcite-tree-item>
           <calcite-tree-item id="two" selected>2</calcite-tree-item>
           <calcite-tree-item id="three">3</calcite-tree-item>
         </calcite-tree>`,
-      });
+      );
 
       await page.keyboard.press("Tab");
 
@@ -67,13 +68,13 @@ describe("calcite-tree", () => {
     });
 
     it("to first item if none selected", async () => {
-      const page = await newE2EPage({
-        html: html` <calcite-tree>
+      const page = await newE2EPage(
+        html` <calcite-tree>
           <calcite-tree-item id="one">1</calcite-tree-item>
           <calcite-tree-item id="two">2</calcite-tree-item>
           <calcite-tree-item id="three">3</calcite-tree-item>
         </calcite-tree>`,
-      });
+      );
 
       await page.keyboard.press("Tab");
 
@@ -86,11 +87,11 @@ describe("calcite-tree", () => {
     });
 
     it("doesn't trap focus", async () => {
-      const page = await newE2EPage({
-        html: html` <calcite-tree>
+      const page = await newE2EPage(
+        html` <calcite-tree>
           <calcite-tree-item id="one">1</calcite-tree-item>
         </calcite-tree>`,
-      });
+      );
 
       await page.keyboard.press("Tab");
 
@@ -128,8 +129,7 @@ describe("calcite-tree", () => {
   });
 
   it("should correctly select tree in ancestors selection mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tree selection-mode="ancestors">
         <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
         <calcite-tree-item id="two" expanded>
@@ -227,8 +227,8 @@ describe("calcite-tree", () => {
 
   describe("item selection", () => {
     it("allows selecting items", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-tree selection-mode="ancestors">
+      const page = await newE2EPage(
+        html`<calcite-tree selection-mode="ancestors">
           <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
           <calcite-tree-item id="two">
             <span>Two</span>
@@ -245,7 +245,7 @@ describe("calcite-tree", () => {
           </calcite-tree-item>
           <calcite-tree-item disabled id="three"><span>Three</span></calcite-tree-item>
         </calcite-tree>`,
-      });
+      );
 
       const tree = await page.find("calcite-tree");
       const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
@@ -268,8 +268,8 @@ describe("calcite-tree", () => {
     });
 
     it("should only emit one event on grandchildren click", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-tree selection-mode="single">
+      const page = await newE2EPage(
+        html`<calcite-tree selection-mode="single">
           <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
           <calcite-tree-item id="two" expanded>
             <span>Two</span>
@@ -285,9 +285,8 @@ describe("calcite-tree", () => {
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>`,
-      });
+      );
 
-      await page.waitForChanges();
       const tree = await page.find("calcite-tree");
       const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
       const grandchildOne = await page.find("#grandchild-one");
@@ -296,8 +295,7 @@ describe("calcite-tree", () => {
     });
 
     it("does not emit calciteTreeSelect on toggling the caret icon", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tree selection-mode="multichildren">
           <calcite-tree-item id="cables">
             Cables
@@ -318,8 +316,7 @@ describe("calcite-tree", () => {
     });
 
     it("does not emit calciteTreeSelect on click of slotted action", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tree selection-mode="multichildren">
           <calcite-tree-item>
             Cables
@@ -341,12 +338,12 @@ describe("calcite-tree", () => {
 
     describe("has selected items in the selection event payload", () => {
       it("contains current selection when selection=multiple", async () => {
-        const page = await newE2EPage({
-          html: html` <calcite-tree selection-mode="multiple">
+        const page = await newE2EPage(
+          html` <calcite-tree selection-mode="multiple">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
           </calcite-tree>`,
-        });
+        );
 
         const tree = await page.find("calcite-tree");
 
@@ -370,8 +367,7 @@ describe("calcite-tree", () => {
       });
 
       it("contains current selection when selection=multichildren", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<calcite-tree lines selection-mode="multichildren" scale="s">
             <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
             <calcite-tree-item id="2" expanded>
@@ -407,11 +403,11 @@ describe("calcite-tree", () => {
     });
 
     it("emits once when the tree item checkbox label is clicked", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-tree selection-mode="ancestors">
+      const page = await newE2EPage(
+        html`<calcite-tree selection-mode="ancestors">
           <calcite-tree-item>1</calcite-tree-item>
         </calcite-tree>`,
-      });
+      );
 
       const tree = await page.find("calcite-tree");
       const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
@@ -426,14 +422,12 @@ describe("calcite-tree", () => {
 
     describe(`when tree-item selection-mode is "ancestors"`, () => {
       it("should render checkbox inputs", async () => {
-        const page = await newE2EPage({
-          html: `
+        const page = await newE2EPage(`
           <calcite-tree selection-mode="ancestors">
             <calcite-tree-item>1</calcite-tree-item>
             <calcite-tree-item>2</calcite-tree-item>
           </calcite-tree>
-          `,
-        });
+          `);
         const checkbox = await page.find(`calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxContainer}`);
         expect(checkbox).not.toBeNull();
       });
@@ -441,8 +435,7 @@ describe("calcite-tree", () => {
 
     describe(`when tree-item selection-mode is "none"`, () => {
       it("emits selection event without updating selection", async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`
+        const page = await newE2EPage(html`
           <calcite-tree selection-mode="none">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
@@ -489,8 +482,7 @@ describe("calcite-tree", () => {
       </calcite-tree>`;
 
       it("should update selection of ancestors and descendants", async () => {
-        const page = await newE2EPage();
-        await page.setContent(pageContent);
+        const page = await newE2EPage(pageContent);
 
         const tree = await page.find("calcite-tree");
         const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
@@ -540,8 +532,7 @@ describe("calcite-tree", () => {
       });
 
       it("should select all descendants when root level element is selected", async () => {
-        const page = await newE2EPage();
-        await page.setContent(pageContent);
+        const page = await newE2EPage(pageContent);
         const tree = await page.find("calcite-tree");
         const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
         const grandparent = await page.find("calcite-tree-item[id='grandparent']");
@@ -558,25 +549,23 @@ describe("calcite-tree", () => {
 
   describe("keyboard support", () => {
     it("does not stop propagation of handled keyboard events", async () => {
-      const page = await newE2EPage({
-        html: html`
-          <calcite-tree id="root">
-            <calcite-tree-item expanded>
-              <span>One</span>
-              <calcite-tree slot="children">
-                <calcite-tree-item id="middle-item" expanded>
-                  <span>Child 1</span>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <span>Grandchild 1</span>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        `,
-      });
+      const page = await newE2EPage(html`
+        <calcite-tree id="root">
+          <calcite-tree-item expanded>
+            <span>One</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item id="middle-item" expanded>
+                <span>Child 1</span>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <span>Grandchild 1</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      `);
 
       const keyDownSpy = await page.spyOnEvent("keydown");
       const item = await page.find("#middle-item");
@@ -598,8 +587,7 @@ describe("calcite-tree", () => {
     });
 
     it("supports navigating the entire tree structure", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html` <calcite-tree id="root">
           <calcite-tree-item id="root-item-1">
             <span>Root Item 1</span>
@@ -813,8 +801,7 @@ describe("calcite-tree", () => {
     });
 
     it("honors disabled items when navigating the tree", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html` <calcite-tree selection-mode="ancestors" id="root">
           <calcite-tree-item id="child-1">
             <span>Child 1</span>
@@ -1014,8 +1001,7 @@ describe("calcite-tree", () => {
     });
 
     it("does prevent space/enter keyboard event on actions with selectionMode of single", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<div id="container">
           <calcite-tree selection-mode="single">
             <calcite-tree-item>
@@ -1046,8 +1032,7 @@ describe("calcite-tree", () => {
     });
 
     it("does prevent space/enter keyboard event on actions with selectionMode of none", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<div id="container">
           <calcite-tree selection-mode="none">
             <calcite-tree-item>
@@ -1086,8 +1071,7 @@ describe("calcite-tree", () => {
     afterAll(() => consoleSpy.mockRestore());
 
     it("does not throw when tree is the topmost element in a shadow root", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<test-tree-element></test-tree-element>");
+      const page = await newE2EPage("<test-tree-element></test-tree-element>");
 
       await page.evaluate(async (): Promise<void> => {
         customElements.define(
@@ -1226,8 +1210,7 @@ describe("calcite-tree", () => {
           it(`selection-mode = ${selectionMode}`, async () => {
             const expandableItemId = "expandable-item";
             const expandableItemChildId = "expandable-item-child";
-            const page = await newE2EPage();
-            await page.setContent(html`
+            const page = await newE2EPage(html`
               <calcite-tree selection-mode="${selectionMode}">
                 <calcite-tree-item>Child 1</calcite-tree-item>
 
@@ -1323,8 +1306,7 @@ describe("calcite-tree", () => {
     }
 
     it("selects/deselects in single selection", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tree selection-mode="single">
           <calcite-tree-item id="child1">Child 1</calcite-tree-item>
           <calcite-tree-item id="sub1">
@@ -1354,8 +1336,7 @@ describe("calcite-tree", () => {
     });
 
     it("single-persist allows only one selection", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <calcite-tree selection-mode="single-persist">
           <calcite-tree-item id="child1">Child 1</calcite-tree-item>
           <calcite-tree-item id="sub1">

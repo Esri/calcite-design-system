@@ -1,4 +1,4 @@
-import { setCSSVariables } from "../src/tests/utils/cssTokenValues";
+import { createInlineStyleDeclaration } from "../src/tests/utils/cssTokenValues";
 import { html } from "../support/formatting";
 import {
   actionBar,
@@ -69,7 +69,7 @@ function convertToParamCase(str) {
 function customTheme(args: Record<string, string>, useTestValues = false) {
   if (useTestValues) {
     const tokensAsCSSVars = Object.keys(args).map((tokenName) => `--${convertToParamCase(tokenName)}`);
-    return setCSSVariables(tokensAsCSSVars, " ");
+    return createInlineStyleDeclaration(tokensAsCSSVars, " ");
   } else {
     return Object.entries(args)
       .map(([tokenName, tokenValue]) =>

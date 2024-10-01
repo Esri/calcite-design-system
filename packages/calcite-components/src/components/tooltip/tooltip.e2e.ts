@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -174,9 +175,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should have zIndex of 901", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
@@ -192,8 +191,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("tooltip positions when referenceElement is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       html`<calcite-tooltip open></calcite-tooltip>
         <div id="ref">referenceElement</div>`,
     );
@@ -215,9 +213,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("open tooltip should be visible", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tooltip></calcite-tooltip><div>referenceElement</div>`);
+    const page = await newE2EPage(`<calcite-tooltip></calcite-tooltip><div>referenceElement</div>`);
 
     const element = await page.find("calcite-tooltip");
 
@@ -241,9 +237,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should accept referenceElement as string id", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
@@ -263,9 +257,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should accept referenceElement as virtual element", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tooltip open>content</calcite-tooltip>`);
+    const page = await newE2EPage(`<calcite-tooltip open>content</calcite-tooltip>`);
 
     await page.$eval("calcite-tooltip", (tooltip: HTMLCalciteTooltipElement) => {
       const virtualElement = {
@@ -295,9 +287,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor hover interaction", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
@@ -317,9 +307,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor hover interaction with span inside", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref"><span>referenceElement<span></div>`,
     );
 
@@ -339,9 +327,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor text", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-tooltip reference-element="ref" open>hi</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
@@ -355,9 +341,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor tooltips on pointermove", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <button id="test">test</button>
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <button id="ref">Button</button>
@@ -391,9 +375,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor tooltips on focus/blur", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <button id="test">test</button>
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <button id="ref">Button</button>
@@ -423,9 +405,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should handle mouse events", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <button id="test">test</button>
       <calcite-tooltip id="tooltip" reference-element="ref">Content</calcite-tooltip>
       <div tabindex="0" id="ref">Button</div>
@@ -451,9 +431,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor focused tooltip closing with ESC key", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <button id="ref">Button</button>
     `);
@@ -480,9 +458,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor hovered tooltip closing with ESC key", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <button id="ref">Button</button>
     `);
@@ -511,9 +487,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should honor hovered and focused tooltip closing with ESC key", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <button id="ref">Button</button>
     `);
@@ -544,9 +518,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should only open the last focused tooltip", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
       <button id="focusRef">Button</button>
       <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
@@ -587,9 +559,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should only open the last hovered tooltip", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
       <button id="focusRef">Button</button>
       <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
@@ -623,9 +593,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should close tooltip when closeOnClick is true and referenceElement is clicked", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <button id="ref">Button</button>
     `);
@@ -672,9 +640,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should close tooltip when closeOnClick is true and referenceElement is clicked quickly", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip reference-element="ref" close-on-click>Content</calcite-tooltip>
       <button id="ref">Button</button>
     `);
@@ -697,9 +663,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should still function when disconnected and reconnected", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<button id="test">test</button>
         <p>Hello World</p>
         <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
@@ -809,8 +773,7 @@ describe("calcite-tooltip", () => {
       openTooltip: (page: E2EPage) => Promise<void>;
       closeTooltip: (page: E2EPage) => Promise<void>;
     }): Promise<void> {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         `<calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip><button id="ref">referenceElement</button>`,
       );
       const tooltip = await page.find("calcite-tooltip");
@@ -843,8 +806,7 @@ describe("calcite-tooltip", () => {
     }
 
     it("when open, it emits close events if no longer rendered", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
+      const page = await newE2EPage(html`
         <style>
           .container {
             height: 100px;
@@ -911,8 +873,7 @@ describe("calcite-tooltip", () => {
   });
 
   it.skip("should open hovered tooltip while pointer is moving", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <button id="ref">Button</button>
     `);
@@ -962,8 +923,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should close non hovered tooltip while pointer is moving", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
       <p>
         <button id="ref">Button</button>
@@ -1018,8 +978,8 @@ describe("calcite-tooltip", () => {
   });
 
   describe("within shadowRoot", () => {
-    async function defineTestComponents(page: E2EPage): Promise<void> {
-      await page.setContent("<calcite-tooltip></calcite-tooltip>");
+    async function getComponentsTestPage(): Promise<E2EPage> {
+      const page = await newE2EPage("<calcite-tooltip></calcite-tooltip>");
 
       await page.evaluate((): void => {
         const customComponents: { name: string; html: string }[] = [
@@ -1053,6 +1013,8 @@ describe("calcite-tooltip", () => {
         <shadow-component-b id="two"></shadow-component-b>`;
       });
       await page.waitForChanges();
+
+      return page;
     }
 
     function isTooltipOpen(page: E2EPage, componentId = "one"): Promise<boolean> {
@@ -1075,8 +1037,7 @@ describe("calcite-tooltip", () => {
     }
 
     it("should open focused tooltips within shadowRoots", async () => {
-      const page = await newE2EPage();
-      await defineTestComponents(page);
+      const page = await getComponentsTestPage();
       expect(await isTooltipOpen(page, "one")).toBe(false);
       expect(await isTooltipOpen(page, "two")).toBe(false);
       await focusReferenceElement(page, "one");
@@ -1088,8 +1049,7 @@ describe("calcite-tooltip", () => {
     });
 
     it("should open focused tooltips within shadowRoots using tab", async () => {
-      const page = await newE2EPage();
-      await defineTestComponents(page);
+      const page = await getComponentsTestPage();
       expect(await isTooltipOpen(page, "one")).toBe(false);
       expect(await isTooltipOpen(page, "two")).toBe(false);
       await page.keyboard.press("Tab");
@@ -1108,9 +1068,7 @@ describe("calcite-tooltip", () => {
   });
 
   it("should open tooltip instantly if another tooltip is already visible", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
+    const page = await newE2EPage(
       html`<p><button id="ref1">referenceElement 1</button></p>
         <p><button id="ref2">referenceElement 2</button></p>
         <calcite-tooltip class="test" id="tooltip1" reference-element="ref1">content</calcite-tooltip>
@@ -1144,8 +1102,7 @@ describe("calcite-tooltip", () => {
     `;
 
     it("should work when clicking on a reference element first", async () => {
-      const page = await newE2EPage();
-      await page.setContent(pageContent);
+      const page = await newE2EPage(pageContent);
       await page.waitForChanges();
       const tooltip = await page.find("calcite-tooltip");
       const referenceElement = await page.find("#ref");
@@ -1168,8 +1125,7 @@ describe("calcite-tooltip", () => {
     });
 
     it("should work when focusing on a reference element first", async () => {
-      const page = await newE2EPage();
-      await page.setContent(pageContent);
+      const page = await newE2EPage(pageContent);
       await page.waitForChanges();
       const tooltip = await page.find("calcite-tooltip");
       const referenceElement = await page.find("#ref");

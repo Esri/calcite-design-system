@@ -1,5 +1,4 @@
 import { toHaveNoViolations } from "jest-axe";
-import { skipAnimations } from "./../utils";
 import { getTagAndPage, propToAttr } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
@@ -42,7 +41,7 @@ export function reflects(
 
   it.each(cases)("%p", async (propertyName, value) => {
     const { page, tag: componentTag } = await getTagAndPage(componentTestSetup);
-    await skipAnimations(page);
+
     const element = await page.find(componentTag);
 
     const attrName = propToAttr(propertyName);

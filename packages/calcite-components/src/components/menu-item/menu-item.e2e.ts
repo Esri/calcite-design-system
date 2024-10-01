@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
@@ -38,8 +38,9 @@ describe("calcite-menu-item", () => {
   });
 
   it("should emit calciteMenuItemSelect event on user click", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-menu-item id="Nature" text="Nature" href="#nature"> </calcite-menu-item> `);
+    const page = await newE2EPage(html`
+      <calcite-menu-item id="Nature" text="Nature" href="#nature"> </calcite-menu-item>
+    `);
 
     const menuItem = await page.find("calcite-menu-item");
     const eventSpy = await menuItem.spyOnEvent("calciteMenuItemSelect");
@@ -55,8 +56,7 @@ describe("calcite-menu-item", () => {
     const testEl = `<calcite-menu><calcite-menu-item id="Nature" text="Nature" href="${testHref}"></calcite-menu-item></calcite-menu>`;
 
     it("should navigate to a new url when href provided and user interacts with click", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`${testEl}`);
+      const page = await newE2EPage(html`${testEl}`);
       const originalUrl = page.url();
       await page.waitForChanges();
 
@@ -69,8 +69,7 @@ describe("calcite-menu-item", () => {
     });
 
     it("should navigate to a new url when href provided and user interacts with `enter` key", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`${testEl}`);
+      const page = await newE2EPage(html`${testEl}`);
       const originalUrl = page.url();
       await page.waitForChanges();
 
@@ -84,8 +83,7 @@ describe("calcite-menu-item", () => {
   });
 
   it("should emit calciteMenuItemSelect event when user select the text area of the component using Enter or Space key", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-menu>
         <calcite-menu-item id="Nature" text="Nature" href="#nature">
           <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item"> </calcite-menu-item>

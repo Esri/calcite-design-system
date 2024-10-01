@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -106,8 +107,7 @@ describe("calcite-segmented-control", () => {
   });
 
   it("sets value from selected item", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-segmented-control>
         <calcite-segmented-control-item id="child-1" value="1" checked>one</calcite-segmented-control-item>
         <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
@@ -122,8 +122,7 @@ describe("calcite-segmented-control", () => {
   });
 
   it("does not require an item to be checked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-segmented-control>
           <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
           <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
@@ -137,8 +136,7 @@ describe("calcite-segmented-control", () => {
   });
 
   it("when multiple items are checked, last one wins", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-segmented-control>
           <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2" checked>two</calcite-segmented-control-item>
@@ -165,8 +163,7 @@ describe("calcite-segmented-control", () => {
   }
 
   it("allows items to be selected", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-segmented-control>
           <calcite-segmented-control-item value="1">one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
@@ -194,8 +191,7 @@ describe("calcite-segmented-control", () => {
   });
 
   it("updates selection when cleared with undefined", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-segmented-control>
             <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
             <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
@@ -217,8 +213,7 @@ describe("calcite-segmented-control", () => {
   });
 
   it("does not emit extraneous events (edge case from #3210)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       `<calcite-segmented-control>
           <calcite-segmented-control-item value="1">one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
@@ -329,8 +324,7 @@ describe("calcite-segmented-control", () => {
     }
 
     it("selects item with left-right/up-down arrow keys", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<calcite-segmented-control>
           <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
@@ -342,8 +336,7 @@ describe("calcite-segmented-control", () => {
     });
 
     it("selects item with left-right/up-down arrow keys after adding items programmatically", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-segmented-control></calcite-segmented-control>`);
+      const page = await newE2EPage(html`<calcite-segmented-control></calcite-segmented-control>`);
 
       await page.$eval("calcite-segmented-control", (segmentedControl: HTMLCalciteSegmentedControlElement) => {
         segmentedControl.innerHTML = `
@@ -358,8 +351,7 @@ describe("calcite-segmented-control", () => {
 
   describe("WAI-ARIA Roles, States, and Properties", () => {
     it(`has a role of 'radiogroup'`, async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-segmented-control></calcite-segmented-control>");
+      const page = await newE2EPage("<calcite-segmented-control></calcite-segmented-control>");
       const element = await page.find("calcite-segmented-control");
 
       const role = element.getAttribute("role");
@@ -368,8 +360,7 @@ describe("calcite-segmented-control", () => {
   });
 
   it("renders requested props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
+    const page = await newE2EPage(
       "<calcite-segmented-control scale='l' layout='vertical' appearance='outline' width='full'></calcite-segmented-control>",
     );
     const element = await page.find("calcite-segmented-control");
@@ -388,8 +379,7 @@ describe("calcite-segmented-control", () => {
       }
     }
 
-    const page = await newE2EPage();
-    await page.setContent(html`
+    const page = await newE2EPage(html`
       <calcite-segmented-control appearance="outline" layout="vertical" scale="l">
         <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
         <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>

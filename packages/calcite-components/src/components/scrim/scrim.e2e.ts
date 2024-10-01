@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
@@ -35,9 +35,7 @@ describe("calcite-scrim", () => {
   });
 
   it("shows loading component", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-scrim></calcite-scrim>");
+    const page = await newE2EPage("<calcite-scrim></calcite-scrim>");
 
     let loader = await page.find("calcite-scrim >>> calcite-loader");
 
@@ -55,9 +53,7 @@ describe("calcite-scrim", () => {
   });
 
   it("does not allow clicks in underlying nodes", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-panel>
         <calcite-button>Test</calcite-button>
         <calcite-scrim></calcite-scrim>
@@ -72,9 +68,7 @@ describe("calcite-scrim", () => {
   });
 
   it("does allow clicks inside default node", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
+    const page = await newE2EPage(`
       <calcite-scrim>
         <calcite-button>Test</calcite-button>
       </calcite-scrim>
@@ -90,9 +84,7 @@ describe("calcite-scrim", () => {
   });
 
   it("does not display content if the default slot if it is empty", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-scrim></calcite-scrim>`);
+    const page = await newE2EPage(`<calcite-scrim></calcite-scrim>`);
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
     expect(contentNode).toHaveAttribute("hidden");
 
@@ -107,9 +99,7 @@ describe("calcite-scrim", () => {
   });
 
   it("renders content in the default slot has content", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-scrim>This is a test.</calcite-scrim>`);
+    const page = await newE2EPage(`<calcite-scrim>This is a test.</calcite-scrim>`);
 
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
@@ -155,8 +145,7 @@ describe("calcite-scrim", () => {
 
     testValues.forEach((scaleSize) => {
       it(`should have a scale="${scaleSize.scale}" loading spinner`, async () => {
-        const page = await newE2EPage();
-        await page.setContent(
+        const page = await newE2EPage(
           html`<style>
               .scrim-container {
                 position: relative;
@@ -180,8 +169,7 @@ describe("calcite-scrim", () => {
     });
 
     it("should responsively scale loading spinner on resize", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
+      const page = await newE2EPage(
         html`<style>
             .scrim-container {
               display: flex;
@@ -236,7 +224,7 @@ describe("calcite-scrim", () => {
     let scrimBgStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: scrimSnippet });
+      page = await newE2EPage(scrimSnippet);
       scrimBgStyle = await page.evaluate(() => {
         scrim = document.querySelector("calcite-scrim");
         scrim.style.setProperty("--calcite-scrim-background", "green");
@@ -247,7 +235,7 @@ describe("calcite-scrim", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render scrim background with default value tied to mode", async () => {
-        page = await newE2EPage({ html: scrimSnippet });
+        page = await newE2EPage(scrimSnippet);
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -257,9 +245,7 @@ describe("calcite-scrim", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render scrim background with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`,
-        });
+        page = await newE2EPage(`<div class="calcite-mode-dark">${scrimSnippet}</div>`);
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -269,16 +255,14 @@ describe("calcite-scrim", () => {
 
     it("should allow the CSS custom property to be overridden when parent token is altered at :root", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           :root {
             --calcite-color-transparent-scrim: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}
-        `,
-      });
+        `);
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -287,16 +271,14 @@ describe("calcite-scrim", () => {
 
     it("should allow the CSS custom property to be overridden when applied to element", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage(`
         <style>
           calcite-scrim {
             --calcite-scrim-background: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}
-        `,
-      });
+        `);
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "../../tests/utils/e2e-setup";
 import { accessible, hidden, renders, defaults, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
@@ -29,16 +29,14 @@ describe("calcite-tip", () => {
   });
 
   it("should remove the closeButton if closeDisabled prop is true", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tip close-disabled><p>not dismissible</p></calcite-tip>`);
+    const page = await newE2EPage(`<calcite-tip close-disabled><p>not dismissible</p></calcite-tip>`);
 
     const closeButton = await page.find(`calcite-tip >>> .${CSS.close}`);
     expect(closeButton).toBeNull();
   });
 
   it("should be hidden after the close button is clicked", async () => {
-    const page = await newE2EPage({ html: `<calcite-tip><p>testing close button</p></calcite-tip>` });
+    const page = await newE2EPage(`<calcite-tip><p>testing close button</p></calcite-tip>`);
 
     const eventSpy = await page.spyOnEvent("calciteTipDismiss", "window");
 
@@ -56,8 +54,7 @@ describe("calcite-tip", () => {
   });
 
   it("header should only be visible if has a heading", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-tip><p>testing</p></calcite-tip>`);
+    const page = await newE2EPage(`<calcite-tip><p>testing</p></calcite-tip>`);
 
     let header = await page.find(`calcite-tip >>> .${CSS.header}`);
 

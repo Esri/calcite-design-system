@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { SetFieldType } from "type-fest";
-import { IntrinsicElementsWithProp, skipAnimations } from "./../utils";
+import { IntrinsicElementsWithProp } from "./../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 
@@ -123,7 +123,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
       ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
       : component;
-    await skipAnimations(page);
+
     await addRedirectPrevention(page, tag);
 
     // setting page size seems to improve consistency between local and CI runs, see https://github.com/Esri/calcite-design-system/pull/10141/ for more info
@@ -242,7 +242,6 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
       : component;
 
-    await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
