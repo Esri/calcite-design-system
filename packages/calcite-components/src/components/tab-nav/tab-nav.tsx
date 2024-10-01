@@ -7,7 +7,6 @@ import {
   Host,
   Listen,
   Prop,
-  readTask,
   State,
   VNode,
   Watch,
@@ -262,7 +261,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       return;
     }
 
-    readTask(() => {
+    requestAnimationFrame(() => {
       const isLTR = this.effectiveDir === "ltr";
       const tabTitleContainer = this.tabTitleContainerEl;
       const containerBounds = tabTitleContainer.getBoundingClientRect();
@@ -487,7 +486,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   }
 
   private scrollToTabTitles = (direction: "forward" | "backward"): void => {
-    readTask(() => {
+    requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
