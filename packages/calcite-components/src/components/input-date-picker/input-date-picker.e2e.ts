@@ -13,7 +13,7 @@ import {
   focusable,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
 import { Position } from "../interfaces";
 import { CSS } from "./resources";
 const animationDurationInMs = 200;
@@ -1769,6 +1769,27 @@ describe("calcite-input-date-picker", () => {
     expect(await inputDatePicker.getProperty("value")).toEqual(["2025-09-21", "2025-10-05"]);
     expect(await getDateInputValue(page, "end")).toBe("10/5/2025");
     expect(await getDateInputValue(page, "start")).toBe("9/21/2025");
+  });
+
+  it("should not shift focus back on input-date-picker when other input elements are clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-input id="input"></calcite-input>
+        <calcite-input-date-picker id="input-date"></calcite-input-date-picker>`,
+    );
+
+    const input = await page.find("calcite-input");
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+    const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(false);
+
+    await inputDatePicker.click();
+    expect(await calendar.isVisible()).toBe(true);
+    expect(await isElementFocused(page, "#input-date")).toBe(true);
+
+    await input.click();
+    expect(await calendar.isVisible()).toBe(false);
+    expect(await isElementFocused(page, "#input")).toBe(true);
   });
 });
 
