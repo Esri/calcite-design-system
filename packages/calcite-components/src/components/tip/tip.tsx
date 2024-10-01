@@ -203,7 +203,7 @@ export class Tip implements LocalizedComponent, T9nComponent {
 
   renderInfoNode(): VNode {
     return (
-      <div class={CSS.info}>
+      <div class={{ [CSS.info]: true, [CSS.infoNoThumbnail]: !this.hasThumbnail }}>
         <slot />
       </div>
     );
