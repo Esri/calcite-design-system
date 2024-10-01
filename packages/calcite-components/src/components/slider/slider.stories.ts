@@ -89,7 +89,7 @@ export const simpleV = simple["vertical"];
 
 const range = {};
 for (const l of ["horizontal", "vertical"]) {
-  range[l] = (): string => html`
+  range[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       min="0"
       min-label="Temperature, lower bound"
@@ -111,7 +111,7 @@ export const rangeV = range["vertical"];
 
 const darkMode = {};
 for (const l of ["horizontal", "vertical"]) {
-  darkMode[l] = (): string => html`
+  darkMode[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       class="calcite-mode-dark"
       mirrored
@@ -142,7 +142,7 @@ darkModeMirroredRangeH_TestOnly.story = darkModeMirroredRangeV_TestOnly.story = 
 
 const rangeLabeledTicks = {};
 for (const l of ["horizontal", "vertical"]) {
-  rangeLabeledTicks[l] = (): string => html`
+  rangeLabeledTicks[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       min="5"
       min-label="Temperature, lower bound"
@@ -168,7 +168,7 @@ rangeLabeledTicksH_TestOnly.parameters = rangeLabeledTicksV_TestOnly.parameters 
 
 const rangeLabeledTicksOverlappingAtMax = {};
 for (const l of ["horizontal", "vertical"]) {
-  rangeLabeledTicksOverlappingAtMax[l] = (): string => html`
+  rangeLabeledTicksOverlappingAtMax[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       min="5"
       min-label="Temperature, lower bound"
@@ -194,7 +194,7 @@ rangeLabeledTicksOverlappingAtMaxH_TestOnly.parameters = rangeLabeledTicksOverla
 
 const rangeLabeledTicksOverlappingAtMin = {};
 for (const l of ["horizontal", "vertical"]) {
-  rangeLabeledTicksOverlappingAtMin[l] = (): string => html`
+  rangeLabeledTicksOverlappingAtMin[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       min="5"
       min-label="Temperature, lower bound"
@@ -220,7 +220,7 @@ rangeLabeledTicksOverlappingAtMinH_TestOnly.parameters = rangeLabeledTicksOverla
 
 const rangeLabeledTicksEdgePositioningAtMax = {};
 for (const l of ["horizontal", "vertical"]) {
-  rangeLabeledTicksEdgePositioningAtMax[l] = (): string => html`
+  rangeLabeledTicksEdgePositioningAtMax[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       min="5"
       min-label="Temperature, lower bound"
@@ -247,7 +247,7 @@ rangeLabeledTicksEdgePositioningAtMaxH_TestOnly.parameters =
 
 const rangeLabeledTicksEdgePositioningAtMin = {};
 for (const l of ["horizontal", "vertical"]) {
-  rangeLabeledTicksEdgePositioningAtMin[l] = (): string => html`
+  rangeLabeledTicksEdgePositioningAtMin[l] = (args: SliderStoryArgs): string => html`
     <calcite-slider
       min="5"
       min-label="Temperature, lower bound"
