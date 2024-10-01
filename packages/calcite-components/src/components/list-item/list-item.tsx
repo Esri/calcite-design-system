@@ -23,7 +23,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -210,6 +210,25 @@ export class ListItem
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = null;
+
+  /**
+   * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`.
+   * @internal
+   */
+  @Prop({ reflect: true }) interactionMode: InteractionMode = null;
+
+  @Watch("interactionMode")
+  @Watch("selectionAppearance")
+  @Watch("selectionMode")
+  handleInteractionModeSelectionAppearanceSelectionModeChange(): void {
+    if (
+      this.interactionMode === "static" &&
+      this.selectionMode !== "none" &&
+      this.selectionAppearance === "border"
+    ) {
+      console.warn(`selection-appearance=“border” requires interaction-mode=“interactive”`);
+    }
+  }
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -653,6 +672,7 @@ export class ListItem
       selected,
       selectionAppearance,
       selectionMode,
+      interactionMode,
       closed,
       filterHidden,
       bordered,
@@ -662,6 +682,9 @@ export class ListItem
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
     const borderSelected = showBorder && selected;
     const borderUnselected = showBorder && !selected;
+    const containerNotInteractive = interactionMode === "static" && selectionMode !== "none";
+    const containerInteractive =
+      interactionMode === "static" && selectionMode !== "none" && selectionAppearance === "border";
 
     return (
       <Host>
@@ -676,7 +699,7 @@ export class ListItem
               aria-setsize={setSize}
               class={{
                 [CSS.container]: true,
-                [CSS.containerHover]: true,
+                [CSS.containerHover]: !containerNotInteractive || containerInteractive,
                 [CSS.containerBorder]: showBorder,
                 [CSS.containerBorderSelected]: borderSelected,
                 [CSS.containerBorderUnselected]: borderUnselected,

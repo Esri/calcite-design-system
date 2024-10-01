@@ -20,7 +20,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
@@ -220,6 +220,17 @@ export class List
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = "none";
+
+  /**
+   * Specifies the interaction mode of the component.
+   *
+   * `"interactive"` allows interaction styling and pointer changes on hover
+   *
+   * `"static"` does not allow interaction styling and pointer changes on hover
+   *
+   * Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`
+   */
+  @Prop({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -845,13 +856,14 @@ export class List
   };
 
   private updateListItems = debounce((emitFilterChange = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled, el } = this;
+    const { selectionAppearance, selectionMode, interactionMode, dragEnabled, el } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
+      item.interactionMode = interactionMode;
       if (item.closest("calcite-list") === el) {
         item.dragHandle = dragEnabled;
       }
