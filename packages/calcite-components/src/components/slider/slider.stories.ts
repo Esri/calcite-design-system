@@ -380,9 +380,8 @@ for (const l of ["horizontal", "vertical"]) {
       ticks="10"
       label-handles
       label-ticks
-      style="word-break: break-all"
+      style="word-break: break-all; ${args.style}"
       layout=${l}
-      style="${args.style}"
     ></calcite-slider>`;
 }
 export const wordBreakDoesNotAffectLabelsH_TestOnly = wordBreakDoesNotAffectLabels["horizontal"];
