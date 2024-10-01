@@ -13,14 +13,9 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   ensureId,
   focusFirstTabbable,
-  getSlotted,
+  slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import {
@@ -80,7 +75,6 @@ logger.deprecated("component", {
 })
 export class Modal
   implements
-    ConditionalSlotComponent,
     OpenCloseComponent,
     FocusTrapComponent,
     LoadableComponent,
@@ -194,8 +188,6 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
     this.updateSizeCssVars();
-    this.updateFooterVisibility();
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
     connectFocusTrap(this);
@@ -205,7 +197,6 @@ export class Modal
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
-    disconnectConditionalSlotComponent(this);
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -238,7 +229,7 @@ export class Modal
             <div class={CSS.header}>
               {this.renderCloseButton()}
               <header class={CSS.title}>
-                <slot name={CSS.header} />
+                <slot name={CSS.header} onSlotchange={this.handleHeaderSlotChange} />
               </header>
             </div>
             {this.renderContentTop()}
@@ -249,7 +240,7 @@ export class Modal
               }}
               ref={(el) => (this.modalContent = el)}
             >
-              <slot name={SLOTS.content} />
+              <slot name={SLOTS.content} onSlotchange={this.handleContentSlotChange} />
             </div>
             {this.renderContentBottom()}
             {this.renderFooter()}
@@ -260,19 +251,19 @@ export class Modal
   }
 
   renderFooter(): VNode {
-    return this.hasFooter ? (
-      <div class={CSS.footer} key="footer">
+    return (
+      <div class={CSS.footer} hidden={!this.hasFooter} key="footer">
         <span class={CSS.back}>
-          <slot name={SLOTS.back} />
+          <slot name={SLOTS.back} onSlotchange={this.handleBackSlotChange} />
         </span>
         <span class={CSS.secondary}>
-          <slot name={SLOTS.secondary} />
+          <slot name={SLOTS.secondary} onSlotchange={this.handleSecondarySlotChange} />
         </span>
         <span class={CSS.primary}>
-          <slot name={SLOTS.primary} />
+          <slot name={SLOTS.primary} onSlotchange={this.handlePrimarySlotChange} />
         </span>
       </div>
-    ) : null;
+    );
   }
 
   renderContentTop(): VNode {
@@ -357,7 +348,7 @@ export class Modal
   modalContent: HTMLDivElement;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
+    this.updateFocusTrapElements(),
   );
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -380,7 +371,24 @@ export class Modal
 
   @State() cssHeight: string | number;
 
-  @State() hasFooter = true;
+  @State() hasFooter = false;
+
+  @Watch("hasBack")
+  @Watch("hasPrimary")
+  @Watch("hasSecondary")
+  handleHasFooterChange(): void {
+    this.hasFooter = this.hasBack || this.hasPrimary || this.hasSecondary;
+  }
+
+  @State() titleEl: HTMLElement;
+
+  @State() contentEl: HTMLElement;
+
+  @State() hasBack = false;
+
+  @State() hasPrimary = false;
+
+  @State() hasSecondary = false;
 
   @State() hasContentTop = false;
 
@@ -474,6 +482,26 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
+  private handleHeaderSlotChange = (event: Event): void => {
+    this.titleEl = slotChangeGetAssignedElements(event)[0] as HTMLElement;
+  };
+
+  private handleContentSlotChange = (event: Event): void => {
+    this.contentEl = slotChangeGetAssignedElements(event)[0] as HTMLElement;
+  };
+
+  private handleBackSlotChange = (event: Event): void => {
+    this.hasBack = slotChangeHasAssignedElement(event);
+  };
+
+  private handlePrimarySlotChange = (event: Event): void => {
+    this.hasPrimary = slotChangeHasAssignedElement(event);
+  };
+
+  private handleSecondarySlotChange = (event: Event): void => {
+    this.hasSecondary = slotChangeHasAssignedElement(event);
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
@@ -533,11 +561,9 @@ export class Modal
     await componentOnReady(this.el);
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.opened = true;
-    const titleEl = getSlotted(this.el, SLOTS.header);
-    const contentEl = getSlotted(this.el, SLOTS.content);
 
-    this.titleId = ensureId(titleEl);
-    this.contentId = ensureId(contentEl);
+    this.titleId = ensureId(this.titleEl);
+    this.contentId = ensureId(this.contentEl);
 
     if (!this.embedded) {
       if (totalOpenModals === 0) {
@@ -581,15 +607,6 @@ export class Modal
   private removeOverflowHiddenClass(): void {
     document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
-
-  private handleMutationObserver = (): void => {
-    this.updateFooterVisibility();
-    this.updateFocusTrapElements();
-  };
-
-  private updateFooterVisibility = (): void => {
-    this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
-  };
 
   private updateSizeCssVars = (): void => {
     this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
