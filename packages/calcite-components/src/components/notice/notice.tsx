@@ -10,11 +10,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  focusFirstTabbable,
-  setRequestedIcon,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -153,7 +149,12 @@ export class Notice
 
   render(): VNode {
     const closeButton = (
-      <button aria-label={this.messages.close} class={CSS.close} onClick={this.close}>
+      <button
+        aria-label={this.messages.close}
+        class={CSS.close}
+        onClick={this.close}
+        ref={(el) => (this.closeButton = el)}
+      >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
@@ -210,7 +211,17 @@ export class Notice
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    focusFirstTabbable(this.el);
+
+    const noticeLinkEl = this.el.querySelector("calcite-link");
+
+    if (!this.closeButton && !noticeLinkEl) {
+      return;
+    }
+    if (noticeLinkEl) {
+      return noticeLinkEl.setFocus();
+    } else if (this.closeButton) {
+      this.closeButton.focus();
+    }
   }
 
   onBeforeClose(): void {
@@ -254,6 +265,9 @@ export class Notice
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteNoticeElement;
+
+  /** The close button element. */
+  private closeButton?: HTMLButtonElement;
 
   /** The computed icon to render. */
   private requestedIcon?: IconNameOrString;
