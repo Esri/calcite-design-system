@@ -10,12 +10,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -26,6 +20,7 @@ import {
 } from "../../utils/t9n";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
 import { logger } from "../../utils/logger";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { TipMessages } from "./assets/tip/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -46,7 +41,7 @@ logger.deprecated("component", {
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class Tip implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -108,6 +103,8 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
 
   @State() defaultMessages: TipMessages;
 
+  @State() hasThumbnail = false;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -122,7 +119,6 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -132,7 +128,6 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -158,6 +153,10 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
     this.closed = true;
 
     this.calciteTipDismiss.emit();
+  };
+
+  private handleThumbnailSlotChange = (event: Event): void => {
+    this.hasThumbnail = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
@@ -195,13 +194,11 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   }
 
   renderImageFrame(): VNode {
-    const { el } = this;
-
-    return getSlotted(el, SLOTS.thumbnail) ? (
-      <div class={CSS.imageFrame} key="thumbnail">
-        <slot name={SLOTS.thumbnail} />
+    return (
+      <div class={CSS.imageFrame} hidden={!this.hasThumbnail} key="thumbnail">
+        <slot name={SLOTS.thumbnail} onSlotchange={this.handleThumbnailSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   renderInfoNode(): VNode {
