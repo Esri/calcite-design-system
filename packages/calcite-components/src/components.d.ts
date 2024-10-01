@@ -982,6 +982,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -4199,6 +4200,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -5785,6 +5787,7 @@ export namespace Components {
           * When `true`, displays indentation guide lines.
          */
         "lines": boolean;
+        "parentExpanded": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -8967,6 +8970,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -12368,6 +12372,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -14016,6 +14021,7 @@ declare namespace LocalJSX {
           * Fires when the user selects/deselects `calcite-tree-items`.
          */
         "onCalciteTreeSelect"?: (event: CalciteTreeCustomEvent<void>) => void;
+        "parentExpanded"?: boolean;
         /**
           * Specifies the size of the component.
          */
