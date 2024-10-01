@@ -36,7 +36,6 @@ describe("calcite-shell-center-row", () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-shell-center-row></calcite-shell-center-row>");
-    await page.waitForChanges();
 
     const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
 
