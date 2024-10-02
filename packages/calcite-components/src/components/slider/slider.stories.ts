@@ -322,6 +322,9 @@ for (const l of ["horizontal", "vertical"]) {
     const offsets = colors.map((_, i) => `${(1 / (colors.length - 1)) * i}`);
     slider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
     slider.scale = "m";
+    slider.style.paddingTop = "350px";
+    slider.style.paddingLeft = "100px";
+    slider.style.height = "600px";
     slider.layout = l;
     return slider;
   };
@@ -348,6 +351,9 @@ for (const l of ["horizontal", "vertical"]) {
     slider.ticks = 10;
     slider.scale = "m";
     slider.style.minWidth = "60vw";
+    slider.style.paddingTop = "350px";
+    slider.style.paddingLeft = "100px";
+    slider.style.height = "600px";
     slider.className = "calcite-mode-dark";
     slider.layout = l;
     return slider;
