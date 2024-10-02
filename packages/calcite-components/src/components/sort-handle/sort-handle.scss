@@ -12,7 +12,6 @@
 --calcite-sort-handle-action-corner-radius-end-start: Specifies the component's corner radius end start.
 --calcite-sort-handle-action-corner-radius-start-end: Specifies the component's corner radius start end.
 --calcite-sort-handle-action-corner-radius-start-start: Specifies the component's corner radius start start.
---calcite-sort-handle-action-cursor: Specifies the component's cursor.
 --calcite-sort-handle-action-text-color: Specifies the component's text color.
 --calcite-sort-handle-action-text-color-pressed: Specifies the component's text color when hovered.
 --calcite-sort-handle-dropdown-width: Specifies the width of the component's wrapper.
@@ -32,11 +31,10 @@
   --calcite-action-corner-radius-end-start: var(--calcite-sort-handle-action-corner-radius-end-start);
   --calcite-action-corner-radius-start-end: var(--calcite-sort-handle-action-corner-radius-start-end);
   --calcite-action-corner-radius-start-start: var(--calcite-sort-handle-action-corner-radius-start-start);
-  --calcite-action-cursor: var(--calcite-sort-handle-action-cursor, move);
   --calcite-action-text-color: var(--calcite-sort-handle-action-text-color);
   --calcite-action-text-color-pressed: var(--calcite-sort-handle-action-text-color-pressed);
 
-  @apply bg-transparent;
+  @apply bg-transparent cursor-move;
 }
 
 calcite-dropdown {
