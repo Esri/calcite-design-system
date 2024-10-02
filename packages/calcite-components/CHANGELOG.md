@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.3...@esri/calcite-components@2.14.0-next.4) (2024-10-02)
+
+### Features
+
+- **stepper-item:** update component's active state background color. ([#10475](https://github.com/Esri/calcite-design-system/issues/10475)) ([739bb46](https://github.com/Esri/calcite-design-system/commit/739bb466a4af608a59d7eeb4f4978dd2b5d3016a)), closes [#10000](https://github.com/Esri/calcite-design-system/issues/10000)
+
 ## [2.14.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.2...@esri/calcite-components@2.14.0-next.3) (2024-10-01)
 
 ### Bug Fixes
