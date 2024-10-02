@@ -1155,9 +1155,9 @@ export class Slider
       }
     } else {
       hyphenLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
-      leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px) ${this.layout === "vertical" ? "rotate(90deg)" : ""}`;
+      leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
-      rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px) ${this.layout === "vertical" ? "rotate(90deg)" : ""}`;
+      rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
       rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
     }
   }
