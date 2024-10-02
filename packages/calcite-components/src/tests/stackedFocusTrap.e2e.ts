@@ -11,6 +11,11 @@ describe("stacked focus-trap components", () => {
       </calcite-panel>
     </calcite-sheet>
 
+    <calcite-dialog id="dialog" width-scale="s" scale="s" heading="small scale dialog" description="My description">
+      <p>The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+      <calcite-button>Back</calcite-button>
+    </calcite-dialog>
+
     <calcite-modal id="example-modal">
       <div slot="content">
         <p>This is an example modal that opens from a Sheet.</p>
@@ -21,24 +26,9 @@ describe("stacked focus-trap components", () => {
     <calcite-modal id="another-modal">
       <div slot="content">
         <p>
-          This is an example of a another modal that opens from a modal. This modal an input date picker, a combobox, a
-          dropdown, a popover and a tooltip.
+          This is an example of a another modal that opens from a modal. This modal an input date picker, a popover and
+          a tooltip.
         </p>
-        <calcite-combobox id="combobox">
-          <calcite-combobox-item value="Grand 1" text-label="Grand 1">
-            <calcite-combobox-item value="Parent 1" text-label="Parent 1">
-              <calcite-combobox-item value="Child 1" text-label="Child 1"></calcite-combobox-item>
-              <calcite-combobox-item value="Child 2" text-label="Child 2"></calcite-combobox-item>
-            </calcite-combobox-item>
-          </calcite-combobox-item>
-        </calcite-combobox>
-        <calcite-dropdown id="dropdown">
-          <calcite-button slot="trigger">Dropdown</calcite-button>
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item selected>List</calcite-dropdown-item>
-            <calcite-dropdown-item>Grid</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
         <calcite-popover placement="auto" reference-element="popover-button" closable id="popover">
           <div>
             <p>Example Popover.</p>
@@ -74,12 +64,14 @@ describe("stacked focus-trap components", () => {
       }
 
       const sheet = await page.find("#sheet");
+      const dialog = await page.find("#dialog");
       const firstModal = await page.find("#example-modal");
       const secondModal = await page.find("#another-modal");
       const popover = await page.find("#popover");
       const inputPicker = await page.find(pickerType);
 
       await openAndCheckVisibility(sheet);
+      await openAndCheckVisibility(dialog);
       await openAndCheckVisibility(firstModal);
       await openAndCheckVisibility(secondModal);
       await openAndCheckVisibility(popover);
@@ -87,13 +79,36 @@ describe("stacked focus-trap components", () => {
       await inputPicker.click();
 
       async function testEscapeAndAssertOpenState(focusTrapOrderElements: E2EElement[]): Promise<void> {
+        function strToCamelCase(str: string): string {
+          return str
+            .split("-")
+            .map((word, index) =>
+              index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+            )
+            .join("");
+        }
         for (let i = 0; i < focusTrapOrderElements.length; i++) {
+          const elTagNameCamelCased = strToCamelCase(focusTrapOrderElements[i].tagName);
+          const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+
           const activeElementId = await page.evaluate(() => document.activeElement?.id);
-          console.log("activeElementId", activeElementId);
-          expect(activeElementId).toBe(focusTrapOrderElements[i].id || document.body);
+
+          // floating-ui components that close and keep focus
+          const focusRetainingComponentIDs = ["input-time-picker", "input-date-picker"];
+
+          if (activeElementId && focusRetainingComponentIDs.includes(activeElementId)) {
+            await page.keyboard.press("Tab");
+          }
+
+          const activeElementIdAfterTab = await page.evaluate(() => document.activeElement?.id);
+          console.log("activeElementIdAfterTab", activeElementIdAfterTab);
+
+          expect(activeElementIdAfterTab).toBe(focusTrapOrderElements[i].id || document.body.id);
 
           await page.keyboard.press("Escape");
           await page.waitForChanges();
+          await closeEvent;
+
           expect(await focusTrapOrderElements[i].getProperty("open")).toBe(false);
 
           for (let j = 0; j < focusTrapOrderElements.length; j++) {
@@ -103,7 +118,7 @@ describe("stacked focus-trap components", () => {
         }
       }
 
-      await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, sheet]);
+      await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, dialog, sheet]);
     }
 
     await testStackEscapeSequence(page, "calcite-input-time-picker");
