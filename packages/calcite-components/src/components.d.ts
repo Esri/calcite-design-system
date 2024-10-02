@@ -4801,6 +4801,14 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
+          * todo
+         */
+        "setPosition": number;
+        /**
+          * todo
+         */
+        "setSize": number;
+        /**
           * Specifies the width of the component.
          */
         "widthScale": Scale;
@@ -13057,6 +13065,14 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * todo
+         */
+        "setPosition"?: number;
+        /**
+          * todo
+         */
+        "setSize"?: number;
         /**
           * Specifies the width of the component.
          */

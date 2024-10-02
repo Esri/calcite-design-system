@@ -104,6 +104,16 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
+   * todo
+   */
+  @Prop() setPosition: number;
+
+  /**
+   * todo
+   */
+  @Prop() setSize: number;
+
+  /**
    * Specifies the width of the component.
    */
   @Prop({ reflect: true }) widthScale: Scale;
