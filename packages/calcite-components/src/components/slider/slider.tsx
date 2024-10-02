@@ -1224,8 +1224,8 @@ export class Slider
    * @param rightBounds
    * @internal
    */
-  private getHostOffset(leftBounds: number, rightBounds: number, el: HTMLElement = null): number {
-    const hostBounds = el ? el.getBoundingClientRect() : this.el.getBoundingClientRect();
+  private getHostOffset(leftBounds: number, rightBounds: number): number {
+    const hostBounds = this.el.getBoundingClientRect();
     const buffer = 7;
 
     if (leftBounds + buffer < hostBounds.left) {
