@@ -4782,7 +4782,7 @@ export namespace Components {
          */
         "messages": SortHandleMessages;
         /**
-          * todo
+          * Defines the "Move to" items.
          */
         "moveToItems": MoveToItem[];
         /**
@@ -4807,11 +4807,11 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * todo
+          * The current position of the handle.
          */
         "setPosition": number;
         /**
-          * todo
+          * The total number of sortable items.
          */
         "setSize": number;
         /**
@@ -13071,15 +13071,15 @@ declare namespace LocalJSX {
          */
         "messages"?: SortHandleMessages;
         /**
-          * todo
+          * Defines the "Move to" items.
          */
         "moveToItems"?: MoveToItem[];
         /**
-          * todo
+          * Fires when a move item has been selected.
          */
         "onCalciteSortHandleMove"?: (event: CalciteSortHandleCustomEvent<MoveEventDetail>) => void;
         /**
-          * todo
+          * Fires when a reorder has been selected.
          */
         "onCalciteSortHandleReorder"?: (event: CalciteSortHandleCustomEvent<ReorderEventDetail>) => void;
         /**
@@ -13100,11 +13100,11 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * todo
+          * The current position of the handle.
          */
         "setPosition"?: number;
         /**
-          * todo
+          * The total number of sortable items.
          */
         "setSize"?: number;
         /**

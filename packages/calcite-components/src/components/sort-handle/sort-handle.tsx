@@ -108,7 +108,7 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
   }
 
   /**
-   * todo
+   * Defines the "Move to" items.
    */
   @Prop() moveToItems: MoveToItem[];
 
@@ -121,12 +121,12 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * todo
+   * The current position of the handle.
    */
   @Prop() setPosition: number;
 
   /**
-   * todo
+   * The total number of sortable items.
    */
   @Prop() setSize: number;
 
@@ -190,14 +190,12 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
   // --------------------------------------------------------------------------
 
   /**
-   * todo
-   *
+   * Fires when a reorder has been selected.
    */
   @Event({ cancelable: false }) calciteSortHandleReorder: EventEmitter<ReorderEventDetail>;
 
   /**
-   * todo
-   *
+   * Fires when a move item has been selected.
    */
   @Event({ cancelable: false }) calciteSortHandleMove: EventEmitter<MoveEventDetail>;
 
