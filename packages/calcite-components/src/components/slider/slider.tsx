@@ -1040,7 +1040,7 @@ export class Slider
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
-    label.style.transform = `translateX(${labelStaticOffset}px) ${this.layout === "vertical" ? "rotate(90deg)" : ""}`;
+    label.style.transform = `translateX(${labelStaticOffset}px)`;
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
 
