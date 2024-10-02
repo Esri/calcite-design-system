@@ -92,7 +92,7 @@ describe("calcite-list-item", () => {
     expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
   });
 
-  it("does not display hover class when selection-mode !== none and interaction-mode == static selection-appearance == icon", async () => {
+  it("does not display hover class when selection-mode !== none and interaction-mode == static and selection-appearance == icon", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="icon"></calcite-list-item>`,
