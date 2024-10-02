@@ -982,6 +982,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -4199,6 +4200,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -8967,6 +8969,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -12368,6 +12371,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**

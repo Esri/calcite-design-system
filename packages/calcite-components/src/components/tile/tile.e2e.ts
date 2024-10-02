@@ -1,8 +1,18 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  themed,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
   describe("accessibility", () => {
@@ -209,6 +219,70 @@ describe("calcite-tile", () => {
       expect(icon).toEqualAttribute("scale", "l");
       expect(heading).toEqualText("My Large Visual Calcite Tile");
       expect(description).toBeNull();
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-tile
+            heading="Tile heading lorem ipsum"
+            description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+            icon="layers"
+            interactive
+            selected
+          >
+          </calcite-tile>
+        `,
+        {
+          "--calcite-tile-background-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-tile-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "outlineColor",
+          },
+          "--calcite-tile-description-text-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          "--calcite-tile-heading-text-color": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+          "--calcite-tile-icon-color": {
+            shadowSelector: "calcite-icon",
+            targetProp: "--calcite-icon-color",
+          },
+        },
+      );
+    });
+    describe("single selection", () => {
+      themed(
+        html`
+          <calcite-tile
+            heading="Tile heading lorem ipsum"
+            description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+            icon="layers"
+            interactive
+            selection-mode="single"
+          >
+          </calcite-tile>
+        `,
+        {
+          "--calcite-tile-selection-icon-color": {
+            shadowSelector: `calcite-icon.${CSS.selectionIcon}`,
+            targetProp: "--calcite-icon-color",
+          },
+          "--calcite-tile-selection-icon-color-hover": {
+            shadowSelector: `calcite-icon.${CSS.selectionIcon}`,
+            targetProp: "--calcite-icon-color",
+            state: "hover",
+          },
+        },
+      );
     });
   });
 });
