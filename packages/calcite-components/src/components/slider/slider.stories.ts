@@ -291,7 +291,7 @@ for (const l of ["horizontal", "vertical"]) {
     slider.ticks = 10;
     slider.scale = "m";
     slider.style.minWidth = "60vw";
-    slider.style.paddingTop = "200px";
+    slider.style.paddingTop = "240px";
     slider.style.paddingLeft = "100px";
     slider.style.height = "600px";
     slider.layout = l;
