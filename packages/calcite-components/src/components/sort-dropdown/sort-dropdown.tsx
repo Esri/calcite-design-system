@@ -1,4 +1,15 @@
-import { Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Event,
+  Component,
+  Element,
+  EventEmitter,
+  h,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import {
   componentFocusable,
   LoadableComponent,
@@ -23,6 +34,7 @@ import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../componen
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { SortDropdownMessages } from "./assets/sort-dropdown/t9n";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
+import { MoveEventDetail, MoveToItem, Reorder, ReorderEventDetail } from "./interfaces";
 
 @Component({
   tag: "calcite-sort-dropdown",
@@ -96,6 +108,11 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
   }
 
   /**
+   * todo
+   */
+  @Prop() moveToItems: MoveToItem[];
+
+  /**
    * When `true`, displays and positions the component.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -155,9 +172,9 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
 
   @Element() el: HTMLCalciteSortDropdownElement;
 
-  @State() effectiveLocale: string;
-
   @State() defaultMessages: SortDropdownMessages;
+
+  @State() effectiveLocale: string;
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
@@ -165,6 +182,25 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
   }
 
   dropdownEl: HTMLCalciteDropdownElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * todo
+   *
+   */
+  @Event({ cancelable: false }) calciteSortDropdownReorder: EventEmitter<ReorderEventDetail>;
+
+  /**
+   * todo
+   *
+   */
+  @Event({ cancelable: false }) calciteSortDropdownMove: EventEmitter<MoveEventDetail>;
+
   // --------------------------------------------------------------------------
   //
   //  Methods
@@ -184,18 +220,23 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
   //
   // --------------------------------------------------------------------------
 
+  private setDropdownEl = (el: HTMLCalciteDropdownElement): void => {
+    this.dropdownEl = el;
+  };
+
   private getLabel(): string {
-    const { label, messages } = this;
+    const { label, messages, setPosition, setSize } = this;
 
-    if (!messages) {
-      return "";
-    }
+    let formattedLabel = label
+      ? messages.repositionLabel.replace(SUBSTITUTIONS.label, label)
+      : messages.reposition;
 
-    if (!label) {
-      return messages.untitledLabel;
-    }
+    formattedLabel = formattedLabel.replace(
+      SUBSTITUTIONS.position,
+      setPosition ? setPosition.toString() : "",
+    );
 
-    return messages.label.replace(SUBSTITUTIONS.itemLabel, label);
+    return formattedLabel.replace(SUBSTITUTIONS.total, setSize ? setSize.toString() : "");
   }
 
   private handleOpen = (): void => {
@@ -206,9 +247,14 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
     this.open = false;
   };
 
-  private handleReorder = (event: CustomEvent<void>): void => {
-    // todo: emit event
-    console.log((event.target as HTMLElement).dataset.value);
+  private handleReorder = (event: Event): void => {
+    const order = (event.target as HTMLElement).dataset.value as Reorder;
+    this.calciteSortDropdownReorder.emit({ order });
+  };
+
+  private handleMoveTo = (event: Event): void => {
+    const value = (event.target as HTMLElement).dataset.value;
+    this.calciteSortDropdownMove.emit({ value });
   };
 
   // --------------------------------------------------------------------------
@@ -226,23 +272,25 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
       overlayPositioning,
       placement,
       scale,
+      setPosition,
+      setSize,
       widthScale,
     } = this;
     const text = this.getLabel();
 
+    const isDisabled = disabled || !setPosition || !setSize;
+
     return (
-      <InteractiveContainer disabled={disabled}>
+      <InteractiveContainer disabled={isDisabled}>
         <calcite-dropdown
-          disabled={disabled}
+          disabled={isDisabled}
           flipPlacements={flipPlacements}
           onCalciteDropdownClose={this.handleClose}
           onCalciteDropdownOpen={this.handleOpen}
           open={open}
           overlayPositioning={overlayPositioning}
           placement={placement}
-          ref={(el): void => {
-            this.dropdownEl = el;
-          }}
+          ref={this.setDropdownEl}
           scale={scale}
           widthScale={widthScale}
         >
@@ -250,7 +298,7 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
             active={open}
             appearance="transparent"
             class={CSS.handle}
-            disabled={disabled}
+            disabled={isDisabled}
             icon={ICONS.drag}
             label={text}
             scale="s"
@@ -259,45 +307,97 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
             title={text}
           />
           <calcite-dropdown-group groupTitle={messages.reorder} scale={scale} selectionMode="none">
-            <calcite-dropdown-item
-              data-value="top"
-              label={messages.moveToTop}
-              onCalciteDropdownItemSelect={this.handleReorder}
-            >
-              {messages.moveToTop}
-            </calcite-dropdown-item>
-            <calcite-dropdown-item
-              data-value="up"
-              label={messages.moveUp}
-              onCalciteDropdownItemSelect={this.handleReorder}
-            >
-              {messages.moveUp}
-            </calcite-dropdown-item>
-            <calcite-dropdown-item
-              data-value="down"
-              label={messages.moveDown}
-              onCalciteDropdownItemSelect={this.handleReorder}
-            >
-              {messages.moveDown}
-            </calcite-dropdown-item>
-            <calcite-dropdown-item
-              data-value="bottom"
-              label={messages.moveToBottom}
-              onCalciteDropdownItemSelect={this.handleReorder}
-            >
-              {messages.moveToBottom}
-            </calcite-dropdown-item>
+            {this.renderTop()}
+            {this.renderUp()}
+            {this.renderDown()}
+            {this.renderBottom()}
           </calcite-dropdown-group>
-          <calcite-dropdown-group
-            groupTitle={messages.moveTo}
-            hidden={true} // todo
-            scale={scale}
-            selectionMode="none"
-          >
-            <slot name="todo" onSlotchange={() => console.log("todo")} />
-          </calcite-dropdown-group>
+          {this.renderMoveToGroup()}
         </calcite-dropdown>
       </InteractiveContainer>
     );
+  }
+
+  private renderMoveToItem(moveToItem: MoveToItem): VNode {
+    return (
+      <calcite-dropdown-item
+        data-value={moveToItem.value}
+        key={moveToItem.value}
+        label={moveToItem.label}
+        onCalciteDropdownItemSelect={this.handleMoveTo}
+      >
+        {moveToItem.label}
+      </calcite-dropdown-item>
+    );
+  }
+
+  private renderMoveToGroup(): VNode {
+    const { messages, moveToItems, scale } = this;
+
+    return moveToItems?.length ? (
+      <calcite-dropdown-group groupTitle={messages.moveTo} scale={scale} selectionMode="none">
+        {moveToItems.map((moveToItem) => this.renderMoveToItem(moveToItem))}
+      </calcite-dropdown-group>
+    ) : null;
+  }
+
+  private renderTop(): VNode {
+    const { setPosition, messages } = this;
+
+    return setPosition !== 1 && setPosition !== 2 ? (
+      <calcite-dropdown-item
+        data-value="top"
+        key="top"
+        label={messages.moveToTop}
+        onCalciteDropdownItemSelect={this.handleReorder}
+      >
+        {messages.moveToTop}
+      </calcite-dropdown-item>
+    ) : null;
+  }
+
+  private renderUp(): VNode {
+    const { setPosition, messages } = this;
+
+    return setPosition !== 1 ? (
+      <calcite-dropdown-item
+        data-value="up"
+        key="up"
+        label={messages.moveUp}
+        onCalciteDropdownItemSelect={this.handleReorder}
+      >
+        {messages.moveUp}
+      </calcite-dropdown-item>
+    ) : null;
+  }
+
+  private renderDown(): VNode {
+    const { setPosition, setSize, messages } = this;
+
+    return setPosition !== setSize ? (
+      <calcite-dropdown-item
+        data-value="down"
+        key="down"
+        label={messages.moveDown}
+        onCalciteDropdownItemSelect={this.handleReorder}
+      >
+        {messages.moveDown}
+      </calcite-dropdown-item>
+    ) : null;
+  }
+
+  private renderBottom(): VNode {
+    const { setPosition, setSize, messages } = this;
+
+    return setPosition !== setSize && setPosition !== setSize - 1 ? (
+      <calcite-dropdown-item
+        data-value="bottom"
+        key="bottom"
+        label={messages.moveToBottom}
+        onCalciteDropdownItemSelect={this.handleReorder}
+      >
+        {messages.moveToBottom}
+      </calcite-dropdown-item>
+    ) : null;
   }
 }

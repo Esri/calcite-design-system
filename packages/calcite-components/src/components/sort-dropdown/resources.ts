@@ -7,5 +7,7 @@ export const ICONS = {
 } as const;
 
 export const SUBSTITUTIONS = {
-  itemLabel: "{itemLabel}",
+  label: "{label}",
+  position: "{position}",
+  total: "{total}",
 };

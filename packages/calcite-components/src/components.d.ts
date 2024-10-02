@@ -81,6 +81,7 @@ import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 import { SortDropdownMessages } from "./components/sort-dropdown/assets/sort-dropdown/t9n";
+import { MoveEventDetail, MoveToItem, ReorderEventDetail } from "./components/sort-dropdown/interfaces";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -178,6 +179,7 @@ export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 export { SortDropdownMessages } from "./components/sort-dropdown/assets/sort-dropdown/t9n";
+export { MoveEventDetail, MoveToItem, ReorderEventDetail } from "./components/sort-dropdown/interfaces";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -4780,6 +4782,10 @@ export namespace Components {
          */
         "messages": SortDropdownMessages;
         /**
+          * todo
+         */
+        "moveToItems": MoveToItem[];
+        /**
           * When `true`, displays and positions the component.
          */
         "open": boolean;
@@ -6277,6 +6283,10 @@ export interface CalciteSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSliderElement;
 }
+export interface CalciteSortDropdownCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteSortDropdownElement;
+}
 export interface CalciteSortableListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSortableListElement;
@@ -7659,7 +7669,19 @@ declare global {
         prototype: HTMLCalciteSliderElement;
         new (): HTMLCalciteSliderElement;
     };
+    interface HTMLCalciteSortDropdownElementEventMap {
+        "calciteSortDropdownReorder": ReorderEventDetail;
+        "calciteSortDropdownMove": MoveEventDetail;
+    }
     interface HTMLCalciteSortDropdownElement extends Components.CalciteSortDropdown, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteSortDropdownElementEventMap>(type: K, listener: (this: HTMLCalciteSortDropdownElement, ev: CalciteSortDropdownCustomEvent<HTMLCalciteSortDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteSortDropdownElementEventMap>(type: K, listener: (this: HTMLCalciteSortDropdownElement, ev: CalciteSortDropdownCustomEvent<HTMLCalciteSortDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteSortDropdownElement: {
         prototype: HTMLCalciteSortDropdownElement;
@@ -13048,6 +13070,18 @@ declare namespace LocalJSX {
           * @readonly
          */
         "messages"?: SortDropdownMessages;
+        /**
+          * todo
+         */
+        "moveToItems"?: MoveToItem[];
+        /**
+          * todo
+         */
+        "onCalciteSortDropdownMove"?: (event: CalciteSortDropdownCustomEvent<MoveEventDetail>) => void;
+        /**
+          * todo
+         */
+        "onCalciteSortDropdownReorder"?: (event: CalciteSortDropdownCustomEvent<ReorderEventDetail>) => void;
         /**
           * When `true`, displays and positions the component.
          */
