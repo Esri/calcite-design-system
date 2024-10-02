@@ -4,7 +4,7 @@ import { skipAnimations } from "../tests/utils";
 
 describe("stacked focus-trap components", () => {
   const componentStack = html`
-    <calcite-sheet id="example-sheet">
+    <calcite-sheet id="sheet">
       <calcite-panel>
         <calcite-block open></calcite-block>
         <calcite-button>Open Modal from Sheet</calcite-button>
@@ -24,7 +24,7 @@ describe("stacked focus-trap components", () => {
           This is an example of a another modal that opens from a modal. This modal an input date picker, a combobox, a
           dropdown, a popover and a tooltip.
         </p>
-        <calcite-combobox>
+        <calcite-combobox id="combobox">
           <calcite-combobox-item value="Grand 1" text-label="Grand 1">
             <calcite-combobox-item value="Parent 1" text-label="Parent 1">
               <calcite-combobox-item value="Child 1" text-label="Child 1"></calcite-combobox-item>
@@ -39,7 +39,7 @@ describe("stacked focus-trap components", () => {
             <calcite-dropdown-item>Grid</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
-        <calcite-popover reference-element="popover-button" closable id="popover">
+        <calcite-popover placement="auto" reference-element="popover-button" closable id="popover">
           <div>
             <p>Example Popover.</p>
             <calcite-label>
@@ -48,12 +48,14 @@ describe("stacked focus-trap components", () => {
             </calcite-label>
             <calcite-label>
               Input Time Picker
-              <calcite-input-time-picker name="calcite-input-time-picker"></calcite-input-time-picker>
+              <calcite-input-time-picker
+                name="calcite-input-time-picker"
+                id="input-time-picker"
+              ></calcite-input-time-picker>
             </calcite-label>
           </div>
         </calcite-popover>
         <calcite-button id="popover-button">Example Popover</calcite-button>
-        <calcite-tooltip reference-element="tooltip-auto-ref"> Example Tooltip </calcite-tooltip>
         <calcite-button id="tooltip-auto-ref">auto</calcite-button>
       </div>
     </calcite-modal>
@@ -71,10 +73,10 @@ describe("stacked focus-trap components", () => {
         expect(await element.isVisible()).toBe(true);
       }
 
-      const sheet = await page.find("calcite-sheet");
+      const sheet = await page.find("#sheet");
       const firstModal = await page.find("#example-modal");
       const secondModal = await page.find("#another-modal");
-      const popover = await page.find("calcite-popover");
+      const popover = await page.find("#popover");
       const inputPicker = await page.find(pickerType);
 
       await openAndCheckVisibility(sheet);
@@ -84,15 +86,19 @@ describe("stacked focus-trap components", () => {
 
       await inputPicker.click();
 
-      async function testEscapeAndAssertOpenState(elements: E2EElement[]): Promise<void> {
-        for (let i = 0; i < elements.length; i++) {
+      async function testEscapeAndAssertOpenState(focusTrapOrderElements: E2EElement[]): Promise<void> {
+        for (let i = 0; i < focusTrapOrderElements.length; i++) {
+          const activeElementId = await page.evaluate(() => document.activeElement?.id);
+          console.log("activeElementId", activeElementId);
+          expect(activeElementId).toBe(focusTrapOrderElements[i].id || document.body);
+
           await page.keyboard.press("Escape");
           await page.waitForChanges();
-          expect(await elements[i].getProperty("open")).toBe(false);
+          expect(await focusTrapOrderElements[i].getProperty("open")).toBe(false);
 
-          for (let j = 0; j < elements.length; j++) {
+          for (let j = 0; j < focusTrapOrderElements.length; j++) {
             const expectedOpenState = j > i;
-            expect(await elements[j].getProperty("open")).toBe(expectedOpenState);
+            expect(await focusTrapOrderElements[j].getProperty("open")).toBe(expectedOpenState);
           }
         }
       }
