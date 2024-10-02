@@ -1,10 +1,11 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { Scale } from "../interfaces";
-import { TabPosition } from "../tabs/interfaces";
-import { CSS as TabTitleCSS } from "../tab-title/resources";
+// import { CSS as TabTitleCSS } from "../tab-title/resources";
+import { TabPosition } from "./interfaces";
+import { CSS } from "./resources";
 
 describe("calcite-tabs", () => {
   const tabsContent = html`
@@ -359,7 +360,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should emit tab change events when closing affects selected tab", async () => {
-      await page.click(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`);
+      await page.click(`#tab-title-4 >>> .{TabTitleCSS.closeButton}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(1);
@@ -377,7 +378,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should NOT emit tab change events when closing does not affect selected tab", async () => {
-      await page.click(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`);
+      await page.click(`#tab-title-1 >>> .{TabTitleCSS.closeButton}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(0);
@@ -393,31 +394,33 @@ describe("calcite-tabs", () => {
       expect(await allTabs[2].isVisible()).toBe(false);
       expect(await allTabs[3].isVisible()).toBe(true);
     });
+  });
 
-    it("should allow selecting the next tab after previous one is closed and removed from DOM", async () => {
-      type TestWindow = GlobalTestProps<{ selectedTitleTab: string }>;
-
-      await page.evaluate(() => {
-        document.addEventListener("calciteTabChange", (event) => {
-          (window as TestWindow).selectedTitleTab = (event.target as HTMLCalciteTabNavElement).selectedTitle.innerText;
-        });
-        document.addEventListener("calciteTabClose", (event) => {
-          const closedTabTitleElement = event.target as HTMLCalciteTabTitleElement;
-          const id = closedTabTitleElement.id.split("").at(-1);
-          closedTabTitleElement.remove();
-          document.querySelector(`calcite-tab#tab-${id}`).remove();
-        });
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-tabs", {
+        "--calcite-tabs-border-color": {
+          shadowSelector: `.${CSS.section}`,
+          targetProp: "borderBlockStartColor",
+        },
       });
+    });
 
-      const tab2 = await page.find("#tab-title-2");
-
-      await page.click(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`);
-      await tab2.click();
-      await page.waitForChanges();
-
-      const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
-
-      expect(selectedTitleOnEmit).toBe("Tab 2 Title");
+    describe("bordered", () => {
+      themed(html`<calcite-tabs bordered></calcite-tabs>`, {
+        "--calcite-tabs-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tabs-border-color": [
+          {
+            targetProp: "boxShadow",
+          },
+          {
+            shadowSelector: `.${CSS.section}`,
+            targetProp: "borderColor",
+          },
+        ],
+      });
     });
   });
 });

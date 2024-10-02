@@ -132,7 +132,7 @@
   .x-button {
     @apply appearance-none bg-transparent border-2 content-center cursor-pointer flex focus-base items-center justify-center m-0 self-center text-color-3 transition-default;
 
-    border-radius: 50%;
+    border-radius: 9999px;
     border-color: transparent;
     background-color: var(--calcite-color-foreground-2);
 
@@ -160,7 +160,7 @@
       focus-base
       items-center
       m-0
-      rounded-half 
+      rounded-half
       transition-default;
 
     background-color: var(--calcite-close-background-color, var(--calcite-color-transparent));
