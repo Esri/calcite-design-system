@@ -623,12 +623,12 @@ export class DatePickerMonth {
     }
   }
 
-  private getDays = (
+  private getDays(
     prevMonthDays: number[],
     currMonthDays: number[],
     nextMonthDays: number[],
     position: "start" | "end" = "start",
-  ): Day[] => {
+  ): Day[] {
     let month = this.activeDate.getMonth();
     const nextMonth = month + 1;
     month = position === "end" ? nextMonth : month;
@@ -676,7 +676,7 @@ export class DatePickerMonth {
     ];
 
     return days;
-  };
+  }
 
   private renderMonthCalendar(weekDays: string[], days: Day[], isEndCalendar = false): VNode {
     const endCalendarStartIndex = 50;

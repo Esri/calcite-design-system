@@ -2,6 +2,7 @@ import { E2EPage } from "@stencil/core/testing";
 import { DateLocaleData } from "../date-picker/utils";
 import { renders } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
+import { DatePickerMessages } from "../../components";
 
 describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {
@@ -35,8 +36,9 @@ describe("calcite-date-picker-month-header", () => {
   } as DateLocaleData;
 
   let page: E2EPage;
+  let messages: DatePickerMessages;
   beforeEach(async () => {
-    const messages = await import(`../date-picker/assets/date-picker/t9n/messages.json`);
+    messages = await import(`../date-picker/assets/date-picker/t9n/messages.json`);
     page = await newProgrammaticE2EPage();
     await page.evaluate(
       (localeData, messages) => {
@@ -64,6 +66,6 @@ describe("calcite-date-picker-month-header", () => {
 
   it("should set the input aria-label to year", async () => {
     const yearInput = await page.find(`calcite-date-picker-month-header >>> input`);
-    expect(yearInput.getAttribute("aria-label")).toBe("Year");
+    expect(yearInput.getAttribute("aria-label")).toBe(messages.year);
   });
 });

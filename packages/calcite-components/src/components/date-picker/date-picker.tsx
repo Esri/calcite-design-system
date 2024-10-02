@@ -544,9 +544,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private resetActiveDates = (): void => {
     const { valueAsDate } = this;
+
     if (!Array.isArray(valueAsDate) && valueAsDate && valueAsDate !== this.activeDate) {
       this.activeDate = new Date(valueAsDate);
     }
+
     if (Array.isArray(valueAsDate)) {
       if (valueAsDate[0] && valueAsDate[0] !== this.activeStartDate) {
         this.activeStartDate = new Date(valueAsDate[0]);

@@ -15,3 +15,5 @@ export const ICON = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
 } as const;
+
+export const ICON_WIDTH_M = 16;

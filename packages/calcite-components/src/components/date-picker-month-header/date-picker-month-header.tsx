@@ -11,6 +11,11 @@ import {
   Watch,
 } from "@stencil/core";
 import {
+  calciteSizeXxxs,
+  calciteSizeXxs,
+  calciteSizeSm,
+} from "@esri/calcite-design-tokens/dist/es6/global.js";
+import {
   dateFromRange,
   parseCalendarYear,
   getOrder,
@@ -28,8 +33,7 @@ import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { Position, Scale } from "../interfaces";
-import { componentOnReady } from "../../utils/component";
-import { CSS, ICON } from "./resources";
+import { CSS, ICON, ICON_WIDTH_M } from "./resources";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -52,7 +56,7 @@ export class DatePickerMonthHeader {
   @Watch("activeDate")
   @Watch("localeData")
   updateSelectMenuWidth(): void {
-    this.setSelectMenuWidth(this.monthPickerEl);
+    this.setYearSelectMenuWidth();
   }
 
   /**
@@ -71,7 +75,7 @@ export class DatePickerMonthHeader {
 
   @Watch("scale")
   updateScale(): void {
-    this.setSelectMenuIconOffset(this.monthPickerEl);
+    this.setYearSelectWidthOffset();
   }
 
   /** CLDR locale data for translated calendar info. */
@@ -84,8 +88,7 @@ export class DatePickerMonthHeader {
    * @internal
    * @readonly
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable
-  @Prop({ mutable: true }) messages: DatePickerMessages;
+  @Prop() messages: DatePickerMessages;
 
   /**
    * Specifies the monthStyle used by the component.
@@ -139,7 +142,7 @@ export class DatePickerMonthHeader {
   }
 
   componentDidLoad(): void {
-    this.setSelectMenuIconOffset(this.monthPickerEl);
+    this.setYearSelectWidthOffset();
   }
 
   render(): VNode {
@@ -205,7 +208,6 @@ export class DatePickerMonthHeader {
         class={CSS.monthPicker}
         label={this.messages.monthMenu}
         onCalciteSelectChange={this.handleMonthChange}
-        onKeyDown={this.handleKeyDown}
         ref={(el) => (this.monthPickerEl = el)}
         width="auto"
       >
@@ -299,7 +301,7 @@ export class DatePickerMonthHeader {
 
   private prevMonthAction: HTMLCalciteActionElement;
 
-  private selectMenuIconOffsetWidth: number;
+  private yearSelectWidthOffset: number;
 
   private yearInputEl: HTMLInputElement;
 
@@ -395,13 +397,7 @@ export class DatePickerMonthHeader {
       newDate = dateFromRange(newDate, this.min, this.max);
     }
     this.calciteInternalDatePickerMonthHeaderSelectChange.emit(newDate);
-    this.setSelectMenuWidth(this.monthPickerEl);
-  };
-
-  private handleKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      event.stopPropagation();
-    }
+    this.setYearSelectMenuWidth();
   };
 
   private getInRangeDate({
@@ -456,23 +452,17 @@ export class DatePickerMonthHeader {
     }
   }
 
-  private async setSelectMenuIconOffset(select: HTMLCalciteSelectElement): Promise<void> {
-    const iconEl = select.shadowRoot.querySelector("calcite-icon");
-    await componentOnReady(iconEl);
-    const iconContainer = select.shadowRoot.querySelector(".icon-container");
-    const iconWidth = iconEl.getBoundingClientRect().width;
-    const iconContainerWidth = iconContainer.getBoundingClientRect().width;
-    this.selectMenuIconOffsetWidth = iconContainerWidth + (iconContainerWidth - iconWidth) / 2;
-    this.setSelectMenuWidth(select);
+  private setYearSelectWidthOffset(): void {
+    this.yearSelectWidthOffset = ICON_WIDTH_M + 3 * parseInt(this.getYearSelectPadding());
+    this.setYearSelectMenuWidth();
   }
 
-  private setSelectMenuWidth(select: HTMLCalciteSelectElement): void {
-    const selectEl = select.shadowRoot.querySelector("select");
-    const fontStyle = getComputedStyle(selectEl).font;
+  private setYearSelectMenuWidth(): void {
+    const fontStyle = getComputedStyle(this.monthPickerEl).font;
     const localeMonths = this.localeData.months[this.monthStyle];
     const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
     const selectedOptionWidth = getTextWidth(activeLocaleMonth, fontStyle);
-    selectEl.style.width = `${selectedOptionWidth + this.selectMenuIconOffsetWidth}px`;
+    this.monthPickerEl.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
   }
 
   private isMonthInRange = (index: number): boolean => {
@@ -507,6 +497,17 @@ export class DatePickerMonthHeader {
       } else {
         this.yearInputEl.focus();
       }
+    }
+  }
+
+  private getYearSelectPadding(): string {
+    switch (this.scale) {
+      case "l":
+        return calciteSizeSm;
+      case "s":
+        return calciteSizeXxxs;
+      default:
+        return calciteSizeXxs;
     }
   }
 }

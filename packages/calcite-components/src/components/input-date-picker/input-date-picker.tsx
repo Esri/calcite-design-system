@@ -944,6 +944,10 @@ export class InputDatePicker
       return;
     }
 
+    const targeHasSelect = event
+      .composedPath()
+      .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
+
     if (key === "Enter") {
       event.preventDefault();
       this.commitValue();
@@ -957,11 +961,7 @@ export class InputDatePicker
       if (submitForm(this)) {
         this.restoreInputFocus(true);
       }
-    } else if (key === "ArrowDown") {
-      this.open = true;
-      this.focusOnOpen = true;
-      event.preventDefault();
-    } else if (key === "ArrowUp") {
+    } else if ((key === "ArrowDown" || key === "ArrowUp") && !targeHasSelect) {
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();

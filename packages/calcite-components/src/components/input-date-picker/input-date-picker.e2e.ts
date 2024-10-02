@@ -15,6 +15,7 @@ import {
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
 import { Position } from "../interfaces";
+import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
 const animationDurationInMs = 200;
 
@@ -1717,7 +1718,8 @@ describe("calcite-input-date-picker", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
     expect(await calendar.isVisible()).toBe(false);
-    expect((await inputDatePicker.getProperty("value"))[1]).toEqual("2024-07-02");
+    const [, endDate] = await inputDatePicker.getProperty("value");
+    expect(endDate).toEqual("2024-07-02");
   });
 
   it("should not update endDate when startDate is updated", async () => {
@@ -1802,7 +1804,7 @@ async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
   const [startMonth, endMonth] = await page.findAll(
-    "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-select.month-select",
+    `calcite-input-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
   );
 
   const selectedMonth =
@@ -1827,7 +1829,7 @@ async function getDateInputValue(page: E2EPage, type: "start" | "end" = "start")
 
 async function navigateMonth(page: E2EPage, direction: "previous" | "next", range = false): Promise<void> {
   const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await page.findAll(
-    "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header",
+    `calcite-input-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header}`,
   );
 
   let prevMonth: E2EElement;
