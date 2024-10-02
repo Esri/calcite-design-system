@@ -19,7 +19,20 @@
 
           <h1>sort-dropdown</h1>
 
-          <calcite-sort-dropdown></calcite-sort-dropdown>
+          <calcite-sort-dropdown label="test" set-position="4" set-size="10"> </calcite-sort-dropdown>
+          <script>
+            const sortDropdown = document.querySelector("calcite-sort-dropdown");
+            sortDropdown.moveToItems = [
+              { label: "List 2", value: "list2" },
+              { label: "List 3", value: "list3" },
+            ];
+            sortDropdown.addEventListener("calciteSortDropdownReorder", (event) => {
+              console.log(event.detail);
+            });
+            sortDropdown.addEventListener("calciteSortDropdownMove", (event) => {
+              console.log(event.detail);
+            });
+          </script>
         </section>
       </main>
     </demo-dom-swapper>
