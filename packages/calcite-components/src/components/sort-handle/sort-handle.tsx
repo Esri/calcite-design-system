@@ -32,17 +32,17 @@ import {
 import { Scale } from "../interfaces";
 import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../components";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
-import { SortDropdownMessages } from "./assets/sort-dropdown/t9n";
+import { SortHandleMessages } from "./assets/sort-handle/t9n";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveToItem, Reorder, ReorderEventDetail } from "./interfaces";
 
 @Component({
-  tag: "calcite-sort-dropdown",
-  styleUrl: "sort-dropdown.scss",
+  tag: "calcite-sort-handle",
+  styleUrl: "sort-handle.scss",
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class SortDropdown implements LoadableComponent, T9nComponent, InteractiveComponent {
+export class SortHandle implements LoadableComponent, T9nComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -89,7 +89,7 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
    * @readonly
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: SortDropdownMessages;
+  @Prop({ mutable: true }) messages: SortHandleMessages;
 
   /**
    * Specifies the label of the component.
@@ -100,7 +100,7 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<SortDropdownMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<SortHandleMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -170,9 +170,9 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteSortDropdownElement;
+  @Element() el: HTMLCalciteSortHandleElement;
 
-  @State() defaultMessages: SortDropdownMessages;
+  @State() defaultMessages: SortHandleMessages;
 
   @State() effectiveLocale: string;
 
@@ -193,13 +193,13 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
    * todo
    *
    */
-  @Event({ cancelable: false }) calciteSortDropdownReorder: EventEmitter<ReorderEventDetail>;
+  @Event({ cancelable: false }) calciteSortHandleReorder: EventEmitter<ReorderEventDetail>;
 
   /**
    * todo
    *
    */
-  @Event({ cancelable: false }) calciteSortDropdownMove: EventEmitter<MoveEventDetail>;
+  @Event({ cancelable: false }) calciteSortHandleMove: EventEmitter<MoveEventDetail>;
 
   // --------------------------------------------------------------------------
   //
@@ -249,12 +249,12 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
 
   private handleReorder = (event: Event): void => {
     const order = (event.target as HTMLElement).dataset.value as Reorder;
-    this.calciteSortDropdownReorder.emit({ order });
+    this.calciteSortHandleReorder.emit({ order });
   };
 
   private handleMoveTo = (event: Event): void => {
     const value = (event.target as HTMLElement).dataset.value;
-    this.calciteSortDropdownMove.emit({ value });
+    this.calciteSortHandleMove.emit({ value });
   };
 
   // --------------------------------------------------------------------------

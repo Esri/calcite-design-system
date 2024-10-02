@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <title>Calcite Components: calcite-sort-dropdown</title>
+    <title>Calcite Components: calcite-sort-handle</title>
 
     <script src="./_assets/head.js"></script>
   </head>
@@ -17,19 +17,19 @@
 
           <calcite-handle></calcite-handle>
 
-          <h1>sort-dropdown</h1>
+          <h1>sort-handle</h1>
 
-          <calcite-sort-dropdown label="test" set-position="4" set-size="10"> </calcite-sort-dropdown>
+          <calcite-sort-handle label="test" set-position="4" set-size="10"> </calcite-sort-handle>
           <script>
-            const sortDropdown = document.querySelector("calcite-sort-dropdown");
-            sortDropdown.moveToItems = [
+            const sortHandle = document.querySelector("calcite-sort-handle");
+            sortHandle.moveToItems = [
               { label: "List 2", value: "list2" },
               { label: "List 3", value: "list3" },
             ];
-            sortDropdown.addEventListener("calciteSortDropdownReorder", (event) => {
+            sortHandle.addEventListener("calciteSortHandleReorder", (event) => {
               console.log(event.detail);
             });
-            sortDropdown.addEventListener("calciteSortDropdownMove", (event) => {
+            sortHandle.addEventListener("calciteSortHandleMove", (event) => {
               console.log(event.detail);
             });
           </script>

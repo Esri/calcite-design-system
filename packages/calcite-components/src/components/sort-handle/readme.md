@@ -1,3 +1,3 @@
-# calcite-sort-dropdown
+# calcite-sort-handle
 
 <!-- Auto Generated Below -->
