@@ -12,6 +12,7 @@
  * @prop --calcite-action-corner-radius-end-start: Specifies the component's corner radius end start.
  * @prop --calcite-action-corner-radius-start-end: Specifies the component's corner radius start end.
  * @prop --calcite-action-corner-radius-start-start: Specifies the component's corner radius start start.
+ * @prop --calcite-action-cursor: Specifies the component's cursor.
  * @prop --calcite-action-text-color: Specifies the component's text color.
  * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
  */
@@ -62,7 +63,6 @@ button {
     m-0
     flex
     w-auto
-    cursor-pointer
     items-center
     justify-start
     border-none
@@ -73,6 +73,7 @@ button {
   color: var(--calcite-action-text-color, var(--calcite-color-text-3));
   text-align: unset;
   flex: 1 0 auto;
+  cursor: var(--calcite-action-cursor, pointer);
 
   &:hover,
   &:focus {

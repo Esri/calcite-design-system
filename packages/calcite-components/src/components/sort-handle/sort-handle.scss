@@ -1,27 +1,46 @@
 /**
-* CSS Custom Properties
-*
-* These properties can be overridden using the component's tag as selector.
-*
-* @prop --calcite-handle-background-color: Specifies the component's background color.
-* @prop --calcite-handle-background-color-hover: Specifies the component's background color on hover.
-* @prop --calcite-handle-background-color-selected: Specifies the component's background color when selected.
-* @prop --calcite-handle-icon-color: Specifies the component's icon color.
-* @prop --calcite-handle-icon-color-hover: Specifies the component's icon color on hover.
-* @prop --calcite-handle-icon-color-selected: Specifies the component's icon color when selected.
-*/
-
-// todo: css vars for action
-// todo: use a cursor var or move action cursor to the host
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+--calcite-sort-handle-action-indicator-color: Specifies the component's indicator color.
+--calcite-sort-handle-action-background-color: Specifies the component's background color.
+--calcite-sort-handle-action-background-color-hover: Specifies the component's background color when hovered or focused.
+--calcite-sort-handle-action-background-color-pressed: Specifies the component's background color when active.
+--calcite-sort-handle-action-corner-radius: Specifies the component's corner radius.
+--calcite-sort-handle-action-corner-radius-end-end: Specifies the component's corner radius end end.
+--calcite-sort-handle-action-corner-radius-end-start: Specifies the component's corner radius end start.
+--calcite-sort-handle-action-corner-radius-start-end: Specifies the component's corner radius start end.
+--calcite-sort-handle-action-corner-radius-start-start: Specifies the component's corner radius start start.
+--calcite-sort-handle-action-cursor: Specifies the component's cursor.
+--calcite-sort-handle-action-text-color: Specifies the component's text color.
+--calcite-sort-handle-action-text-color-pressed: Specifies the component's text color when hovered.
+--calcite-sort-handle-dropdown-width: Specifies the width of the component's wrapper.
+ */
 
 :host {
   @apply flex;
 }
 
-// .handle {
-// }
+.handle {
+  --calcite-action-indicator-color: var(--calcite-sort-handle-action-indicator-color);
+  --calcite-action-background-color: var(--calcite-sort-handle-action-background-color);
+  --calcite-action-background-color-hover: var(--calcite-sort-handle-action-background-color-hover);
+  --calcite-action-background-color-pressed: var(--calcite-sort-handle-action-background-color-pressed);
+  --calcite-action-corner-radius: var(--calcite-sort-handle-action-corner-radius);
+  --calcite-action-corner-radius-end-end: var(--calcite-sort-handle-action-corner-radius-end-end);
+  --calcite-action-corner-radius-end-start: var(--calcite-sort-handle-action-corner-radius-end-start);
+  --calcite-action-corner-radius-start-end: var(--calcite-sort-handle-action-corner-radius-start-end);
+  --calcite-action-corner-radius-start-start: var(--calcite-sort-handle-action-corner-radius-start-start);
+  --calcite-action-cursor: var(--calcite-sort-handle-action-cursor, move);
+  --calcite-action-text-color: var(--calcite-sort-handle-action-text-color);
+  --calcite-action-text-color-pressed: var(--calcite-sort-handle-action-text-color-pressed);
 
-// :host(:not([disabled])) .handle {
-// }
+  @apply bg-transparent;
+}
+
+calcite-dropdown {
+  --calcite-dropdown-width: var(--calcite-sort-handle-dropdown-width);
+}
 
 @include base-component();
