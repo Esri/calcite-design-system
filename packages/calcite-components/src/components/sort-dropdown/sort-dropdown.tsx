@@ -207,10 +207,7 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
   };
 
   private handleReorder = (event: CustomEvent<void>): void => {
-    console.log((event.target as HTMLElement).dataset.value);
-  };
-
-  private handleMoveTo = (event: CustomEvent<void>): void => {
+    // todo: emit event
     console.log((event.target as HTMLElement).dataset.value);
   };
 
@@ -291,14 +288,13 @@ export class SortDropdown implements LoadableComponent, T9nComponent, Interactiv
               {messages.moveToBottom}
             </calcite-dropdown-item>
           </calcite-dropdown-group>
-          <calcite-dropdown-group groupTitle={messages.moveTo} scale={scale} selectionMode="none">
-            <calcite-dropdown-item
-              data-value="todo"
-              label={"todo"}
-              onCalciteDropdownItemSelect={this.handleMoveTo}
-            >
-              List 2
-            </calcite-dropdown-item>
+          <calcite-dropdown-group
+            groupTitle={messages.moveTo}
+            hidden={true} // todo
+            scale={scale}
+            selectionMode="none"
+          >
+            <slot name="todo" onSlotchange={() => console.log("todo")} />
           </calcite-dropdown-group>
         </calcite-dropdown>
       </InteractiveContainer>
