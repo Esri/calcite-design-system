@@ -982,6 +982,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -1213,7 +1214,7 @@ export namespace Components {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`undefined`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty": boolean;
         /**
@@ -4199,6 +4200,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -5786,6 +5788,7 @@ export namespace Components {
           * When `true`, displays indentation guide lines.
          */
         "lines": boolean;
+        "parentExpanded": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -8968,6 +8971,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -9218,7 +9222,7 @@ declare namespace LocalJSX {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`undefined`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty"?: boolean;
         /**
@@ -12369,6 +12373,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -14018,6 +14023,7 @@ declare namespace LocalJSX {
           * Fires when the user selects/deselects `calcite-tree-items`.
          */
         "onCalciteTreeSelect"?: (event: CalciteTreeCustomEvent<void>) => void;
+        "parentExpanded"?: boolean;
         /**
           * Specifies the size of the component.
          */

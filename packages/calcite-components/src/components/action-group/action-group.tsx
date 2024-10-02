@@ -1,11 +1,6 @@
 import { Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { CalciteActionMenuCustomEvent } from "../../components";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
@@ -40,9 +35,7 @@ import { ICONS, SLOTS, CSS } from "./resources";
   },
   assetsDirs: ["assets"],
 })
-export class ActionGroup
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ActionGroup implements LoadableComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -163,13 +156,11 @@ export class ActionGroup
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectConditionalSlotComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {

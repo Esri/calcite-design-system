@@ -353,7 +353,7 @@ describe("calcite-alert", () => {
         await page.setContent(alertSnippet);
         await page.waitForTimeout(alertQueueTimeoutMs);
         alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
-        progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+        progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
         expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.8)");
       });
     });
@@ -365,7 +365,7 @@ describe("calcite-alert", () => {
         await page.setContent(html`<div class="calcite-mode-dark">${alertSnippet}</div>`);
         await page.waitForTimeout(alertQueueTimeoutMs);
         alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
-        progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+        progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
         expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(43, 43, 43, 0.8)");
       });
     });
@@ -384,7 +384,7 @@ describe("calcite-alert", () => {
       );
       await page.waitForTimeout(alertQueueTimeoutMs);
       alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
-      progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+      progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
       expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });

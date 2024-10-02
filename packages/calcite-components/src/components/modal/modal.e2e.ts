@@ -577,17 +577,16 @@ describe("calcite-modal", () => {
 
   it("renders correctly with no footer", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-modal>
+    await page.setContent(html`
+      <calcite-modal open>
         <calcite-button slot="primary">TEST</calcite-button>
       </calcite-modal>
     `);
-    let footer = await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector(".footer"));
-    expect(footer).toBeDefined();
+    const footer = await page.find("calcite-modal >>> .footer");
+    expect(await footer.isVisible()).toBe(true);
     await page.$eval("calcite-button", (el) => el.parentElement.removeChild(el));
     await page.waitForChanges();
-    footer = await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector(".footer"));
-    expect(footer).toBeFalsy();
+    expect(await footer.isVisible()).toBe(false);
   });
 
   it("should render calcite-scrim with default background color", async () => {

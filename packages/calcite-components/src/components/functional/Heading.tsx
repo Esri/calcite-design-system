@@ -14,8 +14,6 @@ export function constrainHeadingLevel(level: number): HeadingLevel {
 export const Heading: FunctionalComponent<HeadingProps> = (props, children): VNode => {
   const HeadingTag = props.level ? `h${props.level}` : "div";
 
-  delete props.level;
-
   return (
     <HeadingTag class={props.class} key={props.key}>
       {children}

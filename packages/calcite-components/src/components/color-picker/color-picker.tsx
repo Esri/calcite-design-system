@@ -998,19 +998,17 @@ export class ColorPicker
               </div>
               {savedColors.length > 0 ? (
                 <div class={CSS.savedColors}>
-                  {[
-                    ...savedColors.map((color) => (
-                      <calcite-color-picker-swatch
-                        class={CSS.savedColor}
-                        color={color}
-                        key={color}
-                        onClick={this.handleSavedColorSelect}
-                        onKeyDown={this.handleSavedColorKeyDown}
-                        scale={scale}
-                        tabIndex={0}
-                      />
-                    )),
-                  ]}
+                  {savedColors.map((color) => (
+                    <calcite-color-picker-swatch
+                      class={CSS.savedColor}
+                      color={color}
+                      key={color}
+                      onClick={this.handleSavedColorSelect}
+                      onKeyDown={this.handleSavedColorKeyDown}
+                      scale={scale}
+                      tabIndex={0}
+                    />
+                  ))}
                 </div>
               ) : null}
             </div>
@@ -1376,13 +1374,19 @@ export class ColorPicker
     );
   };
 
-  private initColorField = (canvas: HTMLCanvasElement): void => {
+  private initColorField = (canvas?: HTMLCanvasElement): void => {
+    if (!canvas) {
+      return;
+    }
     this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("color-field");
     this.drawColorControls();
   };
 
-  private initHueSlider = (canvas: HTMLCanvasElement): void => {
+  private initHueSlider = (canvas?: HTMLCanvasElement): void => {
+    if (!canvas) {
+      return;
+    }
     this.hueSliderRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("hue-slider");
     this.drawHueSlider();

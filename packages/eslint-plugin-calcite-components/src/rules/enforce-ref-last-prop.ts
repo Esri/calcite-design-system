@@ -3,6 +3,7 @@ import type { JSXAttribute, JSXOpeningElement, JSXSpreadAttribute } from "@babel
 
 const rule: Rule.RuleModule = {
   meta: {
+    deprecated: true,
     docs: {
       description: `This ensures the node passed into the ref callback is in sync with its JSX attributes/properties when invoked.`,
       recommended: true,

@@ -408,7 +408,7 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
   };
 
-  function assertUnsupportedValueMessage(value: string | object | null, format: string): void {
+  function assertUnsupportedValueMessage(value: string | object | undefined, format: string): void {
     expect(consoleSpy).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringMatching(
@@ -1235,7 +1235,7 @@ describe("calcite-color-picker", () => {
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
-            expect(await hexInput.getProperty("value")).toBe(null);
+            expect(await hexInput.getProperty("value")).toBe(undefined);
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
@@ -1784,7 +1784,7 @@ describe("calcite-color-picker", () => {
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
-            expect(await hexInput.getProperty("value")).toBe(null);
+            expect(await hexInput.getProperty("value")).toBe(undefined);
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(

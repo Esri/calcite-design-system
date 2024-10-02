@@ -63,7 +63,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
 
   @Watch("selectionMode")
   onSelectionModeChange(): void {
-    this.udpateItemsOnSelectionModeChange();
+    this.updateItemsOnSelectionModeChange();
   }
 
   /**
@@ -169,7 +169,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private udpateItemsOnSelectionModeChange = (): void => {
+  private updateItemsOnSelectionModeChange = (): void => {
     this.updateSlottedItems(this.slotRefEl);
     this.updateSelectedItems();
   };

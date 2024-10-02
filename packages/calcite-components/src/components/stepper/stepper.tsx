@@ -11,7 +11,6 @@ import {
   State,
   VNode,
   Watch,
-  readTask,
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
@@ -356,7 +355,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   @Watch("currentActivePosition")
   handlePositionChange(): void {
-    readTask((): void => {
+    requestAnimationFrame((): void => {
       this.determineActiveStepper();
     });
   }

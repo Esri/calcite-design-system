@@ -1,9 +1,4 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 
@@ -27,7 +22,7 @@ import { CSS, SLOTS } from "./resources";
   styleUrl: "shell.scss",
   shadow: true,
 })
-export class Shell implements ConditionalSlotComponent {
+export class Shell {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -89,20 +84,6 @@ export class Shell implements ConditionalSlotComponent {
   @Watch("hasPanelBottom")
   updateHasOnlyPanelBottom(): void {
     this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------

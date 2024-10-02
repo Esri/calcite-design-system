@@ -14,11 +14,11 @@
   box-border
   block;
 
+  --calcite-tip-manager-height: 19vh;
+
   * {
     @apply box-border;
   }
-
-  --calcite-tip-manager-height: 19vh;
 }
 
 :host([closed]) {

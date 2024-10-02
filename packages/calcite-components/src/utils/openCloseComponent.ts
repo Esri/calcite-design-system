@@ -1,10 +1,4 @@
-import { readTask } from "@stencil/core";
 import { whenTransitionDone } from "./dom";
-
-/**
- * Exported for testing purposes only
- */
-export const internalReadTask = readTask;
 
 /**
  * Defines interface for components with open/close public emitter.
@@ -86,7 +80,7 @@ function isOpen(component: OpenCloseComponent): boolean {
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
-  internalReadTask((): void => {
+  requestAnimationFrame((): void => {
     if (!component.transitionEl) {
       return;
     }

@@ -49,9 +49,10 @@
 .info {
   @apply py-0 px-4;
   inline-size: 70%;
-  &:only-child {
-    @apply w-full px-0;
-  }
+}
+
+.info--no-thumbnail {
+  @apply w-full px-0;
 }
 
 ::slotted(p) {

@@ -22,6 +22,8 @@ export default class TooltipManager {
 
   private registeredElementCount = 0;
 
+  private clickedTooltip: HTMLCalciteTooltipElement = null;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -100,11 +102,17 @@ export default class TooltipManager {
       return;
     }
 
+    if (tooltip === this.clickedTooltip) {
+      return;
+    }
+
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
     } else if (activeTooltip?.open) {
       this.closeHoveredTooltip();
     }
+
+    this.clickedTooltip = null;
   };
 
   private pathHasOpenTooltip(tooltip: HTMLCalciteTooltipElement, composedPath: EventTarget[]): boolean {
@@ -116,6 +124,7 @@ export default class TooltipManager {
   }
 
   private clickHandler = (event: Event): void => {
+    this.clickedTooltip = null;
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
 
@@ -133,6 +142,7 @@ export default class TooltipManager {
     this.clearHoverTimeout();
 
     if (tooltip.closeOnClick) {
+      this.clickedTooltip = tooltip;
       this.toggleTooltip(tooltip, false);
       return;
     }

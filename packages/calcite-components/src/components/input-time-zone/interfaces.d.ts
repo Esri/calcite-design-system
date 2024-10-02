@@ -22,10 +22,10 @@ export type TimeZoneMode = "offset" | "name" | "region";
 export interface TimeZoneItem<T extends number | string = number | string> {
   label: string;
   value: T;
-  filterValue: string | string[];
-  metadata?: {
-    offset?: string;
+  metadata: {
     country?: string;
+    filterValue: string | string[];
+    offset?: string;
   };
 }
 

@@ -210,8 +210,17 @@ withTooltips.parameters = {
 };
 
 export const withCustomHeader = (): string => html`
+  <style>
+    #three-quarters-width-header-content {
+      width: 75%;
+    }
+  </style>
   <calcite-dialog open scale="m" width-scale="s">
-    <div slot="${SLOTS.headerContent}">Header!</div>
+    <div id="three-quarters-width-header-content" slot="${SLOTS.headerContent}">
+      <calcite-inline-editable scale="l" editingEnabled="true">
+        <calcite-input alignment="start" placeholder="Enter text..." scale="l" type="text" value="Editable header" />
+      </calcite-inline-editable>
+    </div>
     <p>Slotted content!</p>
   </calcite-dialog>
 `;

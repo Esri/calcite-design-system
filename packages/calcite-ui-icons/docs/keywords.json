@@ -9020,5 +9020,10 @@
     "alias": ["3.32.0", "gis", "forms", "variable", "text", "letter"],
     "category": "GIS",
     "release": "3.32.0"
+  },
+  "dashboard-graph": {
+    "alias": ["3.32.0", "windows", "measure", "objects", "statistics", "measurements"],
+    "category": "Windows",
+    "release": "3.32.0"
   }
 }

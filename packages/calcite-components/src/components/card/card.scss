@@ -3,21 +3,21 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
- * @prop --calcite-card-background-color: Specifies the background color of the component.
- * @prop --calcite-card-border-color: Specifies the border color of the component.
- * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-card-selection-background-color-active: [Deprecated] Use --calcite-card-selection-background-color-press. Specifies the background color of the component's selection element when active.
- * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
- * @prop --calcite-card-selection-background-color-press: Specifies the background color of the component's selection element when active.
- * @prop --calcite-card-selection-background-color-selected: [Deprecated] Use --calcite-card-background-color. Specifies the icon color of the component's selection element when `selected`.
- * @prop --calcite-card-selection-background-color: [Deprecated] Use --calcite-card-background-color. Specifies the background color of the component's selection element.
- * @prop --calcite-card-selection-color-hover: Specifies the color of the component's selection element when hovered or focused.
- * @prop --calcite-card-selection-color: Specifies the color of the component's selection element.
- * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Use --calcite-card-selection-color-hover. Specifies the icon color of the component's selection element when hovered.
- * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Use --calcite-card-accent-color-selected. Specifies the icon color of the component's selection element when `selected`.
- * @prop --calcite-card-selection-icon-color: [Deprecated] Use --calcite-card-selection-color. Specifies the icon color of the component's selection element.
- * @prop --calcite-card-shadow: Specifies the shadow of the component.
+ * @prop --calcite-card-accent-color-selected: Specifies the component's accent color when `selected`.
+ * @prop --calcite-card-background-color: Specifies the component's background color.
+ * @prop --calcite-card-border-color: Specifies the component's border color.
+ * @prop --calcite-card-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-card-selection-background-color-active: [Deprecated] Use `--calcite-card-selection-background-color-press`. Specifies the component's selection element background color when active.
+ * @prop --calcite-card-selection-background-color-hover: Specifies the component's selection element background color when hovered.
+ * @prop --calcite-card-selection-background-color-press: Specifies the component's selection element background color when active.
+ * @prop --calcite-card-selection-background-color-selected: [Deprecated] Use `--calcite-card-background-color`. Specifies the component's selection element icon color when `selected`.
+ * @prop --calcite-card-selection-background-color: [Deprecated] Use `--calcite-card-background-color`. Specifies the component's selection element background color.
+ * @prop --calcite-card-selection-color-hover: Specifies the component's selection element color when hovered or focused.
+ * @prop --calcite-card-selection-color: Specifies the component's selection element color.
+ * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Use `--calcite-card-selection-color-hover`. Specifies the component's selection element icon color when hovered.
+ * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Use `--calcite-card-accent-color-selected`. Specifies the component's selection element icon color when `selected`.
+ * @prop --calcite-card-selection-icon-color: [Deprecated] Use `--calcite-card-selection-color`. Specifies the component's selection element icon color.
+ * @prop --calcite-card-shadow: Specifies the component's shadow.
  *
  */
 
