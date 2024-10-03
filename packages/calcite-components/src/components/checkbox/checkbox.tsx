@@ -62,7 +62,11 @@ export class Checkbox
    */
   @Prop({ reflect: true }) form: string;
 
-  /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
+  /**
+   * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+   *
+   * @deprecated No longer necessary.
+   */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
   /**
@@ -190,10 +194,6 @@ export class Checkbox
   };
 
   clickHandler = (): void => {
-    if (this.disabled) {
-      return;
-    }
-
     this.toggle();
   };
 

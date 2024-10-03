@@ -158,12 +158,12 @@ describe("calcite-chip", () => {
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
         await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
+        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await chipCloseButton.hover();
         await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
+        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
@@ -176,12 +176,12 @@ describe("calcite-chip", () => {
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
         await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
+        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await chipCloseButton.hover();
         await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
+        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
@@ -200,12 +200,12 @@ describe("calcite-chip", () => {
       chipCloseButton = await page.find("calcite-chip >>> button");
       await chipCloseButton.focus();
       await page.waitForChanges();
-      chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
+      chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
       expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
 
       await chipCloseButton.hover();
       await page.waitForChanges();
-      chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
+      chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
       expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
 

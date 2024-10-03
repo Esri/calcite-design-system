@@ -34,6 +34,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { IconNameOrString } from "../icon/interfaces";
+import type { CalciteCheckboxCustomEvent } from "../../components";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { CardMessages } from "./assets/card/t9n";
 
@@ -276,25 +277,14 @@ export class Card
         <calcite-checkbox
           checked={this.selected}
           label={this.messages.select}
-          onClick={this.selectCardDeprecated}
-          onKeyDown={this.cardSelectKeyDownDeprecated}
+          onCalciteCheckboxChange={this.selectCardDeprecated}
         />
       </calcite-label>
     );
   }
 
-  private cardSelectKeyDownDeprecated = (event: KeyboardEvent): void => {
-    switch (event.key) {
-      case " ":
-      case "Enter":
-        this.selectCardDeprecated();
-        event.preventDefault();
-        break;
-    }
-  };
-
-  private selectCardDeprecated = (): void => {
-    this.selected = !this.selected;
+  private selectCardDeprecated = (event: CalciteCheckboxCustomEvent<void>): void => {
+    this.selected = event.target.checked;
     this.calciteCardSelect.emit();
   };
 

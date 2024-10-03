@@ -533,12 +533,12 @@ describe("calcite-button", () => {
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+        buttonFocusStyle = await buttonEl.getComputedStyle();
         expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+        buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
@@ -551,12 +551,12 @@ describe("calcite-button", () => {
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+        buttonFocusStyle = await buttonEl.getComputedStyle();
         expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+        buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
@@ -575,12 +575,12 @@ describe("calcite-button", () => {
       buttonEl = await page.find("calcite-button >>> button");
       await buttonEl.focus();
       await page.waitForChanges();
-      buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+      buttonFocusStyle = await buttonEl.getComputedStyle();
       expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
 
       await buttonEl.hover();
       await page.waitForChanges();
-      buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+      buttonHoverStyle = await buttonEl.getComputedStyle();
       expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });
