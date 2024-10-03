@@ -33,7 +33,7 @@ import { Scale } from "../interfaces";
 import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../components";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { SortHandleMessages } from "./assets/sort-handle/t9n";
-import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
+import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveToItem, Reorder, ReorderEventDetail } from "./interfaces";
 
 @Component({
@@ -246,13 +246,13 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
   };
 
   private handleReorder = (event: Event): void => {
-    const order = (event.target as HTMLElement).dataset.value as Reorder;
-    this.calciteSortHandleReorder.emit({ order });
+    this.calciteSortHandleReorder.emit({
+      reorder: (event.target as HTMLElement).dataset.value as Reorder,
+    });
   };
 
   private handleMoveTo = (event: Event): void => {
-    const value = (event.target as HTMLElement).dataset.value;
-    this.calciteSortHandleMove.emit({ value });
+    this.calciteSortHandleMove.emit({ value: (event.target as HTMLElement).dataset.value });
   };
 
   // --------------------------------------------------------------------------
@@ -344,8 +344,8 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
 
     return setPosition !== 1 && setPosition !== 2 ? (
       <calcite-dropdown-item
-        data-value="top"
-        key="top"
+        data-value={REORDER_VALUES[0]}
+        key={REORDER_VALUES[0]}
         label={messages.moveToTop}
         onCalciteDropdownItemSelect={this.handleReorder}
       >
@@ -359,8 +359,8 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
 
     return setPosition !== 1 ? (
       <calcite-dropdown-item
-        data-value="up"
-        key="up"
+        data-value={REORDER_VALUES[1]}
+        key={REORDER_VALUES[1]}
         label={messages.moveUp}
         onCalciteDropdownItemSelect={this.handleReorder}
       >
@@ -374,8 +374,8 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
 
     return setPosition !== setSize ? (
       <calcite-dropdown-item
-        data-value="down"
-        key="down"
+        data-value={REORDER_VALUES[2]}
+        key={REORDER_VALUES[2]}
         label={messages.moveDown}
         onCalciteDropdownItemSelect={this.handleReorder}
       >
@@ -389,8 +389,8 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
 
     return setPosition !== setSize && setPosition !== setSize - 1 ? (
       <calcite-dropdown-item
-        data-value="bottom"
-        key="bottom"
+        data-value={REORDER_VALUES[3]}
+        key={REORDER_VALUES[3]}
         label={messages.moveToBottom}
         onCalciteDropdownItemSelect={this.handleReorder}
       >

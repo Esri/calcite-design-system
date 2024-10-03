@@ -3282,6 +3282,7 @@ export namespace Components {
         "dragHandle": boolean;
         /**
           * When `true`, the component's drag handle is selected.
+          * @deprecated no longer necessary.
          */
         "dragSelected": boolean;
         /**
@@ -11508,6 +11509,7 @@ declare namespace LocalJSX {
         "dragHandle"?: boolean;
         /**
           * When `true`, the component's drag handle is selected.
+          * @deprecated no longer necessary.
          */
         "dragSelected"?: boolean;
         /**
@@ -11544,6 +11546,7 @@ declare namespace LocalJSX {
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the drag handle is selected.
+          * @deprecated no longer necessary.
          */
         "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**

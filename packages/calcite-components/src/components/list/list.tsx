@@ -36,7 +36,6 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { HandleNudge } from "../handle/interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -51,6 +50,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
+import { ReorderEventDetail } from "../sort-handle/interfaces";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
@@ -329,13 +329,13 @@ export class List
     event.stopPropagation();
   }
 
-  @Listen("calciteHandleNudge")
-  handleCalciteHandleNudge(event: CustomEvent<HandleNudge>): void {
+  @Listen("calciteSortHandleReorder")
+  handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
     if (this.parentListEl) {
       return;
     }
 
-    this.handleNudgeEvent(event);
+    this.handleReorder(event);
   }
 
   @Listen("calciteInternalListItemSelect")
@@ -960,47 +960,41 @@ export class List
     }
   };
 
-  handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
-    const { handleSelector, dragSelector } = this;
-    const { direction } = event.detail;
+  handleReorder(event: CustomEvent<ReorderEventDetail>): void {
+    const { reorder } = event.detail;
 
-    const composedPath = event.composedPath();
-
-    const handle = composedPath.find(
-      (el: HTMLElement): el is HTMLCalciteHandleElement =>
-        el?.tagName && el.matches(handleSelector),
-    );
-
-    const dragEl = composedPath.find(
-      (el: HTMLElement): el is HTMLCalciteListItemElement =>
-        el?.tagName && el.matches(dragSelector),
-    );
-
+    const dragEl = event.target as HTMLCalciteListItemElement;
     const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;
     }
 
-    const { filteredItems } = this;
-
-    const sameParentItems = filteredItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = this.filteredItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
-    let newIndex: number;
+    let newIndex: number = oldIndex;
 
-    if (direction === "up") {
-      newIndex = oldIndex === 0 ? lastIndex : oldIndex - 1;
-    } else {
-      newIndex = oldIndex === lastIndex ? 0 : oldIndex + 1;
+    switch (reorder) {
+      case "top":
+        newIndex = 0;
+        break;
+      case "bottom":
+        newIndex = lastIndex;
+        break;
+      case "up":
+        newIndex = oldIndex === 0 ? 0 : oldIndex - 1;
+        break;
+      case "down":
+        newIndex = oldIndex === lastIndex ? lastIndex : oldIndex + 1;
+        break;
     }
 
     this.disconnectObserver();
-    handle.blurUnselectDisabled = true;
 
     const referenceEl =
-      (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
+      reorder === "up" || reorder === "top"
         ? sameParentItems[newIndex]
         : sameParentItems[newIndex].nextSibling;
 
@@ -1016,7 +1010,5 @@ export class List
       newIndex,
       oldIndex,
     });
-
-    handle.setFocus().then(() => (handle.blurUnselectDisabled = false));
   }
 }
