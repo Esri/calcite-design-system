@@ -1018,7 +1018,7 @@ export class List
 
     this.disconnectObserver();
 
-    toEl.appendChild(dragEl);
+    toEl.prepend(dragEl);
     const newIndex = Array.from(toEl.children).indexOf(dragEl);
 
     this.updateListItems();
