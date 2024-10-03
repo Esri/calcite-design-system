@@ -1598,6 +1598,6 @@
     </demo-dom-swapper>
   </body>
   <script>
-    document.addEventListener("calciteInputInput", ({ detail }) => console.log(`input: ${detail.value}`));
+    document.addEventListener("calciteInputInput", ({ target }) => console.log(`input: ${target.value}`));
   </script>
 </html>

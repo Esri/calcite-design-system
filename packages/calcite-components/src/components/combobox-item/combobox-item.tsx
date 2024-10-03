@@ -6,15 +6,10 @@ import {
   h,
   Host,
   Prop,
+  State,
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -26,6 +21,7 @@ import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
+import { slotChangeHasContent } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 
 /**
@@ -37,7 +33,7 @@ import { CSS, SLOTS } from "./resources";
   styleUrl: "combobox-item.scss",
   shadow: true,
 })
-export class ComboboxItem implements ConditionalSlotComponent, InteractiveComponent {
+export class ComboboxItem implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -158,6 +154,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   @Element() el: HTMLCalciteComboboxItemElement;
 
+  @State() hasContent = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -166,11 +164,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
-    connectConditionalSlotComponent(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
   }
 
   componentDidRender(): void {
@@ -201,6 +194,10 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private handleDefaultSlotChange = (event: Event): void => {
+    this.hasContent = slotChangeHasContent(event);
+  };
 
   toggleSelected(): Promise<void> {
     const isSinglePersistSelect = this.selectionMode === "single-persist";
@@ -262,15 +259,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   renderChildren(): VNode {
-    if (getSlotted(this.el)) {
-      return (
-        <ul key="default-slot-container">
-          <slot />
-        </ul>
-      );
-    }
-
-    return null;
+    return (
+      <ul hidden={!this.hasContent} key="default-slot-container">
+        <slot onSlotchange={this.handleDefaultSlotChange} />
+      </ul>
+    );
   }
 
   render(): VNode {
