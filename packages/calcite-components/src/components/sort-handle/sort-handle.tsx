@@ -117,6 +117,17 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
+  @Watch("open")
+  openHandler(): void {
+    if (this.disabled) {
+      this.open = false;
+      return;
+    }
+
+    // we set the property instead of the attribute to ensure dropdown's open/close events are emitted properly
+    this.dropdownEl.open = this.open;
+  }
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -232,6 +243,7 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
 
   private setDropdownEl = (el: HTMLCalciteDropdownElement): void => {
     this.dropdownEl = el;
+    this.openHandler();
   };
 
   private getLabel(): string {
@@ -314,7 +326,6 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
           onCalciteDropdownBeforeOpen={this.handleBeforeOpen}
           onCalciteDropdownClose={this.handleClose}
           onCalciteDropdownOpen={this.handleOpen}
-          open={open}
           overlayPositioning={overlayPositioning}
           placement={placement}
           ref={this.setDropdownEl}
