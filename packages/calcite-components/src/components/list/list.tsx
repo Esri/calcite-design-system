@@ -50,7 +50,8 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { MoveEventDetail, ReorderEventDetail } from "../sort-handle/interfaces";
+import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
+import { guid } from "../../utils/guid";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
@@ -464,6 +465,8 @@ export class List
 
   @State() dataForFilter: ItemData = [];
 
+  @State() moveToItems: MoveTo[] = [];
+
   dragSelector = listItemSelector;
 
   filterEl: HTMLCalciteFilterElement;
@@ -860,12 +863,36 @@ export class List
     }));
   };
 
+  private updateGroupItems(): void {
+    const { el, group } = this;
+
+    const lists = group
+      ? Array.from(
+          document.querySelectorAll<HTMLCalciteListElement>(`calcite-list[group="${group}"]`),
+        )
+      : [];
+
+    this.moveToItems = lists
+      .filter((list) => list !== el && !el.contains(list))
+      .map((element) => ({ element, label: element.label, id: guid() }));
+  }
+
   private updateListItems = debounce(
     (options?: { emitFilterChange?: boolean; performFilter?: boolean }): void => {
       const emitFilterChange = options?.emitFilterChange ?? false;
       const performFilter = options?.performFilter ?? false;
 
-      const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
+      this.updateGroupItems();
+
+      const {
+        selectionAppearance,
+        selectionMode,
+        dragEnabled,
+        el,
+        filterEl,
+        filterEnabled,
+        moveToItems,
+      } = this;
 
       const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
@@ -873,6 +900,7 @@ export class List
         item.selectionAppearance = selectionAppearance;
         item.selectionMode = selectionMode;
         if (item.closest("calcite-list") === el) {
+          item.moveToItems = moveToItems;
           item.dragHandle = dragEnabled;
         }
       });
@@ -971,41 +999,30 @@ export class List
   };
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
-    const { value } = event.detail;
+    const { moveTo } = event.detail;
 
-    console.log(value);
+    const dragEl = event.target as HTMLCalciteListItemElement;
+    const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
+    const toEl = moveTo.element as HTMLCalciteListElement;
 
-    //todo: implement this
+    if (!parentEl) {
+      return;
+    }
 
-    // const dragEl = event.target as HTMLCalciteListItemElement;
-    // const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
+    this.disconnectObserver();
 
-    // if (!parentEl) {
-    //   return;
-    // }
+    toEl.appendChild(event.target as HTMLCalciteListItemElement);
 
-    // const toEl = parentEl.querySelector(`calcite-list-item[value="${value}"]`);
+    this.updateListItems();
+    this.connectObserver();
 
-    // if (!toEl) {
-    //   return;
-    // }
-
-    // this.disconnectObserver();
-
-    // const referenceEl = toEl.nextSibling;
-
-    // parentEl.insertBefore(dragEl, referenceEl);
-
-    // this.updateListItems();
-    // this.connectObserver();
-
-    // this.calciteListOrderChange.emit({
-    //   dragEl,
-    //   fromEl: parentEl,
-    //   toEl: parentEl,
-    //   newIndex: Array.from(parentEl.children).indexOf(dragEl),
-    //   oldIndex: Array.from(parentEl.children).indexOf(toEl),
-    // });
+    this.calciteListOrderChange.emit({
+      dragEl,
+      fromEl: parentEl,
+      toEl,
+      newIndex: Array.from(parentEl.children).indexOf(dragEl),
+      oldIndex: Array.from(parentEl.children).indexOf(toEl),
+    });
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {

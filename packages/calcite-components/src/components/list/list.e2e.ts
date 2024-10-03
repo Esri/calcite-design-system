@@ -1168,8 +1168,7 @@ describe("calcite-list", () => {
     });
   });
 
-  // todo
-  describe.skip("drag and drop", () => {
+  describe("drag and drop", () => {
     async function createSimpleList(): Promise<E2EPage> {
       const page = await newE2EPage();
       await page.setContent(
@@ -1228,11 +1227,11 @@ describe("calcite-list", () => {
         page,
         {
           element: `calcite-list-item[value="one"]`,
-          shadow: "calcite-handle",
+          shadow: "calcite-sort-handle",
         },
         {
           element: `calcite-list-item[value="two"]`,
-          shadow: "calcite-handle",
+          shadow: "calcite-sort-handle",
         },
       );
 
@@ -1311,7 +1310,7 @@ describe("calcite-list", () => {
         page,
         {
           element: `calcite-list-item[value="d"]`,
-          shadow: "calcite-handle",
+          shadow: "calcite-sort-handle",
         },
         {
           element: `#first-letters`,
@@ -1325,7 +1324,7 @@ describe("calcite-list", () => {
         page,
         {
           element: `calcite-list-item[value="e"]`,
-          shadow: "calcite-handle",
+          shadow: "calcite-sort-handle",
         },
         {
           element: `#numbers`,
@@ -1339,7 +1338,7 @@ describe("calcite-list", () => {
         page,
         {
           element: `calcite-list-item[value="e"]`,
-          shadow: "calcite-handle",
+          shadow: "calcite-sort-handle",
         },
         {
           element: `#no-group`,
@@ -1364,7 +1363,8 @@ describe("calcite-list", () => {
       expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
 
-    it("works using a keyboard", async () => {
+    // todo
+    it.skip("works using a keyboard", async () => {
       const page = await createSimpleList();
 
       await page.keyboard.press("Tab");

@@ -61,6 +61,7 @@ import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
+import { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
 import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 import { MenuMessages } from "./components/menu/assets/menu/t9n";
 import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
@@ -81,7 +82,6 @@ import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 import { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
-import { MoveEventDetail, MoveToItem, ReorderEventDetail } from "./components/sort-handle/interfaces";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -159,6 +159,7 @@ export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
+export { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
 export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 export { MenuMessages } from "./components/menu/assets/menu/t9n";
 export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
@@ -179,7 +180,6 @@ export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 export { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
-export { MoveEventDetail, MoveToItem, ReorderEventDetail } from "./components/sort-handle/interfaces";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -3306,6 +3306,10 @@ export namespace Components {
          */
         "metadata": Record<string, unknown>;
         /**
+          * Sets the item to display a border.
+         */
+        "moveToItems": MoveTo[];
+        /**
           * When `true`, the item is open to show child components.
          */
         "open": boolean;
@@ -4789,7 +4793,7 @@ export namespace Components {
         /**
           * Defines the "Move to" items.
          */
-        "moveToItems": MoveToItem[];
+        "moveToItems": MoveTo[];
         /**
           * When `true`, displays and positions the component.
          */
@@ -11540,6 +11544,10 @@ declare namespace LocalJSX {
           * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
          */
         "metadata"?: Record<string, unknown>;
+        /**
+          * Sets the item to display a border.
+         */
+        "moveToItems"?: MoveTo[];
         "onCalciteInternalFocusPreviousItem"?: (event: CalciteListItemCustomEvent<void>) => void;
         "onCalciteInternalListItemActive"?: (event: CalciteListItemCustomEvent<void>) => void;
         "onCalciteInternalListItemChange"?: (event: CalciteListItemCustomEvent<void>) => void;
@@ -13088,7 +13096,7 @@ declare namespace LocalJSX {
         /**
           * Defines the "Move to" items.
          */
-        "moveToItems"?: MoveToItem[];
+        "moveToItems"?: MoveTo[];
         /**
           * Fires when the component is requested to be closed and before the closing transition begins.
          */

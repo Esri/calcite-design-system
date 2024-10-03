@@ -1,8 +1,9 @@
 export type Reorder = "up" | "down" | "top" | "bottom";
 
-export interface MoveToItem {
+export interface MoveTo {
+  element: HTMLElement;
+  id: string;
   label: string;
-  value: string;
 }
 
 export interface ReorderEventDetail {
@@ -10,5 +11,5 @@ export interface ReorderEventDetail {
 }
 
 export interface MoveEventDetail {
-  value: MoveToItem["value"];
+  moveTo: MoveTo;
 }

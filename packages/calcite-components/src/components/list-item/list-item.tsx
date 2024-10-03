@@ -40,6 +40,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
+import { MoveTo } from "../sort-handle/interfaces";
 import { ListItemMessages } from "./assets/list-item/t9n";
 import {
   getDepth,
@@ -163,6 +164,13 @@ export class ListItem
    * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
    */
   @Prop() metadata: Record<string, unknown>;
+
+  /**
+   * Sets the item to display a border.
+   *
+   * @internal
+   */
+  @Prop() moveToItems: MoveTo[] = [];
 
   /**
    * When `true`, the item is open to show child components.
@@ -471,7 +479,8 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, sortHandleOpen } = this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, sortHandleOpen, moveToItems } =
+      this;
 
     return dragHandle ? (
       <td
@@ -485,6 +494,7 @@ export class ListItem
         <calcite-sort-handle
           disabled={dragDisabled}
           label={label}
+          moveToItems={moveToItems}
           onCalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
           onCalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
           onCalciteSortHandleClose={this.handleSortHandleClose}

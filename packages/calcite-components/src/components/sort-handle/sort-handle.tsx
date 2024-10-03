@@ -34,7 +34,7 @@ import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../componen
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { SortHandleMessages } from "./assets/sort-handle/t9n";
 import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
-import { MoveEventDetail, MoveToItem, Reorder, ReorderEventDetail } from "./interfaces";
+import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 
 @Component({
   tag: "calcite-sort-handle",
@@ -110,7 +110,7 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
   /**
    * Defines the "Move to" items.
    */
-  @Prop() moveToItems: MoveToItem[];
+  @Prop() moveToItems: MoveTo[];
 
   /**
    * When `true`, displays and positions the component.
@@ -290,7 +290,9 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
   };
 
   private handleMoveTo = (event: Event): void => {
-    this.calciteSortHandleMove.emit({ value: (event.target as HTMLElement).dataset.value });
+    const id = (event.target as HTMLElement).dataset.id;
+    const moveTo = this.moveToItems.find((item) => item.id === id);
+    this.calciteSortHandleMove.emit({ moveTo });
   };
 
   // --------------------------------------------------------------------------
@@ -356,11 +358,11 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     );
   }
 
-  private renderMoveToItem(moveToItem: MoveToItem): VNode {
+  private renderMoveToItem(moveToItem: MoveTo): VNode {
     return (
       <calcite-dropdown-item
-        data-value={moveToItem.value}
-        key={moveToItem.value}
+        data-id={moveToItem.id}
+        key={moveToItem.id}
         label={moveToItem.label}
         onCalciteDropdownItemSelect={this.handleMoveTo}
       >
