@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
-import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import { getRootNode, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -866,15 +866,19 @@ export class List
   private updateGroupItems(): void {
     const { el, group } = this;
 
+    const rootNode = getRootNode(el);
+
     const lists = group
       ? Array.from(
-          document.querySelectorAll<HTMLCalciteListElement>(`calcite-list[group="${group}"]`),
+          rootNode.querySelectorAll<HTMLCalciteListElement>(`calcite-list[group="${group}"]`),
         )
       : [];
 
-    this.moveToItems = lists
-      .filter((list) => list !== el && (this.parentListEl ? !el.contains(list) : true))
-      .map((element) => ({ element, label: element.label, id: guid() }));
+    this.moveToItems = lists.map((element) => ({
+      element,
+      label: element.label ?? element.group,
+      id: guid(),
+    }));
   }
 
   private updateListItems = debounce(
@@ -900,7 +904,9 @@ export class List
         item.selectionAppearance = selectionAppearance;
         item.selectionMode = selectionMode;
         if (item.closest("calcite-list") === el) {
-          item.moveToItems = moveToItems;
+          item.moveToItems = moveToItems.filter(
+            (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+          );
           item.dragHandle = dragEnabled;
         }
       });
