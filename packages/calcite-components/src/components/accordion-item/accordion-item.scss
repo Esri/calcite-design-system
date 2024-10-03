@@ -147,7 +147,10 @@
 
 .actions-start,
 .actions-end {
-  @apply flex items-center;
+  @apply flex items-stretch;
+  * {
+    @apply items-stretch;
+  }
 }
 
 .icon {
