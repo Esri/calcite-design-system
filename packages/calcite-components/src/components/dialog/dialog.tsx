@@ -232,6 +232,7 @@ export class Dialog
     connectMessages(this);
     connectFocusTrap(this, {
       focusTrapOptions: {
+        // Scrim has it's own close handler, allow it to take over.
         clickOutsideDeactivates: false,
         escapeDeactivates: (event) => {
           if (event.defaultPrevented || this.escapeDisabled) {

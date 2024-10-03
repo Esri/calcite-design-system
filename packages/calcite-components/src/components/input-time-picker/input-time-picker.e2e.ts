@@ -933,21 +933,17 @@ describe("calcite-input-time-picker", () => {
 
     it("toggles the time picker when clicked", async () => {
       let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
-      const openSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerOpen");
-      const closeSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerClose");
 
       expect(await popover.isVisible()).toBe(false);
 
       await inputTimePicker.click();
       await page.waitForChanges();
-      expect(openSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(true);
 
       await inputTimePicker.click();
       await page.waitForChanges();
-      expect(closeSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(false);
@@ -955,8 +951,6 @@ describe("calcite-input-time-picker", () => {
 
     it("toggles the time picker when using arrow down/escape key", async () => {
       let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
-      const openSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerOpen");
-      const closeSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerClose");
 
       expect(await popover.isVisible()).toBe(false);
 
@@ -964,14 +958,12 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      expect(openSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(true);
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      expect(closeSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(false);

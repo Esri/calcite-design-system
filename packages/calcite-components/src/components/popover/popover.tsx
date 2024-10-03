@@ -306,10 +306,7 @@ export class Popover
           const outsideClick = !path.includes(this.el);
           const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
 
-          return (
-            (shouldCloseOnOutsideClick && this.triggerDisabled) ||
-            (shouldCloseOnOutsideClick && isReferenceElementInPath)
-          );
+          return shouldCloseOnOutsideClick && (this.triggerDisabled || isReferenceElementInPath);
         },
       },
     });

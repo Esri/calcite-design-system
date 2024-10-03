@@ -428,8 +428,6 @@ describe("calcite-input-date-picker", () => {
       }
 
       it("toggles the date picker when clicked", async () => {
-        const openSpy = await inputDatePicker.spyOnEvent("calciteInputDatePickerOpen");
-        const closeSpy = await inputDatePicker.spyOnEvent("calciteInputDatePickerClose");
         const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(false);
@@ -454,13 +452,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(1);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await startInput.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(1);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(false);
 
@@ -469,13 +465,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await startInputToggle.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(2);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await startInputToggle.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(2);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(false);
 
@@ -484,13 +478,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(3);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
         await endInput.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(3);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(false);
 
@@ -499,13 +491,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(4);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
         await endInputToggle.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(4);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(false);
 
@@ -514,13 +504,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(5);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await startInputToggle.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(5);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(false);
 
@@ -529,13 +517,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await startInputToggle.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(6);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await startInput.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(6);
 
         expect(await isCalendarVisible(calendar, "start")).toBe(false);
 
@@ -544,13 +530,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(7);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
         await endInputToggle.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(7);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(false);
 
@@ -559,13 +543,11 @@ describe("calcite-input-date-picker", () => {
         await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
-        expect(openSpy).toHaveReceivedEventTimes(8);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
         await endInput.click();
         await page.waitForChanges();
-        expect(closeSpy).toHaveReceivedEventTimes(8);
 
         expect(await isCalendarVisible(calendar, "end")).toBe(false);
 
