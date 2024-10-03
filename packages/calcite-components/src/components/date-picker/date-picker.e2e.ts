@@ -924,7 +924,7 @@ describe("calcite-date-picker", () => {
 
   it("updates the calendar immediately as a new year is typed but doesn't change the year", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-date-picker value="2015-02-28" active></calcite-date-picker>`);
+    await page.setContent(`<calcite-date-picker value="2015-02-28"></calcite-date-picker>`);
     const datePicker = await page.find("calcite-date-picker");
     await skipAnimations(page);
 
@@ -955,8 +955,8 @@ describe("calcite-date-picker", () => {
     await page.keyboard.press("Backspace");
     await page.keyboard.up("Meta");
     await page.keyboard.type("2016");
-    expect(await getActiveMonthHeaderInputValue()).toBe("2016");
     await page.waitForChanges();
+    expect(await getActiveMonthHeaderInputValue()).toBe("2016");
 
     const activeDateAfter = await getActiveMonthDate();
 
