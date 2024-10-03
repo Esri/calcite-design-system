@@ -256,11 +256,6 @@ describe("calcite-tile", () => {
             selector: `calcite-tile`,
             targetProp: "color",
           },
-          "--calcite-tile-text-color-hover": {
-            selector: `calcite-tile`,
-            targetProp: "color",
-            state: "hover",
-          },
         },
       );
     });
