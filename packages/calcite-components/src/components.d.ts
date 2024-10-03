@@ -10,20 +10,12 @@ import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
-<<<<<<< HEAD
-import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
-import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
-import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
-import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-import { AlertDuration, Sync } from "./components/alert/interfaces";
-=======
 import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { Columns } from "./components/action-group/interfaces";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, AlertQueue } from "./components/alert/interfaces";
->>>>>>> dev
 import { NumberingSystem } from "./utils/locale";
 import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
@@ -64,11 +56,7 @@ import { InputTextMessages } from "./components/input-text/assets/input-text/t9n
 import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
-<<<<<<< HEAD
-import { TimeZoneMode } from "./components/input-time-zone/interfaces";
-=======
 import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
->>>>>>> dev
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
@@ -77,11 +65,7 @@ import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 import { MenuMessages } from "./components/menu/assets/menu/t9n";
 import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
-<<<<<<< HEAD
-import { MeterLabelType } from "./components/meter/interfaces";
-=======
 import { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
->>>>>>> dev
 import { ModalMessages } from "./components/modal/assets/modal/t9n";
 import { NoticeMessages } from "./components/notice/assets/notice/t9n";
 import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
@@ -101,16 +85,10 @@ import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
-<<<<<<< HEAD
-import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
-import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
-=======
 import { Element } from "@stencil/core";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
->>>>>>> dev
 import { TableMessages } from "./components/table/assets/table/t9n";
 import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
@@ -127,20 +105,12 @@ export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
-<<<<<<< HEAD
-export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
-export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
-export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
-export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
-export { AlertDuration, Sync } from "./components/alert/interfaces";
-=======
 export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { Columns } from "./components/action-group/interfaces";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, AlertQueue } from "./components/alert/interfaces";
->>>>>>> dev
 export { NumberingSystem } from "./utils/locale";
 export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
@@ -181,11 +151,7 @@ export { InputTextMessages } from "./components/input-text/assets/input-text/t9n
 export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
-<<<<<<< HEAD
-export { TimeZoneMode } from "./components/input-time-zone/interfaces";
-=======
 export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
->>>>>>> dev
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
@@ -194,11 +160,7 @@ export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 export { MenuMessages } from "./components/menu/assets/menu/t9n";
 export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
-<<<<<<< HEAD
-export { MeterLabelType } from "./components/meter/interfaces";
-=======
 export { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
->>>>>>> dev
 export { ModalMessages } from "./components/modal/assets/modal/t9n";
 export { NoticeMessages } from "./components/notice/assets/notice/t9n";
 export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
@@ -218,16 +180,10 @@ export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
-<<<<<<< HEAD
-export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
-export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
-=======
 export { Element } from "@stencil/core";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
->>>>>>> dev
 export { TableMessages } from "./components/table/assets/table/t9n";
 export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
