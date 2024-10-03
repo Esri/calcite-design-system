@@ -22,6 +22,7 @@
 }
 
 .handle {
+  @apply cursor-move;
   --calcite-action-indicator-color: var(--calcite-sort-handle-action-indicator-color);
   --calcite-action-background-color: var(--calcite-sort-handle-action-background-color);
   --calcite-action-background-color-hover: var(--calcite-sort-handle-action-background-color-hover);
@@ -33,11 +34,9 @@
   --calcite-action-corner-radius-start-start: var(--calcite-sort-handle-action-corner-radius-start-start);
   --calcite-action-text-color: var(--calcite-sort-handle-action-text-color);
   --calcite-action-text-color-pressed: var(--calcite-sort-handle-action-text-color-pressed);
-
-  @apply bg-transparent cursor-move;
 }
 
-calcite-dropdown {
+.dropdown {
   block-size: 100%;
   --calcite-dropdown-width: var(--calcite-sort-handle-dropdown-width);
 }

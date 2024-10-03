@@ -279,8 +279,9 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     const isDisabled = disabled || !setPosition || !setSize;
 
     return (
-      <InteractiveContainer disabled={isDisabled}>
+      <InteractiveContainer disabled={disabled}>
         <calcite-dropdown
+          class={CSS.dropdown}
           disabled={isDisabled}
           flipPlacements={flipPlacements}
           onCalciteDropdownClose={this.handleClose}
