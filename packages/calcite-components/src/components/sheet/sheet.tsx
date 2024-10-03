@@ -160,6 +160,9 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
           event.preventDefault();
           return true;
         },
+        onDeactivate: () => {
+          this.open = false;
+        },
       },
     });
   }
@@ -291,10 +294,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   onClose(): void {
     this.calciteSheetClose.emit();
     deactivateFocusTrap(this);
-  }
-
-  onFocusTrapDeactivate(): void {
-    this.open = false;
   }
 
   private setContentId = (el: HTMLDivElement): void => {

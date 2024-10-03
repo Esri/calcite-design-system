@@ -208,6 +208,9 @@ export class Modal
           event.preventDefault();
           return true;
         },
+        onDeactivate: () => {
+          this.open = false;
+        },
       },
     });
   }
@@ -495,10 +498,6 @@ export class Modal
     this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
     deactivateFocusTrap(this);
-  }
-
-  onFocusTrapDeactivate(): void {
-    this.open = false;
   }
 
   @Watch("open")

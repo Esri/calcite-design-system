@@ -308,6 +308,9 @@ export class Popover
 
           return shouldCloseOnOutsideClick && (this.triggerDisabled || isReferenceElementInPath);
         },
+        onDeactivate: () => {
+          this.open = false;
+        },
       },
     });
 
@@ -531,10 +534,6 @@ export class Popover
   onClose(): void {
     this.calcitePopoverClose.emit();
     deactivateFocusTrap(this);
-  }
-
-  onFocusTrapDeactivate(): void {
-    this.open = false;
   }
 
   storeArrowEl = (el: SVGSVGElement): void => {

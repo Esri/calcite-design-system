@@ -880,10 +880,6 @@ export class InputDatePicker
     this.datePickerEl.reset();
   }
 
-  onFocusTrapDeactivate(): void {
-    this.open = false;
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput("date", this, input);
   }
@@ -1003,6 +999,9 @@ export class InputDatePicker
         clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,
+        onDeactivate: () => {
+          this.open = false;
+        },
       },
     });
   };

@@ -241,6 +241,9 @@ export class Dialog
           event.preventDefault();
           return true;
         },
+        onDeactivate: () => {
+          this.open = false;
+        },
       },
     });
     this.setupInteractions();
@@ -474,10 +477,6 @@ export class Dialog
   onClose(): void {
     this.calciteDialogClose.emit();
     deactivateFocusTrap(this);
-  }
-
-  onFocusTrapDeactivate(): void {
-    this.open = false;
   }
 
   @Watch("open")
