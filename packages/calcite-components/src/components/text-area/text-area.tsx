@@ -313,11 +313,11 @@ export class TextArea
             aria-label={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{
+              [CSS.textArea]: true,
               [CSS.readOnly]: this.readOnly,
               [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
               [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-              [CSS.blockSizeFull]: !hasFooter,
-              [CSS.borderColor]: !hasFooter,
+              [CSS.textAreaOnly]: !hasFooter,
             }}
             cols={this.columns}
             disabled={this.disabled}
@@ -366,7 +366,7 @@ export class TextArea
           </footer>
           <HiddenFormInputSlot component={this} />
           {this.isCharacterLimitExceeded() && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+            <span aria-live="polite" class={CSS.assistiveText} id={this.guid}>
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}

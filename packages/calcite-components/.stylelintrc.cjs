@@ -1,5 +1,9 @@
 // @ts-check
 
+// ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
+const customFunctions = [];
+// ⚠️ END OF AUTO-GENERATED CODE
+
 const scssPatternRules = [
   "scss/at-function-pattern",
   "scss/dollar-variable-pattern",
@@ -50,7 +54,7 @@ const rules = {
   "scss/function-no-unknown": [
     true,
     {
-      ignoreFunctions: ["get-trailing-text-input-padding", "scale-duration", "theme", "var"],
+      ignoreFunctions: [...customFunctions, "theme", "var"],
       severity: "error",
     },
   ],

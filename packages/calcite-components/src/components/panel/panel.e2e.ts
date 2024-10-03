@@ -12,8 +12,10 @@ import {
   slots,
   t9n,
   themed,
+  handlesActionMenuPlacements,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
@@ -88,6 +90,14 @@ describe("calcite-panel", () => {
     hidden("calcite-panel");
   });
 
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-panel>
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+      </calcite-panel>
+    `);
+  });
+
   describe("defaults", () => {
     defaults("calcite-panel", [
       {
@@ -122,6 +132,14 @@ describe("calcite-panel", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: defaultEndMenuPlacement,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -142,6 +160,10 @@ describe("calcite-panel", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
       },
     ]);
   });
@@ -215,6 +237,18 @@ describe("calcite-panel", () => {
     await page.waitForChanges();
 
     expect(await element.getProperty("closed")).toBe(true);
+
+    expect(await container.isVisible()).toBe(false);
+  });
+
+  it("honors closed prop initially", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel closed closable>test</calcite-panel>");
+
+    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+
+    await page.waitForChanges();
 
     expect(await container.isVisible()).toBe(false);
   });
@@ -641,6 +675,10 @@ describe("calcite-panel", () => {
       "--calcite-panel-content-space": {
         shadowSelector: `.${CSS.contentWrapper}`,
         targetProp: "padding",
+      },
+      "--calcite-panel-background-color": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "backgroundColor",
       },
     });
   });

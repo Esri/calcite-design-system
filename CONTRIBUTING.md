@@ -236,6 +236,7 @@ Contributions must adhere to **one** of the following conventions:
 - **`refactor`**: A change that neither fixes a bug or adds a feature 🔁
 - **`revert`**: Reverts a previous commit ↪️
 - **`test`**: Improves test coverage in updating a test or adding a new, or missing test 🧪
+- **`deprecate`**: Documentation only changes for a deprecation 👎
 
 ### Scope of change
 

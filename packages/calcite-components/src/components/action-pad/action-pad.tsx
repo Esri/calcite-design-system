@@ -11,11 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
@@ -50,9 +45,7 @@ import { CSS, SLOTS } from "./resources";
   },
   assetsDirs: ["assets"],
 })
-export class ActionPad
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -169,15 +162,15 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectConditionalSlotComponent(this);
+    this.mutationObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
