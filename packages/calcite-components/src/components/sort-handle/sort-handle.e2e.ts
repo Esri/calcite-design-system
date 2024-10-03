@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, themed, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import type { SortHandleMessages } from "./assets/sort-handle/t9n";
-import { CSS, SUBSTITUTIONS } from "./resources";
+import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 
 describe("calcite-sort-handle", () => {
   describe("renders", () => {
@@ -60,7 +60,7 @@ describe("calcite-sort-handle", () => {
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    expect(await calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe("top");
+    expect(await calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
     expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
   });
 
@@ -69,11 +69,13 @@ describe("calcite-sort-handle", () => {
     await page.setContent(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
     await skipAnimations(page);
 
-    const sortHandle = await page.find("calcite-sort-handle");
-    sortHandle.setProperty("moveToItems", [
+    const moveToItems = [
       { label: "List 2", value: "list2" },
       { label: "List 3", value: "list3" },
-    ]);
+    ];
+
+    const sortHandle = await page.find("calcite-sort-handle");
+    sortHandle.setProperty("moveToItems", moveToItems);
     await page.waitForChanges();
 
     const calciteSortHandleMoveSpy = await page.spyOnEvent("calciteSortHandleMove");
@@ -87,7 +89,7 @@ describe("calcite-sort-handle", () => {
 
     await page.keyboard.press(" ");
     await page.waitForChanges();
-    expect(await calciteSortHandleMoveSpy.lastEvent.detail.value).toBe("list3");
+    expect(await calciteSortHandleMoveSpy.lastEvent.detail.value).toBe(moveToItems[1].value);
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
   });
 
