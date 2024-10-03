@@ -86,9 +86,14 @@ describe("stacked focus-trap components", () => {
 
           const activeElementId = await page.evaluate(() => document.activeElement?.id);
 
-          const focusRetainingComponentIDs = ["input-time-picker", "input-date-picker"];
-          if (activeElementId && focusRetainingComponentIDs.includes(activeElementId)) {
-            await page.keyboard.press("Tab");
+          // 'input-time-picker', 'input-date-picker' retain focus after pressing esc
+          if (activeElementId) {
+            if (activeElementId === "input-time-picker") {
+              await page.keyboard.press("Tab");
+            } else if (activeElementId === "input-date-picker") {
+              await page.keyboard.down("Shift");
+              await page.keyboard.press("Tab");
+            }
           }
           await page.waitForChanges();
 
