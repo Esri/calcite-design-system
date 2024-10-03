@@ -1,4 +1,5 @@
 import { E2EElement, newE2EPage, E2EPage } from "@stencil/core/testing";
+import { camelCase } from "change-case";
 import { html } from "../../support/formatting";
 import { skipAnimations } from "../tests/utils";
 
@@ -7,7 +8,7 @@ describe("stacked focus-trap components", () => {
     <calcite-sheet id="sheet">
       <calcite-panel>
         <calcite-block open></calcite-block>
-        <calcite-button>Open Modal from Sheet</calcite-button>
+        <calcite-button id="sheet-button">Open Modal from Sheet</calcite-button>
       </calcite-panel>
     </calcite-sheet>
 
@@ -79,31 +80,25 @@ describe("stacked focus-trap components", () => {
       await inputPicker.click();
 
       async function testEscapeAndAssertOpenState(focusTrapOrderElements: E2EElement[]): Promise<void> {
-        function strToCamelCase(str: string): string {
-          return str
-            .split("-")
-            .map((word, index) =>
-              index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-            )
-            .join("");
-        }
         for (let i = 0; i < focusTrapOrderElements.length; i++) {
-          const elTagNameCamelCased = strToCamelCase(focusTrapOrderElements[i].tagName);
+          const elTagNameCamelCased = camelCase(focusTrapOrderElements[i].tagName);
           const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
 
           const activeElementId = await page.evaluate(() => document.activeElement?.id);
 
-          // floating-ui components that close and keep focus
           const focusRetainingComponentIDs = ["input-time-picker", "input-date-picker"];
-
           if (activeElementId && focusRetainingComponentIDs.includes(activeElementId)) {
             await page.keyboard.press("Tab");
           }
+          await page.waitForChanges();
 
           const activeElementIdAfterTab = await page.evaluate(() => document.activeElement?.id);
-          console.log("activeElementIdAfterTab", activeElementIdAfterTab);
 
-          expect(activeElementIdAfterTab).toBe(focusTrapOrderElements[i].id || document.body.id);
+          const expectedElementId =
+            focusTrapOrderElements[i].id === "sheet"
+              ? "sheet-button"
+              : focusTrapOrderElements[i].id || document.body.id;
+          expect(activeElementIdAfterTab).toBe(expectedElementId);
 
           await page.keyboard.press("Escape");
           await page.waitForChanges();
