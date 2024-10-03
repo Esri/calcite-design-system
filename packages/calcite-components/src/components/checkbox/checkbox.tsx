@@ -9,7 +9,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -19,8 +19,6 @@ import {
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -34,6 +32,8 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale, Status } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-checkbox",
@@ -246,13 +246,11 @@ export class Checkbox
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
@@ -276,21 +274,25 @@ export class Checkbox
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const rtl = getElementDir(this.el) === "rtl";
+
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-checked={toAriaBoolean(this.checked)}
             aria-label={getLabelText(this)}
-            class="toggle"
+            class={{
+              [CSS.toggle]: true,
+              [CSS_UTILITY.rtl]: rtl,
+            }}
             onBlur={this.onToggleBlur}
             onFocus={this.onToggleFocus}
+            ref={(toggleEl) => (this.toggleEl = toggleEl)}
             role="checkbox"
             tabIndex={this.disabled ? undefined : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(toggleEl) => (this.toggleEl = toggleEl)}
           >
-            <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
+            <svg aria-hidden="true" class={CSS.check} viewBox="0 0 16 16">
               <path d={this.getPath()} />
             </svg>
             <slot />

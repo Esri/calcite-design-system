@@ -34,6 +34,7 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
 import { NoticeMessages } from "./assets/notice/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -91,7 +92,7 @@ export class Notice
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -165,7 +166,6 @@ export class Notice
         aria-label={this.messages.close}
         class={CSS.close}
         onClick={this.close}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
@@ -175,11 +175,7 @@ export class Notice
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
-      <div
-        class={CSS.container}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setTransitionEl}
-      >
+      <div class={CSS.container} ref={this.setTransitionEl}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon
@@ -286,7 +282,7 @@ export class Notice
   private closeButton?: HTMLButtonElement;
 
   /** The computed icon to render. */
-  private requestedIcon?: string;
+  private requestedIcon?: IconNameOrString;
 
   @State() effectiveLocale: string;
 

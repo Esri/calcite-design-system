@@ -4,39 +4,6 @@ For comprehensive guidance on using and implementing `calcite-inline-editable`, 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-There is no need to set a theme or scale on the `<calcite-inline-editable>` component, as it inherits these values from the wrapped `<calcite-input>`, or the closest parent component where these props are set.
-
-```html
-<calcite-inline-editable>
-  <calcite-input value="City of Acme Tree Survey" placeholder="City of Acme Tree Survey"></calcite-input>
-</calcite-inline-editable>
-```
-
-### With-label
-
-```html
-<calcite-label>
-  Survey name
-  <calcite-inline-editable>
-    <calcite-input value="City of Acme Tree Survey" placeholder="City of Acme Tree Survey"></calcite-input>
-  </calcite-inline-editable>
-</calcite-label>
-```
-
-### With-save-and-cancel-controls
-
-Add "Save" and "Cancel" controls:
-
-```html
-<calcite-inline-editable controls>
-  <calcite-input value="City of Acme Tree Survey" placeholder="City of Acme Tree Survey"></calcite-input>
-</calcite-inline-editable>
-```
-
 ## Properties
 
 | Property           | Attribute           | Description                                                                                                                                                  | Type                     | Default     |

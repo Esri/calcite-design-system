@@ -82,7 +82,7 @@ export class ActionPad
   /**
    * Indicates the layout of the component.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   @Watch("layout")
   layoutHandler(): void {
@@ -92,7 +92,7 @@ export class ActionPad
   /**
    * Arranges the component depending on the element's `dir` property.
    */
-  @Prop({ reflect: true }) position: Position;
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /**
    * Specifies the size of the expand `calcite-action`.
@@ -153,8 +153,6 @@ export class ActionPad
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
   );
 
-  expandToggleEl: HTMLCalciteActionElement;
-
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -174,12 +172,14 @@ export class ActionPad
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
+    this.mutationObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -231,10 +231,6 @@ export class ActionPad
     this.calciteActionPadToggle.emit();
   };
 
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
-  };
-
   updateGroups(): void {
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
   }
@@ -244,17 +240,17 @@ export class ActionPad
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
+    const groups = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionGroupElement => el?.matches("calcite-action-group"),
+    );
 
     this.setGroupLayout(groups);
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
@@ -281,16 +277,16 @@ export class ActionPad
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
+        collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
         el={el}
+        expandLabel={messages.expandLabel}
         expandText={messages.expand}
         expanded={expanded}
         position={position}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setExpandToggleRef}
       />
     ) : null;
 

@@ -2,16 +2,16 @@ export const CSS = {
   wrapper: "wrapper",
   wrapperBordered: "wrapper--bordered",
   container: "container",
-  indent: "indent",
   containerHover: "container--hover",
   containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
+  contentContainerUnavailable: "content-container--unavailable",
   contentContainerSelectable: "content-container--selectable",
   contentContainerHasCenterContent: "content-container--has-center-content",
   nestedContainer: "nested-container",
-  nestedContainerHidden: "nested-container--hidden",
+  nestedContainerOpen: "nested-container--open",
   content: "content",
   customContent: "custom-content",
   actionsStart: "actions-start",
@@ -25,6 +25,7 @@ export const CSS = {
   selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
+  close: "close",
 };
 
 export const SLOTS = {
@@ -49,6 +50,6 @@ export const ICONS = {
   open: "chevron-down",
   blank: "blank",
   close: "x",
-};
+} as const;
 
 export const activeCellTestAttribute = "data-test-active";

@@ -1,10 +1,72 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { menuPlacements } from "../../utils/floating-ui";
+import { Alert } from "./Alert";
+const { scale, duration, kind, numberingSystem, queue } = ATTRIBUTES;
+
+interface AlertStoryArgs
+  extends Pick<
+    Alert,
+    | "autoClose"
+    | "autoCloseDuration"
+    | "icon"
+    | "iconFlipRtl"
+    | "kind"
+    | "label"
+    | "numberingSystem"
+    | "open"
+    | "placement"
+    | "scale"
+    | "queue"
+  > {}
 
 export default {
   title: "Components/Alert",
+  args: {
+    autoClose: false,
+    autoCloseDuration: duration.defaultValue,
+    icon: "",
+    iconFlipRtl: false,
+    kind: kind.defaultValue,
+    label: "Alert",
+    numberingSystem: numberingSystem[2],
+    open: true,
+    placement: menuPlacements[4],
+    scale: "m",
+    queue: "last",
+  },
+  argTypes: {
+    autoCloseDuration: {
+      options: duration.values,
+      control: { type: "select" },
+    },
+    icon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    kind: {
+      options: kind.values.filter((option) => option !== "inverse" && option !== "neutral"),
+      control: { type: "select" },
+    },
+    numberingSystem: {
+      options: numberingSystem,
+      control: { type: "select" },
+    },
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
+    queue: {
+      options: queue.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 500,
@@ -24,21 +86,39 @@ const wrapperStyles = html`
   </style>
 `;
 
+export const simple = (args: AlertStoryArgs): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert
+      ${boolean("auto-close", args.autoClose)}
+      ${boolean("open", args.open)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      queue="${args.queue}"
+      auto-close-duration="${args.autoCloseDuration}"
+      scale="${args.scale}"
+      kind="${args.kind}"
+      icon="${args.icon}"
+      label="${args.label}"
+      numbering-system="${args.numberingSystem}"
+      placement="${args.placement}"
+    >
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action">Take action</calcite-link>
+    </calcite-alert>
+  </div>
+`;
+
 export const titleMessageLink = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "brand")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="brand"
       style="--calcite-alert-width:450px;"
     >
       <div slot="title">Here's a general bit of information</div>
@@ -54,17 +134,12 @@ export const titleMessage = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "danger")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
       style="--calcite-alert-width:450px;"
     >
       <div slot="title">Something failed</div>
@@ -79,17 +154,12 @@ export const messageLink = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "success")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="success"
       style="--calcite-alert-width:450px;"
     >
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
@@ -104,17 +174,12 @@ export const message = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "warning")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="warning"
       style="--calcite-alert-width:450px;"
     >
       <div slot="message">Network connection interruption detected</div>
@@ -126,17 +191,12 @@ export const customIcon = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      icon="${select("icon", iconNames, iconNames[0])}"
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "success")}"
+      icon="${iconNames[0]}"
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="success"
       style="--calcite-alert-width:450px;"
     >
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
@@ -150,17 +210,12 @@ export const darkModeRTL_TestOnly = (): string => html`
   <div class="wrapper">
     <calcite-alert
       class="calcite-mode-dark"
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "danger")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
       style="--calcite-alert-width:450px;"
     >
       <div slot="title">Something failed</div>
@@ -209,7 +264,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
     <script>
       setTimeout(() => {
         document.querySelector("#two").open = true;
-      }, "1000");
+      }, 250);
     </script>
   </div>
 `;
@@ -229,5 +284,31 @@ export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => h
       <div slot="message">We thought you might want to take a look</div>
       <calcite-link slot="link">Take action</calcite-link>
     </calcite-alert>
+  </div>
+`;
+
+export const withQueue = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert id="one" kind="brand" open>
+      <div slot="title">Open by default</div>
+      <div slot="message">We thought you might want to take a look</div>
+    </calcite-alert>
+    <calcite-alert id="two" queue="immediate" kind="danger">
+      <div slot="title">Immediate Alert</div>
+      <div slot="message">We thought you might want to take a look</div>
+    </calcite-alert>
+    <calcite-alert id="three" kind="success">
+      <div slot="title">Third Alert</div>
+      <div slot="message">We thought you might want to take a look</div>
+    </calcite-alert>
+    <script>
+      setTimeout(() => {
+        document.querySelector("#two").open = true;
+      }, 100);
+      setTimeout(() => {
+        document.querySelector("#three").open = true;
+      }, 250);
+    </script>
   </div>
 `;

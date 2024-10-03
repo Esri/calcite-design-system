@@ -1,4 +1,6 @@
 {
   "expand": "Expandir",
-  "collapse": "Contraer"
+  "collapse": "Contraer",
+  "expandLabel": "Expandir",
+  "collapseLabel": "Contraer"
 }

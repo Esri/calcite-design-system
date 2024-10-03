@@ -1,40 +1,50 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { RadioButton } from "./radio-button";
+const { scale } = ATTRIBUTES;
+
+interface RadioButtonStoryArgs extends Pick<RadioButton, "checked" | "disabled" | "focused" | "scale" | "label"> {
+  hidden: boolean;
+}
 
 export default {
   title: "Components/Controls/Radio/Radio Button",
+  args: {
+    checked: false,
+    disabled: false,
+    hidden: false,
+    focused: false,
+    scale: scale.defaultValue,
+    label: "Radio Button",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: RadioButtonStoryArgs): string => html`
   <calcite-label layout="inline">
     <calcite-radio-button
-      ${boolean("checked", false)}
-      ${boolean("disabled", false)}
-      ${boolean("hidden", false)}
-      ${boolean("focused", false)}
+      ${boolean("checked", args.checked)}
+      ${boolean("disabled", args.disabled)}
+      ${boolean("hidden", args.hidden)}
+      ${boolean("focused", args.focused)}
       name="simple"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
+      scale="${args.scale}"
       value="value"
     ></calcite-radio-button>
-    ${text("label", "Radio Button")}
+    ${args.label}
   </calcite-label>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-label layout="inline" class="calcite-mode-dark" dir="rtl">
-    <calcite-radio-button
-      ${boolean("checked", false)}
-      ${boolean("disabled", false)}
-      ${boolean("hidden", false)}
-      ${boolean("focused", false)}
-      name="dark"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="value"
-    >
-    </calcite-radio-button>
-    ${text("label", "Radio Button")}
+    <calcite-radio-button name="dark" scale="m" value="value"> </calcite-radio-button>
+    Radio Button
   </calcite-label>
 `;
 

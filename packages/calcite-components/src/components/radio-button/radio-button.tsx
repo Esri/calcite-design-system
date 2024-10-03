@@ -22,8 +22,6 @@ import {
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -188,9 +186,11 @@ export class RadioButton
   };
 
   queryButtons = (): HTMLCalciteRadioButtonElement[] => {
-    return Array.from(this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])")).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
-    ) as HTMLCalciteRadioButtonElement[];
+    return Array.from(
+      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
+        "calcite-radio-button:not([hidden])",
+      ),
+    ).filter((radioButton) => radioButton.name === this.name);
   };
 
   isFocusable = (): boolean => {
@@ -406,10 +406,10 @@ export class RadioButton
     }
 
     const radioButtons = Array.from(
-      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])"),
-    ).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
-    ) as HTMLCalciteRadioButtonElement[];
+      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
+        "calcite-radio-button:not([hidden])",
+      ),
+    ).filter((radioButton) => radioButton.name === this.name);
     let currentIndex = 0;
 
     const radioButtonsLength = radioButtons.length;
@@ -464,7 +464,6 @@ export class RadioButton
     if (this.name) {
       this.checkLastRadioButton();
     }
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
@@ -483,7 +482,6 @@ export class RadioButton
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
@@ -510,10 +508,9 @@ export class RadioButton
             class={CSS.container}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
+            ref={this.setContainerEl}
             role="radio"
             tabIndex={tabIndex}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setContainerEl}
           >
             <div class="radio" />
           </div>

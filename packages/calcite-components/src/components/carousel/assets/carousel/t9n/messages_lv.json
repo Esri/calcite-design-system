@@ -1,8 +1,8 @@
 {
   "previous": "Iepriekšējais",
   "next": "Tālāk",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "Atskaņot",
+  "pause": "Pauze",
+  "carousel": "Karuselis",
+  "carouselItemProgress": "Progresa indikators karuseļa vienībai"
 }

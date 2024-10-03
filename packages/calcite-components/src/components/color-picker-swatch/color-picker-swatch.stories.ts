@@ -1,16 +1,20 @@
-import { boolean, text } from "../../../.storybook/fake-knobs";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ColorPickerSwatch } from "./color-picker-swatch";
+
+type ColorPickerSwatchStoryArgs = Pick<ColorPickerSwatch, "active" | "color">;
 
 export default {
   title: "Components/Controls/ColorPicker/support/ColorPickerSwatch",
+  args: {
+    active: true,
+    color: "#b33f33",
+  },
 };
 
-export const simple = (): string =>
-  html`<calcite-color-picker-swatch
-    active="${boolean(" active", false)}"
-    color="${text(" color", "#b33f33")}"
-  ></calcite-color-picker-swatch>`;
+export const simple = (args: ColorPickerSwatchStoryArgs): string => html`
+  <calcite-color-picker-swatch ${boolean("active", args.active)} color="${args.color}"></calcite-color-picker-swatch>
+`;
 
 export const active_TestOnly = (): string =>
   html`<calcite-color-picker-swatch active color="#c00f33"></calcite-color-picker-swatch>`;

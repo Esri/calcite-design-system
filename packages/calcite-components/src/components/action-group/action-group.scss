@@ -3,9 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-group-columns: Sets number of grid-template-columns when the `layout` property is `"grid"`.
- * @prop --calcite-action-group-gap: Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`.
- * @prop --calcite-action-group-padding: Sets the padding when the `layout` property is `"grid"`.
+ * @prop --calcite-action-background-color: Specifies the component's background color.
+ * @prop --calcite-action-group-border-color: Specifies the component's border color when used in a calcite-action-bar or calcite-action-menu.
+ * @prop --calcite-action-group-columns: Specifies the component's grid-template-columns when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-gap: Specifies the component's gap  when the `layout` property is `"grid" and padding`.
+ * @prop --calcite-action-group-padding: [Deprecated] Use --calcite-action-group-gap. Specifies the component's padding.
+ *
  */
 
 :host {
@@ -15,9 +18,10 @@
   flex-col
   p-0;
 
-  --calcite-action-group-columns: 3;
-  --calcite-action-group-gap: theme("gap.px");
-  --calcite-action-group-padding: theme("padding.px");
+  background-color: transparent;
+  border-color: var(--calcite-action-group-border-color, var(--calcite-color-border-3));
+  border-style: solid;
+  border-width: 0;
 }
 
 .container {
@@ -25,22 +29,22 @@
 }
 
 :host([columns="1"]) {
-  --calcite-action-group-columns: 1;
+  --calcite-internal-action-group-columns: 1;
 }
 :host([columns="2"]) {
-  --calcite-action-group-columns: 2;
+  --calcite-internal-action-group-columns: 2;
 }
 :host([columns="3"]) {
-  --calcite-action-group-columns: 3;
+  --calcite-internal-action-group-columns: 3;
 }
 :host([columns="4"]) {
-  --calcite-action-group-columns: 4;
+  --calcite-internal-action-group-columns: 4;
 }
 :host([columns="5"]) {
-  --calcite-action-group-columns: 5;
+  --calcite-internal-action-group-columns: 5;
 }
 :host([columns="6"]) {
-  --calcite-action-group-columns: 6;
+  --calcite-internal-action-group-columns: 6;
 }
 
 :host(:first-child) {
@@ -54,15 +58,18 @@
 
 :host([layout="grid"]) {
   @apply grid;
-}
 
-:host([layout="grid"]) .container {
-  @apply bg-background
-  grid
-  place-content-stretch;
-  gap: var(--calcite-action-group-gap);
-  padding: var(--calcite-action-group-gap);
-  grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
+  .container {
+    @apply grid
+    place-content-stretch;
+    background-color: transparent;
+    grid-template-columns: repeat(
+      var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
+      auto
+    );
+    gap: var(--calcite-action-group-gap, 1px);
+    padding: var(--calcite-action-group-gap, 1px);
+  }
 }
 
 @include base-component();

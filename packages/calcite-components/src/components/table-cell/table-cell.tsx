@@ -14,8 +14,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -159,7 +157,6 @@ export class TableCell
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    connectInteractive(this);
   }
 
   componentDidRender(): void {
@@ -169,7 +166,6 @@ export class TableCell
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------
@@ -226,7 +222,6 @@ export class TableCell
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <td
-            aria-disabled={this.disabled}
             class={{
               [CSS.footerCell]: this.parentRowType === "foot",
               [CSS.contentCell]: !this.numberCell && !this.selectionCell,
@@ -242,18 +237,13 @@ export class TableCell
             colSpan={this.colSpan}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
+            ref={(el) => (this.containerEl = el)}
             role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
             rowSpan={this.rowSpan}
             tabIndex={staticCell ? -1 : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.containerEl = el)}
           >
             {(this.selectionCell || this.readCellContentsToAT) && (
-              <span
-                aria-hidden={true}
-                aria-live={this.focused ? "polite" : "off"}
-                class={CSS.assistiveText}
-              >
+              <span aria-live={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
                 {this.selectionCell && this.selectionText}
                 {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
               </span>

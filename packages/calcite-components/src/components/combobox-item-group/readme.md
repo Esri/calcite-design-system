@@ -17,6 +17,20 @@ For comprehensive guidance on using and implementing `calcite-combobox-item-grou
 | ---- | ------------------------------------------- |
 |      | A slot for adding `calcite-combobox-item`s. |
 
+## Dependencies
+
+### Used by
+
+- [calcite-input-time-zone](../input-time-zone)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-input-time-zone --> calcite-combobox-item-group
+  style calcite-combobox-item-group fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ---
 
 *Built with [StencilJS](https://stenciljs.com/)*

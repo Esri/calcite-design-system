@@ -40,7 +40,7 @@ export class DropdownGroup {
    *
    * @internal
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the selection mode of the component, where:
@@ -104,7 +104,6 @@ export class DropdownGroup {
         <div
           class={{
             [CSS.container]: true,
-            [`${CSS.container}--${this.scale}`]: true,
           }}
         >
           {dropdownSeparator}

@@ -221,6 +221,25 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
+.pagination-item--individual {
+  @apply w-0 p-0 opacity-0 pointer-events-none;
+  visibility: hidden;
+  transition:
+    var(--calcite-animation-timing) ease-in-out inline-size,
+    var(--calcite-animation-timing) ease-in-out padding,
+    var(--calcite-animation-timing) ease-in-out opacity;
+
+  &.pagination-item--visible {
+    @apply w-8 opacity-100 pointer-events-auto;
+    visibility: visible;
+  }
+}
+
+.pagination-item--range-edge calcite-icon {
+  scale: 0.75;
+  transition: var(--calcite-animation-timing) ease-in-out scale;
+}
+
 .container--overlaid .pagination-item {
   background-color: var(--calcite-internal-internal-carousel-item-background-color);
   &:hover {

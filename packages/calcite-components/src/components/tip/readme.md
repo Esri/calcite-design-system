@@ -4,21 +4,7 @@ For comprehensive guidance on using and implementing `calcite-tip`, refer to the
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-Renders a close-disabled tip with a heading, thumbnail, info and a link.
-
-```html
-<calcite-tip close-disabled heading="Kittens">
-  <img slot="thumbnail" src="my-thumbnail.png" alt="" />
-  <p>
-    Did you know that kittens are born with their eyes shut and ears folded? They start to open their eyes and unfold
-    their ears after about a week.
-  </p>
-</calcite-tip>
-```
+> **[DEPRECATED]** Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
 
 ## Properties
 

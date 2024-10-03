@@ -1,8 +1,8 @@
 {
   "previous": "קודם",
   "next": "הבא",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "הפעל",
+  "pause": "השהה",
+  "carousel": "קרוסלה",
+  "carouselItemProgress": "מחוון התקדמות עבור פריט קרוסלה"
 }

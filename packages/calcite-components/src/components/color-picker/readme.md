@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-color-picker`, ref
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-color-picker dir="ltr" scale="m" value="#b33f33"></calcite-color-picker>
-```
-
 ## Properties
 
 | Property           | Attribute           | Description                                                                                                                                                                                                                                                          | Type                                                                                                                                       | Default                                                           |

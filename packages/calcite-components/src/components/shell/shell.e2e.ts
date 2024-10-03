@@ -121,4 +121,22 @@ describe("calcite-shell", () => {
     const panelTop = await contentNode.find(`slot[name="${SLOTS.panelTop}"]`);
     expect(panelTop).toBeNull();
   });
+
+  it("should position panel-bottom slot at content's bottom when no other panels exist", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-shell>
+        <calcite-shell-panel slot="${SLOTS.panelBottom}" display-mode="float" layout="horizontal">
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+      </calcite-shell>`,
+    );
+
+    await page.waitForChanges();
+
+    const contentBottom = await page.find(`calcite-shell >>> .${CSS.contentBottom}`);
+
+    expect(contentBottom).not.toBeNull();
+  });
 });

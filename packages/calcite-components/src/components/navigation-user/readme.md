@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-navigation-user`, 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-navigation-user full-name="Jhon Doe" user-id="Jhon123" active></calcite-navigation-user>
-```
-
 ## Properties
 
 | Property       | Attribute       | Description                                                                                                              | Type      | Default     |

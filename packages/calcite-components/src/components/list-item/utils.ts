@@ -1,4 +1,4 @@
-import { Build } from "@stencil/core";
+import { isBrowser } from "../../utils/browser";
 
 const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
@@ -6,24 +6,24 @@ const listItemSelector = "calcite-list-item";
 
 export function getListItemChildLists(slotEl: HTMLSlotElement): HTMLCalciteListElement[] {
   return Array.from(
-    slotEl.assignedElements({ flatten: true }).filter((el) => el.matches(listSelector)),
-  ) as HTMLCalciteListElement[];
+    slotEl.assignedElements({ flatten: true }).filter((el): el is HTMLCalciteListElement => el.matches(listSelector)),
+  );
 }
 
 export function getListItemChildren(slotEl: HTMLSlotElement): HTMLCalciteListItemElement[] {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
-  const listItemGroupChildren = (
-    assignedElements.filter((el) => el?.matches(listItemGroupSelector)) as HTMLCalciteListItemGroupElement[]
-  )
+  const listItemGroupChildren = assignedElements
+    .filter((el): el is HTMLCalciteListItemGroupElement => el?.matches(listItemGroupSelector))
     .map((group) => Array.from(group.querySelectorAll(listItemSelector)))
     .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
-  const listItemChildren = assignedElements.filter((el) =>
+  const listItemChildren = assignedElements.filter((el): el is HTMLCalciteListItemElement =>
     el?.matches(listItemSelector),
-  ) as HTMLCalciteListItemElement[];
+  );
 
-  const listItemListChildren = (assignedElements.filter((el) => el?.matches(listSelector)) as HTMLCalciteListElement[])
+  const listItemListChildren = assignedElements
+    .filter((el): el is HTMLCalciteListElement => el?.matches(listSelector))
     .map((list) => Array.from(list.querySelectorAll(listItemSelector)))
     .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
@@ -38,7 +38,7 @@ export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElem
 }
 
 export function getDepth(element: HTMLElement, includeGroup = false): number {
-  if (!Build.isBrowser) {
+  if (!isBrowser()) {
     return 0;
   }
 

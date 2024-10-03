@@ -115,9 +115,9 @@
 }
 
 /* helper to properly scale internal durations */
-@function scaleDuration($animationVar, $factor) {
+@function scale-duration($animation-var, $factor) {
   @return calc(
-    calc(var($animationVar) / var(--calcite-internal-duration-factor)) *
+    calc(var($animation-var) / var(--calcite-internal-duration-factor)) *
       calc($factor / var(--calcite-internal-duration-factor))
   );
 }

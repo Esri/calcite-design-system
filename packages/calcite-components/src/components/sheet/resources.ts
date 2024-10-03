@@ -3,5 +3,5 @@ export const CSS = {
   container: "container",
   containerOpen: "container--open",
   content: "content",
-  containerSlottedInShell: "container--slotted-in-shell",
+  containerEmbedded: "container--embedded",
 };

@@ -4,7 +4,7 @@ For comprehensive guidance on using and implementing `calcite-value-list-item`, 
 
 <!-- Auto Generated Below -->
 
-> **[DEPRECATED]** Use the `list` component instead.
+> **[DEPRECATED]** Use the `calcite-list` component instead.
 
 ## Properties
 

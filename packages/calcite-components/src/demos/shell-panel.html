@@ -14,8 +14,8 @@
         },
       };
     </script>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.15/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/next/"></script>
     <style>
       html,
       body,
@@ -137,8 +137,9 @@
                 <calcite-block open heading="Preview display-mode">
                   <calcite-chip-group id="chip-group-panel-start" selection-mode="single-persist">
                     <calcite-chip selected value="dock">dock</calcite-chip>
-                    <calcite-chip value="float">float</calcite-chip>
+                    <calcite-chip value="float-content">float content</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
+                    <calcite-chip value="float-all">float all</calcite-chip>
                   </calcite-chip-group>
                   <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
@@ -183,8 +184,9 @@
                 <calcite-block open heading="Preview display-mode">
                   <calcite-chip-group id="chip-group-panel-end" selection-mode="single-persist">
                     <calcite-chip selected value="dock">dock</calcite-chip>
-                    <calcite-chip value="float">float</calcite-chip>
+                    <calcite-chip value="float-content">float content</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
+                    <calcite-chip value="float-all">float all</calcite-chip>
                   </calcite-chip-group>
                   <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
@@ -217,8 +219,14 @@
                 <calcite-block open heading="Preview display-mode">
                   <calcite-chip-group id="chip-group-panel-top" selection-mode="single-persist">
                     <calcite-chip selected value="dock">dock</calcite-chip>
+                    <calcite-chip value="float-content">float content</calcite-chip>
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
+                    <calcite-chip value="float-all">float all</calcite-chip>
+                  </calcite-chip-group>
+                  <calcite-chip-group id="chip-layout-panel-top" selection-mode="single-persist">
+                    <calcite-chip value="vertical">Vertical</calcite-chip>
+                    <calcite-chip selected value="horizontal">Horizontal</calcite-chip>
                   </calcite-chip-group>
                   <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
@@ -251,8 +259,9 @@
                 <calcite-block open heading="Preview display-mode">
                   <calcite-chip-group id="chip-group-panel-bottom" selection-mode="single-persist">
                     <calcite-chip selected value="dock">dock</calcite-chip>
-                    <calcite-chip value="float">float</calcite-chip>
+                    <calcite-chip value="float-content">float content</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
+                    <calcite-chip value="float-all">float all</calcite-chip>
                   </calcite-chip-group>
                   <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
@@ -295,6 +304,13 @@
               const prop = event.target.selectedItems[0].value;
               shellPanel.displayMode = prop;
             });
+          });
+
+          const chipsLayout = document.getElementById("chip-layout-panel-top");
+          chipsLayout.addEventListener("calciteChipGroupSelect", function (event) {
+            const shellPanel = event.target.closest("calcite-shell-panel");
+            const prop = event.target.selectedItems[0].value;
+            shellPanel.layout = prop;
           });
 
           const panelTop = document.getElementById("panel-top");

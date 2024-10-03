@@ -4,66 +4,6 @@ For comprehensive guidance on using and implementing `calcite-block`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Always-open
-
-Renders a header and content that remains open - no collapsible option.
-
-```html
-<calcite-block heading="Dogs" open>
-  <ul>
-    <li>The first species to be domesticated</li>
-    <li>Domesticated from wolves over 15,000 years ago</li>
-    <li>Adapted to human behavior performing many roles such as hunting, protection, military, therapy, etc.</li>
-  </ul>
-</calcite-block>
-```
-
-### Basic
-
-Renders a basic, non-collapsible block.
-
-```html
-<calcite-block heading="Fruit" description="It's nature's candy"> </calcite-block>
-```
-
-### Collapsible
-
-Renders a header with a clickable icon to toggle the block open and closed.
-
-```html
-<calcite-block heading="Domestic pets" open collapsible>
-  <calcite-block-section text="Dogs" open>
-    <ul>
-      <li>The first species to be domesticated</li>
-      <li>Domesticated from wolves over 15,000 years ago</li>
-      <li>Adapted to human behavior performing many roles such as hunting, protection, military, therapy, etc.</li>
-    </ul>
-  </calcite-block-section>
-</calcite-block>
-```
-
-### Header-with-control
-
-Renders a header and control with a slot for adding a single HTML element (in the header).
-
-```html
-<calcite-block heading="A fantastic heading" description="Add a control, such as an editing action">
-  <calcite-action icon="pencil" text="edit" slot="control"></calcite-action>
-</calcite-block>
-```
-
-### Header-with-icon
-
-Renders a header and icon with the icon.
-
-```html
-<calcite-block heading="Dogs">
-  <div slot="icon">🐕</div>
-</calcite-block>
-```
-
 ## Properties
 
 | Property               | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                             | Default      |
@@ -74,11 +14,14 @@ Renders a header and icon with the icon.
 | `dragHandle`           | `drag-handle`         | When `true`, displays a drag handle in the header.                                                                                                                                                                                                                                                                                                                          | `boolean`                        | `false`      |
 | `heading` *(required)* | `heading`             | The component header text.                                                                                                                                                                                                                                                                                                                                                  | `string`                         | `undefined`  |
 | `headingLevel`         | `heading-level`       | Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.                                                                                                                                                                                                                                                   | `1 \| 2 \| 3 \| 4 \| 5 \| 6`     | `undefined`  |
+| `iconEnd`              | `icon-end`            | Specifies an icon to display at the end of the component.                                                                                                                                                                                                                                                                                                                   | `string`                         | `undefined`  |
+| `iconFlipRtl`          | `icon-flip-rtl`       | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).                                                                                                                                                                                                                                                                 | `"both" \| "end" \| "start"`     | `undefined`  |
+| `iconStart`            | `icon-start`          | Specifies an icon to display at the start of the component.                                                                                                                                                                                                                                                                                                                 | `string`                         | `undefined`  |
 | `loading`              | `loading`             | When `true`, a busy indicator is displayed.                                                                                                                                                                                                                                                                                                                                 | `boolean`                        | `false`      |
 | `messageOverrides`     | `message-overrides`   | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `BlockMessages`                  | `undefined`  |
 | `open`                 | `open`                | When `true`, expands the component and its contents.                                                                                                                                                                                                                                                                                                                        | `boolean`                        | `false`      |
 | `overlayPositioning`   | `overlay-positioning` | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`          | `"absolute"` |
-| `status`               | `status`              | Displays a status-related indicator icon.                                                                                                                                                                                                                                                                                                                                   | `"idle" \| "invalid" \| "valid"` | `undefined`  |
+| `status`               | `status`              | <span style="color:red">**[DEPRECATED]**</span> Use `icon-start` instead.<br/><br/>Displays a status-related indicator icon.                                                                                                                                                                                                                                                | `"idle" \| "invalid" \| "valid"` | `undefined`  |
 
 ## Events
 
@@ -102,12 +45,14 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                    | Description                                                                       |
-| ----------------------- | --------------------------------------------------------------------------------- |
-|                         | A slot for adding custom content.                                                 |
-| `"control"`             | A slot for adding a single HTML input element in a header.                        |
-| `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu. |
-| `"icon"`                | A slot for adding a leading header icon with `calcite-icon`.                      |
+| Slot                    | Description                                                                                                                               |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+|                         | A slot for adding custom content.                                                                                                         |
+| `"actions-end"`         | A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions. |
+| `"content-start"`       | A slot for adding non-actionable elements before content of the component.                                                                |
+| `"control"`             | [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.                                        |
+| `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.                                                         |
+| `"icon"`                | [Deprecated] A slot for adding a leading header icon with `calcite-icon`. Use `icon-start` instead.                                       |
 
 ## CSS Custom Properties
 

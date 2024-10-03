@@ -5,6 +5,7 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
+  handlesActionMenuPlacements,
   hidden,
   reflects,
   renders,
@@ -13,6 +14,8 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
+import { skipAnimations } from "../../tests/utils";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
@@ -42,6 +45,14 @@ describe("calcite-block", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: defaultEndMenuPlacement,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -62,6 +73,10 @@ describe("calcite-block", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
       },
     ]);
   });
@@ -132,6 +147,15 @@ describe("calcite-block", () => {
     );
   });
 
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-block heading="heading" description="description">
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+        <div class="content">content</div>
+      </calcite-block>
+    `);
+  });
+
   it("has a loading state", async () => {
     const page = await newE2EPage({
       html: `
@@ -189,6 +213,7 @@ describe("calcite-block", () => {
     const heading = "heading";
     const page = await newE2EPage();
     await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
+    await skipAnimations(page);
     const messages = await import(`./assets/block/t9n/messages.json`);
 
     const element = await page.find("calcite-block");
@@ -251,6 +276,7 @@ describe("calcite-block", () => {
           <div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div>
         </calcite-block>
       `);
+      await skipAnimations(page);
       const control = await page.find(".nested-control");
       expect(await control.isVisible()).toBe(true);
 
@@ -322,6 +348,29 @@ describe("calcite-block", () => {
 
       const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
       expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
+    });
+
+    it("applies correct header spacing when heading or description properties are present", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(`<calcite-block></calcite-block>`);
+
+      const block = await page.find("calcite-block");
+      const header = await page.find(`calcite-block >>> .${CSS.header}`);
+      block.setAttribute("heading", "test-heading");
+      await page.waitForChanges();
+
+      expect(header).toHaveClass(CSS.headerHasText);
+
+      block.removeAttribute("heading");
+      await page.waitForChanges();
+
+      expect(header).not.toHaveClass(CSS.headerHasText);
+
+      block.setAttribute("description", "test-description");
+      await page.waitForChanges();
+
+      expect(header).toHaveClass(CSS.headerHasText);
     });
   });
 

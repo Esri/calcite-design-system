@@ -1,0 +1,7 @@
+node_modules
+/build
+/*.log
+src/assets
+!src/assets/icons
+!src/assets/favicon.ico
+!src/assets/preact*

@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-segmented-control-item", () => {
   describe("renders", () => {
@@ -35,21 +36,11 @@ describe("calcite-segmented-control-item", () => {
     expect(value).toBe("test-value");
   });
 
-  it("uses value as fallback label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-segmented-control-item value='test-value' checked></calcite-segmented-control-item>",
-    );
-
-    const label = await page.find("calcite-segmented-control-item >>> label");
-    expect(label).toEqualText("test-value");
-  });
-
   it("renders icon at start if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-segmented-control-item icon-start="car">Content</calcite-accordion-item>`);
-    const icon = await page.find("calcite-segmented-control-item >>> .segmented-control-item-icon");
+    const icon = await page.find(`calcite-segmented-control-item >>> .${CSS.icon}`);
     expect(icon).not.toBe(null);
   });
 
@@ -57,7 +48,7 @@ describe("calcite-segmented-control-item", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-segmented-control-item>Content</calcite-accordion-item>`);
-    const icon = await page.find("calcite-segmented-control-item >>> .segmented-control-item-icon");
+    const icon = await page.find(`calcite-segmented-control-item >>> .${CSS.icon}`);
     expect(icon).toBe(null);
   });
 

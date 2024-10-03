@@ -492,5 +492,41 @@ describe("calcite-tile-group", () => {
 
       await selectedItemAsserter([]);
     });
+
+    it("single selection mode allows only one tile with selected attribute", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tile-group label="test-label" selection-mode="single">
+          <calcite-tile id="item-1" selected label="test-label"></calcite-tile>
+          <calcite-tile id="item-2" selected label="test-label"></calcite-tile>
+          <calcite-tile id="item-3" selected label="test-label"></calcite-tile>
+        </calcite-tile-group>
+      `);
+      await page.waitForChanges();
+      const item1 = await page.find("#item-1");
+      const item2 = await page.find("#item-2");
+      const item3 = await page.find("#item-3");
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(await item2.getProperty("selected")).toBe(false);
+      expect(await item3.getProperty("selected")).toBe(true);
+    });
+
+    it("single-persist selection mode allows only one tile with selected attribute", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tile-group label="test-label" selection-mode="single-persist">
+          <calcite-tile id="item-1" selected label="test-label"></calcite-tile>
+          <calcite-tile id="item-2" selected label="test-label"></calcite-tile>
+          <calcite-tile id="item-3" selected label="test-label"></calcite-tile>
+        </calcite-tile-group>
+      `);
+      await page.waitForChanges();
+      const item1 = await page.find("#item-1");
+      const item2 = await page.find("#item-2");
+      const item3 = await page.find("#item-3");
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(await item2.getProperty("selected")).toBe(false);
+      expect(await item3.getProperty("selected")).toBe(true);
+    });
   });
 });

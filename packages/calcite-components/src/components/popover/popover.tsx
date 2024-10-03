@@ -16,8 +16,8 @@ import {
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
@@ -119,9 +119,9 @@ export class Popover
   @Prop({ reflect: true }) pointerDisabled = false;
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -253,7 +253,7 @@ export class Popover
     this.updateFocusTrapElements(),
   );
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   @State() effectiveLocale = "";
 
@@ -268,7 +268,7 @@ export class Popover
 
   @State() defaultMessages: PopoverMessages;
 
-  arrowEl: SVGElement;
+  arrowEl: SVGSVGElement;
 
   closeButtonEl: HTMLCalciteActionElement;
 
@@ -289,15 +289,15 @@ export class Popover
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    this.setUpReferenceElement(this.hasLoaded);
     connectFocusTrap(this);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+
+    // we set up the ref element in the next frame to ensure PopoverManager
+    // event handlers are invoked after connect (mainly for `components` output target)
+    requestAnimationFrame(() => this.setUpReferenceElement(this.hasLoaded));
   }
 
   async componentWillLoad(): Promise<void> {
@@ -310,11 +310,15 @@ export class Popover
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
     this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.removeReferences();
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -414,7 +418,7 @@ export class Popover
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -513,7 +517,7 @@ export class Popover
     deactivateFocusTrap(this);
   }
 
-  storeArrowEl = (el: SVGElement): void => {
+  storeArrowEl = (el: SVGSVGElement): void => {
     this.arrowEl = el;
     this.reposition(true);
   };
@@ -532,10 +536,9 @@ export class Popover
           appearance="transparent"
           class={CSS.closeButton}
           onClick={this.hide}
+          ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
           scale={this.scale}
           text={messages.close}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         >
           <calcite-icon icon="x" scale={getIconScale(this.scale)} />
         </calcite-action>
@@ -565,12 +568,7 @@ export class Popover
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
-      <FloatingArrow
-        floatingLayout={floatingLayout}
-        key="floating-arrow"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.storeArrowEl}
-      />
+      <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.storeArrowEl} />
     ) : null;
 
     return (
@@ -584,17 +582,17 @@ export class Popover
       >
         <div
           class={{
+            [CSS.container]: true,
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           {arrowNode}
           <div
             class={{
               [CSS.hasHeader]: !!heading,
-              [CSS.container]: true,
+              [CSS.headerContainer]: true,
             }}
           >
             {this.renderHeader()}

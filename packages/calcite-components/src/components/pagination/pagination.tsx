@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -137,10 +136,6 @@ export class Pagination
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
-  }
-
-  @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
@@ -447,17 +442,19 @@ export class Pagination
     const selected = start === this.startItem;
 
     return (
-      <button
-        aria-current={selected ? "page" : "false"}
-        class={{
-          [CSS.page]: true,
-          [CSS.selected]: selected,
-        }}
-        onClick={this.handlePageClick}
-        value={start}
-      >
-        {displayedPage}
-      </button>
+      <li class={CSS.listItem}>
+        <button
+          aria-current={selected ? "page" : "false"}
+          class={{
+            [CSS.page]: true,
+            [CSS.selected]: selected,
+          }}
+          onClick={this.handlePageClick}
+          value={start}
+        >
+          {displayedPage}
+        </button>
+      </li>
     );
   }
 
@@ -550,13 +547,13 @@ export class Pagination
 
   render(): VNode {
     return (
-      <Fragment>
-        {this.renderFirstChevron()}
-        {this.renderPreviousChevron()}
+      <ul class={CSS.list}>
+        <li class={CSS.listItem}>{this.renderFirstChevron()}</li>
+        <li class={CSS.listItem}>{this.renderPreviousChevron()}</li>
         {this.renderItems()}
-        {this.renderNextChevron()}
-        {this.renderLastChevron()}
-      </Fragment>
+        <li class={CSS.listItem}>{this.renderNextChevron()}</li>
+        <li class={CSS.listItem}>{this.renderLastChevron()}</li>
+      </ul>
     );
   }
 }

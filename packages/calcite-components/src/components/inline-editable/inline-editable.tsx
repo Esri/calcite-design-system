@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -129,7 +127,6 @@ export class InlineEditable
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    connectInteractive(this);
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
@@ -147,7 +144,6 @@ export class InlineEditable
   }
 
   disconnectedCallback() {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -178,14 +174,13 @@ export class InlineEditable
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
+              ref={(el) => (this.enableEditingButton = el)}
               scale={this.scale}
               style={{
                 opacity: this.editingEnabled ? "0" : "1",
                 width: this.editingEnabled ? "0" : "inherit",
               }}
               type="button"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.enableEditingButton = el)}
             />
             {this.shouldShowControls && [
               <div class={CSS.cancelEditingButtonWrapper}>
@@ -197,10 +192,9 @@ export class InlineEditable
                   kind="neutral"
                   label={this.messages.cancelEditing}
                   onClick={this.cancelEditingHandler}
+                  ref={(el) => (this.cancelEditingButton = el)}
                   scale={this.scale}
                   type="button"
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={(el) => (this.cancelEditingButton = el)}
                 />
               </div>,
               <calcite-button
@@ -212,10 +206,9 @@ export class InlineEditable
                 label={this.messages.confirmChanges}
                 loading={this.loading}
                 onClick={this.confirmChangesHandler}
+                ref={(el) => (this.confirmEditingButton = el)}
                 scale={this.scale}
                 type="button"
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={(el) => (this.confirmEditingButton = el)}
               />,
             ]}
           </div>
@@ -415,6 +408,7 @@ export class InlineEditable
         this.enableEditingButton.setFocus();
       }
     } catch (error) {
+      // we handle error in finally block
     } finally {
       this.loading = false;
     }

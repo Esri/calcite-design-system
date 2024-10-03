@@ -1,0 +1,21 @@
+<div *ngIf="isLoading; else content">
+  <calcite-loader label="Loading..."></calcite-loader>
+</div>
+
+<ng-template #content>
+  <h1>
+    Calcite Components Angular Example
+    <calcite-icon icon="banana"></calcite-icon>
+  </h1>
+
+  <calcite-slider
+    min="1"
+    max="100"
+    [value]="sliderValue"
+    (calciteSliderInput)="onSliderInput($event)"
+  ></calcite-slider>
+
+  <p>The slider currently has a value of {{ sliderValue }}.</p>
+
+  <calcite-button (click)="clearSliderValue()">Clear</calcite-button>
+</ng-template>

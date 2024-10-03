@@ -55,9 +55,7 @@
     border-t-2
     border-solid
     no-underline
-    outline-none
-    duration-150
-    ease-in-out;
+    outline-none;
 }
 
 // focus styles
@@ -75,7 +73,6 @@
 
 :host .stepper-item-content,
 :host .stepper-item-header {
-  @apply duration-150 ease-in-out;
   padding-block: var(--calcite-stepper-item-spacing-unit-l);
   padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
   text-align: start;
@@ -83,9 +80,7 @@
 
 :host .stepper-item-header * {
   @apply inline-flex
-    items-center
-    duration-150
-    ease-in-out;
+    items-center;
 }
 
 :host .stepper-item-content {
@@ -104,9 +99,7 @@
     inline-flex
     h-3
     flex-shrink-0
-    self-start
-    duration-150
-    ease-in-out;
+    self-start;
 }
 
 // stepper item title
@@ -129,9 +122,7 @@
 
 :host .stepper-item-number {
   @apply text-color-3
-    font-medium
-    duration-150
-    ease-in-out;
+    font-medium;
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
 }
 
@@ -195,6 +186,10 @@
   & .stepper-item-content {
     @apply flex;
   }
+}
+
+:host([layout="vertical"]) {
+  @apply w-full;
 }
 
 :host([layout="vertical"]) .container {
@@ -273,12 +268,6 @@
     padding-block: 0;
     padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
     text-align: start;
-  }
-}
-
-:host([layout="vertical"]) {
-  .stepper-item-header:focus {
-    @apply duration-0;
   }
 }
 

@@ -13,8 +13,6 @@ import {
 import { dateToISO } from "../../utils/date";
 import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -147,10 +145,7 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(
-      this.el,
-      "calcite-date-picker",
-    ) as HTMLCalciteDatePickerElement;
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   componentDidLoad(): void {
@@ -186,7 +181,6 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
     return (
       <Host
-        aria-disabled={toAriaBoolean(this.disabled)}
         aria-label={dayLabel}
         aria-selected={toAriaBoolean(this.active)}
         id={dayId}
@@ -208,16 +202,8 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
     );
   }
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------

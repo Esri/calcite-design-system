@@ -1,0 +1,5 @@
+.DS_Store
+node_modules
+public/assets/
+public/*.js
+public/*.js.map

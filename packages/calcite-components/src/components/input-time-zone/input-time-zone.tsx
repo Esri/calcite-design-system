@@ -46,14 +46,18 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
+  getNormalizer,
+  getSelectedRegionTimeZoneLabel,
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { TimeZoneItem, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -134,14 +138,32 @@ export class InputTimeZone
   @Watch("mode")
   @Watch("referenceDate")
   handleTimeZoneItemPropsChange(): void {
-    this.updateTimeZoneItemsAndSelection();
+    if (!this.timeZoneItems) {
+      return;
+    }
+
+    this.updateTimeZoneItems();
+    this.updateTimeZoneSelection();
   }
+
+  /**
+   * Specifies how the offset will be displayed, where
+   *
+   * `"user"` uses `UTC` or `GMT` depending on the user's locale,
+   * `"gmt"` always uses `GMT`, and
+   * `"utc"` always uses `UTC`.
+   *
+   * This only applies to the `offset` mode.
+   *
+   * @default "user"
+   */
+  @Prop({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
   /** Specifies the validation message to display under the component. */
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -173,6 +195,12 @@ export class InputTimeZone
 
   /** When `true`, displays and positions the component. */
   @Prop({ mutable: true, reflect: true }) open = false;
+
+  @Watch("open")
+  openChanged(): void {
+    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    this.comboboxEl.open = this.open;
+  }
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -219,9 +247,15 @@ export class InputTimeZone
   handleValueChange(value: string, oldValue: string): void {
     value = this.normalizeValue(value);
 
-    if (!value && this.clearable) {
-      this.value = value;
-      this.selectedTimeZoneItem = null;
+    if (!value) {
+      if (this.clearable) {
+        this.value = value;
+        this.selectedTimeZoneItem = null;
+        return;
+      }
+
+      this.value = oldValue;
+      this.selectedTimeZoneItem = this.findTimeZoneItem(oldValue);
       return;
     }
 
@@ -233,6 +267,9 @@ export class InputTimeZone
     }
 
     this.selectedTimeZoneItem = timeZoneItem;
+    requestAnimationFrame(() => {
+      this.overrideSelectedLabelForRegion(this.open);
+    });
   }
 
   /**
@@ -310,7 +347,7 @@ export class InputTimeZone
 
   private selectedTimeZoneItem: TimeZoneItem;
 
-  private timeZoneItems: TimeZoneItem[];
+  private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
 
   //--------------------------------------------------------------------------
   //
@@ -326,13 +363,37 @@ export class InputTimeZone
     this.comboboxEl = el;
   };
 
+  /**
+   * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
+   *
+   * @param open
+   * @private
+   */
+  private overrideSelectedLabelForRegion(open: boolean): void {
+    if (this.mode !== "region" || !this.selectedTimeZoneItem || !this.comboboxEl?.selectedItems) {
+      return;
+    }
+
+    const { label, metadata } = this.selectedTimeZoneItem;
+
+    requestAnimationFrame(() => {
+      const itemLabel =
+        !metadata.country || open
+          ? label
+          : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+      this.comboboxEl.selectedItems[0].textLabel = itemLabel;
+    });
+  }
+
   private onComboboxBeforeClose = (event: CustomEvent): void => {
     event.stopPropagation();
+    this.overrideSelectedLabelForRegion(false);
     this.calciteInputTimeZoneBeforeClose.emit();
   };
 
   private onComboboxBeforeOpen = (event: CustomEvent): void => {
     event.stopPropagation();
+    this.overrideSelectedLabelForRegion(true);
     this.calciteInputTimeZoneBeforeOpen.emit();
   };
 
@@ -349,7 +410,6 @@ export class InputTimeZone
     }
 
     const selected = this.findTimeZoneItemByLabel(selectedItem.textLabel);
-
     const selectedValue = `${selected.value}`;
 
     if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
@@ -381,9 +441,11 @@ export class InputTimeZone
     return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
   }
 
-  private async updateTimeZoneItemsAndSelection(): Promise<void> {
+  private async updateTimeZoneItems(): Promise<void> {
     this.timeZoneItems = await this.createTimeZoneItems();
+  }
 
+  private async updateTimeZoneSelection(): Promise<void> {
     if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;
@@ -396,7 +458,7 @@ export class InputTimeZone
       this.findTimeZoneItem(valueToMatch) || this.findTimeZoneItem(fallbackValue);
   }
 
-  private async createTimeZoneItems(): Promise<TimeZoneItem[]> {
+  private async createTimeZoneItems(): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
     if (!this.effectiveLocale || !this.messages) {
       return [];
     }
@@ -408,6 +470,7 @@ export class InputTimeZone
       this.referenceDate instanceof Date
         ? this.referenceDate
         : new Date(this.referenceDate ?? Date.now()),
+      this.offsetStyle,
     );
   }
 
@@ -432,15 +495,22 @@ export class InputTimeZone
   }
 
   private normalizeValue(value: string | null): string {
-    return value === null ? "" : value;
+    value = value === null ? "" : value;
+
+    return value ? this.normalizer(value) : value;
   }
+
+  private normalizer: (timeZone: TimeZone) => TimeZone;
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
+    const [, normalizer] = await Promise.all([setUpMessages(this), getNormalizer(this.mode)]);
+
+    this.normalizer = normalizer;
+    await this.updateTimeZoneItems();
     this.value = this.normalizeValue(this.value);
 
-    await this.updateTimeZoneItemsAndSelection();
+    await this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : null;
     afterConnectDefaultValueSet(this, selectedValue);
@@ -449,6 +519,8 @@ export class InputTimeZone
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.overrideSelectedLabelForRegion(this.open);
+    this.openChanged();
   }
 
   componentDidRender(): void {
@@ -470,38 +542,76 @@ export class InputTimeZone
             onCalciteComboboxChange={this.onComboboxChange}
             onCalciteComboboxClose={this.onComboboxClose}
             onCalciteComboboxOpen={this.onComboboxOpen}
-            open={this.open}
             overlayPositioning={this.overlayPositioning}
             placeholder={
-              this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder
+              this.mode === "name"
+                ? this.messages.namePlaceholder
+                : this.mode === "offset"
+                  ? this.messages.offsetPlaceholder
+                  : this.messages.regionPlaceholder
             }
+            placeholderIcon="search"
             readOnly={this.readOnly}
+            ref={this.setComboboxRef}
             scale={this.scale}
             selectionMode={this.clearable ? "single" : "single-persist"}
             status={this.status}
             validation-icon={this.validationIcon}
             validation-message={this.validationMessage}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setComboboxRef}
           >
-            {this.timeZoneItems.map((group) => {
-              const selected = this.selectedTimeZoneItem === group;
-              const { label, value } = group;
-
-              return (
-                <calcite-combobox-item
-                  data-value={value}
-                  key={label}
-                  selected={selected}
-                  textLabel={label}
-                  value={`${group.filterValue}`}
-                />
-              );
-            })}
+            {this.renderItems()}
           </calcite-combobox>
           <HiddenFormInputSlot component={this} />
         </InteractiveContainer>
       </Host>
     );
+  }
+
+  private renderItems(): VNode[] {
+    if (this.mode === "region") {
+      return this.renderRegionItems();
+    }
+
+    return this.timeZoneItems.map((group) => {
+      const selected = this.selectedTimeZoneItem === group;
+      const { label, value } = group;
+
+      return (
+        <calcite-combobox-item
+          data-value={value}
+          key={label}
+          selected={selected}
+          textLabel={label}
+          value={`${group.filterValue}`}
+        />
+      );
+    });
+  }
+
+  private renderRegionItems(): VNode[] {
+    return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
+      <calcite-combobox-item-group key={label} label={label}>
+        {items.map((item) => {
+          const selected = this.selectedTimeZoneItem === item;
+          const { label, value } = item;
+
+          return (
+            <calcite-combobox-item
+              data-value={value}
+              description={item.metadata.country}
+              key={label}
+              metadata={item.metadata}
+              selected={selected}
+              textLabel={label}
+              value={`${item.filterValue}`}
+            >
+              <span class={CSS.offset} slot="content-end">
+                {item.metadata.offset}
+              </span>
+            </calcite-combobox-item>
+          );
+        })}
+      </calcite-combobox-item-group>
+    ));
   }
 }

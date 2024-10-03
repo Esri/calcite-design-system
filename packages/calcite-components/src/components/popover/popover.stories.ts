@@ -1,9 +1,9 @@
-import { select, number, text } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 import { defaultPopoverPlacement } from "../popover/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { Popover } from "./popover";
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -16,8 +16,32 @@ const contentHTML = `
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Nested Reference Element" id="reference-element-nested">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
+interface PopoverStoryArgs
+  extends Pick<
+    Popover,
+    "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
+  > {
+  textClose: string;
+}
+
 export default {
   title: "Components/Popover",
+  args: {
+    closable: false,
+    flipDisabled: false,
+    pointerDisabled: false,
+    placement: defaultPopoverPlacement,
+    offsetDistance: 6,
+    offsetSkidding: 0,
+    open: true,
+    textClose: "Close",
+  },
+  argTypes: {
+    placement: {
+      options: placements,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 500,
@@ -25,19 +49,19 @@ export default {
   },
 };
 
-export const simple = (): string => html`
+export const simple = (args: PopoverStoryArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
-      ${boolean("closable", false)}
-      ${boolean("flip-disabled", false)}
-      ${boolean("pointer-disabled", false)}
+      ${boolean("closable", args.closable)}
+      ${boolean("flip-disabled", args.flipDisabled)}
+      ${boolean("pointer-disabled", args.pointerDisabled)}
       reference-element="reference-element"
-      placement="${select("placement", placements, defaultPopoverPlacement)}"
-      offset-distance="${number("offset-distance", 6)}"
-      offset-skidding="${number("offset-skidding", 0)}"
-      ${boolean("open", true)}
-      text-close="${text("text-close", "Close")}"
+      placement="${args.placement}"
+      offset-distance="${args.offsetDistance}"
+      offset-skidding="${args.offsetSkidding}"
+      ${boolean("open", args.open)}
+      text-close="${args.textClose}"
     >
       ${contentHTML}
     </calcite-popover>
@@ -48,16 +72,13 @@ export const darkModeRTL_TestOnly = (): string =>
   html` <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
-      ${boolean("closable", false)}
-      ${boolean("flip-disabled", false)}
-      ${boolean("pointer-disabled", false)}
       reference-element="reference-element"
-      placement="${select("placement", placements, defaultPopoverPlacement)}"
-      offset-distance="${number("offset-distance", 6)}"
-      offset-skidding="${number("offset-skidding", 0)}"
-      ${boolean("open", true)}
-      text-close="${text("text-close", "Close")}"
-      dir="${select("dir", ["ltr", "rtl"], "rtl")}"
+      placement="${defaultPopoverPlacement}"
+      offset-distance="6"
+      offset-skidding="0"
+      open
+      text-close="Close"
+      dir="rtl"
       class="calcite-mode-dark"
     >
       ${contentHTML}
@@ -69,19 +90,14 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 export const nested = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
-    <calcite-popover
-      ${boolean("closable", true)}
-      reference-element="reference-element"
-      placement="${select("placement", placements, defaultPopoverPlacement)}"
-      ${boolean("open", true)}
-    >
+    <calcite-popover closable reference-element="reference-element" placement="${defaultPopoverPlacement}" open>
       <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
       <calcite-popover
-        heading="${text("heading", "Heading")}"
-        ${boolean("closable", true)}
+        heading="Heading"
+        closable
         reference-element="reference-element-nested"
-        placement="${select("placement", placements, defaultPopoverPlacement)}"
-        ${boolean("open", true)}
+        placement="${defaultPopoverPlacement}"
+        open
       >
         ${contentHTML}
       </calcite-popover>

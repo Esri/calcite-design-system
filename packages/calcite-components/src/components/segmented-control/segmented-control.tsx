@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -12,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -22,8 +21,6 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -36,9 +33,10 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { Validation } from "../functional/Validation";
-import { CSS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
+import { CSS, IDS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-segmented-control-item`s.
@@ -99,7 +97,7 @@ export class SegmentedControl
 
   @Watch("value")
   valueHandler(value: string): void {
-    const items = this.getItems();
+    const { items } = this;
     items.forEach((item) => (item.checked = item.value === value));
   }
 
@@ -111,7 +109,7 @@ export class SegmentedControl
   @Prop({ mutable: true }) selectedItem: HTMLCalciteSegmentedControlItemElement;
 
   @Watch("selectedItem")
-  protected handleSelectedItemChange<T extends HTMLCalciteSegmentedControlItemElement>(
+  handleSelectedItemChange<T extends HTMLCalciteSegmentedControlItemElement>(
     newItem: T,
     oldItem: T,
   ): void {
@@ -119,7 +117,7 @@ export class SegmentedControl
     if (newItem === oldItem) {
       return;
     }
-    const items = this.getItems();
+    const { items } = this;
     const match = items.filter((item) => item === newItem).pop();
 
     if (match) {
@@ -136,7 +134,7 @@ export class SegmentedControl
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -170,7 +168,6 @@ export class SegmentedControl
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
-    this.setUpItems();
   }
 
   componentDidLoad(): void {
@@ -179,19 +176,13 @@ export class SegmentedControl
   }
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-
-    this.handleItemPropChange();
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
-    this.mutationObserver?.unobserve(this.el);
   }
 
   componentDidRender(): void {
@@ -201,15 +192,20 @@ export class SegmentedControl
   render(): VNode {
     return (
       <Host onClick={this.handleClick} role="radiogroup">
-        <div class={CSS.itemWrapper}>
+        <div
+          aria-errormessage={IDS.validationMessage}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
+          class={CSS.itemWrapper}
+        >
           <InteractiveContainer disabled={this.disabled}>
-            <slot />
+            <slot onSlotchange={this.handleDefaultSlotChange} />
             <HiddenFormInputSlot component={this} />
           </InteractiveContainer>
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
+            id={IDS.validationMessage}
             message={this.validationMessage}
             scale={this.scale}
             status={this.status}
@@ -225,7 +221,7 @@ export class SegmentedControl
   //
   //--------------------------------------------------------------------------
 
-  protected handleClick = (event: MouseEvent): void => {
+  private handleClick = (event: MouseEvent): void => {
     if (this.disabled) {
       return;
     }
@@ -236,9 +232,12 @@ export class SegmentedControl
   };
 
   @Listen("calciteInternalSegmentedControlItemChange")
-  protected handleSelected(event: Event): void {
+  handleSelected(event: Event): void {
     event.preventDefault();
-    this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement);
+    const el = event.target as HTMLCalciteSegmentedControlItemElement;
+    if (el.checked) {
+      this.selectItem(el);
+    }
     event.stopPropagation();
   }
 
@@ -263,7 +262,7 @@ export class SegmentedControl
       }
     }
 
-    const items = this.getItems();
+    const { items } = this;
     let selectedIndex = -1;
 
     items.forEach((item, index) => {
@@ -274,17 +273,19 @@ export class SegmentedControl
 
     switch (adjustedKey) {
       case "ArrowLeft":
-      case "ArrowUp":
+      case "ArrowUp": {
         event.preventDefault();
         const previous = selectedIndex < 1 ? items[items.length - 1] : items[selectedIndex - 1];
         this.selectItem(previous, true);
         return;
+      }
       case "ArrowRight":
-      case "ArrowDown":
+      case "ArrowDown": {
         event.preventDefault();
         const next = selectedIndex === -1 ? items[1] : items[selectedIndex + 1] || items[0];
         this.selectItem(next, true);
         return;
+      }
       case " ":
         event.preventDefault();
         this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
@@ -314,7 +315,7 @@ export class SegmentedControl
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    (this.selectedItem || this.getItems()[0])?.focus();
+    (this.selectedItem || this.items[0])?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -325,16 +326,22 @@ export class SegmentedControl
 
   @Element() el: HTMLCalciteSegmentedControlElement;
 
+  private items: HTMLCalciteSegmentedControlItemElement[] = [];
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
 
   defaultValue: SegmentedControl["value"];
 
-  private mutationObserver = createObserver("mutation", () => this.setUpItems());
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 
   private handleItemPropChange(): void {
-    const items = this.getItems();
+    const { items } = this;
 
     items.forEach((item) => {
       item.appearance = this.appearance;
@@ -343,18 +350,32 @@ export class SegmentedControl
     });
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  private handleSelectedItem(): void {
+    const { items } = this;
+
+    const lastChecked = items.filter((item) => item.checked).pop();
+
+    if (lastChecked) {
+      this.selectItem(lastChecked);
+    } else if (items[0]) {
+      items[0].tabIndex = 0;
+    }
+  }
+
+  private handleDefaultSlotChange = (event: Event): void => {
+    const items = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteSegmentedControlItemElement =>
+        el.matches("calcite-segmented-control-item"),
+    );
+
+    this.items = items;
+
+    this.handleSelectedItem();
+    this.handleItemPropChange();
+  };
 
   onLabelClick(): void {
     this.setFocus();
-  }
-
-  private getItems(): HTMLCalciteSegmentedControlItemElement[] {
-    return Array.from(this.el.querySelectorAll("calcite-segmented-control-item"));
   }
 
   private selectItem(selected: HTMLCalciteSegmentedControlItemElement, emit = false): void {
@@ -362,7 +383,7 @@ export class SegmentedControl
       return;
     }
 
-    const items = this.getItems();
+    const { items } = this;
     let match: HTMLCalciteSegmentedControlItemElement = null;
 
     items.forEach((item) => {
@@ -384,19 +405,8 @@ export class SegmentedControl
     });
 
     this.selectedItem = match;
-    if (Build.isBrowser && match) {
+    if (isBrowser() && match) {
       match.focus();
-    }
-  }
-
-  private setUpItems(): void {
-    const items = this.getItems();
-    const lastChecked = items.filter((item) => item.checked).pop();
-
-    if (lastChecked) {
-      this.selectItem(lastChecked);
-    } else if (items[0]) {
-      items[0].tabIndex = 0;
     }
   }
 }

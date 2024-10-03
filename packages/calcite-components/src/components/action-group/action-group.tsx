@@ -20,9 +20,10 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Columns, Layout, Scale } from "../interfaces";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import { Layout, Scale } from "../interfaces";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { Columns } from "./interfaces";
 import { ActionGroupMessages } from "./assets/action-group/t9n";
 import { ICONS, SLOTS, CSS } from "./resources";
 
@@ -68,7 +69,7 @@ export class ActionGroup
    *
    * @deprecated Use the `layout` property on the component's parent instead.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   /**
    * Indicates number of columns.
@@ -93,6 +94,16 @@ export class ActionGroup
    * Specifies the size of the `calcite-action-menu`.
    */
   @Prop({ reflect: true }) scale: Scale;
+
+  /**
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+   */
+  @Prop() menuFlipPlacements: FlipPlacement[];
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) menuPlacement: LogicalPlacement;
 
   /**
    * Made into a prop for testing purposes only
@@ -177,19 +188,30 @@ export class ActionGroup
   // --------------------------------------------------------------------------
 
   renderMenu(): VNode {
-    const { expanded, menuOpen, scale, layout, messages, overlayPositioning, hasMenuActions } =
-      this;
+    const {
+      expanded,
+      menuOpen,
+      scale,
+      layout,
+      messages,
+      overlayPositioning,
+      hasMenuActions,
+      menuFlipPlacements,
+      menuPlacement,
+    } = this;
 
     return (
       <calcite-action-menu
         expanded={expanded}
-        flipPlacements={["left", "right"]}
+        flipPlacements={
+          menuFlipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
+        }
         hidden={!hasMenuActions}
         label={messages.more}
         onCalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
         overlayPositioning={overlayPositioning}
-        placement={layout === "horizontal" ? "bottom-start" : "leading-start"}
+        placement={menuPlacement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
         scale={scale}
       >
         <calcite-action
@@ -221,7 +243,7 @@ export class ActionGroup
   // --------------------------------------------------------------------------
 
   setMenuOpen = (event: CalciteActionMenuCustomEvent<void>): void => {
-    this.menuOpen = !!(event.target as HTMLCalciteActionMenuElement).open;
+    this.menuOpen = !!event.target.open;
   };
 
   handleMenuActionsSlotChange = (event: Event): void => {

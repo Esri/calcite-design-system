@@ -4,20 +4,13 @@ For comprehensive guidance on using and implementing `calcite-input-text`, refer
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-input-text placeholder="Enter your region"></calcite-input-text>
-```
-
 ## Properties
 
 | Property            | Attribute            | Description                                                                                                                                             | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |
 | ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `alignment`         | `alignment`          | Specifies the text alignment of the component's value.                                                                                                  | `"end" \| "start"`                                                                                                                                                                                                                                  | `"start"`                                                                                                                                                                                                                                                                   |
 | `autocomplete`      | `autocomplete`       | Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.                        | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
+| `autofocus`         | `autofocus`          | Adds global prop, missing from Stencil's `HTMLElement` type, see <https://github.com/ionic-team/stencil/issues/5726>                                    | `boolean`                                                                                                                                                                                                                                           | `undefined`                                                                                                                                                                                                                                                                 |
 | `clearable`         | `clearable`          | When `true`, a clear button is displayed when the component has a value.                                                                                | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `disabled`          | `disabled`           | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `form`              | `form`               | The `id` of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any. | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
@@ -72,6 +65,13 @@ Type: `Promise<void>`
 | Slot       | Description                                            |
 | ---------- | ------------------------------------------------------ |
 | `"action"` | A slot for positioning a button next to the component. |
+
+## CSS Custom Properties
+
+| Name                          | Description                             |
+| ----------------------------- | --------------------------------------- |
+| `--calcite-input-prefix-size` | Specifies the component's prefix width. |
+| `--calcite-input-suffix-size` | Specifies the component's suffix width. |
 
 ## Dependencies
 

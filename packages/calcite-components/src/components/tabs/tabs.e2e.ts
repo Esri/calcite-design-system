@@ -172,44 +172,6 @@ describe("calcite-tabs", () => {
       expect(await page.find("calcite-tab-title")).toEqualAttribute("bordered", "");
       expect(await page.find("calcite-tab")).toEqualAttribute("bordered", null);
     });
-
-    it("should render tab-nav's blue active indicator on top", async () => {
-      const page = await newE2EPage({
-        html: `
-        <calcite-tabs bordered>
-          <calcite-tab-nav slot="title-group">
-            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
-          </calcite-tab-nav>
-          <calcite-tab>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-        </calcite-tabs>
-        `,
-      });
-      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
-      const indicatorStyles = await indicator.getComputedStyle();
-      expect(indicatorStyles.top).toEqual("0px");
-      expect(indicatorStyles.bottom).not.toEqual("0px");
-    });
-
-    it("should render tab-nav's blue active indicator on bottom when position is bottom", async () => {
-      const page = await newE2EPage({
-        html: `
-        <calcite-tabs bordered position="bottom">
-          <calcite-tab-nav slot="title-group">
-            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
-          </calcite-tab-nav>
-          <calcite-tab>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-        </calcite-tabs>
-        `,
-      });
-      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
-      const indicatorStyles = await indicator.getComputedStyle();
-      expect(indicatorStyles.bottom).toEqual("0px");
-      expect(indicatorStyles.top).not.toEqual("0px");
-    });
   });
 
   it("should not ignore bordered attribute when layout is center", async () => {
@@ -430,6 +392,32 @@ describe("calcite-tabs", () => {
       expect(await allTabs[1].isVisible()).toBe(false);
       expect(await allTabs[2].isVisible()).toBe(false);
       expect(await allTabs[3].isVisible()).toBe(true);
+    });
+
+    it("should allow selecting the next tab after previous one is closed and removed from DOM", async () => {
+      type TestWindow = GlobalTestProps<{ selectedTitleTab: string }>;
+
+      await page.evaluate(() => {
+        document.addEventListener("calciteTabChange", (event) => {
+          (window as TestWindow).selectedTitleTab = (event.target as HTMLCalciteTabNavElement).selectedTitle.innerText;
+        });
+        document.addEventListener("calciteTabClose", (event) => {
+          const closedTabTitleElement = event.target as HTMLCalciteTabTitleElement;
+          const id = closedTabTitleElement.id.split("").at(-1);
+          closedTabTitleElement.remove();
+          document.querySelector(`calcite-tab#tab-${id}`).remove();
+        });
+      });
+
+      const tab2 = await page.find("#tab-title-2");
+
+      await page.click(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`);
+      await tab2.click();
+      await page.waitForChanges();
+
+      const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
+
+      expect(selectedTitleOnEmit).toBe("Tab 2 Title");
     });
   });
 });

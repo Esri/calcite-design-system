@@ -1,19 +1,49 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { RadioButtonGroup } from "./radio-button-group";
+const { layout, scale } = ATTRIBUTES;
+
+interface RadioButtonGroupStoryArgs extends Pick<RadioButtonGroup, "disabled" | "layout" | "scale"> {
+  hidden: boolean;
+}
 
 export default {
   title: "Components/Controls/Radio/Radio Button Group",
+  args: {
+    disabled: false,
+    hidden: false,
+    layout: layout.defaultValue,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none" &&
+          option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: RadioButtonGroupStoryArgs): string => html`
   <calcite-radio-button-group
     name="simple"
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
+    layout="${args.layout}"
+    scale="${args.scale}"
   >
     <calcite-label layout="inline">
       <calcite-radio-button value="react"></calcite-radio-button>

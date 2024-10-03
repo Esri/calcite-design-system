@@ -17,6 +17,7 @@ import {
   getSlotted,
   isPrimaryPointerButton,
   setRequestedIcon,
+  toAriaBoolean,
 } from "../../utils/dom";
 import { Scale, Status, Alignment } from "../interfaces";
 import {
@@ -29,8 +30,6 @@ import {
   submitForm,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -68,9 +67,10 @@ import {
 } from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { IconNameOrString } from "../icon/interfaces";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 
 /**
@@ -118,7 +118,7 @@ export class Input
   /**
    * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
    *
-   * @internal
+   * @ignore
    */
   // eslint-disable-next-line @stencil-community/reserved-member-names
   @Prop() autofocus: boolean;
@@ -164,7 +164,7 @@ export class Input
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -241,7 +241,7 @@ export class Input
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -451,6 +451,10 @@ export class Input
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 
+  private inputWrapperEl: HTMLDivElement;
+
+  private actionWrapperEl: HTMLDivElement;
+
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
@@ -479,7 +483,7 @@ export class Input
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: string;
+  private requestedIcon?: IconNameOrString;
 
   private nudgeNumberValueIntervalId: number;
 
@@ -513,7 +517,6 @@ export class Input
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
 
@@ -531,7 +534,6 @@ export class Input
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -733,10 +735,16 @@ export class Input
       return;
     }
 
-    const slottedActionEl = getSlotted(this.el, "action");
-    if (event.target !== slottedActionEl) {
-      this.setFocus();
+    const composedPath = event.composedPath();
+
+    if (
+      !composedPath.includes(this.inputWrapperEl) ||
+      composedPath.includes(this.actionWrapperEl)
+    ) {
+      return;
     }
+
+    this.setFocus();
   };
 
   private inputFocusHandler = (): void => {
@@ -1171,6 +1179,8 @@ export class Input
       this.type === "number" ? (
         <input
           accept={this.accept}
+          aria-errormessage={IDS.validationMessage}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
           aria-label={getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
@@ -1191,10 +1201,9 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
+          ref={this.setChildNumberElRef}
           type="text"
           value={this.displayedValue}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setChildNumberElRef}
         />
       ) : null;
 
@@ -1203,6 +1212,8 @@ export class Input
         ? [
             <this.childElType
               accept={this.accept}
+              aria-errormessage={IDS.validationMessage}
+              aria-invalid={toAriaBoolean(this.status === "invalid")}
               aria-label={getLabelText(this)}
               autocomplete={this.autocomplete}
               autofocus={autofocus}
@@ -1229,6 +1240,7 @@ export class Input
               pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
+              ref={this.setChildElRef}
               required={this.required ? true : null}
               step={this.step}
               tabIndex={
@@ -1236,8 +1248,6 @@ export class Input
               }
               type={this.type}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setChildElRef}
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
@@ -1250,7 +1260,10 @@ export class Input
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
-          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <div
+            class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+            ref={(el) => (this.inputWrapperEl = el)}
+          >
             {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalDown
               : null}
@@ -1262,7 +1275,7 @@ export class Input
               {this.requestedIcon ? iconEl : null}
               {this.loading ? loader : null}
             </div>
-            <div class={CSS.actionWrapper}>
+            <div class={CSS.actionWrapper} ref={(el) => (this.actionWrapperEl = el)}>
               <slot name={SLOTS.action} />
             </div>
             {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
@@ -1277,6 +1290,7 @@ export class Input
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

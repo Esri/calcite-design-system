@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { focusable, renders, hidden, defaults, accessible } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -9,6 +9,10 @@ describe("calcite-sheet properties", () => {
     defaults("calcite-sheet", [
       {
         propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "embedded",
         defaultValue: false,
       },
       {
@@ -73,6 +77,11 @@ describe("calcite-sheet properties", () => {
         focusTargetSelector: `.${focusableContentTargetClass}`,
       });
     });
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-sheet");
+    openClose.initial("calcite-sheet");
   });
 
   it("sets custom width correctly", async () => {

@@ -1,14 +1,20 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { logger } from "../../utils/logger";
 import { TileSelectGroupLayout } from "./interfaces";
 
+logger.deprecated("component", {
+  name: "tile-select-group",
+  removalVersion: 4,
+  suggested: ["tile", "tile-group"],
+});
+
 /**
+ * @deprecated Use the `calcite-tile-group` component instead.
  * @slot - A slot for adding `calcite-tile-select` elements.
  */
 @Component({
@@ -47,16 +53,8 @@ export class TileSelectGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   render(): VNode {

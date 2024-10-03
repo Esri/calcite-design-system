@@ -49,6 +49,7 @@
   );
   touch-action: none;
   // disable browser swipe navigation to prevent interference with the slide thumb following a touch gesture
+  user-select: none;
 }
 
 @include disabled() {
@@ -220,9 +221,9 @@
   }
 }
 
-.thumb:hover.thumb--precise:after,
-.thumb:focus.thumb--precise:after,
-.thumb--active.thumb--precise:after {
+.thumb:hover.thumb--precise::after,
+.thumb:focus.thumb--precise::after,
+.thumb--active.thumb--precise::after {
   @apply bg-brand;
 }
 
@@ -243,7 +244,7 @@
     &:hover {
       cursor: ew-resize;
     }
-    &:after {
+    &::after {
       @apply absolute w-full;
       content: "";
       inset-block-start: calc(calc(var(--calcite-slider-full-handle-height) * 0.5) * -1);

@@ -1,8 +1,8 @@
 {
   "previous": "السابق",
   "next": "التالي",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "تشغيل",
+  "pause": "إيقاف مؤقت",
+  "carousel": "عرض دوار",
+  "carouselItemProgress": "مؤشر التقدم لعنصر العرض الدوار"
 }

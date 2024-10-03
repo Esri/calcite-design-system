@@ -11,13 +11,18 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
+import {
+  focusElement,
+  focusElementInGroup,
+  focusFirstTabbable,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
   MenuPlacement,
@@ -26,8 +31,6 @@ import {
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -104,9 +107,9 @@ export class Dropdown
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -175,6 +178,7 @@ export class Dropdown
   @Watch("scale")
   handlePropsChange(): void {
     this.updateItems();
+    this.updateGroupScale();
   }
 
   //--------------------------------------------------------------------------
@@ -187,7 +191,7 @@ export class Dropdown
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.referenceEl);
   }
 
   //--------------------------------------------------------------------------
@@ -203,7 +207,6 @@ export class Dropdown
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
-    connectInteractive(this);
     this.updateItems();
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
@@ -224,7 +227,6 @@ export class Dropdown
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -236,9 +238,8 @@ export class Dropdown
           <div
             class="calcite-trigger-container"
             id={`${guid}-menubutton`}
-            onClick={this.openCalciteDropdown}
+            onClick={this.toggleDropdown}
             onKeyDown={this.keyDownHandler}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
             <slot
@@ -252,7 +253,6 @@ export class Dropdown
           <div
             aria-hidden={toAriaBoolean(!open)}
             class="calcite-dropdown-wrapper"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setFloatingEl}
           >
             <div
@@ -263,9 +263,8 @@ export class Dropdown
                 [FloatingCSS.animationActive]: open,
               }}
               id={`${guid}-menu`}
-              role="menu"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setScrollerAndTransitionEl}
+              role="menu"
             >
               <slot onSlotchange={this.updateGroups} />
             </div>
@@ -355,7 +354,7 @@ export class Dropdown
       return;
     }
 
-    this.openCalciteDropdown();
+    this.toggleDropdown();
   }
 
   @Listen("pointerleave")
@@ -421,7 +420,7 @@ export class Dropdown
 
   @Element() el: HTMLCalciteDropdownElement;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
@@ -446,7 +445,7 @@ export class Dropdown
 
   guid = `calcite-dropdown-${guid()}`;
 
-  defaultAssignedElements: Element[] = [];
+  private focusLastDropdownItem = false;
 
   //--------------------------------------------------------------------------
   //
@@ -454,19 +453,11 @@ export class Dropdown
   //
   //--------------------------------------------------------------------------
 
-  slotChangeHandler = (event: Event): void => {
-    this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.updateItems();
-  };
-
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -493,12 +484,17 @@ export class Dropdown
   updateGroups = (event: Event): void => {
     const groups = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+      .filter((el): el is HTMLCalciteDropdownGroupElement => el?.matches("calcite-dropdown-group"));
 
     this.groups = groups;
 
     this.updateItems();
+    this.updateGroupScale();
   };
+
+  private updateGroupScale(): void {
+    this.groups?.forEach((group) => (group.scale = this.scale));
+  }
 
   resizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
     entries.forEach((entry) => {
@@ -579,24 +575,25 @@ export class Dropdown
       return;
     }
 
-    if (this.open) {
-      if (key === "Escape") {
-        this.closeCalciteDropdown();
-        event.preventDefault();
-        return;
-      } else if (event.shiftKey && key === "Tab") {
-        this.closeCalciteDropdown();
-        event.preventDefault();
-        return;
-      }
+    if (key === "Escape") {
+      this.closeCalciteDropdown();
+      event.preventDefault();
+      return;
+    }
+
+    if (this.open && event.shiftKey && key === "Tab") {
+      this.closeCalciteDropdown();
+      event.preventDefault();
+      return;
     }
 
     if (isActivationKey(key)) {
-      this.openCalciteDropdown();
+      this.toggleDropdown();
       event.preventDefault();
-    } else if (key === "Escape") {
-      this.closeCalciteDropdown();
-      event.preventDefault();
+    } else if (key === "ArrowDown" || key === "ArrowUp") {
+      this.focusLastDropdownItem = key === "ArrowUp";
+      this.open = true;
+      this.el.addEventListener("calciteDropdownOpen", this.onOpenEnd);
     }
   };
 
@@ -640,29 +637,30 @@ export class Dropdown
     }
   }
 
-  private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(
-      this.getTraversableItems().find((item) => item.selected) || this.items[0],
-    );
-  };
+  private focusOnFirstActiveOrDefaultItem = (): void => {
+    const selectedItem = this.getTraversableItems().find((item) => item.selected);
+    const target: HTMLCalciteDropdownItemElement =
+      selectedItem ||
+      (this.focusLastDropdownItem ? this.items[this.items.length - 1] : this.items[0]);
 
-  private getFocusableElement(item: HTMLCalciteDropdownItemElement): void {
-    if (!item) {
+    this.focusLastDropdownItem = false;
+
+    if (!target) {
       return;
     }
 
-    focusElement(item);
-  }
-
-  private toggleOpenEnd = (): void => {
-    this.focusOnFirstActiveOrFirstItem();
-    this.el.removeEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+    focusElement(target);
   };
 
-  private openCalciteDropdown = () => {
+  private onOpenEnd = (): void => {
+    this.focusOnFirstActiveOrDefaultItem();
+    this.el.removeEventListener("calciteDropdownOpen", this.onOpenEnd);
+  };
+
+  private toggleDropdown = () => {
     this.open = !this.open;
     if (this.open) {
-      this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+      this.el.addEventListener("calciteDropdownOpen", this.onOpenEnd);
     }
   };
 

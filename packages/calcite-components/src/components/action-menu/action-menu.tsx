@@ -12,7 +12,7 @@ import {
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import {
@@ -80,9 +80,9 @@ export class ActionMenu implements LoadableComponent {
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   /**
    *  Specifies the text string for the component.
@@ -242,7 +242,7 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+      .filter((el): el is HTMLCalciteActionElement => el?.matches("calcite-action"));
 
     this.slottedMenuButtonEl = actions[0];
     this.connectMenuButtonEl();
@@ -262,11 +262,10 @@ export class ActionMenu implements LoadableComponent {
           appearance={appearance}
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
+          ref={this.setDefaultMenuButtonEl}
           scale={scale}
           text={label}
           textEnabled={expanded}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setDefaultMenuButtonEl}
         />
       </slot>
     );
@@ -350,7 +349,7 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+      .filter((el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"));
 
     this.tooltipEl = tooltips[0];
     this.setTooltipReferenceElement();
@@ -388,23 +387,18 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .reduce(
-        (previousValue: HTMLCalciteActionElement[], currentValue): HTMLCalciteActionElement[] => {
-          if (currentValue?.matches("calcite-action")) {
-            previousValue.push(currentValue as HTMLCalciteActionElement);
-            return previousValue;
-          }
-
-          if (currentValue?.matches("calcite-action-group")) {
-            return previousValue.concat(
-              Array.from(currentValue.querySelectorAll("calcite-action")),
-            );
-          }
-
+      .reduce<HTMLCalciteActionElement[]>((previousValue, currentValue) => {
+        if (currentValue?.matches("calcite-action")) {
+          previousValue.push(currentValue as HTMLCalciteActionElement);
           return previousValue;
-        },
-        [],
-      );
+        }
+
+        if (currentValue?.matches("calcite-action-group")) {
+          return previousValue.concat(Array.from(currentValue.querySelectorAll("calcite-action")));
+        }
+
+        return previousValue;
+      }, []);
 
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   };

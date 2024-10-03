@@ -4,73 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-input placeholder="Enter your region"></calcite-input>
-```
-
-### Clearable
-
-Display a clear button when the component has a value with the `clearable` attribute:
-
-```html
-<calcite-label>
-  Full name
-  <calcite-input clearable value="John Doe" placeholder="John Doe"></calcite-input>
-</calcite-label>
-```
-
-### Native-events
-
-You can also listen for native events emitted from `<calcite-input>`.
-
-You must use `focusin`/`focusout` instead of `focus`/`blur` because these events bubble up from the rendered child element rendered inside of `<calcite-input>`
-
-All events return an element and a value:
-
-```js
-inputEl.addEventListener("focusin", logFocus);
-inputEl.addEventListener("focusout", logBlur);
-
-function logFocus() {
-  console.log(event.target);
-}
-
-function logBlur() {
-  console.log(event.target.value);
-}
-```
-
-### With-label
-
-```html
-<calcite-label for="invalid-input">
-  Invalid input
-  <calcite-input status="invalid" id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message status="invalid" icon> Something doesn't look right </calcite-input-message>
-</calcite-label>
-```
-
-### With-message
-
-```html
-<calcite-label>
-  Desired subdomain
-  <calcite-input
-    suffix-text=".city-of-acme.gov"
-    status="invalid"
-    placeholder="Enter your subdomain"
-    value="i-love-maps"
-  ></calcite-input>
-  <calcite-input-message icon="frown" status="invalid">
-    Apologies, this subdomain has already been registered.
-  </calcite-input-message>
-</calcite-label>
-```
-
 ## Properties
 
 | Property            | Attribute            | Description                                                                                                                                                                                                               | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |
@@ -78,6 +11,7 @@ function logBlur() {
 | `accept`            | `accept`             | Specifies a comma separated list of unique file type specifiers for limiting accepted file types. This property only has an effect when `type` is "file". Read the native attribute's documentation on MDN for more info. | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `alignment`         | `alignment`          | Specifies the text alignment of the component's value.                                                                                                                                                                    | `"end" \| "start"`                                                                                                                                                                                                                                  | `"start"`                                                                                                                                                                                                                                                                   |
 | `autocomplete`      | `autocomplete`       | Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.                                                                                          | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
+| `autofocus`         | `autofocus`          | Adds global prop, missing from Stencil's `HTMLElement` type, see <https://github.com/ionic-team/stencil/issues/5726>                                                                                                      | `boolean`                                                                                                                                                                                                                                           | `undefined`                                                                                                                                                                                                                                                                 |
 | `clearable`         | `clearable`          | When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.                  | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `disabled`          | `disabled`           | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                  | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `files`             | --                   | When `type` is `"file"`, specifies the component's selected files.                                                                                                                                                        | `FileList`                                                                                                                                                                                                                                          | `undefined`                                                                                                                                                                                                                                                                 |
@@ -141,6 +75,13 @@ Type: `Promise<void>`
 | Slot       | Description                                                      |
 | ---------- | ---------------------------------------------------------------- |
 | `"action"` | A slot for positioning a `calcite-button` next to the component. |
+
+## CSS Custom Properties
+
+| Name                          | Description                             |
+| ----------------------------- | --------------------------------------- |
+| `--calcite-input-prefix-size` | Specifies the component's prefix width. |
+| `--calcite-input-suffix-size` | Specifies the component's suffix width. |
 
 ## Dependencies
 

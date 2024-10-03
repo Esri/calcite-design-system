@@ -2,7 +2,7 @@ projects/component-library/src/lib/stencil-generated/*
 /tmp
 /out-tsc
 /bazel-out
-/.angular/cache
+.angular/
 /connect.lock
 /libpeerconnection.log
 testem.log

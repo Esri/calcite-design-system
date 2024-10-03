@@ -1,8 +1,8 @@
 {
   "previous": "Anterior",
   "next": "Următorul",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "Redare",
+  "pause": "Pauză",
+  "carousel": "Carusel",
+  "carouselItemProgress": "Indicator de progres pentru elementul Carusel"
 }

@@ -4,16 +4,6 @@ For comprehensive guidance on using and implementing `calcite-tab`, refer to the
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-`calcite-tab` wraps the content you would like to appear when that tab is selected:
-
-```html
-<calcite-tab>My stuff!</calcite-tab>
-```
-
 ## Properties
 
 | Property   | Attribute  | Description                                                                                                        | Type      | Default     |

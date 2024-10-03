@@ -12,48 +12,55 @@ When releasing during normal work hours, you should block people from merging PR
 
 1. Let the team know via Teams in the `Core - Releases` 🔒 channel (@ the channel for visibility)
 1. Go to the repo settings -> "Branches"
-1. Under "Branch protection rules" edit the entry for `main`
+1. Under "Branch protection rules" edit the entry for `dev`
 1. Under "Require approvals" change the number from 1 to 6 and save the changes.
 
    ![image](https://user-images.githubusercontent.com/10986395/167955616-c796d1ff-5c1a-4332-a6d5-5288f9d20992.png)
 
 ### Release steps
 
-The `latest` release process is mostly automated, but a few manual steps are required:
+Follow these steps to release a major, minor, or patch version:
 
 1. Follow the steps above to [prevent merging pull requests](#prevent-merging-pull-requests).
-2. Make sure all of the workflows for the [most recent commit on `main`](https://github.com/Esri/calcite-design-system/commits/main) are completed.
-   1. If time is short, you can cancel the `Build` workflow, which releases `next` and deploys storybook. We just want to make sure it doesn't deploy the `next` version after `latest` is released. If the most recent commit is a next release (titled `chore: release next`) then you can definitely cancel the `Build` workflow since it will be intentionally cancelled by the CI anyway.
-3. Review the PR created by `release-please` (titled `chore: release main`) to make sure the changelog(s) and package versioning looks correct.
-   1. There should be a commit on the PR's branch named `docs: remove prerelease changelog entries` that occurred **after** the most recent commit on `main`.
-4. Add the `skip visual snapshots` label. <!-- TODO: automate this in the release-please config -->
-5. Make sure the rest of the PR checks are passing.
-6. Approve and install the PR once all checks are passing. You will need to use Admin privilege to override the 6 approval rule [added above](#prevent-merging-pull-requests).
-7. Wait for the release's [Deploy Latest](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml) action to finish.
-8. Ensure the released package(s) were deployed to NPM and that [GitHub Releases were created](https://github.com/Esri/calcite-design-system/releases).
+1. Sync the changes from `dev` to `main` by dispatching the "Deploy Latest" workflow following [GitHub's documentation](https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow), or using `gh`:
+
+   ```sh
+   gh workflow run deploy-latest.yml
+   ```
+
+1. Wait for the [Deploy Latest](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml) workflow run on `main` to complete.
+1. Review the PR created by `release-please` (titled `chore: release main`) to make sure the changelog(s) and package versioning looks correct.
+   - There should be a commit on the PR's branch named `docs: remove prerelease changelog entries` that occurred **after** the most recent commit on `main`.
+1. Approve and install the PR. You will need to use Admin privilege to override the 6 approval rule.
+1. Wait for the release's [Deploy Latest](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml) workflow run to finish.
+1. Ensure the released package(s) were deployed to NPM and that [GitHub Releases were created](https://github.com/Esri/calcite-design-system/releases).
 
    - You can check the NPM version(s) on the website (e.g., [calcite-components](https://www.npmjs.com/package/@esri/calcite-components?activeTab=versions)) or with the CLI:
 
-     ```sh
-     npm view @esri/calcite-components version
-     ```
+   ```sh
+   npm view @esri/calcite-components version
+   ```
 
-9. See the [troubleshooting](#troubleshooting) section if something went wrong, or reach out to Ben or Franco for help.
-10. Change the `main` branch's required approvals back to 1 and save the changes (see the [Prevent merging PRs](#prevent-merging-pull-requests) section)
-11. Let the team know via Teams merging is now unblocked in the initial `Core - Releases` message from earlier.
+1. See the [troubleshooting](#troubleshooting) section if something went wrong, or reach out to Ben or Franco for help.
+1. A pull request should have been created that cherry-picks the release commit from `main` to `dev`. Review and install the PR using admin privilege.
+1. Change the `dev` branch's required approvals back to 1 and save the changes (see the [Prevent merging PRs](#prevent-merging-pull-requests) section)
+1. Let the team know via Teams merging is now unblocked in the initial `Core - Releases` message from earlier.
 
 ### Troubleshooting
 
 The following are some troubleshooting steps you can take if a release is unsuccessful.
 
 1. Find the workflow run for the release [here](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml), and view the logs to find the error message.
-2. Fix the error. In some cases you can resolve the issue with a temporary solution, and then fix the CI after the release is completed. For example, if the `components.d.ts` file is outdated and breaks releases due to an unclean working tree, the [temporary solution](https://github.com/Esri/calcite-design-system/pull/9008) would be to build locally and submit a PR with the updated file. That way you won't be so time crunched when determining an [actual fix](https://github.com/Esri/calcite-design-system/pull/9011) to prevent the same error from occurring in the future. Reach out to Ben or Franco if a solution to the error isn't clear.
-3. Once the PR with the fix is installed, make sure the new workflow run is passing.
-4. **IMPORTANT:** If the new release is showing up in the [GitHub releases](https://github.com/Esri/calcite-design-system/releases) but not on NPM, you'll need to release locally. This signifies the error involved publishing to NPM, which happens after the releases and tags are created on GitHub. To release locally, run the following commands:
+1. Fix the error:
+   - In some cases you can resolve the issue with a temporary solution, and then fix the CI after the release is completed. For example, if the `components.d.ts` file is outdated and breaks releases due to an unclean working tree, the [temporary solution](https://github.com/Esri/calcite-design-system/pull/9008) would be to build locally and submit a PR with the updated file. That way you won't be so time crunched when determining an [actual fix](https://github.com/Esri/calcite-design-system/pull/9011) to prevent the same error from occurring in the future. Reach out to Ben or Franco if a solution to the error isn't clear.
+   - If the `dev`->`main` sync failed, you may have to resolve merge conflicts locally. See the "Sync dev to main" step in the `deploy-latest.yml` workflow for the process.
+   - If the release succeeded, but the cherry-pick PR wasn't created, you may need to fix merge conflicts locally.
+1. Once the PR with the fix is installed, make sure the new workflow run is passing.
+1. **IMPORTANT:** If the new release is showing up in the [GitHub releases](https://github.com/Esri/calcite-design-system/releases) but not on NPM, you'll need to release locally. This signifies the error involved publishing to NPM, which happens after the releases and tags are created on GitHub. To release locally, run the following commands:
 
-   ```sh
-   npm install && npm run build && npm test && npm run publish:latest
-   ```
+```sh
+git fetch && git checkout origin/main && npm install && npm run build && npm test && npm run publish:latest
+```
 
 ### Bumping the examples
 
@@ -61,16 +68,16 @@ A [GitHub Action](https://github.com/Esri/calcite-components-examples/blob/maste
 
 ## next releases
 
-`next` releases are useful for testing incoming changes between releases. They are [released by the CI](/Monorepo.md#ci-for-next-releases) after 'deployable' commits are installed to `main`. A deployable commit is:
+`next` releases are useful for testing incoming changes between releases. They are [released by the CI](./monorepo.md#ci-for-next-releases) after 'deployable' commits are installed to `dev`. A deployable commit is:
 
 1. a commit of type `feat` or `fix`
-2. a commit that introduces a breaking change
+1. a commit that introduces a breaking change
 
 If you need to disable `next` releases, you can do so by setting the `NEXT_RELEASE_ENABLED` GitHub Secret to anything but `true`. If you need to manually release `next`, you can run the following commands from the monorepo's root directory:
 
 ```sh
 # make sure you don't have any unsaved work
-git checkout main
+git checkout dev
 npm run clean
 npm install
 npm test
@@ -88,8 +95,10 @@ git add packages/*/CHANGELOG.md
 git commit amend --no-edit
 git tag -d "@esri/calcite-components@1.2.3"
 git tag -d "@esri/calcite-components-react@1.2.3"
+git tag -d "@esri/calcite-components-angular@1.2.3"
 git tag -a "@esri/calcite-components@1.2.3" -m "@esri/calcite-components@1.2.3" HEAD
 git tag -a "@esri/calcite-components-react@1.2.3" -m "@esri/calcite-components-react@1.2.3" HEAD
+git tag -a "@esri/calcite-components-angular@1.2.3" -m "@esri/calcite-components-angular@1.2.3" HEAD
 # now you can publish and push tags
 ```
 

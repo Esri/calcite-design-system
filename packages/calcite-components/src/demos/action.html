@@ -780,6 +780,38 @@
           </calcite-action-pad>
         </div>
       </div>
+      <demo-theme
+        tokens="
+        --calcite-action-indicator-color,
+        --calcite-action-background-color,
+        --calcite-action-background-color-hover,
+        --calcite-action-background-color-pressed,
+        --calcite-action-text-color,
+        --calcite-action-text-color-pressed
+        "
+      >
+        <div class="child-action-bar">
+          <calcite-action-pad layout="horizontal" scale="l">
+            <calcite-action-group>
+              <calcite-action scale="l" text="Undo" icon="undo"> </calcite-action>
+              <calcite-action scale="l" text="Redo" icon="redo"> </calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="l" text="Title" icon="title"></calcite-action>
+              <calcite-action scale="l" text="Text" icon="text"></calcite-action>
+              <calcite-action scale="l" text="Bold" icon="bold"></calcite-action>
+              <calcite-action scale="l" text="Italics" icon="italicize"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="l" text="Cut" icon="scissors"></calcite-action>
+              <calcite-action scale="l" text="Add" icon="plus-square"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="l" text="Remove" icon="trash"> </calcite-action>
+            </calcite-action-group>
+          </calcite-action-pad>
+        </div>
+      </demo-theme>
     </demo-dom-swapper>
   </body>
 </html>

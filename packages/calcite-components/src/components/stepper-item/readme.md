@@ -17,6 +17,12 @@ For comprehensive guidance on using and implementing `calcite-stepper-item`, ref
 | `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                      | `StepperItemMessages` | `undefined` |
 | `selected`         | `selected`          | When `true`, the component is selected.                                                      | `boolean`             | `false`     |
 
+## Events
+
+| Event                      | Description                                           | Type                |
+| -------------------------- | ----------------------------------------------------- | ------------------- |
+| `calciteStepperItemSelect` | Fires when the active `calcite-stepper-item` changes. | `CustomEvent<void>` |
+
 ## Methods
 
 ### `setFocus() => Promise<void>`

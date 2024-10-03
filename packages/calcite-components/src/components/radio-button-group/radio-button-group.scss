@@ -25,6 +25,7 @@
 
 :host([layout="vertical"]) > .item-wrapper {
   @apply flex-col;
+  inline-size: fit-content;
 }
 
 :host([scale="s"]) calcite-input-message {

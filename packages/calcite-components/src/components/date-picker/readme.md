@@ -4,28 +4,6 @@ For comprehensive guidance on using and implementing `calcite-date-picker`, refe
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-You can set a min and max range, as well as an initial value with ISO 8601 formatted strings:
-
-```html
-<calcite-date-picker value="2020-03-27" min="2020-02-01" max="2021-01-01"></calcite-date-picker>
-```
-
-### Range
-
-You can also add range property to activate date range mode. In this mode, you will have to set the value property directly on the component's instance to an array of date strings.
-
-```html
-<calcite-date-picker min="2020-01-01" max="2021-01-31" range />
-```
-
-```js
-document.querySelector("calcite-date-picker").value = ["2020-01-03", "2020-01-05"];
-```
-
 ## Properties
 
 | Property                     | Attribute                      | Description                                                                                                                                                                  | Type                            | Default     |

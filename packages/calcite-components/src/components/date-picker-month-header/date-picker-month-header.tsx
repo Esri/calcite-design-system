@@ -92,10 +92,7 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(
-      this.el,
-      "calcite-date-picker",
-    ) as HTMLCalciteDatePickerElement;
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   connectedCallback(): void {
@@ -161,10 +158,9 @@ export class DatePickerMonthHeader {
               onInput={this.onYearInput}
               onKeyDown={this.onYearKey}
               pattern="\d*"
+              ref={(el) => (this.yearInput = el)}
               type="text"
               value={localizedYear}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.yearInput = el)}
             />
             {suffix && <span class={CSS.suffix}>{suffix}</span>}
           </span>
@@ -304,7 +300,7 @@ export class DatePickerMonthHeader {
     // if you've supplied a year and it's in range
     if (year && inRange && length === localizedYear.length) {
       const nextDate = new Date(activeDate);
-      nextDate.setFullYear(year as number);
+      nextDate.setFullYear(year);
       return dateFromRange(nextDate, min, max);
     }
   }

@@ -204,6 +204,19 @@ describe("calcite-slider", () => {
     });
   });
 
+  // skipped due to a bug where value is rounded down instead of up:
+  // https://github.com/Esri/calcite-design-system/issues/9684
+  it.skip("step floating point precision", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-slider value="1.4" label-handles max="10" min="0.1" snap step="0.1"></calcite-slider>`,
+    );
+    const slider = await page.find("calcite-slider");
+
+    await page.waitForChanges();
+    expect((await slider.getProperty("value")).toString()).toBe("1.4");
+  });
+
   it("only selects values on step interval when snap prop is passed", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -609,6 +622,34 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("maxValue")).toBe(55);
       expect(inputEvent).toHaveReceivedEventTimes(6);
       expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+
+    it("does not allow text selection when slider is used", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-slider 
+          value="30" 
+          label-handles 
+          label-ticks 
+          max-label="100" 
+          ticks="10" 
+          min="0" 
+          max="100" 
+          value="50" 
+          step="1"
+        >
+        </calcite-slider>`,
+      });
+      await page.waitForChanges();
+
+      const thumbRect = await getElementRect(page, "calcite-slider", ".thumb");
+
+      await page.mouse.move(thumbRect.x, thumbRect.y);
+      await page.mouse.down();
+      await page.mouse.move(thumbRect.x + 500, thumbRect.y + 200);
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
     });
   });
 

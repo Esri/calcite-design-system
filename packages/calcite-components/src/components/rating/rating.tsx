@@ -13,8 +13,6 @@ import {
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -167,7 +165,6 @@ export class Rating
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     connectLabel(this);
@@ -209,7 +206,6 @@ export class Rating
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectLabel(this);
@@ -259,9 +255,8 @@ export class Rating
                       onKeyDown={this.handleLabelKeyDown}
                       onPointerDown={this.handleLabelPointerDown}
                       onPointerOver={this.handleLabelPointerOver}
-                      tabIndex={tabIndex}
-                      // eslint-disable-next-line react/jsx-sort-props
                       ref={this.setLabelEl}
+                      tabIndex={tabIndex}
                     >
                       <input
                         checked={checked}
@@ -349,7 +344,6 @@ export class Rating
           break;
         case "Tab":
           this.hoverValue = null;
-        default:
           break;
       }
     } else {
@@ -362,7 +356,7 @@ export class Rating
     }
   };
 
-  private handleInputChange = (event: InputEvent) => {
+  private handleInputChange = (event: Event) => {
     if (this.isKeyboardInteraction === true) {
       const inputVal = Number(event.target["value"]);
       this.hoverValue = inputVal;

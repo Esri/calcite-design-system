@@ -4,18 +4,14 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
   State,
   VNode,
 } from "@stencil/core";
-import {
-  connectInteractive,
-  disconnectInteractive,
-  InteractiveComponent,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
@@ -25,6 +21,8 @@ import {
 import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
 import type { ValueUnion } from "../types";
+import { logger } from "../../utils/logger";
+import { toAriaBoolean } from "../../utils/dom";
 import { ICON_TYPES } from "./resources";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -50,8 +48,14 @@ import {
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 
+logger.deprecated("component", {
+  name: "pick-list",
+  removalVersion: 3,
+  suggested: "list",
+});
+
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
@@ -163,12 +167,10 @@ export class PickList<
   connectedCallback(): void {
     initialize.call(this);
     initializeObserver.call(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
-    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {
@@ -302,6 +304,10 @@ export class PickList<
   }
 
   render(): VNode {
-    return <List onKeyDown={this.keyDownHandler} props={this} />;
+    return (
+      <Host aria-busy={toAriaBoolean(this.loading)} onKeyDown={this.keyDownHandler} role="menu">
+        <List props={this} />
+      </Host>
+    );
   }
 }
