@@ -5,8 +5,9 @@
  *
  * @prop --calcite-tile-background-color: Specifies the background color of the component.
  * @prop --calcite-tile-border-color: Specifies the border color of the component.
- * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
  * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
+ * @prop --calcite-tile-text-color: Specifies the text color of the component.
+ * @prop --calcite-tile-text-color-hover: Specifies the text color of the component on hover.
  * @prop --calcite-tile-icon-color: Specifies the icon color in the component.
  * @prop --calcite-tile-selection-icon-color: Specifies the color of the selection icon in the component.
  * @prop --calcite-tile-selection-icon-color-hover: Specifies the color of the selection icon in the component on hover.
@@ -15,7 +16,6 @@
 
 /** Internal variables
   * --calcite-internal-tile-border-color
-  * --calcite-internal-tile-description-text-color
   * --calcite-internal-tile-heading-text-color
   * --calcite-internal-tile-icon-color
   * --calcite-internal-tile-outline-color
@@ -25,14 +25,11 @@
 
 :host {
   --calcite-internal-tile-border-color: var(--calcite-tile-border-color, var(--calcite-color-border-2));
-  --calcite-internal-tile-description-text-color: var(
-    --calcite-tile-description-text-color,
-    var(--calcite-color-text-3)
-  );
   --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
   --calcite-internal-tile-icon-color: var(--calcite-color-text-3);
 
   box-sizing: border-box;
+  color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
   display: inline-block;
 }
 
@@ -117,7 +114,6 @@
 }
 
 .description {
-  color: var(--calcite-tile-description-text-color, var(--calcite-internal-tile-description-text-color));
   font-weight: var(--calcite-font-weight-regular);
   overflow-wrap: break-word;
 }
@@ -269,7 +265,7 @@ calcite-icon {
 
 :host(:hover:not([disabled])),
 :host([active]:not([disabled])) {
-  --calcite-internal-tile-description-text-color: var(--calcite-color-text-2);
+  color: var(--calcite-tile-text-color-hover, --calcite-color-text-2);
   --calcite-internal-tile-heading-text-color: var(--calcite-color-text-1);
 }
 

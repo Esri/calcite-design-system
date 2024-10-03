@@ -3,12 +3,13 @@ import { html } from "../../support/formatting";
 export const tileTokens = {
   calciteTileBackgroundColor: "",
   calciteTileBorderColor: "",
-  calciteTileDescriptionTextColor: "",
   calciteTileHeadingTextColor: "",
   calciteTileIconColor: "",
   calciteTileSelectionIconColor: "",
   calciteTileSelectionIconColorHover: "",
   calciteTileShadow: "",
+  calciteTileTextColor: "",
+  calciteTileTextColorHover: "",
 };
 
 export const tile = html`

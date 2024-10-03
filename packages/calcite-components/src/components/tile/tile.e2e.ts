@@ -244,10 +244,6 @@ describe("calcite-tile", () => {
             shadowSelector: `.${CSS.container}`,
             targetProp: "outlineColor",
           },
-          "--calcite-tile-description-text-color": {
-            shadowSelector: `.${CSS.description}`,
-            targetProp: "color",
-          },
           "--calcite-tile-heading-text-color": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
@@ -255,6 +251,15 @@ describe("calcite-tile", () => {
           "--calcite-tile-icon-color": {
             shadowSelector: "calcite-icon",
             targetProp: "--calcite-icon-color",
+          },
+          "--calcite-tile-text-color": {
+            selector: `calcite-tile`,
+            targetProp: "color",
+          },
+          "--calcite-tile-text-color-hover": {
+            selector: `calcite-tile`,
+            targetProp: "color",
+            state: "hover",
           },
         },
       );
