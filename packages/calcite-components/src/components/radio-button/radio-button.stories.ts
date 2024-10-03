@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButton } from "./radio-button";
+
 const { scale } = ATTRIBUTES;
 
 interface RadioButtonStoryArgs extends Pick<RadioButton, "checked" | "disabled" | "focused" | "scale" | "label"> {

@@ -1,14 +1,13 @@
+import { describe, expect, it, beforeEach, vi } from "vitest";
 describe("config", () => {
   let config: typeof import("./config");
 
-  /**
-   * Need to load the config at runtime to allow test to specify custom configuration if needed.
-   */
+  /** Need to load the config at runtime to allow test to specify custom configuration if needed. */
   async function loadConfig(): Promise<typeof import("./config")> {
     return import("./config");
   }
 
-  beforeEach(() => jest.resetModules());
+  beforeEach(() => vi.resetModules());
 
   it("has defaults", async () => {
     config = await loadConfig();

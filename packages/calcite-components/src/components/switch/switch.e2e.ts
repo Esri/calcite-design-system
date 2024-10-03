@@ -1,5 +1,7 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import type { Switch } from "./switch";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -58,7 +60,7 @@ describe("calcite-switch", () => {
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
 
-    await page.$eval("calcite-switch", (component: HTMLCalciteSwitchElement) => {
+    await page.$eval("calcite-switch", (component: Switch["el"]) => {
       component.click();
     });
 

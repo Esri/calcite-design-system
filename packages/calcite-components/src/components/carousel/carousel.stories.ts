@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Carousel } from "./carousel";
+
 const { arrowType } = ATTRIBUTES;
 
 type CarouselStoryArgs = Pick<

@@ -1,27 +1,22 @@
-import { FunctionalComponent, h, VNode } from "@stencil/core";
-import { JSXAttributes, JSXBase } from "@stencil/core/internal";
+import { TemplateResult } from "lit-html";
+import { h, LuminaJsx } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 
-export interface XButtonProps extends JSXAttributes {
+export interface XButtonProps extends LuminaJsx.CustomAttributes {
   disabled: boolean;
   label: string;
   scale: Scale;
-  onClick?: JSXBase.DOMAttributes<HTMLElement>["onClick"];
+  onClick?: LuminaJsx.DOMAttributes<HTMLElement>["onClick"];
 }
 
 export const CSS = {
   button: "x-button",
 };
 
-export const XButton: FunctionalComponent<XButtonProps> = ({
-  disabled,
-  key,
-  label,
-  scale,
-}): VNode => (
+export const XButton = ({ disabled, key, label, scale }: XButtonProps): TemplateResult => (
   <button
-    aria-label={label}
+    ariaLabel={label}
     class={CSS.button}
     disabled={disabled}
     key={key}

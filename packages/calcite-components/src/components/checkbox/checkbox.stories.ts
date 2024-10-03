@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Checkbox } from "./checkbox";
+
 const { scale, status } = ATTRIBUTES;
 
 type CheckboxStoryArgs = Pick<Checkbox, "checked" | "disabled" | "indeterminate" | "scale" | "status" | "label">;

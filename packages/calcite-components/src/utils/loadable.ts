@@ -1,4 +1,4 @@
-import { forceUpdate } from "@stencil/core";
+import { LitElement } from "@arcgis/lumina";
 import { isBrowser } from "./browser";
 
 /**
@@ -39,14 +39,14 @@ import { isBrowser } from "./browser";
  *  }
  * ```
  */
-export interface LoadableComponent {
+export interface LoadableComponent extends LitElement {
   /**
    * Stencil lifecycle method.
    * https://stenciljs.com/docs/component-lifecycle#componentwillload
    *
    * Called once just after the component is first connected to the DOM. Since this method is only called once, it's a good place to load data asynchronously and to setup the state without triggering extra re-renders.
    */
-  componentWillLoad: () => Promise<void> | void;
+  load: () => Promise<void> | void;
 
   /**
    * Stencil lifecycle method.
@@ -54,7 +54,7 @@ export interface LoadableComponent {
    *
    * Called once just after the component is fully loaded and the first render() occurs.
    */
-  componentDidLoad: () => Promise<void> | void;
+  loaded: () => Promise<void> | void;
 }
 
 const resolveMap = new WeakMap<LoadableComponent, (value: void | PromiseLike<void>) => void>();
@@ -139,6 +139,6 @@ export async function componentFocusable(component: LoadableComponent): Promise<
     return;
   }
 
-  forceUpdate(component);
+  component.requestUpdate();
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }

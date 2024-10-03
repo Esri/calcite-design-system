@@ -4,6 +4,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Chip } from "./chip";
+
 const { scale, appearance, kind } = ATTRIBUTES;
 
 type ChipStoryArgs = Pick<Chip, "scale" | "appearance" | "kind" | "closable" | "selected">;

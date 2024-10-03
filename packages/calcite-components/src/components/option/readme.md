@@ -15,4 +15,4 @@ For comprehensive guidance on using and implementing `calcite-option`, refer to 
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

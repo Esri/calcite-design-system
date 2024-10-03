@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { toBeInteger } from "../tests/utils";
 import { breakpoints } from "./responsive";
 

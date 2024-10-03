@@ -4,6 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { menuPlacements } from "../../utils/floating-ui";
 import { SplitButton } from "./split-button";
+
 const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
 
 type SplitButtonStoryArgs = Pick<

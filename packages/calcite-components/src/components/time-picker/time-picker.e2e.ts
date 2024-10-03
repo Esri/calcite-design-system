@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils";

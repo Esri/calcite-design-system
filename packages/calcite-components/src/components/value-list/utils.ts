@@ -1,11 +1,13 @@
 import { getItemIndex } from "../pick-list/shared-list-logic";
+import type { ValueListItem } from "../value-list-item/value-list-item";
+import type { Handle } from "../handle/handle";
 import { DragStatus } from "./interfaces";
 import { ValueList } from "./value-list";
 
 export function getScreenReaderText(
-  item: HTMLCalciteValueListItemElement,
+  item: ValueListItem["el"],
   status: DragStatus,
-  valueList: ValueList<HTMLCalciteValueListItemElement>,
+  valueList: ValueList<ValueListItem["el"]>,
 ): string {
   const { items, messages } = valueList;
 
@@ -24,18 +26,17 @@ export function getScreenReaderText(
 }
 
 export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
-  handle: HTMLCalciteHandleElement;
-  item: HTMLCalciteValueListItemElement;
+  handle: Handle["el"];
+  item: ValueListItem["el"];
 } {
   const handle = event
     .composedPath()
-    .find((item: HTMLElement): item is HTMLCalciteHandleElement => item.dataset?.jsHandle !== undefined);
+    .find((item: HTMLElement): item is Handle["el"] => item.dataset?.jsHandle !== undefined);
 
   const item = event
     .composedPath()
     .find(
-      (item: HTMLElement): item is HTMLCalciteValueListItemElement =>
-        item.tagName?.toLowerCase() === "calcite-value-list-item",
+      (item: HTMLElement): item is ValueListItem["el"] => item.tagName?.toLowerCase() === "calcite-value-list-item",
     );
 
   return { handle, item };

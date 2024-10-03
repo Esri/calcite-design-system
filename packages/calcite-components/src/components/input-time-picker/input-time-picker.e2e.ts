@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage, E2EElement } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { localizeTimeString } from "../../utils/time";
 import {
   accessible,

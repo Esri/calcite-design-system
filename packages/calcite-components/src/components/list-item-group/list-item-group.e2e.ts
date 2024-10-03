@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { hidden, renders, disabled, defaults } from "../../tests/commonTests";
 
 describe("calcite-list-item-group", () => {

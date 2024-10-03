@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
@@ -53,7 +54,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: var(--calcite-avatar-background-color, hsl(206, 60%, 90%));");
+    expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(206, 60%, 90%));");
   });
 
   it("computes a background fill if id is not a valid hex", async () => {
@@ -65,7 +66,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: var(--calcite-avatar-background-color, hsl(317, 60%, 90%));");
+    expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(317, 60%, 90%));");
   });
 
   it("renders default icon when no information is passed", async () => {

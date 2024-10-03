@@ -1,5 +1,6 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { KeyInput } from "puppeteer";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -22,7 +23,9 @@ import {
   testPostValidationFocusing,
 } from "../input/common/tests";
 import { assertCaretPosition } from "../../tests/utils";
+import type { InputMessage } from "../input-message/input-message";
 import { CSS } from "./resources";
+import type { InputNumber } from "./input-number";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -1642,7 +1645,7 @@ describe("calcite-input-number", () => {
       await page.keyboard.down("ArrowUp");
       await page.$eval(
         "calcite-input-number",
-        (element: HTMLCalciteInputNumberElement) => {
+        (element: InputNumber["el"]) => {
           document.addEventListener("calciteInputNumberInput", async () => {
             const input = element.shadowRoot.querySelector("input");
             if (input.selectionStart === 0) {
@@ -1671,7 +1674,7 @@ describe("calcite-input-number", () => {
 
     expect(await isElementFocused(page, componentTag)).toBe(false);
 
-    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: InputMessage["el"]) => {
       element.click();
     });
     await page.waitForChanges();

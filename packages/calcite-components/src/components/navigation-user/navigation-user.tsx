@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
+import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import {
   LoadableComponent,
   componentFocusable,
@@ -6,110 +6,100 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS } from "./resources";
+import { styles } from "./navigation-user.scss";
 
-@Component({
-  tag: "calcite-navigation-user",
-  styleUrl: "navigation-user.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-})
-export class CalciteNavigationUser implements LoadableComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-navigation-user": CalciteNavigationUser;
+  }
+}
 
-  /** When `true`, the component is highlighted.*/
-  @Prop({ reflect: true }) active: boolean;
+export class CalciteNavigationUser extends LitElement implements LoadableComponent {
+  // #region Static Members
 
-  /** Specifies the full name of the user.*/
-  @Prop() fullName: string;
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies.*/
-  @Prop() label: string;
+  static override styles = styles;
 
-  /** When `true`, hides the `fullName` and `username` contents.*/
-  @Prop({ reflect: true }) textDisabled = false;
+  // #endregion
 
-  /** Specifies the `src` to an image (remember to add a token if the user is private).*/
-  @Prop() thumbnail: string;
+  // #region Public Properties
 
-  /** Specifies the unique id of the user.*/
-  @Prop() userId: string;
+  /** When `true`, the component is highlighted. */
+  @property({ reflect: true }) active: boolean;
 
-  /** Specifies the username of the user.*/
-  @Prop() username: string;
+  /** Specifies the full name of the user. */
+  @property() fullName: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. */
+  @property() label: string;
+
+  /** When `true`, hides the `fullName` and `username` contents. */
+  @property({ reflect: true }) textDisabled = false;
+
+  /** Specifies the `src` to an image (remember to add a token if the user is private). */
+  @property() thumbnail: string;
+
+  /** Specifies the unique id of the user. */
+  @property() userId: string;
+
+  /** Specifies the username of the user. */
+  @property() username: string;
+
+  // #endregion
+
+  // #region Public Methods
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     this.el.focus();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteNavigationUserElement;
+  // #region Lifecycle
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
+  load(): void {
     setUpLoadableComponent(this);
   }
 
-  componentDidLoad(): void {
+  loaded(): void {
     setComponentLoaded(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     return (
-      <Host>
-        <button aria-label={this.label} class={CSS.button}>
-          <calcite-avatar
-            full-name={this.fullName}
-            label={this.label}
-            thumbnail={this.thumbnail}
-            user-id={this.userId}
-            username={this.username}
-          />
-          {(this.fullName || this.username) && !this.textDisabled && (
-            <div class={CSS.textContainer}>
-              {this.fullName && (
-                <span class={CSS.fullName} key={CSS.fullName}>
-                  {this.fullName}
-                </span>
-              )}
-              {this.username && (
-                <span class={CSS.username} key={CSS.username}>
-                  {this.username}
-                </span>
-              )}
-            </div>
-          )}
-        </button>
-      </Host>
+      <button ariaLabel={this.label} class={CSS.button}>
+        <calcite-avatar
+          fullName={this.fullName}
+          label={this.label}
+          thumbnail={this.thumbnail}
+          userId={this.userId}
+          username={this.username}
+        />
+        {(this.fullName || this.username) && !this.textDisabled && (
+          <div class={CSS.textContainer}>
+            {this.fullName && (
+              <span class={CSS.fullName} key={CSS.fullName}>
+                {this.fullName}
+              </span>
+            )}
+            {this.username && (
+              <span class={CSS.username} key={CSS.username}>
+                {this.username}
+              </span>
+            )}
+          </div>
+        )}
+      </button>
     );
   }
+
+  // #endregion
 }

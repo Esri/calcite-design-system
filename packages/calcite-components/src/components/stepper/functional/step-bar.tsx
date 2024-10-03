@@ -1,4 +1,5 @@
-import { FunctionalComponent, h, VNode } from "@stencil/core";
+import { TemplateResult } from "lit-html";
+import { h } from "@arcgis/lumina";
 
 interface StepBarProps {
   active: boolean;
@@ -17,13 +18,13 @@ export const CSS = {
   stepBarInActive: "step-bar--inactive",
 };
 
-export const StepBar: FunctionalComponent<StepBarProps> = ({
+export const StepBar = ({
   disabled,
   active,
   complete,
   error,
   key,
-}): VNode => (
+}: StepBarProps): TemplateResult => (
   <svg
     class={{
       [CSS.stepBar]: true,

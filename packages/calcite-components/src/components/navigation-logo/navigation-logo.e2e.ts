@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
 

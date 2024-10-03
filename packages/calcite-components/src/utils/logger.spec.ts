@@ -1,3 +1,4 @@
+import { describe, expect, it, afterEach, beforeEach, vi, MockInstance } from "vitest";
 import { GlobalTestProps } from "../tests/utils";
 import { LogLevel } from "./logger";
 import { CalciteConfig } from "./config";
@@ -8,31 +9,31 @@ describe("logger", () => {
   let loggerModule: LoggerModule;
   let logger: LoggerModule["logger"];
 
-  let debugSpy: jest.SpyInstance;
-  let errorSpy: jest.SpyInstance;
-  let infoSpy: jest.SpyInstance;
-  let traceSpy: jest.SpyInstance;
-  let warnSpy: jest.SpyInstance;
+  let debugSpy: MockInstance;
+  let errorSpy: MockInstance;
+  let infoSpy: MockInstance;
+  let traceSpy: MockInstance;
+  let warnSpy: MockInstance;
 
   beforeEach(async () => {
     const noop = () => {
       /* intentional noop */
     };
 
-    debugSpy = jest.spyOn(console, "debug").mockImplementation(noop);
-    errorSpy = jest.spyOn(console, "error").mockImplementation(noop);
-    infoSpy = jest.spyOn(console, "info").mockImplementation(noop);
-    traceSpy = jest.spyOn(console, "trace").mockImplementation(noop);
-    warnSpy = jest.spyOn(console, "warn").mockImplementation(noop);
+    debugSpy = vi.spyOn(console, "debug").mockImplementation(noop);
+    errorSpy = vi.spyOn(console, "error").mockImplementation(noop);
+    infoSpy = vi.spyOn(console, "info").mockImplementation(noop);
+    traceSpy = vi.spyOn(console, "trace").mockImplementation(noop);
+    warnSpy = vi.spyOn(console, "warn").mockImplementation(noop);
 
-    jest.resetModules();
+    vi.resetModules();
     loggerModule = await import("./logger");
     logger = loggerModule.logger;
     loggerModule.loggedDeprecations.clear();
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe("deprecated", () => {
@@ -123,7 +124,7 @@ describe("logger", () => {
     }
 
     async function setLogLevel(level: LogLevel): Promise<void> {
-      jest.resetModules();
+      vi.resetModules();
 
       (globalThis as TestGlobal).calciteConfig = {
         logLevel: level,

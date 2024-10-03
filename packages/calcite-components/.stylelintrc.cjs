@@ -6,7 +6,7 @@ const customFunctions = [
   "medium-modular-scale",
   "modular-scale",
   "scale-duration",
-  "small-modular-scale"
+  "small-modular-scale",
 ];
 // ⚠️ END OF AUTO-GENERATED CODE
 

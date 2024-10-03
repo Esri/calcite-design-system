@@ -3,6 +3,7 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
+
 const { scale, status, alignment, layout } = ATTRIBUTES;
 
 type InputNumberStoryArgs = Pick<

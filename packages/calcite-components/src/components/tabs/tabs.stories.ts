@@ -4,6 +4,7 @@ import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/u
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tabs } from "./tabs";
+
 const { layout, position, scale } = ATTRIBUTES;
 
 type TabsStoryArgs = Pick<Tabs, "layout" | "position" | "scale">;

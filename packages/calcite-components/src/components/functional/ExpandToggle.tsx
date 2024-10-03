@@ -1,8 +1,13 @@
-import { FunctionalComponent, h, VNode } from "@stencil/core";
+import { TemplateResult } from "lit-html";
+import { h } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Position, Scale } from "../interfaces";
+import type { Action } from "../action/action";
+import type { Tooltip } from "../tooltip/tooltip";
+import type { ActionGroup } from "../action-group/action-group";
+import type { ActionMenu } from "../action-menu/action-menu";
 
 interface ExpandToggleProps {
   expanded: boolean;
@@ -12,7 +17,7 @@ interface ExpandToggleProps {
   collapseLabel: string;
   el: HTMLElement;
   position: Position;
-  tooltip?: HTMLCalciteTooltipElement;
+  tooltip?: Tooltip["el"];
   toggle: () => void;
   ref?: (el: HTMLElement) => void;
   scale?: Scale;
@@ -38,7 +43,7 @@ export function toggleChildActionText({
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
   el.querySelectorAll("calcite-action-group, calcite-action-menu").forEach(
-    (el: HTMLCalciteActionMenuElement | HTMLCalciteActionGroupElement) => (el.expanded = expanded),
+    (el: ActionMenu["el"] | ActionGroup["el"]) => (el.expanded = expanded),
   );
 }
 
@@ -48,11 +53,11 @@ const setTooltipReference = ({
   expanded,
   ref,
 }: {
-  tooltip: HTMLCalciteTooltipElement;
-  referenceElement: HTMLCalciteActionElement;
+  tooltip: Tooltip["el"];
+  referenceElement: Action["el"];
   expanded: boolean;
   ref?: (el: HTMLElement) => void;
-}): HTMLCalciteActionElement => {
+}): Action["el"] => {
   if (tooltip) {
     tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
   }
@@ -64,7 +69,7 @@ const setTooltipReference = ({
   return referenceElement;
 };
 
-export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
+export const ExpandToggle = ({
   expanded,
   expandText,
   collapseText,
@@ -76,7 +81,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   tooltip,
   ref,
   scale,
-}): VNode => {
+}: ExpandToggleProps): TemplateResult => {
   const rtl = getElementDir(el) === "rtl";
 
   const text = expanded ? collapseText : expandText;
@@ -97,7 +102,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
       id="expand-toggle"
       label={label}
       onClick={toggle}
-      ref={(referenceElement): HTMLCalciteActionElement =>
+      ref={(referenceElement): Action["el"] =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
       scale={scale}

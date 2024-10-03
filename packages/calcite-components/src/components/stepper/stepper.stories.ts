@@ -1,8 +1,9 @@
-import { Stepper } from "../stepper/stepper";
 import { StepperItem } from "../stepper-item/stepper-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Stepper } from "./stepper";
+
 const { layout, scale } = ATTRIBUTES;
 
 type StepperArgs = Pick<Stepper, "layout" | "scale" | "numbered" | "icon">;

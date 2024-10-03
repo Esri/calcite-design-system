@@ -1,4 +1,4 @@
-import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
+import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import {
   componentFocusable,
@@ -6,29 +6,57 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import type { FlowItem } from "../flow-item/flow-item";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
 import { CSS } from "./resources";
+import { styles } from "./flow.scss";
 
-/**
- * @slot - A slot for adding `calcite-flow-item` elements to the component.
- */
-@Component({
-  tag: "calcite-flow",
-  styleUrl: "flow.scss",
-  shadow: true,
-})
-export class Flow implements LoadableComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-flow": Flow;
+  }
+}
+
+/** @slot - A slot for adding `calcite-flow-item` elements to the component. */
+export class Flow extends LitElement implements LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private itemMutationObserver = createObserver("mutation", () => this.updateFlowProps());
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() flowDirection: FlowDirection = null;
+
+  @state() itemCount = 0;
+
+  @state() items: FlowItemLikeElement[] = [];
+
+  // #endregion
+
+  // #region Public Properties
 
   /**
-   * Removes the currently active `calcite-flow-item`.
+   * This property enables the component to consider other custom elements implementing flow-item's interface.
+   *
+   * @notPublic
    */
-  @Method()
-  async back(): Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement> {
+  @property() customItemSelectors: string;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Removes the currently active `calcite-flow-item`. */
+  @method()
+  async back(): Promise<FlowItem["el"] | FlowItemLikeElement> {
     const { items } = this;
 
     const lastItem = items[items.length - 1];
@@ -53,10 +81,8 @@ export class Flow implements LoadableComponent {
     return lastItem;
   }
 
-  /**
-   * Sets focus on the component.
-   */
-  @Method()
+  /** Sets focus on the component. */
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
@@ -66,66 +92,37 @@ export class Flow implements LoadableComponent {
     return activeItem?.setFocus();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  /**
-   * This property enables the component to consider other custom elements implementing flow-item's interface.
-   *
-   * @internal
-   */
-  @Prop() customItemSelectors: string;
+  // #region Lifecycle
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  constructor() {
+    super();
+    this.listen("calciteFlowItemBack", this.handleItemBackClick);
+  }
 
-  @Element() el: HTMLCalciteFlowElement;
-
-  @State() flowDirection: FlowDirection = null;
-
-  @State() itemCount = 0;
-
-  @State() items: FlowItemLikeElement[] = [];
-
-  itemMutationObserver = createObserver("mutation", () => this.updateFlowProps());
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
+  override connectedCallback(): void {
     this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFlowProps();
   }
 
-  async componentWillLoad(): Promise<void> {
+  load(): void {
     setUpLoadableComponent(this);
   }
 
-  componentDidLoad(): void {
+  loaded(): void {
     setComponentLoaded(this);
   }
 
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     this.itemMutationObserver?.disconnect();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Listen("calciteFlowItemBack")
-  async handleItemBackClick(event: CustomEvent): Promise<void> {
+  // #region Private Methods
+
+  private async handleItemBackClick(event: CustomEvent): Promise<void> {
     if (event.defaultPrevented) {
       return;
     }
@@ -134,7 +131,10 @@ export class Flow implements LoadableComponent {
     return this.setFocus();
   }
 
-  getFlowDirection = (oldFlowItemCount: number, newFlowItemCount: number): FlowDirection | null => {
+  private getFlowDirection(
+    oldFlowItemCount: number,
+    newFlowItemCount: number,
+  ): FlowDirection | null {
     const allowRetreatingDirection = oldFlowItemCount > 1;
     const allowAdvancingDirection = oldFlowItemCount && newFlowItemCount > 1;
 
@@ -143,9 +143,9 @@ export class Flow implements LoadableComponent {
     }
 
     return newFlowItemCount < oldFlowItemCount ? "retreating" : "advancing";
-  };
+  }
 
-  updateFlowProps = (): void => {
+  private updateFlowProps(): void {
     const { customItemSelectors, el, items } = this;
 
     const newItems = Array.from<FlowItemLikeElement>(
@@ -177,15 +177,13 @@ export class Flow implements LoadableComponent {
       this.itemCount = newItemCount;
       this.flowDirection = flowDirection;
     }
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const { flowDirection } = this;
 
     const frameDirectionClasses = {
@@ -200,4 +198,6 @@ export class Flow implements LoadableComponent {
       </div>
     );
   }
+
+  // #endregion
 }

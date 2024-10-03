@@ -1,4 +1,6 @@
+import type { ValueListItem } from "./value-list-item";
+
 export interface ListItemAndHandle {
-  item: HTMLCalciteValueListItemElement;
+  item: ValueListItem["el"];
   handle: HTMLSpanElement;
 }

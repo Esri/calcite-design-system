@@ -5,54 +5,34 @@ import { whenTransitionDone } from "./dom";
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
 export interface OpenCloseComponent {
-  /**
-   * The host element.
-   */
+  /** The host element. */
   readonly el: HTMLElement;
 
-  /**
-   * When true, the component opens.
-   */
+  /** When true, the component opens. */
   open?: boolean;
 
-  /**
-   * When true, the component is open.
-   */
+  /** When true, the component is open. */
   opened?: boolean;
 
-  /**
-   *  Specifies the name of transitionProp.
-   */
+  /** Specifies the name of transitionProp. */
   transitionProp?: string;
 
-  /**
-   * Specifies property on which active transition is watched for.
-   */
+  /** Specifies property on which active transition is watched for. */
   openTransitionProp: string;
 
-  /**
-   * Specifies element that the transition is allowed to emit on.
-   */
+  /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement;
 
-  /**
-   * Defines method for `beforeOpen` event handler.
-   */
+  /** Defines method for `beforeOpen` event handler. */
   onBeforeOpen: () => void;
 
-  /**
-   * Defines method for `open` event handler:
-   */
+  /** Defines method for `open` event handler: */
   onOpen: () => void;
 
-  /**
-   * Defines method for `beforeClose` event handler:
-   */
+  /** Defines method for `beforeClose` event handler: */
   onBeforeClose: () => void;
 
-  /**
-   * Defines method for `close` event handler:
-   */
+  /** Defines method for `close` event handler: */
   onClose: () => void;
 }
 
@@ -61,7 +41,7 @@ function isOpen(component: OpenCloseComponent): boolean {
 }
 
 /**
- * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the @Watch("open").
+ * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the `@Watch`("open").
  * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
  *
  * @example
@@ -72,11 +52,10 @@ function isOpen(component: OpenCloseComponent): boolean {
  * if (this.open) {
  *    onToggleOpenCloseComponent(this);
  * }
- * @Watch("open")
+ * @Watch ("open")
  * async toggleModal(value: boolean): Promise<void> {
  *    onToggleOpenCloseComponent(this);
  * }
- *
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
