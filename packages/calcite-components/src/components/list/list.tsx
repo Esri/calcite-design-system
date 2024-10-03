@@ -50,7 +50,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { ReorderEventDetail } from "../sort-handle/interfaces";
+import { MoveEventDetail, ReorderEventDetail } from "../sort-handle/interfaces";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
@@ -336,6 +336,15 @@ export class List
     }
 
     this.handleReorder(event);
+  }
+
+  @Listen("calciteSortHandleMove")
+  handleSortMove(event: CustomEvent<MoveEventDetail>): void {
+    if (this.parentListEl) {
+      return;
+    }
+
+    this.handleMove(event);
   }
 
   @Listen("calciteInternalListItemSelect")
@@ -960,7 +969,45 @@ export class List
     }
   };
 
-  handleReorder(event: CustomEvent<ReorderEventDetail>): void {
+  private handleMove(event: CustomEvent<MoveEventDetail>): void {
+    const { value } = event.detail;
+
+    console.log(value);
+
+    //todo: implement this
+
+    // const dragEl = event.target as HTMLCalciteListItemElement;
+    // const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
+
+    // if (!parentEl) {
+    //   return;
+    // }
+
+    // const toEl = parentEl.querySelector(`calcite-list-item[value="${value}"]`);
+
+    // if (!toEl) {
+    //   return;
+    // }
+
+    // this.disconnectObserver();
+
+    // const referenceEl = toEl.nextSibling;
+
+    // parentEl.insertBefore(dragEl, referenceEl);
+
+    // this.updateListItems();
+    // this.connectObserver();
+
+    // this.calciteListOrderChange.emit({
+    //   dragEl,
+    //   fromEl: parentEl,
+    //   toEl: parentEl,
+    //   newIndex: Array.from(parentEl.children).indexOf(dragEl),
+    //   oldIndex: Array.from(parentEl.children).indexOf(toEl),
+    // });
+  }
+
+  private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
     const { reorder } = event.detail;
 
     const dragEl = event.target as HTMLCalciteListItemElement;
