@@ -97,12 +97,18 @@
   border-block-end: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
 }
 
-:host .header * {
-  @apply inline-flex
-    items-center
-    duration-150
-    ease-in-out;
-  @include word-break();
+:host .header {
+  * {
+    @apply inline-flex
+      items-center
+      duration-150
+      ease-in-out;
+    @include word-break();
+  }
+
+  .actions-start {
+    @apply items-stretch;
+  }
 }
 
 :host .content {
@@ -190,10 +196,6 @@
 .actions-start,
 .actions-end {
   @apply flex items-center;
-}
-
-slot[name="actions-start"] {
-  block-size: 100%;
 }
 
 @media (forced-colors: active) {
