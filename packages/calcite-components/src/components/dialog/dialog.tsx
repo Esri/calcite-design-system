@@ -234,16 +234,8 @@ export class Dialog
       focusTrapOptions: {
         // Scrim has it's own close handler, allow it to take over.
         clickOutsideDeactivates: false,
-        escapeDeactivates: (event) => {
-          if (event.defaultPrevented || this.escapeDisabled) {
-            return false;
-          }
-          event.preventDefault();
-          return true;
-        },
-        onDeactivate: () => {
-          this.open = false;
-        },
+        escapeDeactivates: this.escapeDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
       },
     });
     this.setupInteractions();
@@ -392,6 +384,18 @@ export class Dialog
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );
+
+  private escapeDeactivates = (event: KeyboardEvent): boolean => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  };
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
 
   //--------------------------------------------------------------------------
   //

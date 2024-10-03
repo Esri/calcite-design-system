@@ -153,16 +153,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
-        escapeDeactivates: (event) => {
-          if (event.defaultPrevented || this.escapeDisabled) {
-            return false;
-          }
-          event.preventDefault();
-          return true;
-        },
-        onDeactivate: () => {
-          this.open = false;
-        },
+        escapeDeactivates: this.escapeDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
       },
     });
   }
@@ -353,4 +345,16 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private handleMutationObserver(): void {
     this.updateFocusTrapElements();
   }
+
+  private escapeDeactivates = (event: KeyboardEvent) => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  };
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
 }

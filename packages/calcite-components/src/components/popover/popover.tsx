@@ -297,20 +297,8 @@ export class Popover
       focusTrapEl: this.el,
       focusTrapOptions: {
         allowOutsideClick: true,
-        clickOutsideDeactivates: (event: MouseEvent) => {
-          const path = event.composedPath();
-          const isReferenceElementInPath =
-            this.effectiveReferenceElement instanceof EventTarget &&
-            path.includes(this.effectiveReferenceElement);
-
-          const outsideClick = !path.includes(this.el);
-          const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
-
-          return shouldCloseOnOutsideClick && (this.triggerDisabled || isReferenceElementInPath);
-        },
-        onDeactivate: () => {
-          this.open = false;
-        },
+        clickOutsideDeactivates: this.clickOutsideDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
       },
     });
 
@@ -539,6 +527,22 @@ export class Popover
   storeArrowEl = (el: SVGSVGElement): void => {
     this.arrowEl = el;
     this.reposition(true);
+  };
+
+  private clickOutsideDeactivates = (event: MouseEvent): boolean => {
+    const path = event.composedPath();
+    const isReferenceElementInPath =
+      this.effectiveReferenceElement instanceof EventTarget &&
+      path.includes(this.effectiveReferenceElement);
+
+    const outsideClick = !path.includes(this.el);
+    const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
+
+    return shouldCloseOnOutsideClick && (this.triggerDisabled || isReferenceElementInPath);
+  };
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
   };
 
   // --------------------------------------------------------------------------

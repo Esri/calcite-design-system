@@ -397,6 +397,10 @@ export class InputDatePicker
     this.commitValue();
   };
 
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -999,9 +1003,7 @@ export class InputDatePicker
         clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,
-        onDeactivate: () => {
-          this.open = false;
-        },
+        onDeactivate: this.focusTrapDeactivates,
       },
     });
   };
