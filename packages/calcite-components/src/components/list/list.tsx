@@ -677,6 +677,7 @@ export class List
   }
 
   onDragStart(detail: ListDragDetail): void {
+    detail.dragEl.sortHandleOpen = false;
     this.calciteListDragStart.emit(detail);
   }
 

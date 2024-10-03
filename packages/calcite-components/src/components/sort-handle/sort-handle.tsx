@@ -189,6 +189,12 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
   //
   // --------------------------------------------------------------------------
 
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteSortHandleBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteSortHandleBeforeOpen: EventEmitter<void>;
+
   /**
    * Fires when a reorder has been selected.
    */
@@ -198,6 +204,12 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
    * Fires when a move item has been selected.
    */
   @Event({ cancelable: false }) calciteSortHandleMove: EventEmitter<MoveEventDetail>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteSortHandleClose: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteSortHandleOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -237,11 +249,25 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     return formattedLabel.replace(SUBSTITUTIONS.total, setSize ? setSize.toString() : "");
   }
 
-  private handleOpen = (): void => {
+  private handleBeforeOpen = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteSortHandleBeforeOpen.emit();
+  };
+
+  private handleOpen = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteSortHandleOpen.emit();
     this.open = true;
   };
 
-  private handleClose = (): void => {
+  private handleBeforeClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteSortHandleBeforeClose.emit();
+  };
+
+  private handleClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteSortHandleClose.emit();
     this.open = false;
   };
 
@@ -284,6 +310,8 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
           class={CSS.dropdown}
           disabled={isDisabled}
           flipPlacements={flipPlacements}
+          onCalciteDropdownBeforeClose={this.handleBeforeClose}
+          onCalciteDropdownBeforeOpen={this.handleBeforeOpen}
           onCalciteDropdownClose={this.handleClose}
           onCalciteDropdownOpen={this.handleOpen}
           open={open}

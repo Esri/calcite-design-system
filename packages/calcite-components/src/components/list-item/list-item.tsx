@@ -226,6 +226,13 @@ export class ListItem
   @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
 
   /**
+   * When `true`, displays and positions the sort handle.
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) sortHandleOpen = false;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -464,7 +471,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, sortHandleOpen } = this;
 
     return dragHandle ? (
       <td
@@ -478,6 +485,11 @@ export class ListItem
         <calcite-sort-handle
           disabled={dragDisabled}
           label={label}
+          onCalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
+          onCalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
+          onCalciteSortHandleClose={this.handleSortHandleClose}
+          onCalciteSortHandleOpen={this.handleSortHandleOpen}
+          open={sortHandleOpen}
           overlayPositioning="fixed"
           setPosition={setPosition}
           setSize={setSize}
@@ -718,6 +730,24 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private handleSortHandleBeforeOpen = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+  };
+
+  private handleSortHandleBeforeClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+  };
+
+  private handleSortHandleClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.sortHandleOpen = false;
+  };
+
+  private handleSortHandleOpen = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.sortHandleOpen = true;
+  };
 
   private emitInternalListItemActive = (): void => {
     this.calciteInternalListItemActive.emit();

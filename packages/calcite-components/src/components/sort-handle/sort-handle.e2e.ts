@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, themed, t9n } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, themed, t9n, openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import type { SortHandleMessages } from "./assets/sort-handle/t9n";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
@@ -150,5 +150,9 @@ describe("calcite-sort-handle", () => {
         },
       });
     });
+  });
+
+  describe("openClose", () => {
+    openClose(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
   });
 });

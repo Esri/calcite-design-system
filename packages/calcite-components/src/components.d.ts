@@ -3337,6 +3337,10 @@ export namespace Components {
          */
         "setSize": number;
         /**
+          * When `true`, displays and positions the sort handle.
+         */
+        "sortHandleOpen": boolean;
+        /**
           * When `true`, the component's content appears inactive.
          */
         "unavailable": boolean;
@@ -7671,8 +7675,12 @@ declare global {
         new (): HTMLCalciteSliderElement;
     };
     interface HTMLCalciteSortHandleElementEventMap {
+        "calciteSortHandleBeforeClose": void;
+        "calciteSortHandleBeforeOpen": void;
         "calciteSortHandleReorder": ReorderEventDetail;
         "calciteSortHandleMove": MoveEventDetail;
+        "calciteSortHandleClose": void;
+        "calciteSortHandleOpen": void;
     }
     interface HTMLCalciteSortHandleElement extends Components.CalciteSortHandle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteSortHandleElementEventMap>(type: K, listener: (this: HTMLCalciteSortHandleElement, ev: CalciteSortHandleCustomEvent<HTMLCalciteSortHandleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11585,6 +11593,10 @@ declare namespace LocalJSX {
          */
         "setSize"?: number;
         /**
+          * When `true`, displays and positions the sort handle.
+         */
+        "sortHandleOpen"?: boolean;
+        /**
           * When `true`, the component's content appears inactive.
          */
         "unavailable"?: boolean;
@@ -13078,9 +13090,25 @@ declare namespace LocalJSX {
          */
         "moveToItems"?: MoveToItem[];
         /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteSortHandleBeforeClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteSortHandleBeforeOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteSortHandleClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
           * Fires when a move item has been selected.
          */
         "onCalciteSortHandleMove"?: (event: CalciteSortHandleCustomEvent<MoveEventDetail>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteSortHandleOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
         /**
           * Fires when a reorder has been selected.
          */
