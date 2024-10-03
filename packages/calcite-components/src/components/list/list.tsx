@@ -461,7 +461,7 @@ export class List
 
   focusableItems: HTMLCalciteListItemElement[] = [];
 
-  handleSelector = "calcite-handle";
+  handleSelector = "calcite-sort-handle";
 
   @State() hasFilterActionsEnd = false;
 
