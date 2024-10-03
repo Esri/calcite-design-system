@@ -873,7 +873,7 @@ export class List
       : [];
 
     this.moveToItems = lists
-      .filter((list) => list !== el && !el.contains(list))
+      .filter((list) => list !== el && (this.parentListEl ? !el.contains(list) : true))
       .map((element) => ({ element, label: element.label, id: guid() }));
   }
 
@@ -1002,26 +1002,28 @@ export class List
     const { moveTo } = event.detail;
 
     const dragEl = event.target as HTMLCalciteListItemElement;
-    const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
+    const fromEl = dragEl?.parentElement as HTMLCalciteListElement;
+    const oldIndex = Array.from(fromEl.children).indexOf(dragEl);
     const toEl = moveTo.element as HTMLCalciteListElement;
 
-    if (!parentEl) {
+    if (!fromEl) {
       return;
     }
 
     this.disconnectObserver();
 
-    toEl.appendChild(event.target as HTMLCalciteListItemElement);
+    toEl.appendChild(dragEl);
+    const newIndex = Array.from(toEl.children).indexOf(dragEl);
 
     this.updateListItems();
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
       dragEl,
-      fromEl: parentEl,
+      fromEl,
       toEl,
-      newIndex: Array.from(parentEl.children).indexOf(dragEl),
-      oldIndex: Array.from(parentEl.children).indexOf(toEl),
+      newIndex,
+      oldIndex,
     });
   }
 
