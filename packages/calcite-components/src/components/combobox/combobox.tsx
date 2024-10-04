@@ -1091,10 +1091,6 @@ export class Combobox
       const matchAll = text === "";
 
       itemsAndGroups.forEach((item) => {
-        if (item.hasAttribute("hidden")) {
-          return;
-        }
-
         if (matchAll) {
           item.hidden = false;
           return;
@@ -1276,7 +1272,7 @@ export class Combobox
     const items: HTMLCalciteComboboxItemElement[] = Array.from(
       this.el.querySelectorAll(ComboboxItem),
     );
-    return items.filter((item) => !item.disabled);
+    return items.filter((item) => !item.disabled && !item.hidden);
   }
 
   getGroupItems(): HTMLCalciteComboboxItemGroupElement[] {
