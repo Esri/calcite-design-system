@@ -1091,6 +1091,10 @@ export class Combobox
       const matchAll = text === "";
 
       itemsAndGroups.forEach((item) => {
+        if (item.hasAttribute("hidden")) {
+          return;
+        }
+
         if (matchAll) {
           item.hidden = false;
           return;
