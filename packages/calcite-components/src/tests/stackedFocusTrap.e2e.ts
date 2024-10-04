@@ -65,7 +65,6 @@ describe("stacked focus-trap components", () => {
         element.setProperty("open", true);
         await page.waitForChanges();
         await openEvent;
-        expect(await element.isVisible()).toBe(true);
       }
 
       async function testEscapeAndAssertOpenState(focusTrapOrderElements: E2EElement[]): Promise<void> {

@@ -153,6 +153,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
+        // Scrim has it's own close handler, allow it to take over.
+        clickOutsideDeactivates: false,
         escapeDeactivates: this.escapeDeactivates,
         onDeactivate: this.focusTrapDeactivates,
       },
