@@ -61,7 +61,7 @@
       z-index: var(--calcite-z-index);
     }
     &:focus {
-      --calcite-internal-tile-shadow: inset 0 0 0 1px var(--calcite-color-brand);
+      --calcite-internal-tile-shadow: inset 0 0 0 1px var(--calcite-tile-border-color, --calcite-color-brand);
       z-index: var(--calcite-z-index-sticky);
     }
   }
