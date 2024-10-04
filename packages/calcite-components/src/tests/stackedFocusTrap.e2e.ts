@@ -58,7 +58,7 @@ describe("stacked focus-trap components", () => {
     await skipAnimations(page);
 
     async function testStackEscapeSequence(page: E2EPage, pickerType: string): Promise<void> {
-      async function openAndCheckVisibility(element: E2EElement) {
+      async function openAndCheckVisibility(element: E2EElement): Promise<void> {
         const elTagNameCamelCased = camelCase(element.tagName);
         const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
 
