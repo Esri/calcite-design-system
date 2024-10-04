@@ -87,6 +87,7 @@ describe("stacked focus-trap components", () => {
 
           const activeElementIdAfterTab = await page.evaluate(() => document.activeElement?.id);
 
+          // sheet itself is not focusable, so we check for `sheet-button` as the element focus returns to it after closing the previous component
           const expectedElementId =
             focusTrapOrderElements[i].id === "sheet"
               ? "sheet-button"
