@@ -5,7 +5,7 @@
 
 .list {
   @apply flex list-none m-0 p-0;
-  column-gap: 2px;
+  column-gap: var(--calcite-spacing-base);
 }
 
 .list-item {
@@ -95,7 +95,7 @@
     @apply text-color-1 border-b-color-brand font-medium;
   }
   &:focus {
-    border-block-end-width: 4px;
+    border-block-end-width: var(--calcite-spacing-xxs);
   }
 }
 
