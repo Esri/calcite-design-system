@@ -93,9 +93,11 @@
   }
   &.selected {
     @apply text-color-1 border-b-color-brand font-medium;
-  }
-  &:focus {
-    border-block-end-width: var(--calcite-spacing-xxs);
+
+    &:focus {
+      border-block-end-width: var(--calcite-spacing-xxs);
+      padding-block-start: var(--calcite-spacing-base);
+    }
   }
 }
 
