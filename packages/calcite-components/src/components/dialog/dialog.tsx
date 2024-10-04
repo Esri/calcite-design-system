@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -231,7 +230,14 @@ export class Dialog
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLocalized(this);
     connectMessages(this);
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        // Scrim has it's own close handler, allow it to take over.
+        clickOutsideDeactivates: false,
+        escapeDeactivates: this.escapeDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
+      },
+    });
     this.setupInteractions();
   }
 
@@ -379,19 +385,17 @@ export class Dialog
     this.handleMutationObserver(),
   );
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
+  private escapeDeactivates = (event: KeyboardEvent): boolean => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
     }
-  }
+    event.preventDefault();
+    return true;
+  };
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
 
   //--------------------------------------------------------------------------
   //
