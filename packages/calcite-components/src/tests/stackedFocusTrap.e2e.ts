@@ -57,27 +57,16 @@ describe("stacked focus-trap components", () => {
     await page.setContent(componentStack);
     await skipAnimations(page);
 
-    async function testStackEscapeSequence(page: E2EPage, pickerType: string) {
+    async function testStackEscapeSequence(page: E2EPage, pickerType: string): Promise<void> {
       async function openAndCheckVisibility(element: E2EElement) {
+        const elTagNameCamelCased = camelCase(element.tagName);
+        const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+
         element.setProperty("open", true);
         await page.waitForChanges();
+        await openEvent;
         expect(await element.isVisible()).toBe(true);
       }
-
-      const sheet = await page.find("#sheet");
-      const dialog = await page.find("#dialog");
-      const firstModal = await page.find("#example-modal");
-      const secondModal = await page.find("#another-modal");
-      const popover = await page.find("#popover");
-      const inputPicker = await page.find(pickerType);
-
-      await openAndCheckVisibility(sheet);
-      await openAndCheckVisibility(dialog);
-      await openAndCheckVisibility(firstModal);
-      await openAndCheckVisibility(secondModal);
-      await openAndCheckVisibility(popover);
-
-      await inputPicker.click();
 
       async function testEscapeAndAssertOpenState(focusTrapOrderElements: E2EElement[]): Promise<void> {
         for (let i = 0; i < focusTrapOrderElements.length; i++) {
@@ -117,6 +106,21 @@ describe("stacked focus-trap components", () => {
           }
         }
       }
+
+      const sheet = await page.find("#sheet");
+      const dialog = await page.find("#dialog");
+      const firstModal = await page.find("#example-modal");
+      const secondModal = await page.find("#another-modal");
+      const popover = await page.find("#popover");
+      const inputPicker = await page.find(pickerType);
+
+      await openAndCheckVisibility(sheet);
+      await openAndCheckVisibility(dialog);
+      await openAndCheckVisibility(firstModal);
+      await openAndCheckVisibility(secondModal);
+      await openAndCheckVisibility(popover);
+
+      await inputPicker.click();
 
       await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, dialog, sheet]);
     }

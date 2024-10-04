@@ -544,10 +544,6 @@ export class InputTimePicker
     this.open = false;
   };
 
-  onFocusTrapDeactivate(): void {
-    this.open = false;
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput("time", this, input);
   }

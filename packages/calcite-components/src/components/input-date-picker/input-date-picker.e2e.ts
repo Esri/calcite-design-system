@@ -373,17 +373,17 @@ describe("calcite-input-date-picker", () => {
 
       it("toggles the date picker when clicked", async () => {
         let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
         expect(await calendar.isVisible()).toBe(false);
 
         await inputDatePicker.click();
         await page.waitForChanges();
-
         calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
         expect(await calendar.isVisible()).toBe(true);
 
         await inputDatePicker.click();
         await page.waitForChanges();
-
         calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
         expect(await calendar.isVisible()).toBe(false);
       });
