@@ -58,8 +58,10 @@ describe("calcite-sort-handle", () => {
     await page.waitForChanges();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
+    const event = page.waitForEvent("calciteSortHandleReorder");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
+    await event;
     expect(await calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
     expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
   });
@@ -87,8 +89,10 @@ describe("calcite-sort-handle", () => {
     await page.waitForChanges();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
+    const event = page.waitForEvent("calciteSortHandleMove");
     await page.keyboard.press(" ");
     await page.waitForChanges();
+    await event;
     expect(await calciteSortHandleMoveSpy.lastEvent.detail.value).toBe(moveToItems[1].value);
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
   });
