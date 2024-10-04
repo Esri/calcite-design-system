@@ -3,6 +3,7 @@ import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/u
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Pagination } from "./pagination";
+
 const { scale } = ATTRIBUTES;
 
 interface PaginationStoryArgs

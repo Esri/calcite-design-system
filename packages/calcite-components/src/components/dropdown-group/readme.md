@@ -19,4 +19,4 @@ For comprehensive guidance on using and implementing `calcite-dropdown-group`, r
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

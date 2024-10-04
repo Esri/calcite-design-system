@@ -1,11 +1,12 @@
-import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, afterAll, beforeAll, vi, MockInstance } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import { getFocusedElementProp } from "../../tests/utils";
 import { SelectionMode } from "../interfaces";
 
-type SpyInstance = jest.SpyInstance;
+type SpyInstance = MockInstance;
 
 /**
  * Helper to ensure an item is clicked and avoids clicking on any of its children
@@ -1081,7 +1082,7 @@ describe("calcite-tree", () => {
   describe("not throwing if tree doesn't have a parent element on initial render (#5333)", () => {
     let consoleSpy: SpyInstance;
 
-    beforeAll(() => (consoleSpy = jest.spyOn(console, "error")));
+    beforeAll(() => (consoleSpy = vi.spyOn(console, "error")));
 
     afterAll(() => consoleSpy.mockRestore());
 

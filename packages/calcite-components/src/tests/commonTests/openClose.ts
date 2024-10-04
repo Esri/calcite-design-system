@@ -1,5 +1,6 @@
-import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
+import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect, it } from "vitest";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../utils";
 import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./utils";
 import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
@@ -7,14 +8,10 @@ import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interface
 expect.extend(toHaveNoViolations);
 
 interface OpenCloseOptions {
-  /**
-   * Toggle property to test. Currently, either "open" or "expanded".
-   */
+  /** Toggle property to test. Currently, either "open" or "expanded". */
   openPropName?: string;
 
-  /**
-   * When `true`, the test will assert that the delays match those used when animation is disabled
-   */
+  /** When `true`, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
 }
 
@@ -38,8 +35,6 @@ const defaultOptions: OpenCloseOptions = {
  *     }
  *   });
  * });
- *
- *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {object} [options] - Additional options to assert.
  */
@@ -129,29 +124,19 @@ openClose.initial = function openCloseInitial(
 };
 
 interface TestOpenCloseEventsParams {
-  /**
-   * The component tag to test.
-   */
+  /** The component tag to test. */
   tag: ComponentTag;
 
-  /**
-   * The E2E page instance.
-   */
+  /** The E2E page instance. */
   page: E2EPage;
 
-  /**
-   * The property name used to control the open state of the component.
-   */
+  /** The property name used to control the open state of the component. */
   openPropName: string;
 
-  /**
-   * Whether the component should start in the open state.
-   */
+  /** Whether the component should start in the open state. */
   startOpen?: boolean;
 
-  /**
-   * Whether animations are enabled.
-   */
+  /** Whether animations are enabled. */
   animationsEnabled: boolean;
 }
 

@@ -1,4 +1,5 @@
 import { toHaveNoViolations } from "jest-axe";
+import { expect, it } from "vitest";
 import { getTag, simplePageSetup } from "./utils";
 import { TagOrHTML } from "./interfaces";
 
@@ -13,7 +14,6 @@ expect.extend(toHaveNoViolations);
  * describe("slots", () => {
  *    slots("calcite-stack", SLOTS)
  * })
- *
  * @param {string} componentTagOrHTML - The component tag or HTML markup to test against.
  * @param {Record<string, string> | string[]} slots - A component's SLOTS resource object or an array of slot names.
  * @param {boolean} includeDefaultSlot - When true, it will run assertions on the default slot.

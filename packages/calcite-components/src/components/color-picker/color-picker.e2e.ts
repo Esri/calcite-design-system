@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, afterAll, afterEach, beforeAll, beforeEach, vi, MockInstance } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
 import {
   GlobalTestProps,
@@ -13,8 +14,9 @@ import { html } from "../../../support/formatting";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
 import { getSliderWidth } from "./utils";
+import type { ColorPicker } from "./color-picker";
 
-type SpyInstance = jest.SpyInstance;
+type SpyInstance = MockInstance;
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
@@ -24,7 +26,7 @@ describe("calcite-color-picker", () => {
     // https://github.com/puppeteer/puppeteer/issues/4147#issuecomment-473208182
     await page.$eval(
       `calcite-color-picker`,
-      (colorPicker: HTMLCalciteColorPickerElement, scopeSelector: string): void => {
+      (colorPicker: ColorPicker["el"], scopeSelector: string): void => {
         colorPicker.shadowRoot.querySelector<HTMLElement>(scopeSelector).click();
       },
       `.${scope === "hue" ? CSS.hueScope : CSS.colorFieldScope}`,
@@ -38,7 +40,7 @@ describe("calcite-color-picker", () => {
 
   beforeEach(
     () =>
-      (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+      (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
         // hide warning messages during test
       })),
   );
@@ -450,7 +452,7 @@ describe("calcite-color-picker", () => {
 
         const initialValueIsRendered = await page.$eval(
           "calcite-color-picker",
-          (picker: HTMLCalciteColorPickerElement, initialValue: string) =>
+          (picker: ColorPicker["el"], initialValue: string) =>
             // color prop is used to render the active color
             picker.color.string() === initialValue,
           initialValue,
@@ -662,7 +664,7 @@ describe("calcite-color-picker", () => {
     x = 0;
 
     type TestWindow = GlobalTestProps<{
-      internalColor: HTMLCalciteColorPickerElement["color"];
+      internalColor: ColorPicker["el"]["color"];
     }>;
 
     await page.evaluateHandle(() => {
@@ -899,9 +901,7 @@ describe("calcite-color-picker", () => {
     const initialColor = supportedFormatToSampleValue.hex;
 
     async function getInternalColorAsHex(page: E2EPage): Promise<string> {
-      return page.$eval("calcite-color-picker", (picker: HTMLCalciteColorPickerElement) =>
-        picker.color.hex().toLowerCase(),
-      );
+      return page.$eval("calcite-color-picker", (picker: ColorPicker["el"]) => picker.color.hex().toLowerCase());
     }
 
     it("value as attribute", async () => {

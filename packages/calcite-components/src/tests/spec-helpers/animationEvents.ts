@@ -2,9 +2,7 @@ export interface AnimationEventDispatcher {
   (element: HTMLElement, type: "animationstart" | "animationend", animationName: string): void;
 }
 
-/**
- * Must be called in a `beforeEach` block to create a animation event dispatcher.
- */
+/** Must be called in a `beforeEach` block to create a animation event dispatcher. */
 export function createAnimationEventDispatcher(): AnimationEventDispatcher {
   // we define AnimationEvent since JSDOM doesn't support it yet -
   class AnimationEvent extends window.Event {

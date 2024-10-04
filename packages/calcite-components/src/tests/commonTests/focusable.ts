@@ -1,5 +1,6 @@
 import { toHaveNoViolations } from "jest-axe";
-import {} from "./../utils";
+import {} from "../utils";
+import { expect, it } from "vitest";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
@@ -13,14 +14,10 @@ export interface FocusableOptions {
    */
   focusId?: string;
 
-  /**
-   * selector used to assert the focused DOM element
-   */
+  /** selector used to assert the focused DOM element */
   focusTargetSelector?: string;
 
-  /**
-   * selector used to assert the focused shadow DOM element
-   */
+  /** selector used to assert the focused shadow DOM element */
   shadowFocusTargetSelector?: string;
 }
 
@@ -33,7 +30,6 @@ export interface FocusableOptions {
  * describe("is focusable", () => {
  *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
- *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param componentTestSetup
  * @param {FocusableOptions} [options] - additional options for asserting focus

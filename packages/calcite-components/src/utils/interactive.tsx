@@ -1,10 +1,8 @@
-import { JSXAttributes } from "@stencil/core/internal";
-import { FunctionalComponent, h, VNode } from "@stencil/core";
+import { TemplateResult } from "lit-html";
+import { h, JsxNode, LuminaJsx } from "@arcgis/lumina";
 
 export interface InteractiveComponent {
-  /**
-   * The host element.
-   */
+  /** The host element. */
   readonly el: InteractiveHTMLElement;
 
   /**
@@ -12,7 +10,7 @@ export interface InteractiveComponent {
    *
    * Notes:
    *
-   * This prop should use the @Prop decorator and reflect.
+   * This prop should use the `@Prop` decorator and reflect.
    * The `disabled` Sass mixin must be added to the component's stylesheet.
    */
   disabled: boolean;
@@ -21,7 +19,7 @@ export interface InteractiveComponent {
 /**
  * Exported for testing purposes only.
  *
- * @internal
+ * @notPublic
  */
 export type InteractiveHTMLElement = HTMLElement & Pick<InteractiveComponent, "disabled">;
 
@@ -111,7 +109,7 @@ function removeInteractionListeners(element: HTMLElement): void {
   );
 }
 
-export interface InteractiveContainerProps extends JSXAttributes {
+export interface InteractiveContainerProps extends LuminaJsx.CustomAttributes {
   disabled: boolean;
 }
 
@@ -119,11 +117,11 @@ export const CSS = {
   container: "interaction-container",
 };
 
-export const InteractiveContainer: FunctionalComponent<InteractiveContainerProps> = (
-  { disabled },
-  children: VNode[],
-): VNode => (
+export const InteractiveContainer = ({
+  children,
+  disabled,
+}: InteractiveContainerProps & { children: JsxNode }): TemplateResult => (
   <div class={CSS.container} inert={disabled}>
-    {...children}
+    {children}
   </div>
 );

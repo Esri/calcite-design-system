@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 

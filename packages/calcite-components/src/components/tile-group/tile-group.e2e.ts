@@ -1,7 +1,9 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, reflects, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { createSelectedItemsAsserter, isElementFocused } from "../../tests/utils";
+import type { TileGroup } from "./tile-group";
 
 describe("calcite-tile-group", () => {
   describe("accessible", () => {
@@ -211,9 +213,7 @@ describe("calcite-tile-group", () => {
         expect(tile.getAttribute("scale")).toBe("s");
       });
 
-      await page.$eval("calcite-tile-group", (element: HTMLCalciteTileGroupElement) =>
-        element.setAttribute("scale", "l"),
-      );
+      await page.$eval("calcite-tile-group", (element: TileGroup["el"]) => element.setAttribute("scale", "l"));
       await page.waitForChanges();
 
       tiles = await page.findAll("calcite-tile");

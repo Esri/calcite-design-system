@@ -1,4 +1,4 @@
-import { forceUpdate } from "@stencil/core";
+import { LitElement } from "@arcgis/lumina";
 import { createObserver, ExtendedMutationObserver } from "./observers";
 
 /**
@@ -11,9 +11,7 @@ import { createObserver, ExtendedMutationObserver } from "./observers";
  * ```
  */
 export interface ConditionalSlotComponent {
-  /**
-   * The host element.
-   */
+  /** The host element. */
   readonly el: HTMLElement;
 }
 
@@ -54,6 +52,6 @@ export function disconnectConditionalSlotComponent(component: ConditionalSlotCom
 
 function processMutations(mutations: MutationRecord[]): void {
   mutations.forEach(({ target }) => {
-    forceUpdate(target);
+    (target as Partial<LitElement>)?.manager.component.requestUpdate();
   });
 }

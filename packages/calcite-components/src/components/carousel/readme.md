@@ -11,7 +11,7 @@
 | `autoplayDuration`   | `autoplay-duration` | When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.                                                                           | `number`                         | `DURATION`  |
 | `controlOverlay`     | `control-overlay`   | Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.                                                                                | `boolean`                        | `false`     |
 | `disabled`           | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                         | `boolean`                        | `false`     |
-| `label` *(required)* | `label`             | Accessible name for the component.                                                                                                                                               | `string`                         | `undefined` |
+| `label` _(required)_ | `label`             | Accessible name for the component.                                                                                                                                               | `string`                         | `undefined` |
 | `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                                                                                                          | `CarouselMessages`               | `undefined` |
 | `selectedItem`       | --                  | The component's selected `calcite-carousel-item`.                                                                                                                                | `HTMLCalciteCarouselItemElement` | `undefined` |
 
@@ -75,4 +75,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

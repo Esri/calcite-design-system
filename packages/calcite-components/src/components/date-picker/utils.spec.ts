@@ -1,3 +1,4 @@
+import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 import { getLocaleData, requestCache } from "./utils";
 
 function fetchFakeData(data: any): () => Promise<any> {
@@ -13,11 +14,11 @@ describe("utils", () => {
   describe("getLocaleData", () => {
     beforeEach(() => {
       const fakeData = { fake: "fake data not meant to be checked" };
-      global.fetch = jest.fn().mockImplementation(fetchFakeData(fakeData));
+      global.fetch = vi.fn().mockImplementation(fetchFakeData(fakeData));
     });
 
     afterEach(() => {
-      jest.fn().mockClear();
+      vi.fn().mockClear();
       Object.keys(requestCache).forEach((key) => delete requestCache[key]);
     });
 

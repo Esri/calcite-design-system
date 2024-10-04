@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from "vitest";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent, labelClickEvent } from "./label";
 
 describe("label", () => {
@@ -7,7 +8,7 @@ describe("label", () => {
       el: null,
       label: null,
       labelEl: null,
-      onLabelClick: jest.fn(),
+      onLabelClick: vi.fn(),
     };
 
     return { ...base, ...overrides };

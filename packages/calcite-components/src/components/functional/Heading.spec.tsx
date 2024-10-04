@@ -1,4 +1,5 @@
-import { h, VNode } from "@stencil/core";
+import { h, JsxNode } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { constrainHeadingLevel, Heading } from "./Heading";
 
 describe("constrainHeadingLevel", () => {
@@ -22,11 +23,11 @@ describe("constrainHeadingLevel", () => {
  * @param expected.children
  */
 function assertVNode(
-  vnode: VNode,
+  vnode: JsxNode,
   expected: {
     tag: string;
     attrs: Record<string, any>;
-    children: (VNode | string)[];
+    children: (JsxNode | string)[];
   },
 ) {
   expect(vnode).toEqual(

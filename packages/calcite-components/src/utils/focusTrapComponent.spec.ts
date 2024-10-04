@@ -1,4 +1,5 @@
 import { JSDOM } from "jsdom";
+import { describe, expect, it, beforeEach, vi } from "vitest";
 import { GlobalTestProps } from "../tests/utils";
 import {
   activateFocusTrap,
@@ -19,13 +20,13 @@ describe("focusTrapComponent", () => {
     expect(fakeComponent.el).toBeDefined();
     expect(fakeComponent.focusTrap.active).toBe(false);
 
-    const activateSpy = jest.fn();
+    const activateSpy = vi.fn();
     fakeComponent.focusTrap.activate = activateSpy;
 
-    const deactivateSpy = jest.fn();
+    const deactivateSpy = vi.fn();
     fakeComponent.focusTrap.deactivate = deactivateSpy;
 
-    const updateSpy = jest.fn();
+    const updateSpy = vi.fn();
     fakeComponent.focusTrap.updateContainerElements = updateSpy;
 
     activateFocusTrap(fakeComponent);
@@ -44,10 +45,10 @@ describe("focusTrapComponent", () => {
 
     connectFocusTrap(fakeComponent);
 
-    const activateSpy = jest.fn();
+    const activateSpy = vi.fn();
     fakeComponent.focusTrap.activate = activateSpy;
 
-    const deactivateSpy = jest.fn();
+    const deactivateSpy = vi.fn();
     fakeComponent.focusTrap.deactivate = deactivateSpy;
 
     const fakeActivateOptions = {};
@@ -60,7 +61,7 @@ describe("focusTrapComponent", () => {
   });
 
   describe("configuration", () => {
-    beforeEach(() => jest.resetModules());
+    beforeEach(() => vi.resetModules());
 
     it("supports custom global trap stack", async () => {
       const customFocusTrapStack = [];
@@ -79,7 +80,7 @@ describe("focusTrapComponent", () => {
       };
 
       const focusTrap = await import("focus-trap");
-      const createFocusTrapSpy = jest.spyOn(focusTrap, "createFocusTrap");
+      const createFocusTrapSpy = vi.spyOn(focusTrap, "createFocusTrap");
 
       const focusTrapComponent = await import("./focusTrapComponent");
       const fakeComponent = {} as FocusTrapComponent;

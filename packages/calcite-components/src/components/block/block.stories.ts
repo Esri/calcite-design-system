@@ -5,6 +5,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
 import { Block } from "./block";
+
 const { toggleDisplay } = ATTRIBUTES;
 
 interface BlockStoryArgs

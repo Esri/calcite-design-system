@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { clamp, closeToRangeEdge, decimalPlaces, remap } from "./math";
 
 describe("clamp", () => {

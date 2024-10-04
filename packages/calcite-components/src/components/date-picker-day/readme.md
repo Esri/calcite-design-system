@@ -8,7 +8,7 @@
 | ------------------ | ---------------- | ---------------------------------------------------------------------------------------- | ------------------- | ----------- |
 | `active`           | `active`         | When `true`, the component is active.                                                    | `boolean`           | `false`     |
 | `currentMonth`     | `current-month`  | Date is in the current month.                                                            | `boolean`           | `false`     |
-| `day` *(required)* | `day`            | Day of the month to be shown.                                                            | `number`            | `undefined` |
+| `day` _(required)_ | `day`            | Day of the month to be shown.                                                            | `number`            | `undefined` |
 | `disabled`         | `disabled`       | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`           | `false`     |
 | `endOfRange`       | `end-of-range`   | Date is the end of date range.                                                           | `boolean`           | `false`     |
 | `highlighted`      | `highlighted`    | Date is currently highlighted as part of the range,                                      | `boolean`           | `false`     |
@@ -51,4 +51,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

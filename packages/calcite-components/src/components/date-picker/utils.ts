@@ -1,6 +1,6 @@
-import { getAssetPath } from "@stencil/core";
 import { dateFromISO } from "../../utils/date";
 import { getSupportedLocale } from "../../utils/locale";
+import { getAssetPath } from "../../runtime";
 
 /**
  * Translation resource data structure
@@ -73,7 +73,7 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
 }
 
 /**
- *  Maps value to valueAsDate
+ * Maps value to valueAsDate
  *
  * @param value
  */

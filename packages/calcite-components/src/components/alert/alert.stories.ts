@@ -4,6 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { menuPlacements } from "../../utils/floating-ui";
 import { Alert } from "./Alert";
+
 const { scale, duration, kind, numberingSystem, queue } = ATTRIBUTES;
 
 interface AlertStoryArgs
@@ -74,7 +75,7 @@ export default {
   },
 };
 
-/**  Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
+/** Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
 const wrapperStyles = html`
   <style>
     .wrapper {
