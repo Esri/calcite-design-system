@@ -5,7 +5,9 @@ import { getIconScale } from "../../utils/component";
 
 export interface XButtonProps extends JSXAttributes<HTMLButtonElement> {
   disabled: boolean;
+  focusable?: boolean;
   label: string;
+  round?: boolean;
   scale: Scale;
   title?: string;
   onClick?: JSXBase.DOMAttributes<HTMLElement>["onClick"];
@@ -13,24 +15,30 @@ export interface XButtonProps extends JSXAttributes<HTMLButtonElement> {
 
 export const CSS = {
   button: "x-button",
-  buttonSquare: "x-button--square",
+  buttonRound: "x-button--round",
 };
 
 export const XButton: FunctionalComponent<XButtonProps> = ({
   disabled,
+  focusable,
   key,
   label,
   ref,
+  round = true,
   scale,
   title,
 }): VNode => (
   <button
     aria-label={label}
-    class={CSS.button}
+    class={{
+      [((scale) => `x-button--${scale}`)(scale)]: true,
+      [CSS.button]: true,
+      [CSS.buttonRound]: round,
+    }}
     disabled={disabled}
     key={key}
     ref={ref}
-    tabIndex={-1}
+    tabIndex={focusable ? 0 : -1}
     title={title}
     type="button"
   >
