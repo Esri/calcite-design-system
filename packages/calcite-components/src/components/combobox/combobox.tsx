@@ -1600,7 +1600,7 @@ export class Combobox
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
-    const showLabel = !open && single && !!selectedItem;
+    const showLabel = !open && single && !!selectedItem && !this.filterText;
 
     return (
       <span
