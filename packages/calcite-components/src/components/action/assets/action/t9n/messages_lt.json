@@ -1,4 +1,5 @@
 {
   "loading": "Kraunama",
-  "indicator": "Yra indikatorius"
+  "indicator": "Yra indikatorius",
+  "indicatorLabel": "{label} (Indicator present)"
 }

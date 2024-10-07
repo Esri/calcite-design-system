@@ -1,4 +1,5 @@
 {
   "loading": "Зареждане",
-  "indicator": "Наличен е индикатор"
+  "indicator": "Наличен е индикатор",
+  "indicatorLabel": "{label} (Indicator present)"
 }

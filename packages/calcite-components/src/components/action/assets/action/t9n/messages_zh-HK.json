@@ -1,4 +1,5 @@
 {
   "loading": "正在載入",
-  "indicator": "指標呈現"
+  "indicator": "指標呈現",
+  "indicatorLabel": "{label} (Indicator present)"
 }

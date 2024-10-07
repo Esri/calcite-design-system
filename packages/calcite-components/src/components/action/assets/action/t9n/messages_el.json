@@ -1,4 +1,5 @@
 {
   "loading": "Φόρτωση",
-  "indicator": "Υπάρχει δείκτης"
+  "indicator": "Υπάρχει δείκτης",
+  "indicatorLabel": "{label} (Indicator present)"
 }

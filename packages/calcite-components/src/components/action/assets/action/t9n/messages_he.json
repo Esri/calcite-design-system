@@ -1,4 +1,5 @@
 {
   "loading": "טוען",
-  "indicator": "אינדיקטור נמצא"
+  "indicator": "אינדיקטור נמצא",
+  "indicatorLabel": "{label} (Indicator present)"
 }

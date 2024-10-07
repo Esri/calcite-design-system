@@ -1,4 +1,5 @@
 {
   "loading": "Nalaganje",
-  "indicator": "Indikator je prisoten"
+  "indicator": "Indikator je prisoten",
+  "indicatorLabel": "{label} (Indicator present)"
 }

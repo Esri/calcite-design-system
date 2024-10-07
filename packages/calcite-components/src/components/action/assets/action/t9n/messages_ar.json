@@ -1,4 +1,5 @@
 {
   "loading": "تحميل",
-  "indicator": "المؤشر موجود"
+  "indicator": "المؤشر موجود",
+  "indicatorLabel": "{label} (Indicator present)"
 }

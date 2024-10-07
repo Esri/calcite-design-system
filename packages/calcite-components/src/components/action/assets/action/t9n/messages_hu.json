@@ -1,4 +1,5 @@
 {
   "loading": "Betöltés",
-  "indicator": "Indikátor jelen van"
+  "indicator": "Indikátor jelen van",
+  "indicatorLabel": "{label} (Indicator present)"
 }
