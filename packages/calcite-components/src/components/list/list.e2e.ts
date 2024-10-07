@@ -1173,7 +1173,7 @@ describe("calcite-list", () => {
     async function createSimpleList(): Promise<E2EPage> {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-list drag-enabled>
+        html`<calcite-list drag-enabled value="list1">
           <calcite-list-item value="one" label="One"></calcite-list-item>
           <calcite-list-item value="two" label="Two"></calcite-list-item>
           <calcite-list-item value="three" label="Three"></calcite-list-item>
@@ -1186,8 +1186,13 @@ describe("calcite-list", () => {
 
     type TestWindow = GlobalTestProps<{
       calledTimes: number;
+      list1CalledTimes: number;
+      list2CalledTimes: number;
       newIndex: number;
       oldIndex: number;
+      fromEl: string;
+      toEl: string;
+      el: string;
       startCalledTimes: number;
       endCalledTimes: number;
       endNewIndex: number;
@@ -1377,6 +1382,9 @@ describe("calcite-list", () => {
           testWindow.calledTimes++;
           testWindow.newIndex = event.detail.newIndex;
           testWindow.oldIndex = event.detail.oldIndex;
+          testWindow.fromEl = event.detail.fromEl.id;
+          testWindow.toEl = event.detail.toEl.id;
+          testWindow.el = event.detail.dragEl.id ?? event.detail.dragEl.value;
         });
       });
 
@@ -1386,13 +1394,15 @@ describe("calcite-list", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
-        const event = page.waitForEvent("calciteSortHandleReorder");
+        const eventName = `calciteSortHandleReorder`;
+        const event = page.waitForEvent(eventName);
         await page.$eval(
           `calcite-list-item[value="one"]`,
-          (item1: HTMLCalciteListItemElement, reorder) => {
-            item1.dispatchEvent(new CustomEvent("calciteSortHandleReorder", { detail: { reorder }, bubbles: true }));
+          (item1: HTMLCalciteListItemElement, reorder, eventName) => {
+            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
           },
           reorder,
+          eventName,
         );
         await event;
         await page.waitForChanges();
@@ -1410,12 +1420,20 @@ describe("calcite-list", () => {
             calledTimes: testWindow.calledTimes,
             oldIndex: testWindow.oldIndex,
             newIndex: testWindow.newIndex,
+            fromEl: testWindow.fromEl,
+            toEl: testWindow.toEl,
+            el: testWindow.el,
           };
         });
+
+        const listId = "list1";
 
         expect(results.calledTimes).toBe(++totalMoves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
+        expect(results.fromEl).toBe(listId);
+        expect(results.toEl).toBe(listId);
+        expect(results.el).toBe("one");
       }
 
       await assertReorder("down", ["two", "one", "three"], 1, 0);
@@ -1430,71 +1448,126 @@ describe("calcite-list", () => {
       await assertReorder("top", ["one", "two", "three"], 0, 2);
     });
 
-    // todo
-    it.skip("moves using a keyboard", async () => {
-      const page = await createSimpleList(); // todo
+    it("moves using a keyboard", async () => {
+      const page = await newE2EPage();
+      const group = "my-group";
+      await page.setContent(
+        html`<calcite-list id="list1" group="${group}" drag-enabled>
+            <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
+            <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
+          </calcite-list>
+          <calcite-list id="list2" group="${group}" drag-enabled>
+            <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
+          </calcite-list>`,
+      );
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
-      let totalMoves = 0;
+      let list1Moves = 0;
+      let list2Moves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-      await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+      await page.$eval("#list1", (list: HTMLCalciteListElement) => {
         const testWindow = window as TestWindow;
-        testWindow.calledTimes = 0;
+        testWindow.list1CalledTimes = 0;
         list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
-          testWindow.calledTimes++;
+          testWindow.list1CalledTimes++;
           testWindow.newIndex = event.detail.newIndex;
           testWindow.oldIndex = event.detail.oldIndex;
+          testWindow.fromEl = event.detail.fromEl.id;
+          testWindow.toEl = event.detail.toEl.id;
+          testWindow.el = event.detail.dragEl.id;
         });
       });
 
-      async function assertReorder(
-        reorder: Reorder,
-        expectedValueOrder: string[],
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.$eval("#list2", (list: HTMLCalciteListElement) => {
+        const testWindow = window as TestWindow;
+        testWindow.list2CalledTimes = 0;
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
+          testWindow.list2CalledTimes++;
+          testWindow.newIndex = event.detail.newIndex;
+          testWindow.oldIndex = event.detail.oldIndex;
+          testWindow.fromEl = event.detail.fromEl.id;
+          testWindow.toEl = event.detail.toEl.id;
+          testWindow.el = event.detail.dragEl.id;
+        });
+      });
+
+      async function assertMove(
+        listItemId: string,
+        moveFromListId: string,
+        moveToListId: string,
+        list1Order: string[],
+        list2Order: string[],
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
-        const event = page.waitForEvent("calciteSortHandleReorder");
+        const eventName = `calciteSortHandleMove`;
+        const event = page.waitForEvent(eventName);
         await page.$eval(
-          `calcite-list-item[value="one"]`,
-          (item1: HTMLCalciteListItemElement, reorder) => {
-            item1.dispatchEvent(new CustomEvent("calciteSortHandleReorder", { detail: { reorder }, bubbles: true }));
+          `#${listItemId}`,
+          (item: HTMLCalciteListItemElement, moveToListId, eventName) => {
+            const element = document.querySelector<HTMLCalciteListElement>(`#${moveToListId}`);
+            item.dispatchEvent(
+              new CustomEvent(eventName, {
+                detail: {
+                  moveTo: {
+                    element,
+                    id: element.id,
+                    label: element.label,
+                  },
+                },
+                bubbles: true,
+              }),
+            );
           },
-          reorder,
+          moveToListId,
+          eventName,
         );
         await event;
         await page.waitForChanges();
-        const itemsAfter = await page.findAll("calcite-list-item");
-        expect(itemsAfter.length).toBe(3);
+        const list1Id = "list1";
+        const list2Id = "list2";
+        const list1After = await page.findAll(`#${list1Id} calcite-list-item`);
+        expect(list1After.length).toBe(list1Order.length);
 
-        for (let i = 0; i < itemsAfter.length; i++) {
-          expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
+        for (let i = 0; i < list1After.length; i++) {
+          expect(await list1After[i].getProperty("value")).toBe(list1Order[i]);
+        }
+
+        const list2After = await page.findAll(`#${list2Id} calcite-list-item`);
+        expect(list2After.length).toBe(list2Order.length);
+
+        for (let i = 0; i < list2After.length; i++) {
+          expect(await list2After[i].getProperty("value")).toBe(list2Order[i]);
         }
 
         const results = await page.evaluate(() => {
           const testWindow = window as TestWindow;
 
           return {
-            calledTimes: testWindow.calledTimes,
+            list1CalledTimes: testWindow.list1CalledTimes,
+            list2CalledTimes: testWindow.list2CalledTimes,
             oldIndex: testWindow.oldIndex,
             newIndex: testWindow.newIndex,
+            fromEl: testWindow.fromEl,
+            toEl: testWindow.toEl,
+            el: testWindow.el,
           };
         });
 
-        expect(results.calledTimes).toBe(++totalMoves);
+        expect(results.list1CalledTimes).toBe(moveFromListId === list1Id ? ++list1Moves : list1Moves);
+        expect(results.list2CalledTimes).toBe(moveFromListId === list2Id ? ++list2Moves : list2Moves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
+        expect(results.fromEl).toBe(moveFromListId);
+        expect(results.toEl).toBe(moveToListId);
+        expect(results.el).toBe(listItemId);
       }
 
-      await assertReorder("down", ["two", "one", "three"], 1, 0);
-      await assertReorder("down", ["two", "three", "one"], 2, 1);
-      await assertReorder("down", ["two", "three", "one"], 2, 2);
-
-      await assertReorder("up", ["two", "one", "three"], 1, 2);
-      await assertReorder("up", ["one", "two", "three"], 0, 1);
-      await assertReorder("up", ["one", "two", "three"], 0, 0);
-
-      await assertReorder("bottom", ["two", "three", "one"], 2, 0);
-      await assertReorder("top", ["one", "two", "three"], 0, 2);
+      await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
+      await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
     });
   });
 });
