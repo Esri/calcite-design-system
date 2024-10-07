@@ -11,7 +11,6 @@ import {
   State,
   VNode,
   Watch,
-  readTask,
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
@@ -356,7 +355,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   @Watch("currentActivePosition")
   handlePositionChange(): void {
-    readTask((): void => {
+    requestAnimationFrame((): void => {
       this.determineActiveStepper();
     });
   }
@@ -508,9 +507,9 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   handleDefaultSlotChange = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.tagName === "CALCITE-STEPPER-ITEM",
+      (el): el is HTMLCalciteStepperItemElement => el?.tagName === "CALCITE-STEPPER-ITEM",
     );
-    this.items = items as HTMLCalciteStepperItemElement[];
+    this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");
     this.containerEl.style.gridTemplateAreas = spacing;
     this.containerEl.style.gridTemplateColumns = spacing;

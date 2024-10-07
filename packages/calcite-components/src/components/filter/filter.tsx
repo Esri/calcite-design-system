@@ -13,8 +13,6 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -169,14 +167,11 @@ export class Filter
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (this.items.length) {
-      this.updateFiltered(filter(this.items, this.value, this.filterProps));
-    }
+    this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
     await setUpMessages(this);
   }
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -186,7 +181,6 @@ export class Filter
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.filterDebounced.cancel();
@@ -223,7 +217,7 @@ export class Filter
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.el?.focus();
+    return this.textInput?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -234,8 +228,7 @@ export class Filter
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.items.length &&
-      this.updateFiltered(filter(this.items, value, this.filterProps), emit, onFilter),
+      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), emit, onFilter),
     DEBOUNCE.filter,
   );
 

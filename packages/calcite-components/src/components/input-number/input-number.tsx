@@ -15,15 +15,21 @@ import {
 } from "@stencil/core";
 import {
   getElementDir,
-  getSlotted,
   isPrimaryPointerButton,
   setRequestedIcon,
   toAriaBoolean,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
-  connectInteractive,
-  disconnectInteractive,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  internalHiddenInputInputEvent,
+  MutableValidityState,
+  submitForm,
+} from "../../utils/form";
+import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -50,7 +56,6 @@ import {
   parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -128,11 +133,6 @@ export class InputNumber
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  disabledWatcher(): void {
-    this.setDisabledAction();
-  }
 
   /**
    * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
@@ -420,8 +420,6 @@ export class InputNumber
 
   private nudgeNumberValueIntervalId: number;
 
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
-
   private userChangedValue = false;
 
   //--------------------------------------------------------------------------
@@ -457,7 +455,6 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -465,9 +462,8 @@ export class InputNumber
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
     connectLabel(this);
-
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.setDisabledAction();
+    connectForm(this);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   componentDidLoad(): void {
@@ -475,12 +471,10 @@ export class InputNumber
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-
-    this.mutationObserver?.disconnect();
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -848,24 +842,6 @@ export class InputNumber
   private setChildNumberElRef = (el: HTMLInputElement) => {
     this.childNumberEl = el;
   };
-
-  private setDisabledAction(): void {
-    const slottedActionEl = getSlotted(this.el, "action");
-
-    if (!slottedActionEl) {
-      return;
-    }
-
-    if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled") == null) {
-        this.slottedActionElDisabledInternally = true;
-      }
-      slottedActionEl.setAttribute("disabled", "");
-    } else if (this.slottedActionElDisabledInternally) {
-      slottedActionEl.removeAttribute("disabled");
-      this.slottedActionElDisabledInternally = false;
-    }
-  }
 
   private setInputNumberValue = (newInputValue: string): void => {
     if (!this.childNumberEl) {

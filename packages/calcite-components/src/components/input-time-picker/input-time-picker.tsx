@@ -12,7 +12,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { FocusTrap } from "focus-trap";
 import dayjs from "dayjs/esm";
 import customParseFormat from "dayjs/esm/plugin/customParseFormat";
 import localeData from "dayjs/esm/plugin/localeData";
@@ -20,10 +19,15 @@ import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  MutableValidityState,
+  submitForm,
+} from "../../utils/form";
+import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -44,12 +48,6 @@ import {
   numberStringFormatter,
   SupportedLocale,
 } from "../../utils/locale";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrapComponent,
-} from "../../utils/focusTrapComponent";
 import {
   formatTimePart,
   formatTimeString,
@@ -156,7 +154,7 @@ interface DayjsTimeParts {
 export class InputTimePicker
   implements
     FloatingUIComponent,
-    FocusTrapComponent,
+    FormComponent,
     InteractiveComponent,
     LabelableComponent,
     LoadableComponent,
@@ -190,15 +188,6 @@ export class InputTimePicker
    * When `true`, prevents focus trapping.
    */
   @Prop({ reflect: true }) focusTrapDisabled = false;
-
-  @Watch("focusTrapDisabled")
-  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
-  }
 
   /**
    * The `id` of the form that will be associated with the component.
@@ -359,6 +348,8 @@ export class InputTimePicker
 
   @Element() el: HTMLCalciteInputTimePickerElement;
 
+  @State() calciteInputEl: HTMLCalciteInputTextElement;
+
   defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
@@ -367,22 +358,12 @@ export class InputTimePicker
 
   popoverEl: HTMLCalcitePopoverElement;
 
-  private calciteInputEl: HTMLCalciteInputElement;
-
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
-
-  private focusOnOpen = false;
-
-  focusTrap: FocusTrap;
-
-  private dialogId = `time-picker-dialog--${guid()}`;
 
   private localeConfig: ILocale;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
-
-  private referenceElementId = `input-time-picker-${guid()}`;
 
   //--------------------------------------------------------------------------
   //
@@ -554,15 +535,6 @@ export class InputTimePicker
   private popoverOpenHandler = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.calciteInputTimePickerOpen.emit();
-
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
   };
 
   private popoverBeforeCloseHandler = (event: CustomEvent<void>): void => {
@@ -573,13 +545,6 @@ export class InputTimePicker
   private popoverCloseHandler = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.calciteInputTimePickerClose.emit();
-
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      },
-    });
     this.open = false;
   };
 
@@ -728,12 +693,7 @@ export class InputTimePicker
       }
     } else if (key === "ArrowDown") {
       this.open = true;
-      this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape" && this.open) {
-      this.open = false;
-      event.preventDefault();
-      this.calciteInputEl.setFocus();
     }
   };
 
@@ -851,21 +811,15 @@ export class InputTimePicker
 
   private setCalcitePopoverEl = (el: HTMLCalcitePopoverElement): void => {
     this.popoverEl = el;
+    this.openHandler();
   };
 
-  private setInputEl = (el: HTMLCalciteInputElement): void => {
+  private setInputEl = (el: HTMLCalciteInputTextElement): void => {
     this.calciteInputEl = el;
   };
 
   private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
     this.calciteTimePickerEl = el;
-    connectFocusTrap(this, {
-      focusTrapEl: el,
-      focusTrapOptions: {
-        initialFocus: false,
-        setReturnFocus: false,
-      },
-    });
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -947,7 +901,6 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    connectInteractive(this);
     connectLocalized(this);
 
     if (isValidTime(this.value)) {
@@ -978,15 +931,11 @@ export class InputTimePicker
         }),
       );
     }
-
-    this.openHandler();
   }
 
   disconnectedCallback() {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
-    deactivateFocusTrap(this);
     disconnectMessages(this);
   }
 
@@ -1001,7 +950,7 @@ export class InputTimePicker
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { disabled, messages, readOnly, dialogId } = this;
+    const { disabled, messages, readOnly } = this;
     return (
       <Host onBlur={this.hostBlurHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
@@ -1013,7 +962,6 @@ export class InputTimePicker
               aria-invalid={toAriaBoolean(this.status === "invalid")}
               disabled={disabled}
               icon="clock"
-              id={this.referenceElementId}
               label={getLabelText(this)}
               lang={this.effectiveLocale}
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
@@ -1023,12 +971,13 @@ export class InputTimePicker
               role="combobox"
               scale={this.scale}
               status={this.status}
-            />
-            {!this.readOnly && this.renderToggleIcon(this.open)}
+            >
+              {!this.readOnly && this.renderToggleIcon(this.open)}
+            </calcite-input-text>
           </div>
           <calcite-popover
-            focusTrapDisabled={true}
-            id={dialogId}
+            autoClose={true}
+            focusTrapDisabled={this.focusTrapDisabled}
             label={messages.chooseTime}
             lang={this.effectiveLocale}
             onCalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
@@ -1038,7 +987,7 @@ export class InputTimePicker
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
             ref={this.setCalcitePopoverEl}
-            referenceElement={this.referenceElementId}
+            referenceElement={this.calciteInputEl}
             triggerDisabled={true}
           >
             <calcite-time-picker
@@ -1069,7 +1018,7 @@ export class InputTimePicker
 
   renderToggleIcon(open: boolean): VNode {
     return (
-      <span class={CSS.toggleIcon}>
+      <span class={CSS.toggleIcon} slot="action">
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}

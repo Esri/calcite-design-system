@@ -408,7 +408,7 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
   };
 
-  function assertUnsupportedValueMessage(value: string | object | null, format: string): void {
+  function assertUnsupportedValueMessage(value: string | object | undefined, format: string): void {
     expect(consoleSpy).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringMatching(
@@ -1235,7 +1235,7 @@ describe("calcite-color-picker", () => {
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
-            expect(await hexInput.getProperty("value")).toBe(null);
+            expect(await hexInput.getProperty("value")).toBe(undefined);
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
@@ -1784,7 +1784,7 @@ describe("calcite-color-picker", () => {
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
-            expect(await hexInput.getProperty("value")).toBe(null);
+            expect(await hexInput.getProperty("value")).toBe(undefined);
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(
@@ -2369,16 +2369,23 @@ describe("calcite-color-picker", () => {
 
         await hueScope.press("ArrowDown");
         expect(await picker.getProperty("value")).toBe("#007ec2");
-        await hueScope.press("ArrowRight");
+        await hueScope.press("ArrowUp");
         expect(await picker.getProperty("value")).toBe("#007bc2");
         await hueScope.press("ArrowLeft");
         expect(await picker.getProperty("value")).toBe("#007ec2");
+        await hueScope.press("ArrowRight");
+        expect(await picker.getProperty("value")).toBe("#007bc2");
 
-        await page.keyboard.press("Shift");
+        await page.keyboard.down("Shift");
         await hueScope.press("ArrowDown");
-        expect(await picker.getProperty("value")).toBe("#0081c2");
+        expect(await picker.getProperty("value")).toBe("#009bc2");
         await hueScope.press("ArrowUp");
-        expect(await picker.getProperty("value")).toBe("#007ec2");
+        expect(await picker.getProperty("value")).toBe("#007bc2");
+        await hueScope.press("ArrowLeft");
+        expect(await picker.getProperty("value")).toBe("#009bc2");
+        await hueScope.press("ArrowRight");
+        expect(await picker.getProperty("value")).toBe("#007bc2");
+        await page.keyboard.up("Shift");
       });
 
       it("positions the scope correctly when the color is 000", async () => {

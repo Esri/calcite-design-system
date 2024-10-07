@@ -16,8 +16,6 @@ import {
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -60,7 +58,11 @@ export class Checkbox implements LabelableComponent, InteractiveComponent, Loada
    */
   @Prop({ reflect: true }) form: string;
 
-  /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
+  /**
+   * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+   *
+   * @deprecated No longer necessary.
+   */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
   /**
@@ -190,10 +192,6 @@ export class Checkbox implements LabelableComponent, InteractiveComponent, Loada
   };
 
   clickHandler = (): void => {
-    if (this.disabled) {
-      return;
-    }
-
     this.toggle();
   };
 
@@ -246,12 +244,10 @@ export class Checkbox implements LabelableComponent, InteractiveComponent, Loada
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
-    connectInteractive(this);
     connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
   }
 

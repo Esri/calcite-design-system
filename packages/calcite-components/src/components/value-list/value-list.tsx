@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -12,12 +13,7 @@ import {
   Watch,
 } from "@stencil/core";
 import Sortable from "sortablejs";
-import {
-  connectInteractive,
-  disconnectInteractive,
-  InteractiveComponent,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
@@ -64,7 +60,7 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
@@ -246,7 +242,6 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     initialize.call(this);
@@ -269,7 +264,6 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectSortableComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -518,12 +512,15 @@ export class ValueList<
 
   render(): VNode {
     return (
-      <List
+      <Host
+        aria-busy={toAriaBoolean(this.loading)}
         onBlur={this.handleBlur}
         onFocusin={this.handleFocusIn}
         onKeyDown={this.keyDownHandler}
-        props={this}
-      />
+        role="menu"
+      >
+        <List props={this} />
+      </Host>
     );
   }
 }

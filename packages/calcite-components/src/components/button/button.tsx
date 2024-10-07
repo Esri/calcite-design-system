@@ -11,8 +11,6 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -35,9 +33,9 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { toAriaBoolean } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
+import { toAriaBoolean } from "../../utils/dom";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -192,7 +190,6 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
@@ -201,7 +198,6 @@ export class Button
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -267,8 +263,8 @@ export class Button
     return (
       <InteractiveContainer disabled={this.disabled}>
         <Tag
-          aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
-          aria-expanded={this.el.getAttribute("aria-expanded")}
+          aria-busy={toAriaBoolean(this.loading)}
+          aria-expanded={this.el.ariaExpanded ? this.el.ariaExpanded : null}
           aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
           aria-live="polite"
           class={{
@@ -278,9 +274,13 @@ export class Button
             [CSS.iconStartEmpty]: !this.iconStart,
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
-          disabled={childElType === "button" ? this.disabled || this.loading : null}
+          disabled={childElType === "button" ? this.disabled : null}
           download={
-            childElType === "a" && (this.download === "" || this.download) ? this.download : null
+            childElType === "a"
+              ? this.download === true || this.download === ""
+                ? ""
+                : this.download || null
+              : null
           }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}

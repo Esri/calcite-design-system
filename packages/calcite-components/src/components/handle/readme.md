@@ -28,6 +28,17 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                                         | Description                                               |
+| -------------------------------------------- | --------------------------------------------------------- |
+| `--calcite-handle-background-color`          | Specifies the component's background color.               |
+| `--calcite-handle-background-color-hover`    | Specifies the component's background color on hover.      |
+| `--calcite-handle-background-color-selected` | Specifies the component's background color when selected. |
+| `--calcite-handle-icon-color`                | Specifies the component's icon color.                     |
+| `--calcite-handle-icon-color-hover`          | Specifies the component's icon color on hover.            |
+| `--calcite-handle-icon-color-selected`       | Specifies the component's icon color when selected.       |
+
 ## Dependencies
 
 ### Used by

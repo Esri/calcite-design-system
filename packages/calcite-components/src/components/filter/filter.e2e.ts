@@ -17,7 +17,9 @@ describe("calcite-filter", () => {
   });
 
   describe("is focused", () => {
-    focusable("calcite-filter");
+    focusable("calcite-filter", {
+      shadowFocusTargetSelector: "calcite-input",
+    });
   });
 
   describe("disabled", () => {
@@ -219,6 +221,14 @@ describe("calcite-filter", () => {
       await page.waitForChanges();
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
+
+      await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
+        filter.items = [];
+      });
+      await page.waitForTimeout(DEBOUNCE.filter);
+      await page.waitForChanges();
+      assertMatchingItems(await filter.getProperty("filteredItems"), []);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
 

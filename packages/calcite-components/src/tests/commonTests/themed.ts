@@ -174,7 +174,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
   });
 }
 
-export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
+type ContextSelectByAttr = { attribute: string; value: string };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
@@ -183,7 +183,7 @@ type State = "press" | "hover" | "focus";
 /**
  * Describes a test target for themed components.
  */
-export type TestTarget = {
+type TestTarget = {
   /**
    * An object with target element and selector info.
    */
@@ -230,7 +230,7 @@ type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
 /**
  * Describes a test selector for themed components.
  */
-export type TestSelectToken = {
+type TestSelectToken = {
   /**
    * The selector of the target element. When not provided, the component tag is used.
    */
@@ -303,15 +303,12 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
         const { attribute, value } = context as {
           attribute: string;
-          value: string | RegExp;
+          value: string;
         };
         if (node.nodeType === 1) {
           const attr = (node as Element).getAttribute(attribute);
           if (typeof value === "string" && attr === value) {
             return node;
-          }
-          if (value instanceof RegExp && attr && value.test(attr)) {
-            return node ?? undefined;
           }
           if (attr === value) {
             return node;
@@ -323,7 +320,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
         }
 
         if (node.nodeType === 1 && (node as Element).shadowRoot) {
-          for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
+          for (const child of (node as Element).shadowRoot.children) {
             const result = searchInShadowDom(child);
             if (result) {
               return result;

@@ -421,9 +421,29 @@ export function formAssociated(
     });
   }
 
-  async function expectValidationInvalid(element: E2EElement, message: string, icon: string = "") {
-    expect(await element.getProperty("status")).toBe("invalid");
-    expect(await element.getProperty("validationMessage")).toBe(message);
-    expect(element.getAttribute("validation-icon")).toBe(icon);
+  async function expectValidationProps(page: E2EPage, element: E2EElement, validationProps?: ValidationProps) {
+    let testProps = validationProps;
+
+    // radio-button is formAssociated, but the validation props are on the parent group
+    if (element.nodeName === "CALCITE-RADIO-BUTTON") {
+      element.setProperty("id", "radio-button");
+      await page.waitForChanges();
+      testProps = await page.evaluate(() => {
+        const groupEl = closestElementCrossShadowBoundary(
+          document.querySelector("#radio-button"),
+          "calcite-radio-button-group",
+        );
+
+        return {
+          message: groupEl.validationMessage,
+          icon: groupEl.validationIcon,
+          status: groupEl.status,
+        };
+      });
+    }
+
+    expect(await element.getProperty("status")).toBe(testProps?.status ?? "idle");
+    expect(await element.getProperty("validationMessage")).toBe(testProps?.message ?? "");
+    expect(element.getAttribute("validation-icon")).toBe(testProps?.icon ?? null);
   }
 }

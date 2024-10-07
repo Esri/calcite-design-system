@@ -14,8 +14,14 @@ import {
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  MutableValidityState,
+} from "../../utils/form";
+import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -188,13 +194,11 @@ export class Select implements LabelableComponent, InteractiveComponent, Loadabl
       childList: true,
     });
 
-    connectInteractive(this);
     connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLabel(this);
   }
 
@@ -337,7 +341,7 @@ export class Select implements LabelableComponent, InteractiveComponent, Loadabl
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
         optionOrGroup.selected = true;
         futureSelected = optionOrGroup;
-        this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
+        this.deselectAllExcept(optionOrGroup);
       }
     });
 

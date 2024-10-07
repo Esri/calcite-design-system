@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -292,7 +292,7 @@ describe("calcite-segmented-control", () => {
 
       async function cycleThroughItemsAndAssertValue(keys: "left-right" | "up-down"): Promise<void> {
         const [moveBeforeArrowKey, moveAfterArrowKey] =
-          keys === "left-right" ? ["ArrowLeft", "ArrowRight"] : ["ArrowUp", "ArrowDown"];
+          keys === "left-right" ? (["ArrowLeft", "ArrowRight"] as const) : (["ArrowUp", "ArrowDown"] as const);
 
         await element.press(moveAfterArrowKey);
         await page.waitForChanges();
@@ -380,17 +380,39 @@ describe("calcite-segmented-control", () => {
   });
 
   it("inheritable props: `appearance`, `layout`, and `scale` modified on the parent get passed to items", async () => {
+    async function inheritsProps(segmentedControlItems: E2EElement[]): Promise<void> {
+      for (const item of segmentedControlItems) {
+        expect(await item.getProperty("appearance")).toBe("outline");
+        expect(await item.getProperty("layout")).toBe("vertical");
+        expect(await item.getProperty("scale")).toBe("l");
+      }
+    }
+
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-segmented-control appearance="outline" layout="vertical" scale="l"></calcite-segmented-control>
+      <calcite-segmented-control appearance="outline" layout="vertical" scale="l">
+        <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
+        <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
+        <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
+      </calcite-segmented-control>
     `);
-    const segmentedControlItems = await page.findAll("calcite-segmented-control-item");
+    await page.waitForChanges();
 
-    for (const item of segmentedControlItems) {
-      expect(await item.getProperty("appearance")).toBe("outline");
-      expect(await item.getProperty("layout")).toBe("vertical");
-      expect(await item.getProperty("scale")).toBe("l");
-    }
+    const segmentedControl = await page.find("calcite-segmented-control");
+
+    let segmentedControlItems = await page.findAll("calcite-segmented-control-item");
+    expect(segmentedControlItems).toHaveLength(3);
+    await inheritsProps(segmentedControlItems);
+
+    segmentedControl.innerHTML = html`
+      <calcite-segmented-control-item id="child-4" value="4">one</calcite-segmented-control-item>
+      <calcite-segmented-control-item id="child-5" value="5">two</calcite-segmented-control-item>
+    `;
+    await page.waitForChanges();
+
+    segmentedControlItems = await page.findAll("calcite-segmented-control-item");
+    expect(segmentedControlItems).toHaveLength(2);
+    await inheritsProps(segmentedControlItems);
   });
 
   describe("setFocus()", () => {
@@ -451,9 +473,5 @@ describe("calcite-segmented-control", () => {
         { testValue: 2 },
       );
     });
-  });
-
-  describe("updates items when children are modified after initialization", () => {
-    // TODO:
   });
 });

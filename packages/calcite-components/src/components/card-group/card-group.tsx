@@ -11,10 +11,8 @@ import {
   Watch,
   Host,
 } from "@stencil/core";
-import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
+import { focusElement, focusElementInGroup } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -65,7 +63,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
 
   @Watch("selectionMode")
   onSelectionModeChange(): void {
-    this.udpateItemsOnSelectionModeChange();
+    this.updateItemsOnSelectionModeChange();
   }
 
   /**
@@ -100,20 +98,12 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -179,7 +169,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private udpateItemsOnSelectionModeChange = (): void => {
+  private updateItemsOnSelectionModeChange = (): void => {
     this.updateSlottedItems(this.slotRefEl);
     this.updateSelectedItems();
   };
@@ -192,7 +182,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   private updateSlottedItems = (target: HTMLSlotElement): void => {
     this.items = target
       .assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-card")) as HTMLCalciteCardElement[];
+      .filter((el): el is HTMLCalciteCardElement => el?.matches("calcite-card"));
   };
 
   private updateSelectedItems = (): void => {
@@ -245,12 +235,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
-          <div
-            aria-disabled={toAriaBoolean(this.disabled)}
-            aria-label={this.label}
-            class="container"
-            role={role}
-          >
+          <div aria-label={this.label} class="container" role={role}>
             <slot
               onSlotchange={this.updateItemsOnSlotChange}
               ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}

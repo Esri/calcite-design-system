@@ -1,4 +1,4 @@
-const { existsSync, mkdirSync } = require("fs");
+const { existsSync, mkdirSync } = require("fs-extra");
 const optimize = require("./optimize");
 const generatePathFile = require("./path-data");
 

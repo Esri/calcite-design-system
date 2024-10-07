@@ -8,10 +8,10 @@ module.exports = async ({ github, context }) => {
   const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
   const { ISSUE_VERIFIERS } = process.env;
   const issueBody = payload.issue.body;
-  const blockedIssuesRegex = /(?!Blocked issues:\s)(#\d+)/gi;
+  const blockedIssuesRegex = /Blocked issues:\s*(#\d+(?:,\s*#\d+)*)/i;
 
   if (!issueBody) {
-    console.log("No issue body was found");
+    console.log("No issue body was found.");
     return;
   }
 
@@ -23,7 +23,7 @@ module.exports = async ({ github, context }) => {
 
   // If "Blocked issues" line is matched in the body then create a comment on each issue listed
   if (blockedIssues) {
-    const issueNumbers = blockedIssues.map((number) => number.slice(1));
+    const issueNumbers = blockedIssues[1].split(",").map((num) => num.trim().slice(1));
 
     for (const issueNumber of issueNumbers) {
       const issueProps = {
@@ -32,10 +32,19 @@ module.exports = async ({ github, context }) => {
         issue_number: Number(issueNumber),
       };
 
-      await github.rest.issues.createComment({
-        ...issueProps,
-        body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \n\ncc ${verifiers}`,
-      });
+      try {
+        await github.rest.issues.createComment({
+          ...issueProps,
+          body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \n\ncc ${verifiers}`,
+        });
+      } catch (error) {
+        if (error.status === 404) {
+          console.log(`Issue #${issueNumber} does not exist.`);
+          continue;
+        } else {
+          throw error;
+        }
+      }
 
       try {
         await github.rest.issues.removeLabel({

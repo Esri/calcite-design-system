@@ -95,13 +95,15 @@ export const positionFloatingUI =
       flipPlacements?: FlipPlacement[];
       offsetDistance?: number;
       offsetSkidding?: number;
-      arrowEl?: SVGElement;
+      arrowEl?: SVGSVGElement;
       type: UIType;
     },
   ): Promise<void> => {
     if (!referenceEl || !floatingEl) {
       return null;
     }
+
+    const isRTL = getElementDir(floatingEl) === "rtl";
 
     const {
       x,
@@ -114,11 +116,11 @@ export const positionFloatingUI =
       placement:
         placement === "auto" || placement === "auto-start" || placement === "auto-end"
           ? undefined
-          : getEffectivePlacement(floatingEl, placement),
+          : getEffectivePlacement(placement, isRTL),
       middleware: getMiddleware({
         placement,
         flipDisabled,
-        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(floatingEl, placement)),
+        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(placement, isRTL)),
         offsetDistance,
         offsetSkidding,
         arrowEl,
@@ -269,6 +271,7 @@ export type MenuPlacement = Extract<
 >;
 
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
+export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
   /**
@@ -317,6 +320,8 @@ export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
   animationActive: "calcite-floating-ui-anim--active",
+  arrow: "calcite-floating-ui-arrow",
+  arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
 function getMiddleware({
@@ -333,7 +338,7 @@ function getMiddleware({
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
-  arrowEl?: SVGElement;
+  arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
   const defaultMiddleware = [shift(), hide()];
@@ -396,10 +401,10 @@ export function filterValidFlipPlacements(placements: string[], el: HTMLElement)
   return filteredPlacements;
 }
 
-export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
+export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false): EffectivePlacement {
   const placements = ["left", "right"];
 
-  if (getElementDir(floatingEl) === "rtl") {
+  if (isRTL) {
     placements.reverse();
   }
 

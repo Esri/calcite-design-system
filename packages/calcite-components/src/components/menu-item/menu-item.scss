@@ -65,7 +65,7 @@
   @apply text-color-1;
   border-color: var(--calcite-color-brand);
   .icon {
-    --calcite-ui-icon-color: var(--calcite-color-brand);
+    --calcite-icon-color: var(--calcite-color-brand);
   }
 }
 :host([layout="vertical"]) .content {
@@ -86,7 +86,7 @@
 
 .icon--dropdown {
   @apply ms-auto me-0 ps-2 relative;
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
+  --calcite-icon-color: var(--calcite-color-text-3);
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
@@ -106,7 +106,7 @@
 
 .icon--breadcrumb {
   @apply ps-2 me-0;
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
+  --calcite-icon-color: var(--calcite-color-text-3);
 }
 
 :host([layout="vertical"]) .icon--breadcrumb {

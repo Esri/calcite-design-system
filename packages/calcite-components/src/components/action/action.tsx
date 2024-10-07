@@ -13,8 +13,6 @@ import {
 import { toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -174,7 +172,6 @@ export class Action
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -192,7 +189,6 @@ export class Action
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.mutationObserver?.disconnect();
@@ -319,7 +315,6 @@ export class Action
           <button
             aria-busy={toAriaBoolean(loading)}
             aria-controls={indicator ? indicatorId : null}
-            aria-disabled={toAriaBoolean(disabled)}
             aria-label={ariaLabel}
             aria-pressed={toAriaBoolean(active)}
             class={buttonClasses}
@@ -349,7 +344,7 @@ export class Action
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+      .filter((el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"));
 
     const tooltip = tooltips[0];
 

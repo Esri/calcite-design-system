@@ -1,4 +1,4 @@
-import { DialogPlacement } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 
 export const CSS = {
   dialog: "dialog",
@@ -7,14 +7,8 @@ export const CSS = {
   container: "container",
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
-  content: "content",
-
-  // these classes help apply the animation in phases to only set transform on open/close
-  // this helps avoid a positioning issue for any floating-ui-owning children
-  openingIdle: "dialog--opening-idle",
+  assistiveText: "assistive-text",
   openingActive: "dialog--opening-active",
-  closingIdle: "dialog--closing-idle",
-  closingActive: "dialog--closing-active",
 };
 
 export const SLOTS = {
@@ -43,3 +37,8 @@ export const dialogPlacements: DialogPlacement[] = [
   "cover",
   "center",
 ];
+
+export const dialogResizeStep = 25;
+export const dialogDragStep = 25;
+export const initialDragPosition: DialogDragPosition = { x: 0, y: 0 };
+export const initialResizePosition: DialogResizePosition = { top: 0, right: 0, bottom: 0, left: 0 };

@@ -85,6 +85,17 @@ export const disabledAndTextOnly_TestOnly = (): string => html`
       text="Text"
       text-enabled
     ></calcite-action>
+    <calcite-action
+      active
+      icon="banana"
+      alignment="start"
+      appearance="solid"
+      label="Label"
+      scale="m"
+      disabled
+      text="Text"
+      text-enabled
+    ></calcite-action>
   </div>
 `;
 

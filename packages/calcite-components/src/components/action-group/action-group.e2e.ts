@@ -1,5 +1,17 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  handlesActionMenuPlacements,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
@@ -17,6 +29,23 @@ describe("calcite-action-group", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-action-group", [
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
       },
     ]);
   });
@@ -39,6 +68,15 @@ describe("calcite-action-group", () => {
 
   describe("slots", () => {
     slots("calcite-action-group", SLOTS);
+  });
+
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-action-group scale="l" overlay-positioning="fixed">
+        <calcite-action id="plus" slot="${SLOTS.menuActions}" text="Add" icon="plus"></calcite-action>
+        <calcite-action id="banana" slot="${SLOTS.menuActions}" text="Banana" icon="banana"></calcite-action>
+      </calcite-action-group>
+    `);
   });
 
   it("should honor scale of expand icon", async () => {
@@ -71,5 +109,21 @@ describe("calcite-action-group", () => {
 
   describe("translation support", () => {
     t9n("calcite-action-group");
+  });
+
+  describe("theme", () => {
+    describe("border", () => {
+      themed(
+        html`<calcite-action-menu open
+          ><calcite-action-group></calcite-action-group><calcite-action-group></calcite-action-group
+        ></calcite-action-menu>`,
+        {
+          "--calcite-action-group-border-color": {
+            selector: "calcite-action-group",
+            targetProp: "borderBlockEndColor",
+          },
+        },
+      );
+    });
   });
 });

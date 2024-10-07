@@ -11,8 +11,6 @@ import {
   VNode,
 } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -237,16 +235,8 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   componentDidRender(): void {

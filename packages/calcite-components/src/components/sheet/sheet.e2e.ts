@@ -81,12 +81,7 @@ describe("calcite-sheet properties", () => {
 
   describe("openClose", () => {
     openClose("calcite-sheet");
-
-    describe("initially open", () => {
-      openClose("calcite-sheet", {
-        initialToggleValue: true,
-      });
-    });
+    openClose.initial("calcite-sheet");
   });
 
   it("sets custom width correctly", async () => {
@@ -191,11 +186,13 @@ describe("calcite-sheet properties", () => {
           window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
         ).beforeClose),
     );
-    await page.waitForChanges();
+    await skipAnimations(page);
+    await page.waitForEvent("calciteSheetOpen");
     expect(await sheet.getProperty("opened")).toBe(true);
+
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await page.waitForChanges();
+
     expect(mockCallBack).toHaveBeenCalledTimes(1);
     expect(await sheet.getProperty("opened")).toBe(false);
   });

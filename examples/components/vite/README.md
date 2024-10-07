@@ -45,19 +45,20 @@ import "@esri/calcite-components/dist/calcite/calcite.css";
 
 ### Copy the assets
 
-You can use the `rollup-plugin-copy` package to copy Calcite components' assets to your application:
+You can use the `vite-plugin-static-copy` package to copy Calcite components' assets to your application:
 
 ```ts
-import { defineConfig } from "vite";
-import copy from "rollup-plugin-copy";
+import { resolve } from "node:path";
+import { defineConfig, normalizePath } from "vite";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 export default defineConfig({
   plugins: [
-    copy({
+    viteStaticCopy({
       targets: [
         {
-          src: "node_modules/@esri/calcite-components/dist/calcite/assets/",
-          dest: "public/",
+          src: normalizePath(resolve("node_modules", "@esri", "calcite-components", "dist", "calcite", "assets")),
+          dest: normalizePath("."),
         },
       ],
     }),

@@ -12,8 +12,12 @@ import {
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
+  CheckableFormComponent,
+  connectForm,
+  disconnectForm,
+  HiddenFormInputSlot,
+} from "../../utils/form";
+import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -160,7 +164,6 @@ export class Switch implements LabelableComponent, InteractiveComponent, Loadabl
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
   }
 
@@ -173,7 +176,6 @@ export class Switch implements LabelableComponent, InteractiveComponent, Loadabl
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
   }
 

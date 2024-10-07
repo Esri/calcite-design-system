@@ -1,4 +1,4 @@
-const { readFile, writeFile } = require("fs/promises");
+const { readFile, writeFile } = require("fs-extra");
 const { glob } = require("glob");
 const SVGO = require("svgo");
 const progress = require("cli-progress");

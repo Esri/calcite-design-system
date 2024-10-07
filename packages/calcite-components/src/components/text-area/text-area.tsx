@@ -39,8 +39,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -274,7 +272,6 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
@@ -295,7 +292,6 @@ export class TextArea
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -316,11 +312,11 @@ export class TextArea
             aria-label={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{
+              [CSS.textArea]: true,
               [CSS.readOnly]: this.readOnly,
               [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
               [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-              [CSS.blockSizeFull]: !hasFooter,
-              [CSS.borderColor]: !hasFooter,
+              [CSS.textAreaOnly]: !hasFooter,
             }}
             cols={this.columns}
             disabled={this.disabled}
@@ -344,7 +340,7 @@ export class TextArea
               [CSS.readOnly]: this.readOnly,
               [CSS.hide]: !hasFooter,
             }}
-            ref={(el) => (this.footerEl = el as HTMLElement)}
+            ref={(el) => (this.footerEl = el)}
           >
             <div
               class={{
@@ -368,7 +364,7 @@ export class TextArea
             {this.renderCharacterLimit()}
           </footer>
           {this.isCharacterLimitExceeded() && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+            <span aria-live="polite" class={CSS.assistiveText} id={this.guid}>
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}

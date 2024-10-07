@@ -142,11 +142,9 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @State() floatingLayout: FloatingLayout = "vertical";
 
-  arrowEl: SVGElement;
+  arrowEl: SVGSVGElement;
 
   guid = `calcite-tooltip-${guid()}`;
-
-  hasLoaded = false;
 
   openTransitionProp = "opacity";
 
@@ -175,7 +173,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
@@ -344,7 +341,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         >
           <FloatingArrow
             floatingLayout={floatingLayout}
-            ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
+            ref={(arrowEl) => (this.arrowEl = arrowEl)}
           />
           <div class={CSS.container}>
             <slot />

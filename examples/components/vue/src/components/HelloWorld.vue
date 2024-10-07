@@ -1,7 +1,7 @@
 <script>
-import '@esri/calcite-components/dist/components/calcite-button';
-import '@esri/calcite-components/dist/components/calcite-date-picker';
-import '@esri/calcite-components/dist/components/calcite-icon';
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-date-picker";
+import "@esri/calcite-components/dist/components/calcite-icon";
 
 /**
  * This is a workaround for listening to custom events
@@ -15,22 +15,22 @@ const eventDirective = {
   },
   beforeUnmount(el, { arg, value }) {
     el.removeEventListener(arg, value);
-  }
+  },
 };
 
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
+    msg: String,
   },
   methods: {
     datePickerRangeChangeHandler(event) {
-      console.log('datePickerRangeChangeHandler', event.target.value);
-    }
+      console.log("datePickerRangeChangeHandler", event.target.value);
+    },
   },
   directives: {
-    event: eventDirective
-  }
+    event: eventDirective,
+  },
 };
 </script>
 

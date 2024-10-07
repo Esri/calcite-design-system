@@ -80,6 +80,7 @@ Type: `Promise<void>`
 
 | Name                                      | Description                                        |
 | ----------------------------------------- | -------------------------------------------------- |
+| `--calcite-panel-content-space`           | Specifies the padding of the component's content.  |
 | `--calcite-panel-footer-padding`          | Specifies the padding of the component's footer.   |
 | `--calcite-panel-header-border-block-end` | Specifies the component header's block end border. |
 

@@ -15,8 +15,6 @@ import {
 import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -148,11 +146,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
-    this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
@@ -165,7 +161,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       }),
     );
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -226,7 +221,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
               [CSS.scale(this.scale)]: true,
             }}
             hidden={closed}
-            ref={(el) => this.resizeObserver?.observe(el)}
+            ref={(el) => (el ? this.resizeObserver?.observe(el) : null)}
           >
             <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
               {this.iconStart ? iconStartEl : null}
@@ -492,10 +487,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @State() hasText = false;
 
   closeButtonEl: HTMLButtonElement;
-
-  containerEl: HTMLDivElement;
-
-  parentTabNavEl: HTMLCalciteTabNavElement;
 
   parentTabsEl: HTMLCalciteTabsElement;
 

@@ -28,8 +28,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -206,7 +204,6 @@ export class Chip
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -223,7 +220,6 @@ export class Chip
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -417,7 +413,6 @@ export class Chip
                 ? toAriaBoolean(this.selected)
                 : undefined
             }
-            aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
             aria-label={this.label}
             class={{
               [CSS.container]: true,

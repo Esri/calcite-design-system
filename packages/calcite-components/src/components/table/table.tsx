@@ -250,11 +250,11 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   }
 
   @Listen("calciteInternalTableRowFocusRequest")
-  calciteInternalTableRowFocusEvent(event: TableRowFocusEvent): void {
-    const cellPosition = event["detail"].cellPosition;
-    const rowPos = event["detail"].rowPosition;
-    const destination = event["detail"].destination;
-    const lastCell = event["detail"].lastCell;
+  calciteInternalTableRowFocusEvent(event: CustomEvent<TableRowFocusEvent>): void {
+    const cellPosition = event.detail.cellPosition;
+    const rowPos = event.detail.rowPosition;
+    const destination = event.detail.destination;
+    const lastCell = event.detail.lastCell;
 
     const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
     const visibleAll = this.allRows?.filter((row) => !row.hidden);

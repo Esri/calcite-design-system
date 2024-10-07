@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -53,7 +53,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: rgb(214, 232, 245);");
+    expect(style).toEqual("background-color: var(--calcite-avatar-background-color, hsl(206, 60%, 90%));");
   });
 
   it("computes a background fill if id is not a valid hex", async () => {
@@ -65,7 +65,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: rgb(245, 214, 236);");
+    expect(style).toEqual("background-color: var(--calcite-avatar-background-color, hsl(317, 60%, 90%));");
   });
 
   it("renders default icon when no information is passed", async () => {
@@ -97,5 +97,65 @@ describe("calcite-avatar", () => {
     expect(firstBgColor).not.toEqual(secondBgColor);
     expect(secondBgColor).not.toEqual(thirdBgColor);
     expect(firstBgColor).not.toEqual(thirdBgColor);
+  });
+
+  describe("theme", () => {
+    describe("thumbnail", () => {
+      themed(
+        html`<calcite-avatar
+          thumbnail="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
+        ></calcite-avatar>`,
+        {
+          "--calcite-avatar-corner-radius": [
+            {
+              targetProp: "borderRadius",
+            },
+            {
+              shadowSelector: `.${CSS.thumbnail}`,
+              targetProp: "borderRadius",
+            },
+          ],
+        },
+      );
+    });
+
+    describe("icon", () => {
+      themed(html`<calcite-avatar user-id="umonti"></calcite-avatar>`, {
+        "--calcite-avatar-background-color": {
+          shadowSelector: `.${CSS.background}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-avatar-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+        "--calcite-avatar-corner-radius": [
+          {
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.background}`,
+            targetProp: "borderRadius",
+          },
+        ],
+      });
+    });
+
+    describe("initials", () => {
+      themed(html`<calcite-avatar full-name="Urbano Monti"></calcite-avatar>`, {
+        "--calcite-avatar-background-color": {
+          shadowSelector: `.${CSS.background}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-avatar-color": {
+          shadowSelector: `.${CSS.initials}`,
+          targetProp: "color",
+        },
+        "--calcite-avatar-corner-radius": {
+          shadowSelector: `.${CSS.background}`,
+          targetProp: "borderRadius",
+        },
+      });
+    });
   });
 });

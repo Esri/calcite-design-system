@@ -14,18 +14,11 @@ import {
 import {
   filterDirectChildren,
   getElementDir,
-  getSlotted,
+  slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -47,7 +40,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
   styleUrl: "tree-item.scss",
   shadow: true,
 })
-export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
+export class TreeItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -66,8 +59,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
-  expandedHandler(newValue: boolean): void {
-    this.updateParentIsExpanded(this.el, newValue);
+  expandedHandler(): void {
+    this.updateChildTree();
   }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
@@ -144,17 +137,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   connectedCallback(): void {
     this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
-    if (this.parentTreeItem) {
-      const { expanded } = this.parentTreeItem;
-      this.updateParentIsExpanded(this.parentTreeItem, expanded);
-    }
-    connectConditionalSlotComponent(this);
-    connectInteractive(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentWillRender(): void {
@@ -317,7 +299,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
                   [CSS_UTILITY.rtl]: rtl,
                 }}
                 data-selection-mode={this.selectionMode}
-                ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
               >
                 {chevron}
                 {itemIndicator}
@@ -342,7 +323,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
               onClick={this.childrenClickHandler}
               role={this.hasChildren ? "group" : undefined}
             >
-              <slot name={SLOTS.children} />
+              <slot name={SLOTS.children} onSlotchange={this.handleChildrenSlotChange} />
             </div>
           </div>
         </InteractiveContainer>
@@ -455,13 +436,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   actionSlotWrapper!: HTMLElement;
 
-  childrenSlotWrapper!: HTMLElement;
-
-  defaultSlotWrapper!: HTMLElement;
-
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
   private userChangedValue = false;
+
+  private childTree: HTMLCalciteTreeElement;
 
   //--------------------------------------------------------------------------
   //
@@ -469,18 +448,30 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   //--------------------------------------------------------------------------
 
+  private updateChildTree(): void {
+    const { childTree } = this;
+
+    if (!childTree) {
+      return;
+    }
+
+    childTree.parentExpanded = this.expanded;
+  }
+
+  private handleChildrenSlotChange = (event: Event): void => {
+    const childTree = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTreeElement => el.matches("calcite-tree"),
+    )[0];
+
+    this.childTree = childTree;
+
+    this.updateChildTree();
+  };
+
   private isActionEndEvent(event: Event): boolean {
     const composedPath = event.composedPath();
     return composedPath.includes(this.actionSlotWrapper);
   }
-
-  private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
-    const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
-      all: true,
-      selector: "calcite-tree-item",
-    });
-    items.forEach((item) => (item.parentExpanded = expanded));
-  };
 
   /**
    * This is meant to be called in `componentDidLoad` in order to take advantage of the hierarchical component lifecycle

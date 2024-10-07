@@ -8,17 +8,13 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
 } from "@stencil/core";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   closestElementCrossShadowBoundary,
   getElementDir,
-  getSlotted,
+  slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -44,7 +40,7 @@ import { RequestedItem } from "./interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true,
 })
-export class AccordionItem implements ConditionalSlotComponent, LoadableComponent {
+export class AccordionItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -118,20 +114,12 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------
@@ -141,21 +129,19 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   // --------------------------------------------------------------------------
 
   renderActionsStart(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsStart) ? (
-      <div class={CSS.actionsStart}>
-        <slot name={SLOTS.actionsStart} />
+    return (
+      <div class={CSS.actionsStart} hidden={!this.hasActionsStart}>
+        <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   renderActionsEnd(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsEnd) ? (
-      <div class={CSS.actionsEnd}>
-        <slot name={SLOTS.actionsEnd} />
+    return (
+      <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -254,10 +240,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   @Listen("calciteInternalAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     const [accordion] = event.composedPath();
-    const parent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
-      this.el,
-      "calcite-accordion",
-    );
+    const parent = closestElementCrossShadowBoundary(this.el, "calcite-accordion");
 
     if (accordion !== parent) {
       return;
@@ -280,7 +263,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
+    const closestAccordionParent = closestElementCrossShadowBoundary(
       accordionItem,
       "calcite-accordion",
     );
@@ -289,9 +272,9 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    accordionItem.iconPosition = closestAccordionParent.iconPosition;
-    accordionItem.iconType = closestAccordionParent.iconType;
-    accordionItem.scale = closestAccordionParent.scale;
+    this.iconPosition = closestAccordionParent.iconPosition;
+    this.iconType = closestAccordionParent.iconType;
+    this.scale = closestAccordionParent.scale;
     event.stopPropagation();
   }
 
@@ -304,6 +287,10 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   @Element() el: HTMLCalciteAccordionItemElement;
 
   private headerEl: HTMLDivElement;
+
+  @State() hasActionsStart = false;
+
+  @State() hasActionsEnd = false;
 
   //--------------------------------------------------------------------------
   //
@@ -323,6 +310,14 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private handleActionsStartSlotChange = (event: Event): void => {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
+  };
+
+  private handleActionsEndSlotChange = (event: Event): void => {
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+  };
 
   private storeHeaderEl = (el: HTMLDivElement): void => {
     this.headerEl = el;
@@ -354,7 +349,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   private emitRequestedItem(): void {
     this.calciteInternalAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement,
+      requestedAccordionItem: this.el,
     });
   }
 }
