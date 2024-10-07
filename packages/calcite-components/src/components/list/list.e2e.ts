@@ -1173,10 +1173,10 @@ describe("calcite-list", () => {
     async function createSimpleList(): Promise<E2EPage> {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-list drag-enabled value="list1">
-          <calcite-list-item value="one" label="One"></calcite-list-item>
-          <calcite-list-item value="two" label="Two"></calcite-list-item>
-          <calcite-list-item value="three" label="Three"></calcite-list-item>
+        html`<calcite-list drag-enabled id="list1">
+          <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
+          <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
+          <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
         </calcite-list>`,
       );
       await page.waitForChanges();
@@ -1384,7 +1384,7 @@ describe("calcite-list", () => {
           testWindow.oldIndex = event.detail.oldIndex;
           testWindow.fromEl = event.detail.fromEl.id;
           testWindow.toEl = event.detail.toEl.id;
-          testWindow.el = event.detail.dragEl.id ?? event.detail.dragEl.value;
+          testWindow.el = event.detail.dragEl.id;
         });
       });
 
