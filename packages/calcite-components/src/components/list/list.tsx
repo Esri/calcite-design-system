@@ -1016,6 +1016,8 @@ export class List
       return;
     }
 
+    dragEl.sortHandleOpen = false;
+
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
@@ -1042,6 +1044,8 @@ export class List
     if (!parentEl) {
       return;
     }
+
+    dragEl.sortHandleOpen = false;
 
     const sameParentItems = this.filteredItems.filter((item) => item.parentElement === parentEl);
 
