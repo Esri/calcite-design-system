@@ -58,10 +58,9 @@ describe("calcite-sort-handle", () => {
     await page.waitForChanges();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
-    const event = page.waitForEvent("calciteSortHandleReorder");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    await event;
+    await page.waitForChanges();
     expect(await calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
     expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
   });
@@ -72,8 +71,8 @@ describe("calcite-sort-handle", () => {
     await skipAnimations(page);
 
     const moveToItems = [
-      { label: "List 2", value: "list2" },
-      { label: "List 3", value: "list3" },
+      { label: "List 2", id: "list2" },
+      { label: "List 3", id: "list3" },
     ];
 
     const sortHandle = await page.find("calcite-sort-handle");
@@ -89,11 +88,10 @@ describe("calcite-sort-handle", () => {
     await page.waitForChanges();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
-    const event = page.waitForEvent("calciteSortHandleMove");
     await page.keyboard.press(" ");
     await page.waitForChanges();
-    await event;
-    expect(await calciteSortHandleMoveSpy.lastEvent.detail.value).toBe(moveToItems[1].value);
+    await page.waitForChanges();
+    expect(await calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
   });
 
