@@ -218,7 +218,7 @@ export const longHeading_MediumIconForLargeAccordionItem_TestOnly = (): string =
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
 export const slottedItemsStretched = (): string => html`
-  <calcite-accordion scale="s">
+  <calcite-accordion scale="l">
     <calcite-accordion-item description="Yachts, boats, and dinghies" heading="Watercraft" icon-start="embark">
       <calcite-action slot="actions-start" icon="smile"> </calcite-action>
       <calcite-notice open>
