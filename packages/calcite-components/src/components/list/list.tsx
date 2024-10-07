@@ -23,7 +23,7 @@ import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
-import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+import { updateListItemChildren } from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -696,7 +696,7 @@ export class List
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
-    updateListItemChildren(getListItemChildren(event.target as HTMLSlotElement));
+    updateListItemChildren(event.target as HTMLSlotElement);
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }

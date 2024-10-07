@@ -3333,11 +3333,11 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setPosition": number;
         /**
-          * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setSize": number;
         /**
@@ -11593,11 +11593,11 @@ declare namespace LocalJSX {
     SelectionMode
   >;
         /**
-          * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setPosition"?: number;
         /**
-          * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setSize"?: number;
         /**

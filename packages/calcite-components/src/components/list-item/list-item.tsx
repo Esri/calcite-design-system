@@ -42,12 +42,7 @@ import {
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
 import { ListItemMessages } from "./assets/list-item/t9n";
-import {
-  getDepth,
-  getListItemChildren,
-  getListItemChildLists,
-  updateListItemChildren,
-} from "./utils";
+import { getDepth, hasListItemChildren } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
@@ -183,14 +178,14 @@ export class ListItem
   }
 
   /**
-   * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+   * Used to determine what menu options are available in the sort-handle
    *
    * @internal
    */
   @Prop() setSize: number = null;
 
   /**
-   * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+   * Used to determine what menu options are available in the sort-handle
    *
    * @internal
    */
@@ -677,8 +672,6 @@ export class ListItem
       openable,
       open,
       level,
-      setPosition,
-      setSize,
       active,
       label,
       selected,
@@ -702,9 +695,7 @@ export class ListItem
               aria-expanded={openable ? toAriaBoolean(open) : null}
               aria-label={label}
               aria-level={level}
-              aria-posinset={setPosition}
               aria-selected={toAriaBoolean(selected)}
-              aria-setsize={setSize}
               class={{
                 [CSS.container]: true,
                 [CSS.containerHover]: true,
@@ -837,11 +828,7 @@ export class ListItem
       return;
     }
 
-    const listItemChildren = getListItemChildren(slotEl);
-    const listItemChildLists = getListItemChildLists(slotEl);
-    updateListItemChildren(listItemChildren);
-
-    this.openable = !!listItemChildren.length || !!listItemChildLists.length;
+    this.openable = hasListItemChildren(slotEl);
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
