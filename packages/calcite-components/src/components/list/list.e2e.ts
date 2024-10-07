@@ -5,6 +5,7 @@ import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
+import { Reorder } from "../sort-handle/interfaces";
 import { ListDragDetail } from "./interfaces";
 
 const placeholder = placeholderImage({
@@ -1363,14 +1364,8 @@ describe("calcite-list", () => {
       expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
 
-    // todo
-    it.skip("works using a keyboard", async () => {
+    it("reorders using a keyboard", async () => {
       const page = await createSimpleList();
-
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Space");
-      await page.waitForChanges();
 
       let totalMoves = 0;
 
@@ -1385,14 +1380,22 @@ describe("calcite-list", () => {
         });
       });
 
-      async function assertKeyboardMove(
-        arrowKey: "ArrowDown" | "ArrowUp",
+      async function assertReorder(
+        reorder: Reorder,
         expectedValueOrder: string[],
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const event = page.waitForEvent("calciteSortHandleReorder");
+        await page.$eval(
+          `calcite-list-item[value="one"]`,
+          (item1: HTMLCalciteListItemElement, reorder) => {
+            item1.dispatchEvent(new CustomEvent("calciteSortHandleReorder", { detail: { reorder }, bubbles: true }));
+          },
+          reorder,
+        );
+        await event;
         await page.waitForChanges();
-        await page.keyboard.press(arrowKey);
         const itemsAfter = await page.findAll("calcite-list-item");
         expect(itemsAfter.length).toBe(3);
 
@@ -1415,13 +1418,83 @@ describe("calcite-list", () => {
         expect(results.oldIndex).toBe(oldIndex);
       }
 
-      await assertKeyboardMove("ArrowDown", ["two", "one", "three"], 1, 0);
-      await assertKeyboardMove("ArrowDown", ["two", "three", "one"], 2, 1);
-      await assertKeyboardMove("ArrowDown", ["one", "two", "three"], 0, 2);
+      await assertReorder("down", ["two", "one", "three"], 1, 0);
+      await assertReorder("down", ["two", "three", "one"], 2, 1);
+      await assertReorder("down", ["two", "three", "one"], 2, 2);
 
-      await assertKeyboardMove("ArrowUp", ["two", "three", "one"], 2, 0);
-      await assertKeyboardMove("ArrowUp", ["two", "one", "three"], 1, 2);
-      await assertKeyboardMove("ArrowUp", ["one", "two", "three"], 0, 1);
+      await assertReorder("up", ["two", "one", "three"], 1, 2);
+      await assertReorder("up", ["one", "two", "three"], 0, 1);
+      await assertReorder("up", ["one", "two", "three"], 0, 0);
+
+      await assertReorder("bottom", ["two", "three", "one"], 2, 0);
+      await assertReorder("top", ["one", "two", "three"], 0, 2);
+    });
+
+    // todo
+    it.skip("moves using a keyboard", async () => {
+      const page = await createSimpleList(); // todo
+
+      let totalMoves = 0;
+
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+        const testWindow = window as TestWindow;
+        testWindow.calledTimes = 0;
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
+          testWindow.calledTimes++;
+          testWindow.newIndex = event.detail.newIndex;
+          testWindow.oldIndex = event.detail.oldIndex;
+        });
+      });
+
+      async function assertReorder(
+        reorder: Reorder,
+        expectedValueOrder: string[],
+        newIndex: number,
+        oldIndex: number,
+      ): Promise<void> {
+        const event = page.waitForEvent("calciteSortHandleReorder");
+        await page.$eval(
+          `calcite-list-item[value="one"]`,
+          (item1: HTMLCalciteListItemElement, reorder) => {
+            item1.dispatchEvent(new CustomEvent("calciteSortHandleReorder", { detail: { reorder }, bubbles: true }));
+          },
+          reorder,
+        );
+        await event;
+        await page.waitForChanges();
+        const itemsAfter = await page.findAll("calcite-list-item");
+        expect(itemsAfter.length).toBe(3);
+
+        for (let i = 0; i < itemsAfter.length; i++) {
+          expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
+        }
+
+        const results = await page.evaluate(() => {
+          const testWindow = window as TestWindow;
+
+          return {
+            calledTimes: testWindow.calledTimes,
+            oldIndex: testWindow.oldIndex,
+            newIndex: testWindow.newIndex,
+          };
+        });
+
+        expect(results.calledTimes).toBe(++totalMoves);
+        expect(results.newIndex).toBe(newIndex);
+        expect(results.oldIndex).toBe(oldIndex);
+      }
+
+      await assertReorder("down", ["two", "one", "three"], 1, 0);
+      await assertReorder("down", ["two", "three", "one"], 2, 1);
+      await assertReorder("down", ["two", "three", "one"], 2, 2);
+
+      await assertReorder("up", ["two", "one", "three"], 1, 2);
+      await assertReorder("up", ["one", "two", "three"], 0, 1);
+      await assertReorder("up", ["one", "two", "three"], 0, 0);
+
+      await assertReorder("bottom", ["two", "three", "one"], 2, 0);
+      await assertReorder("top", ["one", "two", "three"], 0, 2);
     });
   });
 });
