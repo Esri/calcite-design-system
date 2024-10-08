@@ -589,6 +589,92 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
+    interface CalciteAutocomplete {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement[];
+        /**
+          * The component's input value.
+         */
+        "inputValue": string;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement": MenuPlacement;
+        /**
+          * Updates the position of the component.
+          * @param delayed
+         */
+        "reposition": (delayed?: boolean) => Promise<void>;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Sets focus on the component's first focusable element.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The component's value.
+         */
+        "value": string;
+    }
+    interface CalciteAutocompleteItem {
+        /**
+          * A description for the component. Displays below the label text.
+         */
+        "description": string;
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Specifies heading text for the component.
+         */
+        "heading": string;
+        /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd": IconNameOrString;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart": IconNameOrString;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
+         */
+        "scale": Scale;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The component's value.
+         */
+        "value": string;
+    }
     interface CalciteAvatar {
         /**
           * Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component.
@@ -5997,6 +6083,10 @@ export interface CalciteAlertCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteAlertElement;
 }
+export interface CalciteAutocompleteCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteAutocompleteElement;
+}
 export interface CalciteBlockCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteBlockElement;
@@ -6415,6 +6505,32 @@ declare global {
     var HTMLCalciteAlertElement: {
         prototype: HTMLCalciteAlertElement;
         new (): HTMLCalciteAlertElement;
+    };
+    interface HTMLCalciteAutocompleteElementEventMap {
+        "calciteAutocompleteBeforeClose": void;
+        "calciteAutocompleteClose": void;
+        "calciteAutocompleteBeforeOpen": void;
+        "calciteAutocompleteOpen": void;
+    }
+    interface HTMLCalciteAutocompleteElement extends Components.CalciteAutocomplete, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteAutocompleteElementEventMap>(type: K, listener: (this: HTMLCalciteAutocompleteElement, ev: CalciteAutocompleteCustomEvent<HTMLCalciteAutocompleteElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteAutocompleteElementEventMap>(type: K, listener: (this: HTMLCalciteAutocompleteElement, ev: CalciteAutocompleteCustomEvent<HTMLCalciteAutocompleteElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteAutocompleteElement: {
+        prototype: HTMLCalciteAutocompleteElement;
+        new (): HTMLCalciteAutocompleteElement;
+    };
+    interface HTMLCalciteAutocompleteItemElement extends Components.CalciteAutocompleteItem, HTMLStencilElement {
+    }
+    var HTMLCalciteAutocompleteItemElement: {
+        prototype: HTMLCalciteAutocompleteItemElement;
+        new (): HTMLCalciteAutocompleteItemElement;
     };
     interface HTMLCalciteAvatarElement extends Components.CalciteAvatar, HTMLStencilElement {
     }
@@ -8058,6 +8174,8 @@ declare global {
         "calcite-action-menu": HTMLCalciteActionMenuElement;
         "calcite-action-pad": HTMLCalciteActionPadElement;
         "calcite-alert": HTMLCalciteAlertElement;
+        "calcite-autocomplete": HTMLCalciteAutocompleteElement;
+        "calcite-autocomplete-item": HTMLCalciteAutocompleteItemElement;
         "calcite-avatar": HTMLCalciteAvatarElement;
         "calcite-block": HTMLCalciteBlockElement;
         "calcite-block-section": HTMLCalciteBlockSectionElement;
@@ -8554,6 +8672,95 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+    }
+    interface CalciteAutocomplete {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement[];
+        /**
+          * The component's input value.
+         */
+        "inputValue"?: string;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteAutocompleteBeforeClose"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteAutocompleteBeforeOpen"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteAutocompleteClose"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteAutocompleteOpen"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement"?: MenuPlacement;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+        /**
+          * The component's value.
+         */
+        "value"?: string;
+    }
+    interface CalciteAutocompleteItem {
+        /**
+          * A description for the component. Displays below the label text.
+         */
+        "description"?: string;
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Specifies heading text for the component.
+         */
+        "heading"?: string;
+        /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd"?: IconNameOrString;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart"?: IconNameOrString;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
+        /**
+          * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
+         */
+        "scale"?: Scale;
+        /**
+          * The component's value.
+         */
+        "value"?: string;
     }
     interface CalciteAvatar {
         /**
@@ -14224,6 +14431,8 @@ declare namespace LocalJSX {
         "calcite-action-menu": CalciteActionMenu;
         "calcite-action-pad": CalciteActionPad;
         "calcite-alert": CalciteAlert;
+        "calcite-autocomplete": CalciteAutocomplete;
+        "calcite-autocomplete-item": CalciteAutocompleteItem;
         "calcite-avatar": CalciteAvatar;
         "calcite-block": CalciteBlock;
         "calcite-block-section": CalciteBlockSection;
@@ -14341,6 +14550,8 @@ declare module "@stencil/core" {
             "calcite-action-menu": LocalJSX.CalciteActionMenu & JSXBase.HTMLAttributes<HTMLCalciteActionMenuElement>;
             "calcite-action-pad": LocalJSX.CalciteActionPad & JSXBase.HTMLAttributes<HTMLCalciteActionPadElement>;
             "calcite-alert": LocalJSX.CalciteAlert & JSXBase.HTMLAttributes<HTMLCalciteAlertElement>;
+            "calcite-autocomplete": LocalJSX.CalciteAutocomplete & JSXBase.HTMLAttributes<HTMLCalciteAutocompleteElement>;
+            "calcite-autocomplete-item": LocalJSX.CalciteAutocompleteItem & JSXBase.HTMLAttributes<HTMLCalciteAutocompleteItemElement>;
             "calcite-avatar": LocalJSX.CalciteAvatar & JSXBase.HTMLAttributes<HTMLCalciteAvatarElement>;
             "calcite-block": LocalJSX.CalciteBlock & JSXBase.HTMLAttributes<HTMLCalciteBlockElement>;
             "calcite-block-section": LocalJSX.CalciteBlockSection & JSXBase.HTMLAttributes<HTMLCalciteBlockSectionElement>;

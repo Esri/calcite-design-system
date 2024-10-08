@@ -21,6 +21,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-action-menu"] },
     { components: ["calcite-action-pad"] },
     { components: ["calcite-alert"] },
+    { components: ["calcite-autocomplete", "calcite-autocomplete-item"] },
     { components: ["calcite-avatar"] },
     { components: ["calcite-block", "calcite-block-section"] },
     { components: ["calcite-button"] },
