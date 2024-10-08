@@ -465,7 +465,7 @@ export class ListItem
     return dragHandle ? (
       <div
         aria-label={label}
-        class={CSS.dragContainer}
+        class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
         onFocusin={this.focusCellHandle}
         ref={(el) => (this.handleGridEl = el)}
@@ -506,7 +506,7 @@ export class ListItem
     return (
       <div
         aria-label={label}
-        class={CSS.actionsStart}
+        class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
         onFocusin={this.focusCellActionsStart}
@@ -523,7 +523,7 @@ export class ListItem
     return (
       <div
         aria-label={label}
-        class={CSS.actionsEnd}
+        class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         onFocusin={this.focusCellActionsEnd}
@@ -631,6 +631,7 @@ export class ListItem
       <div
         aria-label={label}
         class={{
+          [CSS.gridCell]: true,
           [CSS.contentContainer]: true,
           [CSS.contentContainerUnavailable]: unavailable,
           [CSS.contentContainerSelectable]: selectionMode !== "none",
@@ -681,6 +682,7 @@ export class ListItem
               aria-selected={toAriaBoolean(selected)}
               aria-setsize={setSize}
               class={{
+                [CSS.row]: true,
                 [CSS.container]: true,
                 [CSS.containerHover]: true,
                 [CSS.containerBorder]: showBorder,

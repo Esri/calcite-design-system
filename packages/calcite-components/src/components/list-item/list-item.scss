@@ -79,17 +79,17 @@
   @apply opacity-disabled;
 }
 
-[role="row"],
-[row="gridcell"] {
+.row,
+.grid-cell {
   @apply focus-base;
 }
 
-[role="row"] {
+.row {
   @apply relative;
 }
 
-[role="row"]:focus,
-[row="gridcell"]:focus {
+.row:focus,
+.grid-cell:focus {
   @apply focus-inset;
 }
 
@@ -216,7 +216,7 @@
   }
 }
 
-[row="row"]:focus {
+.row:focus {
   .actions-start,
   .actions-end {
     inset-block: theme("spacing[0.5]");
