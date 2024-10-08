@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { defaults, focusable, hidden, openClose, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-modal", () => {
@@ -15,12 +15,7 @@ describe("calcite-modal", () => {
 
   describe("openClose", () => {
     openClose("calcite-modal");
-
-    describe("initially open", () => {
-      openClose("calcite-modal", {
-        initialToggleValue: true,
-      });
-    });
+    openClose.initial("calcite-modal");
   });
 
   describe("slots", () => {
@@ -176,7 +171,7 @@ describe("calcite-modal", () => {
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
-      <calcite-modal open></calcite-modal>
+      <calcite-modal></calcite-modal>
     `);
     const modal = await page.find("calcite-modal");
     await page.$eval(
@@ -186,12 +181,14 @@ describe("calcite-modal", () => {
           window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
         ).beforeClose),
     );
+    await skipAnimations(page);
     await page.waitForChanges();
+
     modal.setProperty("open", true);
     await page.waitForChanges();
     expect(await modal.getProperty("opened")).toBe(true);
+
     await page.keyboard.press("Escape");
-    await page.waitForChanges();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
     expect(await modal.getProperty("opened")).toBe(false);
@@ -418,35 +415,44 @@ describe("calcite-modal", () => {
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal ></calcite-modal>`);
+    await page.setContent(`<calcite-modal></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
-    await modal.setProperty("open", true);
+    const openedEvent = page.waitForEvent("calciteModalOpen");
+
+    modal.setProperty("open", true);
     await page.waitForChanges();
     expect(await modal.isVisible()).toBe(true);
+
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     expect(await modal.isVisible()).toBe(false);
     expect(await modal.getProperty("open")).toBe(false);
-    await modal.setProperty("open", true);
+
+    modal.setProperty("open", true);
     await page.waitForChanges();
+    await openedEvent;
     expect(await modal.isVisible()).toBe(true);
   });
 
   it("closes when Escape key is pressed and modal is open on page load", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal  open></calcite-modal>`);
+    await page.setContent(`<calcite-modal open></calcite-modal>`);
+    await skipAnimations(page);
+    const openedEvent = page.waitForEvent("calciteModalOpen");
+
     const modal = await page.find("calcite-modal");
     await page.waitForChanges();
+    await openedEvent;
     expect(modal).toHaveAttribute("open");
-    expect(modal).toHaveAttribute("open");
+
     await page.keyboard.press("Escape");
     await page.waitForChanges();
+    await waitForAnimationFrame();
     expect(modal).not.toHaveAttribute("open");
-    expect(modal).not.toHaveAttribute("open");
+
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("open");
     expect(modal).toHaveAttribute("open");
   });
 
@@ -604,17 +610,16 @@ describe("calcite-modal", () => {
 
   it("renders correctly with no footer", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-modal>
+    await page.setContent(html`
+      <calcite-modal open>
         <calcite-button slot="primary">TEST</calcite-button>
       </calcite-modal>
     `);
-    let footer = await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector(".footer"));
-    expect(footer).toBeDefined();
+    const footer = await page.find("calcite-modal >>> .footer");
+    expect(await footer.isVisible()).toBe(true);
     await page.$eval("calcite-button", (el) => el.parentElement.removeChild(el));
     await page.waitForChanges();
-    footer = await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector(".footer"));
-    expect(footer).toBeFalsy();
+    expect(await footer.isVisible()).toBe(false);
   });
 
   it("should render calcite-scrim with default background color", async () => {

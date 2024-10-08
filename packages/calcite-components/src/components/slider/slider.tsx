@@ -438,7 +438,6 @@ export class Slider
 
     return (
       <div
-        aria-disabled={this.disabled}
         aria-label={ariaLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -561,7 +560,7 @@ export class Slider
     }
 
     const x = event.clientX || event.pageX;
-    const position = this.translate(x);
+    const position = this.mapToRange(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -803,7 +802,7 @@ export class Slider
 
     event.preventDefault();
     if (this.dragProp) {
-      const value = this.translate(event.clientX || event.pageX);
+      const value = this.mapToRange(event.clientX || event.pageX);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -942,7 +941,7 @@ export class Slider
    * @param x
    * @internal
    */
-  private translate(x: number): number {
+  private mapToRange(x: number): number {
     const range = this.max - this.min;
     const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;

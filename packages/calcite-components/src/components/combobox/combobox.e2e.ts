@@ -164,7 +164,15 @@ describe("calcite-combobox", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-combobox");
+    disabled("calcite-combobox", {
+      focusTarget: {
+        tab: "calcite-combobox",
+        click: {
+          pointer: "calcite-combobox",
+          method: "calcite-combobox",
+        },
+      },
+    });
   });
 
   const simpleComboboxHTML = html`
@@ -737,6 +745,43 @@ describe("calcite-combobox", () => {
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
           expect(await combobox.getProperty("open")).toBe(true);
+        });
+
+        it("single-persist-selection mode correctly selects different items with the same value", async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`
+            <calcite-combobox selection-mode="single-persist">
+              <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item value="one" heading="two"></calcite-combobox-item>
+            </calcite-combobox>
+          `);
+
+          const combobox = await page.find("calcite-combobox");
+
+          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await firstOpenEvent;
+
+          const item1 = await combobox.find("calcite-combobox-item[heading=one]");
+          const item2 = await combobox.find("calcite-combobox-item[heading=two]");
+
+          await item1.click();
+          await page.waitForChanges();
+          expect(await combobox.getProperty("value")).toBe("one");
+          expect(await item1.getProperty("selected")).toBe(true);
+          expect(await item2.getProperty("selected")).toBe(false);
+          expect(await combobox.getProperty("open")).toBe(false);
+
+          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await secondOpenEvent;
+
+          await item2.click();
+          await page.waitForChanges();
+          expect(await combobox.getProperty("value")).toBe("one");
+          expect(await item1.getProperty("selected")).toBe(false);
+          expect(await item2.getProperty("selected")).toBe(true);
+          expect(await combobox.getProperty("open")).toBe(false);
         });
 
         it("multiple-selection mode allows toggling selection once the selected item is selected", async () => {
@@ -1624,7 +1669,7 @@ describe("calcite-combobox", () => {
     let element: E2EElement;
     let comboboxItem: E2EElement;
     let itemNestedLi: E2EElement;
-    let closeEvent: Promise<void>;
+    let closeEvent: Promise<unknown>;
 
     beforeEach(async () => {
       page = await newE2EPage();

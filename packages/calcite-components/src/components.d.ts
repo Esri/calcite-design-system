@@ -38,7 +38,6 @@ import { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
 import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
-import { OverlayPositioning as OverlayPositioning1 } from "./components";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
@@ -134,7 +133,6 @@ export { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
 export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
-export { OverlayPositioning as OverlayPositioning1 } from "./components";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
@@ -405,9 +403,17 @@ export namespace Components {
          */
         "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements": FlipPlacement[];
+        /**
           * When `true`, the `calcite-action-menu` is open.
          */
         "menuOpen": boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement": LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -439,7 +445,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -650,6 +656,14 @@ export namespace Components {
           * When `true`, a busy indicator is displayed.
          */
         "loading": boolean;
+        /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements": FlipPlacement[];
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement": LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -968,6 +982,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -1199,7 +1214,7 @@ export namespace Components {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`undefined`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty": boolean;
         /**
@@ -1270,7 +1285,7 @@ export namespace Components {
          */
         "filteredItems": HTMLCalciteComboboxItemElement[];
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -1752,7 +1767,7 @@ export namespace Components {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning": OverlayPositioning1;
+        "overlayPositioning": OverlayPositioning;
         /**
           * Specifies the placement of the dialog.
          */
@@ -1801,7 +1816,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -2441,7 +2456,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -3325,6 +3340,10 @@ export namespace Components {
          */
         "setSize": number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable": boolean;
+        /**
           * The component's value.
          */
         "value": any;
@@ -3344,6 +3363,10 @@ export namespace Components {
         "heading": string;
     }
     interface CalciteLoader {
+        /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete": boolean;
         /**
           * When `true`, displays smaller and appears to the left of the text.
          */
@@ -3886,9 +3909,17 @@ export namespace Components {
          */
         "loading": boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements": FlipPlacement[];
+        /**
           * When `true`, the action menu items in the `header-menu-actions` slot are open.
          */
         "menuOpen": boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement": LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4064,7 +4095,7 @@ export namespace Components {
          */
         "flipDisabled": boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -4184,6 +4215,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -4816,7 +4848,7 @@ export namespace Components {
          */
         "dropdownLabel": string;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements": FlipPlacement[];
         /**
@@ -5795,6 +5827,7 @@ export namespace Components {
           * When `true`, displays indentation guide lines.
          */
         "lines": boolean;
+        "parentExpanded": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -7142,7 +7175,7 @@ declare global {
         new (): HTMLCalciteListItemElement;
     };
     interface HTMLCalciteListItemGroupElementEventMap {
-        "calciteInternalListItemGroupDefaultSlotChange": DragEvent;
+        "calciteInternalListItemGroupDefaultSlotChange": void;
     }
     interface HTMLCalciteListItemGroupElement extends Components.CalciteListItemGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(type: K, listener: (this: HTMLCalciteListItemGroupElement, ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7888,9 +7921,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerBlur": void;
-        "calciteInternalTimePickerChange": string;
-        "calciteInternalTimePickerFocus": void;
+        "calciteInternalTimePickerChange": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8371,9 +8402,17 @@ declare namespace LocalJSX {
          */
         "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements"?: FlipPlacement[];
+        /**
           * When `true`, the `calcite-action-menu` is open.
          */
         "menuOpen"?: boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement"?: LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8401,7 +8440,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -8623,6 +8662,14 @@ declare namespace LocalJSX {
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
+        /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements"?: FlipPlacement[];
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement"?: LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8963,6 +9010,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -9213,7 +9261,7 @@ declare namespace LocalJSX {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`undefined`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty"?: boolean;
         /**
@@ -9284,7 +9332,7 @@ declare namespace LocalJSX {
          */
         "filteredItems"?: HTMLCalciteComboboxItemElement[];
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -9833,7 +9881,7 @@ declare namespace LocalJSX {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning"?: OverlayPositioning1;
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Specifies the placement of the dialog.
          */
@@ -9866,7 +9914,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -10522,7 +10570,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -11491,6 +11539,10 @@ declare namespace LocalJSX {
          */
         "setSize"?: number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable"?: boolean;
+        /**
           * The component's value.
          */
         "value"?: any;
@@ -11511,9 +11563,13 @@ declare namespace LocalJSX {
         /**
           * Fires when changes occur in the default slot, notifying parent lists of the changes.
          */
-        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
+        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<void>) => void;
     }
     interface CalciteLoader {
+        /**
+          * Indicates whether the component is in a loading state.
+         */
+        "complete"?: boolean;
         /**
           * When `true`, displays smaller and appears to the left of the text.
          */
@@ -12048,9 +12104,17 @@ declare namespace LocalJSX {
          */
         "loading"?: boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements"?: FlipPlacement[];
+        /**
           * When `true`, the action menu items in the `header-menu-actions` slot are open.
          */
         "menuOpen"?: boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement"?: LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -12241,7 +12305,7 @@ declare namespace LocalJSX {
          */
         "flipDisabled"?: boolean;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -12363,6 +12427,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -13029,7 +13094,7 @@ declare namespace LocalJSX {
          */
         "dropdownLabel"?: string;
         /**
-          * Defines the available placements that can be used when a flip occurs.
+          * Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available.
          */
         "flipPlacements"?: FlipPlacement[];
         /**
@@ -13889,9 +13954,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerBlur"?: (event: CalciteTimePickerCustomEvent<void>) => void;
-        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
-        "onCalciteInternalTimePickerFocus"?: (event: CalciteTimePickerCustomEvent<void>) => void;
+        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */
@@ -14038,6 +14101,7 @@ declare namespace LocalJSX {
           * Fires when the user selects/deselects `calcite-tree-items`.
          */
         "onCalciteTreeSelect"?: (event: CalciteTreeCustomEvent<void>) => void;
+        "parentExpanded"?: boolean;
         /**
           * Specifies the size of the component.
          */

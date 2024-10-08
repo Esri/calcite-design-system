@@ -15,6 +15,14 @@ For comprehensive guidance on using and implementing `calcite-avatar`, refer to 
 | `userId`    | `user-id`   | Specifies the unique id of the user.                                                                                                | `string`            | `undefined` |
 | `username`  | `username`  | Specifies the username of the user.                                                                                                 | `string`            | `undefined` |
 
+## CSS Custom Properties
+
+| Name                                | Description                                         |
+| ----------------------------------- | --------------------------------------------------- |
+| `--calcite-avatar-background-color` | defines the background color of the component.      |
+| `--calcite-avatar-color`            | defines the icon or initial color in the component. |
+| `--calcite-avatar-corner-radius`    | defines the corner radius of the component.         |
+
 ## Dependencies
 
 ### Used by

@@ -3,7 +3,7 @@ import { JSXBase } from "@stencil/core/internal";
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-interface HeadingProps extends JSXBase.HTMLAttributes {
+interface HeadingProps extends Pick<JSXBase.HTMLAttributes, "class" | "key"> {
   level?: HeadingLevel;
 }
 
@@ -14,7 +14,9 @@ export function constrainHeadingLevel(level: number): HeadingLevel {
 export const Heading: FunctionalComponent<HeadingProps> = (props, children): VNode => {
   const HeadingTag = props.level ? `h${props.level}` : "div";
 
-  delete props.level;
-
-  return <HeadingTag {...props}>{children}</HeadingTag>;
+  return (
+    <HeadingTag class={props.class} key={props.key}>
+      {children}
+    </HeadingTag>
+  );
 };

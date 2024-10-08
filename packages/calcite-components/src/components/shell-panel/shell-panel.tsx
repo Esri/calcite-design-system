@@ -11,11 +11,6 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   getElementDir,
   isPrimaryPointerButton,
   slotChangeGetAssignedElements,
@@ -47,7 +42,7 @@ import { DisplayMode } from "./interfaces";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class ShellPanel implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -177,7 +172,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -187,7 +181,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     this.disconnectSeparator();
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -681,9 +674,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar"),
-    ) as HTMLCalciteActionBarElement[];
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionBarElement => el?.matches("calcite-action-bar"),
+    );
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);

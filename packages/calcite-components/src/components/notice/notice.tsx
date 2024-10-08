@@ -10,12 +10,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -59,12 +54,7 @@ import { CSS, SLOTS } from "./resources";
   assetsDirs: ["assets"],
 })
 export class Notice
-  implements
-    ConditionalSlotComponent,
-    LoadableComponent,
-    T9nComponent,
-    LocalizedComponent,
-    OpenCloseComponent
+  implements LoadableComponent, T9nComponent, LocalizedComponent, OpenCloseComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -135,13 +125,11 @@ export class Notice
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -160,7 +148,6 @@ export class Notice
   }
 
   render(): VNode {
-    const { el } = this;
     const closeButton = (
       <button
         aria-label={this.messages.close}
@@ -171,8 +158,6 @@ export class Notice
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
-
-    const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
       <div class={CSS.container} ref={this.setTransitionEl}>
@@ -190,11 +175,9 @@ export class Notice
           <slot name={SLOTS.message} />
           <slot name={SLOTS.link} />
         </div>
-        {hasActionEnd ? (
-          <div class={CSS.actionsEnd}>
-            <slot name={SLOTS.actionsEnd} />
-          </div>
-        ) : null}
+        <div class={CSS.actionsEnd} hidden={!this.hasActionEnd}>
+          <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+        </div>
         {this.closable ? closeButton : null}
       </div>
     );
@@ -266,8 +249,13 @@ export class Notice
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
   private close = (): void => {
     this.open = false;
+  };
+
+  private handleActionsEndSlotChange = (event: Event): void => {
+    this.hasActionEnd = slotChangeHasAssignedElement(event);
   };
 
   //--------------------------------------------------------------------------
@@ -296,4 +284,6 @@ export class Notice
   openTransitionProp = "opacity";
 
   transitionEl: HTMLElement;
+
+  @State() hasActionEnd = false;
 }

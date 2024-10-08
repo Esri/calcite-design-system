@@ -53,12 +53,7 @@ describe("calcite-dialog", () => {
 
   describe("openClose", () => {
     openClose("calcite-dialog");
-
-    describe("initially open", () => {
-      openClose("calcite-dialog", {
-        initialToggleValue: true,
-      });
-    });
+    openClose.initial("calcite-dialog");
   });
 
   describe("slots", () => {
@@ -373,20 +368,35 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
-    const panel = await page.find(`calcite-dialog >>> calcite-panel`);
     expect(await dialog.getProperty("open")).toBe(true);
-
-    await panel.press("Escape");
+    await dialog.callMethod("setFocus");
     await page.waitForChanges();
 
+    const eventSpy = await page.spyOnEvent("keydown");
+
+    await page.keyboard.down("Escape");
+    await page.keyboard.up("Escape");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
     expect(await dialog.getProperty("open")).toBe(true);
+
+    await page.keyboard.down("Enter");
+    await page.keyboard.up("Enter");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
 
     dialog.setProperty("escapeDisabled", false);
     await page.waitForChanges();
 
-    await panel.press("Escape");
+    await page.keyboard.down("Escape");
+    await page.keyboard.up("Escape");
     await page.waitForChanges();
 
+    expect(eventSpy).toHaveReceivedEventTimes(3);
+    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
     expect(await dialog.getProperty("open")).toBe(false);
   });
 
@@ -424,6 +434,7 @@ describe("calcite-dialog", () => {
       await page.setContent(`
       <calcite-dialog></calcite-dialog>
     `);
+      await skipAnimations(page);
 
       const dialog = await page.find("calcite-dialog");
       await page.$eval(
@@ -438,7 +449,7 @@ describe("calcite-dialog", () => {
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      await page.waitForChanges();
+
       expect(mockCallBack).toHaveBeenCalledTimes(2);
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
     });
@@ -685,12 +696,14 @@ describe("calcite-dialog", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-dialog></calcite-dialog>`);
     await skipAnimations(page);
+    const openedEvent = page.waitForEvent("calciteDialogOpen");
 
     const dialog = await page.find("calcite-dialog");
     const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
+    await openedEvent;
     expect(await dialog.isVisible()).toBe(true);
 
     await page.keyboard.press("Escape");
@@ -705,21 +718,20 @@ describe("calcite-dialog", () => {
 
   it("closes when Escape key is pressed and dialog is open on page load", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog  open></calcite-dialog>`);
+    await page.setContent(`<calcite-dialog open></calcite-dialog>`);
+    const openedEvent = page.waitForEvent("calciteDialogOpen");
 
     const dialog = await page.find("calcite-dialog");
     await page.waitForChanges();
     expect(dialog).toHaveAttribute("open");
-    expect(dialog).toHaveAttribute("open");
+    await openedEvent;
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     expect(dialog).not.toHaveAttribute("open");
-    expect(dialog).not.toHaveAttribute("open");
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
     expect(dialog).toHaveAttribute("open");
   });
 
@@ -729,9 +741,12 @@ describe("calcite-dialog", () => {
     await skipAnimations(page);
     const dialog = await page.find("calcite-dialog");
     const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
+    const openedEvent = page.waitForEvent("calciteDialogOpen");
+    await page.waitForChanges();
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
+    await openedEvent;
     expect(await container.isVisible()).toBe(true);
 
     const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
@@ -1103,6 +1118,10 @@ describe("calcite-dialog", () => {
         "--calcite-dialog-offset-y": {
           shadowSelector: `.${CSS.dialog}`,
           targetProp: "insetBlockStart",
+        },
+        "--calcite-dialog-background-color": {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-background-color",
         },
       },
     );

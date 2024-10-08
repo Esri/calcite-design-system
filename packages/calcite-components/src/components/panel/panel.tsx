@@ -39,7 +39,12 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
@@ -131,9 +136,19 @@ export class Panel
   @Prop() description: string;
 
   /**
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+   */
+  @Prop() menuFlipPlacements: FlipPlacement[];
+
+  /**
    * When `true`, the action menu items in the `header-menu-actions` slot are open.
    */
   @Prop({ reflect: true }) menuOpen = false;
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * Use this property to override individual strings used by the component.
@@ -180,6 +195,7 @@ export class Panel
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.isClosed = this.closed;
     await setUpMessages(this);
   }
 
@@ -286,7 +302,14 @@ export class Panel
       return;
     }
 
-    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : -1;
+    const hasScrollingContent = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight;
+
+    // intentionally using setAttribute to avoid reflecting -1 so default browser behavior will occur
+    if (hasScrollingContent) {
+      panelScrollEl.setAttribute("tabindex", "0");
+    } else {
+      panelScrollEl.removeAttribute("tabindex");
+    }
   };
 
   setContainerRef = (node: HTMLElement): void => {
@@ -347,9 +370,9 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar"),
-    ) as HTMLCalciteActionBarElement[];
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionBarElement => el?.matches("calcite-action-bar"),
+    );
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
@@ -541,17 +564,17 @@ export class Panel
   }
 
   renderMenu(): VNode {
-    const { hasMenuItems, messages, menuOpen } = this;
+    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
 
     return (
       <calcite-action-menu
-        flipPlacements={["top", "bottom"]}
+        flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
         label={messages.options}
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
-        placement="bottom-end"
+        placement={menuPlacement}
       >
         <calcite-action
           icon={ICONS.menu}
@@ -693,7 +716,7 @@ export class Panel
   };
 
   render(): VNode {
-    const { disabled, loading, panelKeyDownHandler, isClosed, closable } = this;
+    const { disabled, loading, isClosed } = this;
 
     const panelNode = (
       <article
@@ -701,7 +724,6 @@ export class Panel
         class={CSS.container}
         hidden={isClosed}
         ref={this.setContainerRef}
-        tabIndex={closable ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
@@ -712,7 +734,7 @@ export class Panel
     );
 
     return (
-      <Host onKeyDown={panelKeyDownHandler}>
+      <Host onKeyDown={this.panelKeyDownHandler}>
         <InteractiveContainer disabled={disabled}>
           {loading ? <calcite-scrim loading={loading} /> : null}
           {panelNode}

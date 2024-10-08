@@ -10,7 +10,7 @@ import {
   Method,
   Watch,
 } from "@stencil/core";
-import { focusElementInGroup, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
+import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -145,11 +145,11 @@ export class ChipGroup implements InteractiveComponent {
     const item = event.target as HTMLCalciteChipElement;
     if (this.items?.includes(item)) {
       if (this.items?.indexOf(item) > 0) {
-        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "previous");
+        focusElementInGroup(this.items, item, "previous");
       } else if (this.items?.indexOf(item) === 0) {
-        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "next");
+        focusElementInGroup(this.items, item, "next");
       } else {
-        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "first");
+        focusElementInGroup(this.items, item, "first");
       }
     }
     this.items = this.items?.filter((el) => el !== item);
@@ -209,11 +209,11 @@ export class ChipGroup implements InteractiveComponent {
   private updateItems = (event?: Event): void => {
     const itemsFromSlot = this.slotRefEl
       ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
+      .filter((el): el is HTMLCalciteChipElement => el?.matches("calcite-chip"));
 
     this.items = !event
       ? itemsFromSlot
-      : (slotChangeGetAssignedElements(event) as HTMLCalciteChipElement[]);
+      : slotChangeGetAssignedElements<HTMLCalciteChipElement>(event);
 
     if (this.items?.length < 1) {
       return;
@@ -275,12 +275,7 @@ export class ChipGroup implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <div
-          aria-disabled={toAriaBoolean(disabled)}
-          aria-label={this.label}
-          class="container"
-          role={role}
-        >
+        <div aria-label={this.label} class="container" role={role}>
           <slot
             onSlotchange={this.updateItems}
             ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}

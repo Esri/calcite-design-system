@@ -13,11 +13,6 @@ import {
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -57,9 +52,7 @@ import { geActionDimensions, getOverflowCount, overflowActions, queryActions } f
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class ActionBar
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -185,8 +178,6 @@ export class ActionBar
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
-  expandToggleEl: HTMLCalciteActionElement;
-
   @State() effectiveLocale: string;
 
   @State() hasActionsEnd = false;
@@ -230,7 +221,6 @@ export class ActionBar
     }
 
     this.overflowActions();
-    connectConditionalSlotComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -241,7 +231,6 @@ export class ActionBar
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -344,10 +333,6 @@ export class ActionBar
     this.calciteActionBarToggle.emit();
   };
 
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
-  };
-
   updateGroups(): void {
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
   }
@@ -357,9 +342,9 @@ export class ActionBar
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
+    const groups = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionGroupElement => el.matches("calcite-action-group"),
+    );
 
     this.setGroupLayout(groups);
   };
@@ -373,9 +358,9 @@ export class ActionBar
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
@@ -409,7 +394,6 @@ export class ActionBar
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

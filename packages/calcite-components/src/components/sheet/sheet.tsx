@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   VNode,
@@ -162,7 +161,14 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        // Scrim has it's own close handler, allow it to take over.
+        clickOutsideDeactivates: false,
+        escapeDeactivates: this.escapeDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
+      },
+    });
   }
 
   disconnectedCallback(): void {
@@ -229,20 +235,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -367,4 +359,16 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private handleMutationObserver(): void {
     this.updateFocusTrapElements();
   }
+
+  private escapeDeactivates = (event: KeyboardEvent) => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  };
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
 }

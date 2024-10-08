@@ -441,6 +441,53 @@ describe("calcite-list", () => {
     expect(selectedItemValues[1]).toBe("three");
   });
 
+  it("updating items after filtering", async () => {
+    const matchingFont = "Courier";
+
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-list filter-enabled filter-text="">
+        <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+        <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+        <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+      </calcite-list>
+    `);
+    await page.waitForChanges();
+
+    const list = await page.find("calcite-list");
+    let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+    expect(visibleItems).toHaveLength(3);
+    visibleItems.forEach(async (item) => {
+      expect(await item.getProperty("description")).toBe("list1");
+    });
+
+    list.setProperty("filterText", matchingFont);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+    expect(visibleItems).toHaveLength(2);
+    visibleItems.forEach(async (item) => {
+      expect(await item.getProperty("description")).toBe("list1");
+    });
+
+    list.innerHTML = html`
+      <calcite-list-item value="item4" label="${matchingFont}" description="list2"></calcite-list-item>
+      <calcite-list-item value="item5" label="${matchingFont} 2" description="list2"></calcite-list-item>
+      <calcite-list-item value="item6" label="Other Font" description="list2"></calcite-list-item>
+    `;
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    expect(await list.getProperty("filterText")).toBe(matchingFont);
+    visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+    expect(visibleItems).toHaveLength(2);
+    visibleItems.forEach(async (item) => {
+      expect(await item.getProperty("description")).toBe("list2");
+    });
+  });
+
   it("filters initially", async () => {
     const page = await newE2EPage();
     await page.setContent(html`

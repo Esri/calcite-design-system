@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getSlotted, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -34,6 +34,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { IconNameOrString } from "../icon/interfaces";
+import type { CalciteCheckboxCustomEvent } from "../../components";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { CardMessages } from "./assets/card/t9n";
 
@@ -181,6 +182,20 @@ export class Card
 
   @State() effectiveLocale: string;
 
+  @State() hasThumbnail = false;
+
+  @State() hasHeading = false;
+
+  @State() hasDescription = false;
+
+  @State() hasSubtitle = false;
+
+  @State() hasTitle = false;
+
+  @State() hasFooterStart = false;
+
+  @State() hasFooterEnd = false;
+
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -197,6 +212,34 @@ export class Card
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private handleThumbnailSlotChange = (event: Event): void => {
+    this.hasThumbnail = slotChangeHasAssignedElement(event);
+  };
+
+  private handleHeadingSlotChange = (event: Event): void => {
+    this.hasHeading = slotChangeHasAssignedElement(event);
+  };
+
+  private handleDescriptionSlotChange = (event: Event): void => {
+    this.hasDescription = slotChangeHasAssignedElement(event);
+  };
+
+  private handleTitleSlotChange = (event: Event): void => {
+    this.hasTitle = slotChangeHasAssignedElement(event);
+  };
+
+  private handleSubtitleSlotChange = (event: Event): void => {
+    this.hasSubtitle = slotChangeHasAssignedElement(event);
+  };
+
+  private handleFooterStartSlotChange = (event: Event): void => {
+    this.hasFooterStart = slotChangeHasAssignedElement(event);
+  };
+
+  private handleFooterEndSlotChange = (event: Event): void => {
+    this.hasFooterEnd = slotChangeHasAssignedElement(event);
+  };
 
   private handleDefaultSlotChange = (event: Event): void => {
     this.hasContent = slotChangeHasAssignedElement(event);
@@ -234,25 +277,14 @@ export class Card
         <calcite-checkbox
           checked={this.selected}
           label={this.messages.select}
-          onClick={this.selectCardDeprecated}
-          onKeyDown={this.cardSelectKeyDownDeprecated}
+          onCalciteCheckboxChange={this.selectCardDeprecated}
         />
       </calcite-label>
     );
   }
 
-  private cardSelectKeyDownDeprecated = (event: KeyboardEvent): void => {
-    switch (event.key) {
-      case " ":
-      case "Enter":
-        this.selectCardDeprecated();
-        event.preventDefault();
-        break;
-    }
-  };
-
-  private selectCardDeprecated = (): void => {
-    this.selected = !this.selected;
+  private selectCardDeprecated = (event: CalciteCheckboxCustomEvent<void>): void => {
+    this.selected = event.target.checked;
     this.calciteCardSelect.emit();
   };
 
@@ -265,11 +297,11 @@ export class Card
   };
 
   private renderThumbnail(): VNode {
-    return getSlotted(this.el, SLOTS.thumbnail) ? (
-      <section class={CSS.thumbnailWrapper}>
-        <slot name={SLOTS.thumbnail} />
+    return (
+      <section class={CSS.thumbnailWrapper} hidden={!this.hasThumbnail}>
+        <slot name={SLOTS.thumbnail} onSlotchange={this.handleThumbnailSlotChange} />
       </section>
-    ) : null;
+    );
   }
 
   private renderSelectionIcon(): VNode {
@@ -290,39 +322,32 @@ export class Card
   }
 
   private renderHeader(): VNode {
-    const { el } = this;
-    const heading = getSlotted(el, SLOTS.heading);
-    const description = getSlotted(el, SLOTS.description);
-    const hasHeader = heading || description;
-    const subtitle = getSlotted(el, SLOTS.subtitle);
-    const title = getSlotted(el, SLOTS.title);
-    const hasDeprecatedHeader = subtitle || title;
-    return hasHeader || hasDeprecatedHeader ? (
-      <header class={CSS.header}>
+    const hasHeader = this.hasHeading || this.hasDescription;
+    const hasDeprecatedHeader = this.hasSubtitle || this.hasTitle;
+    const showHeader = hasHeader || hasDeprecatedHeader;
+
+    return (
+      <header class={CSS.header} hidden={!showHeader}>
         {this.selectable ? this.renderCheckboxDeprecated() : null}
         <div class={CSS.headerTextContainer}>
-          <slot key="heading-slot" name={SLOTS.heading} />
-          <slot key="description-slot" name={SLOTS.description} />
-          <slot key="deprecated-title-slot" name={SLOTS.title} />
-          <slot key="deprecated-subtitle-slot" name={SLOTS.subtitle} />
+          <slot name={SLOTS.heading} onSlotchange={this.handleHeadingSlotChange} />
+          <slot name={SLOTS.description} onSlotchange={this.handleDescriptionSlotChange} />
+          <slot name={SLOTS.title} onSlotchange={this.handleTitleSlotChange} />
+          <slot name={SLOTS.subtitle} onSlotchange={this.handleSubtitleSlotChange} />
         </div>
         {this.selectionMode !== "none" && this.renderSelectionIcon()}
       </header>
-    ) : null;
+    );
   }
 
   private renderFooter(): VNode {
-    const { el } = this;
-    const startFooter = getSlotted(el, SLOTS.footerStart);
-    const endFooter = getSlotted(el, SLOTS.footerEnd);
-
-    const hasFooter = startFooter || endFooter;
-    return hasFooter ? (
-      <footer class={CSS.footer}>
-        <slot name={SLOTS.footerStart} />
-        <slot name={SLOTS.footerEnd} />
+    const hasFooter = this.hasFooterStart || this.hasFooterEnd;
+    return (
+      <footer class={CSS.footer} hidden={!hasFooter}>
+        <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+        <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
       </footer>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -339,7 +364,6 @@ export class Card
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-checked={this.selectionMode !== "none" ? toAriaBoolean(this.selected) : undefined}
-            aria-disabled={this.disabled}
             aria-label={this.label}
             class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
             onClick={this.cardBodyClickHandler}

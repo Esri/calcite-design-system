@@ -14,7 +14,12 @@ import {
   Watch,
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
-import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  Direction,
+  getElementDir,
+  slotChangeGetAssignedElements,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -257,7 +262,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   }
 
   private handleMenuItemSlotChange = (event: Event): void => {
-    this.submenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.submenuItems = slotChangeGetAssignedElements<HTMLCalciteMenuItemElement>(event);
     this.submenuItems.forEach((item) => {
       if (!item.topLevelMenuLayout) {
         item.topLevelMenuLayout = this.topLevelMenuLayout;
@@ -470,8 +475,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
           <div class={CSS.itemContent}>
             <a
               aria-current={this.isFocused ? "page" : false}
-              aria-expanded={this.open}
-              aria-haspopup={this.hasSubmenu}
+              aria-expanded={toAriaBoolean(this.open)}
+              aria-haspopup={toAriaBoolean(this.hasSubmenu)}
               aria-label={this.label}
               class={{ [CSS.layoutVertical]: this.layout === "vertical", [CSS.content]: true }}
               href={this.href}

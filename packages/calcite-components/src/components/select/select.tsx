@@ -339,7 +339,7 @@ export class Select
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
         optionOrGroup.selected = true;
         futureSelected = optionOrGroup;
-        this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
+        this.deselectAllExcept(optionOrGroup);
       }
     });
 

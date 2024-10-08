@@ -11,7 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -25,7 +24,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -34,6 +32,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { InlineEditableMessages } from "./assets/inline-editable/t9n";
 import { CSS } from "./resources";
 
@@ -130,8 +129,6 @@ export class InlineEditable
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.mutationObserverCallback();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -147,7 +144,6 @@ export class InlineEditable
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.mutationObserver?.disconnect();
   }
 
   componentDidRender(): void {
@@ -163,7 +159,7 @@ export class InlineEditable
           onKeyDown={this.escapeKeyHandler}
         >
           <div class={CSS.inputWrapper}>
-            <slot />
+            <slot onSlotchange={this.handleDefaultSlotChange} />
           </div>
           <div class={CSS.controlsWrapper}>
             <calcite-button
@@ -274,8 +270,6 @@ export class InlineEditable
 
   labelEl: HTMLCalciteLabelElement;
 
-  mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
-
   @State() defaultMessages: InlineEditableMessages;
 
   @State() effectiveLocale: string;
@@ -305,19 +299,10 @@ export class InlineEditable
   //
   //--------------------------------------------------------------------------
 
-  mutationObserverCallback(): void {
-    this.updateSlottedInput();
-    this.scale = this.scale || this.inputElement?.scale;
-  }
-
-  onLabelClick(): void {
-    this.setFocus();
-  }
-
-  updateSlottedInput(): void {
-    const inputElement: HTMLCalciteInputElement = getSlotted(this.el, {
-      matches: "calcite-input",
-    });
+  handleDefaultSlotChange = (event: Event): void => {
+    const inputElement = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteInputElement => el.matches("calcite-input"),
+    )[0];
 
     this.inputElement = inputElement;
 
@@ -325,8 +310,13 @@ export class InlineEditable
       return;
     }
 
-    this.inputElement.disabled = this.disabled;
-    this.inputElement.label = this.inputElement.label || getLabelText(this);
+    inputElement.disabled = this.disabled;
+    inputElement.label = inputElement.label || getLabelText(this);
+    this.scale = this.scale || this.inputElement?.scale;
+  };
+
+  onLabelClick(): void {
+    this.setFocus();
   }
 
   private get shouldShowControls(): boolean {

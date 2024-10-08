@@ -145,10 +145,7 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(
-      this.el,
-      "calcite-date-picker",
-    ) as HTMLCalciteDatePickerElement;
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   componentDidLoad(): void {
@@ -184,7 +181,6 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
     return (
       <Host
-        aria-disabled={toAriaBoolean(this.disabled)}
         aria-label={dayLabel}
         aria-selected={toAriaBoolean(this.active)}
         id={dayId}

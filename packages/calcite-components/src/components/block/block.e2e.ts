@@ -5,6 +5,7 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
+  handlesActionMenuPlacements,
   hidden,
   reflects,
   renders,
@@ -14,7 +15,8 @@ import {
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
-import { CSS, SLOTS } from "./resources";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   describe("renders", () => {
@@ -43,6 +45,14 @@ describe("calcite-block", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: defaultEndMenuPlacement,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -63,6 +73,10 @@ describe("calcite-block", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
       },
     ]);
   });
@@ -133,6 +147,15 @@ describe("calcite-block", () => {
     );
   });
 
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-block heading="heading" description="description">
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+        <div class="content">content</div>
+      </calcite-block>
+    `);
+  });
+
   it("has a loading state", async () => {
     const page = await newE2EPage({
       html: `
@@ -163,26 +186,23 @@ describe("calcite-block", () => {
 
   it("can display/hide content", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-block><div>some content</div></calcite-block>");
-    let element = await page.find("calcite-block");
-    let content = await page.find(`calcite-block >>> .${CSS.content}`);
+    await page.setContent(
+      html`<calcite-block heading="heading" description="description"><div>Hello world!</div></calcite-block>`,
+    );
+    await skipAnimations(page);
 
+    const element = await page.find("calcite-block");
+    const content = await page.find(`calcite-block >>> #${IDS.content}`);
+    expect(await element.getProperty("open")).toBe(false);
     expect(await content.isVisible()).toBe(false);
 
     element.setProperty("open", true);
     await page.waitForChanges();
-    element = await page.find("calcite-block[open]");
-    content = await page.find(`calcite-block >>> .${CSS.content}`);
-
-    expect(element).toBeTruthy();
     expect(await content.isVisible()).toBe(true);
 
     element.setProperty("open", false);
     await page.waitForChanges();
-    element = await page.find("calcite-block[open]");
-    content = await page.find(`calcite-block >>> .${CSS.content}`);
 
-    expect(element).toBeNull();
     expect(await content.isVisible()).toBe(false);
   });
 

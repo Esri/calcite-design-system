@@ -202,17 +202,7 @@ export class TimePicker
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalTimePickerBlur: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<string>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTimePickerFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -224,12 +214,6 @@ export class TimePicker
   blurHandler(): void {
     this.activeEl = undefined;
     this.pointerActivated = false;
-    this.calciteInternalTimePickerBlur.emit();
-  }
-
-  @Listen("focus")
-  hostFocusHandler(): void {
-    this.calciteInternalTimePickerFocus.emit();
   }
 
   @Listen("keydown")

@@ -301,7 +301,7 @@ export class Combobox
   }
 
   /**
-   * Defines the available placements that can be used when a flip occurs.
+   * Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.
    */
   @Prop() flipPlacements: FlipPlacement[];
 
@@ -776,7 +776,8 @@ export class Combobox
         break;
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
-          this.toggleSelection(this.filteredItems[this.activeItemIndex]);
+          const item = this.filteredItems[this.activeItemIndex];
+          this.toggleSelection(item, !item.selected);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -808,16 +809,6 @@ export class Combobox
         break;
       }
     }
-  };
-
-  private toggleCloseEnd = (): void => {
-    this.open = false;
-    this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
-  };
-
-  private toggleOpenEnd = (): void => {
-    this.open = false;
-    this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
   onBeforeOpen(): void {
@@ -1142,10 +1133,13 @@ export class Combobox
 
   private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
-  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
+  toggleSelection(item: HTMLCalciteComboboxItemElement, value: boolean): void {
     if (
       !item ||
-      (this.selectionMode === "single-persist" && item.selected && item.value === this.value)
+      (this.selectionMode === "single-persist" &&
+        item.selected &&
+        item.value === this.value &&
+        !value)
     ) {
       return;
     }
@@ -1182,7 +1176,7 @@ export class Combobox
     const children = getItemChildren(item);
     if (item.selected) {
       ancestors.forEach((el) => {
-        (el as HTMLCalciteComboboxItemElement).selected = true;
+        el.selected = true;
       });
     } else {
       children.forEach((el) => (el.selected = false));
@@ -1650,7 +1644,7 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           readOnly={this.readOnly}
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
+          ref={(el) => (this.textInput = el)}
           role="combobox"
           tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
