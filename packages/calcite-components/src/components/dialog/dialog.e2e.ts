@@ -947,7 +947,7 @@ describe("calcite-dialog", () => {
       await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
       const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+      expect((await container.getComputedStyle()).transform).toBe("none");
 
       await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogDragStep})`);
