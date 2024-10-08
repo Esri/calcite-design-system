@@ -1,9 +1,10 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "stylelint.vscode-stylelint",
-    "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
+    "cipchk.cssrem",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "stylelint.vscode-stylelint",
     "visualstudioexptteam.vscodeintellicode"
   ]
 }

@@ -397,6 +397,10 @@ export class InputDatePicker
     this.commitValue();
   };
 
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -774,9 +778,9 @@ export class InputDatePicker
 
   @State() private localeData: DateLocaleData;
 
-  private startInput: HTMLCalciteInputElement;
+  private startInput: HTMLCalciteInputTextElement;
 
-  private endInput: HTMLCalciteInputElement;
+  private endInput: HTMLCalciteInputTextElement;
 
   private floatingEl: HTMLDivElement;
 
@@ -884,11 +888,11 @@ export class InputDatePicker
     syncHiddenFormInput("date", this, input);
   }
 
-  setStartInput = (el: HTMLCalciteInputElement): void => {
+  setStartInput = (el: HTMLCalciteInputTextElement): void => {
     this.startInput = el;
   };
 
-  setEndInput = (el: HTMLCalciteInputElement): void => {
+  setEndInput = (el: HTMLCalciteInputTextElement): void => {
     this.endInput = el;
   };
 
@@ -963,10 +967,6 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape") {
-      this.open = false;
-      event.preventDefault();
-      this.restoreInputFocus();
     }
   };
 
@@ -998,8 +998,12 @@ export class InputDatePicker
     connectFocusTrap(this, {
       focusTrapEl: el,
       focusTrapOptions: {
+        allowOutsideClick: true,
+        // Allow outside click and let the popover manager take care of closing the popover.
+        clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,
+        onDeactivate: this.focusTrapDeactivates,
       },
     });
   };

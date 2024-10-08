@@ -90,6 +90,11 @@ export const simple = (args: ListStoryArgs): string => html`
       description="Vestibulum auctor dapibus neque.
     "
     ></calcite-list-item>
+    <calcite-list-item
+      unavailable
+      label="Vestibulum commodo felis quis tortor."
+      description="Vestibulum auctor dapibus neque."
+    ></calcite-list-item>
   </calcite-list>
 `;
 
@@ -286,6 +291,14 @@ export const startAndEndContentSlots = (): string =>
         <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
       </div>
     </calcite-list-item>
+    <calcite-list-item unavailable>
+      <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
+      <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
+      <span slot="content-start">Some value or something and a <b>thing</b>.</span>
+      <div slot="content-end" style="display: flex; justify-content: flex-end">
+        <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
+      </div>
+    </calcite-list-item>
   </calcite-list> `;
 
 export const contentBottomSlots = (): string =>
@@ -297,6 +310,9 @@ export const contentBottomSlots = (): string =>
       <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
     </calcite-list-item>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+      <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+    </calcite-list-item>
+    <calcite-list-item unavailable label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
     </calcite-list-item>
   </calcite-list> `;

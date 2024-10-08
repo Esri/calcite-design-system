@@ -289,10 +289,18 @@ export class Popover
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapEl: this.el,
+      focusTrapOptions: {
+        allowOutsideClick: true,
+        clickOutsideDeactivates: this.clickOutsideDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
+      },
+    });
 
     // we set up the ref element in the next frame to ensure PopoverManager
     // event handlers are invoked after connect (mainly for `components` output target)
@@ -317,6 +325,7 @@ export class Popover
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.removeReferences();
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -520,6 +529,22 @@ export class Popover
     this.reposition(true);
   };
 
+  private clickOutsideDeactivates = (event: MouseEvent): boolean => {
+    const path = event.composedPath();
+    const isReferenceElementInPath =
+      this.effectiveReferenceElement instanceof EventTarget &&
+      path.includes(this.effectiveReferenceElement);
+
+    const outsideClick = !path.includes(this.el);
+    const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
+
+    return shouldCloseOnOutsideClick && (this.triggerDisabled || isReferenceElementInPath);
+  };
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -580,6 +605,7 @@ export class Popover
       >
         <div
           class={{
+            [CSS.container]: true,
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
@@ -589,7 +615,7 @@ export class Popover
           <div
             class={{
               [CSS.hasHeader]: !!heading,
-              [CSS.container]: true,
+              [CSS.headerContainer]: true,
             }}
           >
             {this.renderHeader()}

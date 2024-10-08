@@ -12,8 +12,10 @@ import {
   slots,
   t9n,
   themed,
+  handlesActionMenuPlacements,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
@@ -88,6 +90,14 @@ describe("calcite-panel", () => {
     hidden("calcite-panel");
   });
 
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-panel>
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+      </calcite-panel>
+    `);
+  });
+
   describe("defaults", () => {
     defaults("calcite-panel", [
       {
@@ -122,6 +132,14 @@ describe("calcite-panel", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: defaultEndMenuPlacement,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -142,6 +160,10 @@ describe("calcite-panel", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
       },
     ]);
   });
@@ -653,6 +675,10 @@ describe("calcite-panel", () => {
       "--calcite-panel-content-space": {
         shadowSelector: `.${CSS.contentWrapper}`,
         targetProp: "padding",
+      },
+      "--calcite-panel-background-color": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "backgroundColor",
       },
     });
   });
