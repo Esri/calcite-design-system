@@ -74,7 +74,7 @@ export class SegmentedControlItem extends LitElement {
    *
    * @notPublic
    */
-  calciteInternalSegmentedControlItemChange = createEvent<void>({ cancelable: false });
+  calciteInternalSegmentedControlItemChange = createEvent({ cancelable: false });
 
   // #endregion
 

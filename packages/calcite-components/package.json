@@ -55,9 +55,9 @@
     "directory": "packages/calcite-components"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "4.32.0-next.1",
-    "@arcgis/components-utils": "4.32.0-next.1",
-    "@arcgis/lumina": "4.32.0-next.1",
+    "@arcgis/components-controllers": "4.32.0-next.3",
+    "@arcgis/components-utils": "4.32.0-next.3",
+    "@arcgis/lumina": "4.32.0-next.3",
     "@esri/calcite-ui-icons": "3.33.0-next.0",
     "@floating-ui/dom": "1.6.11",
     "@types/color": "3.0.6",
@@ -73,15 +73,16 @@
     "type-fest": "4.18.2"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "4.32.0-next.1",
+    "@arcgis/lumina-compiler": "4.32.0-next.3",
     "@esri/calcite-design-tokens": "2.2.1-next.4",
     "@esri/eslint-plugin-calcite-components": "1.2.2-next.0",
     "@stencil-community/eslint-plugin": "0.8.0",
     "@vitest/coverage-v8": "^2.1.2",
+    "@vitest/ui": "2.1.2",
     "happy-dom": "^14.12.3",
     "puppeteer": "23.4.1",
     "vite": "^5.4.8",
-    "vitest": "2.1.2"
+    "vitest": "^2.1.2"
   },
   "license": "SEE LICENSE.md",
   "volta": {

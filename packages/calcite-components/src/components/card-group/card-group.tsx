@@ -84,7 +84,7 @@ export class CardGroup extends LitElement implements InteractiveComponent, Loada
   // #region Events
 
   /** Emits when the component's selection changes and the `selectionMode` is not `none`. */
-  calciteCardGroupSelect = createEvent<void>({ cancelable: false });
+  calciteCardGroupSelect = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -110,7 +110,7 @@ export class CardGroup extends LitElement implements InteractiveComponent, Loada
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("selectionMode") && this.hasUpdated) {
+    if (changes.has("selectionMode") || this.hasUpdated) {
       this.onSelectionModeChange();
     }
   }

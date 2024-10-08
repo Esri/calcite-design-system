@@ -155,6 +155,8 @@ export class InputDatePicker
 
   private userChangedValue = false;
 
+  private _value: string | string[] = "";
+
   private valueAsDateChangedExternally = false;
 
   // #endregion
@@ -188,7 +190,7 @@ export class InputDatePicker
   @property({ reflect: true }) form: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -303,7 +305,18 @@ export class InputDatePicker
   };
 
   /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
-  @property() value: string | string[] = "";
+  @property()
+  get value(): string | string[] {
+    return this._value;
+  }
+
+  set value(value: string | string[]) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value);
+    }
+  }
 
   /** The component's value as a full date object. */
   @property() valueAsDate: Date | Date[];
@@ -348,19 +361,19 @@ export class InputDatePicker
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteInputDatePickerBeforeClose = createEvent<void>({ cancelable: false });
+  calciteInputDatePickerBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteInputDatePickerBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteInputDatePickerBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component's `value` changes. */
-  calciteInputDatePickerChange = createEvent<void>({ cancelable: false });
+  calciteInputDatePickerChange = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteInputDatePickerClose = createEvent<void>({ cancelable: false });
+  calciteInputDatePickerClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteInputDatePickerOpen = createEvent<void>({ cancelable: false });
+  calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -371,6 +384,7 @@ export class InputDatePicker
     this.listen("calciteDaySelect", this.calciteDaySelectHandler);
     this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
+    this.handleDateTimeFormatChange();
   }
 
   override connectedCallback(): void {
@@ -412,7 +426,7 @@ export class InputDatePicker
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       useGrouping: false,
     };
 
@@ -451,10 +465,6 @@ export class InputDatePicker
 
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
       this.handleDisabledAndReadOnlyChange(this.readOnly);
-    }
-
-    if (changes.has("value") && (this.hasUpdated || this.value !== "")) {
-      this.valueWatcher(this.value);
     }
 
     if (changes.has("valueAsDate")) {
@@ -642,7 +652,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(this.messages._t9nLocale),
+      getDateFormatSupportedLocale(this.messages._lang),
       formattingOptions,
     );
   }
@@ -853,10 +863,10 @@ export class InputDatePicker
     }
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       useGrouping: false,
     };
-    this.localeData = await getLocaleData(this.messages._t9nLocale);
+    this.localeData = await getLocaleData(this.messages._lang);
     this.localizeInputValues();
   }
 
@@ -1064,7 +1074,7 @@ export class InputDatePicker
   override render(): JsxNode {
     const {
       disabled,
-      messages: { _t9nLocale: effectiveLocale },
+      messages: { _lang: effectiveLocale },
       messages,
       numberingSystem,
       readOnly,

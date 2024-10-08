@@ -210,7 +210,7 @@ export class List
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @property() messages = useT9n<typeof T9nStrings>();
+  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
@@ -273,10 +273,10 @@ export class List
   // #region Events
 
   /** Fires when the default slot has changes in order to notify parent lists. */
-  calciteInternalListDefaultSlotChange = createEvent<void>({ cancelable: false });
+  calciteInternalListDefaultSlotChange = createEvent({ cancelable: false });
 
   /** Fires when the component's selected items have changed. */
-  calciteListChange = createEvent<void>({ cancelable: false });
+  calciteListChange = createEvent({ cancelable: false });
 
   /** Fires when the component's dragging has ended. */
   calciteListDragEnd = createEvent<ListDragDetail>({ cancelable: false });
@@ -285,7 +285,7 @@ export class List
   calciteListDragStart = createEvent<ListDragDetail>({ cancelable: false });
 
   /** Fires when the component's filter has changed. */
-  calciteListFilter = createEvent<void>({ cancelable: false });
+  calciteListFilter = createEvent({ cancelable: false });
 
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
@@ -933,7 +933,7 @@ export class List
       messages,
       filteredItems,
       parentListEl,
-      messages: { _t9nLocale: effectiveLocale },
+      messages: { _lang: effectiveLocale },
       numberingSystem,
       filterEnabled,
       filterText,

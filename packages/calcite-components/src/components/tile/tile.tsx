@@ -168,7 +168,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   calciteInternalTileKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
   /** Fires when the selected state of the component changes. */
-  calciteTileSelect = createEvent<void>();
+  calciteTileSelect = createEvent();
 
   // #endregion
 

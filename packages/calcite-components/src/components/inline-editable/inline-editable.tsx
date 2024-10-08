@@ -48,6 +48,8 @@ export class InlineEditable
 
   private confirmEditingButton = createRef<Button["el"]>();
 
+  private _editingEnabled = false;
+
   private enableEditingButton = createRef<Button["el"]>();
 
   private inputElement: Input["el"];
@@ -76,7 +78,18 @@ export class InlineEditable
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, inline editing is enabled on the component. */
-  @property({ reflect: true }) editingEnabled = false;
+  @property({ reflect: true })
+  get editingEnabled(): boolean {
+    return this._editingEnabled;
+  }
+
+  set editingEnabled(editingEnabled: boolean) {
+    const oldEditingEnabled = this._editingEnabled;
+    if (editingEnabled !== oldEditingEnabled) {
+      this._editingEnabled = editingEnabled;
+      this.editingEnabledWatcher(editingEnabled, oldEditingEnabled);
+    }
+  }
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -106,7 +119,7 @@ export class InlineEditable
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.el?.focus();
+    this.inputElement?.setFocus();
   }
 
   // #endregion
@@ -114,13 +127,13 @@ export class InlineEditable
   // #region Events
 
   /** Emits when the component's "cancel editing" button is pressed. */
-  calciteInlineEditableEditCancel = createEvent<void>({ cancelable: false });
+  calciteInlineEditableEditCancel = createEvent({ cancelable: false });
 
   /** Emits when the component's "confirm edits" button is pressed. */
-  calciteInlineEditableEditConfirm = createEvent<void>({ cancelable: false });
+  calciteInlineEditableEditConfirm = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalInlineEditableEnableEditingChange = createEvent<void>({ cancelable: false });
+  calciteInternalInlineEditableEnableEditingChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -152,10 +165,6 @@ export class InlineEditable
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.disabledWatcher(this.disabled);
     }
-
-    if (changes.has("editingEnabled") && (this.hasUpdated || this.editingEnabled !== false)) {
-      this.editingEnabledWatcher(this.editingEnabled, changes.get("editingEnabled"));
-    }
   }
 
   override updated(): void {
@@ -180,7 +189,7 @@ export class InlineEditable
     }
   }
 
-  private editingEnabledWatcher(newValue: boolean, oldValue?: boolean): void {
+  private editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
     if (this.inputElement) {
       this.inputElement.editingEnabled = newValue;
     }

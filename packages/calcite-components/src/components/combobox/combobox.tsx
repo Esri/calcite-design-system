@@ -180,6 +180,8 @@ export class Combobox
     }, DEBOUNCE.filter);
   })();
 
+  private _filterText = "";
+
   private filterTextMatchPattern: RegExp;
 
   private filteredFlipPlacements: FlipPlacement[];
@@ -260,6 +262,8 @@ export class Combobox
 
   transitionEl: HTMLDivElement;
 
+  private _value: string | string[] = null;
+
   // #endregion
 
   // #region State Properties
@@ -296,7 +300,18 @@ export class Combobox
   @property({ reflect: true }) disabled = false;
 
   /** Text for the component's filter input field. */
-  @property({ reflect: true }) filterText = "";
+  @property({ reflect: true })
+  get filterText(): string {
+    return this._filterText;
+  }
+
+  set filterText(filterText: string) {
+    const oldFilterText = this._filterText;
+    if (filterText !== oldFilterText) {
+      this._filterText = filterText;
+      this.filterTextChange(filterText);
+    }
+  }
 
   /**
    * Specifies the component's filtered items.
@@ -444,7 +459,18 @@ export class Combobox
   };
 
   /** The component's value(s) from the selected `calcite-combobox-item`(s). */
-  @property() value: string | string[] = null;
+  @property()
+  get value(): string | string[] {
+    return this._value;
+  }
+
+  set value(value: string | string[]) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueHandler(value);
+    }
+  }
 
   // #endregion
 
@@ -489,25 +515,25 @@ export class Combobox
   // #region Events
 
   /** Fires when the component is requested to be closed, and before the closing transition begins. */
-  calciteComboboxBeforeClose = createEvent<void>({ cancelable: false });
+  calciteComboboxBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteComboboxBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteComboboxBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the selected item(s) changes. */
-  calciteComboboxChange = createEvent<void>({ cancelable: false });
+  calciteComboboxChange = createEvent({ cancelable: false });
 
   /** Fires when a selected item in the component is closed via its `calcite-chip`. */
-  calciteComboboxChipClose = createEvent<void>({ cancelable: false });
+  calciteComboboxChipClose = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteComboboxClose = createEvent<void>({ cancelable: false });
+  calciteComboboxClose = createEvent({ cancelable: false });
 
   /** Fires when text is added to filter the options list. */
-  calciteComboboxFilterChange = createEvent<void>({ cancelable: false });
+  calciteComboboxFilterChange = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteComboboxOpen = createEvent<void>({ cancelable: false });
+  calciteComboboxOpen = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -557,10 +583,6 @@ export class Combobox
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("filterText") && (this.hasUpdated || this.filterText !== "")) {
-      this.filterTextChange(this.filterText);
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -585,10 +607,6 @@ export class Combobox
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
       this.handlePropsChange();
-    }
-
-    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
-      this.valueHandler(this.value);
     }
 
     if (changes.has("flipPlacements")) {

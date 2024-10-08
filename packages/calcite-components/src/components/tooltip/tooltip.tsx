@@ -83,7 +83,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
    *
    * @default 6
    */
-  @property({ reflect: true }) offsetDistance = defaultOffsetDistance;
+  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
@@ -154,16 +154,16 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteTooltipBeforeClose = createEvent<void>({ cancelable: false });
+  calciteTooltipBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteTooltipBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteTooltipBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteTooltipClose = createEvent<void>({ cancelable: false });
+  calciteTooltipClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteTooltipOpen = createEvent<void>({ cancelable: false });
+  calciteTooltipOpen = createEvent({ cancelable: false });
 
   // #endregion
 

@@ -122,7 +122,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
   @property({ reflect: true }) autoplay: AutoplayType = false;
 
   /** When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item. */
-  @property({ reflect: true }) autoplayDuration = DURATION;
+  @property({ type: Number, reflect: true }) autoplayDuration = DURATION;
 
   /** Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items. */
   @property({ reflect: true }) controlOverlay = false;
@@ -201,19 +201,19 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
   // #region Events
 
   /** Fires when the selected `calcite-carousel-item` changes. */
-  calciteCarouselChange = createEvent<void>({ cancelable: false });
+  calciteCarouselChange = createEvent({ cancelable: false });
 
   /** Fires when the carousel autoplay state pauses due to a user hovering over the component or focusing on the component or slotted content */
-  calciteCarouselPause = createEvent<void>({ cancelable: false });
+  calciteCarouselPause = createEvent({ cancelable: false });
 
   /** Fires when the carousel autoplay is invoked by the user. */
-  calciteCarouselPlay = createEvent<void>({ cancelable: false });
+  calciteCarouselPlay = createEvent({ cancelable: false });
 
   /** Fires when the carousel autoplay state resumes due to a user no longer hovering over the component or focusing on the component or slotted content */
-  calciteCarouselResume = createEvent<void>({ cancelable: false });
+  calciteCarouselResume = createEvent({ cancelable: false });
 
   /** Fires when the carousel autoplay state is stopped by a user. */
-  calciteCarouselStop = createEvent<void>({ cancelable: false });
+  calciteCarouselStop = createEvent({ cancelable: false });
 
   // #endregion
 

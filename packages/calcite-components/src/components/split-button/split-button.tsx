@@ -135,10 +135,10 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
   // #region Events
 
   /** Fires when the primary button is clicked. */
-  calciteSplitButtonPrimaryClick = createEvent<void>({ cancelable: false });
+  calciteSplitButtonPrimaryClick = createEvent({ cancelable: false });
 
   /** Fires when the dropdown menu is clicked. */
-  calciteSplitButtonSecondaryClick = createEvent<void>({ cancelable: false });
+  calciteSplitButtonSecondaryClick = createEvent({ cancelable: false });
 
   // #endregion
 

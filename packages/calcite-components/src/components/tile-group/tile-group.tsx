@@ -100,7 +100,7 @@ export class TileGroup
   // #region Events
 
   /** Fires when the component's selection changes. */
-  calciteTileGroupSelect = createEvent<void>({ cancelable: false });
+  calciteTileGroupSelect = createEvent({ cancelable: false });
 
   // #endregion
 

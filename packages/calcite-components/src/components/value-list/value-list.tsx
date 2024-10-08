@@ -231,7 +231,7 @@ export class ValueList<ItemElement extends ValueListItem["el"] = ValueListItem["
   calciteListChange = createEvent<Map<string, ValueListItem["el"]>>({ cancelable: false });
 
   /** Emits when a filter has changed. */
-  calciteListFilter = createEvent<void>({ cancelable: false });
+  calciteListFilter = createEvent({ cancelable: false });
 
   /** Emits when the order of the list has changed. */
   calciteListOrderChange = createEvent<any[]>({ cancelable: false });

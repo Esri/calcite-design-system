@@ -96,7 +96,7 @@ export class CalciteNavigation extends LitElement implements LoadableComponent {
   // #region Events
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
-  calciteNavigationActionSelect = createEvent<void>({ cancelable: false });
+  calciteNavigationActionSelect = createEvent({ cancelable: false });
 
   // #endregion
 

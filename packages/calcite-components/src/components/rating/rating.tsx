@@ -1,4 +1,3 @@
-import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { guid } from "../../utils/guid";
@@ -59,6 +58,8 @@ export class Rating
 
   private starsMap: Star[];
 
+  private _value = 0;
+
   // #endregion
 
   // #region State Properties
@@ -96,7 +97,7 @@ export class Rating
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @property() messages = useT9n<typeof T9nStrings>();
+  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * Specifies the name of the component.
@@ -122,7 +123,20 @@ export class Rating
   @property({ reflect: true }) showChip = false;
 
   /** The component's value. */
-  @property({ reflect: true }) value = 0;
+  @property({ reflect: true })
+  get value(): number {
+    return this._value;
+  }
+
+  set value(value: number) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      if (this.hasUpdated) {
+        this.handleValueUpdate(value);
+      }
+    }
+  }
 
   // #endregion
 
@@ -140,7 +154,7 @@ export class Rating
   // #region Events
 
   /** Fires when the component's value changes. */
-  calciteRatingChange = createEvent<void>({ cancelable: false });
+  calciteRatingChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -160,22 +174,10 @@ export class Rating
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
+    this.requestUpdate("value");
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
-  override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("value") && (this.hasUpdated || this.value !== 0)) {
-      this.handleValueUpdate(this.value);
-    }
-
+  override willUpdate(): void {
     this.starsMap = Array.from({ length: this.max }, (_, i) => {
       const value = i + 1;
       const average = !this.hoverValue && this.average && !this.value && value <= this.average;
@@ -205,6 +207,7 @@ export class Rating
   }
 
   loaded(): void {
+    this.labelElements = this.renderRoot.querySelectorAll("label");
     setComponentLoaded(this);
   }
 
@@ -322,10 +325,6 @@ export class Rating
     return 0;
   }
 
-  private setLabelEl(el: HTMLLabelElement): void {
-    this.labelElements.push(el);
-  }
-
   private getValueFromLabelEvent(event: FocusEvent | PointerEvent | KeyboardEvent): number {
     const target = event.currentTarget as HTMLLabelElement;
     return Number(target.getAttribute("data-value"));
@@ -367,7 +366,6 @@ export class Rating
                     onKeyDown={this.handleLabelKeyDown}
                     onPointerDown={this.handleLabelPointerDown}
                     onPointerOver={this.handleLabelPointerOver}
-                    ref={this.setLabelEl}
                     tabIndex={tabIndex}
                   >
                     <input

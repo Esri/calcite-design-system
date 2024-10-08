@@ -117,7 +117,7 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
   // #region Events
 
   /** Emitted when the hex value changes. */
-  calciteColorPickerHexInputChange = createEvent<void>({ cancelable: false });
+  calciteColorPickerHexInputChange = createEvent({ cancelable: false });
 
   // #endregion
 

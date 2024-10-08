@@ -139,7 +139,7 @@ export class PickList<ItemElement extends PickListItem["el"] = PickListItem["el"
   @property() filteredItems: PickListItem["el"][] = [];
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -185,7 +185,7 @@ export class PickList<ItemElement extends PickListItem["el"] = PickListItem["el"
   calciteListChange = createEvent<Map<string, PickListItem["el"]>>({ cancelable: false });
 
   /** Emits when a filter has changed. */
-  calciteListFilter = createEvent<void>({ cancelable: false });
+  calciteListFilter = createEvent({ cancelable: false });
 
   // #endregion
 

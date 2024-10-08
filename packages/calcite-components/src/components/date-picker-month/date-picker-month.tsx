@@ -95,7 +95,7 @@ export class DatePickerMonth extends LitElement {
   calciteInternalDatePickerHover = createEvent<Date>({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalDatePickerMouseOut = createEvent<void>({ cancelable: false });
+  calciteInternalDatePickerMouseOut = createEvent({ cancelable: false });
 
   /**
    * Fires when user selects the date.

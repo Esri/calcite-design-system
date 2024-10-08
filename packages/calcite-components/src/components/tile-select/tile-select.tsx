@@ -126,7 +126,7 @@ export class TileSelect extends LitElement implements InteractiveComponent, Load
    *
    * For radios it only emits when checked.
    */
-  calciteTileSelectChange = createEvent<void>({ cancelable: false });
+  calciteTileSelectChange = createEvent({ cancelable: false });
 
   // #endregion
 

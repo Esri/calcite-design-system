@@ -81,6 +81,8 @@ export class InputTimeZone
 
   private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
 
+  private _value: string;
+
   // #endregion
 
   // #region Public Properties
@@ -222,7 +224,18 @@ export class InputTimeZone
    *
    * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
    */
-  @property() value: string;
+  @property()
+  get value(): string {
+    return this._value;
+  }
+
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.handleValueChange(value, oldValue);
+    }
+  }
 
   // #endregion
 
@@ -239,19 +252,19 @@ export class InputTimeZone
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteInputTimeZoneBeforeClose = createEvent<void>({ cancelable: false });
+  calciteInputTimeZoneBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteInputTimeZoneBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteInputTimeZoneBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component's `value` changes. */
-  calciteInputTimeZoneChange = createEvent<void>({ cancelable: false });
+  calciteInputTimeZoneChange = createEvent({ cancelable: false });
 
   /** Fires after the component is closed and animation is complete. */
-  calciteInputTimeZoneClose = createEvent<void>({ cancelable: false });
+  calciteInputTimeZoneClose = createEvent({ cancelable: false });
 
   /** Fires after the component is opened and animation is complete. */
-  calciteInputTimeZoneOpen = createEvent<void>({ cancelable: false });
+  calciteInputTimeZoneOpen = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -288,8 +301,7 @@ export class InputTimeZone
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("messages") &&
-        (this.hasUpdated || this.messages !== useT9n<typeof T9nStrings>({ blocking: true }))) ||
+      changes.has("messages") ||
       (changes.has("mode") && (this.hasUpdated || this.mode !== "offset")) ||
       changes.has("referenceDate")
     ) {
@@ -298,10 +310,6 @@ export class InputTimeZone
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openChanged();
-    }
-
-    if (changes.has("value")) {
-      this.handleValueChange(this.value, changes.get("value"));
     }
   }
 
@@ -335,10 +343,12 @@ export class InputTimeZone
 
   private openChanged(): void {
     // we set the property instead of the attribute to ensure open/close events are emitted properly
-    this.comboboxEl.open = this.open;
+    if (this.comboboxEl) {
+      this.comboboxEl.open = this.open;
+    }
   }
 
-  private handleValueChange(value: string, oldValue?: string): void {
+  private handleValueChange(value: string, oldValue: string): void {
     value = this.normalizeValue(value);
 
     if (!value) {
@@ -464,12 +474,12 @@ export class InputTimeZone
   }
 
   private async createTimeZoneItems(): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
-    if (!this.messages._t9nLocale || !this.messages) {
+    if (!this.messages._lang || !this.messages) {
       return [];
     }
 
     return createTimeZoneItems(
-      this.messages._t9nLocale,
+      this.messages._lang,
       this.messages,
       this.mode,
       this.referenceDate instanceof Date
@@ -480,7 +490,7 @@ export class InputTimeZone
   }
 
   private normalizeValue(value: string | null): string {
-    value = value === null ? "" : value;
+    value = value === undefined ? "" : value;
 
     return value ? this.normalizer(value) : value;
   }
@@ -496,7 +506,7 @@ export class InputTimeZone
           clearDisabled={!this.clearable}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
-          lang={this.messages._t9nLocale}
+          lang={this.messages._lang}
           maxItems={this.maxItems}
           oncalciteComboboxBeforeClose={this.onComboboxBeforeClose}
           oncalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}

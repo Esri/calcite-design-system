@@ -200,7 +200,7 @@ export class ActionBar extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Fires when the `expanded` property is toggled. */
-  calciteActionBarToggle = createEvent<void>({ cancelable: false });
+  calciteActionBarToggle = createEvent({ cancelable: false });
 
   // #endregion
 

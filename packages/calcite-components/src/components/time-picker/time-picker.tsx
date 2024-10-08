@@ -155,7 +155,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
   // #region Events
 
   /** @notPublic */
-  calciteInternalTimePickerChange = createEvent<void>({ cancelable: false });
+  calciteInternalTimePickerChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -708,7 +708,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
       const {
-        messages: { _t9nLocale: locale },
+        messages: { _lang: locale },
         numberingSystem,
       } = this;
       const {
@@ -744,25 +744,25 @@ export class TimePicker extends LitElement implements LoadableComponent {
       this.localizedHour = null;
       this.localizedHourSuffix = getLocalizedTimePartSuffix(
         "hour",
-        this.messages._t9nLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.localizedMeridiem = null;
       this.localizedMinute = null;
       this.localizedMinuteSuffix = getLocalizedTimePartSuffix(
         "minute",
-        this.messages._t9nLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.localizedSecond = null;
       this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-        this.messages._t9nLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.localizedFractionalSecond = null;
       this.localizedSecondSuffix = getLocalizedTimePartSuffix(
         "second",
-        this.messages._t9nLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.meridiem = null;
@@ -777,7 +777,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     value: number | string | Meridiem,
   ): void {
     const {
-      messages: { _t9nLocale: locale },
+      messages: { _lang: locale },
       numberingSystem,
     } = this;
     if (key === "meridiem") {
@@ -858,12 +858,12 @@ export class TimePicker extends LitElement implements LoadableComponent {
   }
 
   private updateLocale() {
-    this.hourCycle = getLocaleHourCycle(this.messages._t9nLocale, this.numberingSystem);
+    this.hourCycle = getLocaleHourCycle(this.messages._lang, this.numberingSystem);
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-      this.messages._t9nLocale,
+      this.messages._lang,
       this.numberingSystem,
     );
-    this.meridiemOrder = getMeridiemOrder(this.messages._t9nLocale);
+    this.meridiemOrder = getMeridiemOrder(this.messages._lang);
     this.setValue(this.sanitizeValue(this.value));
   }
 

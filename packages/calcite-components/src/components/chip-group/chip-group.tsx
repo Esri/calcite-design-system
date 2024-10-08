@@ -95,7 +95,7 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   // #region Events
 
   /** Fires when the component's selection changes. */
-  calciteChipGroupSelect = createEvent<void>({ cancelable: false });
+  calciteChipGroupSelect = createEvent({ cancelable: false });
 
   // #endregion
 

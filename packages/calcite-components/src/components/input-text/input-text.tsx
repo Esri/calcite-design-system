@@ -122,6 +122,8 @@ export class InputText
 
   private userChangedValue = false;
 
+  private _value = "";
+
   // #endregion
 
   // #region State Properties
@@ -317,7 +319,18 @@ export class InputText
   };
 
   /** The component's value. */
-  @property() value = "";
+  @property()
+  get value(): string {
+    return this._value;
+  }
+
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value, oldValue);
+    }
+  }
 
   // #endregion
 
@@ -342,10 +355,10 @@ export class InputText
   // #region Events
 
   /** Fires each time a new value is typed and committed. */
-  calciteInputTextChange = createEvent<void>();
+  calciteInputTextChange = createEvent();
 
   /** Fires each time a new value is typed. */
-  calciteInputTextInput = createEvent<void>();
+  calciteInputTextInput = createEvent();
 
   /** @notPublic */
   calciteInternalInputTextBlur = createEvent<{ element: HTMLInputElement; value: string }>();
@@ -393,16 +406,8 @@ export class InputText
    * @param changes
    */
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("autofocus")) {
       this.handleGlobalAttributesChanged();
-    }
-
-    if (changes.has("value") && (this.hasUpdated || this.value !== "")) {
-      this.valueWatcher(this.value, changes.get("value"));
     }
 
     if (changes.has("icon")) {
@@ -435,7 +440,7 @@ export class InputText
     this.requestUpdate();
   }
 
-  private valueWatcher(newValue: string, previousValue?: string): void {
+  private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       this.setValue({
         origin: "direct",

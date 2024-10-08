@@ -142,7 +142,7 @@ export class TabNav extends LitElement {
   calciteInternalTabNavSlotChange = createEvent<Element[]>();
 
   /** Emits when the selected `calcite-tab` changes. */
-  calciteTabChange = createEvent<void>({ cancelable: false });
+  calciteTabChange = createEvent({ cancelable: false });
 
   // #endregion
 

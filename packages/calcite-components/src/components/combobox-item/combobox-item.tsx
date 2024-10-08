@@ -32,6 +32,12 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   // #endregion
 
+  // #region Private Properties
+
+  private _selected = false;
+
+  // #endregion
+
   // #region State Properties
 
   @state() hasContent = false;
@@ -88,7 +94,18 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true }) selected = false;
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+
+  set selected(selected: boolean) {
+    const oldSelected = this._selected;
+    if (selected !== oldSelected) {
+      this._selected = selected;
+      this.selectedWatchHandler();
+    }
+  }
 
   /**
    * Specifies the selection mode of the component, where:
@@ -142,14 +159,14 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #region Events
 
   /** Fires whenever the component is selected or unselected. */
-  calciteComboboxItemChange = createEvent<void>({ cancelable: false });
+  calciteComboboxItemChange = createEvent({ cancelable: false });
 
   /**
    * Fires whenever a property the parent combobox needs to know about is changed.
    *
    * @notPublic
    */
-  calciteInternalComboboxItemChange = createEvent<void>({ cancelable: false });
+  calciteInternalComboboxItemChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -174,10 +191,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       changes.has("textLabel")
     ) {
       this.handleComboboxItemPropsChange();
-    }
-
-    if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
-      this.selectedWatchHandler();
     }
   }
 

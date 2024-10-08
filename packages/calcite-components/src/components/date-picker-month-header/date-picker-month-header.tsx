@@ -30,6 +30,8 @@ declare global {
 export class DatePickerMonthHeader extends LitElement {
   // #region Static Members
 
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
   static override styles = styles;
 
   // #endregion
@@ -56,7 +58,7 @@ export class DatePickerMonthHeader extends LitElement {
   @property() activeDate: Date;
 
   /** Specifies the number at which section headings should start. */
-  @property() headingLevel: HeadingLevel;
+  @property({ type: Number }) headingLevel: HeadingLevel;
 
   /** CLDR locale data for translated calendar info. */
   @property() localeData: DateLocaleData;

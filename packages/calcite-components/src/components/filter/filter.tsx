@@ -47,6 +47,8 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
   private textInput = createRef<Input["el"]>();
 
+  private _value = "";
+
   // #endregion
 
   // #region Public Properties
@@ -93,7 +95,18 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   @property({ reflect: true }) scale: Scale = "m";
 
   /** The component's value. */
-  @property() value = "";
+  @property()
+  get value(): string {
+    return this._value;
+  }
+
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueHandler(value);
+    }
+  }
 
   // #endregion
 
@@ -128,7 +141,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   // #region Events
 
   /** Fires when the filter text changes. */
-  calciteFilterChange = createEvent<void>({ cancelable: false });
+  calciteFilterChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -157,10 +170,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
     if (changes.has("filterProps")) {
       this.filterPropsHandler();
-    }
-
-    if (changes.has("value") && (this.hasUpdated || this.value !== "")) {
-      this.valueHandler(this.value);
     }
   }
 

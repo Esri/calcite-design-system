@@ -158,7 +158,7 @@ export class Pagination extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Emits when the selected page changes. */
-  calcitePaginationChange = createEvent<void>({ cancelable: false });
+  calcitePaginationChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -234,7 +234,7 @@ export class Pagination extends LitElement implements LoadableComponent {
 
   private effectiveLocaleChange(): void {
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -410,7 +410,7 @@ export class Pagination extends LitElement implements LoadableComponent {
     const page = Math.floor(start / pageSize) + (pageSize === 1 ? 0 : 1);
 
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };

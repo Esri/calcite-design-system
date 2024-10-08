@@ -77,7 +77,7 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    this.menuItems[0]?.focus();
   }
 
   // #endregion
@@ -88,8 +88,6 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
     super();
     this.listen("calciteInternalMenuItemKeyEvent", this.calciteInternalNavMenuItemKeyEvent);
   }
-
-  override connectedCallback(): void {}
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
@@ -113,8 +111,6 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
   loaded(): void {
     setComponentLoaded(this);
   }
-
-  override disconnectedCallback(): void {}
 
   // #endregion
 

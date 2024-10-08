@@ -281,7 +281,7 @@ function invalidHandler(event: Event) {
         formComponent.status = "idle";
       }
 
-      if ("validationIcon" in formComponent && !formComponent.validationIcon) {
+      if ("validationIcon" in formComponent) {
         formComponent.validationIcon = false;
       }
 

@@ -160,7 +160,7 @@ export class RadioButton
    *
    * @notPublic
    */
-  calciteInternalRadioButtonBlur = createEvent<void>({ cancelable: false });
+  calciteInternalRadioButtonBlur = createEvent({ cancelable: false });
 
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
@@ -168,14 +168,14 @@ export class RadioButton
    *
    * @notPublic
    */
-  calciteInternalRadioButtonCheckedChange = createEvent<void>({ cancelable: false });
+  calciteInternalRadioButtonCheckedChange = createEvent({ cancelable: false });
 
   /**
    * Fires when the radio button is focused.
    *
    * @notPublic
    */
-  calciteInternalRadioButtonFocus = createEvent<void>({ cancelable: false });
+  calciteInternalRadioButtonFocus = createEvent({ cancelable: false });
 
   /**
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
@@ -183,7 +183,7 @@ export class RadioButton
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
    * or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
    */
-  calciteRadioButtonChange = createEvent<void>({ cancelable: false });
+  calciteRadioButtonChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -206,6 +206,7 @@ export class RadioButton
     connectLabel(this);
     connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
+    super.connectedCallback();
   }
 
   load(): void {
@@ -396,7 +397,7 @@ export class RadioButton
       (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled,
     );
     otherFocusableRadioButtons.forEach((radioButton) => {
-      radioButton.manager.component.requestUpdate();
+      radioButton.manager?.component.requestUpdate();
     });
   }
 

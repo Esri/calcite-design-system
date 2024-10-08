@@ -11,15 +11,9 @@ import {
   JsxNode,
   LuminaJsx,
   stringOrBoolean,
-  live,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
-import {
-  getElementDir,
-  isPrimaryPointerButton,
-  setRequestedIcon,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status, Alignment } from "../interfaces";
 import {
   connectForm,
@@ -82,6 +76,8 @@ export class Input
     TextualInputComponent
 {
   // #region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
@@ -155,7 +151,7 @@ export class Input
 
   private userChangedValue = false;
 
-  _value = "";
+  private _value = "";
 
   // #endregion
 
@@ -441,10 +437,16 @@ export class Input
   }
 
   set value(value: string) {
-    const currentValue = value;
-    if (value !== currentValue) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
       this._value = value;
-      this.valueWatcher(value, currentValue);
+      this.valueWatcher(value, oldValue);
+      if (value && this._value === "") {
+        this.setValue({
+          origin: "reset",
+          value: oldValue,
+        });
+      }
     }
   }
 
@@ -479,16 +481,16 @@ export class Input
   // #region Events
 
   /** Fires each time a new `value` is typed and committed. */
-  calciteInputChange = createEvent<void>({ cancelable: false });
+  calciteInputChange = createEvent({ cancelable: false });
 
   /** Fires each time a new `value` is typed. */
-  calciteInputInput = createEvent<void>();
+  calciteInputInput = createEvent();
 
   /** @notPublic */
-  calciteInternalInputBlur = createEvent<void>({ cancelable: false });
+  calciteInternalInputBlur = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalInputFocus = createEvent<void>({ cancelable: false });
+  calciteInternalInputFocus = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -534,28 +536,6 @@ export class Input
         });
       }
     }
-  }
-
-  /**
-   * TODO: [MIGRATION] consider whether in this case migrating to `hasChanged()` parameter on `@property()` decorator would be better than using shouldUpdate
-   * https://lit.dev/docs/components/properties/#haschanged
-   * Otherwise, you should simplify the code inserted by the codemod a bit (merge shouldUpdate and _shouldUpdate into one method)
-   *
-   * @param changes
-   */
-  override shouldUpdate(changes: Map<string, any>): boolean {
-    if (
-      changes.has("value") &&
-      this.type === "number" &&
-      this.value &&
-      !isValidNumber(this.value)
-    ) {
-      this.setValue({
-        origin: "reset",
-        value: changes.get("value"),
-      });
-    }
-    return true;
   }
 
   /**
@@ -792,7 +772,7 @@ export class Input
 
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -860,7 +840,7 @@ export class Input
       return;
     }
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -949,13 +929,11 @@ export class Input
   }
 
   private setInputValue(newInputValue: string): void {
-    if (this.type === "text" && !this.childEl) {
-      return;
+    if (this.type === "number" && this.childNumberEl) {
+      this.childNumberEl.value = newInputValue;
+    } else if (this.childEl) {
+      this.childEl.value = newInputValue;
     }
-    if (this.type === "number" && !this.childNumberEl) {
-      return;
-    }
-    this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
   }
 
   private setPreviousEmittedValue(value: string): void {
@@ -988,7 +966,7 @@ export class Input
 
     if (this.type === "number") {
       numberStringFormatter.numberFormatOptions = {
-        locale: this.messages._t9nLocale,
+        locale: this.messages._lang,
         numberingSystem: this.numberingSystem,
         useGrouping: this.groupSeparator,
         signDisplay: "never",
@@ -1176,7 +1154,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
           type="text"
-          value={live(this.displayedValue)}
+          value={this.displayedValue}
         />
       ) : null;
     const DynamicHtmlTag =
@@ -1190,8 +1168,8 @@ export class Input
             <DynamicHtmlTag
               accept={this.accept}
               aria-errormessage={IDS.validationMessage}
-              aria-invalid={toAriaBoolean(this.status === "invalid")}
-              aria-label={getLabelText(this)}
+              ariaInvalid={this.status === "invalid"}
+              ariaLabel={getLabelText(this)}
               autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
               autofocus={autofocus}
               class={{

@@ -240,25 +240,25 @@ export class ListItem
    *
    * @notPublic
    */
-  calciteInternalFocusPreviousItem = createEvent<void>({ cancelable: false });
+  calciteInternalFocusPreviousItem = createEvent({ cancelable: false });
 
   /**
    *
    * @notPublic
    */
-  calciteInternalListItemActive = createEvent<void>({ cancelable: false });
+  calciteInternalListItemActive = createEvent({ cancelable: false });
 
   /**
    *
    * @notPublic
    */
-  calciteInternalListItemChange = createEvent<void>({ cancelable: false });
+  calciteInternalListItemChange = createEvent({ cancelable: false });
 
   /**
    *
    * @notPublic
    */
-  calciteInternalListItemSelect = createEvent<void>({ cancelable: false });
+  calciteInternalListItemSelect = createEvent({ cancelable: false });
 
   /**
    *
@@ -272,19 +272,19 @@ export class ListItem
    *
    * @notPublic
    */
-  calciteInternalListItemToggle = createEvent<void>({ cancelable: false });
+  calciteInternalListItemToggle = createEvent({ cancelable: false });
 
   /** Fires when the close button is clicked. */
-  calciteListItemClose = createEvent<void>({ cancelable: false });
+  calciteListItemClose = createEvent({ cancelable: false });
 
   /** Fires when the drag handle is selected. */
-  calciteListItemDragHandleChange = createEvent<void>({ cancelable: false });
+  calciteListItemDragHandleChange = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
-  calciteListItemSelect = createEvent<void>({ cancelable: false });
+  calciteListItemSelect = createEvent({ cancelable: false });
 
   /** Fires when the open button is clicked. */
-  calciteListItemToggle = createEvent<void>({ cancelable: false });
+  calciteListItemToggle = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -351,8 +351,6 @@ export class ListItem
   loaded(): void {
     setComponentLoaded(this);
   }
-
-  override disconnectedCallback(): void {}
 
   // #endregion
 

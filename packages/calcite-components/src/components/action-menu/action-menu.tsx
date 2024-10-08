@@ -197,7 +197,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Fires when the `open` property is toggled. */
-  calciteActionMenuOpen = createEvent<void>({ cancelable: false });
+  calciteActionMenuOpen = createEvent({ cancelable: false });
 
   // #endregion
 

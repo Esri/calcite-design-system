@@ -64,6 +64,8 @@ export class Select
 {
   // #region Static Members
 
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
   static override styles = styles;
 
   // #endregion
@@ -180,7 +182,7 @@ export class Select
   // #region Events
 
   /** Fires when the `selectedOption` changes. */
-  calciteSelectChange = createEvent<void>({ cancelable: false });
+  calciteSelectChange = createEvent({ cancelable: false });
 
   // #endregion
 

@@ -156,19 +156,19 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   // #region Events
 
   /** Fires when the component's close button is selected. */
-  calciteChipClose = createEvent<void>({ cancelable: false });
+  calciteChipClose = createEvent({ cancelable: false });
 
   /** Fires when the selected state of the component changes. */
-  calciteChipSelect = createEvent<void>({ cancelable: false });
+  calciteChipSelect = createEvent({ cancelable: false });
 
   /** @notPublic */
   calciteInternalChipKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalChipSelect = createEvent<void>({ cancelable: false });
+  calciteInternalChipSelect = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalSyncSelectedChips = createEvent<void>({ cancelable: false });
+  calciteInternalSyncSelectedChips = createEvent({ cancelable: false });
 
   // #endregion
 

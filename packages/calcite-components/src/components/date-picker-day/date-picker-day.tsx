@@ -119,14 +119,14 @@ export class DatePickerDay extends LitElement implements InteractiveComponent, L
   // #region Events
 
   /** Fires when user selects day. */
-  calciteDaySelect = createEvent<void>({ cancelable: false });
+  calciteDaySelect = createEvent({ cancelable: false });
 
   /**
    * Fires when user hovers over a day.
    *
    * @notPublic
    */
-  calciteInternalDayHover = createEvent<void>({ cancelable: false });
+  calciteInternalDayHover = createEvent({ cancelable: false });
 
   // #endregion
 

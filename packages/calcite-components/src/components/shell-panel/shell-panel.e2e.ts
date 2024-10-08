@@ -115,12 +115,14 @@ describe("calcite-shell-panel", () => {
     await page.setContent(
       '<calcite-shell-panel position="end"><div slot="action-bar">bar</div><div>content</div></calcite-shell-panel>',
     );
+    // await page.waitForTimeout(10000000);
 
     const divElementIsFirst = await page.$eval(
       "calcite-shell-panel",
       (panel: ShellPanel["el"], containerClass: string, contentClass: string) => {
         const container = panel.shadowRoot.querySelector(containerClass);
-        return container.firstElementChild.className == contentClass;
+        console.log(container.outerHTML);
+        return container.firstElementChild.classList.contains(contentClass);
       },
       `.${CSS.container}`,
       CSS.content,

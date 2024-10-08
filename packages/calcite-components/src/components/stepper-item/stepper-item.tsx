@@ -159,7 +159,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
 
   /** Fires when the active `calcite-stepper-item` changes. */
-  calciteStepperItemSelect = createEvent<void>({ cancelable: false });
+  calciteStepperItemSelect = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -208,7 +208,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
     }
 
     if (changes.has("messages")) {
-      this.effectiveLocaleWatcher(this.messages._t9nLocale);
+      this.effectiveLocaleWatcher(this.messages._lang);
     }
   }
 
@@ -383,7 +383,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
 
   private renderNumbers(): string {
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: false,
     };

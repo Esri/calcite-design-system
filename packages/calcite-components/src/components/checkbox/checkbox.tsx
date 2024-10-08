@@ -164,7 +164,7 @@ export class Checkbox
   // #region Events
 
   /** Fires when the component's `checked` status changes. */
-  calciteCheckboxChange = createEvent<void>({ cancelable: false });
+  calciteCheckboxChange = createEvent({ cancelable: false });
 
   /**
    * Fires when the component is blurred.

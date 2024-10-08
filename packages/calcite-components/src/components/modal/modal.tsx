@@ -95,6 +95,8 @@ export class Modal
     this.updateFocusTrapElements(),
   );
 
+  private _open = false;
+
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener(
@@ -183,7 +185,18 @@ export class Modal
   @property() messages = useT9n<typeof T9nStrings>();
 
   /** When `true`, displays and positions the component. */
-  @property({ reflect: true }) open = false;
+  @property({ reflect: true })
+  get open(): boolean {
+    return this._open;
+  }
+
+  set open(open: boolean) {
+    const oldOpen = this._open;
+    if (open !== oldOpen) {
+      this._open = open;
+      this.toggleModal(open);
+    }
+  }
 
   /**
    * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
@@ -241,16 +254,16 @@ export class Modal
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteModalBeforeClose = createEvent<void>({ cancelable: false });
+  calciteModalBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteModalBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteModalBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteModalClose = createEvent<void>({ cancelable: false });
+  calciteModalClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteModalOpen = createEvent<void>({ cancelable: false });
+  calciteModalOpen = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -296,10 +309,6 @@ export class Modal
       (changes.has("hasSecondary") && (this.hasUpdated || this.hasSecondary !== false))
     ) {
       this.handleHasFooterChange();
-    }
-
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.toggleModal(this.open);
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {

@@ -137,16 +137,16 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteNoticeBeforeClose = createEvent<void>({ cancelable: false });
+  calciteNoticeBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteNoticeBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteNoticeBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteNoticeClose = createEvent<void>({ cancelable: false });
+  calciteNoticeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteNoticeOpen = createEvent<void>({ cancelable: false });
+  calciteNoticeOpen = createEvent({ cancelable: false });
 
   // #endregion
 

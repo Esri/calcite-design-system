@@ -326,12 +326,12 @@ describe("calcite-date-picker", () => {
 
     const element = await page.find("calcite-date-picker");
 
-    element.setProperty("min", null);
-    element.setProperty("max", null);
+    element.setProperty("min", undefined);
+    element.setProperty("max", undefined);
     await page.waitForChanges();
 
-    expect(await element.getProperty("minAsDate")).toBe(null);
-    expect(await element.getProperty("maxAsDate")).toBe(null);
+    expect(await element.getProperty("minAsDate")).toBe(undefined);
+    expect(await element.getProperty("maxAsDate")).toBe(undefined);
 
     const dateBeyondMax = "2022-11-26";
     await setActiveDate(page, dateBeyondMax);
@@ -348,11 +348,14 @@ describe("calcite-date-picker", () => {
     const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month-header`);
 
     expect(await date.getProperty("messages")).toEqual({
+      _lang: "en",
+      _loading: false,
+      _t9nLocale: "en",
+      monthMenu: "Month menu",
       nextMonth: "Next month",
       prevMonth: "Previous month",
-      monthMenu: "Month menu",
-      yearMenu: "Year menu",
       year: "Year",
+      yearMenu: "Year menu",
     });
   });
 
