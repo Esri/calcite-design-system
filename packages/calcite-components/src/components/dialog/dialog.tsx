@@ -627,7 +627,8 @@ export class Dialog
     const translateX = Math.round(x + left + right);
     const translateY = Math.round(y + top + bottom);
 
-    transitionEl.style.transform = `translate(${translateX}px, ${translateY}px)`;
+    transitionEl.style.transform =
+      translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
   }
 
   private updateSize({
