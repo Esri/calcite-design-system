@@ -10,6 +10,7 @@
  * @prop --calcite-tile-icon-color: Specifies the icon color in the component.
  * @prop --calcite-tile-selection-icon-color: Specifies the color of the selection icon in the component.
  * @prop --calcite-tile-selection-icon-color-hover: Specifies the color of the selection icon in the component on hover.
+ * @prop --calcite-tile-shadow: Specifies the shadow around the component.
  */
 
 /** Internal variables
@@ -26,6 +27,7 @@
   --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
   --calcite-internal-tile-icon-color: var(--calcite-color-text-3);
 
+  box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
   color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
   display: inline-block;

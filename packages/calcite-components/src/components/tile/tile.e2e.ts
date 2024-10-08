@@ -252,6 +252,10 @@ describe("calcite-tile", () => {
             shadowSelector: "calcite-icon",
             targetProp: "--calcite-icon-color",
           },
+          "--calcite-tile-shadow": {
+            selector: `calcite-tile`,
+            targetProp: "boxShadow",
+          },
           "--calcite-tile-text-color": {
             selector: `calcite-tile`,
             targetProp: "color",
