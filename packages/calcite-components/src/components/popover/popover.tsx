@@ -541,8 +541,7 @@ export class Popover
   private clickOutsideDeactivates = (event: MouseEvent): boolean => {
     const path = event.composedPath();
     const isReferenceElementInPath =
-      this.effectiveReferenceElement instanceof EventTarget &&
-      path.includes(this.effectiveReferenceElement);
+      this.referenceEl instanceof EventTarget && path.includes(this.referenceEl);
 
     const outsideClick = !path.includes(this.el);
     const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
