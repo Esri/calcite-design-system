@@ -48,8 +48,7 @@
   @apply h-full;
 }
 
-:host([height-scale="l"][detached]),
-:host([height="l"][detached]) {
+:host([detached]) .height-l {
   block-size: calc(theme("height.full") - theme("spacing.8"));
 }
 
