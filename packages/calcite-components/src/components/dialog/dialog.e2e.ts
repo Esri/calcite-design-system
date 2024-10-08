@@ -921,6 +921,17 @@ describe("calcite-dialog", () => {
     expect(await alert.getProperty("embedded")).toBe(true);
   });
 
+  it("should not set transform when not dragEnabled or resizable", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-dialog open> test </calcite-dialog>`);
+    await skipAnimations(page);
+    await page.setViewport({ width: 1200, height: 1200 });
+    await page.waitForChanges();
+
+    const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+    expect((await container.getComputedStyle()).transform).toBe("none");
+  });
+
   describe("keyboard movement", () => {
     it("should move properly via arrow keys", async () => {
       const page = await newE2EPage();
@@ -931,19 +942,19 @@ describe("calcite-dialog", () => {
       await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
       const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+      expect((await container.getComputedStyle()).transform).toBe("none");
 
       await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogDragStep})`);
 
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+      expect((await container.getComputedStyle()).transform).toBe("none");
 
       await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${dialogDragStep}, 0)`);
 
       await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+      expect((await container.getComputedStyle()).transform).toBe("none");
     });
   });
 
