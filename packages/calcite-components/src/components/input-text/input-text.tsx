@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
+import { getElementDir, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import {
   connectForm,
   disconnectForm,
@@ -35,7 +35,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -113,11 +112,6 @@ export class InputText
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  disabledWatcher(): void {
-    this.setDisabledAction();
-  }
 
   /**
    * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
@@ -336,8 +330,6 @@ export class InputText
   /** the computed icon to render */
   private requestedIcon?: IconNameOrString;
 
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
-
   private userChangedValue = false;
 
   @State() effectiveLocale: string;
@@ -368,8 +360,6 @@ export class InputText
 
     connectLabel(this);
     connectForm(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -378,8 +368,6 @@ export class InputText
     disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-
-    this.mutationObserver?.disconnect();
     this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -562,24 +550,6 @@ export class InputText
   private setChildElRef = (el) => {
     this.childEl = el;
   };
-
-  private setDisabledAction(): void {
-    const slottedActionEl = getSlotted(this.el, "action");
-
-    if (!slottedActionEl) {
-      return;
-    }
-
-    if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled") == null) {
-        this.slottedActionElDisabledInternally = true;
-      }
-      slottedActionEl.setAttribute("disabled", "");
-    } else if (this.slottedActionElDisabledInternally) {
-      slottedActionEl.removeAttribute("disabled");
-      this.slottedActionElDisabledInternally = false;
-    }
-  }
 
   private setInputValue = (newInputValue: string): void => {
     if (!this.childEl) {

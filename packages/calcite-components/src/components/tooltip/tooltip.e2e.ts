@@ -662,6 +662,14 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+
+    await referenceElement.hover();
+
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
   });
 
   it("should close tooltip when closeOnClick is true and referenceElement is clicked quickly", async () => {

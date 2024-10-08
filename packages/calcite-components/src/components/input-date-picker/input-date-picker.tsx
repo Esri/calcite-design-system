@@ -398,6 +398,10 @@ export class InputDatePicker
     this.commitValue();
   };
 
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -962,10 +966,6 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape") {
-      this.open = false;
-      event.preventDefault();
-      this.restoreInputFocus();
     }
   };
 
@@ -997,8 +997,12 @@ export class InputDatePicker
     connectFocusTrap(this, {
       focusTrapEl: el,
       focusTrapOptions: {
+        allowOutsideClick: true,
+        // Allow outside click and let the popover manager take care of closing the popover.
+        clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,
+        onDeactivate: this.focusTrapDeactivates,
       },
     });
   };
