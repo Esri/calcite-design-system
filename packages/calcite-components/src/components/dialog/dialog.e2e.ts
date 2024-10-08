@@ -953,13 +953,13 @@ describe("calcite-dialog", () => {
       expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogDragStep})`);
 
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+      expect((await container.getComputedStyle()).transform).toBe("none");
 
       await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${dialogDragStep}, 0)`);
 
       await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+      expect((await container.getComputedStyle()).transform).toBe("none");
     });
   });
 
