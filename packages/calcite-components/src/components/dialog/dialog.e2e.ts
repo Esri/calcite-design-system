@@ -926,6 +926,17 @@ describe("calcite-dialog", () => {
     expect(await alert.getProperty("embedded")).toBe(true);
   });
 
+  it("should not set transform when not dragEnabled or resizable", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-dialog open> test </calcite-dialog>`);
+    await skipAnimations(page);
+    await page.setViewport({ width: 1200, height: 1200 });
+    await page.waitForChanges();
+
+    const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+    expect((await container.getComputedStyle()).transform).toBe("none");
+  });
+
   describe("keyboard movement", () => {
     it("should move properly via arrow keys", async () => {
       const page = await newE2EPage();
