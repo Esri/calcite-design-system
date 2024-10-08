@@ -22,7 +22,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import {
   connectSortableComponent,
@@ -546,7 +545,7 @@ export class List
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
               <div class={CSS.sticky} role="rowgroup">
                 <div role="row">
-                  <div aria-colspan={MAX_COLUMNS} role="columnheader">
+                  <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
                       <slot
                         name={SLOTS.filterActionsStart}
