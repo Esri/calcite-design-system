@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -59,7 +60,7 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
@@ -511,12 +512,15 @@ export class ValueList<
 
   render(): VNode {
     return (
-      <List
+      <Host
+        aria-busy={toAriaBoolean(this.loading)}
         onBlur={this.handleBlur}
         onFocusin={this.handleFocusIn}
         onKeyDown={this.keyDownHandler}
-        props={this}
-      />
+        role="menu"
+      >
+        <List props={this} />
+      </Host>
     );
   }
 }

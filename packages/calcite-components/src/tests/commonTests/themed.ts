@@ -174,7 +174,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
   });
 }
 
-type ContextSelectByAttr = { attribute: string; value: string | RegExp };
+type ContextSelectByAttr = { attribute: string; value: string };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
@@ -303,15 +303,12 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
         const { attribute, value } = context as {
           attribute: string;
-          value: string | RegExp;
+          value: string;
         };
         if (node.nodeType === 1) {
           const attr = (node as Element).getAttribute(attribute);
           if (typeof value === "string" && attr === value) {
             return node;
-          }
-          if (value instanceof RegExp && attr && value.test(attr)) {
-            return node ?? undefined;
           }
           if (attr === value) {
             return node;
