@@ -1,10 +1,14 @@
-.container {
+:host {
   @extend %component-host;
   @apply flex
     flex-auto
     overflow-hidden
     bg-transparent
     z-default;
+}
+
+.container {
+  @apply flex;
 }
 
 .content {

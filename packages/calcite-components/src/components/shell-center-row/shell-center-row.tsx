@@ -60,12 +60,7 @@ export class ShellCenterRow {
     const { actionBar } = this;
 
     const contentNode = (
-      <div
-        class={{
-          [CSS.content]: true,
-          [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
-        }}
-      >
+      <div class={CSS.content}>
         <slot />
       </div>
     );
@@ -86,6 +81,7 @@ export class ShellCenterRow {
       <div
         class={{
           [CSS.container]: true,
+          [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
         }}
       >
         {children}
