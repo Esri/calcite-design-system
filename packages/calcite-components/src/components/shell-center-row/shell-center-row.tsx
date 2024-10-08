@@ -1,6 +1,7 @@
 import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { Height, Position, Scale } from "../interfaces";
+import { getHeight } from "../../utils/dynamicCSSConst";
 import { CSS, SLOTS } from "./resources";
 
 /**
@@ -59,7 +60,12 @@ export class ShellCenterRow {
     const { actionBar } = this;
 
     const contentNode = (
-      <div class={CSS.content}>
+      <div
+        class={{
+          [CSS.content]: true,
+          [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
+        }}
+      >
         <slot />
       </div>
     );
@@ -76,7 +82,15 @@ export class ShellCenterRow {
       children.reverse();
     }
 
-    return <div>{children}</div>;
+    return (
+      <div
+        class={{
+          [CSS.container]: true,
+        }}
+      >
+        {children}
+      </div>
+    );
   }
 
   private handleActionBarSlotChange = (event: Event): void => {
