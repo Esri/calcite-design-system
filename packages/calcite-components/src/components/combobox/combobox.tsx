@@ -1633,7 +1633,7 @@ export class Combobox
           class={{
             [CSS.input]: true,
             "input--single": true,
-            "input--hidden": showLabel,
+            [CSS.inputHidden]: showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
           data-test-id="input"

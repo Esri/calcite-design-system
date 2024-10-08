@@ -567,9 +567,9 @@ describe("calcite-combobox", () => {
       expect(await three.isVisible()).toBeFalsy();
 
       expect(await combobox.getProperty("value")).toBe("Natural Resources");
-      expect(await combobox.getProperty("filterText")).toBe("anm");
       expect((await combobox.getProperty("filteredItems")).length).toBe(0);
       expect(await input.getProperty("value")).toBe("anm");
+      expect(input).not.toHaveClass(`${CSS.inputHidden}`);
     });
   });
 
