@@ -871,12 +871,12 @@ export class List
     const lists = group
       ? Array.from(
           rootNode.querySelectorAll<HTMLCalciteListElement>(`calcite-list[group="${group}"]`),
-        )
+        ).filter((list) => !list.disabled && list.dragEnabled)
       : [];
 
     this.moveToItems = lists.map((element) => ({
       element,
-      label: element.label ?? element.group,
+      label: element.label ?? element.id,
       id: el.id ?? guid(),
     }));
   }
