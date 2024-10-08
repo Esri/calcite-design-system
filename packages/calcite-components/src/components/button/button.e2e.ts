@@ -117,7 +117,7 @@ describe("calcite-button", () => {
     expect(elementAsButton).toBeNull();
     expect(elementAsLink).not.toBeNull();
 
-    expect(await elementAsLink.getProperty("disabled")).toBe(undefined);
+    expect(await elementAsLink.getProperty("disabled")).toBe(null);
   });
 
   it("renders as a button with default props", async () => {

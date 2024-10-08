@@ -39,7 +39,7 @@ export function reflects(
 ): void {
   const cases = propsToTest.map(({ propertyName, value }) => [propertyName, value]);
 
-  it.each(cases)("%p", async (propertyName, value) => {
+  it.each(cases)("%s", async (propertyName, value) => {
     const { page, tag: componentTag } = await getTagAndPage(componentTestSetup);
     await skipAnimations(page);
     const element = await page.find(componentTag);

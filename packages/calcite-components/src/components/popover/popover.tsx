@@ -125,7 +125,7 @@ export class Popover
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * Accessible name for the component.
@@ -154,7 +154,7 @@ export class Popover
    *
    * @default 6
    */
-  @property({ reflect: true }) offsetDistance = defaultOffsetDistance;
+  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
   /** Offsets the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
@@ -255,16 +255,16 @@ export class Popover
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calcitePopoverBeforeClose = createEvent<void>({ cancelable: false });
+  calcitePopoverBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calcitePopoverBeforeOpen = createEvent<void>({ cancelable: false });
+  calcitePopoverBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calcitePopoverClose = createEvent<void>({ cancelable: false });
+  calcitePopoverClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calcitePopoverOpen = createEvent<void>({ cancelable: false });
+  calcitePopoverOpen = createEvent({ cancelable: false });
 
   // #endregion
 

@@ -120,7 +120,7 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Fires when the component has changed. */
-  calciteRadioButtonGroupChange = createEvent<void>({ cancelable: false });
+  calciteRadioButtonGroupChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -164,6 +164,7 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   }
 
   loaded(): void {
+    this.passPropsToRadioButtons();
     setComponentLoaded(this);
   }
 

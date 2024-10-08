@@ -174,14 +174,14 @@ export class Stepper extends LitElement {
   });
 
   /** Fires when the active `calcite-stepper-item` changes. */
-  calciteStepperChange = createEvent<void>({ cancelable: false });
+  calciteStepperChange = createEvent({ cancelable: false });
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
    *
    * @deprecated use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
    */
-  calciteStepperItemChange = createEvent<void>({ cancelable: false });
+  calciteStepperItemChange = createEvent({ cancelable: false });
 
   // #endregion
 

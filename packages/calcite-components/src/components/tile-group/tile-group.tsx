@@ -100,7 +100,7 @@ export class TileGroup
   // #region Events
 
   /** Fires when the component's selection changes. */
-  calciteTileGroupSelect = createEvent<void>({ cancelable: false });
+  calciteTileGroupSelect = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -142,6 +142,10 @@ export class TileGroup
 
   override updated(): void {
     updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    this.updateSelectedItems();
   }
 
   override disconnectedCallback(): void {

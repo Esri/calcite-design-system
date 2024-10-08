@@ -39,7 +39,7 @@ export class PickListGroup extends LitElement implements ConditionalSlotComponen
   @property({ reflect: true }) groupTitle: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   // #endregion
 

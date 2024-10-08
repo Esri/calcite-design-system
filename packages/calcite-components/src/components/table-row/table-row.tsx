@@ -103,7 +103,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
 
   /** Fires when the selected state of the component changes. */
-  calciteTableRowSelect = createEvent<void>({ cancelable: false });
+  calciteTableRowSelect = createEvent({ cancelable: false });
 
   // #endregion
 

@@ -11,10 +11,6 @@
 
   const SCRIPTS: Script[] = [
     {
-      src: "build/calcite.esm.ts",
-      type: "module",
-    },
-    {
       src: "/src/demos/_assets/demo-dom-swapper.ts",
     },
     {

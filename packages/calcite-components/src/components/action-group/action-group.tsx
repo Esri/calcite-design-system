@@ -46,7 +46,7 @@ export class ActionGroup extends LitElement implements LoadableComponent {
   // #region Public Properties
 
   /** Indicates number of columns. */
-  @property({ reflect: true }) columns: Columns;
+  @property({ type: Number, reflect: true }) columns: Columns;
 
   /** When `true`, the component is expanded. */
   @property({ reflect: true }) expanded = false;

@@ -102,7 +102,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   private checkerPattern: HTMLCanvasElement;
 
-  _color: InternalColor | null = DEFAULT_COLOR;
+  private _color: InternalColor | null = DEFAULT_COLOR;
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
@@ -213,7 +213,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   private upOrDownArrowKeyTracker: "down" | "up" | null = null;
 
-  _value: ColorValue | null;
+  private _value: ColorValue | null;
+
+  private _valueWasSet = false;
 
   // #endregion
 
@@ -274,9 +276,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   set color(color: InternalColor | null) {
-    const currentColor = color;
+    const oldColor = this._color;
     this._color = color;
-    this.handleColorChange(color, currentColor);
+    this.handleColorChange(color, oldColor);
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -356,9 +358,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   set value(value: ColorValue | null) {
-    const currentValue = value;
+    const oldValue = this._value;
     this._value = value;
-    this.handleValueChange(value, currentValue);
+    this.handleValueChange(value, oldValue);
+    this._valueWasSet = true;
   }
 
   // #endregion
@@ -378,14 +381,14 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   // #region Events
 
   /** Fires when the color value has changed. */
-  calciteColorPickerChange = createEvent<void>({ cancelable: false });
+  calciteColorPickerChange = createEvent({ cancelable: false });
 
   /**
    * Fires as the color value changes.
    *
    * Similar to the `calciteColorPickerChange` event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
    */
-  calciteColorPickerInput = createEvent<void>({ cancelable: false });
+  calciteColorPickerInput = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -397,11 +400,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.listen("keyup", this.handleChannelKeyUpOrDown, { capture: true });
   }
 
-  override connectedCallback(): void {
-    this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
-  }
+  override connectedCallback(): void {}
 
   async load(): Promise<void> {
+    if (!this._valueWasSet) {
+      this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
+    }
     setUpLoadableComponent(this);
 
     this.handleAllowEmptyOrClearableChange();
@@ -1474,7 +1478,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     const opacityLeft =
       opacityScopeLeft ??
       (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
-    const noColor = color === null;
+    const noColor = color === undefined;
     const vertical = scopeOrientation === "vertical";
     const noHex = hexDisabled || hideHex;
     const noChannels = channelsDisabled || hideChannels;
@@ -1732,7 +1736,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
         dir={direction}
         key={index}
         label={ariaLabel}
-        lang={this.messages._t9nLocale}
+        lang={this.messages._lang}
         numberButtonType="none"
         numberingSystem={this.numberingSystem}
         onKeyDown={this.handleKeyDown}

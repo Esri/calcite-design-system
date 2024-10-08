@@ -88,6 +88,8 @@ export class Dialog
     this.handleMutationObserver(),
   );
 
+  private _open = false;
+
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener(
@@ -155,7 +157,7 @@ export class Dialog
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies the kind of the component, which will style the top border. */
   @property({ reflect: true }) kind: Extract<
@@ -186,7 +188,18 @@ export class Dialog
   @property({ reflect: true }) modal = false;
 
   /** When `true`, displays and positions the component. */
-  @property({ reflect: true }) open = false;
+  @property({ reflect: true })
+  get open(): boolean {
+    return this._open;
+  }
+
+  set open(open: boolean) {
+    const oldOpen = this._open;
+    if (open !== oldOpen) {
+      this._open = open;
+      this.toggleDialog(open);
+    }
+  }
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
@@ -255,19 +268,19 @@ export class Dialog
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteDialogBeforeClose = createEvent<void>({ cancelable: false });
+  calciteDialogBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteDialogBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteDialogBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteDialogClose = createEvent<void>({ cancelable: false });
+  calciteDialogClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteDialogOpen = createEvent<void>({ cancelable: false });
+  calciteDialogOpen = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
-  calciteDialogScroll = createEvent<void>({ cancelable: false });
+  calciteDialogScroll = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -316,16 +329,11 @@ export class Dialog
     }
 
     if (
-      (changes.has("messages") &&
-        (this.hasUpdated || this.messages !== useT9n<typeof T9nStrings>())) ||
+      changes.has("messages") ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
     ) {
       this.updateAssistiveText();
-    }
-
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.toggleDialog(this.open);
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {

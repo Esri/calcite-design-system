@@ -41,7 +41,7 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
   // #region Events
 
   /** Fires when changes occur in the default slot, notifying parent lists of the changes. */
-  calciteInternalListItemGroupDefaultSlotChange = createEvent<void>({ cancelable: false });
+  calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
 
   // #endregion
 

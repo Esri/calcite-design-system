@@ -49,7 +49,7 @@ export class Tip extends LitElement {
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Use this property to override individual strings used by the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -76,7 +76,7 @@ export class Tip extends LitElement {
   // #region Events
 
   /** Emits when the component has been closed. */
-  calciteTipDismiss = createEvent<void>({ cancelable: false });
+  calciteTipDismiss = createEvent({ cancelable: false });
 
   // #endregion
 

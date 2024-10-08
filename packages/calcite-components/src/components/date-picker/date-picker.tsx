@@ -83,7 +83,7 @@ export class DatePicker extends LitElement implements LoadableComponent {
   @property({ reflect: true }) activeRange: "start" | "end";
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @property({ reflect: true }) max: string;
@@ -155,10 +155,10 @@ export class DatePicker extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`. */
-  calciteDatePickerChange = createEvent<void>({ cancelable: false });
+  calciteDatePickerChange = createEvent({ cancelable: false });
 
   /** Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`. */
-  calciteDatePickerRangeChange = createEvent<void>({ cancelable: false });
+  calciteDatePickerRangeChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -280,12 +280,12 @@ export class DatePicker extends LitElement implements LoadableComponent {
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       useGrouping: false,
     };
 
-    this.localeData = await getLocaleData(this.messages._t9nLocale);
-    this.dateTimeFormat = getDateTimeFormat(this.messages._t9nLocale, DATE_PICKER_FORMAT_OPTIONS);
+    this.localeData = await getLocaleData(this.messages._lang);
+    this.dateTimeFormat = getDateTimeFormat(this.messages._lang, DATE_PICKER_FORMAT_OPTIONS);
   }
 
   private monthHeaderSelectChange(event: CustomEvent<Date>): void {

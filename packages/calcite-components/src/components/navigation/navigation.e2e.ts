@@ -16,7 +16,7 @@ describe("calcite-navigation", () => {
     reflects("calcite-navigation", [
       {
         propertyName: "navigationAction",
-        value: "",
+        value: true,
       },
     ]);
   });

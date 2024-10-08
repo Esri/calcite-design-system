@@ -102,7 +102,7 @@ export class Switch
   // #region Events
 
   /** Fires when the `checked` value has changed. */
-  calciteSwitchChange = createEvent<void>({ cancelable: false });
+  calciteSwitchChange = createEvent({ cancelable: false });
 
   // #endregion
 

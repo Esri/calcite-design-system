@@ -98,7 +98,7 @@ export class Block
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true }) iconEnd: IconNameOrString;
@@ -166,23 +166,23 @@ export class Block
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteBlockBeforeClose = createEvent<void>({ cancelable: false });
+  calciteBlockBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteBlockBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteBlockBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteBlockClose = createEvent<void>({ cancelable: false });
+  calciteBlockClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteBlockOpen = createEvent<void>({ cancelable: false });
+  calciteBlockOpen = createEvent({ cancelable: false });
 
   /**
    * Fires when the component's header is clicked.
    *
    * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
-  calciteBlockToggle = createEvent<void>({ cancelable: false });
+  calciteBlockToggle = createEvent({ cancelable: false });
 
   // #endregion
 

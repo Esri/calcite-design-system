@@ -146,12 +146,12 @@ export class Loader extends LitElement {
   private updateFormatter(): void {
     if (
       this.type !== "determinate-value" ||
-      this.formatter?.resolvedOptions().locale === this.messages._t9nLocale
+      this.formatter?.resolvedOptions().locale === this.messages._lang
     ) {
       return;
     }
 
-    this.formatter = new Intl.NumberFormat(this.messages._t9nLocale, {
+    this.formatter = new Intl.NumberFormat(this.messages._lang, {
       style: "percent",
     });
   }

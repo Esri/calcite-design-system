@@ -96,7 +96,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
 
   private menuId = `${this.guid}-menu`;
 
-  _open = false;
+  private _open = false;
 
   private slottedMenuButtonEl: Action["el"];
 
@@ -162,8 +162,11 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   }
 
   set open(open: boolean) {
-    this._open = open;
-    this.openHandler(open);
+    const oldOpen = this._open;
+    if (open !== oldOpen) {
+      this._open = open;
+      this.openHandler(open);
+    }
   }
 
   /**
@@ -197,7 +200,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Fires when the `open` property is toggled. */
-  calciteActionMenuOpen = createEvent<void>({ cancelable: false });
+  calciteActionMenuOpen = createEvent({ cancelable: false });
 
   // #endregion
 

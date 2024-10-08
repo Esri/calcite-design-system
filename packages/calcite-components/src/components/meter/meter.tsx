@@ -279,7 +279,7 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
   private formatLabel(value: number, labelType: MeterLabelType): string {
     if (labelType === "percent") {
       if (!this.percentFormatting) {
-        const locale = getSupportedLocale(this.messages._t9nLocale);
+        const locale = getSupportedLocale(this.messages._lang);
         const formatter = new Intl.NumberFormat(locale, {
           useGrouping: this.groupSeparator,
           style: "percent",
@@ -289,7 +289,7 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
       return this.percentFormatting.formatter.format(value);
     } else {
       numberStringFormatter.numberFormatOptions = {
-        locale: this.messages._t9nLocale,
+        locale: this.messages._lang,
         numberingSystem: this.numberingSystem,
         useGrouping: this.groupSeparator,
       };

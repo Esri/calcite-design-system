@@ -82,7 +82,7 @@ export class SortableList extends LitElement implements InteractiveComponent, So
   // #region Events
 
   /** Emitted when the order of the list has changed. */
-  calciteListOrderChange = createEvent<void>({ cancelable: false });
+  calciteListOrderChange = createEvent({ cancelable: false });
 
   // #endregion
 

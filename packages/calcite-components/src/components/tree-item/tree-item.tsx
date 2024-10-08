@@ -145,6 +145,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
    * @param changes
    */
   override willUpdate(changes: PropertyValues<this>): void {
+    this.preWillUpdate();
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
@@ -159,29 +160,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
     if (changes.has("selectionMode")) {
       this.getSelectionMode();
-    }
-
-    this.hasChildren = !!this.el.querySelector("calcite-tree");
-    this.depth = 0;
-    let parentTree = this.el.closest("calcite-tree");
-
-    if (!parentTree) {
-      return;
-    }
-
-    this.selectionMode = parentTree.selectionMode;
-    this.scale = parentTree.scale || "m";
-    this.lines = parentTree.lines;
-
-    let nextParentTree;
-    while (parentTree) {
-      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
-      if (nextParentTree === parentTree) {
-        break;
-      } else {
-        parentTree = nextParentTree;
-        this.depth = this.depth + 1;
-      }
     }
   }
 
@@ -347,6 +325,29 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   private actionsEndSlotChangeHandler(event: Event): void {
     this.hasEndActions = slotChangeHasAssignedElement(event);
+  }
+
+  preWillUpdate(): void {
+    this.hasChildren = !!this.el.querySelector("calcite-tree");
+    this.depth = 0;
+    let parentTree = this.el.closest("calcite-tree");
+    if (!parentTree) {
+      return;
+    }
+
+    this.selectionMode = parentTree.selectionMode;
+    this.scale = parentTree.scale || "m";
+    this.lines = parentTree.lines;
+    let nextParentTree;
+    while (parentTree) {
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
+      if (nextParentTree === parentTree) {
+        break;
+      } else {
+        parentTree = nextParentTree;
+        this.depth = this.depth + 1;
+      }
+    }
   }
 
   // #endregion

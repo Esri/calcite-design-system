@@ -29,7 +29,6 @@ import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
-import { toAriaBoolean } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/button.t9n.en.json";
@@ -341,14 +340,14 @@ export class Button
     return (
       <InteractiveContainer disabled={this.disabled}>
         <DynamicHtmlTag
-          aria-busy={toAriaBoolean(this.loading)}
-          aria-expanded={
+          ariaBusy={this.loading}
+          ariaExpanded={
             this.el.ariaExpanded
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
               : null
           }
-          aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
-          aria-live="polite"
+          ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}
+          ariaLive="polite"
           class={{
             [CSS.buttonPadding]: noStartEndIcons,
             [CSS.buttonPaddingShrunk]: !noStartEndIcons,

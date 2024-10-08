@@ -79,7 +79,7 @@ export class Tree extends LitElement {
   // #region Events
 
   /** Fires when the user selects/deselects `calcite-tree-items`. */
-  calciteTreeSelect = createEvent<void>({ cancelable: false });
+  calciteTreeSelect = createEvent({ cancelable: false });
 
   // #endregion
 

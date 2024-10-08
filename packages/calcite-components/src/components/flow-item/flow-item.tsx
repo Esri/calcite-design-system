@@ -97,7 +97,7 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -181,16 +181,16 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
   // #region Events
 
   /** Fires when the back button is clicked. */
-  calciteFlowItemBack = createEvent<void>();
+  calciteFlowItemBack = createEvent();
 
   /** Fires when the close button is clicked. */
-  calciteFlowItemClose = createEvent<void>({ cancelable: false });
+  calciteFlowItemClose = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
-  calciteFlowItemScroll = createEvent<void>({ cancelable: false });
+  calciteFlowItemScroll = createEvent({ cancelable: false });
 
   /** Fires when the collapse button is clicked. */
-  calciteFlowItemToggle = createEvent<void>({ cancelable: false });
+  calciteFlowItemToggle = createEvent({ cancelable: false });
 
   // #endregion
 

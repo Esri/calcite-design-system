@@ -126,10 +126,10 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
   // #region Events
 
   /** Fires when the component is selected. */
-  calciteDropdownItemSelect = createEvent<void>({ cancelable: false });
+  calciteDropdownItemSelect = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalDropdownCloseRequest = createEvent<void>({ cancelable: false });
+  calciteInternalDropdownCloseRequest = createEvent({ cancelable: false });
 
   /** @notPublic */
   calciteInternalDropdownItemKeyEvent = createEvent<ItemKeyboardEvent>({ cancelable: false });

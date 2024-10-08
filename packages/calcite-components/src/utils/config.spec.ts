@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, vi } from "vitest";
+import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 describe("config", () => {
   let config: typeof import("./config");
 
@@ -53,6 +53,15 @@ describe("config", () => {
       expect(globalThis.calciteConfig.version).toBe(testVersion);
     });
 
+    const originalConsoleInfo = console.warn;
+
+    beforeEach(() => {
+      console.info = vi.fn();
+    });
+
+    afterEach(() => {
+      console.info = originalConsoleInfo;
+    });
     it("logs info with registered version", async () => {
       expect(console.info).not.toHaveBeenCalled();
       config = await loadConfig();

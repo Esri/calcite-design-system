@@ -30,7 +30,8 @@ export default defineConfig({
         enabled: true,
         waitForChangesDelay: 100,
         launchOptions: {
-          devtools: process.env.PUPPETEER_DEBUG === "true",
+          devtools: process.env.DEVTOOLS === "true",
+          headless: process.env.HEADLESS === "false" ? false : undefined,
         },
       },
     }),
@@ -62,6 +63,7 @@ export default defineConfig({
   },
   test: {
     setupFiles: ["src/tests/setupTests.ts"],
+    include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
   },
   /*
    * While useLumina() pre-configures everything for you, you can still

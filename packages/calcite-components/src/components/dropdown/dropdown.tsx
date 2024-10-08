@@ -194,19 +194,19 @@ export class Dropdown
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteDropdownBeforeClose = createEvent<void>({ cancelable: false });
+  calciteDropdownBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteDropdownBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteDropdownBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteDropdownClose = createEvent<void>({ cancelable: false });
+  calciteDropdownClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteDropdownOpen = createEvent<void>({ cancelable: false });
+  calciteDropdownOpen = createEvent({ cancelable: false });
 
   /** Fires when a `calcite-dropdown-item`'s selection changes. */
-  calciteDropdownSelect = createEvent<void>({ cancelable: false });
+  calciteDropdownSelect = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -285,6 +285,7 @@ export class Dropdown
   }
 
   loaded(): void {
+    this.updateSelectedItems();
     setComponentLoaded(this);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }

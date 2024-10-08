@@ -115,7 +115,7 @@ export class AccordionItem extends LitElement implements LoadableComponent {
   // #region Events
 
   /** @notPublic */
-  calciteInternalAccordionItemClose = createEvent<void>({ cancelable: false });
+  calciteInternalAccordionItemClose = createEvent({ cancelable: false });
 
   /** @notPublic */
   calciteInternalAccordionItemSelect = createEvent<RequestedItem>({ cancelable: false });

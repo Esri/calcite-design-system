@@ -84,7 +84,7 @@ export class CardGroup extends LitElement implements InteractiveComponent, Loada
   // #region Events
 
   /** Emits when the component's selection changes and the `selectionMode` is not `none`. */
-  calciteCardGroupSelect = createEvent<void>({ cancelable: false });
+  calciteCardGroupSelect = createEvent({ cancelable: false });
 
   // #endregion
 

@@ -862,7 +862,7 @@ describe("calcite-color-picker", () => {
 
     it("ignores unsupported value types", () => assertUnsupportedValue(page, "unsupported-color-format"));
 
-    it("ignores null when not allowed", () => assertUnsupportedValue(page, null));
+    it("ignores null when not allowed", () => assertUnsupportedValue(page, undefined));
   });
 
   describe("normalizes shorthand CSS hex", () => {
@@ -912,18 +912,16 @@ describe("calcite-color-picker", () => {
     });
 
     it("value as property", async () => {
-      // initialize page with calcite-color-picker to make it available in the evaluate callback below
       const page = await newE2EPage({
-        html: "<calcite-color-picker></calcite-color-picker>",
+        html: "",
       });
-      await page.setContent("");
 
       await page.evaluate(async (color) => {
         const picker = document.createElement("calcite-color-picker");
         picker.value = color;
         document.body.append(picker);
 
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await picker.componentOnReady();
       }, initialColor);
 
       expect(await getInternalColorAsHex(page)).toBe(initialColor);
@@ -1338,7 +1336,7 @@ describe("calcite-color-picker", () => {
 
               await clearAndEnterHexOrChannelValue(page, hexInput, "");
 
-              expect(await picker.getProperty("value")).toBe(null);
+              expect(await picker.getProperty("value")).toBe(undefined);
             });
 
             it("clears color via RGB channel inputs", async () => {
@@ -1357,7 +1355,7 @@ describe("calcite-color-picker", () => {
               expect(await gInput.getProperty("value")).toBe("");
               expect(await bInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
 
             it("clears color via HSV channel inputs", async () => {
@@ -1377,7 +1375,7 @@ describe("calcite-color-picker", () => {
               expect(await sInput.getProperty("value")).toBe("");
               expect(await vInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
           });
         });
@@ -1928,7 +1926,7 @@ describe("calcite-color-picker", () => {
               const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
               await clearAndEnterHexOrChannelValue(page, hexInput, "");
 
-              expect(await picker.getProperty("value")).toBe(null);
+              expect(await picker.getProperty("value")).toBe(undefined);
             });
 
             it("clears color via RGB channel inputs", async () => {
@@ -1952,7 +1950,7 @@ describe("calcite-color-picker", () => {
               expect(await bInput.getProperty("value")).toBe("");
               expect(await rgbAInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
 
             it("clears color via HSV channel inputs", async () => {
@@ -1977,7 +1975,7 @@ describe("calcite-color-picker", () => {
               expect(await vInput.getProperty("value")).toBe("");
               expect(await hsvAInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
           });
         });
@@ -2211,16 +2209,16 @@ describe("calcite-color-picker", () => {
 
     const color = await page.find("calcite-color-picker");
 
-    expect(await color.getProperty("value")).not.toBe(null);
-    expect(await color.getProperty("color")).not.toBe(null);
+    expect(await color.getProperty("value")).not.toBe(undefined);
+    expect(await color.getProperty("color")).not.toBe(undefined);
 
-    color.setProperty("value", null);
+    color.setProperty("value", undefined);
     await page.waitForChanges();
 
-    expect(await color.getProperty("value")).toBe(null);
-    expect(await color.getProperty("color")).toBe(null);
+    expect(await color.getProperty("value")).toBe(undefined);
+    expect(await color.getProperty("color")).toBe(undefined);
 
-    expect(() => assertUnsupportedValueMessage(null, "auto")).toThrow();
+    expect(() => assertUnsupportedValueMessage(undefined, "auto")).toThrow();
   });
 
   it("allows hiding sections", async () => {

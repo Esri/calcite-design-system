@@ -162,7 +162,7 @@ export class ValueListItem
   /** Fires when the remove button is pressed. */
 
   // wrapped pick-list-item emits this
-  calciteListItemRemove = createEvent<void>();
+  calciteListItemRemove = createEvent();
 
   /** @notPublic */
   calciteValueListItemDragHandleBlur = createEvent<ListItemAndHandle>({ cancelable: false });

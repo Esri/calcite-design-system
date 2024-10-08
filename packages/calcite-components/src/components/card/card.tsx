@@ -145,7 +145,7 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
   // #region Events
 
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
-  calciteCardSelect = createEvent<void>({ cancelable: false });
+  calciteCardSelect = createEvent({ cancelable: false });
 
   /** @notPublic */
   calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });

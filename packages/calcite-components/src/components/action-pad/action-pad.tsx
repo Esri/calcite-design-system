@@ -116,7 +116,7 @@ export class ActionPad extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Fires when the `expanded` property is toggled. */
-  calciteActionPadToggle = createEvent<void>({ cancelable: false });
+  calciteActionPadToggle = createEvent({ cancelable: false });
 
   // #endregion
 

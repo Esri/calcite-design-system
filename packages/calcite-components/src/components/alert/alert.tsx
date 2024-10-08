@@ -194,16 +194,16 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteAlertBeforeClose = createEvent<void>({ cancelable: false });
+  calciteAlertBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteAlertBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteAlertBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component is closed and animation is complete. */
-  calciteAlertClose = createEvent<void>({ cancelable: false });
+  calciteAlertClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteAlertOpen = createEvent<void>({ cancelable: false });
+  calciteAlertOpen = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -217,7 +217,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     }
 
     this.numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       signDisplay: "always",
     };
@@ -333,7 +333,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   private effectiveLocaleChange(): void {
     this.numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       signDisplay: "always",
     };
@@ -341,7 +341,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   private numberingSystemChange(): void {
     this.numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       signDisplay: "always",
     };

@@ -70,7 +70,7 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @property() messages = useT9n<typeof T9nStrings>();
+  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
@@ -104,7 +104,7 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
   // #region Events
 
   /** Fires whenever the component is selected or unselected. */
-  calciteHandleChange = createEvent<void>({ cancelable: false });
+  calciteHandleChange = createEvent({ cancelable: false });
 
   /** Fires when the handle is selected and the up or down arrow key is pressed. */
   calciteHandleNudge = createEvent<HandleNudge>({ cancelable: false });
@@ -137,8 +137,7 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("messages") &&
-        (this.hasUpdated || this.messages !== useT9n<typeof T9nStrings>())) ||
+      changes.has("messages") ||
       changes.has("label") ||
       (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
       changes.has("setPosition") ||

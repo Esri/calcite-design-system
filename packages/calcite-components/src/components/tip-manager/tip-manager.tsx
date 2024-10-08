@@ -61,7 +61,7 @@ export class TipManager extends LitElement {
   @property({ reflect: true }) closed = false;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ reflect: true, type: Number }) headingLevel: HeadingLevel;
 
   /** Use this property to override individual strings used by the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -101,7 +101,7 @@ export class TipManager extends LitElement {
   // #region Events
 
   /** Emits when the component has been closed. */
-  calciteTipManagerClose = createEvent<void>({ cancelable: false });
+  calciteTipManagerClose = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -110,10 +110,6 @@ export class TipManager extends LitElement {
   override connectedCallback(): void {
     this.setUpTips();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  async load(): Promise<void> {
-    this.updateGroupTitle();
   }
 
   /**
@@ -137,6 +133,10 @@ export class TipManager extends LitElement {
     if (changes.has("messages")) {
       this.effectiveLocaleChange();
     }
+  }
+
+  loaded(): void {
+    this.updateGroupTitle();
   }
 
   override disconnectedCallback(): void {

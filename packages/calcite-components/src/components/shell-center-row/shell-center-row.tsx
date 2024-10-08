@@ -41,6 +41,16 @@ export class ShellCenterRow extends LitElement {
 
   // #endregion
 
+  // #region Lifecycle
+
+  loaded(): void {
+    if (this.actionBar?.position === "end") {
+      this.requestUpdate();
+    }
+  }
+
+  // #endregion
+
   // #region Private Methods
 
   private handleActionBarSlotChange(event: Event): void {

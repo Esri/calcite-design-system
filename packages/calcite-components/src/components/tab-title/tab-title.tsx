@@ -196,7 +196,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   // #region Events
 
   /** @notPublic */
-  calciteInternalTabIconChanged = createEvent<void>({ cancelable: false });
+  calciteInternalTabIconChanged = createEvent({ cancelable: false });
 
   /** @notPublic */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
@@ -218,22 +218,22 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalTabsFocusFirst = createEvent<void>({ cancelable: false });
+  calciteInternalTabsFocusFirst = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalTabsFocusLast = createEvent<void>({ cancelable: false });
+  calciteInternalTabsFocusLast = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalTabsFocusNext = createEvent<void>({ cancelable: false });
+  calciteInternalTabsFocusNext = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalTabsFocusPrevious = createEvent<void>({ cancelable: false });
+  calciteInternalTabsFocusPrevious = createEvent({ cancelable: false });
 
   /** Fires when a `calcite-tab` is selected. */
-  calciteTabsActivate = createEvent<void>({ cancelable: false });
+  calciteTabsActivate = createEvent({ cancelable: false });
 
   /** Fires when a `calcite-tab` is closed. */
-  calciteTabsClose = createEvent<void>({ cancelable: false });
+  calciteTabsClose = createEvent({ cancelable: false });
 
   // #endregion
 

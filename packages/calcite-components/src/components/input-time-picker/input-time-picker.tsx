@@ -1,4 +1,3 @@
-import { FocusTrap } from "focus-trap";
 import dayjs from "dayjs/esm";
 import customParseFormat from "dayjs/esm/plugin/customParseFormat";
 import localeData from "dayjs/esm/plugin/localeData";
@@ -39,12 +38,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { NumberingSystem, numberStringFormatter, SupportedLocale } from "../../utils/locale";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrapComponent,
-} from "../../utils/focusTrapComponent";
 import {
   formatTimePart,
   formatTimeString,
@@ -148,7 +141,6 @@ export class InputTimePicker
   extends LitElement
   implements
     FloatingUIComponent,
-    FocusTrapComponent,
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
@@ -168,10 +160,6 @@ export class InputTimePicker
 
   defaultValue: InputTimePicker["value"];
 
-  private focusOnOpen = false;
-
-  focusTrap: FocusTrap;
-
   formEl: HTMLFormElement;
 
   labelEl: Label["el"];
@@ -182,6 +170,8 @@ export class InputTimePicker
 
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
+
+  private _value = null;
 
   // #endregion
 
@@ -304,7 +294,18 @@ export class InputTimePicker
   };
 
   /** The time value in ISO (24-hour) format. */
-  @property() value: string = null;
+  @property()
+  get value(): string {
+    return this._value;
+  }
+
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value);
+    }
+  }
 
   // #endregion
 
@@ -332,19 +333,19 @@ export class InputTimePicker
   // #region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteInputTimePickerBeforeClose = createEvent<void>({ cancelable: false });
+  calciteInputTimePickerBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteInputTimePickerBeforeOpen = createEvent<void>({ cancelable: false });
+  calciteInputTimePickerBeforeOpen = createEvent({ cancelable: false });
 
   /** Fires when the component's `value` is changes. */
-  calciteInputTimePickerChange = createEvent<void>();
+  calciteInputTimePickerChange = createEvent();
 
   /** Fires when the component is closed and animation is complete. */
-  calciteInputTimePickerClose = createEvent<void>({ cancelable: false });
+  calciteInputTimePickerClose = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
-  calciteInputTimePickerOpen = createEvent<void>({ cancelable: false });
+  calciteInputTimePickerOpen = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -386,10 +387,6 @@ export class InputTimePicker
       this.openHandler();
     }
 
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledAndReadOnlyChange(this.disabled);
     }
@@ -406,12 +403,8 @@ export class InputTimePicker
       this.stepWatcher(this.step, changes.get("step"));
     }
 
-    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
-      this.valueWatcher(this.value);
-    }
-
     if (changes.has("messages")) {
-      this.effectiveLocaleWatcher(this.messages._t9nLocale);
+      this.effectiveLocaleWatcher(this.messages._lang);
     }
   }
 
@@ -425,7 +418,7 @@ export class InputTimePicker
       this.setInputValue(
         localizeTimeString({
           value: this.value,
-          locale: this.messages._t9nLocale,
+          locale: this.messages._lang,
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
           fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
@@ -437,7 +430,6 @@ export class InputTimePicker
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    deactivateFocusTrap(this);
   }
 
   // #endregion
@@ -454,14 +446,6 @@ export class InputTimePicker
     this.popoverEl.open = this.open;
   }
 
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
-  }
-
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
       this.open = false;
@@ -472,7 +456,7 @@ export class InputTimePicker
     this.setInputValue(
       localizeTimeString({
         value: this.value,
-        locale: this.messages._t9nLocale,
+        locale: this.messages._lang,
         numberingSystem,
         includeSeconds: this.shouldIncludeSeconds(),
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
@@ -525,7 +509,7 @@ export class InputTimePicker
 
     const localizedTimeString = localizeTimeString({
       value: this.value,
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       includeSeconds: this.shouldIncludeSeconds(),
       fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
@@ -546,7 +530,7 @@ export class InputTimePicker
 
   private calciteInternalInputInputHandler(event: CustomEvent): void {
     const {
-      messages: { _t9nLocale: locale },
+      messages: { _lang: locale },
       numberingSystem,
     } = this;
 
@@ -582,7 +566,7 @@ export class InputTimePicker
     this.setInputValue(
       localizeTimeString({
         value,
-        locale: this.messages._t9nLocale,
+        locale: this.messages._lang,
         numberingSystem: this.numberingSystem,
         includeSeconds,
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
@@ -598,15 +582,6 @@ export class InputTimePicker
   private popoverOpenHandler(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteInputTimePickerOpen.emit();
-
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
   }
 
   private popoverBeforeCloseHandler(event: CustomEvent<void>): void {
@@ -617,13 +592,6 @@ export class InputTimePicker
   private popoverCloseHandler(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteInputTimePickerClose.emit();
-
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      },
-    });
     this.open = false;
   }
 
@@ -633,7 +601,7 @@ export class InputTimePicker
 
   private delocalizeTimeString(value: string): string {
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
-    dayjs.locale(this.messages._t9nLocale.toLowerCase());
+    dayjs.locale(this.messages._lang.toLowerCase());
 
     const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
 
@@ -697,7 +665,7 @@ export class InputTimePicker
     }
 
     dayjs.updateLocale(
-      this.getSupportedDayjsLocale(getSupportedLocale(this.messages._t9nLocale)),
+      this.getSupportedDayjsLocale(getSupportedLocale(this.messages._lang)),
       this.localeConfig as Record<string, any>,
     );
 
@@ -761,7 +729,7 @@ export class InputTimePicker
 
         const localizedTimeString = localizeTimeString({
           value: this.value,
-          locale: this.messages._t9nLocale,
+          locale: this.messages._lang,
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
           fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
@@ -773,12 +741,7 @@ export class InputTimePicker
       }
     } else if (key === "ArrowDown") {
       this.open = true;
-      this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape" && this.open) {
-      this.open = false;
-      event.preventDefault();
-      this.calciteInputEl.setFocus();
     }
   }
 
@@ -794,7 +757,7 @@ export class InputTimePicker
   }
 
   private async loadDateTimeLocaleData(): Promise<void> {
-    let supportedLocale = getSupportedLocale(this.messages._t9nLocale).toLowerCase();
+    let supportedLocale = getSupportedLocale(this.messages._lang).toLowerCase();
 
     supportedLocale = this.getSupportedDayjsLocale(supportedLocale);
 
@@ -905,13 +868,6 @@ export class InputTimePicker
 
   private setCalciteTimePickerEl(el: TimePicker["el"]): void {
     this.calciteTimePickerEl = el;
-    connectFocusTrap(this, {
-      focusTrapEl: el,
-      focusTrapOptions: {
-        initialFocus: false,
-        setReturnFocus: false,
-      },
-    });
   }
 
   private setInputValue(newInputValue: string): void {
@@ -946,7 +902,7 @@ export class InputTimePicker
       this.setInputValue(
         localizeTimeString({
           value: oldValue,
-          locale: this.messages._t9nLocale,
+          locale: this.messages._lang,
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
           fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
@@ -969,7 +925,7 @@ export class InputTimePicker
         ? localizeTimeString({
             value: this.value,
             includeSeconds,
-            locale: this.messages._t9nLocale,
+            locale: this.messages._lang,
             numberingSystem: this.numberingSystem,
             fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
           })
@@ -1002,7 +958,7 @@ export class InputTimePicker
             disabled={disabled}
             icon="clock"
             label={getLabelText(this)}
-            lang={this.messages._t9nLocale}
+            lang={this.messages._lang}
             oncalciteInputTextInput={this.calciteInternalInputInputHandler}
             oncalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
@@ -1016,9 +972,9 @@ export class InputTimePicker
         </div>
         <calcite-popover
           autoClose={true}
-          focusTrapDisabled={true}
+          focusTrapDisabled={this.focusTrapDisabled}
           label={messages.chooseTime}
-          lang={this.messages._t9nLocale}
+          lang={this.messages._lang}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
           oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
           oncalcitePopoverClose={this.popoverCloseHandler}
@@ -1030,7 +986,7 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            lang={this.messages._t9nLocale}
+            lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             oncalciteInternalTimePickerChange={this.timePickerChangeHandler}

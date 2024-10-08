@@ -166,10 +166,10 @@ export class Table extends LitElement implements LoadableComponent {
   calciteInternalTableRowFocusChange = createEvent<TableRowFocusEvent>({ cancelable: false });
 
   /** Emits when the component's page selection changes. */
-  calciteTablePageChange = createEvent<void>({ cancelable: false });
+  calciteTablePageChange = createEvent({ cancelable: false });
 
   /** Emits when the component's selected rows change. */
-  calciteTableSelect = createEvent<void>({ cancelable: false });
+  calciteTableSelect = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -394,7 +394,7 @@ export class Table extends LitElement implements LoadableComponent {
 
   private localizeNumber(value: number | string): string {
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };

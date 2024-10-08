@@ -142,6 +142,8 @@ export class InputNumber
 
   private userChangedValue = false;
 
+  private _value = "";
+
   // #endregion
 
   // #region State Properties
@@ -373,7 +375,24 @@ export class InputNumber
   };
 
   /** The component's value. */
-  @property() value = "";
+  @property()
+  get value(): string {
+    return this._value;
+  }
+
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value, oldValue);
+      if (value && this._value === "") {
+        this.setNumberValue({
+          origin: "reset",
+          value: oldValue,
+        });
+      }
+    }
+  }
 
   // #endregion
 
@@ -398,16 +417,16 @@ export class InputNumber
   // #region Events
 
   /** Fires each time a new value is typed and committed. */
-  calciteInputNumberChange = createEvent<void>({ cancelable: false });
+  calciteInputNumberChange = createEvent({ cancelable: false });
 
   /** Fires each time a new value is typed. */
-  calciteInputNumberInput = createEvent<void>();
+  calciteInputNumberInput = createEvent();
 
   /** @notPublic */
-  calciteInternalInputNumberBlur = createEvent<void>({ cancelable: false });
+  calciteInternalInputNumberBlur = createEvent({ cancelable: false });
 
   /** @notPublic */
-  calciteInternalInputNumberFocus = createEvent<void>({ cancelable: false });
+  calciteInternalInputNumberFocus = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -454,40 +473,11 @@ export class InputNumber
   }
 
   /**
-   * TODO: [MIGRATION] consider whether in this case migrating to `hasChanged()` parameter on `@property()` decorator would be better than using shouldUpdate
-   * https://lit.dev/docs/components/properties/#haschanged
-   * Otherwise, you should simplify the code inserted by the codemod a bit (merge shouldUpdate and _shouldUpdate into one method)
-   *
-   * @param changes
-   */
-  override shouldUpdate(changes: Map<string, any>): boolean {
-    return [...changes.entries()].some(([property, oldValue]) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this._shouldUpdate((this as any)[property], oldValue, property),
-    );
-  }
-
-  _shouldUpdate(newValue: string, oldValue: string, property: string): boolean {
-    if (property === "value" && newValue && !isValidNumber(newValue)) {
-      this.setNumberValue({
-        origin: "reset",
-        value: oldValue,
-      });
-      return false;
-    }
-    return true;
-  }
-
-  /**
    * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *
    * @param changes
    */
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("autofocus")) {
       this.handleGlobalAttributesChanged();
     }
@@ -500,16 +490,12 @@ export class InputNumber
       this.minWatcher();
     }
 
-    if (changes.has("value") && (this.hasUpdated || this.value !== "")) {
-      this.valueWatcher(this.value, changes.get("value"));
-    }
-
     if (changes.has("icon")) {
       this.updateRequestedIcon();
     }
 
     if (changes.has("messages")) {
-      this.effectiveLocaleWatcher(this.messages._t9nLocale);
+      this.effectiveLocaleWatcher(this.messages._lang);
     }
   }
 
@@ -550,7 +536,7 @@ export class InputNumber
     this.minString = this.min?.toString() || null;
   }
 
-  private valueWatcher(newValue: string, previousValue?: string): void {
+  private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       if (newValue === "Infinity" || newValue === "-Infinity") {
         this.displayedValue = newValue;
@@ -702,7 +688,7 @@ export class InputNumber
 
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -774,7 +760,7 @@ export class InputNumber
     }
 
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -899,7 +885,7 @@ export class InputNumber
     value: string;
   }): void {
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };

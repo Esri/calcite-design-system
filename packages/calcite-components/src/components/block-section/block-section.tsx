@@ -91,7 +91,7 @@ export class BlockSection extends LitElement implements LoadableComponent {
   // #region Events
 
   /** Fires when the header has been clicked. */
-  calciteBlockSectionToggle = createEvent<void>({ cancelable: false });
+  calciteBlockSectionToggle = createEvent({ cancelable: false });
 
   // #endregion
 

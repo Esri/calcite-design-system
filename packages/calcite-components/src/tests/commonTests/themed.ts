@@ -1,5 +1,4 @@
 import { toHaveNoViolations } from "jest-axe";
-import { ElementHandle } from "puppeteer";
 import type { RequireExactlyOne } from "type-fest";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
@@ -237,11 +236,7 @@ async function getComputedStylePropertyValue(
   property: string,
   pseudoElement?: string,
 ): Promise<string> {
-  type E2EElementInternal = E2EElement & {
-    _elmHandle: ElementHandle;
-  };
-
-  return await (element as E2EElementInternal)._elmHandle.evaluate(
+  return await element.handle.evaluate(
     (el, targetProp, pseudoElement): string => window.getComputedStyle(el, pseudoElement).getPropertyValue(targetProp),
     property,
     pseudoElement,

@@ -131,7 +131,7 @@ export class Slider
    */
   private formatValue = (value: number): string => {
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -283,7 +283,7 @@ export class Slider
   @property({ reflect: true }) ticks: number;
 
   /** The component's value. */
-  @property({ reflect: true }) value: null | number | number[] = 0;
+  @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
 
   // #endregion
 
@@ -308,7 +308,7 @@ export class Slider
    * Note: To constantly listen to the drag event,
    * use `calciteSliderInput` instead.
    */
-  calciteSliderChange = createEvent<void>({ cancelable: false });
+  calciteSliderChange = createEvent({ cancelable: false });
 
   /**
    * Fires on all updates to the component.
@@ -317,7 +317,7 @@ export class Slider
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
-  calciteSliderInput = createEvent<void>({ cancelable: false });
+  calciteSliderInput = createEvent({ cancelable: false });
 
   // #endregion
 

@@ -156,7 +156,7 @@ export class PickListItem
    *
    * @notPublic
    */
-  calciteInternalListItemPropsChange = createEvent<void>({ cancelable: false });
+  calciteInternalListItemPropsChange = createEvent({ cancelable: false });
 
   /**
    * Emits when the component's value property is modified.
@@ -177,7 +177,7 @@ export class PickListItem
   }>({ cancelable: false });
 
   /** Fires when the remove button is pressed. */
-  calciteListItemRemove = createEvent<void>();
+  calciteListItemRemove = createEvent();
 
   // #endregion
 

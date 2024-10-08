@@ -164,7 +164,7 @@ export class SegmentedControl
   // #region Events
 
   /** Fires when the `calcite-segmented-control-item` selection changes. */
-  calciteSegmentedControlChange = createEvent<void>({ cancelable: false });
+  calciteSegmentedControlChange = createEvent({ cancelable: false });
 
   // #endregion
 

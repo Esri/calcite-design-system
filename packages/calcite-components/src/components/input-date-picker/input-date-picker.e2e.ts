@@ -233,7 +233,8 @@ describe("calcite-input-date-picker", () => {
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await input.click();
+      const toggleIcon = await input.find(`>>> .${CSS.toggleIcon}`);
+      await toggleIcon.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
 
@@ -691,8 +692,8 @@ describe("calcite-input-date-picker", () => {
       const day = "19";
 
       /* eslint-disable import/no-dynamic-require -- allowing dynamic asset path for maintainability */
-      const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
-      const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
+      const langTranslations = await import(`../date-picker/assets/nls/${lang}.json`);
+      const newLangTranslations = await import(`../date-picker/assets/nls/${newLang}.json`);
       /* eslint-enable import/no-dynamic-require */
 
       const page = await newE2EPage();
@@ -887,12 +888,12 @@ describe("calcite-input-date-picker", () => {
 
     const element = await page.find("calcite-input-date-picker");
 
-    element.setProperty("min", null);
-    element.setProperty("max", null);
+    element.setProperty("min", undefined);
+    element.setProperty("max", undefined);
     await page.waitForChanges();
 
-    expect(await element.getProperty("minAsDate")).toBe(null);
-    expect(await element.getProperty("maxAsDate")).toBe(null);
+    expect(await element.getProperty("minAsDate")).toBe(undefined);
+    expect(await element.getProperty("maxAsDate")).toBe(undefined);
   });
 
   describe("owns a floating-ui", () => {
@@ -1275,7 +1276,8 @@ describe("calcite-input-date-picker", () => {
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await element.click();
+      const toggleIcon = await element.find(`>>> .${CSS.toggleIcon}`);
+      await toggleIcon.click();
       await page.waitForChanges();
       await page.keyboard.type("1/1/20");
       await page.keyboard.press("Enter");

@@ -298,10 +298,10 @@ export class TextArea
   // #region Events
 
   /** Fires each time a new `value` is typed and committed. */
-  calciteTextAreaChange = createEvent<void>();
+  calciteTextAreaChange = createEvent();
 
   /** Fires each time a new `value` is typed. */
-  calciteTextAreaInput = createEvent<void>();
+  calciteTextAreaInput = createEvent();
 
   // #endregion
 
@@ -371,7 +371,7 @@ export class TextArea
     }
 
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._t9nLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       signDisplay: "never",
       useGrouping: this.groupSeparator,
@@ -392,6 +392,9 @@ export class TextArea
   }
 
   private setTextAreaEl(el: HTMLTextAreaElement): void {
+    if (!el) {
+      return;
+    }
     this.textAreaEl = el;
     this.resizeObserver.observe(el);
   }

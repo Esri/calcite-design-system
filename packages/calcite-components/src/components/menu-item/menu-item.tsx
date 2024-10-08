@@ -38,6 +38,8 @@ type Layout = "horizontal" | "vertical";
 export class CalciteMenuItem extends LitElement implements LoadableComponent {
   // #region Static Members
 
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
   static override styles = styles;
 
   // #endregion
@@ -150,7 +152,7 @@ export class CalciteMenuItem extends LitElement implements LoadableComponent {
   calciteInternalMenuItemKeyEvent = createEvent<MenuItemCustomEvent>();
 
   /** Emits when the component is selected. */
-  calciteMenuItemSelect = createEvent<void>();
+  calciteMenuItemSelect = createEvent();
 
   // #endregion
 
@@ -164,8 +166,6 @@ export class CalciteMenuItem extends LitElement implements LoadableComponent {
     this.listen("focus", this.focusHandler);
   }
 
-  override connectedCallback(): void {}
-
   async load(): Promise<void> {
     setUpLoadableComponent(this);
   }
@@ -173,8 +173,6 @@ export class CalciteMenuItem extends LitElement implements LoadableComponent {
   loaded(): void {
     setComponentLoaded(this);
   }
-
-  override disconnectedCallback(): void {}
 
   // #endregion
 

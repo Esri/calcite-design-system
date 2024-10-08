@@ -139,7 +139,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -211,13 +211,13 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
   // #region Events
 
   /** Fires when the close button is clicked. */
-  calcitePanelClose = createEvent<void>({ cancelable: false });
+  calcitePanelClose = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
-  calcitePanelScroll = createEvent<void>({ cancelable: false });
+  calcitePanelScroll = createEvent({ cancelable: false });
 
   /** Fires when the collapse button is clicked. */
-  calcitePanelToggle = createEvent<void>({ cancelable: false });
+  calcitePanelToggle = createEvent({ cancelable: false });
 
   // #endregion
 

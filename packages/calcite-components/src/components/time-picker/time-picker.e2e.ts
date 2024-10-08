@@ -843,7 +843,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Delete");
       await page.waitForChanges();
 
-      expect(await timePicker.getProperty("value")).toBeNull();
+      expect(await timePicker.getProperty("value")).toBeUndefined();
       expect(hour.textContent).toBe("--");
       expect(minute.textContent).toBe("--");
       expect(second.textContent).toBe("--");
@@ -1215,7 +1215,7 @@ describe("calcite-time-picker", () => {
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
-      expect(fractionalSecondEl.innerHTML).toEqual("0");
+      expect(fractionalSecondEl.textContent).toEqual("0");
     });
 
     it("upward nudge of empty fractional second sets to 00 for step=0.01", async () => {
@@ -1229,7 +1229,7 @@ describe("calcite-time-picker", () => {
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
-      expect(fractionalSecondEl.innerHTML).toEqual("00");
+      expect(fractionalSecondEl.textContent).toEqual("00");
     });
 
     it("upward nudge of empty fractional second sets to 000 for step=0.001", async () => {
@@ -1243,7 +1243,7 @@ describe("calcite-time-picker", () => {
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
-      expect(fractionalSecondEl.innerHTML).toEqual("000");
+      expect(fractionalSecondEl.textContent).toEqual("000");
     });
   });
 });
