@@ -609,9 +609,16 @@ export class Dialog
       dragPosition: { x, y },
       resizePosition,
       transitionEl,
+      dragEnabled,
+      resizable,
     } = this;
 
     if (!transitionEl) {
+      return;
+    }
+
+    if (!dragEnabled && !resizable) {
+      transitionEl.style.transform = null;
       return;
     }
 
