@@ -10,10 +10,6 @@
     w-full;
 }
 
-.month-header {
-  @apply flex w-full justify-between;
-}
-
 :host([scale="s"]) {
   inline-size: 236px;
   min-inline-size: 216px;

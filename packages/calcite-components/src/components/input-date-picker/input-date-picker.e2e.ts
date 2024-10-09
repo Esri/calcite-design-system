@@ -97,13 +97,8 @@ describe("calcite-input-date-picker", () => {
       await input.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
-      const wrapper = await page.waitForFunction(
-        (calendarWrapperClass: string) =>
-          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(`.${calendarWrapperClass}`),
-        {},
-        CSS.calendarWrapper,
-      );
-      expect(await wrapper.isIntersectingViewport()).toBe(true);
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
 
       await page.keyboard.type("3/7/2020");
       await page.keyboard.press("Enter");
@@ -170,14 +165,8 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
 
-      const wrapper = await page.waitForFunction(
-        (calendarWrapperClass: string) =>
-          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(`.${calendarWrapperClass}`),
-        {},
-        CSS.calendarWrapper,
-      );
-
-      expect(await wrapper.isIntersectingViewport()).toBe(true);
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
 
       const inputtedStartDate = "1/1/2020";
       const expectedStartDateComponentValue = "2020-01-01";
@@ -191,7 +180,7 @@ describe("calcite-input-date-picker", () => {
 
       expect(await inputDatePicker.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(await wrapper.isIntersectingViewport()).toBe(true);
+      expect(await calendar.isVisible()).toBe(true);
 
       await page.keyboard.type(inputtedEndDate);
       await page.keyboard.press("Enter");
