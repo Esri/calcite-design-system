@@ -217,6 +217,9 @@ export class StepperItem
   }
 
   async componentWillLoad(): Promise<void> {
+    if (this.el.hidden) {
+      return;
+    }
     setUpLoadableComponent(this);
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
     this.itemPosition = this.getItemPosition();
@@ -229,7 +232,9 @@ export class StepperItem
   }
 
   componentDidLoad(): void {
-    setComponentLoaded(this);
+    if (!this.el.hidden) {
+      setComponentLoaded(this);
+    }
   }
 
   componentDidRender(): void {
@@ -253,7 +258,7 @@ export class StepperItem
           <div class={CSS.container}>
             {this.complete && (
               <span aria-live="polite" class={CSS.visuallyHidden}>
-                {this.messages.complete}
+                {this.messages?.complete}
               </span>
             )}
             <div
@@ -415,9 +420,9 @@ export class StepperItem
   };
 
   private getItemPosition(): number {
-    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
-      this.el,
-    );
+    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item"))
+      .filter((s) => !s.hidden)
+      .indexOf(this.el);
   }
 
   renderNumbers(): string {

@@ -507,7 +507,8 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   handleDefaultSlotChange = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteStepperItemElement => el?.tagName === "CALCITE-STEPPER-ITEM",
+      (el): el is HTMLCalciteStepperItemElement =>
+        el?.tagName === "CALCITE-STEPPER-ITEM" && !(el as HTMLCalciteStepperItemElement)?.hidden,
     );
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");
