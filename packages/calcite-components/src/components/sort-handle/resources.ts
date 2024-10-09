@@ -7,6 +7,7 @@ export const CSS = {
 
 export const ICONS = {
   drag: "drag",
+  blank: "blank",
 } as const;
 
 export const SUBSTITUTIONS = {

@@ -338,8 +338,7 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
             active={open}
             appearance="transparent"
             class={CSS.handle}
-            disabled={isDisabled}
-            icon={ICONS.drag}
+            icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
             scale="s"
             slot="trigger"
