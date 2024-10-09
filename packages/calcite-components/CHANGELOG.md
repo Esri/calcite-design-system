@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.6...@esri/calcite-components@2.14.0-next.7) (2024-10-08)
+
+### Bug Fixes
+
+- **dialog:** no longer apply transform styling unless dragEnabled or resizable ([#10503](https://github.com/Esri/calcite-design-system/issues/10503)) ([8234acb](https://github.com/Esri/calcite-design-system/commit/8234acbe07184386bcce56a9a204f2203b8206e3)), closes [#10500](https://github.com/Esri/calcite-design-system/issues/10500)
+
 ## [2.14.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.5...@esri/calcite-components@2.14.0-next.6) (2024-10-07)
 
 ### Features

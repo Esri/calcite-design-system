@@ -2,9 +2,17 @@ import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { Height, Position, Scale } from "../interfaces";
 import { getHeight } from "../../utils/dynamicCSSConst";
+import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
 
+logger.deprecated("component", {
+  name: "shell-center-row",
+  removalVersion: 4,
+  suggested: "shell-panel",
+});
+
 /**
+ * @deprecated Use the `calcite-shell-panel` component instead.
  * @slot - A slot for adding content to the `calcite-shell-panel`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the `calcite-shell-panel`.
  */
