@@ -9025,5 +9025,15 @@
     "alias": ["3.32.0", "windows", "measure", "objects", "statistics", "measurements"],
     "category": "Windows",
     "release": "3.32.0"
+  },
+  "replica-sync-enable": {
+    "alias": ["3.33.0", "gis", "toggle", "features", "synchronize", "replication", "layer"],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "portal-other": {
+    "alias": ["3.33.0", "gis", "layers", "data", "reference"],
+    "category": "GIS",
+    "release": "3.33.0"
   }
 }
