@@ -9032,7 +9032,7 @@
     "release": "3.33.0"
   },
   "portal-other": {
-    "alias": ["3.33.0", "gis", "layers", "data", "reference"],
+    "alias": ["3.33.0", "gis", "layers", "data", "reference", "enterprise"],
     "category": "GIS",
     "release": "3.33.0"
   }
