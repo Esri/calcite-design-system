@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, Height, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -100,7 +100,7 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, Height, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -829,9 +829,9 @@ export namespace Components {
          */
         "type": string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteCard {
         /**
@@ -1799,6 +1799,11 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale": Scale;
     }
     interface CalciteDropdown {
@@ -1855,6 +1860,11 @@ export namespace Components {
         "type": "hover" | "click";
         /**
           * Specifies the width of the component.
+         */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale": Scale;
     }
@@ -3622,6 +3632,11 @@ export namespace Components {
         /**
           * Specifies the width of the component.
          */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale": Scale;
     }
     interface CalciteNavigation {
@@ -3765,9 +3780,9 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteOption {
         /**
@@ -4404,7 +4419,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -4499,9 +4514,9 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteSheet {
         /**
@@ -4526,7 +4541,12 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height": Height;
+        /**
           * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale": Scale;
         /**
@@ -4558,7 +4578,12 @@ export namespace Components {
          */
         "updateFocusTrapElements": () => Promise<void>;
         /**
+          * Specifies the width of the component.
+         */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale": Scale;
     }
@@ -4568,13 +4593,21 @@ export namespace Components {
          */
         "contentBehind": boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
          */
         "detached": boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height": Height;
+        /**
           * Specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale": Scale;
         /**
@@ -4594,7 +4627,7 @@ export namespace Components {
         "detached": boolean;
         /**
           * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
-          * @deprecated Use `heightScale` instead.
+          * @deprecated Use the `height` property instead.
          */
         "detachedHeightScale": Scale;
         /**
@@ -4602,7 +4635,12 @@ export namespace Components {
          */
         "displayMode": DisplayMode1;
         /**
+          * Specifies the height of the component.
+         */
+        "height": Height;
+        /**
           * When `layout` is `horizontal`, specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale": Scale;
         /**
@@ -4626,7 +4664,12 @@ export namespace Components {
          */
         "resizable": boolean;
         /**
+          * Specifies the width of the component.
+         */
+        "width": Extract<"s" | "m" | "l", Width>;
+        /**
           * When `layout` is `vertical`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale": Scale;
     }
@@ -4857,9 +4900,9 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width": Width;
+        "width": Extract<"auto" | "full", Width>;
     }
     interface CalciteStack {
         /**
@@ -5622,7 +5665,7 @@ export namespace Components {
          */
         "value": any;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width": Extract<"auto" | "full", Width>;
     }
@@ -7553,6 +7596,9 @@ declare global {
         prototype: HTMLCalciteShellElement;
         new (): HTMLCalciteShellElement;
     };
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface HTMLCalciteShellCenterRowElement extends Components.CalciteShellCenterRow, HTMLStencilElement {
     }
     var HTMLCalciteShellCenterRowElement: {
@@ -8808,9 +8854,9 @@ declare namespace LocalJSX {
          */
         "type"?: string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteCard {
         /**
@@ -9857,6 +9903,11 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale"?: Scale;
     }
     interface CalciteDropdown {
@@ -9924,6 +9975,11 @@ declare namespace LocalJSX {
         "type"?: "hover" | "click";
         /**
           * Specifies the width of the component.
+         */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale"?: Scale;
     }
@@ -11784,6 +11840,11 @@ declare namespace LocalJSX {
         /**
           * Specifies the width of the component.
          */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
+          * Specifies the width of the component.
+          * @deprecated Use the `width` property instead.
+         */
         "widthScale"?: Scale;
     }
     interface CalciteNavigation {
@@ -11931,9 +11992,9 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteOption {
         /**
@@ -12588,7 +12649,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
@@ -12687,9 +12748,9 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteSheet {
         /**
@@ -12714,7 +12775,12 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height"?: Height;
+        /**
           * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale"?: Scale;
         /**
@@ -12754,7 +12820,12 @@ declare namespace LocalJSX {
          */
         "position"?: LogicalFlowPosition;
         /**
+          * Specifies the width of the component.
+         */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale"?: Scale;
     }
@@ -12764,13 +12835,21 @@ declare namespace LocalJSX {
          */
         "contentBehind"?: boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
          */
         "detached"?: boolean;
         /**
+          * Specifies the height of the component.
+         */
+        "height"?: Height;
+        /**
           * Specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale"?: Scale;
         /**
@@ -12790,7 +12869,7 @@ declare namespace LocalJSX {
         "detached"?: boolean;
         /**
           * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
-          * @deprecated Use `heightScale` instead.
+          * @deprecated Use the `height` property instead.
          */
         "detachedHeightScale"?: Scale;
         /**
@@ -12798,7 +12877,12 @@ declare namespace LocalJSX {
          */
         "displayMode"?: DisplayMode1;
         /**
+          * Specifies the height of the component.
+         */
+        "height"?: Height;
+        /**
           * When `layout` is `horizontal`, specifies the maximum height of the component.
+          * @deprecated Use the `height` property instead.
          */
         "heightScale"?: Scale;
         /**
@@ -12824,7 +12908,12 @@ declare namespace LocalJSX {
          */
         "resizable"?: boolean;
         /**
+          * Specifies the width of the component.
+         */
+        "width"?: Extract<"s" | "m" | "l", Width>;
+        /**
           * When `layout` is `vertical`, specifies the width of the component.
+          * @deprecated Use the `width` property instead.
          */
         "widthScale"?: Scale;
     }
@@ -13067,9 +13156,9 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
-        "width"?: Width;
+        "width"?: Extract<"auto" | "full", Width>;
     }
     interface CalciteStack {
         /**
@@ -13844,7 +13933,7 @@ declare namespace LocalJSX {
          */
         "value"?: any;
         /**
-          * Specifies the width of the component.
+          * Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead.
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
@@ -14428,6 +14517,9 @@ declare module "@stencil/core" {
             "calcite-select": LocalJSX.CalciteSelect & JSXBase.HTMLAttributes<HTMLCalciteSelectElement>;
             "calcite-sheet": LocalJSX.CalciteSheet & JSXBase.HTMLAttributes<HTMLCalciteSheetElement>;
             "calcite-shell": LocalJSX.CalciteShell & JSXBase.HTMLAttributes<HTMLCalciteShellElement>;
+            /**
+             * @deprecated Use the `calcite-shell-panel` component instead.
+             */
             "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
             "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
             "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;

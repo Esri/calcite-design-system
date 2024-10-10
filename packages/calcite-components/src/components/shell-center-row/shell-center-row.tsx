@@ -1,6 +1,7 @@
-import { Component, Element, Fragment, h, Prop, State, VNode } from "@stencil/core";
-import { Position, Scale } from "../interfaces";
+import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { Height, Position, Scale } from "../interfaces";
+import { getHeight } from "../../utils/dynamicCSSConst";
 import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
 
@@ -34,8 +35,13 @@ export class ShellCenterRow {
 
   /**
    * Specifies the maximum height of the component.
+   *
+   * @deprecated Use the `height` property instead.
    */
   @Prop({ reflect: true }) heightScale: Scale = "s";
+
+  /** Specifies the height of the component. */
+  @Prop({ reflect: true }) height: Height = "s";
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
@@ -79,7 +85,16 @@ export class ShellCenterRow {
       children.reverse();
     }
 
-    return <Fragment>{children}</Fragment>;
+    return (
+      <div
+        class={{
+          [CSS.container]: true,
+          [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
+        }}
+      >
+        {children}
+      </div>
+    );
   }
 
   private handleActionBarSlotChange = (event: Event): void => {
