@@ -7,6 +7,7 @@
  * @prop --calcite-tile-border-color: Specifies the border color of the component.
  * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
  * @prop --calcite-tile-heading-text-color-hover: Specifies the heading text color of the component on hover.
+ * @prop --calcite-tile-href-icon-color-hover: Specifies the icon color of the component when using a href on hover.
  * @prop --calcite-tile-icon-color: Specifies the icon color in the component.
  * @prop --calcite-tile-selection-icon-color: Specifies the color of the selection icon in the component.
  * @prop --calcite-tile-selection-icon-color-hover: Specifies the color of the selection icon in the component on hover.
@@ -15,13 +16,10 @@
  */
 
 /** Internal variables
-  * --calcite-internal-tile-icon-color
   * --calcite-internal-tile-selection-icon-color
   */
 
 :host {
-  --calcite-internal-tile-icon-color: var(--calcite-color-text-3);
-
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
   color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
@@ -112,11 +110,7 @@
 }
 
 calcite-icon {
-  --calcite-icon-color: var(
-    --calcite-tile-icon-color,
-    var(--calcite-internal-tile-icon-color, var(--calcite-color-text-3))
-  );
-
+  color: var(--calcite-tile-icon-color, var(--calcite-icon-color, var(--calcite-color-text-3)));
   &.selection-icon {
     --calcite-icon-color: var(--calcite-internal-tile-select-icon-color);
   }
@@ -240,9 +234,10 @@ calcite-icon {
 
 :host([href]:focus:not([disabled])),
 :host([href]:hover:not([disabled])) {
-  --calcite-internal-tile-icon-color: var(--calcite-color-text-link);
-  --calcite-ui-icon-color: var(--calcite-color-text-link);
   outline-color: var(--calcite-color-text-link);
+  calcite-icon {
+    color: var(--calcite-tile-href-icon-color-hover, var(--calcite-color-text-link));
+  }
   .container {
     position: relative;
     z-index: var(--calcite-z-index);
