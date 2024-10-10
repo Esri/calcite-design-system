@@ -80,6 +80,7 @@ export class InputText
   @Watch("autofocus")
   @Watch("enterkeyhint")
   @Watch("inputmode")
+  @Watch("spellcheck")
   handleGlobalAttributesChanged(): void {
     forceUpdate(this);
   }
@@ -664,6 +665,7 @@ export class InputText
         readOnly={this.readOnly}
         ref={this.setChildElRef}
         required={this.required ? true : null}
+        spellcheck={this.el.spellcheck}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
