@@ -244,21 +244,40 @@ describe("calcite-tile", () => {
             shadowSelector: `.${CSS.container}`,
             targetProp: "outlineColor",
           },
+          "--calcite-tile-description-text-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
           "--calcite-tile-heading-text-color": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
           },
+          "--calcite-tile-heading-text-color-hover": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+            state: "hover",
+          },
+          // "--calcite-tile-href-icon-color-hover": {
+          //   shadowSelector: "calcite-icon",
+          //   targetProp: "color",
+          //   state: "hover",
+          // },
           "--calcite-tile-icon-color": {
             shadowSelector: "calcite-icon",
-            targetProp: "--calcite-icon-color",
+            targetProp: "color",
           },
+          // "--calcite-selection-icon-color": {
+          //   shadowSelector: `.${CSS.container}`,
+          //   targetProp: "--calcite-internal-tile-select-icon-color",
+          // },
+          // "--calcite-selection-icon-color-hover": {
+          //   shadowSelector: `.${CSS.container}`,
+          //   targetProp: "--calcite-internal-tile-select-icon-color",
+          //   state: "hover",
+          // },
           "--calcite-tile-shadow": {
             selector: `calcite-tile`,
             targetProp: "boxShadow",
-          },
-          "--calcite-tile-text-color": {
-            selector: `calcite-tile`,
-            targetProp: "color",
           },
         },
       );

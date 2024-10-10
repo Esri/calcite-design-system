@@ -5,6 +5,7 @@
  *
  * @prop --calcite-tile-background-color: Specifies the background color of the component.
  * @prop --calcite-tile-border-color: Specifies the border color of the component.
+ * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
  * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
  * @prop --calcite-tile-heading-text-color-hover: Specifies the heading text color of the component on hover.
  * @prop --calcite-tile-href-icon-color-hover: Specifies the icon color of the component when using a href on hover.
@@ -12,7 +13,6 @@
  * @prop --calcite-tile-selection-icon-color: Specifies the color of the selection icon in the component.
  * @prop --calcite-tile-selection-icon-color-hover: Specifies the color of the selection icon in the component on hover.
  * @prop --calcite-tile-shadow: Specifies the shadow around the component.
- * @prop --calcite-tile-text-color: Specifies the text color of the component.
  */
 
 /** Internal variables
@@ -22,7 +22,6 @@
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
-  color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
   display: inline-block;
 }
 
@@ -105,6 +104,7 @@
 }
 
 .description {
+  color: var(--calcite-tile-description-text-color, var(--calcite-color-text-3));
   font-weight: var(--calcite-font-weight-regular);
   overflow-wrap: break-word;
 }
@@ -249,7 +249,6 @@ calcite-icon {
 
 :host(:hover:not([disabled])),
 :host([active]:not([disabled])) {
-  color: var(--calcite-tile-text-color, --calcite-color-text-2);
   .heading {
     color: var(--calcite-tile-heading-text-color-hover, var(--calcite-color-text-1));
   }
