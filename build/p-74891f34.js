@@ -1,0 +1,7 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.
+ * v2.14.0-next.11
+ */
+import{d as t}from"./p-90dfd828.js";import"./p-ca4f7984.js";import"./p-9f6d995f.js";import"./p-821fa86b.js";import"./p-0d8eb57d.js";import"./p-ac7b76a0.js";import"./p-88e596bc.js";import"./p-3d7a7f2d.js";import"./p-996010be.js";import"./p-e109d01e.js";import"./p-6e14b68c.js";import"./p-e68ea1fd.js";import"./p-ad92480c.js";import"./p-d444f443.js";import"./p-ead47188.js";import"./p-7f260bdd.js";import"./p-78231e9c.js";import"./p-0f716f86.js";var m={name:"vi",weekdays:"chủ nhật_thứ hai_thứ ba_thứ tư_thứ năm_thứ sáu_thứ bảy".split("_"),months:"tháng 1_tháng 2_tháng 3_tháng 4_tháng 5_tháng 6_tháng 7_tháng 8_tháng 9_tháng 10_tháng 11_tháng 12".split("_"),weekStart:1,weekdaysShort:"CN_T2_T3_T4_T5_T6_T7".split("_"),monthsShort:"Th01_Th02_Th03_Th04_Th05_Th06_Th07_Th08_Th09_Th10_Th11_Th12".split("_"),weekdaysMin:"CN_T2_T3_T4_T5_T6_T7".split("_"),ordinal:function t(m){return m},formats:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM [năm] YYYY",LLL:"D MMMM [năm] YYYY HH:mm",LLLL:"dddd, D MMMM [năm] YYYY HH:mm",l:"DD/M/YYYY",ll:"D MMM YYYY",lll:"D MMM YYYY HH:mm",llll:"ddd, D MMM YYYY HH:mm"},relativeTime:{future:"%s tới",past:"%s trước",s:"vài giây",m:"một phút",mm:"%d phút",h:"một giờ",hh:"%d giờ",d:"một ngày",dd:"%d ngày",M:"một tháng",MM:"%d tháng",y:"một năm",yy:"%d năm"}};t.locale(m,null,true);export{m as default};
+//# sourceMappingURL=p-74891f34.js.map

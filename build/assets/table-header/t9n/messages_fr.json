@@ -1,0 +1,8 @@
+{
+  "all": "toutes",
+  "keyboardDeselectAll": "Appuyer sur Entrée ou sur Espace pour désélectionner toutes les lignes",
+  "keyboardSelectAll": "Appuyer sur Entrée ou sur Espace pour sélectionner toutes les lignes",
+  "rowNumber": "Numéro de ligne",
+  "selected": "lignes sélectionnées",
+  "selectionColumn": "Colonne de sélection"
+}
