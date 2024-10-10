@@ -246,50 +246,52 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(false);
     });
 
-    it("navigates disabled items correctly with nextStep and prevStep methods", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-stepper>
-          <calcite-stepper-item heading="Step 1" id="step-1" selected>
-            <div>Step 1 content</div>
-          </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 2" id="step-2" disabled>
-            <div>Step 2 content</div>
-          </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 3" id="step-3">
-            <div>Step 3 content</div>
-          </calcite-stepper-item>
-        </calcite-stepper>`,
-      );
-      const element = await page.find("calcite-stepper");
-      const step1 = await page.find("#step-1");
-      const step2 = await page.find("#step-2");
-      const step3 = await page.find("#step-3");
-      const step1Content = await page.find("#step-1 >>> .stepper-item-content");
-      const step2Content = await page.find("#step-2 >>> .stepper-item-content");
-      const step3Content = await page.find("#step-3 >>> .stepper-item-content");
-      expect(step1).toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("selected");
-      expect(await step1Content.isVisible()).toBe(true);
-      expect(await step2Content.isVisible()).toBe(false);
-      expect(await step3Content.isVisible()).toBe(false);
-      await element.callMethod("nextStep");
-      await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("selected");
-      expect(step3).toHaveAttribute("selected");
-      expect(await step1Content.isVisible()).toBe(false);
-      expect(await step2Content.isVisible()).toBe(false);
-      expect(await step3Content.isVisible()).toBe(true);
-      await element.callMethod("prevStep");
-      await page.waitForChanges();
-      expect(step1).toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("selected");
-      expect(await step1Content.isVisible()).toBe(true);
-      expect(await step2Content.isVisible()).toBe(false);
-      expect(await step3Content.isVisible()).toBe(false);
+    it("navigates disabled and hidden items correctly with nextStep and prevStep methods", async () => {
+      for (const n of ["disabled", "hidden"]) {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`<calcite-stepper>
+            <calcite-stepper-item heading="Step 1" id="step-1" selected>
+              <div>Step 1 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 2" id="step-2" ${n}>
+              <div>Step 2 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 3" id="step-3">
+              <div>Step 3 content</div>
+            </calcite-stepper-item>
+          </calcite-stepper>`,
+        );
+        const element = await page.find("calcite-stepper");
+        const step1 = await page.find("#step-1");
+        const step2 = await page.find("#step-2");
+        const step3 = await page.find("#step-3");
+        const step1Content = await page.find("#step-1 >>> .stepper-item-content");
+        const step2Content = await page.find("#step-2 >>> .stepper-item-content");
+        const step3Content = await page.find("#step-3 >>> .stepper-item-content");
+        expect(step1).toHaveAttribute("selected");
+        expect(step2).not.toHaveAttribute("selected");
+        expect(step3).not.toHaveAttribute("selected");
+        expect(await step1Content.isVisible()).toBe(true);
+        expect(await step2Content.isVisible()).toBe(false);
+        expect(await step3Content.isVisible()).toBe(false);
+        await element.callMethod("nextStep");
+        await page.waitForChanges();
+        expect(step1).not.toHaveAttribute("selected");
+        expect(step2).not.toHaveAttribute("selected");
+        expect(step3).toHaveAttribute("selected");
+        expect(await step1Content.isVisible()).toBe(false);
+        expect(await step2Content.isVisible()).toBe(false);
+        expect(await step3Content.isVisible()).toBe(true);
+        await element.callMethod("prevStep");
+        await page.waitForChanges();
+        expect(step1).toHaveAttribute("selected");
+        expect(step2).not.toHaveAttribute("selected");
+        expect(step3).not.toHaveAttribute("selected");
+        expect(await step1Content.isVisible()).toBe(true);
+        expect(await step2Content.isVisible()).toBe(false);
+        expect(await step3Content.isVisible()).toBe(false);
+      }
     });
 
     it("navigates correctly with startStep and endStep methods", async () => {
@@ -341,53 +343,55 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(true);
     });
 
-    it("navigates disabled items correctly with startStep and endStep methods", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-stepper>
-          <calcite-stepper-item heading="Step 1" id="step-1" disabled>
-            <div>Step 1 content</div>
-          </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 2" id="step-2">
-            <div>Step 2 content</div>
-          </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 3" id="step-3">
-            <div id="step-3 >>> .stepper-item-content">Step 3 content</div>
-          </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 4" id="step-4" disabled>
-            <div>Step 4 content</div>
-          </calcite-stepper-item>
-        </calcite-stepper>`,
-      );
-      const element = await page.find("calcite-stepper");
-      const step1 = await page.find("#step-1");
-      const step2 = await page.find("#step-2");
-      const step3 = await page.find("#step-3");
-      const step4 = await page.find("#step-4");
-      const step1Content = await page.find("#step-1 >>> .stepper-item-content");
-      const step2Content = await page.find("#step-2 >>> .stepper-item-content");
-      const step3Content = await page.find("#step-3 >>> .stepper-item-content");
-      const step4Content = await page.find("#step-4 >>> .stepper-item-content");
-      await element.callMethod("endStep");
-      await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("selected");
-      expect(step3).toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("selected");
-      expect(await step1Content.isVisible()).toBe(false);
-      expect(await step2Content.isVisible()).toBe(false);
-      expect(await step3Content.isVisible()).toBe(true);
-      expect(await step4Content.isVisible()).toBe(false);
-      await element.callMethod("startStep");
-      await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("selected");
-      expect(step2).toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("selected");
-      expect(await step1Content.isVisible()).toBe(false);
-      expect(await step2Content.isVisible()).toBe(true);
-      expect(await step3Content.isVisible()).toBe(false);
-      expect(await step4Content.isVisible()).toBe(false);
+    it("navigates disabled and hidden items correctly with startStep and endStep methods", async () => {
+      for (const n of ["disabled", "hidden"]) {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`<calcite-stepper>
+            <calcite-stepper-item heading="Step 1" id="step-1" ${n}>
+              <div>Step 1 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 2" id="step-2">
+              <div>Step 2 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 3" id="step-3">
+              <div id="step-3 >>> .stepper-item-content">Step 3 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 4" id="step-4" ${n}>
+              <div>Step 4 content</div>
+            </calcite-stepper-item>
+          </calcite-stepper>`,
+        );
+        const element = await page.find("calcite-stepper");
+        const step1 = await page.find("#step-1");
+        const step2 = await page.find("#step-2");
+        const step3 = await page.find("#step-3");
+        const step4 = await page.find("#step-4");
+        const step1Content = await page.find("#step-1 >>> .stepper-item-content");
+        const step2Content = await page.find("#step-2 >>> .stepper-item-content");
+        const step3Content = await page.find("#step-3 >>> .stepper-item-content");
+        const step4Content = await page.find("#step-4 >>> .stepper-item-content");
+        await element.callMethod("endStep");
+        await page.waitForChanges();
+        expect(step1).not.toHaveAttribute("selected");
+        expect(step2).not.toHaveAttribute("selected");
+        expect(step3).toHaveAttribute("selected");
+        expect(step4).not.toHaveAttribute("selected");
+        expect(await step1Content.isVisible()).toBe(false);
+        expect(await step2Content.isVisible()).toBe(false);
+        expect(await step3Content.isVisible()).toBe(true);
+        expect(await step4Content.isVisible()).toBe(false);
+        await element.callMethod("startStep");
+        await page.waitForChanges();
+        expect(step1).not.toHaveAttribute("selected");
+        expect(step2).toHaveAttribute("selected");
+        expect(step3).not.toHaveAttribute("selected");
+        expect(step4).not.toHaveAttribute("selected");
+        expect(await step1Content.isVisible()).toBe(false);
+        expect(await step2Content.isVisible()).toBe(true);
+        expect(await step3Content.isVisible()).toBe(false);
+        expect(await step4Content.isVisible()).toBe(false);
+      }
     });
 
     it("navigates to requested step with goToStep method", async () => {
@@ -572,39 +576,43 @@ describe("calcite-stepper", () => {
       });
 
       it("emits with content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item heading="Step 1" id="step-1">
-              <div>Step 1 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 2" id="step-2">
-              <div>Step 2 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 3" id="step-3" disabled>
-              <div>Step 3 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 4" id="step-4">
-              <div>Step 4 content</div>
-            </calcite-stepper-item>
-          </calcite-stepper>`,
-        );
+        for (const n of ["disabled", "hidden"]) {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`<calcite-stepper layout="${layout}">
+              <calcite-stepper-item heading="Step 1" id="step-1">
+                <div>Step 1 content</div>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Step 2" id="step-2">
+                <div>Step 2 content</div>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Step 3" id="step-3" ${n}>
+                <div>Step 3 content</div>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Step 4" id="step-4">
+                <div>Step 4 content</div>
+              </calcite-stepper-item>
+            </calcite-stepper>`,
+          );
 
-        await assertEmitting(page, true);
+          await assertEmitting(page, true);
+        }
       });
 
       it("emits without content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 3" id="step-3" disabled></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
-          </calcite-stepper>`,
-        );
+        for (const n of ["disabled", "hidden"]) {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`<calcite-stepper layout="${layout}">
+              <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
+              <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
+              <calcite-stepper-item heading="Step 3" id="step-3" ${n}></calcite-stepper-item>
+              <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
+            </calcite-stepper>`,
+          );
 
-        await assertEmitting(page, false);
+          await assertEmitting(page, false);
+        }
       });
     });
 
@@ -614,39 +622,43 @@ describe("calcite-stepper", () => {
       });
 
       it("emits with content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item heading="Step 1" id="step-1">
-              <div>Step 1 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 2" id="step-2">
-              <div>Step 2 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 3" id="step-3" disabled>
-              <div>Step 3 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 4" id="step-4">
-              <div>Step 4 content</div>
-            </calcite-stepper-item>
-          </calcite-stepper>`,
-        );
+        for (const n of ["disabled", "hidden"]) {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`<calcite-stepper layout="${layout}">
+              <calcite-stepper-item heading="Step 1" id="step-1">
+                <div>Step 1 content</div>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Step 2" id="step-2">
+                <div>Step 2 content</div>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Step 3" id="step-3" ${n}>
+                <div>Step 3 content</div>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Step 4" id="step-4">
+                <div>Step 4 content</div>
+              </calcite-stepper-item>
+            </calcite-stepper>`,
+          );
 
-        await assertEmitting(page, true);
+          await assertEmitting(page, true);
+        }
       });
 
       it("emits without content", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 3" id="step-3" disabled></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
-          </calcite-stepper>`,
-        );
+        for (const n of ["disabled", "hidden"]) {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`<calcite-stepper layout="${layout}">
+              <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
+              <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
+              <calcite-stepper-item heading="Step 3" id="step-3" ${n}></calcite-stepper-item>
+              <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
+            </calcite-stepper>`,
+          );
 
-        await assertEmitting(page, false);
+          await assertEmitting(page, false);
+        }
       });
     });
   });
@@ -734,22 +746,24 @@ describe("calcite-stepper", () => {
     expect(await stepperItem3.getProperty("selected")).not.toBe(true);
   });
 
-  it("should select the next enabled stepper-item if first stepper-item is disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-stepper>
-        <calcite-stepper-item heading="Step 1" id="step-1" disabled>
-          <div>Step 1 content</div>
-        </calcite-stepper-item>
-        <calcite-stepper-item heading="Step 2" id="step-2">
-          <div>Step 2 content</div>
-        </calcite-stepper-item>
-      </calcite-stepper>`,
-    );
+  it("should select the next enabled stepper-item if first stepper-item is disabled or hidden", async () => {
+    for (const n of ["disabled", "hidden"]) {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-stepper>
+          <calcite-stepper-item heading="Step 1" id="step-1" ${n}>
+            <div>Step 1 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 2" id="step-2">
+            <div>Step 2 content</div>
+          </calcite-stepper-item>
+        </calcite-stepper>`,
+      );
 
-    const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
-    expect(await stepperItem1.getProperty("selected")).toBe(false);
-    expect(await stepperItem2.getProperty("selected")).toBe(true);
+      const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+      expect(await stepperItem1.getProperty("selected")).toBe(false);
+      expect(await stepperItem2.getProperty("selected")).toBe(true);
+    }
   });
 
   describe("horizontal-single layout", () => {
@@ -865,6 +879,50 @@ describe("calcite-stepper", () => {
       expect(changeSpy).toHaveReceivedEventTimes(1);
       expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
+      await actionStart.click();
+      expect(changeSpy).toHaveReceivedEventTimes(2);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it("should emit calciteStepperItemChange on user interaction when item is hidden", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-stepper layout="horizontal-single">
+          <calcite-stepper-item heading="Step 1" id="step-1">
+            <div>Step 1 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 2" id="step-2" hidden>
+            <div>Step 2 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 3" id="step-2">
+            <div>Step 3 content</div>
+          </calcite-stepper-item>
+        </calcite-stepper>`,
+      );
+
+      const stepper = await page.find("calcite-stepper");
+      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
+      const changeSpy = await stepper.spyOnEvent("calciteStepperChange");
+      const itemChangeSpy = await stepper.spyOnEvent("calciteStepperItemChange");
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
+
+      // hidden item is skipped
+      await actionEnd.click();
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+
+      // can't go beyond the end
+      await actionEnd.click();
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+
+      // hidden item is skipped
+      await actionStart.click();
+      expect(changeSpy).toHaveReceivedEventTimes(2);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(2);
+
+      // can't go beyond the end
       await actionStart.click();
       expect(changeSpy).toHaveReceivedEventTimes(2);
       expect(itemChangeSpy).toHaveReceivedEventTimes(2);
