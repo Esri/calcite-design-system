@@ -203,18 +203,13 @@
 .floating-ui-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui-container();
-  @include floating-ui-wrapper();
 }
 
 @include floating-ui-elem-anim(".floating-ui-container");
 
-.floating-ui-container--active {
-  @include floating-ui-wrapper-active();
-}
-
 @media (forced-colors: active) {
   .wrapper,
-  .floating-ui-container--active {
+  .floating-ui-container {
     border: 1px solid canvasText;
   }
 }
