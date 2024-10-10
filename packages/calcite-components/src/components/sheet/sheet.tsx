@@ -270,7 +270,7 @@ export class Sheet
             class={{
               [CSS.content]: true,
             }}
-            ref={this.setContentId}
+            ref={this.setContentEl}
           >
             <slot />
           </div>
@@ -297,6 +297,8 @@ export class Sheet
 
   @State() defaultMessages: SheetMessages;
 
+  private contentEl: HTMLDivElement;
+
   private interaction: Interactable;
 
   private contentId: string;
@@ -308,8 +310,6 @@ export class Sheet
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );
-
-  private resizing = false;
 
   //--------------------------------------------------------------------------
   //
@@ -359,24 +359,24 @@ export class Sheet
   //
   //--------------------------------------------------------------------------
 
-  private getTransitionElDOMRect(): DOMRect {
-    return this.transitionEl.getBoundingClientRect();
+  private getContentElDOMRect(): DOMRect {
+    return this.contentEl.getBoundingClientRect();
   }
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, defaultPrevented } = event;
-    const { position, resizable, transitionEl, el } = this;
+    const { position, resizable, contentEl, el } = this;
 
     const keys =
       position === "block-end" || position === "block-start"
         ? ["ArrowUp", "ArrowDown"]
         : ["ArrowLeft", "ArrowRight"];
 
-    if (!resizable || !transitionEl || defaultPrevented || !keys.includes(key)) {
+    if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
       return;
     }
 
-    const rect = this.getTransitionElDOMRect();
+    const rect = this.getContentElDOMRect();
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
 
     switch (key) {
@@ -422,13 +422,13 @@ export class Sheet
     type: "inlineSize" | "blockSize";
     size: number | null;
   }): void {
-    const { transitionEl } = this;
+    const { contentEl } = this;
 
-    if (!transitionEl) {
+    if (!contentEl) {
       return;
     }
 
-    transitionEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
+    contentEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
   }
 
   private cleanupInteractions(): void {
@@ -440,20 +440,17 @@ export class Sheet
   private setupInteractions(): void {
     this.cleanupInteractions();
 
-    const { el, transitionEl, resizable, position } = this;
+    const { el, contentEl, resizable, position } = this;
 
-    if (!transitionEl || !this.open) {
+    if (!contentEl || !this.open) {
       return;
     }
 
-    // todo: resize handle
-    // todo: tests
-
     if (resizable) {
-      this.interaction = interact(transitionEl, { context: el.ownerDocument });
+      this.interaction = interact(contentEl, { context: el.ownerDocument });
 
       const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
-        window.getComputedStyle(transitionEl);
+        window.getComputedStyle(contentEl);
 
       const rtl = getElementDir(el) === "rtl";
 
@@ -480,12 +477,6 @@ export class Sheet
           move: ({ rect }: ResizeEvent) => {
             this.updateSize({ size: rect.width, type: "inlineSize" });
             this.updateSize({ size: rect.height, type: "blockSize" });
-            this.resizing = true;
-          },
-          end: () => {
-            requestAnimationFrame(() => {
-              this.resizing = false;
-            });
           },
         },
       });
@@ -510,13 +501,14 @@ export class Sheet
     deactivateFocusTrap(this);
   }
 
-  private setContentId = (el: HTMLDivElement): void => {
+  private setContentEl = (el: HTMLDivElement): void => {
+    this.contentEl = el;
     this.contentId = ensureId(el);
+    this.setupInteractions();
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.setupInteractions();
   };
 
   private openEnd = (): void => {
@@ -535,7 +527,7 @@ export class Sheet
   }
 
   private handleOutsideClose = (): void => {
-    if (this.outsideCloseDisabled || this.resizing) {
+    if (this.outsideCloseDisabled) {
       return;
     }
 
