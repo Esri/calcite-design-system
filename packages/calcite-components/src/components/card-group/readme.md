@@ -39,8 +39,8 @@ Type: `Promise<void>`
 
 | Name                         | Description                                                                                |
 | ---------------------------- | ------------------------------------------------------------------------------------------ |
-| `--calcite-card-group-gap`   | [Deprecated] Use --calcite-card-group-space. Specifies the gap between slotted components. |
-| `--calcite-card-group-space` | Specifies the space between slotted components.                                            |
+| `--calcite-card-group-gap`   | [Deprecated] Use `--calcite-card-group-space`. Specifies the gap between slotted elements. |
+| `--calcite-card-group-space` | Specifies the space between slotted elements.                                              |
 
 ---
 
