@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { BoundingBox } from "puppeteer";
+import { BoundingBox, ElementHandle } from "puppeteer";
 import type { JSX } from "../components";
 import { ComponentTag } from "./commonTests/interfaces";
 
@@ -526,4 +526,18 @@ export async function assertCaretPosition({
       shadowInputTypeSelector,
     ),
   ).toBeTruthy();
+}
+
+/**
+ * This utils helps to get the element handle from an E2EElement.
+ *
+ * @param element - the E2E element
+ * @returns {Promise<ElementHandle>} - the element handle
+ */
+export async function toElementHandle(element: E2EElement): Promise<ElementHandle> {
+  type E2EElementInternal = E2EElement & {
+    _elmHandle: ElementHandle;
+  };
+
+  return (element as E2EElementInternal)._elmHandle;
 }
