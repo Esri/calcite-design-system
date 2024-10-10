@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
-import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
+import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -31,8 +31,8 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { CSS, initialResizePosition } from "./resources";
-import { DisplayMode, ResizePosition } from "./interfaces";
+import { CSS, sheetResizeStep } from "./resources";
+import { DisplayMode } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -199,6 +199,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
+          onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -206,7 +207,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             class={{
               [CSS.content]: true,
             }}
-            ref={this.setContentEl}
+            ref={this.setContentId}
           >
             <slot />
           </div>
@@ -217,7 +218,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   //--------------------------------------------------------------------------
   //
-  //  Private Properties/ State
+  //  Private Properties / State
   //
   //--------------------------------------------------------------------------
 
@@ -231,10 +232,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   private interaction: Interactable;
 
-  private resizePosition: ResizePosition = { ...initialResizePosition };
-
-  private contentEl: HTMLDivElement;
-
   private contentId: string;
 
   private initialOverflowCSS: string;
@@ -244,6 +241,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
   );
+
+  private resizing = false;
 
   //--------------------------------------------------------------------------
   //
@@ -293,6 +292,60 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //
   //--------------------------------------------------------------------------
 
+  private getTransitionElDOMRect(): DOMRect {
+    return this.transitionEl.getBoundingClientRect();
+  }
+
+  private handleKeyDown = (event: KeyboardEvent): void => {
+    const { key, shiftKey, defaultPrevented } = event;
+    const { resizable, transitionEl } = this;
+
+    const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+
+    if (defaultPrevented || !keys.includes(key)) {
+      return;
+    }
+
+    switch (key) {
+      case "ArrowUp":
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().height - sheetResizeStep,
+            type: "blockSize",
+          });
+          event.preventDefault();
+        }
+        break;
+      case "ArrowDown":
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().height + sheetResizeStep,
+            type: "blockSize",
+          });
+          event.preventDefault();
+        }
+        break;
+      case "ArrowLeft":
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().width - sheetResizeStep,
+            type: "inlineSize",
+          });
+          event.preventDefault();
+        }
+        break;
+      case "ArrowRight":
+        if (shiftKey && resizable && transitionEl) {
+          this.updateSize({
+            size: this.getTransitionElDOMRect().width + sheetResizeStep,
+            type: "inlineSize",
+          });
+          event.preventDefault();
+        }
+        break;
+    }
+  };
+
   private updateSize({
     type,
     size,
@@ -300,80 +353,70 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     type: "inlineSize" | "blockSize";
     size: number | null;
   }): void {
-    const { contentEl } = this;
+    const { transitionEl } = this;
 
-    if (!contentEl) {
+    if (!transitionEl) {
       return;
     }
 
-    contentEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
+    transitionEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
   }
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
     this.updateSize({ size: null, type: "inlineSize" });
     this.updateSize({ size: null, type: "blockSize" });
-    this.resizePosition = { ...initialResizePosition };
-  }
-
-  // todo: make util
-  private isPixelValue(value: string): boolean {
-    return value.indexOf("px") !== -1;
   }
 
   private setupInteractions(): void {
     this.cleanupInteractions();
 
-    const { el, transitionEl, resizable, resizePosition } = this;
+    const { el, transitionEl, resizable, position } = this;
 
     if (!transitionEl || !this.open) {
       return;
     }
 
+    // todo: keyboard resize
     // todo: resize handle
-    // todo: position setup
+
     if (resizable) {
       this.interaction = interact(transitionEl, { context: el.ownerDocument });
 
       const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
         window.getComputedStyle(transitionEl);
 
+      const rtl = getElementDir(el) === "rtl";
+
       this.interaction.resizable({
         edges: {
-          top: true,
-          right: true,
-          bottom: true,
-          left: true,
+          top: position === "block-end",
+          right: position === (rtl ? "inline-end" : "inline-start"),
+          bottom: position === "block-start",
+          left: position === (rtl ? "inline-start" : "inline-end"),
         },
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: this.isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-              height: this.isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
+              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
             },
             max: {
-              width: this.isPixelValue(maxInlineSize)
-                ? parseInt(maxInlineSize, 10)
-                : window.innerWidth,
-              height: this.isPixelValue(maxBlockSize)
-                ? parseInt(maxBlockSize, 10)
-                : window.innerHeight,
+              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
+              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
             },
-          }),
-          interact.modifiers.restrict({
-            restriction: "parent",
           }),
         ],
         listeners: {
-          move: ({ rect, deltaRect }: ResizeEvent) => {
-            if (deltaRect) {
-              resizePosition.top += deltaRect.top;
-              resizePosition.right += deltaRect.right;
-              resizePosition.bottom += deltaRect.bottom;
-              resizePosition.left += deltaRect.left;
-            }
+          move: ({ rect }: ResizeEvent) => {
             this.updateSize({ size: rect.width, type: "inlineSize" });
             this.updateSize({ size: rect.height, type: "blockSize" });
+            this.resizing = true;
+          },
+          end: () => {
+            requestAnimationFrame(() => {
+              this.resizing = false;
+            });
           },
         },
       });
@@ -398,14 +441,13 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     deactivateFocusTrap(this);
   }
 
-  private setContentEl = (el: HTMLDivElement): void => {
-    this.contentEl = el;
+  private setContentId = (el: HTMLDivElement): void => {
     this.contentId = ensureId(el);
-    this.setupInteractions();
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
+    this.setupInteractions();
   };
 
   private openEnd = (): void => {
@@ -424,7 +466,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   }
 
   private handleOutsideClose = (): void => {
-    if (this.outsideCloseDisabled) {
+    if (this.outsideCloseDisabled || this.resizing) {
       return;
     }
 

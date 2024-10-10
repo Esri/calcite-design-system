@@ -207,7 +207,7 @@
 
 :host([position="block-start"]) .content,
 :host([position="block-end"]) .content {
-  @apply w-full;
+  @apply h-full w-full;
 }
 
 /**

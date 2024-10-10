@@ -103,6 +103,7 @@
 
       <script>
         function openSheet(id) {
+          document.querySelectorAll("calcite-panel").forEach((panel) => (panel.closed = false));
           document.getElementById(id).open = true;
         }
 
@@ -135,7 +136,6 @@
 
         document.addEventListener("calcitePanelClose", () => {
           document.querySelectorAll("calcite-sheet").forEach((sheet) => (sheet.open = false));
-          document.querySelectorAll("calcite-panel").forEach((panel) => (panel.closed = false));
         });
       </script>
     </demo-dom-swapper>
