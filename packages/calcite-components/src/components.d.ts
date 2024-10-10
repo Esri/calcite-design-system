@@ -77,6 +77,7 @@ import { PopoverMessages } from "./components/popover/assets/popover/t9n";
 import { RatingMessages } from "./components/rating/assets/rating/t9n";
 import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
+import { SheetMessages } from "./components/sheet/assets/sheet/t9n";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
@@ -172,6 +173,7 @@ export { PopoverMessages } from "./components/popover/assets/popover/t9n";
 export { RatingMessages } from "./components/rating/assets/rating/t9n";
 export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
+export { SheetMessages } from "./components/sheet/assets/sheet/t9n";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
@@ -4533,6 +4535,14 @@ export namespace Components {
           * Specifies the label of the component.
          */
         "label": string;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<SheetMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": SheetMessages;
         /**
           * When `true`, displays and positions the component.
          */
@@ -12731,6 +12741,14 @@ declare namespace LocalJSX {
           * Specifies the label of the component.
          */
         "label": string;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<SheetMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: SheetMessages;
         /**
           * Fires when the component is requested to be closed and before the closing transition begins.
          */
