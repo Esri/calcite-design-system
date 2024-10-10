@@ -80,11 +80,11 @@ export class ListItemGroup implements InteractiveComponent {
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
-          <tr class={CSS.container}>
-            <td class={CSS.heading} colSpan={MAX_COLUMNS}>
+          <div class={CSS.container} role="row">
+            <div aria-colspan={MAX_COLUMNS} class={CSS.heading} role="cell">
               {heading}
-            </td>
-          </tr>
+            </div>
+          </div>
           <slot onSlotchange={this.handleDefaultSlotChange} />
         </InteractiveContainer>
       </Host>
