@@ -36,7 +36,9 @@ describe("calcite-notice", () => {
   });
 
   describe("openClose", () => {
-    openClose("calcite-notice");
+    openClose("calcite-notice", {
+      collapsedOnClose: true,
+    });
   });
 
   describe("slots", () => {
