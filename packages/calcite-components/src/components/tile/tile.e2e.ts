@@ -248,6 +248,11 @@ describe("calcite-tile", () => {
             shadowSelector: `.${CSS.description}`,
             targetProp: "color",
           },
+          "--calcite-tile-description-text-color-hover": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+            state: "hover",
+          },
           "--calcite-tile-heading-text-color": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
@@ -257,24 +262,10 @@ describe("calcite-tile", () => {
             targetProp: "color",
             state: "hover",
           },
-          // "--calcite-tile-href-icon-color-hover": {
-          //   shadowSelector: "calcite-icon",
-          //   targetProp: "color",
-          //   state: "hover",
-          // },
           "--calcite-tile-icon-color": {
             shadowSelector: "calcite-icon",
             targetProp: "color",
           },
-          // "--calcite-selection-icon-color": {
-          //   shadowSelector: `.${CSS.container}`,
-          //   targetProp: "--calcite-internal-tile-select-icon-color",
-          // },
-          // "--calcite-selection-icon-color-hover": {
-          //   shadowSelector: `.${CSS.container}`,
-          //   targetProp: "--calcite-internal-tile-select-icon-color",
-          //   state: "hover",
-          // },
           "--calcite-tile-shadow": {
             selector: `calcite-tile`,
             targetProp: "boxShadow",
@@ -296,12 +287,37 @@ describe("calcite-tile", () => {
         `,
         {
           "--calcite-tile-selection-icon-color": {
-            shadowSelector: `calcite-icon.${CSS.selectionIcon}`,
-            targetProp: "--calcite-icon-color",
+            shadowSelector: `.${CSS.selectionIcon}`,
+            targetProp: "color",
           },
           "--calcite-tile-selection-icon-color-hover": {
-            shadowSelector: `calcite-icon.${CSS.selectionIcon}`,
-            targetProp: "--calcite-icon-color",
+            shadowSelector: `.${CSS.selectionIcon}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        },
+      );
+    });
+    describe("link", () => {
+      themed(
+        html`
+          <calcite-tile
+            heading="Tile heading lorem ipsum"
+            description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+            icon="layers"
+            href="#"
+          >
+          </calcite-tile>
+        `,
+        {
+          "--calcite-tile-heading-text-color-hover": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+            state: "hover",
+          },
+          "--calcite-tile-href-icon-color-hover": {
+            shadowSelector: "calcite-icon",
+            targetProp: "color",
             state: "hover",
           },
         },
