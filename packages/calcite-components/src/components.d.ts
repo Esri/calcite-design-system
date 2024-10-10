@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -100,7 +100,7 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -3196,6 +3196,10 @@ export namespace Components {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`
+         */
+        "interactionMode": InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label": string;
@@ -3282,6 +3286,10 @@ export namespace Components {
           * Hides the component when filtered.
          */
         "filterHidden": boolean;
+        /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`.
+         */
+        "interactionMode": InteractionMode;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -11316,6 +11324,10 @@ declare namespace LocalJSX {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`
+         */
+        "interactionMode"?: InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label"?: string;
@@ -11421,6 +11433,10 @@ declare namespace LocalJSX {
           * Hides the component when filtered.
          */
         "filterHidden"?: boolean;
+        /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`.
+         */
+        "interactionMode"?: InteractionMode;
         /**
           * The label text of the component. Displays above the description text.
          */
