@@ -663,7 +663,9 @@ describe("calcite-combobox", () => {
     await element.click();
     await page.waitForChanges();
     const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
-    expect(items.length).toBe(5);
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i !== 3);
+    }
   });
 
   it("should show correct number of items when parent hidden", async () => {
@@ -686,7 +688,9 @@ describe("calcite-combobox", () => {
     await element.click();
     await page.waitForChanges();
     const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
-    expect(items.length).toBe(1);
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i === 5);
+    }
   });
 
   it("should show correct max items after selection", async () => {
