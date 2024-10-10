@@ -4676,6 +4676,7 @@ export namespace Components {
           * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
          */
         "labelTicks": boolean;
+        "layout": "horizontal" | "vertical";
         /**
           * The component's maximum selectable value.
          */
@@ -12874,6 +12875,7 @@ declare namespace LocalJSX {
           * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
          */
         "labelTicks"?: boolean;
+        "layout"?: "horizontal" | "vertical";
         /**
           * The component's maximum selectable value.
          */
