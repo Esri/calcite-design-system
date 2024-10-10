@@ -83,6 +83,36 @@ export const rangeHighlighted_TestOnly = (): string => html`
   </script>
 `;
 
+export const rangeValuesNotInSameMonthAndYear_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker range></calcite-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      document.querySelector("calcite-date-picker").value = ["2024-02-14", "2025-01-28"];
+      await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    })();
+  </script>
+`;
+
+export const Focus = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker value="2020-01-01"></calcite-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker");
+      await datePicker.setFocus();
+    })();
+  </script>
+`;
+
+Focus.parameters = {
+  chromatic: { delay: 2000 },
+};
+
 export const rangeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker value="2020-02-28" dir="rtl" range></calcite-date-picker>

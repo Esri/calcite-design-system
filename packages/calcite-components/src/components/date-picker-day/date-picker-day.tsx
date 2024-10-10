@@ -100,12 +100,12 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
       return;
     }
 
-    this.calciteDaySelect.emit();
+    this.calciteInternalDaySelect.emit();
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
-      !this.disabled && this.calciteDaySelect.emit();
+      !this.disabled && this.calciteInternalDaySelect.emit();
       event.preventDefault();
     }
   };
@@ -128,7 +128,7 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
   /**
    * Fires when user selects day.
    */
-  @Event({ cancelable: false }) calciteDaySelect: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalDaySelect: EventEmitter<void>;
 
   /**
    * Fires when user hovers over a day.
@@ -190,12 +190,10 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
         tabIndex={this.active && !this.disabled ? 0 : -1}
       >
         <InteractiveContainer disabled={this.disabled}>
-          <div aria-hidden="true" class={{ "day-v-wrapper": true }}>
-            <div class="day-wrapper">
-              <span class="day">
-                <span class="text">{formattedDay}</span>
-              </span>
-            </div>
+          <div aria-hidden="true" class="day-wrapper">
+            <span class="day">
+              <span class="text">{formattedDay}</span>
+            </span>
           </div>
         </InteractiveContainer>
       </Host>

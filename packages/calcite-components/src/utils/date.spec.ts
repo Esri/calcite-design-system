@@ -4,12 +4,15 @@ import english from "../components/date-picker/assets/date-picker/nls/en.json";
 import french from "../components/date-picker/assets/date-picker/nls/fr.json";
 import korean from "../components/date-picker/assets/date-picker/nls/ko.json";
 import {
+  getDateInMonth,
   dateFromISO,
   dateFromRange,
   datePartsFromISO,
   dateToISO,
   formatCalendarYear,
+  getFirstValidDateInMonth,
   getOrder,
+  hasSameMonthAndYear,
   inRange,
   nextMonth,
   parseCalendarYear,
@@ -255,5 +258,29 @@ describe("datePartsFromISO", () => {
   it("returns date, year, month from parsed ISO string date", () => {
     expect(datePartsFromISO("2023-08-01")).toEqual({ day: "01", month: "08", year: "2023" });
     expect(datePartsFromISO("00-08-01")).toEqual({ day: "01", month: "08", year: "00" });
+  });
+});
+
+describe("getDateInMonth", () => {
+  it("return date in specified month", () => {
+    expect(getDateInMonth(new Date(2020, 0, 1), 4)).toEqual(new Date(2020, 4, 1));
+    expect(getDateInMonth(new Date(2020, 0, 1), 12)).toEqual(new Date(2021, 0, 1));
+  });
+});
+
+describe("getFirstValidDateInMonth", () => {
+  it("return first valid date in month", () => {
+    const min = new Date(2020, 0, 1);
+    const max = new Date(2020, 11, 31);
+    expect(getFirstValidDateInMonth(new Date(2020, 4, 1), min, max)).toEqual(new Date(2020, 4, 1));
+    expect(getFirstValidDateInMonth(new Date(2021, 0, 1), min, max)).toEqual(new Date(2020, 11, 31));
+  });
+});
+
+describe("hasSameMonthAndYear", () => {
+  it("return true if two dates have same month & year", () => {
+    expect(hasSameMonthAndYear(new Date(2020, 4, 1), new Date(2020, 4, 22))).toEqual(true);
+    expect(hasSameMonthAndYear(new Date(2020, 0, 1), new Date(2019, 12, 1))).toEqual(true);
+    expect(hasSameMonthAndYear(new Date(2020, 1, 1), new Date(2020, 2, 1))).toEqual(false);
   });
 });

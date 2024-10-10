@@ -329,8 +329,20 @@ input[type="text"]::-ms-reveal {
     items-center;
 }
 
-:host(.no-bottom-border) input {
+:host(.input--no-bottom-border) input {
   @apply border-b-0;
+}
+
+:host(.input--no-top-border) input {
+  @apply border-t-0;
+}
+
+:host(.input--no-right-border) input {
+  border-inline-end: 0;
+}
+
+:host(.input--no-left-border) input {
+  border-inline-start: 0;
 }
 
 :host(.border-top-color-one) input {
