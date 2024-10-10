@@ -10,6 +10,8 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import interact from "interactjs";
+import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -29,8 +31,8 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { CSS } from "./resources";
-import { DisplayMode } from "./interfaces";
+import { CSS, initialResizePosition } from "./resources";
+import { DisplayMode, ResizePosition } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -127,6 +129,18 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
   /**
+   * When `true`, the component is resizable.
+   */
+  @Prop({ reflect: true }) resizable = false;
+
+  @Watch("open")
+  @Watch("position")
+  @Watch("resizable")
+  handleInteractionChange(): void {
+    this.setupInteractions();
+  }
+
+  /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    */
   @Prop({ reflect: true }) widthScale: Scale = "m";
@@ -159,6 +173,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
         onDeactivate: this.focusTrapDeactivates,
       },
     });
+    this.setupInteractions();
   }
 
   disconnectedCallback(): void {
@@ -191,7 +206,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             class={{
               [CSS.content]: true,
             }}
-            ref={this.setContentId}
+            ref={this.setContentEl}
           >
             <slot />
           </div>
@@ -213,6 +228,12 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   focusTrap: FocusTrap;
 
   @Element() el: HTMLCalciteSheetElement;
+
+  private interaction: Interactable;
+
+  private resizePosition: ResizePosition = { ...initialResizePosition };
+
+  private contentEl: HTMLDivElement;
 
   private contentId: string;
 
@@ -272,6 +293,93 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //
   //--------------------------------------------------------------------------
 
+  private updateSize({
+    type,
+    size,
+  }: {
+    type: "inlineSize" | "blockSize";
+    size: number | null;
+  }): void {
+    const { contentEl } = this;
+
+    if (!contentEl) {
+      return;
+    }
+
+    contentEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
+  }
+
+  private cleanupInteractions(): void {
+    this.interaction?.unset();
+    this.updateSize({ size: null, type: "inlineSize" });
+    this.updateSize({ size: null, type: "blockSize" });
+    this.resizePosition = { ...initialResizePosition };
+  }
+
+  // todo: make util
+  private isPixelValue(value: string): boolean {
+    return value.indexOf("px") !== -1;
+  }
+
+  private setupInteractions(): void {
+    this.cleanupInteractions();
+
+    const { el, transitionEl, resizable, resizePosition } = this;
+
+    if (!transitionEl || !this.open) {
+      return;
+    }
+
+    // todo: resize handle
+    // todo: position setup
+    if (resizable) {
+      this.interaction = interact(transitionEl, { context: el.ownerDocument });
+
+      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
+        window.getComputedStyle(transitionEl);
+
+      this.interaction.resizable({
+        edges: {
+          top: true,
+          right: true,
+          bottom: true,
+          left: true,
+        },
+        modifiers: [
+          interact.modifiers.restrictSize({
+            min: {
+              width: this.isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
+              height: this.isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+            },
+            max: {
+              width: this.isPixelValue(maxInlineSize)
+                ? parseInt(maxInlineSize, 10)
+                : window.innerWidth,
+              height: this.isPixelValue(maxBlockSize)
+                ? parseInt(maxBlockSize, 10)
+                : window.innerHeight,
+            },
+          }),
+          interact.modifiers.restrict({
+            restriction: "parent",
+          }),
+        ],
+        listeners: {
+          move: ({ rect, deltaRect }: ResizeEvent) => {
+            if (deltaRect) {
+              resizePosition.top += deltaRect.top;
+              resizePosition.right += deltaRect.right;
+              resizePosition.bottom += deltaRect.bottom;
+              resizePosition.left += deltaRect.left;
+            }
+            this.updateSize({ size: rect.width, type: "inlineSize" });
+            this.updateSize({ size: rect.height, type: "blockSize" });
+          },
+        },
+      });
+    }
+  }
+
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
   }
@@ -290,8 +398,10 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     deactivateFocusTrap(this);
   }
 
-  private setContentId = (el: HTMLDivElement): void => {
+  private setContentEl = (el: HTMLDivElement): void => {
+    this.contentEl = el;
     this.contentId = ensureId(el);
+    this.setupInteractions();
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
