@@ -2,17 +2,44 @@
  * CSS Custom Properties
  *
  * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-panel-content-space: Specifies the padding of the component's content.
- * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
- * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
+
+ * @prop --calcite-panel-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-panel-shadow: Specifies the shadow of the component.
+ * @prop --calcite-panel-heading-text-color: Specifies the text color of the component's `heading`.
+ * @prop --calcite-panel-description-text-color: Specifies the text color of the component's `description`.
+
  * @prop --calcite-panel-background-color: Specifies the background color of the component.
+ * @prop --calcite-panel-header-background-color: Specifies the background color of the component's footer.
+ * @prop --calcite-panel-footer-background-color: Specifies the background color of the component's footer.
+ * @prop --calcite-panel-content-top-background-color: Specifies the border color of the `"content-top"` slot.
+ * @prop --calcite-panel-content-bottom-background-color: Specifies the border color of the `"content-bottom"` slot.
+
+ * @prop --calcite-panel-border-color: Specifies the border color of the component.
+ * @prop --calcite-panel-header-border-color: Specifies the border color of the component's header.
+ * @prop --calcite-panel-footer-border-color: Specifies the border color of the component's footer.
+ * @prop --calcite-panel-content-top-border-color: Specifies the border color of the `"content-top"` slot.
+ * @prop --calcite-panel-content-bottom-border-color: Specifies the border color of the `"content-bottom"` slot.
+ * @prop --calcite-panel-action-bar-border-color: Specifies the border color of the `"action-bar"` slot.
+
+ * @prop --calcite-panel-space: Specifies the padding of the component's `"unnamed (default)"` slot.
+ * @prop --calcite-panel-header-space: Specifies the padding of the component's header.
+ * @prop --calcite-panel-footer-space: Specifies the padding of the component's footer.
+ * @prop --calcite-panel-content-top-space: Specifies the padding of the `"content-top"` slot.
+ * @prop --calcite-panel-content-bottom-space: Specifies the padding of the `"content-bottom"` slot.
+
+ * @prop --calcite-panel-actions-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements.
+ * @prop --calcite-panel-actions-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements when hovered.
+ * @prop --calcite-panel-actions-background-color-pressed: Specifies the background color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements when pressed.
+ * @prop --calcite-panel-actions-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements.
+ * @prop --calcite-panel-actions-text-color-pressed: Specifies the text color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements when pressed.
+
+ * @prop --calcite-panel-content-space: [Deprecated] Specifies the padding of the component's content.
+ * @prop --calcite-panel-footer-padding: [Deprecated] Specifies the padding of the component's footer.
+ * @prop --calcite-panel-header-border-block-end: [Deprecated] Specifies the component header's block end border.
  */
 
 :host {
-  @extend %component-host;
-  @apply relative flex w-full h-full flex-auto overflow-hidden;
-
+  @apply relative flex w-full h-full flex-auto;
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
 }
 
@@ -68,17 +95,31 @@
 .content-top,
 .content-bottom {
   @apply flex items-start self-stretch;
+}
 
-  border-block-start: 1px solid var(--calcite-color-border-3);
-  background-color: var(--calcite-color-foreground-1);
+.content-top {
+  background-color: var(--calcite-panel-content-top-background-color);
+  padding: var(--calcite-panel-content-top-space, var(--calcite-internal-panel-default-padding));
+  border-block-start: 1px solid var(--calcite-panel-content-top-border-color, var(--calcite-color-border-3));
+}
+
+.content-bottom {
+  background-color: var(--calcite-panel-content-bottom-background-color);
+  padding: var(--calcite-panel-content-bottom-space, var(--calcite-internal-panel-default-padding));
+  border-block-start: 1px solid var(--calcite-panel-content-bottom-border-color, var(--calcite-color-border-3));
 }
 
 .container {
-  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
-
+  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden box-border;
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
+  box-shadow:
+    0 0 0 1px var(--calcite-panel-border-color),
+    var(--calcite-panel-shadow, var(--calcite-shadow-none));
+  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
+  box-sizing: border-box;
+  font-size: var(--calcite-font-size--1);
 }
 
 .container[hidden] {
@@ -87,7 +128,13 @@
 
 .header {
   @apply bg-foreground-1 flex flex-col z-header;
-  border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
+  border-block-end: 1px solid
+    var(
+      --calcite-panel-header-border-color,
+      var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3))
+    );
+  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none))
+    var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none)) 0 0;
 }
 
 .header-container {
@@ -98,7 +145,7 @@
 }
 
 .header-container--border-end {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  border-block-end: 1px solid var(--calcite-panel-header-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container {
@@ -126,7 +173,8 @@
   }
 
   .heading {
-    @apply mx-0 mt-0 mb-1 font-medium text-color-1;
+    @apply mx-0 mt-0 mb-1 font-medium;
+    color: var(--calcite-panel-heading-text-color, var(--calcite-color-text-1));
 
     &:only-child {
       @apply mb-0;
@@ -134,15 +182,15 @@
   }
 
   .description {
-    @apply text-color-2;
+    color: var(--calcite-panel-description-text-color, var(--calcite-color-text-2));
   }
 }
 
 .back-button {
-  @apply border-color-3
-  border-0
+  @apply border-0
   border-solid;
   border-inline-end-width: theme("borderWidth.DEFAULT");
+  border-color: var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .header-actions {
@@ -156,6 +204,29 @@
   margin-inline-start: theme("margin.auto");
 }
 
+#close,
+#collapse,
+.back-button,
+calcite-action-menu {
+  --calcite-action-background-color: var(--calcite-panel-actions-background-color);
+  --calcite-action-background-color-hover: var(--calcite-panel-actions-background-color-hover);
+  --calcite-action-background-color-pressed: var(--calcite-panel-actions-background-color-pressed);
+  --calcite-action-text-color: var(--calcite-panel-actions-text-color);
+  --calcite-action-text-color-pressed: var(--calcite-panel-actions-text-color-pressed);
+}
+
+#close,
+#collapse,
+calcite-action-menu {
+  &:last-child {
+    --calcite-action-corner-radius-start-end: var(--calcite-panel-corner-radius);
+  }
+}
+
+.back-button {
+  --calcite-action-corner-radius-start-start: var(--calcite-panel-corner-radius);
+}
+
 .content-wrapper {
   @apply flex
   flex-auto
@@ -166,7 +237,7 @@
   h-full
   focus-base
   relative;
-  padding: var(--calcite-panel-content-space, 0);
+  padding: var(--calcite-panel-space, var(--calcite-panel-content-space, 0));
   background: var(--calcite-panel-background-color, var(--calcite-color-background));
 }
 
@@ -174,21 +245,23 @@
   @apply focus-inset;
 }
 
-.content-top,
-.content-bottom {
-  padding: var(--calcite-internal-panel-default-padding);
-}
-
 .header-content {
   flex: 1 1 auto;
   padding-block: var(--calcite-internal-panel-header-vertical-padding);
   padding-inline: var(--calcite-internal-panel-default-padding);
+  background-color: var(--calcite-panel-header-background-color);
 }
 
 .footer {
-  @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1 text-n2-wrap;
-  border-block-start: 1px solid var(--calcite-color-border-3);
-  padding: var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-padding));
+  @apply flex mt-auto flex-row content-between justify-center items-center text-n2-wrap;
+  border-block-start: 1px solid var(--calcite-panel-footer-border-color, var(--calcite-color-border-3));
+  padding: var(
+    var(--calcite-panel-footer-space),
+    var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-padding))
+  );
+  background-color: var(--calcite-panel-footer-background-color);
+  border-radius: 0 0 var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none))
+    var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
 }
 
 .footer-content {
