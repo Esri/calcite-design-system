@@ -37,7 +37,7 @@ describe("calcite-notice", () => {
 
   describe("openClose", () => {
     openClose("calcite-notice", {
-      collapsedOnClose: true,
+      collapsedOnClose: "vertical",
     });
   });
 
