@@ -4,33 +4,28 @@ const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
 const listItemSelector = "calcite-list-item";
 
-export function getListItemChildLists(slotEl: HTMLSlotElement): HTMLCalciteListElement[] {
-  return Array.from(
-    slotEl.assignedElements({ flatten: true }).filter((el): el is HTMLCalciteListElement => el.matches(listSelector)),
-  );
-}
-
-export function getListItemChildren(slotEl: HTMLSlotElement): HTMLCalciteListItemElement[] {
+export function hasListItemChildren(slotEl: HTMLSlotElement): boolean {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
-  const listItemGroupChildren = assignedElements
+  const groupChildren = assignedElements
     .filter((el): el is HTMLCalciteListItemGroupElement => el?.matches(listItemGroupSelector))
-    .map((group) => Array.from(group.querySelectorAll(listItemSelector)))
-    .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+    .map((group) => Array.from(group.querySelectorAll<HTMLCalciteListItemElement>(listItemSelector)))
+    .flat();
 
   const listItemChildren = assignedElements.filter((el): el is HTMLCalciteListItemElement =>
     el?.matches(listItemSelector),
   );
 
-  const listItemListChildren = assignedElements
-    .filter((el): el is HTMLCalciteListElement => el?.matches(listSelector))
-    .map((list) => Array.from(list.querySelectorAll(listItemSelector)))
-    .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+  const listChildren = assignedElements.filter((el): el is HTMLCalciteListElement => el?.matches(listSelector));
 
-  return [...listItemListChildren, ...listItemGroupChildren, ...listItemChildren];
+  return [...listChildren, ...groupChildren, ...listItemChildren].length > 0;
 }
 
-export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElement[]): void {
+export function updateListItemChildren(slotEl: HTMLSlotElement): void {
+  const listItemChildren = slotEl
+    .assignedElements({ flatten: true })
+    .filter((el): el is HTMLCalciteListItemElement => el?.matches(listItemSelector));
+
   listItemChildren.forEach((listItem) => {
     listItem.setPosition = listItemChildren.indexOf(listItem) + 1;
     listItem.setSize = listItemChildren.length;
