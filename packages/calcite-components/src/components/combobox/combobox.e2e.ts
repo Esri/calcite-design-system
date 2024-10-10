@@ -536,13 +536,18 @@ describe("calcite-combobox", () => {
 
     it("should restore filter text when no items are filtered", async () => {
       const page = await newE2EPage();
-      await page.setContent(`
-     <calcite-combobox placeholder="Select a field" selection-mode="single-persist">
-      <calcite-combobox-item id="one" value="Natural Resources" text-label="Natural Resources" selected></calcite-combobox-item>
-      <calcite-combobox-item id="two" value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
-      <calcite-combobox-item id="three" value="Transportation" text-label="Transportation"></calcite-combobox-item>
-    </calcite-combobox>
-    `);
+      await page.setContent(html`
+        <calcite-combobox placeholder="Select a field" selection-mode="single-persist">
+          <calcite-combobox-item
+            id="one"
+            value="Natural Resources"
+            text-label="Natural Resources"
+            selected
+          ></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="Transportation" text-label="Transportation"></calcite-combobox-item>
+        </calcite-combobox>
+      `);
 
       const combobox = await page.find("calcite-combobox");
       const input = await page.find("calcite-combobox >>> input");
