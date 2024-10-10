@@ -631,6 +631,7 @@ describe("calcite-combobox", () => {
       expect((await combobox.getProperty("filteredItems")).length).toBe(0);
       expect(await input.getProperty("value")).toBe("anm");
       expect(input).not.toHaveClass(`${CSS.inputHidden}`);
+    });
   });
 
   it("should control max items displayed", async () => {
