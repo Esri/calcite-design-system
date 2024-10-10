@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.8...@esri/calcite-components@2.14.0-next.9) (2024-10-09)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.14.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.7...@esri/calcite-components@2.14.0-next.8) (2024-10-09)
+
+### Features
+
+- **pagination:** enhance component's interactive states ([#10485](https://github.com/Esri/calcite-design-system/issues/10485)) ([a26db31](https://github.com/Esri/calcite-design-system/commit/a26db3147c4d23cbf9147d754c47a34bdb3ac883)), closes [#9991](https://github.com/Esri/calcite-design-system/issues/9991)
+- **stepper-item:** update component's active state background color ([#10487](https://github.com/Esri/calcite-design-system/issues/10487)) ([26aec11](https://github.com/Esri/calcite-design-system/commit/26aec114b6bb296c923c76f1d1c55fb43c37e3a4)), closes [#10000](https://github.com/Esri/calcite-design-system/issues/10000)
+
 ## [2.14.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.6...@esri/calcite-components@2.14.0-next.7) (2024-10-08)
 
 ### Bug Fixes

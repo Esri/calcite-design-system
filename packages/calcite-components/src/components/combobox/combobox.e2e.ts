@@ -589,6 +589,48 @@ describe("calcite-combobox", () => {
       expect(await five.isVisible()).toBeFalsy();
       expect(await six.isVisible()).toBeFalsy();
     });
+
+    it("should restore filter text when no items are filtered", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox placeholder="Select a field" selection-mode="single-persist">
+          <calcite-combobox-item
+            id="one"
+            value="Natural Resources"
+            text-label="Natural Resources"
+            selected
+          ></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="Transportation" text-label="Transportation"></calcite-combobox-item>
+        </calcite-combobox>
+      `);
+
+      const combobox = await page.find("calcite-combobox");
+      const input = await page.find("calcite-combobox >>> input");
+      await combobox.click();
+      await page.waitForChanges();
+      await combobox.type("an");
+      await page.waitForChanges();
+      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      const one = await page.find("#one");
+      const two = await page.find("#two");
+      const three = await page.find("#three");
+
+      expect(await one.isVisible()).toBeFalsy();
+      expect(await two.isVisible()).toBeFalsy();
+      expect(await three.isVisible()).toBeTruthy();
+
+      await combobox.type("m");
+      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForChanges();
+      expect(await one.isVisible()).toBeFalsy();
+      expect(await two.isVisible()).toBeFalsy();
+      expect(await three.isVisible()).toBeFalsy();
+
+      expect(await combobox.getProperty("value")).toBe("Natural Resources");
+      expect((await combobox.getProperty("filteredItems")).length).toBe(0);
+      expect(await input.getProperty("value")).toBe("anm");
+      expect(input).not.toHaveClass(`${CSS.inputHidden}`);
   });
 
   it("should control max items displayed", async () => {
