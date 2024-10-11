@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0...@esri/calcite-components@2.13.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* **chip:** Fix close icon color inconsistency ([e8cc258](https://github.com/Esri/calcite-design-system/commit/e8cc258b99b528fe374ba5002fc1170d074c7aa0))
+* **chip:** Fix close icon color inconsistency ([80b75c2](https://github.com/Esri/calcite-design-system/commit/80b75c25a31897bf2a05ff7c3c21a77e962f79c3))
+* **chip:** Fix close icon color inconsistency ([655bbb7](https://github.com/Esri/calcite-design-system/commit/655bbb744ce74d3ebb528692dc9c5182d162db1a))
+* **chip:** Fix close icon color inconsistency ([6667c2a](https://github.com/Esri/calcite-design-system/commit/6667c2a80d180c0588064eb463e768c3ed2adece))
+* **chip:** Fix close icon color inconsistency ([0fa175b](https://github.com/Esri/calcite-design-system/commit/0fa175bf5e1564c2e88c94dbd16d43d07debb057))
+* **chip:** Fix close icon color inconsistency ([e93fdbc](https://github.com/Esri/calcite-design-system/commit/e93fdbcf361d59efdee625fb0ef50d8044b6e545))
+* **chip:** Fix close icon color inconsistency ([2df7c07](https://github.com/Esri/calcite-design-system/commit/2df7c07311543f836100f47b47e5ec35cd1197d4))
+* **combobox:** Restores `filterText` when filtered items are empty ([e8cc258](https://github.com/Esri/calcite-design-system/commit/e8cc258b99b528fe374ba5002fc1170d074c7aa0))
+* **combobox:** Restores `filterText` when filtered items are empty ([80b75c2](https://github.com/Esri/calcite-design-system/commit/80b75c25a31897bf2a05ff7c3c21a77e962f79c3))
+* **combobox:** Restores `filterText` when filtered items are empty ([655bbb7](https://github.com/Esri/calcite-design-system/commit/655bbb744ce74d3ebb528692dc9c5182d162db1a))
+* **combobox:** Restores `filterText` when filtered items are empty ([6667c2a](https://github.com/Esri/calcite-design-system/commit/6667c2a80d180c0588064eb463e768c3ed2adece))
+* **combobox:** Restores `filterText` when filtered items are empty ([0fa175b](https://github.com/Esri/calcite-design-system/commit/0fa175bf5e1564c2e88c94dbd16d43d07debb057))
+* **combobox:** Restores `filterText` when filtered items are empty ([e93fdbc](https://github.com/Esri/calcite-design-system/commit/e93fdbcf361d59efdee625fb0ef50d8044b6e545))
+* **combobox:** Restores `filterText` when filtered items are empty ([2df7c07](https://github.com/Esri/calcite-design-system/commit/2df7c07311543f836100f47b47e5ec35cd1197d4))
+* **dialog:** No longer apply transform styling unless dragEnabled or resizable ([e8cc258](https://github.com/Esri/calcite-design-system/commit/e8cc258b99b528fe374ba5002fc1170d074c7aa0))
+* **dialog:** No longer apply transform styling unless dragEnabled or resizable ([80b75c2](https://github.com/Esri/calcite-design-system/commit/80b75c25a31897bf2a05ff7c3c21a77e962f79c3))
+* **dialog:** No longer apply transform styling unless dragEnabled or resizable ([655bbb7](https://github.com/Esri/calcite-design-system/commit/655bbb744ce74d3ebb528692dc9c5182d162db1a))
+* **dialog:** No longer apply transform styling unless dragEnabled or resizable ([6667c2a](https://github.com/Esri/calcite-design-system/commit/6667c2a80d180c0588064eb463e768c3ed2adece))
+* **dialog:** No longer apply transform styling unless dragEnabled or resizable ([0fa175b](https://github.com/Esri/calcite-design-system/commit/0fa175bf5e1564c2e88c94dbd16d43d07debb057))
+* **dialog:** No longer apply transform styling unless dragEnabled or resizable ([e93fdbc](https://github.com/Esri/calcite-design-system/commit/e93fdbcf361d59efdee625fb0ef50d8044b6e545))
+* **dialog:** No longer apply transform styling unless dragEnabled or resizable ([2df7c07](https://github.com/Esri/calcite-design-system/commit/2df7c07311543f836100f47b47e5ec35cd1197d4))
+* **notice:** Ensure closed notice does not affect layout ([e8cc258](https://github.com/Esri/calcite-design-system/commit/e8cc258b99b528fe374ba5002fc1170d074c7aa0))
+* **notice:** Ensure closed notice does not affect layout ([80b75c2](https://github.com/Esri/calcite-design-system/commit/80b75c25a31897bf2a05ff7c3c21a77e962f79c3))
+* **notice:** Ensure closed notice does not affect layout ([655bbb7](https://github.com/Esri/calcite-design-system/commit/655bbb744ce74d3ebb528692dc9c5182d162db1a))
+* **notice:** Ensure closed notice does not affect layout ([6667c2a](https://github.com/Esri/calcite-design-system/commit/6667c2a80d180c0588064eb463e768c3ed2adece))
+* **notice:** Ensure closed notice does not affect layout ([0fa175b](https://github.com/Esri/calcite-design-system/commit/0fa175bf5e1564c2e88c94dbd16d43d07debb057))
+* **notice:** Ensure closed notice does not affect layout ([e93fdbc](https://github.com/Esri/calcite-design-system/commit/e93fdbcf361d59efdee625fb0ef50d8044b6e545))
+* **notice:** Ensure closed notice does not affect layout ([2df7c07](https://github.com/Esri/calcite-design-system/commit/2df7c07311543f836100f47b47e5ec35cd1197d4))
+* **panel:** Revert relative positioning on content ([e8cc258](https://github.com/Esri/calcite-design-system/commit/e8cc258b99b528fe374ba5002fc1170d074c7aa0))
+* **panel:** Revert relative positioning on content ([80b75c2](https://github.com/Esri/calcite-design-system/commit/80b75c25a31897bf2a05ff7c3c21a77e962f79c3))
+* **panel:** Revert relative positioning on content ([655bbb7](https://github.com/Esri/calcite-design-system/commit/655bbb744ce74d3ebb528692dc9c5182d162db1a))
+* **panel:** Revert relative positioning on content ([6667c2a](https://github.com/Esri/calcite-design-system/commit/6667c2a80d180c0588064eb463e768c3ed2adece))
+* **panel:** Revert relative positioning on content ([0fa175b](https://github.com/Esri/calcite-design-system/commit/0fa175bf5e1564c2e88c94dbd16d43d07debb057))
+* **panel:** Revert relative positioning on content ([e93fdbc](https://github.com/Esri/calcite-design-system/commit/e93fdbcf361d59efdee625fb0ef50d8044b6e545))
+* **panel:** Revert relative positioning on content ([2df7c07](https://github.com/Esri/calcite-design-system/commit/2df7c07311543f836100f47b47e5ec35cd1197d4))
+
 ## [2.13.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2...@esri/calcite-components@2.13.0) (2024-09-30)
 
 ### Features
