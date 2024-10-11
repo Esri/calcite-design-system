@@ -1,20 +1,8 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS, sheetResizeStep } from "./resources";
-
-const dispatchSheetKeydown = async ({ page, key }: { page: E2EPage; key: string }): Promise<void> => {
-  await page.$eval(
-    `calcite-sheet >>> .${CSS.container}`,
-    (el: HTMLDivElement, key) => {
-      el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
-    },
-    key,
-  );
-
-  await page.waitForChanges();
-};
 
 describe("calcite-sheet properties", () => {
   describe("defaults", () => {
@@ -597,7 +585,7 @@ describe("calcite-sheet properties", () => {
       const page = await newE2EPage();
       await page.setContent(
         html` <calcite-sheet
-          width-scale="l"
+          width-scale="m"
           height-scale="m"
           heading="Hello world"
           position="inline-start"
@@ -618,7 +606,7 @@ describe("calcite-sheet properties", () => {
             lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu fermentum
             tellus quis ad facilisis ultrices eros imperdiet.
           </p>
-          <button>test</button>
+          <button id="test">test</button>
         </calcite-sheet>`,
       );
       await skipAnimations(page);
@@ -627,17 +615,22 @@ describe("calcite-sheet properties", () => {
       const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
 
       let computedStyle = await container.getComputedStyle();
-      const initialBlockSize = computedStyle.blockSize;
       const initialInlineSize = computedStyle.inlineSize;
-      const initialHeight = parseInt(initialBlockSize, 10);
       const initialWidth = parseInt(initialInlineSize, 10);
 
-      await dispatchSheetKeydown({ page, key: "ArrowLeft" });
+      const button = await page.find("#test");
+      await button.focus();
+
+      await page.keyboard.down("ArrowLeft");
+      await page.keyboard.up("ArrowLeft");
+      await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.inlineSize).toBe(`${initialWidth - sheetResizeStep}px`);
 
-      await dispatchSheetKeydown({ page, key: "ArrowRight" });
+      await page.keyboard.down("ArrowRight");
+      await page.keyboard.up("ArrowRight");
+      await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
@@ -645,13 +638,20 @@ describe("calcite-sheet properties", () => {
       const sheet = await page.find("calcite-sheet");
       sheet.setProperty("position", "block-start");
       await page.waitForChanges();
+      computedStyle = await container.getComputedStyle();
+      const initialBlockSize = computedStyle.blockSize;
+      const initialHeight = parseInt(initialBlockSize, 10);
 
-      await dispatchSheetKeydown({ page, key: "ArrowDown" });
+      await page.keyboard.down("ArrowDown");
+      await page.keyboard.up("ArrowDown");
+      await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight - sheetResizeStep}px`);
+      expect(computedStyle.blockSize).toBe(`${initialHeight + sheetResizeStep}px`);
 
-      await dispatchSheetKeydown({ page, key: "ArrowUp" });
+      await page.keyboard.down("ArrowUp");
+      await page.keyboard.up("ArrowUp");
+      await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
