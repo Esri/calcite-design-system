@@ -232,9 +232,15 @@
 .resize-handle {
   @apply flex bg-background justify-center items-center overflow-hidden;
 
+  color: var(--calcite-color-border-input);
+
   calcite-icon {
     @apply pointer-events-none;
   }
+}
+
+.resize-handle:hover {
+  @apply text-color-1;
 }
 
 :host([resizable][position="inline-start"]) .resize-handle,
