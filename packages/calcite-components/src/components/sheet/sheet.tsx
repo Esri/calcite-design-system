@@ -440,47 +440,43 @@ export class Sheet
   private setupInteractions(): void {
     this.cleanupInteractions();
 
-    const { el, contentEl, resizable, position } = this;
+    const { el, contentEl, resizable, position, open } = this;
 
-    if (!contentEl || !this.open) {
+    if (!contentEl || !open || !resizable) {
       return;
     }
 
-    if (resizable) {
-      this.interaction = interact(contentEl, { context: el.ownerDocument });
+    const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
+      window.getComputedStyle(contentEl);
 
-      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
-        window.getComputedStyle(contentEl);
+    const rtl = getElementDir(el) === "rtl";
 
-      const rtl = getElementDir(el) === "rtl";
-
-      this.interaction.resizable({
-        edges: {
-          top: position === "block-end",
-          right: position === (rtl ? "inline-end" : "inline-start"),
-          bottom: position === "block-start",
-          left: position === (rtl ? "inline-start" : "inline-end"),
-        },
-        modifiers: [
-          interact.modifiers.restrictSize({
-            min: {
-              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
-            },
-            max: {
-              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
-              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
-            },
-          }),
-        ],
-        listeners: {
-          move: ({ rect }: ResizeEvent) => {
-            this.updateSize({ size: rect.width, type: "inlineSize" });
-            this.updateSize({ size: rect.height, type: "blockSize" });
+    this.interaction = interact(contentEl, { context: el.ownerDocument }).resizable({
+      edges: {
+        top: position === "block-end",
+        right: position === (rtl ? "inline-end" : "inline-start"),
+        bottom: position === "block-start",
+        left: position === (rtl ? "inline-start" : "inline-end"),
+      },
+      modifiers: [
+        interact.modifiers.restrictSize({
+          min: {
+            width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
+            height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
           },
+          max: {
+            width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
+            height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+          },
+        }),
+      ],
+      listeners: {
+        move: ({ rect }: ResizeEvent) => {
+          this.updateSize({ size: rect.width, type: "inlineSize" });
+          this.updateSize({ size: rect.height, type: "blockSize" });
         },
-      });
-    }
+      },
+    });
   }
 
   onBeforeOpen(): void {
