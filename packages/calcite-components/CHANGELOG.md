@@ -39,6 +39,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **text-area:** ensure border-color token doesn't override invalid styles ([#10390](https://github.com/Esri/calcite-design-system/issues/10390)) ([699e166](https://github.com/Esri/calcite-design-system/commit/699e166f19786cee7c9b4a542a1d19426c1051ed)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
 - **tooltip:** closed tooltips should not reappear ([#10420](https://github.com/Esri/calcite-design-system/issues/10420)) ([a2f3925](https://github.com/Esri/calcite-design-system/commit/a2f392527dd3efb0fe0f160e67fb4e88115cf203)), closes [#10416](https://github.com/Esri/calcite-design-system/issues/10416)
 
+## [2.13.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0...@esri/calcite-components@2.13.1) (2024-10-11)
+
+### Bug Fixes
+
+- **chip:** Fix close icon color inconsistency ([#10493](https://github.com/Esri/calcite-design-system/issues/10493)) ([80b75c2](https://github.com/Esri/calcite-design-system/commit/80b75c25a31897bf2a05ff7c3c21a77e962f79c3))
+- **combobox:** Restores `filterText` when filtered items are empty ([#10498](https://github.com/Esri/calcite-design-system/issues/10498)) ([6667c2a](https://github.com/Esri/calcite-design-system/commit/6667c2a80d180c0588064eb463e768c3ed2adece))
+- **dialog:** No longer apply transform styling unless dragEnabled or resizable ([#10503](https://github.com/Esri/calcite-design-system/issues/10503)) ([e93fdbc](https://github.com/Esri/calcite-design-system/commit/e93fdbcf361d59efdee625fb0ef50d8044b6e545))
+- **notice:** Ensure closed notice does not affect layout ([#10518](https://github.com/Esri/calcite-design-system/issues/10518)) ([655bbb7](https://github.com/Esri/calcite-design-system/commit/655bbb744ce74d3ebb528692dc9c5182d162db1a))
+- **fix(panel):** Revert relative positioning on content ([#10496](https://github.com/Esri/calcite-design-system/issues/10496)) ([239f4da](https://github.com/Esri/calcite-design-system/commit/239f4da406920fcb3c4019573ccf3605903f954a))
+
 ## [2.13.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.12.2...@esri/calcite-components@2.13.0) (2024-09-30)
 
 ### Features
