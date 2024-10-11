@@ -1,35 +1,30 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-tab-nav-button-background-color-pressed: Specifies the background color of the scroll buttons when pressed.
- * @prop --calcite-tab-nav-button-background-color: Specifies the background color of the scroll buttons.
- * @prop --calcite-tab-nav-button-border-color-pressed: Specifies the border color of the scroll buttons when pressed.
- * @prop --calcite-tab-nav-button-border-color: Specifies the border color of the scroll buttons.
- * @prop --calcite-tab-nav-button-icon-color-pressed: Specifies the color of the scroll buttons' icon when pressed.
- * @prop --calcite-tab-nav-button-icon-color: Specifies the color of the scroll buttons' icon.
- */
-
 :host {
   --calcite-internal-tab-nav-gradient-start-side: left;
   --calcite-internal-tab-nav-gradient-end-side: right;
 
+  --calcite-internal-tab-nav-button-background-color: var(--calcite-color-transparent);
+  --calcite-internal-tab-nav-button-border-color: var(--calcite-color-transparent);
+
   @apply relative flex;
 }
 
+:host([bordered]) {
+  --calcite-internal-tab-nav-button-background-color: var(--calcite-internal-tabs-background-color);
+  --calcite-internal-tab-nav-button-border-color: var(--calcite-internal-tabs-border-color);
+}
+
 .scale-s {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-24};
+  --calcite-internal-tab-nav-button-width: #{$calcite-size-24};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-32};
+  --calcite-internal-tab-nav-button-width: #{$calcite-size-32};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-44};
+  --calcite-internal-tab-nav-button-width: #{$calcite-size-44};
   min-block-size: theme("spacing.11");
 }
 
@@ -45,8 +40,8 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-end-side),
       transparent,
-      transparent var(--calcite-internal-tab-nav-scroller-button-width),
-      white var(--calcite-internal-tab-nav-scroller-button-width),
+      transparent var(--calcite-internal-tab-nav-button-width),
+      white var(--calcite-internal-tab-nav-button-width),
       white $last-mask-color-stop-position
     );
   }
@@ -57,8 +52,8 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-start-side),
       transparent,
-      transparent var(--calcite-internal-tab-nav-scroller-button-width),
-      white var(--calcite-internal-tab-nav-scroller-button-width),
+      transparent var(--calcite-internal-tab-nav-button-width),
+      white var(--calcite-internal-tab-nav-button-width),
       white $last-mask-color-stop-position
     );
   }
@@ -69,16 +64,16 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     mask-image: linear-gradient(
         to var(--calcite-internal-tab-nav-gradient-end-side),
         transparent,
-        transparent var(--calcite-internal-tab-nav-scroller-button-width),
-        white var(--calcite-internal-tab-nav-scroller-button-width),
+        transparent var(--calcite-internal-tab-nav-button-width),
+        white var(--calcite-internal-tab-nav-button-width),
         white $last-mask-color-stop-position,
         transparent $last-mask-color-stop-position
       ),
       linear-gradient(
         to var(--calcite-internal-tab-nav-gradient-start-side),
         transparent,
-        transparent var(--calcite-internal-tab-nav-scroller-button-width),
-        white var(--calcite-internal-tab-nav-scroller-button-width),
+        transparent var(--calcite-internal-tab-nav-button-width),
+        white var(--calcite-internal-tab-nav-button-width),
         white $last-mask-color-stop-position,
         transparent $last-mask-color-stop-position
       );
@@ -140,9 +135,12 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   @apply absolute bottom-0 top-0;
 
   calcite-button {
-    --calcite-button-background-color: var(--calcite-tab-nav-button-background-color, var(--calcite-color-transparent));
-    --calcite-button-border-color: var(--calcite-tab-nav-button-border-color);
-    --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color);
+    --calcite-button-background-color: var(
+      --calcite-internal-tab-nav-button-background-color,
+      var(--calcite-color-transparent)
+    );
+    --calcite-button-border-color: var(--calcite-internal-tab-nav-button-border-color);
+    --calcite-button-icon-color: var(--calcite-tab-icon-color);
     --calcite-button-shadow-color: var(--calcite-color-transparent);
     --calcite-offset-invert-focus: 1;
 
@@ -151,11 +149,11 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     &:active,
     &:hover {
       --calcite-button-background-color: var(
-        --calcite-tab-nav-button-background-color-pressed,
+        --calcite-internal-tab-background-color-hover,
         var(--calcite-color-transparent-hover)
       );
-      --calcite-button-border-color: var(--calcite-tab-nav-button-border-color-pressed);
-      --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color-pressed);
+      --calcite-button-border-color: var(--calcite-internal-tab-nav-button-border-color);
+      --calcite-button-icon-color: var(--calcite-tab-icon-color);
     }
   }
 }
@@ -174,7 +172,8 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   .scroll-button-container--backward,
   .scroll-button-container--forward {
     &::before {
-      background-color: var(--calcite-color-border-3);
+      background-color: var(--calcite-internal-tabs-border-color);
+      opacity: $calcite-opacity-50;
       content: "";
       inline-size: var(--calcite-border-width-sm);
       inset-block-start: var(--calcite-border-width-md);

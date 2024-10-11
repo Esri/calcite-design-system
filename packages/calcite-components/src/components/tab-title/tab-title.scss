@@ -157,16 +157,12 @@
   inset-block-end: 0;
 }
 
-:host([selected]) .selected-indicator,
-:host([selected]:hover) .selected-indicator {
-  // TODO: consolidate below
-  background-color: var(--calcite-internal-tab-accent-color-selected);
-}
-
 :host(:hover) .selected-indicator {
   background-color: var(--calcite-internal-tab-accent-color-hover);
 }
 
+:host([selected]) .selected-indicator,
+:host([selected]:hover) .selected-indicator,
 :host(:focus) .selected-indicator,
 :host(:active) .selected-indicator {
   background-color: var(--calcite-internal-tab-accent-color-selected);
