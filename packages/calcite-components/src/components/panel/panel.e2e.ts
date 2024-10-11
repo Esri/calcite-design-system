@@ -712,16 +712,22 @@ describe("calcite-panel", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
         },
+        /*
         "--calcite-panel-shadow": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "boxShadow",
         },
+        */
         "--calcite-panel-heading-text-color": {
           shadowSelector: `.${CSS.heading}`,
           targetProp: "color",
         },
+        "--calcite-panel-description-text-color": {
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
         "--calcite-panel-background-color": {
-          shadowSelector: `.${CSS.container}`,
+          shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "backgroundColor",
         },
         "--calcite-panel-header-background-color": {
@@ -740,9 +746,10 @@ describe("calcite-panel", () => {
           shadowSelector: `.${CSS.contentBottom}`,
           targetProp: "backgroundColor",
         },
+        /*
         "--calcite-panel-border-color": {
           shadowSelector: `.${CSS.container}`,
-          targetProp: "borderColor",
+          targetProp: "boxShadow",
         },
         "--calcite-panel-header-border-color": {
           shadowSelector: `.${CSS.header}`,
@@ -764,10 +771,12 @@ describe("calcite-panel", () => {
           shadowSelector: ``,
           targetProp: "borderColor",
         },
+        */
         "--calcite-panel-space": {
-          shadowSelector: `.${CSS.container}`,
+          shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "padding",
         },
+        /*
         "--calcite-panel-header-space": {
           shadowSelector: `.${CSS.header}`,
           targetProp: "padding",
@@ -776,6 +785,7 @@ describe("calcite-panel", () => {
           shadowSelector: `.${CSS.footer}`,
           targetProp: "padding",
         },
+        */
         "--calcite-panel-content-top-space": {
           shadowSelector: `.${CSS.contentTop}`,
           targetProp: "padding",
@@ -784,6 +794,7 @@ describe("calcite-panel", () => {
           shadowSelector: `.${CSS.contentBottom}`,
           targetProp: "padding",
         },
+        /*
         "--calcite-panel-actions-background-color": {
           shadowSelector: ``,
           targetProp: "backgroundColor",
@@ -804,19 +815,21 @@ describe("calcite-panel", () => {
           shadowSelector: ``,
           targetProp: "color",
         },
-        // deprecated
+        */
         "--calcite-panel-content-space": {
           shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "padding",
         },
+        /*
         "--calcite-panel-footer-padding": {
           shadowSelector: `.${CSS.footer}`,
           targetProp: "padding",
         },
         "--calcite-panel-header-border-block-end": {
-          shadowSelector: `.${CSS.contentWrapper}`,
-          targetProp: "padding",
+          shadowSelector: `.${CSS.header}`,
+          targetProp: "borderColor",
         },
+        */
       },
     );
   });

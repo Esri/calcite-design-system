@@ -39,7 +39,7 @@
  */
 
 :host {
-  @apply relative flex w-full h-full flex-auto;
+  @apply relative flex w-full h-full flex-auto box-border;
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
 }
 
@@ -127,14 +127,11 @@
 }
 
 .header {
-  @apply bg-foreground-1 flex flex-col z-header;
-  border-block-end: 1px solid
-    var(
-      --calcite-panel-header-border-color,
-      var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3))
-    );
+  @apply flex flex-col z-header;
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none))
     var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none)) 0 0;
+  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
+  border-block-end: 1px solid var(--calcite-panel-header-border-color, var(--calcite-color-border-3));
 }
 
 .header-container {
@@ -142,10 +139,6 @@
   items-stretch
   justify-start;
   flex: 0 0 auto;
-}
-
-.header-container--border-end {
-  border-block-end: 1px solid var(--calcite-panel-header-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container {
@@ -249,7 +242,6 @@ calcite-action-menu {
   flex: 1 1 auto;
   padding-block: var(--calcite-internal-panel-header-vertical-padding);
   padding-inline: var(--calcite-internal-panel-default-padding);
-  background-color: var(--calcite-panel-header-background-color);
 }
 
 .footer {
