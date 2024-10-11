@@ -15,14 +15,6 @@
   --calcite-internal-tab-nav-gradient-start-side: left;
   --calcite-internal-tab-nav-gradient-end-side: right;
 
-  --calcite-tab-nav-button-background-color-pressed: var(--calcite-internal-tab-background-color-hover);
-  --calcite-tab-nav-button-background-color: red;
-  --calcite-tab-nav-button-border-color-pressed: var(--calcite-internal-tabs-border-color);
-  --calcite-tab-nav-button-border-color: var(--calcite-internal-tabs-border-color);
-
-  --calcite-tab-nav-button-icon-color-pressed: var(--calcite-tab-icon-color);
-  --calcite-tab-nav-button-icon-color: var(--calcite-tab-icon-color);
-
   @apply relative flex;
 }
 
@@ -151,6 +143,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     --calcite-button-background-color: var(--calcite-tab-nav-button-background-color, var(--calcite-color-transparent));
     --calcite-button-border-color: var(--calcite-tab-nav-button-border-color);
     --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color);
+    --calcite-button-shadow-color: var(--calcite-color-transparent);
     --calcite-offset-invert-focus: 1;
 
     block-size: var(--calcite-container-size-content-fluid);

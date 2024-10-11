@@ -32,11 +32,27 @@
     --calcite-tab-background-color-hover,
     var(--calcite-color-foreground-2)
   );
+
+  --calcite-tab-nav-button-background-color-pressed: var(--calcite-internal-tab-background-color-hover);
+  --calcite-tab-nav-button-background-color: var(--calcite-color-transparent);
+  --calcite-tab-nav-button-border-color-pressed: var(--calcite-color-transparent);
+  --calcite-tab-nav-button-border-color: var(--calcite-color-transparent);
+
+  --calcite-tab-nav-button-icon-color-pressed: var(--calcite-tab-icon-color);
+  --calcite-tab-nav-button-icon-color: var(--calcite-tab-icon-color);
 }
 
 :host([bordered]) {
   box-shadow: inset 0 1px 0 var(--calcite-internal-tabs-border-color);
   background-color: var(--calcite-internal-tabs-background-color);
+
+  --calcite-tab-nav-button-background-color-pressed: var(--calcite-internal-tab-background-color-hover);
+  --calcite-tab-nav-button-background-color: var(--calcite-internal-tabs-background-color);
+  --calcite-tab-nav-button-border-color-pressed: var(--calcite-internal-tabs-border-color);
+  --calcite-tab-nav-button-border-color: var(--calcite-internal-tabs-border-color);
+
+  --calcite-tab-nav-button-icon-color-pressed: var(--calcite-tab-icon-color);
+  --calcite-tab-nav-button-icon-color: var(--calcite-tab-icon-color);
 
   section {
     border-color: var(--calcite-internal-tabs-border-color);
