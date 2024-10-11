@@ -73,10 +73,11 @@
   h-full
   justify-between
   px-0
-  text-color-3
   text-n1h
   transition-default
   w-full;
+
+  color: var(--calcite-tab-text-color, var(--calcite-text-color-3));
 }
 
 .selected-indicator {
@@ -182,7 +183,8 @@
 }
 
 :host([selected]) .container {
-  @apply text-color-1 border-color-transparent;
+  @apply border-color-transparent;
+  color: var(--calcite-tab-text-color-selected, var(--calcite-text-color-1));
 }
 
 :host(:focus) .container {
