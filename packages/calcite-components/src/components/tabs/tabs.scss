@@ -9,7 +9,9 @@
  * @prop --calcite-tab-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-tab-background-color: Specifies the component's background color.
  * @prop --calcite-tab-content-space-y: Specifies the block padding of the component's content.
+ * @prop --calcite-tab-item-end-icon-color: Specifies the component's `iconEnd` color. Fallback to `--calcite-tab-icon-color` or current color.
  * @prop --calcite-tab-icon-color: Specifies the component's icon color.
+ * @prop --calcite-tab-item-start-icon-color: Specifies the component's `iconStart` color. Fallback to `--calcite-tab-icon-color` or current color.
  * @prop --calcite-tab-text-color-selected: Specifies the component's text color when selected.
  * @prop --calcite-tab-text-color: Specifies the component's text color.
  */
@@ -19,6 +21,11 @@
 
   --calcite-internal-tabs-border-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
   --calcite-internal-tabs-background-color: var(--calcite-tabs-background-color, var(--calcite-color-foreground-1));
+  --calcite-internal-tab-accent-color-selected: var(--calcite-tab-accent-color-selected, var(--calcite-color-brand));
+  --calcite-internal-tab-background-color-hover: var(
+    --calcite-tab-background-color-hover,
+    var(--calcite-color-foreground-2)
+  );
 }
 
 :host([bordered]) {
