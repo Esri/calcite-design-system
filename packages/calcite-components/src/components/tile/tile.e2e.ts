@@ -273,7 +273,7 @@ describe("calcite-tile", () => {
         },
       );
     });
-    describe("single selection", () => {
+    describe("single selection with icon", () => {
       themed(
         html`
           <calcite-tile
@@ -286,11 +286,11 @@ describe("calcite-tile", () => {
           </calcite-tile>
         `,
         {
-          "--calcite-tile-selection-icon-color": {
+          "--calcite-tile-selection-color": {
             shadowSelector: `.${CSS.selectionIcon}`,
             targetProp: "color",
           },
-          "--calcite-tile-selection-icon-color-hover": {
+          "--calcite-tile-selection-color-hover": {
             shadowSelector: `.${CSS.selectionIcon}`,
             targetProp: "color",
             state: "hover",
@@ -298,6 +298,32 @@ describe("calcite-tile", () => {
         },
       );
     });
+    // describe("single selection with border appearance", () => {
+    //   themed(
+    //     html`
+    //       <calcite-tile
+    //         heading="Tile heading lorem ipsum"
+    //         description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+    //         icon="layers"
+    //         interactive
+    //         selection-mode="single"
+    //         selection-appearance="border"
+    //       >
+    //       </calcite-tile>
+    //     `,
+    //     {
+    //       "--calcite-tile-selection-color": {
+    //         shadowSelector: `.${CSS.container}`,
+    //         targetProp: "boxShadow",
+    //       },
+    //       "--calcite-tile-selection-color-hover": {
+    //         shadowSelector: `.${CSS.container}`,
+    //         targetProp: "boxShadow",
+    //         state: "hover",
+    //       },
+    //     },
+    //   );
+    // });
     describe("link", () => {
       themed(
         html`

@@ -9,8 +9,8 @@ export const tileTokens = {
   calciteTileHeadingTextColorHover: "",
   calciteTileHrefIconColorHover: "",
   calciteTileIconColor: "",
-  calciteTileSelectionIconColor: "",
-  calciteTileSelectionIconColorHover: "",
+  calciteTileSelectionColor: "",
+  calciteTileSelectionColorHover: "",
   calciteTileShadow: "",
 };
 
