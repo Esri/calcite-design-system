@@ -877,7 +877,7 @@ export class List
     this.moveToItems = lists.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id ?? guid(),
+      id: el.id || guid(),
     }));
   }
 
