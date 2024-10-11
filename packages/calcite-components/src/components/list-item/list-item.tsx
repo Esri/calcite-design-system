@@ -220,7 +220,7 @@ export class ListItem
    * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`.
    * @internal
    */
-  @Prop({ reflect: true }) interactionMode: InteractionMode = null;
+  @Prop() interactionMode: InteractionMode = null;
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
