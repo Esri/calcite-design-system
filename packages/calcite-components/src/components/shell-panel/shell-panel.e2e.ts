@@ -588,23 +588,4 @@ describe("calcite-shell-panel", () => {
   describe("translation support", () => {
     t9n("calcite-shell-panel");
   });
-
-  describe("deprecate widthScale and heightScale", () => {
-    it("width takes precedence over widthScale", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-shell-panel width-scale="l" width="s"></calcite-shell-panel>`);
-      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-      await page.waitForChanges();
-
-      expect(content.classList.contains(`${CSS.width}-s`)).toBe(true);
-    });
-    it("height takes precedence over heightScale", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-shell-panel height-scale="l" height="s"></calcite-shell-panel>`);
-      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-      await page.waitForChanges();
-
-      expect(content.classList.contains(`${CSS.height}-s`)).toBe(true);
-    });
-  });
 });
