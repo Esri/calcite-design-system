@@ -230,7 +230,11 @@
 }
 
 .resize-handle {
-  @apply bg-background;
+  @apply flex bg-background justify-center items-center overflow-hidden;
+
+  calcite-icon {
+    @apply pointer-events-none;
+  }
 }
 
 :host([resizable][position="inline-start"]) .resize-handle,
@@ -243,6 +247,10 @@
 :host([resizable][position="block-end"]) .resize-handle {
   block-size: var(--calcite-size-sm-plus);
   inline-size: 100%;
+
+  calcite-icon {
+    transform: rotate(90deg);
+  }
 }
 
 /**

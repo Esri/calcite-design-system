@@ -274,7 +274,9 @@ export class Sheet
           >
             <slot />
             {resizable ? (
-              <div class={CSS.resizeHandle} key="resize-handle" ref={this.setResizeHandleEl} />
+              <div class={CSS.resizeHandle} key="resize-handle" ref={this.setResizeHandleEl}>
+                <calcite-icon icon="drag" scale="s" />
+              </div>
             ) : null}
           </div>
         </div>
