@@ -347,72 +347,121 @@ describe("calcite-tab-title", () => {
   describe("theme", () => {
     describe("default", () => {
       themed("calcite-tab-title", {
-        "--calcite-tab-title-text-color": {
+        "--calcite-tab-text-color": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "color",
         },
+
+        // set by tabs
+        "--calcite-internal-tab-accent-color-hover": [
+          {
+            shadowSelector: `.${CSS.selectedIndicator}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+        ],
+      });
+
+      describe("selected", () => {
+        themed(html` <calcite-tab-title selected>yeah!</calcite-tab-title>`, {
+          "--calcite-tab-text-color-selected": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "color",
+          },
+
+          // set by tabs
+          "--calcite-internal-tab-accent-color-selected": [
+            {
+              shadowSelector: `.${CSS.selectedIndicator}`,
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${CSS.selectedIndicator}`,
+              targetProp: "backgroundColor",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.selectedIndicator}`,
+              targetProp: "backgroundColor",
+              state: "focus",
+            },
+          ],
+        });
       });
     });
 
     describe("bordered", () => {
-      themed(html`<calcite-tab-title bordered>close me</calcite-tab-title>`, {
-        "--calcite-tab-title-background-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
+      describe("default", () => {
+        themed(html` <calcite-tab-title bordered>hi there</calcite-tab-title>`, {
+          // set by tabs
+          "--calcite-internal-tab-background-color-hover": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          "--calcite-internal-tabs-border-color": [
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "borderBlockEndColor",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.selectedIndicator}`,
+              targetProp: "boxShadow",
+              state: "hover",
+            },
+          ],
+          "--calcite-internal-tab-accent-color-hover": {
+            shadowSelector: `.${CSS.selectedIndicator}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+        });
+      });
+
+      describe("selected", () => {
+        themed(html` <calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
+          // set by tabs
+          "--calcite-internal-tabs-background-color": {
+            shadowSelector: `.${CSS.container}::after`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-internal-tabs-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineColor",
+          },
+          "--calcite-internal-tab-background-color-hover": [
+            {
+              shadowSelector: `.${CSS.container}::after`,
+              targetProp: "backgroundColor",
+              state: "hover",
+            },
+          ],
+        });
       });
     });
 
     describe("with icon", () => {
-      themed(html`<calcite-tab-title icon-start="banana">close me</calcite-tab-title>`, {
-        "--calcite-tab-title-icon-color": {
-          shadowSelector: `.${CSS.titleIcon}`,
-          targetProp: "color",
-        },
+      describe("default", () => {
+        themed(html` <calcite-tab-title icon-start="banana" icon-end="3d-glasses">close me</calcite-tab-title>`, {
+          "--calcite-tab-icon-color": {
+            shadowSelector: `.${CSS.titleIcon}`,
+            targetProp: "--calcite-icon-color",
+          },
+        });
       });
-    });
 
-    describe("closable", () => {
-      themed(`<calcite-tab-title closable>close me</calcite-tab-title>`, {
-        "--calcite-tab-title-close-button-background-color": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-        },
-        "--calcite-tab-title-close-button-background-color-active": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-tab-title-close-button-background-color-focus": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-tab-title-close-button-background-color-hover": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-tab-title-close-button-icon-color": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-        },
-        "--calcite-tab-title-close-button-icon-color-active": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-tab-title-close-button-icon-color-focus": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-tab-title-close-button-icon-color-hover": {
-          shadowSelector: `.{CSS.closeButton}`,
-          targetProp: "color",
-          state: "hover",
-        },
+      describe("start/end icons", () => {
+        themed(html` <calcite-tab-title icon-start="banana" icon-end="3d-glasses">close me</calcite-tab-title>`, {
+          "--calcite-tab-icon-start-color": {
+            shadowSelector: `.${CSS.titleIcon}`,
+            targetProp: "--calcite-icon-color",
+          },
+          "--calcite-tab-icon-end-color": {
+            shadowSelector: `.${CSS.titleIcon}`,
+            targetProp: "--calcite-icon-color",
+          },
+        });
       });
     });
   });

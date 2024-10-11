@@ -253,7 +253,6 @@ describe("calcite-tab-nav", () => {
           "--calcite-tab-nav-button-background-color-active": {
             shadowSelector: `.${CSS.scrollButton}`,
             targetProp: "--calcite-button-background-color",
-            state: { press: { attribute: "class", value: CSS.scrollButton } },
           },
           "--calcite-tab-nav-button-background-color-focus": {
             shadowSelector: `.${CSS.scrollButton}`,

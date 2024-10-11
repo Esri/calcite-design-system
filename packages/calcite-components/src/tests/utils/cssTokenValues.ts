@@ -20,6 +20,9 @@ export function getTokenValue(token: string): string {
       "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px",
     "(z-index)$": "42",
     "(columns|gap|height|offset|radius|size|size-y|size-x|space|space-x|space-y|width)": "42px",
+
+    // deprecated
+    "block-padding$": "1337px",
   } as const;
 
   const match = Object.entries(tokenValueMap).find(([regexStr]) => {

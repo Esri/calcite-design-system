@@ -116,7 +116,6 @@
 :host([bordered]:not([selected]):hover:not(:focus)) {
   .selected-indicator {
     background-color: var(--calcite-internal-tab-accent-color-hover);
-    //background-color: var(--calcite-internal-tab-background-color-hover);
   }
   .container:not(.container--bottom) .selected-indicator {
     box-shadow: inset 0 1px var(--calcite-internal-tabs-border-color);
@@ -208,11 +207,11 @@
 }
 
 .icon-start {
-  color: var(--calcite-tab-icon-start-color, var(--calcite-tab-icon-color));
+  --calcite-icon-color: var(--calcite-tab-icon-start-color, var(--calcite-tab-icon-color));
 }
 
 .icon-end {
-  color: var(--calcite-tab-icon-end-color, var(--calcite-tab-icon-color));
+  --calcite-icon-color: var(--calcite-tab-icon-end-color, var(--calcite-tab-icon-color));
 }
 
 .content--has-text {
@@ -303,10 +302,6 @@
       box-shadow: 0 -2px 0 0 var(--calcite-color-foreground-3);
     }
   }
-}
-
-:host([bordered][selected]) {
-  box-shadow: inset 0 -1px var(--calcite-color-foreground-1);
 }
 
 :host([bordered]:not([selected])) .container .x-button {

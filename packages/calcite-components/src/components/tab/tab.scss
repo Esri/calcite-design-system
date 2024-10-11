@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-content-block-padding: [Deprecated] Use `--calcite-tabs-content-space-y` instead. Specifies the block padding of the component's content in the `default` slot.
+ * @prop --calcite-tab-content-block-padding: [Deprecated] Use `--calcite-tab-content-space-y` instead. Specifies the block padding of the component's content in the `default` slot.
  */
 
 :host([selected]) {
@@ -24,7 +24,7 @@
 .content {
   @apply box-border;
   padding-block: var(
-    --calcite-tabs-content-space-y,
+    --calcite-tab-content-space-y,
     var(--calcite-tab-content-block-padding, var(--calcite-internal-tabs-content-space-y-fallback))
   );
 }

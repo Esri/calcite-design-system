@@ -407,19 +407,29 @@ describe("calcite-tabs", () => {
     });
 
     describe("bordered", () => {
-      themed(html`<calcite-tabs bordered></calcite-tabs>`, {
-        "--calcite-tabs-background-color": {
-          targetProp: "backgroundColor",
-        },
-        "--calcite-tabs-border-color": [
-          {
+      describe("default", () => {
+        themed(html` <calcite-tabs bordered></calcite-tabs>`, {
+          "--calcite-tabs-background-color": {
+            targetProp: "backgroundColor",
+          },
+          "--calcite-tabs-border-color": [
+            {
+              targetProp: "boxShadow",
+            },
+            {
+              shadowSelector: `.${CSS.section}`,
+              targetProp: "borderColor",
+            },
+          ],
+        });
+      });
+
+      describe("bottom position", () => {
+        themed(html` <calcite-tabs bordered position="bottom"></calcite-tabs>`, {
+          "--calcite-tabs-border-color": {
             targetProp: "boxShadow",
           },
-          {
-            shadowSelector: `.${CSS.section}`,
-            targetProp: "borderColor",
-          },
-        ],
+        });
       });
     });
   });
