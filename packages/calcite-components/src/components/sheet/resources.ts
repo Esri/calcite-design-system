@@ -5,6 +5,7 @@ export const CSS = {
   containerOpen: "container--open",
   content: "content",
   containerEmbedded: "container--embedded",
+  resizeHandle: "resize-handle",
 };
 
 export const sheetResizeStep = 25;

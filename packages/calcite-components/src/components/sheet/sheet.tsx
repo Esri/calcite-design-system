@@ -241,7 +241,7 @@ export class Sheet
   }
 
   render(): VNode {
-    const { assistiveText } = this;
+    const { assistiveText, resizable } = this;
     const dir = getElementDir(this.el);
     return (
       <Host
@@ -273,6 +273,9 @@ export class Sheet
             ref={this.setContentEl}
           >
             <slot />
+            {resizable ? (
+              <div class={CSS.resizeHandle} key="resize-handle" ref={this.setResizeHandleEl} />
+            ) : null}
           </div>
         </div>
       </Host>
@@ -298,6 +301,8 @@ export class Sheet
   @State() defaultMessages: SheetMessages;
 
   private contentEl: HTMLDivElement;
+
+  private resizeHandleEl: HTMLDivElement;
 
   private interaction: Interactable;
 
@@ -440,9 +445,9 @@ export class Sheet
   private setupInteractions(): void {
     this.cleanupInteractions();
 
-    const { el, contentEl, resizable, position, open } = this;
+    const { el, contentEl, resizable, position, open, resizeHandleEl } = this;
 
-    if (!contentEl || !open || !resizable) {
+    if (!contentEl || !open || !resizable || !resizeHandleEl) {
       return;
     }
 
@@ -453,10 +458,10 @@ export class Sheet
 
     this.interaction = interact(contentEl, { context: el.ownerDocument }).resizable({
       edges: {
-        top: position === "block-end",
-        right: position === (rtl ? "inline-end" : "inline-start"),
-        bottom: position === "block-start",
-        left: position === (rtl ? "inline-start" : "inline-end"),
+        top: position === "block-end" ? resizeHandleEl : false,
+        right: position === (rtl ? "inline-end" : "inline-start") ? resizeHandleEl : false,
+        bottom: position === "block-start" ? resizeHandleEl : false,
+        left: position === (rtl ? "inline-start" : "inline-end") ? resizeHandleEl : false,
       },
       modifiers: [
         interact.modifiers.restrictSize({
@@ -497,10 +502,14 @@ export class Sheet
     deactivateFocusTrap(this);
   }
 
+  private setResizeHandleEl = (el: HTMLDivElement): void => {
+    this.resizeHandleEl = el;
+    this.setupInteractions();
+  };
+
   private setContentEl = (el: HTMLDivElement): void => {
     this.contentEl = el;
     this.contentId = ensureId(el);
-    this.setupInteractions();
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
