@@ -581,23 +581,4 @@ describe("calcite-sheet properties", () => {
       expect(closeSpy).toHaveReceivedEventTimes(1);
     });
   });
-
-  describe("deprecate widthScale and heightScale", () => {
-    it("width takes precedence over widthScale", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-sheet width-scale="l" width="s"></calcite-dropdown>`);
-      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
-      await page.waitForChanges();
-
-      expect(container.classList.contains(`${CSS.width}-s`)).toBe(true);
-    });
-    it("height takes precedence over heightScale", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-sheet height-scale="l" height="s"></calcite-dropdown>`);
-      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
-      await page.waitForChanges();
-
-      expect(container.classList.contains(`${CSS.height}-s`)).toBe(true);
-    });
-  });
 });
