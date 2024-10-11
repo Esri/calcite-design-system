@@ -107,7 +107,7 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
   return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
 
-export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem): HourCycle {
+export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem = "latn"): HourCycle {
   const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
@@ -216,7 +216,7 @@ interface LocalizeTimePartParameters {
   value: string;
   part: TimePart;
   locale: string;
-  numberingSystem: NumberingSystem;
+  numberingSystem?: NumberingSystem;
 }
 
 export function localizeTimePart({ value, part, locale, numberingSystem }: LocalizeTimePartParameters): string {
@@ -342,9 +342,13 @@ export function localizeTimeStringToParts({
 interface GetTimePartsParameters {
   value: string;
   locale: string;
-  numberingSystem: NumberingSystem;
+  numberingSystem?: NumberingSystem;
 }
-export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsParameters): Intl.DateTimeFormatPart[] {
+export function getTimeParts({
+  value,
+  locale,
+  numberingSystem = "latn",
+}: GetTimePartsParameters): Intl.DateTimeFormatPart[] {
   if (!isValidTime(value)) {
     return null;
   }
