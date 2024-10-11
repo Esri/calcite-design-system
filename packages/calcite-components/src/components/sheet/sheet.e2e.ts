@@ -597,7 +597,8 @@ describe("calcite-sheet properties", () => {
       const page = await newE2EPage();
       await page.setContent(
         html` <calcite-sheet
-          width-scale="s"
+          width-scale="l"
+          height-scale="m"
           heading="Hello world"
           position="inline-start"
           resizable
