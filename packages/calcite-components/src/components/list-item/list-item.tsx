@@ -222,19 +222,6 @@ export class ListItem
    */
   @Prop({ reflect: true }) interactionMode: InteractionMode = null;
 
-  @Watch("interactionMode")
-  @Watch("selectionAppearance")
-  @Watch("selectionMode")
-  handleInteractionModeSelectionAppearanceSelectionModeChange(): void {
-    if (
-      this.interactionMode === "static" &&
-      this.selectionMode !== "none" &&
-      this.selectionAppearance === "border"
-    ) {
-      console.warn(`selection-appearance=“border” requires interaction-mode=“interactive”`);
-    }
-  }
-
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    *

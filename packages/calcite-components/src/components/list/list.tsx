@@ -427,6 +427,7 @@ export class List
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.handleInteractionModeWarning();
     await setUpMessages(this);
   }
 
@@ -979,6 +980,16 @@ export class List
       }
     }
   };
+
+  private handleInteractionModeWarning(): void {
+    if (
+      this.interactionMode === "static" &&
+      this.selectionMode !== "none" &&
+      this.selectionAppearance === "border"
+    ) {
+      console.warn(`selection-appearance=“border” requires interaction-mode=“interactive”`);
+    }
+  }
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { handleSelector, dragSelector } = this;
