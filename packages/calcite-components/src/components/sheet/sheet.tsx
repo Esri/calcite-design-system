@@ -257,7 +257,6 @@ export class Sheet
             [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
-          onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
         >
           {assistiveText ? (
@@ -270,6 +269,7 @@ export class Sheet
             class={{
               [CSS.content]: true,
             }}
+            onKeyDown={this.handleKeyDown}
             ref={this.setContentEl}
           >
             <slot />

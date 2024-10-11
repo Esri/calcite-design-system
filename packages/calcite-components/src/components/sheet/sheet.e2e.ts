@@ -592,20 +592,33 @@ describe("calcite-sheet properties", () => {
     });
   });
 
-  // todo
   describe("keyboard resize", () => {
     it("should resize properly via arrow keys", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-sheet width-scale="s" heading="Hello world" resizable open
-          ><p>
+        html` <calcite-sheet
+          width-scale="s"
+          heading="Hello world"
+          position="inline-start"
+          resizable
+          open
+          style="
+            --calcite-sheet-width: 500px;
+            --calcite-sheet-max-width: 99999px;
+            --calcite-sheet-min-width: 0px;
+            --calcite-sheet-height: 500px;
+            --calcite-sheet-max-height: 99999px;
+            --calcite-sheet-min-height: 0px;"
+        >
+          <p>
             Lorem ipsum odor amet adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt. Lacinia et
             euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod eros ante.
             Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut ultrices;
             lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu fermentum
             tellus quis ad facilisis ultrices eros imperdiet.
-          </p></calcite-sheet
-        >`,
+          </p>
+          <button>test</button>
+        </calcite-sheet>`,
       );
       await skipAnimations(page);
       await page.setViewport({ width: 1200, height: 1200 });
@@ -621,28 +634,26 @@ describe("calcite-sheet properties", () => {
       await dispatchSheetKeydown({ page, key: "ArrowLeft" });
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth - sheetResizeStep}px`);
 
       await dispatchSheetKeydown({ page, key: "ArrowRight" });
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
 
       const sheet = await page.find("calcite-sheet");
       sheet.setProperty("position", "block-start");
+      await page.waitForChanges();
+
       await dispatchSheetKeydown({ page, key: "ArrowDown" });
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${initialHeight - sheetResizeStep}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
 
       await dispatchSheetKeydown({ page, key: "ArrowUp" });
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
     });
   });
 });

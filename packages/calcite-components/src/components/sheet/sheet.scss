@@ -38,6 +38,7 @@
     box-border
     fixed
     flex
+    overflow-hidden
     opacity-0
     z-overlay
     invisible;
@@ -94,14 +95,12 @@
   box-shadow: var(--calcite-scrim-shadow-block-end-internal);
 }
 
-:host([position^="inline"]) .container,
 :host([position^="inline"]) .content {
   inline-size: var(--calcite-sheet-width-internal);
   max-inline-size: var(--calcite-sheet-max-width-internal);
   min-inline-size: var(--calcite-sheet-min-width-internal);
 }
 
-:host([position^="block"]) .container,
 :host([position^="block"]) .content {
   block-size: var(--calcite-sheet-height-internal);
   max-block-size: var(--calcite-sheet-max-height-internal);
@@ -211,7 +210,7 @@
 
 :host([position="block-start"]) .content,
 :host([position="block-end"]) .content {
-  @apply h-full w-full;
+  @apply w-full;
 }
 
 :host([resizable][position="inline-start"]) .content {
