@@ -17,6 +17,9 @@
  * @prop --calcite-tab-text-color: Specifies the component's text color.
  */
 
+/* TODO: move tab-specific props below to allow overrides */
+/* TODO: nav buttons (leverage tab props, apply internal overrides to share same props if possible (e.g., focus/active/press can share tab props) */
+
 :host {
   @apply flex flex-col;
 

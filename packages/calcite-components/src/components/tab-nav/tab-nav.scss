@@ -15,6 +15,14 @@
   --calcite-internal-tab-nav-gradient-start-side: left;
   --calcite-internal-tab-nav-gradient-end-side: right;
 
+  --calcite-tab-nav-button-background-color-pressed: var(--calcite-internal-tab-background-color-hover);
+  --calcite-tab-nav-button-background-color: red;
+  --calcite-tab-nav-button-border-color-pressed: var(--calcite-internal-tabs-border-color);
+  --calcite-tab-nav-button-border-color: var(--calcite-internal-tabs-border-color);
+
+  --calcite-tab-nav-button-icon-color-pressed: var(--calcite-tab-icon-color);
+  --calcite-tab-nav-button-icon-color: var(--calcite-tab-icon-color);
+
   @apply relative flex;
 }
 
