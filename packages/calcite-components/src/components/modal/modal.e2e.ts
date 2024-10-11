@@ -684,15 +684,4 @@ describe("calcite-modal", () => {
     closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="m"]');
     expect(closeIcon).not.toBe(null);
   });
-
-  describe("deprecate widthScale", () => {
-    it("width takes precedence over widthScale", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-modal width-scale="l" width="s"></calcite-modal>`);
-      const modal = await page.find(`calcite-modal >>> .${CSS.modal}`);
-      await page.waitForChanges();
-
-      expect(modal.classList.contains(`${CSS.width}-s`)).toBe(true);
-    });
-  });
 });
