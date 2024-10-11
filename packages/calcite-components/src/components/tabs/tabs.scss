@@ -48,6 +48,7 @@ section {
   @apply border flex flex-grow overflow-hidden;
 
   border-block-start-style: solid;
+  border-block-start-color: var(--calcite-internal-tabs-border-color);
 }
 
 :host([bordered][position="bottom"]) {
