@@ -298,32 +298,6 @@ describe("calcite-tile", () => {
         },
       );
     });
-    // describe("single selection with border appearance", () => {
-    //   themed(
-    //     html`
-    //       <calcite-tile
-    //         heading="Tile heading lorem ipsum"
-    //         description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
-    //         icon="layers"
-    //         interactive
-    //         selection-mode="single"
-    //         selection-appearance="border"
-    //       >
-    //       </calcite-tile>
-    //     `,
-    //     {
-    //       "--calcite-tile-selection-color": {
-    //         shadowSelector: `.${CSS.container}`,
-    //         targetProp: "boxShadow",
-    //       },
-    //       "--calcite-tile-selection-color-hover": {
-    //         shadowSelector: `.${CSS.container}`,
-    //         targetProp: "boxShadow",
-    //         state: "hover",
-    //       },
-    //     },
-    //   );
-    // });
     describe("link", () => {
       themed(
         html`
