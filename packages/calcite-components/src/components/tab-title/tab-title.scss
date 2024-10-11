@@ -42,14 +42,6 @@
   }
 }
 
-:host {
-  // using host for specificity
-  .x-button {
-    align-self: center;
-    block-size: 100%;
-  }
-}
-
 :host([closable]) .content {
   @apply border-b-color-transparent;
 }
@@ -113,7 +105,7 @@
 }
 
 :host([bordered]) .container:not(.container--bottom) {
-  border-block-end: 1px solid var(--calcite-internal-tabs-background-color);
+  border-block-end: 1px solid transparent;
 }
 
 :host([bordered]:not([selected]):hover) .container:not(.container--bottom) {
@@ -125,10 +117,10 @@
     background-color: var(--calcite-color-foreground-2);
   }
   .container:not(.container--bottom) .selected-indicator {
-    box-shadow: inset 0 1px var(--calcite-internal-tabs-border-color);
+    box-shadow: inset 0 1px var(--calcite-color-border-1);
   }
   .container.container--bottom .selected-indicator {
-    box-shadow: inset 0 -1px var(--calcite-internal-tabs-border-color);
+    box-shadow: inset 0 -1px var(--calcite-color-border-1);
   }
 }
 
@@ -142,7 +134,7 @@
   inset-inline-start: 0;
   inset-inline-end: 0;
   inline-size: 100%;
-  background: var(--calcite-internal-tabs-background-color);
+  background: var(--calcite-color-foreground-1);
   content: "";
 }
 
@@ -151,7 +143,7 @@
 }
 
 :host([bordered][selected]:hover) .container::after {
-  background: var(--calcite-internal-tabs-background-color);
+  background: var(--calcite-color-foreground-2);
 }
 
 :host([bordered][selected]:focus) .container::after {
@@ -189,14 +181,6 @@
 
 :host([selected]) .container {
   @apply text-color-1 border-color-transparent;
-
-  /*
-?
-  :host([selected]) .container {
-  @apply border-color-transparent;
-  color: var(--calcite-tab-text-color-selected, var(--calcite-color-text-1));
-}
-  */
 }
 
 :host(:focus) .container {
@@ -223,16 +207,64 @@
   }
 }
 
+.icon-start {
+  color: var(--calcite-tab-icon-start-color, var(--calcite-tab-icon-color));
+}
+
+.icon-end {
+  color: var(--calcite-tab-icon-end-color, var(--calcite-tab-icon-color));
+}
+
 .content--has-text {
   @apply p-1;
+
+  .calcite-tab-title--icon {
+    &.icon-start {
+      margin-inline-end: var(--calcite-spacing-sm);
+    }
+
+    &.icon-end {
+      margin-inline-start: var(--calcite-spacing-sm);
+    }
+  }
 }
 
-.content--has-text .calcite-tab-title--icon.icon-start {
-  margin-inline-end: var(--calcite-spacing-sm);
-}
-
-.content--has-text .calcite-tab-title--icon.icon-end {
+.x-button {
+  @apply appearance-none
+  bg-transparent
+  border-none
+  content-center
+  cursor-pointer
+  flex
+  focus-base
+  items-center
+  justify-center
+  h-full
+  self-center
+  text-color-3
+  transition-default;
   margin-inline-start: var(--calcite-spacing-sm);
+  margin-inline-end: var(--calcite-spacing-px);
+  block-size: calc(100% - var(--calcite-spacing-xxs));
+
+  &:focus {
+    @apply focus-normal;
+  }
+
+  &:focus,
+  &:hover {
+    @apply text-color-1;
+    background-color: var(--calcite-color-foreground-3);
+  }
+
+  &:active {
+    @apply text-color-1;
+    background-color: var(--calcite-color-foreground-3);
+  }
+
+  & calcite-icon {
+    color: inherit;
+  }
 }
 
 // compensate for spacing when no hastext and two icons
@@ -243,13 +275,47 @@
 }
 
 // bordered styles
+:host([bordered]) .container {
+  &:not(.container--bottom) .x-button {
+    block-size: calc(100% - var(--calcite-spacing-px));
+    margin-block-start: -1px;
+  }
+  .x-button {
+    & calcite-icon {
+      margin-block-start: var(--calcite-spacing-px);
+    }
+
+    &:focus,
+    &:hover,
+    &:active {
+      box-shadow: 0 2px 0 0 var(--calcite-color-foreground-3);
+    }
+  }
+
+  &.container--bottom .x-button {
+    box-shadow: 0 -2px 0 0 transparent;
+    & calcite-icon {
+      margin-block-end: var(--calcite-spacing-px);
+    }
+    &:focus,
+    &:hover,
+    &:active {
+      box-shadow: 0 -2px 0 0 var(--calcite-color-foreground-3);
+    }
+  }
+}
+
 :host([bordered][selected]) {
-  box-shadow: inset 0 -1px red;
+  box-shadow: inset 0 -1px var(--calcite-color-foreground-1);
+}
+
+:host([bordered]:not([selected])) .container .x-button {
+  box-shadow: 0 2px 0 0 transparent;
 }
 
 :host([bordered]:hover) {
   .container {
-    background-color: var(--calcite-internal-tabs-background-color);
+    background-color: var(--calcite-color-foreground-2);
   }
 }
 
@@ -324,5 +390,4 @@
   }
 }
 
-@include x-button();
 @include base-component();
