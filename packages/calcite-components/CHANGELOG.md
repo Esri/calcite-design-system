@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.12...@esri/calcite-components@2.14.0-next.13) (2024-10-11)
+
+### Features
+
+- **pagination:** remove gap at start and end of component. ([#10523](https://github.com/Esri/calcite-design-system/issues/10523)) ([657f110](https://github.com/Esri/calcite-design-system/commit/657f11047c9a5aa99b70e604a153cf669ef68959)), closes [#10513](https://github.com/Esri/calcite-design-system/issues/10513)
+
 ## [2.14.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.11...@esri/calcite-components@2.14.0-next.12) (2024-10-10)
 
 ### Features
