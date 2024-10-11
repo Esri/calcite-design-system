@@ -4583,6 +4583,9 @@ export namespace Components {
          */
         "contentBehind": boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
@@ -7636,6 +7639,9 @@ declare global {
         prototype: HTMLCalciteShellElement;
         new (): HTMLCalciteShellElement;
     };
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface HTMLCalciteShellCenterRowElement extends Components.CalciteShellCenterRow, HTMLStencilElement {
     }
     var HTMLCalciteShellCenterRowElement: {
@@ -12880,6 +12886,9 @@ declare namespace LocalJSX {
          */
         "contentBehind"?: boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
@@ -14629,6 +14638,9 @@ declare module "@stencil/core" {
             "calcite-select": LocalJSX.CalciteSelect & JSXBase.HTMLAttributes<HTMLCalciteSelectElement>;
             "calcite-sheet": LocalJSX.CalciteSheet & JSXBase.HTMLAttributes<HTMLCalciteSheetElement>;
             "calcite-shell": LocalJSX.CalciteShell & JSXBase.HTMLAttributes<HTMLCalciteShellElement>;
+            /**
+             * @deprecated Use the `calcite-shell-panel` component instead.
+             */
             "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
             "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
             "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;

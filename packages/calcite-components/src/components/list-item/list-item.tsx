@@ -363,15 +363,15 @@ export class ListItem
 
   @State() hasContentBottom = false;
 
-  containerEl: HTMLTableRowElement;
+  containerEl: HTMLDivElement;
 
-  contentEl: HTMLTableCellElement;
+  contentEl: HTMLDivElement;
 
-  actionsStartEl: HTMLTableCellElement;
+  actionsStartEl: HTMLDivElement;
 
-  actionsEndEl: HTMLTableCellElement;
+  actionsEndEl: HTMLDivElement;
 
-  handleGridEl: HTMLTableCellElement;
+  handleGridEl: HTMLDivElement;
 
   defaultSlotEl: HTMLSlotElement;
 
@@ -448,7 +448,7 @@ export class ListItem
     }
 
     return (
-      <td
+      <div
         class={{
           [CSS.selectionContainer]: true,
           [CSS.selectionContainerSingle]:
@@ -469,7 +469,7 @@ export class ListItem
           }
           scale="s"
         />
-      </td>
+      </div>
     );
   }
 
@@ -478,9 +478,9 @@ export class ListItem
       this;
 
     return dragHandle ? (
-      <td
+      <div
         aria-label={label}
-        class={CSS.dragContainer}
+        class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
         onFocusin={this.focusCellHandle}
         ref={(el) => (this.handleGridEl = el)}
@@ -499,7 +499,7 @@ export class ListItem
           setPosition={setPosition}
           setSize={setSize}
         />
-      </td>
+      </div>
     ) : null;
   }
 
@@ -510,23 +510,23 @@ export class ListItem
     const tooltip = open ? messages.collapse : messages.expand;
 
     return openable ? (
-      <td
+      <div
         class={CSS.openContainer}
         key="open-container"
         onClick={this.handleToggleClick}
         title={tooltip}
       >
         <calcite-icon icon={icon} key={icon} scale="s" />
-      </td>
+      </div>
     ) : null;
   }
 
   renderActionsStart(): VNode {
     const { label, hasActionsStart } = this;
     return (
-      <td
+      <div
         aria-label={label}
-        class={CSS.actionsStart}
+        class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
         onFocusin={this.focusCellActionsStart}
@@ -534,16 +534,16 @@ export class ListItem
         role="gridcell"
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
-      </td>
+      </div>
     );
   }
 
   renderActionsEnd(): VNode {
     const { label, hasActionsEnd, closable, messages } = this;
     return (
-      <td
+      <div
         aria-label={label}
-        class={CSS.actionsEnd}
+        class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         onFocusin={this.focusCellActionsEnd}
@@ -562,7 +562,7 @@ export class ListItem
             text={messages.close}
           />
         ) : null}
-      </td>
+      </div>
     );
   }
 
@@ -648,9 +648,10 @@ export class ListItem
     ];
 
     return (
-      <td
+      <div
         aria-label={label}
         class={{
+          [CSS.gridCell]: true,
           [CSS.contentContainer]: true,
           [CSS.contentContainerUnavailable]: unavailable,
           [CSS.contentContainerSelectable]: selectionMode !== "none",
@@ -663,7 +664,7 @@ export class ListItem
         role="gridcell"
       >
         {content}
-      </td>
+      </div>
     );
   }
 
@@ -691,12 +692,13 @@ export class ListItem
       <Host>
         <InteractiveContainer disabled={disabled}>
           <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
-            <tr
+            <div
               aria-expanded={openable ? toAriaBoolean(open) : null}
               aria-label={label}
               aria-level={level}
               aria-selected={toAriaBoolean(selected)}
               class={{
+                [CSS.row]: true,
                 [CSS.container]: true,
                 [CSS.containerHover]: true,
                 [CSS.containerBorder]: showBorder,
@@ -717,7 +719,7 @@ export class ListItem
               {this.renderActionsStart()}
               {this.renderContentContainer()}
               {this.renderActionsEnd()}
-            </tr>
+            </div>
             {this.renderContentBottom()}
           </div>
           {this.renderDefaultContainer()}
@@ -871,7 +873,7 @@ export class ListItem
     this.calciteListItemSelect.emit();
   };
 
-  private getGridCells(): HTMLTableCellElement[] {
+  private getGridCells(): HTMLDivElement[] {
     return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
       (el) => el && !el.hidden,
     );
@@ -932,13 +934,13 @@ export class ListItem
     this.focusCell(null);
   };
 
-  private handleCellFocusIn = (focusEl: HTMLTableCellElement): void => {
+  private handleCellFocusIn = (focusEl: HTMLDivElement): void => {
     this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
   };
 
   // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
   private setFocusCell = (
-    focusEl: HTMLTableCellElement | null,
+    focusEl: HTMLDivElement | null,
     focusedEl: HTMLElement,
     saveFocusIndex: boolean,
   ): void => {
@@ -967,7 +969,7 @@ export class ListItem
     }
   };
 
-  private focusCell = (focusEl: HTMLTableCellElement | null, saveFocusIndex = true): void => {
+  private focusCell = (focusEl: HTMLDivElement | null, saveFocusIndex = true): void => {
     const focusedEl = getFirstTabbable(focusEl);
     this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();

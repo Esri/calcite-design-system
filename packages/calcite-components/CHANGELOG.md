@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.11...@esri/calcite-components@2.14.0-next.12) (2024-10-10)
+
+### Features
+
+- **input,input-text,text-area:** support `spellcheck` property ([#10489](https://github.com/Esri/calcite-design-system/issues/10489)) ([755bb4c](https://github.com/Esri/calcite-design-system/commit/755bb4c7a68d9bb0e4f9aa67aad21528d1543914)), closes [#9148](https://github.com/Esri/calcite-design-system/issues/9148)
+
+### Bug Fixes
+
+- **chip:** fix close icon color inconsistency ([#10493](https://github.com/Esri/calcite-design-system/issues/10493)) ([e16f03b](https://github.com/Esri/calcite-design-system/commit/e16f03bf628a447c32cc8786053d74ffb57400d6)), closes [#10428](https://github.com/Esri/calcite-design-system/issues/10428)
+
+### Reverts
+
+- **panel:** revert relative positioning on content ([#10496](https://github.com/Esri/calcite-design-system/issues/10496)) ([239f4da](https://github.com/Esri/calcite-design-system/commit/239f4da406920fcb3c4019573ccf3605903f954a)), closes [#10494](https://github.com/Esri/calcite-design-system/issues/10494) [#10095](https://github.com/Esri/calcite-design-system/issues/10095) [#10119](https://github.com/Esri/calcite-design-system/issues/10119)
+
+## [2.14.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.10...@esri/calcite-components@2.14.0-next.11) (2024-10-10)
+
+### Bug Fixes
+
+- **notice:** ensure closed notice does not affect layout ([#10518](https://github.com/Esri/calcite-design-system/issues/10518)) ([f289020](https://github.com/Esri/calcite-design-system/commit/f289020d5b295f910195ec31cf9db6c0485948c6))
+
+## [2.14.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.9...@esri/calcite-components@2.14.0-next.10) (2024-10-10)
+
+### Bug Fixes
+
+- **combobox:** restores `filterText` when filtered items are empty ([#10498](https://github.com/Esri/calcite-design-system/issues/10498)) ([085eb23](https://github.com/Esri/calcite-design-system/commit/085eb2346741d6aae15c08be5f8f7457b523af3f)), closes [#10156](https://github.com/Esri/calcite-design-system/issues/10156)
+
+## [2.14.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.8...@esri/calcite-components@2.14.0-next.9) (2024-10-09)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.14.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.7...@esri/calcite-components@2.14.0-next.8) (2024-10-09)
+
+### Features
+
+- **pagination:** enhance component's interactive states ([#10485](https://github.com/Esri/calcite-design-system/issues/10485)) ([a26db31](https://github.com/Esri/calcite-design-system/commit/a26db3147c4d23cbf9147d754c47a34bdb3ac883)), closes [#9991](https://github.com/Esri/calcite-design-system/issues/9991)
+- **stepper-item:** update component's active state background color ([#10487](https://github.com/Esri/calcite-design-system/issues/10487)) ([26aec11](https://github.com/Esri/calcite-design-system/commit/26aec114b6bb296c923c76f1d1c55fb43c37e3a4)), closes [#10000](https://github.com/Esri/calcite-design-system/issues/10000)
+
+## [2.14.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.6...@esri/calcite-components@2.14.0-next.7) (2024-10-08)
+
+### Bug Fixes
+
+- **dialog:** no longer apply transform styling unless dragEnabled or resizable ([#10503](https://github.com/Esri/calcite-design-system/issues/10503)) ([8234acb](https://github.com/Esri/calcite-design-system/commit/8234acbe07184386bcce56a9a204f2203b8206e3)), closes [#10500](https://github.com/Esri/calcite-design-system/issues/10500)
+
 ## [2.14.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.5...@esri/calcite-components@2.14.0-next.6) (2024-10-07)
 
 ### Features
