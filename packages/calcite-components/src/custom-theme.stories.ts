@@ -122,22 +122,23 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
   </div>`;
 
 const componentTokens = {
-  ...accordionTokens,
+  ...globalTokens,
   ...accordionItemTokens,
-  ...actionTokens,
+  ...accordionTokens,
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
   ...actionPadTokens,
+  ...actionTokens,
+  ...alertTokens,
   ...avatarTokens,
   ...cardTokens,
-  ...alertTokens,
-  ...chipTokens,
   ...checkboxTokens,
+  ...chipTokens,
   ...handleTokens,
+  ...inputTokens,
   ...popoverTokens,
   ...progressTokens,
-  ...inputTokens,
   ...tabsTokens,
   ...textAreaTokens,
 };

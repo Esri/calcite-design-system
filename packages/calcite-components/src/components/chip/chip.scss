@@ -28,6 +28,7 @@
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
   .container {
+    --calcite-internal-chip-close-icon-color: var(--calcite-color-text-3);
     color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
   }
 
@@ -41,10 +42,6 @@
 
   &:host([kind="neutral"]) .container {
     border-color: var(--calcite-chip-border-color, var(--calcite-color-border-1));
-  }
-
-  .close {
-    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
   }
 }
 :host([appearance="outline"]) .container {
@@ -86,11 +83,9 @@
   }
 }
 :host([kind="neutral"]) .container {
-  color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
+  --calcite-internal-chip-close-icon-color: var(--calcite-color-text-3);
 
-  .close {
-    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
-  }
+  color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
 }
 
 :host([selected]) .select-icon {
@@ -391,14 +386,17 @@
   inline-size: var(--calcite-internal-chip-icon-size, 1.5rem /* 24px */);
 }
 
-.close {
-  color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, currentColor));
-}
-
 slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
 }
 
-@include close-button();
+@include close-button(
+  var(--calcite-internal-close-size, 1.5rem),
+  0,
+  var(
+    --calcite-chip-close-icon-color,
+    var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color, var(--calcite-color-text-1)))
+  )
+);
 @include disabled();
 @include base-component();
