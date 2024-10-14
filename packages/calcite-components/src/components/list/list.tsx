@@ -22,7 +22,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import {
   connectSortableComponent,
@@ -540,7 +539,7 @@ export class List
           ) : null}
           {this.renderItemAriaLive()}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-          <table
+          <div
             aria-busy={toAriaBoolean(loading)}
             aria-label={label || ""}
             class={CSS.table}
@@ -548,9 +547,9 @@ export class List
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <thead class={CSS.sticky}>
-                <tr>
-                  <th colSpan={MAX_COLUMNS}>
+              <div class={CSS.sticky} role="rowgroup">
+                <div role="row">
+                  <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
                       <slot
                         name={SLOTS.filterActionsStart}
@@ -573,14 +572,14 @@ export class List
                         slot={STACK_SLOTS.actionsEnd}
                       />
                     </calcite-stack>
-                  </th>
-                </tr>
-              </thead>
+                  </div>
+                </div>
+              </div>
             ) : null}
-            <tbody class={CSS.tableContainer}>
+            <div class={CSS.tableContainer} role="rowgroup">
               <slot onSlotchange={this.handleDefaultSlotChange} />
-            </tbody>
-          </table>
+            </div>
+          </div>
           <div
             aria-live="polite"
             data-test-id="no-results-container"
