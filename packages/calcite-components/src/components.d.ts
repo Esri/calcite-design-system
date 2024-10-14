@@ -59,6 +59,7 @@ import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input
 import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
+import { GroupItemData } from "./components/list-item-group/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
 import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
@@ -154,6 +155,7 @@ export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input
 export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
+export { GroupItemData } from "./components/list-item-group/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
 export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
@@ -3185,7 +3187,7 @@ export namespace Components {
           * The currently filtered `calcite-list-item` data.
           * @readonly
          */
-        "filteredData": ItemData;
+        "filteredData": (ItemData | GroupItemData)[];
         /**
           * The currently filtered `calcite-list-item`s.
           * @readonly
@@ -11311,7 +11313,7 @@ declare namespace LocalJSX {
           * The currently filtered `calcite-list-item` data.
           * @readonly
          */
-        "filteredData"?: ItemData;
+        "filteredData"?: (ItemData | GroupItemData)[];
         /**
           * The currently filtered `calcite-list-item`s.
           * @readonly
