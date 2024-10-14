@@ -64,6 +64,22 @@ Type: `Promise<void>`
 | `"footer-end"`   | A slot for adding content to the end of the component's footer.   |
 | `"footer-start"` | A slot for adding content to the start of the component's footer. |
 
+## CSS Custom Properties
+
+| Name                                             | Description                                                                               |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `--calcite-text-area-background-color`           | Specifies the component's background color.                                               |
+| `--calcite-text-area-border-color`               | Specifies the component's text area border color.                                         |
+| `--calcite-text-area-character-limit-text-color` | Specifies the color of the character limit text displayed in the footer of the component. |
+| `--calcite-text-area-divider-color`              | Specifies the color of the divider between the text area and footer.                      |
+| `--calcite-text-area-font-size`                  | Specifies the font size of the text area and footer.                                      |
+| `--calcite-text-area-footer-border-color`        | Specifies the footer's border color.                                                      |
+| `--calcite-text-area-max-height`                 | Specifies the component's text area maximum height.                                       |
+| `--calcite-text-area-max-width`                  | Specifies the component's text area maximum width.                                        |
+| `--calcite-text-area-min-height`                 | Specifies the component's text area minimum height.                                       |
+| `--calcite-text-area-min-width`                  | Specifies the component's text area minimum width.                                        |
+| `--calcite-text-area-text-color`                 | Specifies the component's text color.                                                     |
+
 ## Dependencies
 
 ### Depends on
