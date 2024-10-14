@@ -10,10 +10,16 @@ export const coreTokens = await createCalciteTokenFiles({
   path: resolve(__dirname, "core"),
 });
 
-export const globalTokens = await createCalciteTokenFiles({
-  name: "global",
+export const semanticTokens = await createCalciteTokenFiles({
+  name: "semantic",
   path: resolve(__dirname, "semantic"),
   references: coreTokens.source,
+});
+
+export const globalTokens = await createCalciteTokenFiles({
+  name: "global",
+  path: resolve(__dirname, "global"),
+  references: [...coreTokens.source, ...semanticTokens.source],
 });
 
 export { config } from "./$config.js";

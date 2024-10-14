@@ -3,13 +3,13 @@ import { fileURLToPath } from "url";
 
 import { CalciteTokenTransformConfig } from "../support/types/config.js";
 import { Platform } from "../support/types/platform.js";
-import { globalTokens, coreTokens } from "./index.js";
+import { globalTokens, coreTokens, semanticTokens } from "./index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export const config: CalciteTokenTransformConfig = {
-  files: [coreTokens, globalTokens],
+  files: [coreTokens, globalTokens, semanticTokens],
   options: {
     prefix: "calcite",
   },
@@ -23,7 +23,7 @@ export const config: CalciteTokenTransformConfig = {
         breakpoint: "breakpoint.css",
         index: {
           name: "index.css",
-          import: ["./global.css", "./classes.css"],
+          import: ["./semantic.css", "./global.css", "./classes.css"],
           media: [
             ["prefers-color-scheme: light", "light"],
             ["prefers-color-scheme: dark", "dark"],
@@ -40,7 +40,7 @@ export const config: CalciteTokenTransformConfig = {
         breakpoint: "breakpoints.scss",
         index: {
           name: "index.scss",
-          import: ["./global.scss", "./breakpoints.scss", "./mixins.scss"],
+          import: ["./global.scss", "./semantic.scss", "./breakpoints.scss", "./mixins.scss"],
           mixin: [
             ["calcite-mode-light", "light"],
             ["calcite-mode-dark", "dark"],
@@ -51,7 +51,7 @@ export const config: CalciteTokenTransformConfig = {
         breakpoint: "breakpoints.js",
         index: {
           name: "index.js",
-          export: ["./global.js", "./breakpoints.js"],
+          export: ["./global.js", "./semantic.js", , "./breakpoints.js"],
         },
       },
     },
