@@ -78,6 +78,7 @@
     flex
     w-full
     opacity-0;
+  overflow: hidden;
   max-block-size: 0;
   transition-property: opacity, max-block-size;
   transition-duration: var(--calcite-animation-timing);
@@ -104,6 +105,7 @@
     max-h-full
     items-center
     opacity-100;
+  overflow: visible;
 }
 
 @include slotted("title", "*", ".container") {

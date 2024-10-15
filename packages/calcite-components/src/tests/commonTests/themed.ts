@@ -1,8 +1,8 @@
 import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { ElementHandle } from "puppeteer";
 import type { RequireExactlyOne } from "type-fest";
 import { getTokenValue } from "../utils/cssTokenValues";
+import { toElementHandle } from "../utils";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -266,11 +266,9 @@ async function getComputedStylePropertyValue(
   property: string,
   pseudoElement?: string,
 ): Promise<string> {
-  type E2EElementInternal = E2EElement & {
-    _elmHandle: ElementHandle;
-  };
+  const elementHandle = await toElementHandle(element);
 
-  return await (element as E2EElementInternal)._elmHandle.evaluate(
+  return await elementHandle.evaluate(
     (el, targetProp, pseudoElement): string => window.getComputedStyle(el, pseudoElement).getPropertyValue(targetProp),
     property,
     pseudoElement,
