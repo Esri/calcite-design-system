@@ -1529,4 +1529,90 @@ describe("calcite-list", () => {
       expect(await handle.getProperty("selected")).toBe(false);
     });
   });
+
+  describe("group filtering", () => {
+    it("should include groups while filtering", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-placeholder="typing 'recreation' should show 1st group with all items">
+          <calcite-list-item-group heading="Outdoor recreation" id="recreation">
+            <calcite-list-item
+              label="Hiking trails"
+              description="Designated routes for hikers to use."
+              value="hiking-trails"
+            ></calcite-list-item>
+            <calcite-list-item
+              label="Waterfalls"
+              description="Vertical drops from a river."
+              value="waterfalls"
+            ></calcite-list-item>
+            <calcite-list-item-group heading="Beaches" id="beaches">
+              <calcite-list-item label="Surfing" description="Surfing" value="Surfing"></calcite-list-item>
+              <calcite-list-item label="Paragliding" description="Paragliding" value="Paragliding"></calcite-list-item>
+            </calcite-list-item-group>
+          </calcite-list-item-group>
+          <calcite-list-item-group heading="Buildings" id="buildings">
+            <calcite-list-item
+              label="Park offices"
+              description="Home base for park staff to converse with visitors."
+              value="offices"
+            ></calcite-list-item>
+            <calcite-list-item
+              label="Guest lodges"
+              description="Small houses available for visitors to book for stays."
+              value="lodges"
+            ></calcite-list-item>
+          </calcite-list-item-group>
+        </calcite-list>
+      `);
+
+      const filter = await page.find(`calcite-list >>> calcite-filter`);
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const group1 = await page.find("#recreation");
+      const group2 = await page.find("#buildings");
+      const group3 = await page.find("#beaches");
+
+      await page.keyboard.type("Bui");
+      await page.waitForChanges();
+      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+
+      expect(await group1.isVisible()).toBe(false);
+      await assertDescendantItems(page, "#recreation", false);
+      expect(await group2.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#buildings`, true);
+      expect(await group3.isVisible()).toBe(false);
+      await assertDescendantItems(page, `#beaches`, false);
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+
+      expect(await group1.isVisible()).toBe(true);
+      await assertDescendantItems(page, "#recreation", true);
+      expect(await group2.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#buildings`, true);
+      expect(await group3.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#beaches`, true);
+
+      await page.keyboard.type("Bea");
+      await page.waitForChanges();
+      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+
+      expect(await group1.isVisible()).toBe(true);
+      await assertDescendantItems(page, "#recreation", false);
+      expect(await group2.isVisible()).toBe(false);
+      await assertDescendantItems(page, `#buildings`, false);
+      expect(await group3.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#beaches`, true);
+    });
+  });
+
+  async function assertDescendantItems(page: E2EPage, groupSelector: string, visibility: boolean): Promise<void> {
+    const items = await page.findAll(`${groupSelector} > calcite-list-item`);
+    items.forEach(async (item) => {
+      expect(await item.isVisible()).toBe(visibility);
+    });
+  }
 });

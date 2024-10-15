@@ -3,4 +3,5 @@ export type ItemData = {
   description: string;
   metadata: Record<string, unknown>;
   value: string;
-}[];
+};
+

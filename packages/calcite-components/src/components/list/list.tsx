@@ -50,11 +50,13 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
+import { GroupItemData } from "../list-item-group/interfaces";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
+const groupItemSelector = "calcite-list-item-group";
 const parentSelector = "calcite-list-item-group, calcite-list-item" as const;
 
 /**
@@ -129,7 +131,7 @@ export class List
    *
    * @readonly
    */
-  @Prop({ mutable: true }) filteredData: ItemData = [];
+  @Prop({ mutable: true }) filteredData: (ItemData | GroupItemData)[] = [];
 
   /**
    * Placeholder text for the component's filter input field.
@@ -452,7 +454,7 @@ export class List
 
   @State() assistiveText: string;
 
-  @State() dataForFilter: ItemData = [];
+  @State() dataForFilter: (ItemData | GroupItemData)[] = [];
 
   dragSelector = listItemSelector;
 
@@ -477,6 +479,8 @@ export class List
   visibleItems: HTMLCalciteListItemElement[] = [];
 
   parentListEl: HTMLCalciteListElement;
+
+  groupItems: HTMLCalciteListItemGroupElement[] = [];
 
   sortable: Sortable;
 
@@ -723,11 +727,10 @@ export class List
     visibleParents,
   }: {
     el: HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement;
-    filteredItems: HTMLCalciteListItemElement[];
+    filteredItems: (HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement)[];
     visibleParents: WeakSet<HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement>;
   }): void {
-    const filterHidden =
-      !visibleParents.has(el) && !filteredItems.includes(el as HTMLCalciteListItemElement);
+    const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el);
 
     el.filterHidden = filterHidden;
 
@@ -775,7 +778,9 @@ export class List
   private updateFilteredItems = (emit = false): void => {
     const { visibleItems, filteredData, filterText } = this;
 
-    const values = filteredData.map((item) => item.value);
+    const values = filteredData.map((item: ItemData | GroupItemData) => {
+      return (item as ItemData).value || (item as GroupItemData).heading;
+    });
 
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
@@ -790,11 +795,38 @@ export class List
       this.filterElements({ el: listItem, filteredItems, visibleParents }),
     );
 
+    this.filterGroupItems(values, visibleParents);
+
     this.filteredItems = filteredItems;
 
     if (emit) {
       this.calciteListFilter.emit();
     }
+  };
+
+  private filterGroupItems = (values: string[], visibleParents: WeakSet<HTMLElement>): void => {
+    const lastDescendantGroupItems = this.groupItems?.filter((groupItem) =>
+      this.groupItems.every((li) => li === groupItem || !groupItem.contains(li)),
+    );
+
+    const filteredGroupItems =
+      this.groupItems.filter((item) => values.includes(item.heading)) || [];
+
+    lastDescendantGroupItems.forEach((groupItem) =>
+      this.filterElements({ el: groupItem, filteredItems: filteredGroupItems, visibleParents }),
+    );
+
+    filteredGroupItems.forEach((groupItem) => {
+      this.filterGroupItemDescendants(groupItem);
+    });
+  };
+
+  private filterGroupItemDescendants = (item: HTMLCalciteListItemGroupElement): void => {
+    const itemDescendants = Array.from(item.querySelectorAll(listItemSelector));
+    const groupDescendants = Array.from(item.querySelectorAll(groupItemSelector));
+
+    itemDescendants.forEach((descendant) => (descendant.filterHidden = false));
+    groupDescendants.forEach((descendant) => (descendant.filterHidden = false));
   };
 
   private updateFilteredData(emit = false): void {
@@ -805,7 +837,7 @@ export class List
     }
 
     if (filterEl.filteredItems) {
-      this.filteredData = filterEl.filteredItems as ItemData;
+      this.filteredData = filterEl.filteredItems as ItemData[];
     }
 
     this.updateListItems({ emitFilterChange: emit });
@@ -840,12 +872,18 @@ export class List
     this.updateFilteredData(true);
   };
 
-  private getItemData = (): ItemData => {
+  private getItemData = (): ItemData[] => {
     return this.listItems.map((item) => ({
       label: item.label,
       description: item.description,
       metadata: item.metadata,
       value: item.value,
+    }));
+  };
+
+  private getGroupItemData = (): GroupItemData[] => {
+    return this.groupItems.map((item: HTMLCalciteListItemGroupElement) => ({
+      heading: item.heading,
     }));
   };
 
@@ -857,6 +895,7 @@ export class List
       const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
 
       const items = Array.from(this.el.querySelectorAll(listItemSelector));
+      this.groupItems = Array.from(this.el.querySelectorAll(groupItemSelector));
 
       items.forEach((item) => {
         item.selectionAppearance = selectionAppearance;
@@ -872,8 +911,9 @@ export class List
       }
 
       this.listItems = items;
+
       if (filterEnabled && performFilter) {
-        this.dataForFilter = this.getItemData();
+        this.dataForFilter = [...this.getItemData(), ...this.getGroupItemData()];
 
         if (filterEl) {
           filterEl.items = this.dataForFilter;
