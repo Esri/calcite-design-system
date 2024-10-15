@@ -107,7 +107,14 @@
   }
 }
 
-@mixin x-button() {
+@mixin x-button(
+  $size: "var(--calcite-internal-close-size, 1.5rem /* 24px */)",
+  $padding: "0",
+  $color: "var(--calcite-close-icon-color, var(--calcite-color-text-1))",
+  $backgroundColor: "var(--calcite-close-background-color, var(--calcite-color-transparent))",
+  $backgroundColorHover: "var(--calcite-close-background-color-hover, var(--calcite-color-transparent-hover))",
+  $backgroundColorPress: "var(--calcite-close-background-color-press, var(--calcite-color-transparent-press))"
+) {
   .x-button {
     @apply border-none
     cursor-pointer
@@ -116,42 +123,30 @@
     m-0
     transition-default;
 
-    background-color: var(--calcite-close-background-color, var(--calcite-color-transparent));
+    background-color: #{$backgroundColor};
     -webkit-appearance: none;
     display: flex;
     align-content: center;
     justify-content: center;
-    color: var(--calcite-close-icon-color, var(--calcite-color-text-1));
+    color: #{$color};
+    block-size: #{$size};
+    inline-size: #{$size};
+    padding: #{$padding};
 
     &:hover,
     &:focus {
-      background-color: var(--calcite-close-background-color-hover, var(--calcite-color-transparent-hover));
+      background-color: #{$backgroundColorHover};
     }
     &:focus {
       @apply focus-inset;
     }
     &:active {
-      background-color: var(--calcite-close-background-color-press, var(--calcite-color-transparent-press));
+      background-color: #{$backgroundColorPress};
     }
 
     calcite-icon {
       color: inherit;
     }
-  }
-
-  .x-button--s {
-    inline-size: theme("spacing.4");
-    block-size: theme("spacing.4");
-  }
-
-  .x-button--m {
-    inline-size: theme("spacing.6");
-    block-size: theme("spacing.6");
-  }
-
-  .x-button--l {
-    inline-size: theme("spacing.8");
-    block-size: theme("spacing.8");
   }
 
   .x-button--round {
