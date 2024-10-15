@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Järjestä uudelleen",
+  "moveTo": "Siirrä kohteeseen",
+  "moveToTop": "Siirrä yläosaan",
+  "moveToBottom": "Siirrä alaosaan",
+  "moveUp": "Siirrä ylös",
+  "moveDown": "Siirrä alas",
+  "repositionLabel": "Sijoita uudelleen: {label}. Kohteen {total}nykyinen sijainti {position}.",
+  "reposition": "Sijoita uudelleen. Kohteen {total}nykyinen sijainti {position}."
 }

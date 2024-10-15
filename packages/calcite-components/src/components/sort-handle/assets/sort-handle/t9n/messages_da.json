@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Skift rækkefølge",
+  "moveTo": "Flyt til",
+  "moveToTop": "Flyt til top",
+  "moveToBottom": "Flyt til bund",
+  "moveUp": "Flyt op",
+  "moveDown": "Flyt ned",
+  "repositionLabel": "Ændring af placering: {label}. Aktuel position {position} for {total}.",
+  "reposition": "Ændring af placering. Aktuel position {position} for {total}."
 }

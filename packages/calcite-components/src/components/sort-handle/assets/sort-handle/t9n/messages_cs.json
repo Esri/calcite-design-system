@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Změnit pořadí",
+  "moveTo": "Přesunout na",
+  "moveToTop": "Přesunout zcela nahoru",
+  "moveToBottom": "Přesunout zcela dolů",
+  "moveUp": "Přesunout nahoru",
+  "moveDown": "Přesunout dolů",
+  "repositionLabel": "Přemístění: {label}. Aktuální pozice {position} z {total}.",
+  "reposition": "Přemístit. Aktuální pozice {position} z {total}."
 }

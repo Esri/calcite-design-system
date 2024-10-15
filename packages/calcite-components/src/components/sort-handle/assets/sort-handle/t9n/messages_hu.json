@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Átrendezés",
+  "moveTo": "Mozgatás ide:",
+  "moveToTop": "Mozgatás fel",
+  "moveToBottom": "Mozgatás le",
+  "moveUp": "Mozgatás felfelé",
+  "moveDown": "Mozgatás lefelé",
+  "repositionLabel": "Áthelyezés: {label}. Aktuális pozíció: {position}/{total}.",
+  "reposition": "Áthelyezés. Aktuális pozíció: {position}/{total}."
 }

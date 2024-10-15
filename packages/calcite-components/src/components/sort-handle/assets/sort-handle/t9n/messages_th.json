@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "เรียงลำดับใหม่",
+  "moveTo": "ย้ายไปยัง",
+  "moveToTop": "ย้ายไปด้านบน",
+  "moveToBottom": "ย้ายไปด้านล่าง",
+  "moveUp": "เลื่อนขึ้น",
+  "moveDown": "เลื่อนลง",
+  "repositionLabel": "ปรับตำแหน่ง: {label} ตำแหน่งที่ตั้งปัจจุบัน {position} ของ {total}",
+  "reposition": "ปรับตำแหน่ง ตำแหน่งที่ตั้งปัจจุบัน {position} ของ {total}"
 }

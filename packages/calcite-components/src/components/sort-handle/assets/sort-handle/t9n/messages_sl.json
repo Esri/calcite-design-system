@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Spremenite vrstni red",
+  "moveTo": "Premakni na",
+  "moveToTop": "Premakni na vrh",
+  "moveToBottom": "Premakni na dno",
+  "moveUp": "Premakni gor",
+  "moveDown": "Premakni dol",
+  "repositionLabel": "Prestavljanje: {label}. Trenutni položaj {position} od {total}.",
+  "reposition": "Prestavljanje. Trenutni položaj {position} od {total}."
 }

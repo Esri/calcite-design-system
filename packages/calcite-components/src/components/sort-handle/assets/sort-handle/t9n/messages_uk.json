@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Перевпорядкувати",
+  "moveTo": "Перемістити до",
+  "moveToTop": "Перемістити нагору",
+  "moveToBottom": "Перемістити вниз",
+  "moveUp": "Перемістити вгору",
+  "moveDown": "Перемістити вниз",
+  "repositionLabel": "Змінити положення: {label}. Поточне положення {position} з {total}.",
+  "reposition": "Змінити положення. Поточне положення {position} з {total}."
 }

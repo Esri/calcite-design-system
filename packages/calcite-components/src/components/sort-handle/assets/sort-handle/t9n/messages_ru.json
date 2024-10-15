@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Изменить порядок",
+  "moveTo": "Переместить к",
+  "moveToTop": "Переместить вверх",
+  "moveToBottom": "Переместить вниз",
+  "moveUp": "Переместить выше",
+  "moveDown": "Переместить ниже",
+  "repositionLabel": "Перемещение: {label}. Текущее положение {position} из {total}.",
+  "reposition": "Перемещение. Текущее положение {position} из {total}."
 }

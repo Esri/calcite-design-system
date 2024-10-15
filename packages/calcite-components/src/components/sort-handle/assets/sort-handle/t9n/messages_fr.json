@@ -1,10 +1,10 @@
 {
-  "reorder": "Reorder",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "Réorganiser",
+  "moveTo": "Déplacer",
+  "moveToTop": "Haut",
+  "moveToBottom": "Bas",
+  "moveUp": "Monter",
+  "moveDown": "Descendre",
+  "repositionLabel": "Repositionner : {label}. Position actuelle {position} sur {total}.",
+  "reposition": "Repositionner. Position actuelle {position} sur {total}."
 }
