@@ -131,6 +131,8 @@
     color: #{$color};
     block-size: #{$size};
     inline-size: #{$size};
+    min-block-size: #{$size};
+    min-inline-size: #{$size};
     padding: #{$padding};
 
     &:hover,
