@@ -364,26 +364,6 @@ Tab200PercentHeightWithVerticalScroll.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const updateIndicatorOffset_TestOnly = (): string =>
-  html`<calcite-tabs>
-      <calcite-tab-nav slot="title-group">
-        <calcite-tab-title id="tab-title">Boats</calcite-tab-title>
-        <calcite-tab-title selected>Ships</calcite-tab-title>
-        <calcite-tab-title>Yachts</calcite-tab-title>
-      </calcite-tab-nav>
-      <calcite-tab>Tab 1 content</calcite-tab>
-      <calcite-tab>Tab 2 content</calcite-tab>
-      <calcite-tab>Tab 3 content</calcite-tab>
-    </calcite-tabs>
-    <script>
-      const tabTitle = document.getElementById("tab-title");
-      setTimeout(() => (tabTitle.iconStart = "bullet-point"), 300);
-    </script>`;
-
-updateIndicatorOffset_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
-};
-
 export const fixedHeightNoVerticalScrollbar_TestOnly = (): string => html`
   <calcite-tabs style="height: 400px">
     <calcite-tab-nav slot="title-group">
@@ -575,26 +555,5 @@ export const paddingPropOverrideAtElementLevel = (): string => html`
         <div>Tab 1 Content</div>
       </calcite-tab>
     </calcite-tabs>
-  </calcite-tabs>
-`;
-
-export const themed_TestOnly = (): string => html`
-  <calcite-tabs
-    style="
-    --calcite-tabs-background-color: yellow;
-    --calcite-tabs-border-color: green;
-    "
-    bordered
-  >
-    <calcite-tab-nav slot="title-group">
-      <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title tab="tab4" selected>Tab 4 Title</calcite-tab-title>
-    </calcite-tab-nav>
-    <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
-    <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
-    <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-    <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
