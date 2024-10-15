@@ -77,7 +77,7 @@
   transition-default
   w-full;
 
-  color: var(--calcite-tab-text-color, var(--calcite-text-color-3));
+  color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
 }
 
 .selected-indicator {
@@ -179,7 +179,7 @@
 
 :host([selected]) .container {
   @apply border-color-transparent;
-  color: var(--calcite-tab-text-color-selected, var(--calcite-text-color-1));
+  color: var(--calcite-tab-text-color-selected, var(--calcite-color-text-1));
 }
 
 :host(:focus) .container {
