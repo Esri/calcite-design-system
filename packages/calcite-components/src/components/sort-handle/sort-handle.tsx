@@ -345,7 +345,12 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
             text={text}
             title={text}
           />
-          <calcite-dropdown-group groupTitle={messages.reorder} scale={scale} selectionMode="none">
+          <calcite-dropdown-group
+            groupTitle={messages.reorder}
+            key="reorder"
+            scale={scale}
+            selectionMode="none"
+          >
             {this.renderTop()}
             {this.renderUp()}
             {this.renderDown()}
@@ -374,7 +379,12 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     const { messages, moveToItems, scale } = this;
 
     return moveToItems?.length ? (
-      <calcite-dropdown-group groupTitle={messages.moveTo} scale={scale} selectionMode="none">
+      <calcite-dropdown-group
+        groupTitle={messages.moveTo}
+        key="move-to-items"
+        scale={scale}
+        selectionMode="none"
+      >
         {moveToItems.map((moveToItem) => this.renderMoveToItem(moveToItem))}
       </calcite-dropdown-group>
     ) : null;
