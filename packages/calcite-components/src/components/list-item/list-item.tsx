@@ -676,7 +676,10 @@ export class ListItem
     const borderSelected = showBorder && selected;
     const borderUnselected = showBorder && !selected;
     const containerNotInteractive =
-      interactionMode === "static" && selectionMode !== "none" && selectionAppearance === "icon";
+      (interactionMode === "static" &&
+        selectionMode !== "none" &&
+        selectionAppearance === "icon") ||
+      (interactionMode === "static" && selectionMode === "none");
     const containerInteractive =
       interactionMode === "static" && selectionMode !== "none" && selectionAppearance === "border";
 
