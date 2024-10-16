@@ -1,6 +1,13 @@
 import Sortable from "sortablejs";
 const sortableComponentSet = new Set<SortableComponent>();
 
+export interface MoveDetail {
+  toEl: HTMLElement;
+  fromEl: HTMLElement;
+  dragEl: HTMLElement;
+  relatedEl: HTMLElement;
+}
+
 export interface DragDetail {
   toEl: HTMLElement;
   fromEl: HTMLElement;
@@ -76,6 +83,11 @@ export interface SortableComponent {
   onDragEnd: (detail: DragDetail) => void;
 
   /**
+   * Called when a component's dragging ends.
+   */
+  onDragMove?: (detail: MoveDetail) => void;
+
+  /**
    * Called when a component's dragging starts.
    */
   onDragStart: (detail: DragDetail) => void;
@@ -132,6 +144,9 @@ export function connectSortableComponent(component: SortableComponent): void {
         }),
       },
     }),
+    onMove: ({ from: fromEl, dragged: dragEl, to: toEl, related: relatedEl }) => {
+      component.onDragMove({ fromEl, dragEl, toEl, relatedEl });
+    },
     handle,
     filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {

@@ -53,7 +53,7 @@ import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/inte
 import { guid } from "../../utils/guid";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import { ListMessages } from "./assets/list/t9n";
-import { ListDragDetail } from "./interfaces";
+import { ListDragDetail, ListMoveDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
 const parentSelector = "calcite-list-item-group, calcite-list-item" as const;
@@ -676,6 +676,10 @@ export class List
 
   onDragEnd(detail: ListDragDetail): void {
     this.calciteListDragEnd.emit(detail);
+  }
+
+  onDragMove({ relatedEl }: ListMoveDetail): void {
+    relatedEl.open = true;
   }
 
   onDragStart(detail: ListDragDetail): void {
