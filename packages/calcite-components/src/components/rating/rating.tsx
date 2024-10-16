@@ -207,7 +207,7 @@ export class Rating
   }
 
   loaded(): void {
-    this.labelElements = this.renderRoot.querySelectorAll("label");
+    this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
     setComponentLoaded(this);
   }
 
