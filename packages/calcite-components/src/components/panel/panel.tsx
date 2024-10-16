@@ -739,6 +739,23 @@ export class Panel
           {loading ? <calcite-scrim loading={loading} /> : null}
           {panelNode}
         </InteractiveContainer>
+        <ul id="my-id">
+          {/* <div> */}
+          <li id="my-id" />
+          {/* </div> */}
+        </ul>
+        <form>
+          <label>
+            Test
+            <input name="my-input" />
+          </label>
+          <label>
+            Test2
+            <select name="my-input">
+              <option value="1">test</option>
+            </select>
+          </label>
+        </form>
       </Host>
     );
   }
