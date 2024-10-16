@@ -13,6 +13,7 @@ import {
   t9n,
   themed,
   handlesActionMenuPlacements,
+  validates,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
@@ -359,6 +360,10 @@ describe("calcite-panel", () => {
     const alert = await page.find("calcite-alert");
 
     expect(await alert.getProperty("embedded")).toBe(true);
+  });
+
+  describe("validates", () => {
+    validates(panelTemplate());
   });
 
   describe("accessible", () => {
