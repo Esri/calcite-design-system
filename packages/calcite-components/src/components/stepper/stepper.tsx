@@ -22,6 +22,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
 } from "../../utils/locale";
+import { breakpoints } from "../../utils/responsive";
 import {
   connectMessages,
   disconnectMessages,
@@ -55,13 +56,16 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
-  @Prop({ reflect: true }) icon = false;
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) icon = false;
 
   /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: StepperLayout = "horizontal";
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) layout: StepperLayout = "horizontal";
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
-  @Prop({ reflect: true }) numbered = false;
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) numbered = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -111,11 +115,44 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     /* wired up by t9n util */
   }
 
+  /**
+   * Specifies the component's responsive overrides.
+   *
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ mutable: true }) responsiveOverrides: any;
+
   //--------------------------------------------------------------------------
   //
   //  Events
   //
   //--------------------------------------------------------------------------
+
+  private handleResponsiveOverrides(width: number): void {
+    if (!width || !this.responsiveOverrides) {
+      return;
+    }
+    const breakpointsKeys = breakpoints.width ? Object.keys(breakpoints.width) : [];
+    for (const key of breakpointsKeys) {
+      if (width >= breakpoints.width[key]) {
+        if (!this.responsiveOverrides[key]) {
+          return;
+        }
+        Object.entries(this.responsiveOverrides[key]).forEach((item) => {
+          const property = item[1]["property"];
+          if (!(property in this)) {
+            return;
+          }
+          this[property] = item[1]["value"] as any;
+        });
+        return;
+      }
+    }
+  }
+
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
+    this.handleResponsiveOverrides(width);
+  };
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
@@ -146,6 +183,8 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
+    this.resizeObserver?.observe(this.el);
+
     this.updateItems();
     connectMessages(this);
     connectLocalized(this);
@@ -174,6 +213,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     disconnectMessages(this);
     disconnectLocalized(this);
     this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
   }
 
   render(): VNode {
@@ -374,6 +414,10 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   private guid = `calcite-stepper-action-${guid()}`;
 
   private containerEl: HTMLDivElement;
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler),
+  );
 
   //--------------------------------------------------------------------------
   //

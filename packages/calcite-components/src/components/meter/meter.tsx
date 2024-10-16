@@ -20,6 +20,7 @@ import {
   numberStringFormatter,
   SupportedLocale,
 } from "../../utils/locale";
+import { breakpoints } from "../../utils/responsive";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "./resources";
@@ -38,8 +39,11 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
-    "outline-fill";
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) appearance: Extract<
+    "outline" | "outline-fill" | "solid",
+    Appearance
+  > = "outline-fill";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -93,25 +97,30 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   @Prop() numberingSystem: NumberingSystem;
 
   /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
-  @Prop({ reflect: true }) rangeLabels = false;
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) rangeLabels = false;
 
   /** When `rangeLabels` is `true`, specifies the format of displayed labels. */
-  @Prop({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) rangeLabelType: MeterLabelType = "percent";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
-  @Prop() unitLabel = "";
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) unitLabel = "";
 
   /** Specifies the current value of the component. */
   @Prop({ mutable: true }) value: number;
 
   /** When `true`, displays the current value. */
-  @Prop({ reflect: true }) valueLabel = false;
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) valueLabel = false;
 
   /** When `valueLabel` is `true`, specifies the format of displayed label. */
-  @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ reflect: true, mutable: true }) valueLabelType: MeterLabelType = "percent";
 
   @Watch("rangeLabels")
   @Watch("rangeLabelType")
@@ -122,6 +131,12 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     this.updateLabels();
   }
 
+  /**
+   * Specifies the component's responsive overrides.
+   *
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable
+  @Prop({ mutable: true }) responsiveOverrides: any;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -149,6 +164,34 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     disconnectLocalized(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  private handleResponsiveOverrides(width: number): void {
+    if (!width || !this.responsiveOverrides) {
+      return;
+    }
+    const breakpointsKeys = breakpoints.width ? Object.keys(breakpoints.width) : [];
+    for (const key of breakpointsKeys) {
+      if (width >= breakpoints.width[key]) {
+        if (!this.responsiveOverrides[key]) {
+          return;
+        }
+        Object.entries(this.responsiveOverrides[key]).forEach((item) => {
+          const property = item[1]["property"];
+          if (!(property in this)) {
+            return;
+          }
+          this[property] = item[1]["value"] as any;
+        });
+        return;
+      }
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -188,7 +231,9 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     locale: SupportedLocale;
   };
 
-  private resizeObserver = createObserver("resize", () => this.resizeHandler());
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler),
+  );
 
   private valueLabelEl: HTMLDivElement;
 
@@ -210,9 +255,10 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   //
   //--------------------------------------------------------------------------
 
-  private resizeHandler(): void {
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
     this.updateLabels();
-  }
+    this.handleResponsiveOverrides(width);
+  };
 
   private updateLabels(): void {
     if (this.valueLabelEl) {
