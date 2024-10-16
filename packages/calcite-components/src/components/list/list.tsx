@@ -22,7 +22,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { updateListItemChildren } from "../list-item/utils";
+import { openAncestors, updateListItemChildren } from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -1020,6 +1020,7 @@ export class List
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
+    openAncestors(dragEl);
     const newIndex = Array.from(toEl.children).indexOf(dragEl);
 
     this.updateListItems();

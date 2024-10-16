@@ -4,6 +4,17 @@ const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
 const listItemSelector = "calcite-list-item";
 
+export function openAncestors(el: HTMLCalciteListItemElement): void {
+  const ancestor = el.parentElement?.closest(listItemSelector);
+
+  if (!ancestor) {
+    return;
+  }
+
+  ancestor.open = true;
+  openAncestors(ancestor);
+}
+
 export function hasListItemChildren(slotEl: HTMLSlotElement): boolean {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
