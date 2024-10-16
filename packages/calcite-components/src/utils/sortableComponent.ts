@@ -145,6 +145,10 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     onMove: ({ from: fromEl, dragged: dragEl, to: toEl, related: relatedEl }) => {
+      if (!component.onDragMove) {
+        return;
+      }
+
       component.onDragMove({ fromEl, dragEl, toEl, relatedEl });
     },
     handle,
