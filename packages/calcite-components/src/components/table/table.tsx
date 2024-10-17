@@ -311,7 +311,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   private getSlottedRows = (el: HTMLSlotElement): HTMLCalciteTableRowElement[] => {
     return el
       ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as HTMLCalciteTableRowElement[];
+      ?.filter(
+        (el) => el?.matches("calcite-table-row") && !(el as HTMLCalciteTableRowElement)?.hidden,
+      ) as HTMLCalciteTableRowElement[];
   };
 
   private updateRows = (): void => {

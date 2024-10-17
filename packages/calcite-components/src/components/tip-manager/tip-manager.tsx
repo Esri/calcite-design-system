@@ -182,7 +182,7 @@ export class TipManager {
   // --------------------------------------------------------------------------
 
   setUpTips(): void {
-    const tips = Array.from(this.el.querySelectorAll("calcite-tip"));
+    const tips = Array.from(this.el.querySelectorAll("calcite-tip")).filter((t) => !t.hidden);
     this.total = tips.length;
     if (this.total === 0) {
       return;
