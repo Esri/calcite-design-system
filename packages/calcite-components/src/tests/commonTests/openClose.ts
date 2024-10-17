@@ -1,12 +1,19 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { GlobalTestProps, newProgrammaticE2EPage } from "../utils";
+import { GlobalTestProps, newProgrammaticE2EPage, toElementHandle } from "../utils";
 import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./utils";
 import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
+type CollapseAxis = "horizontal" | "vertical";
+
 interface OpenCloseOptions {
+  /**
+   * When specified, testing will assert that the component is collapsed (does not affect layout) along the specified axis when closed.
+   */
+  collapsedOnClose?: CollapseAxis;
+
   /**
    * Toggle property to test. Currently, either "open" or "expanded".
    */
@@ -54,10 +61,11 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
 
     await setUpEventListeners(tag, page);
     await testOpenCloseEvents({
-      tag,
-      page,
-      openPropName: effectiveOptions.openPropName,
       animationsEnabled: !effectiveOptions.willUseFallback,
+      collapsedOnClose: effectiveOptions.collapsedOnClose,
+      openPropName: effectiveOptions.openPropName,
+      page,
+      tag,
     });
   });
 
@@ -69,6 +77,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
     await setUpEventListeners(tag, page);
     await testOpenCloseEvents({
       animationsEnabled: false,
+      collapsedOnClose: effectiveOptions.collapsedOnClose,
       openPropName: effectiveOptions.openPropName,
       page,
       tag,
@@ -150,6 +159,11 @@ interface TestOpenCloseEventsParams {
   startOpen?: boolean;
 
   /**
+   * Whether the component should be collapsed (does not affect layout) along the specified axis when closed.
+   */
+  collapsedOnClose?: CollapseAxis;
+
+  /**
    * Whether animations are enabled.
    */
   animationsEnabled: boolean;
@@ -159,6 +173,7 @@ async function testOpenCloseEvents({
   animationsEnabled,
   openPropName,
   page,
+  collapsedOnClose,
   startOpen = false,
   tag,
 }: TestOpenCloseEventsParams): Promise<void> {
@@ -221,6 +236,17 @@ async function testOpenCloseEvents({
   await closeEvent;
 
   assertEventSequence([1, 1, 1, 1]);
+
+  if (collapsedOnClose !== undefined) {
+    const elementHandle = await toElementHandle(element);
+    const boundingBox = await elementHandle.boundingBox();
+    const horizontalCollapse = collapsedOnClose === "horizontal";
+    const dimension = horizontalCollapse ? "width" : "height";
+    const scrollDimension = horizontalCollapse ? "scrollWidth" : "scrollHeight";
+
+    expect(boundingBox[dimension]).toBe(0);
+    expect(await elementHandle.evaluate((el, scrollDimension) => el[scrollDimension], scrollDimension)).toBe(0);
+  }
 
   expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
 
