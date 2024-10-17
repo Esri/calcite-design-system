@@ -27,7 +27,8 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { LogicalFlowPosition, Scale } from "../interfaces";
+import { getHeight, getWidth } from "../../utils/dynamicCSSConst";
+import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { DisplayMode } from "./interfaces";
@@ -70,8 +71,13 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   *
+   * @deprecated Use the `height` property instead.
    */
   @Prop({ reflect: true }) heightScale: Scale = "m";
+
+  /** Specifies the height of the component. */
+  @Prop({ reflect: true }) height: Height;
 
   /**
    * When `true`, prevents focus trapping.
@@ -128,9 +134,13 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
    */
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -183,6 +193,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             [CSS.containerOpen]: this.opened,
             [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
+            [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
+            [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
           }}
           ref={this.setTransitionEl}
         >

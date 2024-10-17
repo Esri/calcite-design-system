@@ -15,6 +15,7 @@ export const CSS = {
   contentNoFooter: "content--no-footer",
   contentBottom: "content-bottom",
   contentTop: "content-top",
+  width: "width",
 
   // these classes help apply the animation in phases to only set transform on open/close
   // this helps avoid a positioning issue for any floating-ui-owning children

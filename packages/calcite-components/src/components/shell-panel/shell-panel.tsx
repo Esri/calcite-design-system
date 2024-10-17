@@ -18,6 +18,7 @@ import {
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
+import { getHeight, getWidth } from "../../utils/dynamicCSSConst";
 import {
   connectMessages,
   disconnectMessages,
@@ -25,7 +26,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Layout, Position, Scale } from "../interfaces";
+import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
@@ -92,7 +93,7 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
   /**
    * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
    *
-   * @deprecated Use `heightScale` instead.
+   * @deprecated Use the `height` property instead.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale;
 
@@ -103,19 +104,28 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
 
   /**
    * When `layout` is `horizontal`, specifies the maximum height of the component.
+   *
+   * @deprecated Use the `height` property instead.
    */
-  @Prop({ reflect: true }) heightScale: Scale;
+  @Prop({ reflect: true }) heightScale: Scale = "m";
 
   @Watch("heightScale")
   handleHeightScale(value: Scale): void {
     this.detachedHeightScale = value;
   }
 
+  /** Specifies the height of the component. */
+  @Prop({ reflect: true }) height: Height;
+
   /**
    * When `layout` is `vertical`, specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
    */
-
   @Prop({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   /**
    *  The direction of the component.
@@ -332,6 +342,8 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
           [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
+          [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
+          [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
         }}
         hidden={collapsed}
         key="content"

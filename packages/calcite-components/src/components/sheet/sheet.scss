@@ -115,37 +115,37 @@
   min-inline-size: calc(100% - 1.5rem);
 }
 
-:host([position^="inline"][width-scale="s"]) {
+:host([position^="inline"]) .width-s {
   --calcite-sheet-width-internal: var(--calcite-sheet-width, 15vw);
   --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 360px);
   --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 260px);
 }
 
-:host([position^="inline"][width-scale="m"]) {
+:host([position^="inline"]) .width-m {
   --calcite-sheet-width-internal: var(--calcite-sheet-width, 25vw);
   --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 420px);
   --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 300px);
 }
 
-:host([position^="inline"][width-scale="l"]) {
+:host([position^="inline"]) .width-l {
   --calcite-sheet-width-internal: var(--calcite-sheet-width, 45vw);
   --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 680px);
   --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 340px);
 }
 
-:host([position^="block"][height-scale="s"]) {
+:host([position^="block"]) .height-s {
   --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 160px);
   --calcite-sheet-height-internal: var(--calcite-sheet-height, 30vh);
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 30vh);
 }
 
-:host([position^="block"][height-scale="m"]) {
+:host([position^="block"]) .height-m {
   --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 200px);
   --calcite-sheet-height-internal: var(--calcite-sheet-height, 45vh);
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 50vh);
 }
 
-:host([position^="block"][height-scale="l"]) {
+:host([position^="block"]) .height-l {
   --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 240px);
   --calcite-sheet-height-internal: var(--calcite-sheet-height, 60vh);
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 70vh);

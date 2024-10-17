@@ -29,8 +29,9 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
+import { getWidth } from "../../utils/dynamicCSSConst";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { Kind, Scale } from "../interfaces";
+import { Kind, Scale, Width } from "../interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -204,8 +205,15 @@ export class Dialog
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
+   */
   @Prop({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   //--------------------------------------------------------------------------
   //
@@ -269,7 +277,10 @@ export class Dialog
             aria-description={description}
             aria-label={heading}
             aria-modal={toAriaBoolean(this.modal)}
-            class={CSS.dialog}
+            class={{
+              [CSS.dialog]: true,
+              [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
+            }}
             onKeyDown={this.handleKeyDown}
             ref={this.setTransitionEl}
             role="dialog"
