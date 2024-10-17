@@ -16,9 +16,12 @@ export function validates(componentTestSetup: ComponentTestSetup): void {
 
     const validation = await validator.validateString(markup);
 
-    validation.results.forEach((result) => {
-      const message = result.messages.map((message) => message.message).join("\n");
-      throw new Error(message.concat("\n", result.source));
-    });
+    if (validation.results.length > 0) {
+      const message = validation.results
+        .map((result) => result.messages.map((message) => `Error: ${message.message}`).join("\n"))
+        .concat(`Source:\n ${markup}`)
+        .join("\n");
+      throw new Error(message);
+    }
   });
 }
