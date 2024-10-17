@@ -77,7 +77,7 @@
 }
 
 .toggle {
-  @apply focus-base relative;
+  @apply focus-base outline-none relative;
 
   &:active,
   &:focus,
