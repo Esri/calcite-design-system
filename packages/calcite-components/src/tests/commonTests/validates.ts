@@ -18,7 +18,7 @@ export function validates(componentTestSetup: ComponentTestSetup): void {
 
     validation.results.forEach((result) => {
       const message = result.messages.map((message) => message.message).join("\n");
-      throw new Error(message);
+      throw new Error(message.concat("\n", result.source));
     });
   });
 }
