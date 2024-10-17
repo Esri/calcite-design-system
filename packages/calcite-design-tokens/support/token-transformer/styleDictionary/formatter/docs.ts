@@ -25,7 +25,7 @@ export const formatDocsPlatform: CalledFormatterFunction = (args) => {
 export const registerFormatterDocs = (sd: StyleDictionary): void => {
   const formatterConfig: FormatterConfig = {
     name: CalciteDocs,
-    formatter: formatDocsPlatform,
+    format: formatDocsPlatform,
   };
 
   sd.registerFormat(formatterConfig);
