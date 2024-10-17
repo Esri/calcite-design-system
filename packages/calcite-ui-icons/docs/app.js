@@ -69,22 +69,22 @@
     var filled = key.substring(key.length - 2);
     var isFilled = filled === "-f";
     var baseName = isFilled ? key.substring(0, key.length - 2) : key;
-    var baseURL = "https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/" + baseName + "-";
+    var baseURL = "https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/" + encodeURIComponent(baseName) + "-";
     var suffix = ".svg";
     var tags = icon.alias
       .map(function (alias) {
-        return '<span class="label inline-block margin-right-quarter trailer-quarter">' + alias + "</span>";
+        return '<span class="label inline-block margin-right-quarter trailer-quarter">' + encodeURIComponent(alias) + "</span>";
       })
       .join("");
 
-    window.location.hash = key;
+    window.location.hash = encodeURIComponent(key);
     document.querySelector(".js-detail-name").textContent = key;
     document.querySelector(".js-detail-aliases").innerHTML = (tags && tags) || "---";
-    document.querySelector(".js-detail-category").innerHTML = (icon.category && icon.category) || "---";
-    document.querySelector(".js-detail-release").innerHTML = (icon.release && icon.release) || "---";
+    document.querySelector(".js-detail-category").textContent = (icon.category && icon.category) || "---";
+    document.querySelector(".js-detail-release").textContent = (icon.release && icon.release) || "---";
 
     [16, 24, 32].forEach(function (size) {
-      document.querySelector(".js-link-" + size).href = baseURL + size + (isFilled ? filled : "") + suffix;
+      document.querySelector(".js-link-" + size).href = baseURL + size + (isFilled ? encodeURIComponent(filled) : "") + suffix;
       var iconDetail = document.querySelector(".js-detail-" + size);
       iconDetail.innerHTML = "";
       iconDetail.appendChild(getSVG(icon[size], size));
