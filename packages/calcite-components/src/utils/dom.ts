@@ -68,21 +68,6 @@ export function getElementDir(el: HTMLElement): Direction {
 }
 
 /**
- * This helper returns the value of an attribute on an element.
- *
- * @param {HTMLElement} el An element.
- * @param {string} attribute An attribute name.
- * @param {any} fallbackValue A fallback value.
- * @returns {any} The value.
- * @deprecated
- */
-export function getElementProp(el: Element, attribute: string, fallbackValue: any): any {
-  const selector = `[${attribute}]`;
-  const closest = el.closest(selector);
-  return closest ? closest.getAttribute(attribute) : fallbackValue;
-}
-
-/**
  * This helper returns the computed width in pixels of a rendered HTMLElement.
  *
  * @param {HTMLElement} el An element.
@@ -305,106 +290,6 @@ export function getFirstTabbable(element: HTMLElement): HTMLElement {
  */
 export function focusFirstTabbable(element: HTMLElement): void {
   getFirstTabbable(element)?.focus();
-}
-
-interface GetSlottedOptions {
-  all?: boolean;
-  direct?: boolean;
-  matches?: string;
-  selector?: string;
-}
-
-const defaultSlotSelector = ":not([slot])";
-
-/**
- * Gets slotted elements for a named slot.
- *
- * @param {Element} element An element.
- * @param {string} slotName The slot name.
- * @param {GetSlottedOptions & { all: true }} options The options.
- * @returns {Element | Element[] | null} returns element(s) or null.
- * @deprecated Use `onSlotchange` event instead.
- *
- * ```
- * <slot onSlotchange={(event) => this.myElements = slotChangeGetAssignedElements(event)} />}
- * ```
- */
-export function getSlotted<T extends Element = Element>(
-  element: Element,
-  slotName: string | string[] | (GetSlottedOptions & { all: true }),
-  options: GetSlottedOptions & { all: true },
-): T[];
-export function getSlotted<T extends Element = Element>(
-  element: Element,
-  slotName?: string | string[] | GetSlottedOptions,
-  options?: GetSlottedOptions,
-): T | null;
-export function getSlotted<T extends Element = Element>(
-  element: Element,
-  slotName?: string | string[] | GetSlottedOptions,
-  options?: GetSlottedOptions,
-): (T | null) | T[] {
-  if (slotName && !Array.isArray(slotName) && typeof slotName !== "string") {
-    options = slotName;
-    slotName = null;
-  }
-
-  const slotSelector = slotName
-    ? Array.isArray(slotName)
-      ? slotName.map((name) => `[slot="${name}"]`).join(",")
-      : `[slot="${slotName}"]`
-    : defaultSlotSelector;
-
-  if (options?.all) {
-    return queryMultiple<T>(element, slotSelector, options);
-  }
-
-  return querySingle<T>(element, slotSelector, options);
-}
-
-function getDirectChildren<T extends Element = Element>(el: Element, selector: string): T[] {
-  return el ? (Array.from(el.children || []) as T[]).filter((child) => child?.matches(selector)) : [];
-}
-
-function queryMultiple<T extends Element = Element>(
-  element: Element,
-  slotSelector: string,
-  options?: GetSlottedOptions,
-): T[] {
-  let matches =
-    slotSelector === defaultSlotSelector
-      ? getDirectChildren<T>(element, defaultSlotSelector)
-      : Array.from(element.querySelectorAll<T>(slotSelector));
-
-  matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
-
-  matches = options?.matches ? matches.filter((el) => el?.matches(options.matches)) : matches;
-
-  const selector = options?.selector;
-  return selector
-    ? matches
-        .map((item) => Array.from(item.querySelectorAll<T>(selector)))
-        .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], [])
-        .filter((match) => !!match)
-    : matches;
-}
-
-function querySingle<T extends Element = Element>(
-  element: Element,
-  slotSelector: string,
-  options?: GetSlottedOptions,
-): T | null {
-  let match =
-    slotSelector === defaultSlotSelector
-      ? getDirectChildren<T>(element, defaultSlotSelector)[0] || null
-      : element.querySelector<T>(slotSelector);
-
-  match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
-
-  match = options?.matches ? (match?.matches(options.matches) ? match : null) : match;
-
-  const selector = options?.selector;
-  return selector ? match?.querySelector<T>(selector) : match;
 }
 
 /**
