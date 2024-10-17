@@ -78,7 +78,7 @@
       .join("");
 
     window.location.hash = key;
-    document.querySelector(".js-detail-name").innerHTML = key;
+    document.querySelector(".js-detail-name").textContent = key;
     document.querySelector(".js-detail-aliases").innerHTML = (tags && tags) || "---";
     document.querySelector(".js-detail-category").innerHTML = (icon.category && icon.category) || "---";
     document.querySelector(".js-detail-release").innerHTML = (icon.release && icon.release) || "---";
