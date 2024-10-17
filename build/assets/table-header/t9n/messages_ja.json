@@ -1,0 +1,8 @@
+{
+  "all": "すべて",
+  "keyboardDeselectAll": "すべての行を選択解除するには Enter キーまたは Space キーを押します",
+  "keyboardSelectAll": "すべての行を選択するには Enter キーまたは Space キーを押します",
+  "rowNumber": "行番号",
+  "selected": "選択行",
+  "selectionColumn": "選択列"
+}
