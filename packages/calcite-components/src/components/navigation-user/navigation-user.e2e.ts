@@ -22,7 +22,7 @@ describe("calcite-navigation-user", () => {
       },
       {
         propertyName: "textDisabled",
-        value: "",
+        value: true,
       },
     ]);
   });
