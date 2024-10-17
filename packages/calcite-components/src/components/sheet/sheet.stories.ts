@@ -4,12 +4,13 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
 const { logicalFlowPosition, displayMode } = ATTRIBUTES;
 
-type SheetStoryArgs = Pick<Sheet, "open" | "position" | "displayMode">;
+type SheetStoryArgs = Pick<Sheet, "open" | "position" | "displayMode" | "resizable">;
 
 export default {
   title: "Components/Sheet",
   args: {
     open: true,
+    resizable: false,
     position: logicalFlowPosition.values[0],
     displayMode: displayMode.values[1],
   },
@@ -45,6 +46,7 @@ export const simple = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
     ${boolean("open", args.open)}
+    ${boolean("resizable", args.resizable)}
     position="${args.position}"
     display-mode="${args.displayMode}"
     >${panelHTML}</calcite-sheet
@@ -61,6 +63,9 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
   >
 `;
 simpleDarkMode.parameters = { themes: modesDarkDefault };
+
+export const resizable = (): string =>
+  html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
 export const inlineStartfloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"

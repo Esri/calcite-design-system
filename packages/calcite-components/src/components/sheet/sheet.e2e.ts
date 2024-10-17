@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
-import { CSS } from "./resources";
+import { CSS, sheetResizeStep } from "./resources";
 
 describe("calcite-sheet properties", () => {
   describe("defaults", () => {
@@ -38,6 +38,19 @@ describe("calcite-sheet properties", () => {
       {
         propertyName: "opened",
         defaultValue: false,
+      },
+      {
+        propertyName: "resizable",
+        defaultValue: false,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-sheet", [
+      {
+        propertyName: "resizable",
+        value: true,
       },
     ]);
   });
@@ -103,6 +116,20 @@ describe("calcite-sheet properties", () => {
       `.${CSS.content}`,
     );
     expect(style).toEqual("420px");
+  });
+
+  it("should have assistive text when resizable", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-sheet width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-sheet>`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
+    const assistiveTextElement = await page.find(`calcite-sheet >>> .${CSS.assistiveText}`);
+    expect(assistiveTextElement).not.toBeNull();
+    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+    const messages = await import(`./assets/sheet/t9n/messages.json`);
+    expect(assistiveTextElement.textContent).toBe(messages.resizeEnabled);
   });
 
   it("sets custom width and max correctly", async () => {
@@ -550,6 +577,84 @@ describe("calcite-sheet properties", () => {
 
       expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
       expect(closeSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("keyboard resize", () => {
+    it("should resize properly via arrow keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-sheet
+          width-scale="m"
+          height-scale="m"
+          heading="Hello world"
+          position="inline-start"
+          resizable
+          open
+          style="
+            --calcite-sheet-width: 500px;
+            --calcite-sheet-max-width: 99999px;
+            --calcite-sheet-min-width: 0px;
+            --calcite-sheet-height: 500px;
+            --calcite-sheet-max-height: 99999px;
+            --calcite-sheet-min-height: 0px;"
+        >
+          <p>
+            Lorem ipsum odor amet adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt. Lacinia et
+            euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod eros ante.
+            Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut ultrices;
+            lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu fermentum
+            tellus quis ad facilisis ultrices eros imperdiet.
+          </p>
+          <button id="test">test</button>
+        </calcite-sheet>`,
+      );
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
+
+      let computedStyle = await container.getComputedStyle();
+      const initialInlineSize = computedStyle.inlineSize;
+      const initialWidth = parseInt(initialInlineSize, 10);
+
+      const button = await page.find("#test");
+      await button.focus();
+
+      await page.keyboard.down("ArrowLeft");
+      await page.keyboard.up("ArrowLeft");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${initialWidth - sheetResizeStep}px`);
+
+      await page.keyboard.down("ArrowRight");
+      await page.keyboard.up("ArrowRight");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      const sheet = await page.find("calcite-sheet");
+      sheet.setProperty("position", "block-start");
+      await page.waitForChanges();
+      computedStyle = await container.getComputedStyle();
+      const initialBlockSize = computedStyle.blockSize;
+      const initialHeight = parseInt(initialBlockSize, 10);
+
+      await page.keyboard.down("ArrowDown");
+      await page.keyboard.up("ArrowDown");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight + sheetResizeStep}px`);
+
+      await page.keyboard.down("ArrowUp");
+      await page.keyboard.up("ArrowUp");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
     });
   });
 });

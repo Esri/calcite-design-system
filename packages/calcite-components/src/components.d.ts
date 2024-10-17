@@ -39,6 +39,7 @@ import { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
 import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 import { ICON_TYPES } from "./components/pick-list/resources";
 import { DisplayMode } from "./components/sheet/interfaces";
+import { SheetMessages } from "./components/sheet/assets/sheet/t9n";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
@@ -84,6 +85,7 @@ export { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
 export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 export { ICON_TYPES } from "./components/pick-list/resources";
 export { DisplayMode } from "./components/sheet/interfaces";
+export { SheetMessages } from "./components/sheet/assets/sheet/t9n";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
@@ -4434,6 +4436,14 @@ export namespace Components {
          */
         "label": string;
         /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<SheetMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": SheetMessages;
+        /**
           * When `true`, displays and positions the component.
          */
         "open": boolean;
@@ -4449,6 +4459,10 @@ export namespace Components {
           * Determines where the component will be positioned.
          */
         "position": LogicalFlowPosition;
+        /**
+          * When `true`, the component is resizable.
+         */
+        "resizable": boolean;
         /**
           * Sets focus on the component's "close" button - the first focusable item.
          */
@@ -12628,6 +12642,14 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<SheetMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: SheetMessages;
+        /**
           * Fires when the component is requested to be closed and before the closing transition begins.
          */
         "onCalciteSheetBeforeClose"?: (event: CalciteSheetCustomEvent<void>) => void;
@@ -12659,6 +12681,10 @@ declare namespace LocalJSX {
           * Determines where the component will be positioned.
          */
         "position"?: LogicalFlowPosition;
+        /**
+          * When `true`, the component is resizable.
+         */
+        "resizable"?: boolean;
         /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
          */
