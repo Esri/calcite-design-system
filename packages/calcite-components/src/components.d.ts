@@ -5709,6 +5709,7 @@ export namespace Components {
           * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
          */
         "selected": boolean;
+        "userHidden": boolean;
     }
     /**
      * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
@@ -13943,6 +13944,7 @@ declare namespace LocalJSX {
           * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
          */
         "selected"?: boolean;
+        "userHidden"?: boolean;
     }
     /**
      * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.

@@ -127,12 +127,12 @@ export class TipManager {
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    this.setUpTips();
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    this.setUpTips();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateGroupTitle();
   }
 
@@ -182,7 +182,7 @@ export class TipManager {
   // --------------------------------------------------------------------------
 
   setUpTips(): void {
-    const tips = Array.from(this.el.querySelectorAll("calcite-tip")).filter((t) => !t.hidden);
+    const tips = Array.from(this.el.querySelectorAll("calcite-tip")).filter((t) => !t.userHidden);
     this.total = tips.length;
     if (this.total === 0) {
       return;
