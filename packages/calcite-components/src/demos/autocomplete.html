@@ -15,9 +15,16 @@
       <calcite-autocomplete scale="m" value="1" input-value="Redlands, CA">
         <calcite-autocomplete-item icon-start="banana" value="1" heading="Redlands, CA"></calcite-autocomplete-item>
         <calcite-autocomplete-item icon-end="compass" value="2" heading="Redlands, CO, USA"></calcite-autocomplete-item>
-        <calcite-autocomplete-item value="2" heading="Redlands, Dorset, England, GBR"></calcite-autocomplete-item>
-        <calcite-autocomplete-item value="2" heading="Redlands, Wiltshire, England, GBR"></calcite-autocomplete-item>
+        <calcite-autocomplete-item value="3" heading="Redlands, Dorset, England, GBR"></calcite-autocomplete-item>
+        <calcite-autocomplete-item value="4" heading="Redlands, Wiltshire, England, GBR"></calcite-autocomplete-item>
       </calcite-autocomplete>
+      <script>
+        const autocomplete = document.querySelector("calcite-autocomplete");
+
+        autocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+          console.log({ name: "calciteAutocompleteChange", event, value: autocomplete.value });
+        });
+      </script>
     </demo-dom-swapper>
   </body>
 </html>

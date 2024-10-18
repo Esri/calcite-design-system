@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { FlipContext, Scale } from "../interfaces";
 import {
   LoadableComponent,
@@ -91,7 +91,7 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <calcite-stack class={CSS.container}>
+        <calcite-stack class={CSS.container} onClick={this.handleClick} tabIndex={0}>
           {this.renderIconStart()}
           <slot name={SLOTS.contentStart} slot={STACK_SLOTS.contentStart} />
           {heading}
@@ -101,6 +101,19 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
       </InteractiveContainer>
     );
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Fires when the item has been selected.
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalAutocompleteItemSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -143,4 +156,8 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
       />
     ) : null;
   }
+
+  private handleClick = (): void => {
+    this.calciteInternalAutocompleteItemSelect.emit();
+  };
 }

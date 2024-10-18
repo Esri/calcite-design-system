@@ -421,7 +421,6 @@ export class Autocomplete
             name={this.name}
             onCalciteInputChange={this.changeHandler}
             onCalciteInputInput={this.inputHandler}
-            onCalciteInternalInputBlur={this.handleInputBlur}
             onCalciteInternalInputFocus={this.handleInputFocus}
             onKeyDown={this.keyDownHandler}
             pattern={this.pattern}
@@ -512,7 +511,7 @@ export class Autocomplete
   /**
    * Fires each time a new `value` is typed and committed.
    */
-  @Event({ cancelable: false }) calciteAutocompleteChange: EventEmitter<void>; // todo
+  @Event({ cancelable: false }) calciteAutocompleteChange: EventEmitter<void>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteAutocompleteBeforeClose: EventEmitter<void>;
@@ -526,13 +525,21 @@ export class Autocomplete
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteAutocompleteOpen: EventEmitter<void>;
 
-  @Listen("calciteAutocompleteOpen", { target: "window" })
-  closeCalciteAutocompleteOnOpenEvent(event: Event): void {
-    if (event.composedPath().includes(this.el)) {
+  @Listen("click", { target: "document" })
+  async documentClickHandler(event: PointerEvent): Promise<void> {
+    if (this.disabled || event.composedPath().includes(this.el)) {
       return;
     }
 
     this.open = false;
+  }
+
+  @Listen("calciteInternalAutocompleteItemSelect")
+  handleInternalAutocompleteItemSelect(event: Event): void {
+    this.value = (event.target as HTMLCalciteAutocompleteItemElement).value;
+    event.stopPropagation();
+    this.open = false;
+    this.calciteAutocompleteChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -602,10 +609,6 @@ export class Autocomplete
     this.open = true;
   };
 
-  private handleInputBlur = (): void => {
-    this.open = false;
-  };
-
   private handleDefaultSlotChange = (event: Event): void => {
     this.items = slotChangeGetAssignedElements(event).filter(
       (el): el is HTMLCalciteAutocompleteItemElement => el.matches("calcite-autocomplete-item"),
@@ -631,7 +634,9 @@ export class Autocomplete
       return;
     }
 
-    if (key === "Enter") {
+    if (key === "Tab") {
+      this.open = false; // todo: test with slotted actions
+    } else if (key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }

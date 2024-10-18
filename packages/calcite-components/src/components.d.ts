@@ -6189,6 +6189,10 @@ export interface CalciteAutocompleteCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteAutocompleteElement;
 }
+export interface CalciteAutocompleteItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteAutocompleteItemElement;
+}
 export interface CalciteBlockCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteBlockElement;
@@ -6631,7 +6635,18 @@ declare global {
         prototype: HTMLCalciteAutocompleteElement;
         new (): HTMLCalciteAutocompleteElement;
     };
+    interface HTMLCalciteAutocompleteItemElementEventMap {
+        "calciteInternalAutocompleteItemSelect": void;
+    }
     interface HTMLCalciteAutocompleteItemElement extends Components.CalciteAutocompleteItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteAutocompleteItemElementEventMap>(type: K, listener: (this: HTMLCalciteAutocompleteItemElement, ev: CalciteAutocompleteItemCustomEvent<HTMLCalciteAutocompleteItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteAutocompleteItemElementEventMap>(type: K, listener: (this: HTMLCalciteAutocompleteItemElement, ev: CalciteAutocompleteItemCustomEvent<HTMLCalciteAutocompleteItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteAutocompleteItemElement: {
         prototype: HTMLCalciteAutocompleteItemElement;
@@ -8967,6 +8982,10 @@ declare namespace LocalJSX {
           * Accessible name for the component.
          */
         "label"?: string;
+        /**
+          * Fires when the item has been selected.
+         */
+        "onCalciteInternalAutocompleteItemSelect"?: (event: CalciteAutocompleteItemCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
          */
