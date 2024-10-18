@@ -3,7 +3,7 @@ import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { Scale } from "../interfaces";
-// import { CSS as TabTitleCSS } from "../tab-title/resources";
+import { CSS as XButtonCSS } from "../functional/XButton";
 import { TabPosition } from "./interfaces";
 import { CSS } from "./resources";
 
@@ -360,7 +360,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should emit tab change events when closing affects selected tab", async () => {
-      await page.click(`#tab-title-4 >>> .{TabTitleCSS.closeButton}`);
+      await page.click(`#tab-title-4 >>> .${XButtonCSS.button}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(1);
@@ -378,7 +378,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should NOT emit tab change events when closing does not affect selected tab", async () => {
-      await page.click(`#tab-title-1 >>> .{TabTitleCSS.closeButton}`);
+      await page.click(`#tab-title-1 >>> .${XButtonCSS.button}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(0);
