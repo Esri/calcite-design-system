@@ -5329,6 +5329,7 @@ export namespace Components {
         "selectedRowCount": number;
         "selectedRowCountLocalized": string;
         "selectionMode": Extract<"multiple" | "single" | "none", SelectionMode>;
+        "userHidden": boolean;
     }
     interface CalciteTabs {
         /**
@@ -13556,6 +13557,7 @@ declare namespace LocalJSX {
         "selectedRowCount"?: number;
         "selectedRowCountLocalized"?: string;
         "selectionMode"?: Extract<"multiple" | "single" | "none", SelectionMode>;
+        "userHidden"?: boolean;
     }
     interface CalciteTabs {
         /**
