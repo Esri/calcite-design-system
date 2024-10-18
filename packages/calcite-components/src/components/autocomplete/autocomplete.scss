@@ -12,33 +12,24 @@
 
 @include disabled();
 
-:host .calcite-dropdown-wrapper {
+calcite-input {
+  flex: 1;
+}
+
+.floating-ui-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui-container();
   @include floating-ui-wrapper();
 }
 
-@include floating-ui-elem-anim(".calcite-dropdown-wrapper");
-:host([open]) .calcite-dropdown-wrapper {
+@include floating-ui-elem-anim(".floating-ui-container");
+
+.floating-ui-container--active {
   @include floating-ui-wrapper-active();
 }
 
-:host .calcite-dropdown-content {
-  @apply bg-foreground-1
-    w-auto
-    overflow-y-auto
-    overflow-x-hidden
-    max-h-menu;
-  inline-size: var(--calcite-dropdown-width);
-}
-.calcite-trigger-container {
-  @apply relative flex flex-auto h-full;
-  @include word-break;
-}
-
 @media (forced-colors: active) {
-  /* use real border since box-shadow is removed in high contrast mode */
-  :host([open]) .calcite-dropdown-wrapper {
+  .floating-ui-container--active {
     border: 1px solid canvasText;
   }
 }

@@ -18,6 +18,8 @@ import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n
 import { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
 import { AlertMessages } from "./components/alert/assets/alert/t9n";
+import { AutocompleteMessages } from "./components/autocomplete/assets/autocomplete/t9n";
+import { MutableValidityState } from "./utils/form";
 import { HeadingLevel } from "./components/functional/Heading";
 import { BlockMessages } from "./components/block/assets/block/t9n";
 import { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
@@ -27,7 +29,6 @@ import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
 import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
-import { MutableValidityState } from "./utils/form";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
@@ -113,6 +114,8 @@ export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n
 export { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
 export { AlertMessages } from "./components/alert/assets/alert/t9n";
+export { AutocompleteMessages } from "./components/autocomplete/assets/autocomplete/t9n";
+export { MutableValidityState } from "./utils/form";
 export { HeadingLevel } from "./components/functional/Heading";
 export { BlockMessages } from "./components/block/assets/block/t9n";
 export { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
@@ -122,7 +125,6 @@ export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
 export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
-export { MutableValidityState } from "./utils/form";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
@@ -591,6 +593,15 @@ export namespace Components {
     }
     interface CalciteAutocomplete {
         /**
+          * Specifies the text alignment of the component's value.
+         */
+        "alignment": Extract<"start" | "end", Alignment>;
+        /**
+          * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
+          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+         */
+        "autocomplete": string;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -599,9 +610,52 @@ export namespace Components {
          */
         "flipPlacements": FlipPlacement[];
         /**
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+         */
+        "form": string;
+        /**
+          * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+         */
+        "icon": IconNameOrString | boolean;
+        /**
+          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": boolean;
+        /**
           * The component's input value.
          */
         "inputValue": string;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * When `true`, a busy indicator is displayed.
+         */
+        "loading": boolean;
+        /**
+          * Specifies the maximum length of text for the component's value.
+          * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+         */
+        "maxLength": number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<AutocompleteMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": AutocompleteMessages;
+        /**
+          * Specifies the minimum length of text for the component's value.
+          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+         */
+        "minLength": number;
+        /**
+          * Specifies the name of the component.  Required to pass the component's `value` on form submission.
+          * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+         */
+        "name": string;
         /**
           * When `true`, displays and positions the component.
          */
@@ -611,23 +665,75 @@ export namespace Components {
          */
         "overlayPositioning": OverlayPositioning;
         /**
+          * Specifies a regex pattern the component's `value` must match for validation. Read the native attribute's documentation on MDN for more info.
+          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+         */
+        "pattern": string;
+        /**
+          * Specifies placeholder text for the component.
+          * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+         */
+        "placeholder": string;
+        /**
           * Determines where the component will be positioned relative to the container element.
           * @default "bottom-start"
          */
         "placement": MenuPlacement;
         /**
+          * Adds text to the start of the component.
+         */
+        "prefixText": string;
+        /**
+          * When `true`, the component's value can be read, but cannot be modified.
+          * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+         */
+        "readOnly": boolean;
+        /**
           * Updates the position of the component.
-          * @param delayed
+          * @param delayed - `true` if the placement should be updated after the component is finished rendering.
+          * @returns
          */
         "reposition": (delayed?: boolean) => Promise<void>;
+        /**
+          * When `true`, the component must have a value in order for the form to submit.
+         */
+        "required": boolean;
         /**
           * Specifies the size of the component.
          */
         "scale": Scale;
         /**
+          * Selects the text of the component's `value`.
+          * @returns
+         */
+        "selectText": () => Promise<void>;
+        /**
           * Sets focus on the component's first focusable element.
+          * @returns
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
+          * Adds text to the end of the component.
+         */
+        "suffixText": string;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
         /**
           * The component's value.
          */
@@ -6507,6 +6613,9 @@ declare global {
         new (): HTMLCalciteAlertElement;
     };
     interface HTMLCalciteAutocompleteElementEventMap {
+        "calciteAutocompleteTextChange": void;
+        "calciteAutocompleteTextInput": void;
+        "calciteAutocompleteChange": void;
         "calciteAutocompleteBeforeClose": void;
         "calciteAutocompleteClose": void;
         "calciteAutocompleteBeforeOpen": void;
@@ -8675,6 +8784,15 @@ declare namespace LocalJSX {
     }
     interface CalciteAutocomplete {
         /**
+          * Specifies the text alignment of the component's value.
+         */
+        "alignment"?: Extract<"start" | "end", Alignment>;
+        /**
+          * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
+          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+         */
+        "autocomplete"?: string;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -8683,9 +8801,52 @@ declare namespace LocalJSX {
          */
         "flipPlacements"?: FlipPlacement[];
         /**
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+         */
+        "form"?: string;
+        /**
+          * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+         */
+        "icon"?: IconNameOrString | boolean;
+        /**
+          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: boolean;
+        /**
           * The component's input value.
          */
         "inputValue"?: string;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
+        /**
+          * When `true`, a busy indicator is displayed.
+         */
+        "loading"?: boolean;
+        /**
+          * Specifies the maximum length of text for the component's value.
+          * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+         */
+        "maxLength"?: number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<AutocompleteMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: AutocompleteMessages;
+        /**
+          * Specifies the minimum length of text for the component's value.
+          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+         */
+        "minLength"?: number;
+        /**
+          * Specifies the name of the component.  Required to pass the component's `value` on form submission.
+          * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+         */
+        "name"?: string;
         /**
           * Fires when the component is requested to be closed and before the closing transition begins.
          */
@@ -8695,6 +8856,10 @@ declare namespace LocalJSX {
          */
         "onCalciteAutocompleteBeforeOpen"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
         /**
+          * Fires each time a new `value` is typed and committed.
+         */
+        "onCalciteAutocompleteChange"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
+        /**
           * Fires when the component is closed and animation is complete.
          */
         "onCalciteAutocompleteClose"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
@@ -8702,6 +8867,14 @@ declare namespace LocalJSX {
           * Fires when the component is open and animation is complete.
          */
         "onCalciteAutocompleteOpen"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
+        /**
+          * Fires each time a new `inputValue` is typed and committed.
+         */
+        "onCalciteAutocompleteTextChange"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
+        /**
+          * Fires each time a new `inputValue` is typed.
+         */
+        "onCalciteAutocompleteTextInput"?: (event: CalciteAutocompleteCustomEvent<void>) => void;
         /**
           * When `true`, displays and positions the component.
          */
@@ -8711,14 +8884,59 @@ declare namespace LocalJSX {
          */
         "overlayPositioning"?: OverlayPositioning;
         /**
+          * Specifies a regex pattern the component's `value` must match for validation. Read the native attribute's documentation on MDN for more info.
+          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+         */
+        "pattern"?: string;
+        /**
+          * Specifies placeholder text for the component.
+          * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+         */
+        "placeholder"?: string;
+        /**
           * Determines where the component will be positioned relative to the container element.
           * @default "bottom-start"
          */
         "placement"?: MenuPlacement;
         /**
+          * Adds text to the start of the component.
+         */
+        "prefixText"?: string;
+        /**
+          * When `true`, the component's value can be read, but cannot be modified.
+          * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+         */
+        "readOnly"?: boolean;
+        /**
+          * When `true`, the component must have a value in order for the form to submit.
+         */
+        "required"?: boolean;
+        /**
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
+          * Adds text to the end of the component.
+         */
+        "suffixText"?: string;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
         /**
           * The component's value.
          */
