@@ -1,0 +1,27 @@
+{
+  "global": {
+    "focus": {
+      "value": "{semantic.color.brand.default.default}",
+      "type": "color",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "global",
+          "domain": "",
+          "component": "",
+          "element": "",
+          "category": "color",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "focus",
+          "scale": "",
+          "context": "",
+          "mode": ""
+        }
+      }
+    }
+  }
+}
