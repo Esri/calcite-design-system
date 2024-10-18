@@ -16,8 +16,8 @@ import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { CSS, SLOTS } from "./resources";
 
 /**
- * @slot content-end - todo
- * @slot content-start - todo
+ * @slot content-end - A slot for adding non-actionable elements after content of the component.
+ * @slot content-start - A slot for adding non-actionable elements before content of the component.
  */
 @Component({
   tag: "calcite-autocomplete-item",
@@ -34,7 +34,7 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
   /**
    * A description for the component. Displays below the label text.
    */
-  @Prop() description: string;
+  @Prop() description: string; // todo
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -54,7 +54,7 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
   @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Accessible name for the component. */
-  @Prop() label: string;
+  @Prop() label: string; // todo
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
@@ -91,7 +91,7 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <calcite-stack class={CSS.container} onClick={this.handleClick} tabIndex={0}>
+        <calcite-stack class={CSS.container} onClick={this.handleClick}>
           {this.renderIconStart()}
           <slot name={SLOTS.contentStart} slot={STACK_SLOTS.contentStart} />
           {heading}

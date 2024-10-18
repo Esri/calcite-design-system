@@ -59,6 +59,8 @@ import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { AutocompleteMessages } from "./assets/autocomplete/t9n";
 
+// todo: aria roles https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-autocomplete#associated_roles
+
 /**
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
  * @slot content-end - A slot for adding content above `calcite-autocomplete-item` elements.
