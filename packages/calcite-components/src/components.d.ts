@@ -3282,7 +3282,7 @@ export namespace Components {
         "dragHandle": boolean;
         /**
           * When `true`, the component's drag handle is selected.
-          * @deprecated no longer necessary.
+          * @deprecated use sortHandleOpen instead.
          */
         "dragSelected": boolean;
         /**
@@ -7196,6 +7196,10 @@ declare global {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
         "calciteListItemDragHandleChange": void;
+        "calciteListItemSortHandleBeforeClose": void;
+        "calciteListItemSortHandleClose": void;
+        "calciteListItemSortHandleBeforeOpen": void;
+        "calciteListItemSortHandleOpen": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
@@ -11527,7 +11531,7 @@ declare namespace LocalJSX {
         "dragHandle"?: boolean;
         /**
           * When `true`, the component's drag handle is selected.
-          * @deprecated no longer necessary.
+          * @deprecated use sortHandleOpen instead.
          */
         "dragSelected"?: boolean;
         /**
@@ -11568,13 +11572,29 @@ declare namespace LocalJSX {
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the drag handle is selected.
-          * @deprecated no longer necessary.
+          * @deprecated use calciteListItemSortHandleOpen instead.
          */
         "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the component is selected.
          */
         "onCalciteListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteListItemSortHandleBeforeClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteListItemSortHandleBeforeOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is closed and animation is complete.
+         */
+        "onCalciteListItemSortHandleClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is open and animation is complete.
+         */
+        "onCalciteListItemSortHandleOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the open button is clicked.
          */

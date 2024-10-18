@@ -139,7 +139,7 @@ export class ListItem
   /**
    * When `true`, the component's drag handle is selected.
    *
-   * @deprecated no longer necessary.
+   * @deprecated use sortHandleOpen instead.
    */
   @Prop({ reflect: true }) dragSelected = false;
 
@@ -230,10 +230,18 @@ export class ListItem
 
   /**
    * When `true`, displays and positions the sort handle.
-   *
-   * @internal
    */
   @Prop({ mutable: true }) sortHandleOpen = false;
+
+  @Watch("sortHandleOpen")
+  sortHandleOpenHandler(): void {
+    if (!this.sortHandleEl) {
+      return;
+    }
+
+    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    this.sortHandleEl.open = this.sortHandleOpen;
+  }
 
   /**
    * Use this property to override individual strings used by the component.
@@ -273,9 +281,21 @@ export class ListItem
   /**
    * Fires when the drag handle is selected.
    *
-   * @deprecated no longer necessary.
+   * @deprecated use calciteListItemSortHandleOpen instead.
    */
   @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
+
+  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteListItemSortHandleBeforeClose: EventEmitter<void>;
+
+  /** Fires when the sort handle is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteListItemSortHandleClose: EventEmitter<void>;
+
+  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteListItemSortHandleBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the sort handle is open and animation is complete. */
+  @Event({ cancelable: false }) calciteListItemSortHandleOpen: EventEmitter<void>;
 
   /**
    * Fires when the open button is clicked.
@@ -374,6 +394,8 @@ export class ListItem
   handleGridEl: HTMLDivElement;
 
   defaultSlotEl: HTMLSlotElement;
+
+  private sortHandleEl: HTMLCalciteSortHandleElement;
 
   // --------------------------------------------------------------------------
   //
@@ -474,8 +496,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, sortHandleOpen, moveToItems } =
-      this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
 
     return dragHandle ? (
       <div
@@ -494,8 +515,8 @@ export class ListItem
           onCalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
           onCalciteSortHandleClose={this.handleSortHandleClose}
           onCalciteSortHandleOpen={this.handleSortHandleOpen}
-          open={sortHandleOpen}
           overlayPositioning="fixed"
+          ref={this.setSortHandleEl}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -734,22 +755,31 @@ export class ListItem
   //
   // --------------------------------------------------------------------------
 
+  private setSortHandleEl = (el: HTMLCalciteSortHandleElement): void => {
+    this.sortHandleEl = el;
+    this.sortHandleOpenHandler();
+  };
+
   private handleSortHandleBeforeOpen = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.calciteListItemSortHandleBeforeOpen.emit();
   };
 
   private handleSortHandleBeforeClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.calciteListItemSortHandleBeforeClose.emit();
   };
 
   private handleSortHandleClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.sortHandleOpen = false;
+    this.calciteListItemSortHandleClose.emit();
   };
 
   private handleSortHandleOpen = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.sortHandleOpen = true;
+    this.calciteListItemSortHandleOpen.emit();
   };
 
   private emitInternalListItemActive = (): void => {
