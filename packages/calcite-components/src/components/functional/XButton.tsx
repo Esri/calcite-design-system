@@ -23,6 +23,7 @@ export const XButton: FunctionalComponent<XButtonProps> = ({
   focusable,
   key,
   label,
+  onClick,
   ref,
   round = true,
   scale,
@@ -37,6 +38,7 @@ export const XButton: FunctionalComponent<XButtonProps> = ({
     }}
     disabled={disabled}
     key={key}
+    onClick={onClick}
     ref={ref}
     tabIndex={focusable ? 0 : -1}
     title={title}
