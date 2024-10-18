@@ -40,13 +40,9 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
+import { MoveTo } from "../sort-handle/interfaces";
 import { ListItemMessages } from "./assets/list-item/t9n";
-import {
-  getDepth,
-  getListItemChildren,
-  getListItemChildLists,
-  updateListItemChildren,
-} from "./utils";
+import { getDepth, hasListItemChildren } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
@@ -142,8 +138,10 @@ export class ListItem
 
   /**
    * When `true`, the component's drag handle is selected.
+   *
+   * @deprecated use sortHandleOpen instead.
    */
-  @Prop({ mutable: true, reflect: true }) dragSelected = false;
+  @Prop({ reflect: true }) dragSelected = false;
 
   /**
    * Hides the component when filtered.
@@ -163,6 +161,13 @@ export class ListItem
   @Prop() metadata: Record<string, unknown>;
 
   /**
+   * Sets the item to display a border.
+   *
+   * @internal
+   */
+  @Prop() moveToItems: MoveTo[] = [];
+
+  /**
    * When `true`, the item is open to show child components.
    */
   @Prop({ mutable: true, reflect: true }) open = false;
@@ -173,14 +178,14 @@ export class ListItem
   }
 
   /**
-   * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+   * Used to determine what menu options are available in the sort-handle
    *
    * @internal
    */
   @Prop() setSize: number = null;
 
   /**
-   * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+   * Used to determine what menu options are available in the sort-handle
    *
    * @internal
    */
@@ -224,6 +229,21 @@ export class ListItem
   @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
 
   /**
+   * When `true`, displays and positions the sort handle.
+   */
+  @Prop({ mutable: true }) sortHandleOpen = false;
+
+  @Watch("sortHandleOpen")
+  sortHandleOpenHandler(): void {
+    if (!this.sortHandleEl) {
+      return;
+    }
+
+    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    this.sortHandleEl.open = this.sortHandleOpen;
+  }
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -260,8 +280,22 @@ export class ListItem
 
   /**
    * Fires when the drag handle is selected.
+   *
+   * @deprecated use calciteListItemSortHandleOpen instead.
    */
   @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
+
+  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteListItemSortHandleBeforeClose: EventEmitter<void>;
+
+  /** Fires when the sort handle is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteListItemSortHandleClose: EventEmitter<void>;
+
+  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteListItemSortHandleBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the sort handle is open and animation is complete. */
+  @Event({ cancelable: false }) calciteListItemSortHandleOpen: EventEmitter<void>;
 
   /**
    * Fires when the open button is clicked.
@@ -360,6 +394,8 @@ export class ListItem
   handleGridEl: HTMLDivElement;
 
   defaultSlotEl: HTMLSlotElement;
+
+  private sortHandleEl: HTMLCalciteSortHandleElement;
 
   // --------------------------------------------------------------------------
   //
@@ -460,7 +496,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragSelected, dragDisabled, setPosition, setSize } = this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
 
     return dragHandle ? (
       <div
@@ -471,11 +507,16 @@ export class ListItem
         ref={(el) => (this.handleGridEl = el)}
         role="gridcell"
       >
-        <calcite-handle
+        <calcite-sort-handle
           disabled={dragDisabled}
           label={label}
-          onCalciteHandleChange={this.dragHandleSelectedChangeHandler}
-          selected={dragSelected}
+          moveToItems={moveToItems}
+          onCalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
+          onCalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
+          onCalciteSortHandleClose={this.handleSortHandleClose}
+          onCalciteSortHandleOpen={this.handleSortHandleOpen}
+          overlayPositioning="fixed"
+          ref={this.setSortHandleEl}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -653,8 +694,6 @@ export class ListItem
       openable,
       open,
       level,
-      setPosition,
-      setSize,
       active,
       label,
       selected,
@@ -678,9 +717,7 @@ export class ListItem
               aria-expanded={openable ? toAriaBoolean(open) : null}
               aria-label={label}
               aria-level={level}
-              aria-posinset={setPosition}
               aria-selected={toAriaBoolean(selected)}
-              aria-setsize={setSize}
               class={{
                 [CSS.row]: true,
                 [CSS.container]: true,
@@ -718,10 +755,31 @@ export class ListItem
   //
   // --------------------------------------------------------------------------
 
-  private dragHandleSelectedChangeHandler = (event: CustomEvent<void>): void => {
-    this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
-    this.calciteListItemDragHandleChange.emit();
+  private setSortHandleEl = (el: HTMLCalciteSortHandleElement): void => {
+    this.sortHandleEl = el;
+    this.sortHandleOpenHandler();
+  };
+
+  private handleSortHandleBeforeOpen = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.calciteListItemSortHandleBeforeOpen.emit();
+  };
+
+  private handleSortHandleBeforeClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteListItemSortHandleBeforeClose.emit();
+  };
+
+  private handleSortHandleClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.sortHandleOpen = false;
+    this.calciteListItemSortHandleClose.emit();
+  };
+
+  private handleSortHandleOpen = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.sortHandleOpen = true;
+    this.calciteListItemSortHandleOpen.emit();
   };
 
   private emitInternalListItemActive = (): void => {
@@ -802,11 +860,7 @@ export class ListItem
       return;
     }
 
-    const listItemChildren = getListItemChildren(slotEl);
-    const listItemChildLists = getListItemChildLists(slotEl);
-    updateListItemChildren(listItemChildren);
-
-    this.openable = !!listItemChildren.length || !!listItemChildLists.length;
+    this.openable = hasListItemChildren(slotEl);
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
