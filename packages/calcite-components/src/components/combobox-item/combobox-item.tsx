@@ -146,6 +146,13 @@ export class ComboboxItem implements InteractiveComponent {
   /** The component's label. */
   @Prop() label: any;
 
+  /**
+   * Specifies whether the user set the hidden attribute in the HTML
+   *
+   * @internal
+   */
+  @Prop() userHidden = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -164,6 +171,7 @@ export class ComboboxItem implements InteractiveComponent {
 
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
+    this.userHidden = this.el.hidden;
   }
 
   componentDidRender(): void {
