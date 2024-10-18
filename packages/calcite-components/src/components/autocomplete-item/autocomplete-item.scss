@@ -1,0 +1,57 @@
+:host {
+  @apply relative
+    flex
+    flex-grow
+    items-center
+    focus-base;
+}
+
+.container {
+  @apply text-start;
+}
+
+:host([scale="s"]) {
+  .container {
+    @apply text-n2h py-1 px-2;
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    @apply text-n1h py-2 px-3;
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    @apply text-0h py-2.5 px-4;
+  }
+}
+
+//focus
+:host(:focus) {
+  @apply focus-inset outline-none;
+
+  .container {
+    @apply text-color-1 no-underline;
+  }
+}
+
+:host(:hover:not([disabled])),
+:host(:active:not([disabled])) {
+  .container {
+    @apply bg-foreground-2 text-color-1 no-underline;
+  }
+}
+
+:host(:active:not([disabled])) .container {
+  @apply bg-foreground-3;
+}
+
+:host(:hover:not([disabled])) .dropdown-item-icon {
+  color: theme("borderColor.color.1");
+  @apply opacity-100;
+}
+
+@include base-component();
+@include disabled();
