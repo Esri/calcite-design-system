@@ -675,13 +675,12 @@ export class ListItem
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
     const borderSelected = showBorder && selected;
     const borderUnselected = showBorder && !selected;
-    const containerNotInteractive =
+
+    const containerInteractive =
+      interactionMode === "interactive" ||
       (interactionMode === "static" &&
         selectionMode !== "none" &&
-        selectionAppearance === "icon") ||
-      (interactionMode === "static" && selectionMode === "none");
-    const containerInteractive =
-      interactionMode === "static" && selectionMode !== "none" && selectionAppearance === "border";
+        selectionAppearance === "border");
 
     return (
       <Host>
@@ -696,7 +695,7 @@ export class ListItem
               aria-setsize={setSize}
               class={{
                 [CSS.container]: true,
-                [CSS.containerHover]: !containerNotInteractive || containerInteractive,
+                [CSS.containerHover]: containerInteractive,
                 [CSS.containerBorder]: showBorder,
                 [CSS.containerBorderSelected]: borderSelected,
                 [CSS.containerBorderUnselected]: borderUnselected,

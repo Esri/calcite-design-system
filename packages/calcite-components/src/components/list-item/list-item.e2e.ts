@@ -86,23 +86,13 @@ describe("calcite-list-item", () => {
 
   it("displays hover class", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    await page.setContent(`<calcite-list-item interaction-mode="interactive"></calcite-list-item>`);
     await page.waitForChanges();
 
     expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
   });
 
-  it("does not display hover class when selection-mode !== none and interaction-mode == static and selection-appearance == icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="icon"></calcite-list-item>`,
-    );
-    await page.waitForChanges();
-
-    expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
-  });
-
-  it("displays hover class as fallback when selection-mode !== none and interaction-mode == static and selection-appearance == border", async () => {
+  it("displays hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === border", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="border"></calcite-list-item>`,
@@ -110,6 +100,24 @@ describe("calcite-list-item", () => {
     await page.waitForChanges();
 
     expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
+  });
+
+  it("does not display hover class when selection-mode === none and interaction-mode === static", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item selection-mode="none" interaction-mode="static"></calcite-list-item>`);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
+  });
+
+  it("does not display hover class when selection-mode !== none and interaction-mode === static and selection-appearance === icon", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="icon"></calcite-list-item>`,
+    );
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
   });
 
   it("adds unavailable class", async () => {

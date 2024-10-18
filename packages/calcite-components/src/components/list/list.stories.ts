@@ -1151,22 +1151,39 @@ export const dragEnabledNestedListsIndirectChildren = (): string =>
     <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
   </calcite-list>`;
 
-export const nonInteractive = (): string => html`
-  <div style="width: 400px">
-    <calcite-list selection-mode="single" interaction-mode="static">
-      <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
-      <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
-      <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
-    </calcite-list>
-  </div>
-`;
+export const interactiveMode = (): string => html`
+  <h2>interaction-mode="static" and selection-mode="none" (non-interactive)</h2>
 
-export const interactiveFallback = (): string => html`
-  <div style="width: 400px">
-    <calcite-list selection-mode="single" interaction-mode="static" selection-appearance="border">
-      <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
-      <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
-      <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
-    </calcite-list>
-  </div>
+  <calcite-list interaction-mode="static" selection-mode="none">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="static" and selection-appearance="icon" (non-interactive)</h2>
+
+  <calcite-list interaction-mode="static" selection-appearance="icon" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="static" and selection-appearance="border" (interactive)</h2>
+
+  <calcite-list interaction-mode="static" selection-appearance="border" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="interactive" (interactive)</h2>
+
+  <calcite-list interaction-mode="interactive" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
 `;
