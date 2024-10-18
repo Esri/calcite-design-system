@@ -353,7 +353,7 @@ describe("calcite-tab-title", () => {
           targetProp: "color",
         },
 
-        // set by tabs
+        // set by parent tabs
         "--calcite-internal-tab-accent-color-hover": [
           {
             shadowSelector: `.${CSS.selectedIndicator}`,
@@ -370,7 +370,7 @@ describe("calcite-tab-title", () => {
             targetProp: "color",
           },
 
-          // set by tabs
+          // set by parent tabs
           "--calcite-internal-tab-accent-color-selected": [
             {
               shadowSelector: `.${CSS.selectedIndicator}`,
@@ -394,7 +394,7 @@ describe("calcite-tab-title", () => {
     describe("bordered", () => {
       describe("default", () => {
         themed(html` <calcite-tab-title bordered>hi there</calcite-tab-title>`, {
-          // set by tabs
+          // set by parent tabs
           "--calcite-internal-tab-background-color-hover": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
@@ -422,7 +422,7 @@ describe("calcite-tab-title", () => {
 
       describe("selected", () => {
         themed(html` <calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
-          // set by tabs
+          // set by parent tabs
           "--calcite-internal-tabs-background-color": {
             shadowSelector: `.${CSS.container}::after`,
             targetProp: "backgroundColor",

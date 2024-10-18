@@ -3,18 +3,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tabs-background-color: The background color of the component.
- * @prop --calcite-tabs-border-color: The border color of the component.
  * @prop --calcite-tab-accent-color-hover: Specifies the component's accent color when hovered.
  * @prop --calcite-tab-accent-color-selected: Specifies the component's accent color when selected.
  * @prop --calcite-tab-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-tab-background-color: Specifies the component's background color.
  * @prop --calcite-tab-content-space-y: Specifies the block padding of the component's content.
- * @prop --calcite-tab-icon-end-color: Specifies the component's `iconEnd` color. Fallback to `--calcite-tab-icon-color` or current color.
  * @prop --calcite-tab-icon-color: Specifies the component's icon color.
+ * @prop --calcite-tab-icon-end-color: Specifies the component's `iconEnd` color. Fallback to `--calcite-tab-icon-color` or current color.
  * @prop --calcite-tab-icon-start-color: Specifies the component's `iconStart` color. Fallback to `--calcite-tab-icon-color` or current color.
  * @prop --calcite-tab-text-color-selected: Specifies the component's text color when selected.
  * @prop --calcite-tab-text-color: Specifies the component's text color.
+ * @prop --calcite-tabs-background-color: The background color of the component.
+ * @prop --calcite-tabs-border-color: The border color of the component.
  */
 
 :host {

@@ -261,6 +261,8 @@ describe("calcite-tab-nav", () => {
               state: "hover",
             },
           ],
+
+          // set by parent tabs
           "--calcite-internal-tabs-background-color": [
             {
               shadowSelector: `.${CSS.scrollButton}`,
