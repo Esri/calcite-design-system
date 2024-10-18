@@ -140,7 +140,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
       var(--calcite-color-transparent)
     );
     --calcite-button-border-color: var(--calcite-internal-tab-nav-button-border-color);
-    --calcite-button-icon-color: var(--calcite-tab-icon-color);
+    --calcite-button-icon-color: var(--calcite-tab-icon-color, var(--calcite-color-text-3));
     --calcite-button-shadow-color: var(--calcite-color-transparent);
     --calcite-offset-invert-focus: 1;
 
@@ -153,7 +153,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
         var(--calcite-color-transparent-hover)
       );
       --calcite-button-border-color: var(--calcite-internal-tab-nav-button-border-color);
-      --calcite-button-icon-color: var(--calcite-tab-icon-color);
+      --calcite-button-icon-color: var(--calcite-tab-icon-color, var(--calcite-color-text-3));
     }
   }
 }
