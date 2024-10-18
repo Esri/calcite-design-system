@@ -773,10 +773,6 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Sets focus on the component.
-         */
-        "setFocus": () => Promise<void>;
-        /**
           * The component's value.
          */
         "value": string;

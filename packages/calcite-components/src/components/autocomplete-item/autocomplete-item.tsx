@@ -1,7 +1,6 @@
-import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import { FlipContext, Scale } from "../interfaces";
 import {
-  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
@@ -13,7 +12,8 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { SLOTS as STACK_SLOTS } from "../stack/resources";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot content-end - todo
@@ -70,26 +70,6 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
 
   //--------------------------------------------------------------------------
   //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -102,57 +82,25 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
     setComponentLoaded(this);
   }
 
-  connectedCallback(): void {}
-
   componentDidRender(): void {
     updateHostInteraction(this);
   }
 
   render(): VNode {
-    const { heading, iconFlipRtl, disabled } = this;
-
-    const iconStartEl = (
-      <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
-        icon={this.iconStart}
-        scale={getIconScale(this.scale)}
-      />
-    );
-
-    const iconEndEl = (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
-        icon={this.iconEnd}
-        scale={getIconScale(this.scale)}
-      />
-    );
+    const { heading, disabled } = this;
 
     return (
-      <Host>
-        <InteractiveContainer disabled={disabled}>
-          <div
-            class={{
-              [CSS.container]: true,
-            }}
-          >
-            {iconStartEl}
-            <slot name="content-start" />
-            {heading}
-            <slot name="content-end" />
-            {iconEndEl}
-          </div>
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={disabled}>
+        <calcite-stack class={CSS.container}>
+          {this.renderIconStart()}
+          <slot name={SLOTS.contentStart} slot={STACK_SLOTS.contentStart} />
+          {heading}
+          <slot name={SLOTS.contentEnd} slot={STACK_SLOTS.contentEnd} />
+          {this.renderIconEnd()}
+        </calcite-stack>
+      </InteractiveContainer>
     );
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
   //
@@ -167,4 +115,32 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private renderIconStart(): VNode {
+    const { iconStart, iconFlipRtl } = this;
+
+    return iconStart ? (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
+        icon={iconStart}
+        scale={getIconScale(this.scale)}
+        slot={STACK_SLOTS.contentStart}
+      />
+    ) : null;
+  }
+
+  private renderIconEnd(): VNode {
+    const { iconEnd, iconFlipRtl } = this;
+
+    return iconEnd ? (
+      <calcite-icon
+        class={CSS.iconEnd}
+        flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
+        icon={iconEnd}
+        scale={getIconScale(this.scale)}
+        slot={STACK_SLOTS.contentEnd}
+      />
+    ) : null;
+  }
 }

@@ -1,9 +1,10 @@
 export const CSS = {
   container: "container",
-  containerNone: "container--none-selection",
-  icon: "dropdown-item-icon",
-  iconEnd: "dropdown-item-icon--end",
-  iconStart: "dropdown-item-icon--start",
-  itemContent: "dropdown-item-content",
-  link: "dropdown-link",
-};
+  iconStart: "icon-start",
+  iconEnd: "icon-end",
+} as const;
+
+export const SLOTS = {
+  contentStart: "content-start",
+  contentEnd: "content-end",
+} as const;

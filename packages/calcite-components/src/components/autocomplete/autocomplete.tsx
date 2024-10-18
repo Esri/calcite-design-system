@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Listen,
   Method,
   Prop,
@@ -56,13 +55,14 @@ import {
   disconnectForm,
   submitForm,
 } from "../../utils/form";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { AutocompleteMessages } from "./assets/autocomplete/t9n";
 
 /**
- * @slot - todo
- * @slot content-end - todo
- * @slot content-start - todo
+ * @slot - A slot for adding `calcite-autocomplete-item` elements.
+ * @slot content-end - A slot for adding content above `calcite-autocomplete-item` elements.
+ * @slot content-start - A slot for adding content below `calcite-autocomplete-item` elements.
  */
 @Component({
   tag: "calcite-autocomplete",
@@ -278,12 +278,10 @@ export class Autocomplete
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  // todo
-  // @Watch("scale")
-  // handlePropsChange(): void {
-  //   this.updateItems();
-  //   this.updateGroupScale();
-  // }
+  @Watch("scale")
+  handlePropsChange(): void {
+    this.updateItems();
+  }
 
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";
@@ -365,6 +363,7 @@ export class Autocomplete
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -397,13 +396,16 @@ export class Autocomplete
     const enterKeyHint = this.el.getAttribute("enterkeyhint");
     const inputMode = this.el.getAttribute("inputmode");
 
+    // todo: only open if slotted content is present
+
     return (
-      <Host>
+      <div class={CSS.container}>
         <InteractiveContainer disabled={disabled}>
           <calcite-input
             alignment={this.alignment}
             autocomplete={this.autocomplete}
             autofocus={autofocus}
+            class={CSS.input}
             clearable={true}
             disabled={disabled}
             enterkeyhint={enterKeyHint}
@@ -419,6 +421,8 @@ export class Autocomplete
             name={this.name}
             onCalciteInputChange={this.changeHandler}
             onCalciteInputInput={this.inputHandler}
+            onCalciteInternalInputBlur={this.handleInputBlur}
+            onCalciteInternalInputFocus={this.handleInputFocus}
             onKeyDown={this.keyDownHandler}
             pattern={this.pattern}
             placeholder={this.placeholder}
@@ -442,14 +446,20 @@ export class Autocomplete
             ref={this.setFloatingEl}
           >
             <div class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: open }}>
-              <slot name={SLOTS.contentStart} />
-              <slot />
-              <slot name={SLOTS.contentEnd} />
+              <div class={CSS.contentStart}>
+                <slot name={SLOTS.contentStart} />
+              </div>
+              <div class={CSS.content}>
+                <slot onSlotchange={this.handleDefaultSlotChange} />
+              </div>
+              <div class={CSS.contentEnd}>
+                <slot name={SLOTS.contentEnd} />
+              </div>
             </div>
           </div>
           <HiddenFormInputSlot component={this} />
         </InteractiveContainer>
-      </Host>
+      </div>
     );
   }
 
@@ -556,6 +566,8 @@ export class Autocomplete
 
   transitionEl: HTMLDivElement;
 
+  private items: HTMLCalciteAutocompleteItemElement[] = [];
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -582,6 +594,25 @@ export class Autocomplete
     this.calciteAutocompleteClose.emit();
   }
 
+  private updateItems(): void {
+    this.items.forEach((item) => (item.scale = this.scale));
+  }
+
+  private handleInputFocus = (): void => {
+    this.open = true;
+  };
+
+  private handleInputBlur = (): void => {
+    this.open = false;
+  };
+
+  private handleDefaultSlotChange = (event: Event): void => {
+    this.items = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteAutocompleteItemElement => el.matches("calcite-autocomplete-item"),
+    );
+    this.updateItems();
+  };
+
   private getIcon(): IconNameOrString {
     const { icon } = this;
 
@@ -605,6 +636,9 @@ export class Autocomplete
         event.preventDefault();
       }
     }
+
+    console.log(this.items);
+    // todo: arrow keys to navigate items
   };
 
   private changeHandler = (event: CustomEvent): void => {
@@ -614,6 +648,11 @@ export class Autocomplete
 
   private inputHandler = (event: CustomEvent): void => {
     event.stopPropagation();
+
+    if (!(event.target as HTMLCalciteInputElement).value) {
+      this.open = false;
+    }
+
     this.calciteAutocompleteTextInput.emit();
   };
 

@@ -3,16 +3,21 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper.
+ * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper. // todo
  */
 
 :host {
   @apply flex;
 }
 
+.container {
+  display: flex;
+  flex: 1 1 auto;
+}
+
 @include disabled();
 
-calcite-input {
+.input {
   flex: 1;
 }
 
