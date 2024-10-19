@@ -12,6 +12,7 @@ export const CSS = {
   icon: "icon",
   placeholderIcon: "placeholder-icon",
   selectedIcon: "selected-icon",
+  floatingUIContainer: "floating-ui-container",
 };
 
 export const IDS = {

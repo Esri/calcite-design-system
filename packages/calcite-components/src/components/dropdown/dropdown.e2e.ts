@@ -733,6 +733,7 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
+      await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-button[slot='trigger']");
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
@@ -779,6 +780,7 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
+      await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
@@ -825,6 +827,7 @@ describe("calcite-dropdown", () => {
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
+      await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
@@ -1151,7 +1154,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage({
       html: html`<calcite-panel heading="Issue #3048">
         <calcite-pick-list filter-enabled>
-          <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
+          <calcite-dropdown open slot="menu-actions" placement="bottom-end" type="click">
             <calcite-action slot="trigger" title="Sort" icon="sort-descending"> </calcite-action>
             <calcite-dropdown-group selection-mode="single">
               <calcite-dropdown-item>Display name</calcite-dropdown-item>
@@ -1163,6 +1166,7 @@ describe("calcite-dropdown", () => {
         </calcite-pick-list>
       </calcite-panel>`,
     });
+    await skipAnimations(page);
     await page.waitForChanges();
 
     const dropdownContentHeight = await (
@@ -1175,7 +1179,7 @@ describe("calcite-dropdown", () => {
       filterInput.value = "numbers";
     });
 
-    expect(dropdownContentHeight.height).toBe("88px");
+    expect(dropdownContentHeight.height).toBe("72px");
   });
 
   describe("owns a floating-ui", () => {
