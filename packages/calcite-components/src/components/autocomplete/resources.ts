@@ -14,4 +14,5 @@ export const CSS = {
   input: "input",
   floatingUIContainer: "floating-ui-container",
   floatingUIContainerActive: "floating-ui-container--active",
+  screenReadersOnly: "screen-readers-only",
 } as const;

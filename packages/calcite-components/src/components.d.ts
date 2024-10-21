@@ -753,6 +753,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * The `id` attribute of the component
+         */
+        "guid": string;
+        /**
           * Specifies heading text for the component.
          */
         "heading": string;
@@ -8970,6 +8974,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * The `id` attribute of the component
+         */
+        "guid"?: string;
         /**
           * Specifies heading text for the component.
          */

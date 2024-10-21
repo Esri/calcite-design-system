@@ -3,11 +3,18 @@
 }
 
 .container {
-  @apply cursor-pointer;
+  @apply cursor-pointer focus-base;
+}
+
+.container:hover {
+  @apply text-color-1
+    bg-foreground-2;
 }
 
 .container--active {
-  border: 1px solid red;
+  @apply text-color-1
+    bg-foreground-2
+    focus-inset;
 }
 
 @include base-component();

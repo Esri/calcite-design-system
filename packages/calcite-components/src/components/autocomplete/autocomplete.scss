@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply flex;
+  @apply flex relative;
 }
 
 .container {
@@ -37,6 +37,10 @@
   .floating-ui-container--active {
     border: 1px solid canvasText;
   }
+}
+
+.screen-readers-only {
+  @apply sr-only;
 }
 
 @include base-component();

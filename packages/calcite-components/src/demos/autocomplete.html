@@ -12,7 +12,7 @@
 
   <body>
     <demo-dom-swapper>
-      <calcite-autocomplete scale="m" value="1" input-value="Redlands, CA">
+      <calcite-autocomplete id="simple" scale="m" value="1" input-value="Redlands, CA">
         <calcite-autocomplete-item icon-start="banana" value="1" heading="Redlands, CA"></calcite-autocomplete-item>
         <calcite-autocomplete-item icon-end="compass" value="2" heading="Redlands, CO, USA"></calcite-autocomplete-item>
         <calcite-autocomplete-item value="3" heading="Redlands, Dorset, England, GBR"></calcite-autocomplete-item>
@@ -23,10 +23,65 @@
         <div slot="content-bottom">Content bottom</div>
       </calcite-autocomplete>
       <script>
-        const autocomplete = document.querySelector("calcite-autocomplete");
+        const simpleAutocomplete = document.getElementById("simple");
 
-        autocomplete.addEventListener("calciteAutocompleteChange", (event) => {
-          console.log({ name: "calciteAutocompleteChange", event, value: autocomplete.value });
+        simpleAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+          console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
+        });
+      </script>
+
+      <hr />
+
+      <calcite-autocomplete id="locator" scale="m"></calcite-autocomplete>
+      <script type="module">
+        import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
+        import Point from "https://js.arcgis.com/4.29/@arcgis/core/geometry/Point.js";
+
+        const locatorAutocomplete = document.getElementById("locator");
+
+        async function locate(text) {
+          locatorAutocomplete.innerHTML = "";
+
+          if (!text) {
+            const emptyText = document.createElement("div");
+            emptyText.textContent = "Enter text";
+            emptyText.slot = "content-bottom";
+            locatorAutocomplete.appendChild(emptyText);
+            return;
+          }
+
+          locatorAutocomplete.loading = true;
+          const point = new Point({ x: 0, y: 0 });
+          const response = await suggestLocations(
+            "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+            { text, point },
+          );
+
+          if (response.length === 0) {
+            const noResults = document.createElement("div");
+            noResults.textContent = "No results found";
+            noResults.slot = "content-top";
+            locatorAutocomplete.appendChild(noResults);
+          } else {
+            response.forEach((location) => {
+              const item = document.createElement("calcite-autocomplete-item");
+              item.value = location.magicKey;
+              item.heading = location.text;
+              locatorAutocomplete.appendChild(item);
+            });
+          }
+
+          locatorAutocomplete.open = true;
+          locatorAutocomplete.loading = false;
+        }
+
+        locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", (event) => {
+          const inputValue = event.target.inputValue;
+          locate(inputValue);
+        });
+
+        locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+          console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
         });
       </script>
     </demo-dom-swapper>

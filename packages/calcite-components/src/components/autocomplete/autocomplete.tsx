@@ -55,11 +55,14 @@ import {
   disconnectForm,
   submitForm,
 } from "../../utils/form";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  toAriaBoolean,
+} from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { AutocompleteMessages } from "./assets/autocomplete/t9n";
-
-// todo: aria roles https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-autocomplete#associated_roles
 
 /**
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
@@ -157,7 +160,7 @@ export class Autocomplete
   /**
    * The component's input value.
    */
-  @Prop() inputValue: string;
+  @Prop({ mutable: true }) inputValue: string;
 
   /** Accessible name for the component. */
   @Prop() label: string;
@@ -216,13 +219,11 @@ export class Autocomplete
   openHandler(): void {
     onToggleOpenCloseComponent(this);
 
+    this.activeIndex = -1;
+
     if (this.disabled) {
       this.open = false;
       return;
-    }
-
-    if (!this.open) {
-      this.activeIndex = -1;
     }
 
     this.reposition(true);
@@ -398,7 +399,7 @@ export class Autocomplete
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, listId, inputId } = this;
 
     const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
     const enterKeyHint = this.el.getAttribute("enterkeyhint");
@@ -413,6 +414,13 @@ export class Autocomplete
           <slot name={SLOTS.contentStart} />
           <calcite-input
             alignment={this.alignment}
+            aria-activedescendant={this.activeDescendant}
+            aria-autocomplete="list"
+            aria-controls={listId}
+            aria-expanded={toAriaBoolean(isOpen)}
+            aria-haspopup="listbox"
+            aria-label={this.label}
+            aria-owns={listId}
             autocomplete={this.autocomplete}
             autofocus={autofocus}
             class={CSS.input}
@@ -422,6 +430,7 @@ export class Autocomplete
             form={this.form}
             icon={this.getIcon()}
             iconFlipRtl={this.iconFlipRtl}
+            id={inputId}
             inputmode={inputMode}
             label={this.label}
             loading={this.loading}
@@ -439,6 +448,7 @@ export class Autocomplete
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
             required={this.required}
+            role="combobox"
             scale={this.scale}
             status={this.status}
             suffixText={this.suffixText}
@@ -447,6 +457,7 @@ export class Autocomplete
             validationMessage={this.validationMessage}
             value={this.inputValue}
           />
+          {this.renderListBox()}
           <slot name={SLOTS.contentEnd} />
           <div
             class={{
@@ -543,8 +554,7 @@ export class Autocomplete
   handleInternalAutocompleteItemSelect(event: Event): void {
     this.value = (event.target as HTMLCalciteAutocompleteItemElement).value;
     event.stopPropagation();
-    this.open = false;
-    this.calciteAutocompleteChange.emit();
+    this.emitChange();
   }
 
   //--------------------------------------------------------------------------
@@ -554,6 +564,8 @@ export class Autocomplete
   //--------------------------------------------------------------------------
 
   @State() defaultMessages: AutocompleteMessages;
+
+  @State() activeDescendant = "";
 
   @State() effectiveLocale = "";
 
@@ -588,8 +600,14 @@ export class Autocomplete
 
   @Watch("activeIndex")
   handleActiveIndexChange(): void {
-    this.items.forEach((item, index) => (item.active = index === this.activeIndex));
+    this.updateItems();
   }
+
+  private guid = guid();
+
+  private listId = `autocomplete-list-${this.guid}`;
+
+  private inputId = `autocomplete-input-${this.guid}`;
 
   //--------------------------------------------------------------------------
   //
@@ -617,16 +635,48 @@ export class Autocomplete
     this.calciteAutocompleteClose.emit();
   }
 
-  private selectItem(): void {
+  private renderListBox(): VNode {
+    return (
+      <ul
+        aria-labelledby={this.inputId}
+        class={CSS.screenReadersOnly}
+        id={this.listId}
+        role="listbox"
+        tabIndex={-1}
+      >
+        {this.renderListBoxOptions()}
+      </ul>
+    );
+  }
+
+  private renderListBoxOptions(): VNode[] {
+    return this.items.map((item) => (
+      <li id={item.guid} role="option" tabindex="-1">
+        {item.label ?? item.heading ?? item.description ?? item.value}
+      </li>
+    ));
+  }
+
+  private emitChange(): void {
     this.open = false;
     this.calciteAutocompleteChange.emit();
   }
 
   private updateItems(): void {
+    let activeDescendant: string = null;
+
     this.items.forEach((item, index) => {
-      item.active = index === this.activeIndex;
+      const isActive = index === this.activeIndex;
+
+      if (isActive) {
+        activeDescendant = item.guid;
+      }
+
+      item.active = isActive;
       item.scale = this.scale;
     });
+
+    this.activeDescendant = activeDescendant;
   }
 
   private handleInputFocus = (): void => {
@@ -681,7 +731,7 @@ export class Autocomplete
       case "Enter":
         if (open && activeIndex > -1) {
           this.value = items[activeIndex].value;
-          this.selectItem();
+          this.emitChange();
           event.preventDefault();
         }
         if (submitForm(this)) {
@@ -689,21 +739,13 @@ export class Autocomplete
         }
         break;
       case "ArrowDown":
-        if (open) {
-          this.activeIndex = Math.min(activeIndex + 1, items.length - 1);
-        } else {
-          this.open = true;
-          this.activeIndex = 0;
-        }
+        this.open = true;
+        this.activeIndex = open ? Math.min(activeIndex + 1, items.length - 1) : 0;
         event.preventDefault();
         break;
       case "ArrowUp":
-        if (open) {
-          this.activeIndex = Math.max(activeIndex - 1, 0);
-        } else {
-          this.open = true;
-          this.activeIndex = items.length - 1;
-        }
+        this.open = true;
+        this.activeIndex = open ? Math.max(activeIndex - 1, 0) : items.length - 1;
         event.preventDefault();
         break;
     }
@@ -711,16 +753,12 @@ export class Autocomplete
 
   private changeHandler = (event: CustomEvent): void => {
     event.stopPropagation();
-    this.selectItem();
+    this.inputValue = (event.target as HTMLCalciteInputElement).value;
   };
 
   private inputHandler = (event: CustomEvent): void => {
     event.stopPropagation();
-
-    if (!(event.target as HTMLCalciteInputElement).value) {
-      this.open = false;
-    }
-
+    this.inputValue = (event.target as HTMLCalciteInputElement).value;
     this.calciteAutocompleteTextInput.emit();
   };
 

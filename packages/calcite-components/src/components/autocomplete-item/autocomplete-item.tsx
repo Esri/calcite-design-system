@@ -13,6 +13,7 @@ import {
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
+import { guid } from "../../utils/guid";
 import { CSS, SLOTS } from "./resources";
 
 /**
@@ -42,12 +43,19 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
   /**
    * A description for the component. Displays below the label text.
    */
-  @Prop() description: string; // todo
+  @Prop() description: string;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The `id` attribute of the component
+   *
+   * @internal
+   */
+  @Prop() guid = `autocomplete-item-${guid()}`;
 
   /** Specifies heading text for the component. */
   @Prop() heading: string;
@@ -62,7 +70,7 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
   @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Accessible name for the component. */
-  @Prop() label: string; // todo
+  @Prop() label: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
@@ -95,7 +103,7 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
   }
 
   render(): VNode {
-    const { heading, disabled } = this;
+    const { description, heading, disabled } = this;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -106,6 +114,7 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
           {this.renderIconStart()}
           <slot name={SLOTS.contentStart} slot={STACK_SLOTS.contentStart} />
           {heading}
+          {description}
           <slot name={SLOTS.contentEnd} slot={STACK_SLOTS.contentEnd} />
           {this.renderIconEnd()}
         </calcite-stack>
