@@ -241,7 +241,7 @@ export class Sheet
   }
 
   render(): VNode {
-    const { assistiveText, resizable, position } = this;
+    const { assistiveText, resizable } = this;
     const dir = getElementDir(this.el);
     return (
       <Host
@@ -275,14 +275,7 @@ export class Sheet
             <slot />
             {resizable ? (
               <div class={CSS.resizeHandle} key="resize-handle" ref={this.setResizeHandleEl}>
-                <calcite-icon
-                  icon={
-                    position === "block-start" || position === "block-end"
-                      ? "drag-resize-horizontal"
-                      : "drag-resize-vertical"
-                  }
-                  scale="s"
-                />
+                <calcite-icon icon={this.getResizeIcon()} scale="s" />
               </div>
             ) : null}
           </div>
@@ -372,6 +365,14 @@ export class Sheet
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getResizeIcon(): string {
+    const { position } = this;
+
+    return position === "block-start" || position === "block-end"
+      ? "drag-resize-vertical"
+      : "drag-resize-horizontal";
+  }
 
   private getContentElDOMRect(): DOMRect {
     return this.contentEl.getBoundingClientRect();
