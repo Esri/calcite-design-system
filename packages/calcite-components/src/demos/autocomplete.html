@@ -8,107 +8,118 @@
     <script src="./_assets/head.js"></script>
     <script type="module" src="./_assets/demo-form.js"></script>
     <script type="module" src="./_assets/demo-spacer.js"></script>
+    <style>
+      .parent {
+        display: flex;
+        width: 85%;
+        align-items: center;
+        padding: 15px 0;
+      }
+
+      .child {
+        flex: 1 0 15%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+    </style>
   </head>
 
   <body>
     <demo-dom-swapper>
-      <calcite-autocomplete id="simple" scale="m" value="1" input-value="Redlands, CA">
-        <calcite-autocomplete-item icon-start="banana" value="1" heading="Redlands, CA"></calcite-autocomplete-item>
-        <calcite-autocomplete-item icon-end="compass" value="2" heading="Redlands, CO, USA"></calcite-autocomplete-item>
-        <calcite-autocomplete-item value="3" heading="Redlands, Dorset, England, GBR"></calcite-autocomplete-item>
-        <calcite-autocomplete-item value="4" heading="Redlands, Wiltshire, England, GBR"></calcite-autocomplete-item>
-        <calcite-action scale="s" slot="content-start" icon="banana"></calcite-action>
-        <calcite-action scale="s" slot="content-end" icon="banana"></calcite-action>
-        <div slot="content-top">Content top</div>
-        <div slot="content-bottom">Content bottom</div>
-      </calcite-autocomplete>
-      <script>
-        const simpleAutocomplete = document.getElementById("simple");
+      <h1 style="margin: 0; text-align: center">Autocomplete</h1>
 
-        simpleAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
-          console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
-        });
-      </script>
+      <div class="parent">
+        <div class="child right-aligned-text">Locator example</div>
+        <div class="child">
+          <calcite-autocomplete id="locator" scale="m"></calcite-autocomplete>
+          <calcite-alert id="locator-alert" kind="brand"></calcite-alert>
 
-      <hr />
+          <script type="module">
+            import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
 
-      <calcite-autocomplete id="locator" scale="m"></calcite-autocomplete>
-      <calcite-alert id="locator-alert" kind="brand"></calcite-alert>
+            const locatorAutocomplete = document.getElementById("locator");
 
-      <script type="module">
-        import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
-        import Point from "https://js.arcgis.com/4.29/@arcgis/core/geometry/Point.js";
+            let results;
 
-        const locatorAutocomplete = document.getElementById("locator");
+            async function locate(text) {
+              locatorAutocomplete.innerHTML = "";
 
-        let results;
+              locatorAutocomplete.open = true;
 
-        async function locate(text) {
-          locatorAutocomplete.innerHTML = "";
-
-          locatorAutocomplete.open = true;
-
-          if (!text) {
-            const emptyText = document.createElement("calcite-notice");
-            emptyText.open = true;
-            emptyText.icon = "information";
-            emptyText.kind = "brand";
-            emptyText.innerHTML = `
+              if (!text) {
+                const emptyText = document.createElement("calcite-notice");
+                emptyText.open = true;
+                emptyText.icon = "information";
+                emptyText.kind = "brand";
+                emptyText.innerHTML = `
           <div slot="title">Empty text</div>
     <div slot="message">Enter some text</div>`;
-            emptyText.slot = "content-bottom";
-            locatorAutocomplete.appendChild(emptyText);
-            return;
-          }
+                emptyText.slot = "content-bottom";
+                locatorAutocomplete.appendChild(emptyText);
+                return;
+              }
 
-          locatorAutocomplete.loading = true;
-          const point = new Point({ x: 0, y: 0 });
-          const response = await suggestLocations(
-            "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-            { text, point },
-          );
+              locatorAutocomplete.loading = true;
+              const response = await suggestLocations(
+                "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+                { text },
+              );
 
-          if (response.length === 0) {
-            locatorAutocomplete.innerHTML = "";
-            const noResults = document.createElement("calcite-notice");
-            noResults.open = true;
-            noResults.kind = "danger";
-            noResults.icon = "exclamation-mark-triangle";
-            noResults.innerHTML = `
+              if (response.length === 0) {
+                locatorAutocomplete.innerHTML = "";
+                const noResults = document.createElement("calcite-notice");
+                noResults.open = true;
+                noResults.kind = "danger";
+                noResults.icon = "exclamation-mark-triangle";
+                noResults.innerHTML = `
           <div slot="title">No results</div>
     <div slot="message">Try something else</div>`;
-            noResults.slot = "content-top";
-            locatorAutocomplete.appendChild(noResults);
-          } else {
-            response.forEach((location) => {
-              const item = document.createElement("calcite-autocomplete-item");
-              item.value = location.magicKey;
-              item.heading = location.text;
-              locatorAutocomplete.appendChild(item);
+                noResults.slot = "content-top";
+                locatorAutocomplete.appendChild(noResults);
+              } else {
+                response.forEach((location) => {
+                  const item = document.createElement("calcite-autocomplete-item");
+                  item.value = location.magicKey;
+                  item.heading = location.text;
+                  locatorAutocomplete.appendChild(item);
+                });
+                results = response;
+              }
+
+              locatorAutocomplete.loading = false;
+            }
+
+            locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", (event) => {
+              const inputValue = event.target.inputValue;
+              locate(inputValue);
+              const alert = document.getElementById("locator-alert");
+              alert.open = false;
             });
-            results = response;
-          }
 
-          locatorAutocomplete.loading = false;
-        }
-
-        locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", (event) => {
-          const inputValue = event.target.inputValue;
-          locate(inputValue);
-          const alert = document.getElementById("locator-alert");
-          alert.open = false;
-        });
-
-        locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
-          console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
-          const selected = results.find((result) => result.magicKey === event.target.value);
-          locatorAutocomplete.inputValue = selected?.text;
-          const alert = document.getElementById("locator-alert");
-          alert.innerHTML = `<div slot="title">Selected item</div>
+            locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+              console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
+              const selected = results.find((result) => result.magicKey === event.target.value);
+              locatorAutocomplete.inputValue = selected?.text;
+              const alert = document.getElementById("locator-alert");
+              alert.innerHTML = `<div slot="title">Selected item</div>
         <div slot="message">You selected "${selected?.text}"</div>`;
-          alert.open = true;
-        });
-      </script>
+              alert.open = true;
+            });
+          </script>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>
