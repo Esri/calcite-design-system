@@ -153,7 +153,11 @@
   }
 }
 
-@mixin close-button($size: "var(--calcite-internal-close-size, 1.5rem /* 24px */)", $padding: "0") {
+@mixin close-button(
+  $size: "var(--calcite-internal-close-size, 1.5rem /* 24px */)",
+  $padding: "0",
+  $color: "var(--calcite-close-icon-color, var(--calcite-color-text-1))"
+) {
   .close {
     @apply border-none
       cursor-pointer
@@ -168,7 +172,7 @@
     display: flex;
     align-content: center;
     justify-content: center;
-    color: var(--calcite-close-icon-color, var(--calcite-color-text-1));
+    color: #{$color};
     block-size: #{$size};
     inline-size: #{$size};
     padding: #{$padding};

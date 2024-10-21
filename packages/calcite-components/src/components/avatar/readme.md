@@ -17,11 +17,11 @@ For comprehensive guidance on using and implementing `calcite-avatar`, refer to 
 
 ## CSS Custom Properties
 
-| Name                                | Description                                         |
-| ----------------------------------- | --------------------------------------------------- |
-| `--calcite-avatar-background-color` | defines the background color of the component.      |
-| `--calcite-avatar-color`            | defines the icon or initial color in the component. |
-| `--calcite-avatar-corner-radius`    | defines the corner radius of the component.         |
+| Name                                | Description                                      |
+| ----------------------------------- | ------------------------------------------------ |
+| `--calcite-avatar-background-color` | Specifies the component's background color.      |
+| `--calcite-avatar-color`            | Specifies the component's icon or initial color. |
+| `--calcite-avatar-corner-radius`    | Specifies the component's corner radius.         |
 
 ## Dependencies
 

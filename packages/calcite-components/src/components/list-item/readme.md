@@ -19,6 +19,7 @@ For comprehensive guidance on using and implementing `calcite-list-item`, refer 
 | `metadata`         | --                  | Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.                                  | `{ [x: string]: unknown; }` | `undefined` |
 | `open`             | `open`              | When `true`, the item is open to show child components.                                                                                   | `boolean`                   | `false`     |
 | `selected`         | `selected`          | When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or`"multiple"`, the component is selected. | `boolean`                   | `false`     |
+| `unavailable`      | `unavailable`       | When `true`, the component's content appears inactive.                                                                                    | `boolean`                   | `false`     |
 | `value`            | `value`             | The component's value.                                                                                                                    | `any`                       | `undefined` |
 
 ## Events

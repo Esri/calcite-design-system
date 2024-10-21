@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-accordion-border-color: [Deprecate] Use `--calcite-accordion-item-border-color`. Specifies the component's border color.
+ * @prop --calcite-accordion-border-color: [Deprecated] Use `--calcite-accordion-item-border-color`. Specifies the component's border color.
  * @prop --calcite-accordion-item-background-color: Specifies the component's background color.
  * @prop --calcite-accordion-item-border-color: Specifies the component's border color.
  * @prop --calcite-accordion-item-content-space: Specifies the component's padding.
@@ -147,7 +147,10 @@
 
 .actions-start,
 .actions-end {
-  @apply flex items-center;
+  @apply flex items-stretch;
+  * {
+    @apply items-stretch;
+  }
 }
 
 .icon {

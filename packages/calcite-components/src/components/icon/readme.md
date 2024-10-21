@@ -15,10 +15,10 @@ For comprehensive guidance on using and implementing `calcite-icon`, refer to th
 
 ## CSS Custom Properties
 
-| Name                      | Description                                                                                         |
-| ------------------------- | --------------------------------------------------------------------------------------------------- |
-| `--calcite-icon-color`    | Specifies the component's color. Defaults to `currentColor`.                                        |
-| `--calcite-ui-icon-color` | [Deprecated] Use --calcite-icon-color. Specifies the component's color. Defaults to `currentColor`. |
+| Name                      | Description                                                                                          |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `--calcite-icon-color`    | Specifies the component's color. Defaults to current color.                                          |
+| `--calcite-ui-icon-color` | [Deprecated] Use `--calcite-icon-color`. Specifies the component's color. Defaults to current color. |
 
 ## Dependencies
 

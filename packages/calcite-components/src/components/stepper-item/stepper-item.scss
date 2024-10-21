@@ -56,6 +56,10 @@
     border-solid
     no-underline
     outline-none;
+
+  &:active {
+    @apply bg-foreground-3;
+  }
 }
 
 // focus styles
@@ -69,6 +73,10 @@
 // .stepper-item-header / content
 :host .stepper-item-header {
   @apply flex cursor-pointer items-start;
+
+  &:active {
+    @apply bg-foreground-3;
+  }
 }
 
 :host .stepper-item-content,

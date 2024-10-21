@@ -76,9 +76,13 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                        | Description                               |
-| --------------------------- | ----------------------------------------- |
-| `--calcite-popover-z-index` | Sets the z-index value for the component. |
+| Name                                 | Description                                 |
+| ------------------------------------ | ------------------------------------------- |
+| `--calcite-popover-background-color` | Specifies the component's background color. |
+| `--calcite-popover-border-color`     | Specifies the component's border color.     |
+| `--calcite-popover-corner-radius`    | Specifies the component's corner radius.    |
+| `--calcite-popover-text-color`       | Specifies the component's text color.       |
+| `--calcite-popover-z-index`          | Specifies the component's z-index value.    |
 
 ## Dependencies
 

@@ -100,6 +100,7 @@ export class Input
   @Watch("autofocus")
   @Watch("enterkeyhint")
   @Watch("inputmode")
+  @Watch("spellcheck")
   handleGlobalAttributesChanged(): void {
     forceUpdate(this);
   }
@@ -1209,6 +1210,7 @@ export class Input
               readOnly={this.readOnly}
               ref={this.setChildElRef}
               required={this.required ? true : null}
+              spellcheck={this.el.spellcheck}
               step={this.step}
               tabIndex={
                 this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null

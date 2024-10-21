@@ -1,6 +1,7 @@
 export const CSS = {
   list: "list",
   listItem: "list-item",
+  hiddenItem: "hidden-item",
   page: "page",
   selected: "selected",
   chevron: "chevron",

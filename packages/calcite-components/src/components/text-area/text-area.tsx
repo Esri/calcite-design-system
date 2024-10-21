@@ -87,6 +87,7 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   @Watch("autofocus")
+  @Watch("spellcheck")
   handleGlobalAttributesChanged(): void {
     forceUpdate(this);
   }
@@ -329,6 +330,7 @@ export class TextArea
             ref={this.setTextAreaEl}
             required={this.required}
             rows={this.rows}
+            spellcheck={this.el.spellcheck}
             value={this.value}
             wrap={this.wrap}
           />

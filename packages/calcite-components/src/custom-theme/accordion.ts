@@ -6,8 +6,7 @@ export const accordionTokens = {
   CalciteAccordionBorderColor: "",
   CalciteAccordionBackgroundColor: "",
 };
-// ${[0, 1, 2, 3, 4].map((idx) => accordionItem(idx))}
-// ${Array(5).map((v, idx) => accordionItem(idx))}
+
 export const accordion = html`<style>
     calcite-accordion-item:hover {
       --calcite-accordion-item-background-color: white;

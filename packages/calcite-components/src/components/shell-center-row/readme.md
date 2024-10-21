@@ -4,6 +4,8 @@ For comprehensive guidance on using and implementing `calcite-shell-center-row`,
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `calcite-shell-panel` component instead.
+
 ## Properties
 
 | Property      | Attribute      | Description                                                                                                | Type                | Default |

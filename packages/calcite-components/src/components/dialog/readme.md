@@ -102,6 +102,7 @@ Type: `Promise<void>`
 
 | Name                                      | Description                                                                                                                                                    |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--calcite-dialog-background-color`       | Specifies the background color of the component.                                                                                                               |
 | `--calcite-dialog-border-color`           | Specifies the component's border color.                                                                                                                        |
 | `--calcite-dialog-content-space`          | Specifies the padding of the component's content.                                                                                                              |
 | `--calcite-dialog-footer-space`           | Specifies the padding of the component's footer.                                                                                                               |

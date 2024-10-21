@@ -9,7 +9,7 @@ current_branch="$(git rev-parse --abbrev-ref HEAD)"
 case "$current_branch" in
     dev | main | rc)
         printf "You're about to push a protected branch, is that what you intended? [y|n] "
-        read -r response
+        read -r response </dev/tty >/dev/tty 2>&1
 
         case "$response" in
             y | Y) exit 0 ;;

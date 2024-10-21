@@ -13,6 +13,8 @@ export const CSS = {
   nestedContainer: "nested-container",
   nestedContainerOpen: "nested-container--open",
   content: "content",
+  row: "row",
+  gridCell: "grid-cell",
   customContent: "custom-content",
   actionsStart: "actions-start",
   contentStart: "content-start",

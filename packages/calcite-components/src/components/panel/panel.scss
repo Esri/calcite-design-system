@@ -164,8 +164,7 @@
   items-stretch
   overflow-auto
   h-full
-  focus-base
-  relative;
+  focus-base;
   padding: var(--calcite-panel-content-space, 0);
   background: var(--calcite-panel-background-color, var(--calcite-color-background));
 }

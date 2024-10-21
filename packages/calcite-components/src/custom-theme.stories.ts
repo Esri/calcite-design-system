@@ -121,27 +121,32 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </div>
   </div>`;
 
+const componentTokens = {
+  ...globalTokens,
+  ...accordionTokens,
+  ...accordionItemTokens,
+  ...actionTokens,
+  ...actionBarTokens,
+  ...actionGroupTokens,
+  ...actionMenuTokens,
+  ...actionPadTokens,
+  ...avatarTokens,
+  ...cardTokens,
+  ...alertTokens,
+  ...chipTokens,
+  ...checkboxTokens,
+  ...handleTokens,
+  ...popoverTokens,
+  ...progressTokens,
+  ...inputTokens,
+  ...textAreaTokens,
+};
+
 export default {
   title: "Theming/Custom Theme",
   args: {
     ...globalTokens,
-    ...accordionTokens,
-    ...accordionItemTokens,
-    ...actionTokens,
-    ...actionBarTokens,
-    ...actionGroupTokens,
-    ...actionMenuTokens,
-    ...actionPadTokens,
-    ...avatarTokens,
-    ...cardTokens,
-    ...alertTokens,
-    ...chipTokens,
-    ...checkboxTokens,
-    ...handleTokens,
-    ...popoverTokens,
-    ...progressTokens,
-    ...inputTokens,
-    ...textAreaTokens,
+    ...componentTokens,
   },
 };
 
@@ -152,23 +157,7 @@ export const themingInteractive = (args: Record<string, string>): string => {
 export const theming = (): string => {
   return kitchenSink(
     {
-      ...accordionTokens,
-      ...accordionItemTokens,
-      ...actionTokens,
-      ...actionBarTokens,
-      ...actionGroupTokens,
-      ...actionMenuTokens,
-      ...actionPadTokens,
-      ...avatarTokens,
-      ...cardTokens,
-      ...alertTokens,
-      ...chipTokens,
-      ...checkboxTokens,
-      ...handleTokens,
-      ...popoverTokens,
-      ...progressTokens,
-      ...inputTokens,
-      ...textAreaTokens,
+      ...componentTokens,
     },
     true,
   );
