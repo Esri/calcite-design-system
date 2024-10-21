@@ -987,7 +987,7 @@ export class List
       this.selectionMode !== "none" &&
       this.selectionAppearance === "border"
     ) {
-      console.warn(`selection-appearance=“border” requires interaction-mode=“interactive”`);
+      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
     }
   }
 
