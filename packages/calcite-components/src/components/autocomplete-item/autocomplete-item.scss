@@ -2,22 +2,12 @@
   @apply flex;
 }
 
-:host([scale="s"]) {
-  .container {
-    @apply text-n2h py-1 px-2;
-  }
+.container {
+  @apply cursor-pointer;
 }
 
-:host([scale="m"]) {
-  .container {
-    @apply text-n1h py-2 px-3;
-  }
-}
-
-:host([scale="l"]) {
-  .container {
-    @apply text-0h py-2.5 px-4;
-  }
+.container--active {
+  border: 1px solid red;
 }
 
 @include base-component();

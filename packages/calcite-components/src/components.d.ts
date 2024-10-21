@@ -741,6 +741,10 @@ export namespace Components {
     }
     interface CalciteAutocompleteItem {
         /**
+          * True when the item is highlighted from keyboard interaction.
+         */
+        "active": boolean;
+        /**
           * A description for the component. Displays below the label text.
          */
         "description": string;
@@ -8954,6 +8958,10 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface CalciteAutocompleteItem {
+        /**
+          * True when the item is highlighted from keyboard interaction.
+         */
+        "active"?: boolean;
         /**
           * A description for the component. Displays below the label text.
          */

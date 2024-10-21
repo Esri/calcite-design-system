@@ -1,4 +1,6 @@
 export const SLOTS = {
+  contentTop: "content-top",
+  contentBottom: "content-bottom",
   contentStart: "content-start",
   contentEnd: "content-end",
 } as const;
@@ -10,9 +12,6 @@ export const ICONS = {
 export const CSS = {
   container: "container",
   input: "input",
-  content: "content",
-  contentStart: "content-start",
-  contentEnd: "content-end",
   floatingUIContainer: "floating-ui-container",
   floatingUIContainerActive: "floating-ui-container--active",
 } as const;

@@ -32,6 +32,14 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
   //--------------------------------------------------------------------------
 
   /**
+   * True when the item is highlighted from keyboard interaction.
+   *
+   * @internal
+   *
+   */
+  @Prop() active = false;
+
+  /**
    * A description for the component. Displays below the label text.
    */
   @Prop() description: string; // todo
@@ -91,7 +99,10 @@ export class AutocompleteItem implements InteractiveComponent, LoadableComponent
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <calcite-stack class={CSS.container} onClick={this.handleClick}>
+        <calcite-stack
+          class={{ [CSS.container]: true, [CSS.containerActive]: this.active }}
+          onClick={this.handleClick}
+        >
           {this.renderIconStart()}
           <slot name={SLOTS.contentStart} slot={STACK_SLOTS.contentStart} />
           {heading}

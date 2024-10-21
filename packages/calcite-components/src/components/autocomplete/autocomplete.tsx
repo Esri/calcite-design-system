@@ -55,7 +55,7 @@ import {
   disconnectForm,
   submitForm,
 } from "../../utils/form";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { AutocompleteMessages } from "./assets/autocomplete/t9n";
 
@@ -63,8 +63,10 @@ import { AutocompleteMessages } from "./assets/autocomplete/t9n";
 
 /**
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
- * @slot content-end - A slot for adding content above `calcite-autocomplete-item` elements.
- * @slot content-start - A slot for adding content below `calcite-autocomplete-item` elements.
+ * @slot content-bottom - A slot for adding content below `calcite-autocomplete-item` elements.
+ * @slot content-end - A slot for adding content after the input.
+ * @slot content-start - A slot for adding content before the input.
+ * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
  */
 @Component({
   tag: "calcite-autocomplete",
@@ -219,6 +221,10 @@ export class Autocomplete
       return;
     }
 
+    if (!this.open) {
+      this.activeIndex = -1;
+    }
+
     this.reposition(true);
   }
 
@@ -321,7 +327,7 @@ export class Autocomplete
   /**
    * The component's value.
    */
-  @Prop() value: string;
+  @Prop({ mutable: true }) value: string;
 
   //--------------------------------------------------------------------------
   //
@@ -392,17 +398,19 @@ export class Autocomplete
   }
 
   render(): VNode {
-    const { disabled, open } = this;
+    const { disabled } = this;
 
     const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
     const enterKeyHint = this.el.getAttribute("enterkeyhint");
     const inputMode = this.el.getAttribute("inputmode");
 
-    // todo: only open if slotted content is present
+    const isOpen =
+      this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
 
     return (
       <div class={CSS.container}>
         <InteractiveContainer disabled={disabled}>
+          <slot name={SLOTS.contentStart} />
           <calcite-input
             alignment={this.alignment}
             autocomplete={this.autocomplete}
@@ -439,23 +447,18 @@ export class Autocomplete
             validationMessage={this.validationMessage}
             value={this.inputValue}
           />
+          <slot name={SLOTS.contentEnd} />
           <div
             class={{
               [CSS.floatingUIContainer]: true,
-              [CSS.floatingUIContainerActive]: open,
+              [CSS.floatingUIContainerActive]: isOpen,
             }}
             ref={this.setFloatingEl}
           >
-            <div class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: open }}>
-              <div class={CSS.contentStart}>
-                <slot name={SLOTS.contentStart} />
-              </div>
-              <div class={CSS.content}>
-                <slot onSlotchange={this.handleDefaultSlotChange} />
-              </div>
-              <div class={CSS.contentEnd}>
-                <slot name={SLOTS.contentEnd} />
-              </div>
+            <div class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: isOpen }}>
+              <slot name={SLOTS.contentTop} onSlotchange={this.handleContentTopSlotChange} />
+              <slot onSlotchange={this.handleDefaultSlotChange} />
+              <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
             </div>
           </div>
           <HiddenFormInputSlot component={this} />
@@ -561,6 +564,12 @@ export class Autocomplete
 
   @Element() el: HTMLCalciteAutocompleteElement;
 
+  @State() hasContentTop = false;
+
+  @State() hasContentBottom = false;
+
+  @State() items: HTMLCalciteAutocompleteItemElement[] = [];
+
   defaultValue: Autocomplete["value"];
 
   floatingEl: HTMLDivElement;
@@ -575,7 +584,12 @@ export class Autocomplete
 
   transitionEl: HTMLDivElement;
 
-  private items: HTMLCalciteAutocompleteItemElement[] = [];
+  @State() activeIndex = -1;
+
+  @Watch("activeIndex")
+  handleActiveIndexChange(): void {
+    this.items.forEach((item, index) => (item.active = index === this.activeIndex));
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -603,12 +617,28 @@ export class Autocomplete
     this.calciteAutocompleteClose.emit();
   }
 
+  private selectItem(): void {
+    this.open = false;
+    this.calciteAutocompleteChange.emit();
+  }
+
   private updateItems(): void {
-    this.items.forEach((item) => (item.scale = this.scale));
+    this.items.forEach((item, index) => {
+      item.active = index === this.activeIndex;
+      item.scale = this.scale;
+    });
   }
 
   private handleInputFocus = (): void => {
     this.open = true;
+  };
+
+  private handleContentTopSlotChange = (event: Event): void => {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
+  };
+
+  private handleContentBottomSlotChange = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 
   private handleDefaultSlotChange = (event: Event): void => {
@@ -636,21 +666,52 @@ export class Autocomplete
       return;
     }
 
-    if (key === "Tab") {
-      this.open = false; // todo: test with slotted actions
-    } else if (key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
-    }
+    const { open, activeIndex, items } = this;
 
-    console.log(this.items);
-    // todo: arrow keys to navigate items
+    switch (key) {
+      case "Escape":
+        if (open) {
+          this.open = false;
+          event.preventDefault();
+        }
+        break;
+      case "Tab":
+        this.open = false;
+        break;
+      case "Enter":
+        if (open && activeIndex > -1) {
+          this.value = items[activeIndex].value;
+          this.selectItem();
+          event.preventDefault();
+        }
+        if (submitForm(this)) {
+          event.preventDefault();
+        }
+        break;
+      case "ArrowDown":
+        if (open) {
+          this.activeIndex = Math.min(activeIndex + 1, items.length - 1);
+        } else {
+          this.open = true;
+          this.activeIndex = 0;
+        }
+        event.preventDefault();
+        break;
+      case "ArrowUp":
+        if (open) {
+          this.activeIndex = Math.max(activeIndex - 1, 0);
+        } else {
+          this.open = true;
+          this.activeIndex = items.length - 1;
+        }
+        event.preventDefault();
+        break;
+    }
   };
 
   private changeHandler = (event: CustomEvent): void => {
     event.stopPropagation();
-    this.calciteAutocompleteTextChange.emit();
+    this.selectItem();
   };
 
   private inputHandler = (event: CustomEvent): void => {

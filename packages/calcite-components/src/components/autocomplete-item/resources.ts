@@ -1,5 +1,6 @@
 export const CSS = {
   container: "container",
+  containerActive: "container--active",
   iconStart: "icon-start",
   iconEnd: "icon-end",
 } as const;
