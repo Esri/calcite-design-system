@@ -39,12 +39,21 @@
 
         const locatorAutocomplete = document.getElementById("locator");
 
+        let results;
+
         async function locate(text) {
           locatorAutocomplete.innerHTML = "";
 
+          locatorAutocomplete.open = true;
+
           if (!text) {
-            const emptyText = document.createElement("div");
-            emptyText.textContent = "Enter text";
+            const emptyText = document.createElement("calcite-notice");
+            emptyText.open = true;
+            emptyText.icon = "information";
+            emptyText.kind = "brand";
+            emptyText.innerHTML = `
+          <div slot="title">Empty text</div>
+    <div slot="message">Enter some text</div>`;
             emptyText.slot = "content-bottom";
             locatorAutocomplete.appendChild(emptyText);
             return;
@@ -58,8 +67,14 @@
           );
 
           if (response.length === 0) {
-            const noResults = document.createElement("div");
-            noResults.textContent = "No results found";
+            locatorAutocomplete.innerHTML = "";
+            const noResults = document.createElement("calcite-notice");
+            noResults.open = true;
+            noResults.kind = "danger";
+            noResults.icon = "exclamation-mark-triangle";
+            noResults.innerHTML = `
+          <div slot="title">No results</div>
+    <div slot="message">Try something else</div>`;
             noResults.slot = "content-top";
             locatorAutocomplete.appendChild(noResults);
           } else {
@@ -69,9 +84,9 @@
               item.heading = location.text;
               locatorAutocomplete.appendChild(item);
             });
+            results = response;
           }
 
-          locatorAutocomplete.open = true;
           locatorAutocomplete.loading = false;
         }
 
@@ -82,6 +97,8 @@
 
         locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
           console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
+          const selected = results.find((result) => result.magicKey === event.target.value);
+          locatorAutocomplete.inputValue = selected?.text;
         });
       </script>
     </demo-dom-swapper>
