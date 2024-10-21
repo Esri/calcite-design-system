@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect } from "../../tests/utils";
 import { CSS } from "./resources";
@@ -237,6 +237,58 @@ describe("calcite-tab-nav", () => {
       await scrollEnd;
 
       await assertScrollButtonVisibility(true, false);
+    });
+  });
+
+  describe("theme", () => {
+    describe("responsive", () => {
+      themed(
+        html`<calcite-tab-nav bordered style="width: 200px;">
+          <calcite-tab-title>The ocean floor is hidden from your viewing lens</calcite-tab-title>
+          <calcite-tab-title selected>A depth perception languished in the night</calcite-tab-title>
+          <calcite-tab-title>All my life I've been sowing the wounds</calcite-tab-title>
+          <calcite-tab-title>But the seeds sprout a lachrymal cloud</calcite-tab-title>
+        </calcite-tab-nav>`,
+        {
+          "--calcite-tab-icon-color": [
+            {
+              shadowSelector: `.${CSS.scrollButton}`,
+              targetProp: "--calcite-button-icon-color",
+            },
+            {
+              shadowSelector: `.${CSS.scrollButton}`,
+              targetProp: "--calcite-button-icon-color",
+              state: "hover",
+            },
+          ],
+
+          // set by parent tabs
+          "--calcite-internal-tabs-background-color": [
+            {
+              shadowSelector: `.${CSS.scrollButton}`,
+              targetProp: "--calcite-button-background-color",
+            },
+          ],
+          "--calcite-internal-tab-background-color-hover": [
+            {
+              shadowSelector: `.${CSS.scrollButton}`,
+              targetProp: "--calcite-button-background-color",
+              state: "hover",
+            },
+          ],
+          "--calcite-internal-tabs-border-color": [
+            {
+              shadowSelector: `.${CSS.scrollButton}`,
+              targetProp: "--calcite-button-border-color",
+            },
+            {
+              shadowSelector: `.${CSS.scrollButton}`,
+              targetProp: "--calcite-button-border-color",
+              state: "hover",
+            },
+          ],
+        },
+      );
     });
   });
 });

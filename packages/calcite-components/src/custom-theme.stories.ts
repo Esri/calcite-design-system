@@ -32,7 +32,7 @@ import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
-import { tabs } from "./custom-theme/tabs";
+import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 
@@ -115,7 +115,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${tabsBordered} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover}</div>
         ${alert}
       </div>
     </div>
@@ -123,22 +123,23 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
 
 const componentTokens = {
   ...globalTokens,
-  ...accordionTokens,
   ...accordionItemTokens,
-  ...actionTokens,
+  ...accordionTokens,
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
   ...actionPadTokens,
+  ...actionTokens,
+  ...alertTokens,
   ...avatarTokens,
   ...cardTokens,
-  ...alertTokens,
-  ...chipTokens,
   ...checkboxTokens,
+  ...chipTokens,
   ...handleTokens,
+  ...inputTokens,
   ...popoverTokens,
   ...progressTokens,
-  ...inputTokens,
+  ...tabsTokens,
   ...textAreaTokens,
 };
 

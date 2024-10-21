@@ -34,8 +34,9 @@ import {
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
+import { XButton } from "../functional/XButton";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
-import { CSS, ICONS } from "./resources";
+import { CSS } from "./resources";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -240,18 +241,17 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     const { closable, messages } = this;
 
     return closable ? (
-      <button
-        aria-label={messages.close}
-        class={CSS.closeButton}
+      <XButton
         disabled={false}
-        key={CSS.closeButton}
+        focusable={true}
+        key="close-button"
+        label={messages.close}
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButtonEl = el)}
+        round={false}
+        scale={this.scale}
         title={messages.close}
-        type="button"
-      >
-        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
-      </button>
+      />
     ) : null;
   }
 
