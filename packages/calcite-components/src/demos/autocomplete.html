@@ -33,6 +33,8 @@
       <hr />
 
       <calcite-autocomplete id="locator" scale="m"></calcite-autocomplete>
+      <calcite-alert id="locator-alert" kind="brand"></calcite-alert>
+
       <script type="module">
         import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
         import Point from "https://js.arcgis.com/4.29/@arcgis/core/geometry/Point.js";
@@ -93,12 +95,18 @@
         locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", (event) => {
           const inputValue = event.target.inputValue;
           locate(inputValue);
+          const alert = document.getElementById("locator-alert");
+          alert.open = false;
         });
 
         locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
           console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
           const selected = results.find((result) => result.magicKey === event.target.value);
           locatorAutocomplete.inputValue = selected?.text;
+          const alert = document.getElementById("locator-alert");
+          alert.innerHTML = `<div slot="title">Selected item</div>
+        <div slot="message">You selected "${selected?.text}"</div>`;
+          alert.open = true;
         });
       </script>
     </demo-dom-swapper>
