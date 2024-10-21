@@ -247,11 +247,6 @@ describe("calcite-tile", () => {
             shadowSelector: `.${CSS.description}`,
             targetProp: "color",
           },
-          "--calcite-tile-description-text-color-hover": {
-            shadowSelector: `.${CSS.description}`,
-            targetProp: "color",
-            state: "hover",
-          },
           "--calcite-tile-heading-text-color": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
