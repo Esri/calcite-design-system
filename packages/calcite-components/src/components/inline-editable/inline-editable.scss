@@ -44,6 +44,20 @@
   @apply flex;
 }
 
+.cancel-editing-button[appearance="transparent"][kind="neutral"] {
+  --calcite-internal-button-text-color: var(--calcite-color-text-3);
+  --calcite-internal-button-border-block-start-color: var(--calcite-color-border-input);
+  --calcite-internal-button-border-block-end-color: var(--calcite-color-border-input);
+
+  &:hover {
+    --calcite-internal-button-text-color: var(--calcite-color-text-1);
+  }
+}
+
+.enable-editing-button[appearance="transparent"][kind="neutral"] {
+  --calcite-internal-button-background-color: transparent;
+}
+
 @include disabled() {
   .cancel-editing-button-wrapper {
     @apply border-color-2;
