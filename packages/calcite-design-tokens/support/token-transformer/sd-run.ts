@@ -83,11 +83,11 @@ export const run = async ({
 
   // We are programmatically creating the Style Dictionary configuration here
   // https://amzn.github.io/style-dictionary/#/config
-  const sd = StyleDictionary.extend(config);
+  const sd = await StyleDictionary.extend(config);
 
   try {
-    sd.cleanAllPlatforms();
-    sd.buildAllPlatforms();
+    await sd.cleanAllPlatforms();
+    await sd.buildAllPlatforms();
   } catch (error) {
     console.error(error);
   }
