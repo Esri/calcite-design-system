@@ -162,8 +162,8 @@ export class Button
    */
   @Prop({ reflect: true }) type = "button";
 
-  /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Width = "auto";
+  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   /**
    * Made into a prop for testing purposes only

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -39,7 +39,36 @@ describe("calcite-sheet properties", () => {
         propertyName: "opened",
         defaultValue: false,
       },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "heightScale",
+        defaultValue: "m",
+      },
     ]);
+
+    describe("reflects", () => {
+      reflects("calcite-sheet", [
+        {
+          propertyName: "height",
+          value: "m",
+        },
+        {
+          propertyName: "heightScale",
+          value: "m",
+        },
+        {
+          propertyName: "width",
+          value: "m",
+        },
+        {
+          propertyName: "widthScale",
+          value: "m",
+        },
+      ]);
+    });
   });
 
   describe("renders", () => {

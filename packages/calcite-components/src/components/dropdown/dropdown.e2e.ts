@@ -38,6 +38,10 @@ describe("calcite-dropdown", () => {
         defaultValue: "m",
       },
       {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "placement",
         defaultValue: "bottom-start",
       },
@@ -48,6 +52,14 @@ describe("calcite-dropdown", () => {
     reflects("calcite-dropdown", [
       {
         propertyName: "scale",
+        value: "m",
+      },
+      {
+        propertyName: "widthScale",
+        value: "m",
+      },
+      {
+        propertyName: "width",
         value: "m",
       },
       {
@@ -1175,7 +1187,7 @@ describe("calcite-dropdown", () => {
       filterInput.value = "numbers";
     });
 
-    expect(dropdownContentHeight.height).toBe("88px");
+    expect(dropdownContentHeight.height).toBe("72px");
   });
 
   describe("owns a floating-ui", () => {

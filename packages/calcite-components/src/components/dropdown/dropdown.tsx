@@ -44,10 +44,11 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { getWidth } from "../../utils/dynamicCSSConst";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import { ItemKeyboardEvent } from "./interfaces";
-import { SLOTS } from "./resources";
+import { SLOTS, CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -169,8 +170,13 @@ export class Dropdown
 
   /**
    * Specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
    */
-  @Prop({ reflect: true }) widthScale: Scale;
+  @Prop({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -252,7 +258,10 @@ export class Dropdown
           </div>
           <div
             aria-hidden={toAriaBoolean(!open)}
-            class="calcite-dropdown-wrapper"
+            class={{
+              [`${CSS.calciteDropdownWrapper}`]: true,
+              [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
+            }}
             ref={this.setFloatingEl}
           >
             <div

@@ -1,5 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
@@ -30,6 +30,23 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "displayMode",
         defaultValue: "dock",
+      },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-shell-panel", [
+      {
+        propertyName: "widthScale",
+        value: "m",
+      },
+      {
+        propertyName: "width",
+        value: "m",
       },
     ]);
   });
@@ -118,7 +135,7 @@ describe("calcite-shell-panel", () => {
       "calcite-shell-panel",
       (panel: HTMLCalciteShellPanelElement, containerClass: string, contentClass: string) => {
         const container = panel.shadowRoot.querySelector(containerClass);
-        return container.firstElementChild.className == contentClass;
+        return container.firstElementChild.className.split(" ")[0] == contentClass;
       },
       `.${CSS.container}`,
       CSS.content,
