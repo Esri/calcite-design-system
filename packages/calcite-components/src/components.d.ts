@@ -3196,7 +3196,7 @@ export namespace Components {
          */
         "group"?: string;
         /**
-          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
          */
         "interactionMode": InteractionMode;
         /**
@@ -3287,7 +3287,7 @@ export namespace Components {
          */
         "filterHidden": boolean;
         /**
-          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`.
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
          */
         "interactionMode": InteractionMode;
         /**
@@ -11324,7 +11324,7 @@ declare namespace LocalJSX {
          */
         "group"?: string;
         /**
-          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
          */
         "interactionMode"?: InteractionMode;
         /**
@@ -11434,7 +11434,7 @@ declare namespace LocalJSX {
          */
         "filterHidden"?: boolean;
         /**
-          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`.
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
          */
         "interactionMode"?: InteractionMode;
         /**

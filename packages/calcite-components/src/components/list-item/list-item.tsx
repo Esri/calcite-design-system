@@ -217,7 +217,7 @@ export class ListItem
   > = null;
 
   /**
-   * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`.
+   * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
    * @internal
    */
   @Prop() interactionMode: InteractionMode = null;

@@ -228,7 +228,7 @@ export class List
    *
    * `"static"` does not allow interaction styling and pointer changes on hover
    *
-   * Do not combine `interaction-mode=“static”` and `selection-appearance=“border”`
+   * The `"static"` value should only be used when `selectionMode` is `"none"`.
    */
   @Prop({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
