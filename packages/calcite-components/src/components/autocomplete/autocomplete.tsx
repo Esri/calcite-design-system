@@ -461,6 +461,7 @@ export class Autocomplete
           <slot name={SLOTS.contentEnd} />
           <div
             class={{
+              [CSS.contentContainer]: true,
               [CSS.floatingUIContainer]: true,
               [CSS.floatingUIContainerActive]: isOpen,
             }}

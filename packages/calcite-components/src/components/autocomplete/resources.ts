@@ -12,6 +12,7 @@ export const ICONS = {
 export const CSS = {
   container: "container",
   input: "input",
+  contentContainer: "content-container",
   floatingUIContainer: "floating-ui-container",
   floatingUIContainerActive: "floating-ui-container--active",
   screenReadersOnly: "screen-readers-only",

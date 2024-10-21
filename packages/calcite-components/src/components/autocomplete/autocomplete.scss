@@ -21,6 +21,11 @@
   flex: 1;
 }
 
+.content-container {
+  @apply bg-foreground-1
+    text-color-1;
+}
+
 .floating-ui-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui-container();
