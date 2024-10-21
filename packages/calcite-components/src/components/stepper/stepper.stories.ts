@@ -315,3 +315,28 @@ export const verticalLayoutFullWidth = (): string =>
         >Step 1 Content Goes Here</calcite-stepper-item
       >
     </calcite-stepper>`;
+
+export const hidden_TestOnly = (): string =>
+  html`<calcite-stepper layout="horizontal-single" numbered icon scale="s">
+          <calcite-stepper-item heading="Choose method" complete>
+            <calcite-notice open width="full">
+              <div slot="message">Step 1 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Compile member list" complete hidden>
+            <calcite-notice open width="full">
+              <div slot="message">Step 2 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+            <calcite-notice open width="full">
+              <div slot="message">Step 3 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Confirm and complete">
+            <calcite-notice open width="full">
+              <div slot="message">Step 4 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      </div>`;
