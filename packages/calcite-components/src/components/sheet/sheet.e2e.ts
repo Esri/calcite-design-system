@@ -568,6 +568,9 @@ describe("calcite-sheet properties", () => {
 
   describe("keyboard resize", () => {
     it("should resize properly via arrow keys", async () => {
+      const maxSize = 600;
+      const minSize = 100;
+      const initialSize = 500;
       const page = await newE2EPage();
       await page.setContent(
         html` <calcite-sheet
@@ -578,12 +581,12 @@ describe("calcite-sheet properties", () => {
           resizable
           open
           style="
-            --calcite-sheet-width: 500px;
-            --calcite-sheet-max-width: 600px;
-            --calcite-sheet-min-width: 100px;
-            --calcite-sheet-height: 500px;
-            --calcite-sheet-max-height: 600px;
-            --calcite-sheet-min-height: 100px;"
+            --calcite-sheet-width: ${initialSize}px;
+            --calcite-sheet-max-width: ${maxSize}px;
+            --calcite-sheet-min-width: ${minSize}px;
+            --calcite-sheet-height: ${initialSize}px;
+            --calcite-sheet-max-height: ${maxSize}px;
+            --calcite-sheet-min-height: ${minSize}px;"
         >
           <p>
             Lorem ipsum odor amet adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt. Lacinia et
@@ -643,14 +646,14 @@ describe("calcite-sheet properties", () => {
       await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.inlineSize).toBe(`${600}px`);
+      expect(computedStyle.inlineSize).toBe(`${maxSize}px`);
 
       await page.keyboard.down("Home");
       await page.keyboard.up("Home");
       await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.inlineSize).toBe(`${100}px`);
+      expect(computedStyle.inlineSize).toBe(`${minSize}px`);
 
       const sheet = await page.find("calcite-sheet");
       sheet.setProperty("position", "block-start");
@@ -696,14 +699,14 @@ describe("calcite-sheet properties", () => {
       await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${600}px`);
+      expect(computedStyle.blockSize).toBe(`${maxSize}px`);
 
       await page.keyboard.down("Home");
       await page.keyboard.up("Home");
       await page.waitForChanges();
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${100}px`);
+      expect(computedStyle.blockSize).toBe(`${minSize}px`);
     });
   });
 });
