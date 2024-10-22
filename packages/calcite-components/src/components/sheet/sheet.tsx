@@ -238,6 +238,7 @@ export class Sheet
     disconnectMessages(this);
     deactivateFocusTrap(this);
     this.embedded = false;
+    this.cleanupInteractions();
   }
 
   render(): VNode {
