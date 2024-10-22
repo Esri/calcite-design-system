@@ -1,17 +1,46 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-fab-background-color: Specifies the component's text color.
+ * @prop --calcite-fab-border-color: Specifies the component's border color.
+ * @prop --calcite-fab-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-fab-shadow-color: Specifies the base color used to define the component's shadows. Must be in a three number rgb format. Example `--calcite-fab-shadow-color: 0, 0, 0;`.
+ * @prop --calcite-fab-text-color: Specifies the component's text color.
+ */
+
 :host {
   @apply flex bg-transparent;
 }
 
-@include disabled();
-
 calcite-button {
-  @apply shadow-2;
-  &:hover {
-    @apply shadow-2-lg;
+  --calcite-internal-fab-shadow-color: 0, 0, 0;
+  --calcite-button-background-color: var(--calcite-fab-background-color);
+  --calcite-button-border-color: var(--calcite-fab-border-color);
+  --calcite-button-corner-radius: var(--calcite-fab-corner-radius, 50px);
+  --calcite-button-text-color: var(--calcite-fab-text-color);
+
+  box-shadow:
+    0 6px 20px -4px rgba(var(--calcite-fab-shadow-color, var(--calcite-internal-fab-shadow-color)), 0.1),
+    0 4px 12px -2px rgba(var(--calcite-fab-shadow-color, var(--calcite-internal-fab-shadow-color)), 0.08);
+}
+
+:host(:hover) {
+  calcite-button {
+    box-shadow:
+      0 4px 20px 0 rgba(var(--calcite-fab-shadow-color, var(--calcite-internal-fab-shadow-color)), 0.08),
+      0 12px 30px rgba(var(--calcite-fab-shadow-color, var(--calcite-internal-fab-shadow-color)), 0.1);
   }
-  &:active {
-    @apply shadow-2-sm;
+}
+
+:host(:active) {
+  calcite-button {
+    box-shadow:
+      0 2px 12px -4px rgba(var(--calcite-fab-shadow-color, var(--calcite-internal-fab-shadow-color)), 0.2),
+      0 2px 4px -2px rgba(var(--calcite-fab-shadow-color, var(--calcite-internal-fab-shadow-color)), 0.16);
   }
 }
 
 @include base-component();
+@include disabled();
