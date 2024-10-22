@@ -402,10 +402,12 @@ export class Sheet
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
 
-    const keys =
+    const arrowKeys =
       position === "block-end" || position === "block-start"
-        ? ["ArrowUp", "ArrowDown", "Home", "End"]
-        : ["ArrowLeft", "ArrowRight", "Home", "End"];
+        ? ["ArrowUp", "ArrowDown"]
+        : ["ArrowLeft", "ArrowRight"];
+
+    const keys = [...arrowKeys, "Home", "End"];
 
     if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
       return;
