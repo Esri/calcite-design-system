@@ -87,7 +87,7 @@ describe("calcite-navigation-logo", () => {
           targetProp: "backgroundColor",
           state: "hover",
         },
-        "--calcite-navigation-logo-background-color-active": {
+        "--calcite-navigation-logo-background-color-press": {
           shadowSelector: `.${CSS.anchor}`,
           targetProp: "backgroundColor",
           state: { press: { attribute: "class", value: CSS.anchor } },
@@ -104,7 +104,7 @@ describe("calcite-navigation-logo", () => {
           shadowSelector: `.${CSS.heading}`,
           targetProp: "color",
         },
-        "--calcite-navigation-logo-icon-color-active": {
+        "--calcite-navigation-logo-icon-color-press": {
           shadowSelector: `calcite-icon`,
           targetProp: "--calcite-icon-color",
           state: { press: { attribute: "class", value: CSS.anchor } },

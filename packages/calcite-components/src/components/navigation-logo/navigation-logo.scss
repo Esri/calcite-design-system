@@ -3,11 +3,11 @@
 *
 * @prop --calcite-navigation-logo-background-color: Specifies the background color of the component.
 * @prop --calcite-navigation-logo-background-color-hover: Specifies the background color of the component when hovered.
-* @prop --calcite-navigation-logo-background-color-active: Specifies the background color of the component when active.
+* @prop --calcite-navigation-logo-background-color-press: Specifies the background color of the component when active.
 * @prop --calcite-navigation-logo-border-color: Specifies the border color of the component.
 * @prop --calcite-navigation-logo-description-text-color: Specifies text color of description of component.
 * @prop --calcite-navigation-logo-heading-text-color: Specifies the text color of heading of component.
-* @prop --calcite-navigation-logo-icon-color-active: Specifies the icon color of the component when active.
+* @prop --calcite-navigation-logo-icon-color-press: Specifies the icon color of the component when active.
 *
 */
 
@@ -41,8 +41,8 @@
 }
 
 .anchor:active {
-  background-color: var(--calcite-navigation-logo-background-color-active, var(--calcite-color-foreground-3));
-  --calcite-icon-color: var(--calcite-navigation-logo-icon-color-active, var(--calcite-color-text-1));
+  background-color: var(--calcite-navigation-logo-background-color-press, var(--calcite-color-foreground-3));
+  --calcite-icon-color: var(--calcite-navigation-logo-icon-color-press, var(--calcite-color-text-1));
 }
 
 .image,
