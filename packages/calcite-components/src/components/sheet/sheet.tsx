@@ -40,7 +40,8 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { CSS, sheetResizeStep } from "./resources";
+import { clamp } from "../../utils/math";
+import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import { SheetMessages } from "./assets/sheet/t9n";
 
@@ -392,13 +393,19 @@ export class Sheet
   }
 
   private handleKeyDown = (event: KeyboardEvent): void => {
-    const { key, defaultPrevented } = event;
-    const { position, resizable, contentEl, el } = this;
+    const { key, defaultPrevented, shiftKey } = event;
+    const {
+      position,
+      resizable,
+      contentEl,
+      el,
+      resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
+    } = this;
 
     const keys =
       position === "block-end" || position === "block-start"
-        ? ["ArrowUp", "ArrowDown"]
-        : ["ArrowLeft", "ArrowRight"];
+        ? ["ArrowUp", "ArrowDown", "Home", "End"]
+        : ["ArrowLeft", "ArrowRight", "Home", "End"];
 
     if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
       return;
@@ -406,39 +413,50 @@ export class Sheet
 
     const rect = this.getContentElDOMRect();
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const stepValue = shiftKey ? sheetResizeShiftStep : sheetResizeStep;
 
     switch (key) {
       case "ArrowUp":
         this.updateSize({
-          size: rect.height + (position === "block-end" ? sheetResizeStep : -sheetResizeStep),
+          size: rect.height + (position === "block-end" ? stepValue : -stepValue),
           type: "blockSize",
         });
         event.preventDefault();
         break;
       case "ArrowDown":
         this.updateSize({
-          size: rect.height + (position === "block-end" ? -sheetResizeStep : sheetResizeStep),
+          size: rect.height + (position === "block-end" ? -stepValue : stepValue),
           type: "blockSize",
         });
         event.preventDefault();
         break;
       case "ArrowLeft":
         this.updateSize({
-          size:
-            rect.width +
-            (position === "inline-end" ? sheetResizeStep : -sheetResizeStep) * invertRTL,
+          size: rect.width + (position === "inline-end" ? stepValue : -stepValue) * invertRTL,
           type: "inlineSize",
         });
         event.preventDefault();
         break;
       case "ArrowRight":
         this.updateSize({
-          size:
-            rect.width +
-            (position === "inline-end" ? -sheetResizeStep : sheetResizeStep) * invertRTL,
+          size: rect.width + (position === "inline-end" ? -stepValue : stepValue) * invertRTL,
           type: "inlineSize",
         });
         event.preventDefault();
+        break;
+      case "Home":
+        this.updateSize({
+          size:
+            position === "block-start" || position === "block-end" ? minBlockSize : minInlineSize,
+          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
+        });
+        break;
+      case "End":
+        this.updateSize({
+          size:
+            position === "block-start" || position === "block-end" ? maxBlockSize : maxInlineSize,
+          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
+        });
         break;
     }
   };
@@ -458,14 +476,20 @@ export class Sheet
 
     const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
     const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
-    const fixedSize = Math.min(resizeValues[resizeMax], Math.max(resizeValues[resizeMin], size));
+
+    const clamped =
+      resizeValues[resizeMin] && resizeValues[resizeMax]
+        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
+        : size;
+
+    const rounded = Math.round(clamped);
 
     this.resizeValues = {
       ...resizeValues,
-      [type]: fixedSize,
+      [type]: rounded,
     };
 
-    contentEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
+    contentEl.style[type] = size !== null ? `${rounded}px` : null;
   }
 
   private cleanupInteractions(): void {

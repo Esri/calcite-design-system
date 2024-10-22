@@ -8,4 +8,5 @@ export const CSS = {
   resizeHandle: "resize-handle",
 };
 
-export const sheetResizeStep = 25;
+export const sheetResizeStep = 10;
+export const sheetResizeShiftStep = 25;
