@@ -2541,5 +2541,54 @@
         </div>
       </div>
     </demo-dom-swapper>
+    <demo-dom-swapper>
+      <demo-theme
+        tokens="
+        --calcite-button-background-color,
+        --calcite-button-text-color,
+        --calcite-button-border-color
+        --calcite-button-corner-radius
+        "
+      >
+        <div>
+          <p class="right-align">Custom Theme</p>
+        </div>
+
+        <div>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="s"
+            >
+              Transparent Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="solid" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="m">
+              Solid Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="l">
+              Outline Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline-fill"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="l"
+            >
+              Outline Fill Button
+            </calcite-button>
+          </p>
+        </div>
+      </demo-theme>
+    </demo-dom-swapper>
   </body>
 </html>

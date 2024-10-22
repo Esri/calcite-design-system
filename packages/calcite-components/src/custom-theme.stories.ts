@@ -13,7 +13,7 @@ import {
 import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
-import { buttons } from "./custom-theme/button";
+import { buttons, buttonTokens } from "./custom-theme/button";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
@@ -60,6 +60,27 @@ const globalTokens = {
   calciteColorBorder3: "#dfdfdf",
   calciteColorBorderInput: "#949494",
   calciteUiIconColor: "currentColor",
+};
+
+const componentTokens = {
+  ...accordionTokens,
+  ...accordionItemTokens,
+  ...actionTokens,
+  ...actionBarTokens,
+  ...actionGroupTokens,
+  ...actionMenuTokens,
+  ...actionPadTokens,
+  ...avatarTokens,
+  ...buttonTokens,
+  ...cardTokens,
+  ...alertTokens,
+  ...chipTokens,
+  ...checkboxTokens,
+  ...handleTokens,
+  ...popoverTokens,
+  ...progressTokens,
+  ...inputTokens,
+  ...textAreaTokens,
 };
 
 function convertToParamCase(str) {
@@ -125,23 +146,7 @@ export default {
   title: "Theming/Custom Theme",
   args: {
     ...globalTokens,
-    ...accordionTokens,
-    ...accordionItemTokens,
-    ...actionTokens,
-    ...actionBarTokens,
-    ...actionGroupTokens,
-    ...actionMenuTokens,
-    ...actionPadTokens,
-    ...avatarTokens,
-    ...cardTokens,
-    ...alertTokens,
-    ...chipTokens,
-    ...checkboxTokens,
-    ...handleTokens,
-    ...popoverTokens,
-    ...progressTokens,
-    ...inputTokens,
-    ...textAreaTokens,
+    ...componentTokens,
   },
 };
 
@@ -152,23 +157,7 @@ export const themingInteractive = (args: Record<string, string>): string => {
 export const theming = (): string => {
   return kitchenSink(
     {
-      ...accordionTokens,
-      ...accordionItemTokens,
-      ...actionTokens,
-      ...actionBarTokens,
-      ...actionGroupTokens,
-      ...actionMenuTokens,
-      ...actionPadTokens,
-      ...avatarTokens,
-      ...cardTokens,
-      ...alertTokens,
-      ...chipTokens,
-      ...checkboxTokens,
-      ...handleTokens,
-      ...popoverTokens,
-      ...progressTokens,
-      ...inputTokens,
-      ...textAreaTokens,
+      ...componentTokens,
     },
     true,
   );
