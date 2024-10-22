@@ -215,6 +215,7 @@ export class Modal
         aria-describedby={this.contentId}
         aria-labelledby={this.titleId}
         aria-modal="true"
+        onKeyDown={this.keyDownHandler}
         role="dialog"
       >
         <div
@@ -492,6 +493,17 @@ export class Modal
 
   private handleSecondarySlotChange = (event: Event): void => {
     this.hasSecondary = slotChangeHasAssignedElement(event);
+  };
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    if (event.key === "Escape") {
+      this.open = false;
+      event.preventDefault();
+    }
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
