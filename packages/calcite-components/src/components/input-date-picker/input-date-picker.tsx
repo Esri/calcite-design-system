@@ -967,6 +967,10 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
+    } else if (key === "Escape" && this.focusTrapDisabled) {
+      this.open = false;
+      event.preventDefault();
+      this.restoreInputFocus();
     }
   };
 
