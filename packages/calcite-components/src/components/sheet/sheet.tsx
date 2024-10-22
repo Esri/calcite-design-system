@@ -41,7 +41,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, sheetResizeStep } from "./resources";
-import { DisplayMode } from "./interfaces";
+import { DisplayMode, ResizeValues } from "./interfaces";
 import { SheetMessages } from "./assets/sheet/t9n";
 
 @Component({
@@ -184,14 +184,6 @@ export class Sheet
     this.setupInteractions();
   }
 
-  @Watch("messages")
-  @Watch("resizable")
-  updateAssistiveText(): void {
-    const { messages } = this;
-    this.assistiveText =
-      messages && this.resizable ? `${this.resizable ? messages.resizeEnabled : ""}` : null;
-  }
-
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    */
@@ -241,8 +233,10 @@ export class Sheet
   }
 
   render(): VNode {
-    const { assistiveText, resizable } = this;
+    const { resizable, position, resizeValues } = this;
     const dir = getElementDir(this.el);
+    const isBlockPosition = position === "block-start" || position === "block-end";
+
     return (
       <Host
         aria-describedby={this.contentId}
@@ -259,22 +253,33 @@ export class Sheet
           }}
           ref={this.setTransitionEl}
         >
-          {assistiveText ? (
-            <div aria-live="polite" class={CSS.assistiveText} key="assistive-text">
-              {assistiveText}
-            </div>
-          ) : null}
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           <div
             class={{
               [CSS.content]: true,
             }}
-            onKeyDown={this.handleKeyDown}
             ref={this.setContentEl}
           >
             <slot />
             {resizable ? (
-              <div class={CSS.resizeHandle} key="resize-handle" ref={this.setResizeHandleEl}>
+              <div
+                aria-label={this.messages.resizeEnabled}
+                aria-orientation={isBlockPosition ? "vertical" : "horizontal"}
+                aria-valuemax={
+                  isBlockPosition ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
+                }
+                aria-valuemin={
+                  isBlockPosition ? resizeValues.minBlockSize : resizeValues.minInlineSize
+                }
+                aria-valuenow={isBlockPosition ? resizeValues.blockSize : resizeValues.inlineSize}
+                class={CSS.resizeHandle}
+                key="resize-handle"
+                onKeyDown={this.handleKeyDown}
+                ref={this.setResizeHandleEl}
+                role="separator"
+                tabIndex={0}
+                touch-action="none"
+              >
                 <calcite-icon icon={this.getResizeIcon()} scale="s" />
               </div>
             ) : null}
@@ -298,9 +303,16 @@ export class Sheet
 
   @Element() el: HTMLCalciteSheetElement;
 
-  @State() assistiveText: string | null = null;
-
   @State() defaultMessages: SheetMessages;
+
+  @State() resizeValues: ResizeValues = {
+    inlineSize: 0,
+    blockSize: 0,
+    minInlineSize: 0,
+    minBlockSize: 0,
+    maxInlineSize: 0,
+    maxBlockSize: 0,
+  };
 
   private contentEl: HTMLDivElement;
 
@@ -437,11 +449,20 @@ export class Sheet
     type: "inlineSize" | "blockSize";
     size: number | null;
   }): void {
-    const { contentEl } = this;
+    const { contentEl, resizeValues } = this;
 
     if (!contentEl) {
       return;
     }
+
+    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
+    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
+    const fixedSize = Math.min(resizeValues[resizeMax], Math.max(resizeValues[resizeMin], size));
+
+    this.resizeValues = {
+      ...resizeValues,
+      [type]: fixedSize,
+    };
 
     contentEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
   }
@@ -461,8 +482,19 @@ export class Sheet
       return;
     }
 
-    const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
+    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
       window.getComputedStyle(contentEl);
+
+    const values: ResizeValues = {
+      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize, 10) : 0,
+      blockSize: isPixelValue(blockSize) ? parseInt(blockSize, 10) : 0,
+      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
+      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
+      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+    };
+
+    this.resizeValues = values;
 
     const rtl = getElementDir(el) === "rtl";
 
@@ -476,12 +508,12 @@ export class Sheet
       modifiers: [
         interact.modifiers.restrictSize({
           min: {
-            width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-            height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+            width: values.minInlineSize,
+            height: values.minBlockSize,
           },
           max: {
-            width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
-            height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+            width: values.maxInlineSize,
+            height: values.maxBlockSize,
           },
         }),
       ],

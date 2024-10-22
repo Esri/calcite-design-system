@@ -219,7 +219,7 @@
 }
 
 .resize-handle {
-  @apply flex bg-background justify-center items-center overflow-hidden;
+  @apply flex bg-background justify-center items-center overflow-hidden focus-base;
 
   color: var(--calcite-color-border-input);
 
@@ -229,8 +229,13 @@
 }
 
 .resize-handle:active,
-.resize-handle:hover {
+.resize-handle:hover,
+.resize-handle:focus {
   @apply text-color-1;
+}
+
+.resize-handle:focus {
+  @apply focus-inset;
 }
 
 :host([position="inline-start"]) .resize-handle,
