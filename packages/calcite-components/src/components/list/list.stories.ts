@@ -3,12 +3,19 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
-const { selectionMode, selectionAppearance } = ATTRIBUTES;
+const { selectionMode, interactionMode, selectionAppearance } = ATTRIBUTES;
 
 interface ListStoryArgs
   extends Pick<
     List,
-    "selectionMode" | "selectionAppearance" | "loading" | "filterEnabled" | "dragEnabled" | "disabled" | "label"
+    | "selectionMode"
+    | "interactionMode"
+    | "selectionAppearance"
+    | "loading"
+    | "filterEnabled"
+    | "dragEnabled"
+    | "disabled"
+    | "label"
   > {
   closable: boolean;
   closed: boolean;
@@ -18,6 +25,7 @@ export default {
   title: "Components/List",
   args: {
     selectionMode: selectionMode.values[1],
+    interactionMode: interactionMode.values[0],
     selectionAppearance: selectionAppearance.defaultValue,
     loading: false,
     closable: false,
@@ -32,6 +40,10 @@ export default {
       options: selectionMode.values.filter(
         (option) => option !== "children" && option !== "multichildren" && option !== "ancestors",
       ),
+      control: { type: "select" },
+    },
+    interactionMode: {
+      options: interactionMode.values,
       control: { type: "select" },
     },
     selectionAppearance: {
@@ -53,6 +65,7 @@ const listHTML = (): string => html` selection-mode="none" selection-appearance=
 export const simple = (args: ListStoryArgs): string => html`
   <calcite-list
     selection-mode="${args.selectionMode}"
+    interaction-mode="${args.interactionMode}"
     selection-appearance="${args.selectionAppearance}"
     ${boolean("loading", args.loading)}
     ${boolean("closable", args.closable)}
@@ -1142,3 +1155,40 @@ export const dragEnabledNestedListsIndirectChildren = (): string =>
     <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
     <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
   </calcite-list>`;
+
+export const interactiveMode = (): string => html`
+  <h2>interaction-mode="static" and selection-mode="none" (non-interactive)</h2>
+
+  <calcite-list interaction-mode="static" selection-mode="none">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="static" and selection-appearance="icon" (non-interactive)</h2>
+
+  <calcite-list interaction-mode="static" selection-appearance="icon" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="static" and selection-appearance="border" (interactive)</h2>
+
+  <calcite-list interaction-mode="static" selection-appearance="border" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="interactive" (interactive)</h2>
+
+  <calcite-list interaction-mode="interactive" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+`;

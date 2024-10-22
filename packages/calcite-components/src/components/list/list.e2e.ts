@@ -33,6 +33,10 @@ describe("calcite-list", () => {
         defaultValue: "none",
       },
       {
+        propertyName: "interactionMode",
+        defaultValue: "interactive",
+      },
+      {
         propertyName: "selectedItems",
         defaultValue: [],
       },

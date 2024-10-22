@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.14...@esri/calcite-components@2.14.0-next.15) (2024-10-21)
+
+### Features
+
+- **list, list-item:** add non-interactive option to remove hover/pointer changes. ([#10473](https://github.com/Esri/calcite-design-system/issues/10473)) ([c149b55](https://github.com/Esri/calcite-design-system/commit/c149b55093973e70d24b84acee5e08cffd3d1900)), closes [#8634](https://github.com/Esri/calcite-design-system/issues/8634)
+
+### Bug Fixes
+
+- **inline-editable:** add tooltips for controls ([#10538](https://github.com/Esri/calcite-design-system/issues/10538)) ([637ddfe](https://github.com/Esri/calcite-design-system/commit/637ddfe1cb26c37a74102a90453a5bc8e73f3597)), closes [#10536](https://github.com/Esri/calcite-design-system/issues/10536)
+- **shell-center-row:** ensure deprecation warning doesn’t show when using standalone `shell` or `shell-panel` ([#10561](https://github.com/Esri/calcite-design-system/issues/10561)) ([a456c22](https://github.com/Esri/calcite-design-system/commit/a456c22efaef409e4d507606b698c0d32714dacc)), closes [#10563](https://github.com/Esri/calcite-design-system/issues/10563) [/github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/stencil.config.ts#L76](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/stencil.config.ts/issues/L76)
+
+## [2.14.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.13...@esri/calcite-components@2.14.0-next.14) (2024-10-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [2.14.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.12...@esri/calcite-components@2.14.0-next.13) (2024-10-11)
 
 ### Features

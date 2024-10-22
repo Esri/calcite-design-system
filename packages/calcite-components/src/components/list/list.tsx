@@ -20,7 +20,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { openAncestors, updateListItemChildren } from "../list-item/utils";
 import {
@@ -220,6 +220,17 @@ export class List
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = "none";
+
+  /**
+   * Specifies the interaction mode of the component.
+   *
+   * `"interactive"` allows interaction styling and pointer changes on hover
+   *
+   * `"static"` does not allow interaction styling and pointer changes on hover
+   *
+   * The `"static"` value should only be used when `selectionMode` is `"none"`.
+   */
+  @Prop({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -425,6 +436,7 @@ export class List
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.handleInteractionModeWarning();
     await setUpMessages(this);
   }
 
@@ -894,6 +906,7 @@ export class List
       const {
         selectionAppearance,
         selectionMode,
+        interactionMode,
         dragEnabled,
         el,
         filterEl,
@@ -906,6 +919,7 @@ export class List
       items.forEach((item) => {
         item.selectionAppearance = selectionAppearance;
         item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
         if (item.closest("calcite-list") === el) {
           item.moveToItems = moveToItems.filter(
             (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
@@ -1006,6 +1020,16 @@ export class List
       }
     }
   };
+
+  private handleInteractionModeWarning(): void {
+    if (
+      this.interactionMode === "static" &&
+      this.selectionMode !== "none" &&
+      this.selectionAppearance === "border"
+    ) {
+      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+    }
+  }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
     const { moveTo } = event.detail;

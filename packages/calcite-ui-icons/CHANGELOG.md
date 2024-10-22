@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.33.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.2...@esri/calcite-ui-icons@3.33.0-next.3) (2024-10-21)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [3.33.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.1...@esri/calcite-ui-icons@3.33.0-next.2) (2024-10-17)
+
+### Features
+
+- add drag resize vertical and drag resize horizontal ([#10553](https://github.com/Esri/calcite-design-system/issues/10553)) ([25aeb64](https://github.com/Esri/calcite-design-system/commit/25aeb64495ab3ea4518ec78f236e1ac21496c154))
+
 ## [3.33.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.0...@esri/calcite-ui-icons@3.33.0-next.1) (2024-10-09)
 
 ### Features
