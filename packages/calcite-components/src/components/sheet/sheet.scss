@@ -233,16 +233,32 @@
   @apply text-color-1;
 }
 
-:host([resizable][position="inline-start"]) .resize-handle,
-:host([resizable][position="inline-end"]) .resize-handle {
+:host([position="inline-start"]) .resize-handle,
+:host([position="inline-end"]) .resize-handle {
   inline-size: var(--calcite-size-sm-plus);
   block-size: 100%;
 }
 
-:host([resizable][position="block-start"]) .resize-handle,
-:host([resizable][position="block-end"]) .resize-handle {
+:host([position="block-start"]) .resize-handle,
+:host([position="block-end"]) .resize-handle {
   block-size: var(--calcite-size-sm-plus);
   inline-size: 100%;
+}
+
+:host([position="inline-start"]) .resize-handle {
+  border-inline-start: 1px solid var(--calcite-color-border-3);
+}
+
+:host([position="inline-end"]) .resize-handle {
+  border-inline-end: 1px solid var(--calcite-color-border-3);
+}
+
+:host([position="block-start"]) .resize-handle {
+  border-block-start: 1px solid var(--calcite-color-border-3);
+}
+
+:host([position="block-end"]) .resize-handle {
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 /**
