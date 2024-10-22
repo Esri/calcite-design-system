@@ -7,7 +7,6 @@
  * @prop --calcite-tile-border-color: Specifies the border color of the component.
  * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
  * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
- * @prop --calcite-tile-href-icon-color-hover: Specifies the icon color of the component when using a href on hover.
  * @prop --calcite-tile-icon-color: Specifies the icon color in the component.
  * @prop --calcite-tile-selection-color: Specifies the color of the component's selection indicators (radio, checkbox, border) when using a selection-mode that allows selection.
  * @prop --calcite-tile-selection-color-hover: Specifies the selected/hover/focus color of the component's selection indicators (radio, checkbox, border) when using a selection-mode that allows selection.
@@ -234,7 +233,7 @@
     z-index: var(--calcite-z-index);
   }
   .icon {
-    color: var(--calcite-tile-href-icon-color-hover, var(--calcite-color-text-link));
+    color: var(--calcite-tile-icon-color, var(--calcite-color-text-link));
   }
   .heading {
     color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-link));
