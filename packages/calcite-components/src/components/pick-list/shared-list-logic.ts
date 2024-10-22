@@ -3,10 +3,15 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { SLOTS } from "../pick-list-group/resources";
 import { ValueList } from "../value-list/value-list";
+import type { Filter } from "../filter/filter";
+import type { PickListGroup } from "../pick-list-group/pick-list-group";
+import type { ValueListItem } from "../value-list-item/value-list-item";
+import type { PickListItem } from "../pick-list-item/pick-list-item";
+import type { PickList as HTMLCalcitePickListElement } from "./pick-list";
 import { PickList } from "./pick-list";
 
 type Lists = PickList | ValueList;
-type ListItemElement<T> = T extends PickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
+type ListItemElement<T> = T extends PickList ? PickListItem["el"] : ValueListItem["el"];
 type List<T> = T extends PickList ? PickList : ValueList;
 
 export type ListFocusId = "filter";
@@ -142,9 +147,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
   const index = moveItemIndex(this, target as ListItemElement<T>, key === "ArrowUp" ? "up" : "down");
   const item = items[index];
 
-  items.forEach((i: HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement) =>
-    toggleSingleSelectItemTabbing(i, i === item),
-  );
+  items.forEach((i: PickListItem["el"] | ValueListItem["el"]) => toggleSingleSelectItemTabbing(i, i === item));
 
   if (!multiple && selectionFollowsFocus) {
     item.selected = true;
@@ -330,7 +333,7 @@ export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemEle
   });
 }
 
-let groups: Set<HTMLCalcitePickListGroupElement>;
+let groups: Set<PickListGroup["el"]>;
 
 export function handleFilter<T extends Lists>(this: List<T>, emit = false): void {
   const { filteredData, filterText } = this;
@@ -339,7 +342,7 @@ export function handleFilter<T extends Lists>(this: List<T>, emit = false): void
   let hasSelectedMatch = false;
 
   if (!groups) {
-    groups = new Set<HTMLCalcitePickListGroupElement>();
+    groups = new Set<PickListGroup["el"]>();
   }
 
   const matchedItems =
@@ -348,7 +351,7 @@ export function handleFilter<T extends Lists>(this: List<T>, emit = false): void
       const grouped = parent.matches("calcite-pick-list-group");
 
       if (grouped) {
-        groups.add(parent as HTMLCalcitePickListGroupElement);
+        groups.add(parent as PickListGroup["el"]);
       }
 
       const matches = filterText ? values.includes(item.value) : true;
@@ -376,7 +379,7 @@ export function handleFilter<T extends Lists>(this: List<T>, emit = false): void
       parentItem.hidden = false;
 
       if (matchedItems.includes(parentItem)) {
-        Array.from(group.children as HTMLCollectionOf<HTMLCalcitePickListElement>).forEach(
+        Array.from(group.children as HTMLCollectionOf<HTMLCalcitePickListElement["el"]>).forEach(
           (child) => (child.hidden = false),
         );
       }
@@ -408,7 +411,7 @@ export function handleInitialFilter<T extends Lists>(this: List<T>): void {
 
 export function handleFilterEvent<T extends Lists>(this: List<T>, event: CustomEvent): void {
   event.stopPropagation();
-  const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
+  const { filteredItems, value } = event.currentTarget as Filter["el"];
 
   this.filterText = value;
   this.filteredData = filteredItems as ItemData;

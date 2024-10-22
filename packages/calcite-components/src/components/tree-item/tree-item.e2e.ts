@@ -1,6 +1,8 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import type { Tree } from "../tree/tree";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
@@ -413,7 +415,7 @@ describe("calcite-tree-item", () => {
       </calcite-tree>
     `);
 
-    await page.$eval("#root", (root: HTMLCalciteTreeElement) => (root.style.display = ""));
+    await page.$eval("#root", (root: Tree["el"]) => (root.style.display = ""));
     await page.waitForChanges();
 
     const item = await page.$("#child");

@@ -1,16 +1,5 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -26,8 +15,17 @@ import {
 import { Alignment, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { logger } from "../../utils/logger";
+import type { RadioButton } from "../radio-button/radio-button";
+import type { Checkbox } from "../checkbox/checkbox";
 import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
+import { styles } from "./tile-select.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-tile-select": TileSelect;
+  }
+}
 
 logger.deprecated("component", {
   name: "tile-select",
@@ -39,54 +37,56 @@ logger.deprecated("component", {
  * @deprecated Use the `calcite-tile` component instead.
  * @slot - A slot for adding custom content.
  */
-@Component({
-  tag: "calcite-tile-select",
-  styleUrl: "tile-select.scss",
-  shadow: true,
-})
-export class TileSelect implements InteractiveComponent, LoadableComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+export class TileSelect extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private guid = `calcite-tile-select-${guid()}`;
+
+  private input: Checkbox["el"] | RadioButton["el"];
+
+  // #endregion
+
+  // #region State Properties
+
+  /** The focused state of the tile-select. */
+  @state() focused = false;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, the component is checked. */
-  @Prop({ reflect: true, mutable: true }) checked = false;
-
-  @Watch("checked")
-  checkedChanged(newChecked: boolean): void {
-    this.input.checked = newChecked;
-  }
+  @property({ reflect: true }) checked = false;
 
   /** A description for the component, which displays below the heading. */
-  @Prop({ reflect: true }) description: string;
+  @property({ reflect: true }) description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
   /** The component header text, which displays between the icon and description. */
-  @Prop({ reflect: true }) heading: string;
+  @property({ reflect: true }) heading: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
-
-  /** Specifies the name of the component on form submission. */
-  @Prop({ reflect: true }) name;
-
-  @Watch("name")
-  nameChanged(newName: string): void {
-    this.input.name = newName;
-  }
-
-  /** When `true`, displays an interactive input based on the `type` property. */
-  @Prop({ reflect: true }) inputEnabled = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `inputEnabled` is `true`, specifies the placement of the interactive input on the component. */
-  @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
+  @property({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
+
+  /** When `true`, displays an interactive input based on the `type` property. */
+  @property({ reflect: true }) inputEnabled = false;
+
+  /** Specifies the name of the component on form submission. */
+  @property({ reflect: true }) name;
 
   /**
    * Specifies the selection mode of the component, where:
@@ -95,40 +95,29 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
    *
    * `"checkbox"` is for multiple selections.
    */
-  @Prop({ reflect: true }) type: TileSelectType = "radio";
+  @property({ reflect: true }) type: TileSelectType = "radio";
 
   /** The component's value. */
-  @Prop() value: any;
+  @property() value: any;
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteTileSelectElement;
+  // #region Public Methods
 
-  private input: HTMLCalciteCheckboxElement | HTMLCalciteRadioButtonElement;
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
 
-  guid = `calcite-tile-select-${guid()}`;
+    return this.input?.setFocus();
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  State
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  /** The focused state of the tile-select. */
-  @State() focused = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  // #region Events
 
   /**
    * Emits a custom change event.
@@ -137,31 +126,79 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
    *
    * For radios it only emits when checked.
    */
-  @Event({ cancelable: false }) calciteTileSelectChange: EventEmitter<void>;
+  calciteTileSelectChange = createEvent({ cancelable: false });
 
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
+  // #region Lifecycle
 
-    return this.input?.setFocus();
+  constructor() {
+    super();
+    this.listen("calciteCheckboxChange", this.checkboxChangeHandler);
+    this.listen("calciteInternalCheckboxFocus", this.checkboxFocusBlurHandler);
+    this.listen("calciteInternalCheckboxBlur", this.checkboxFocusBlurHandler);
+    this.listen("calciteRadioButtonChange", this.radioButtonChangeHandler);
+    this.listen("calciteInternalRadioButtonCheckedChange", this.radioButtonCheckedChangeHandler);
+    this.listen("calciteInternalRadioButtonFocus", this.radioButtonFocusBlurHandler);
+    this.listen("calciteInternalRadioButtonBlur", this.radioButtonFocusBlurHandler);
+    this.listen("click", this.clickHandler);
+    this.listen("pointerenter", this.pointerEnterHandler);
+    this.listen("pointerleave", this.pointerLeaveHandler);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  override connectedCallback(): void {
+    this.renderInput();
+  }
 
-  @Listen("calciteCheckboxChange")
-  checkboxChangeHandler(event: CustomEvent): void {
-    const checkbox = event.target as HTMLCalciteCheckboxElement;
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("checked") && (this.hasUpdated || this.checked !== false)) {
+      this.checkedChanged(this.checked);
+    }
+
+    if (changes.has("name")) {
+      this.nameChanged(this.name);
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    this.input.parentNode.removeChild(this.input);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private checkedChanged(newChecked: boolean): void {
+    this.input.checked = newChecked;
+  }
+
+  private nameChanged(newName: string): void {
+    this.input.name = newName;
+  }
+
+  private checkboxChangeHandler(event: CustomEvent): void {
+    const checkbox = event.target as Checkbox["el"];
     if (checkbox === this.input) {
       this.checked = checkbox.checked;
     }
@@ -169,19 +206,16 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     this.calciteTileSelectChange.emit();
   }
 
-  @Listen("calciteInternalCheckboxFocus")
-  @Listen("calciteInternalCheckboxBlur")
-  checkboxFocusBlurHandler(event: CustomEvent): void {
-    const checkbox = event.target as HTMLCalciteCheckboxElement;
+  private checkboxFocusBlurHandler(event: CustomEvent): void {
+    const checkbox = event.target as Checkbox["el"];
     if (checkbox === this.input) {
       this.focused = event.detail;
     }
     event.stopPropagation();
   }
 
-  @Listen("calciteRadioButtonChange")
-  radioButtonChangeHandler(event: CustomEvent): void {
-    const radioButton = event.target as HTMLCalciteRadioButtonElement;
+  private radioButtonChangeHandler(event: CustomEvent): void {
+    const radioButton = event.target as RadioButton["el"];
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
     }
@@ -189,27 +223,23 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     this.calciteTileSelectChange.emit();
   }
 
-  @Listen("calciteInternalRadioButtonCheckedChange")
-  radioButtonCheckedChangeHandler(event: CustomEvent): void {
-    const radioButton = event.target as HTMLCalciteRadioButtonElement;
+  private radioButtonCheckedChangeHandler(event: CustomEvent): void {
+    const radioButton = event.target as RadioButton["el"];
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
     }
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalRadioButtonFocus")
-  @Listen("calciteInternalRadioButtonBlur")
-  radioButtonFocusBlurHandler(event: CustomEvent): void {
-    const radioButton = event.target as HTMLCalciteRadioButtonElement;
+  private radioButtonFocusBlurHandler(event: CustomEvent): void {
+    const radioButton = event.target as RadioButton["el"];
     if (radioButton === this.input) {
       this.focused = radioButton.focused;
     }
     event.stopPropagation();
   }
 
-  @Listen("click")
-  clickHandler(event: MouseEvent): void {
+  private clickHandler(event: MouseEvent): void {
     if (this.disabled) {
       return;
     }
@@ -221,8 +251,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     }
   }
 
-  @Listen("pointerenter")
-  pointerEnterHandler(): void {
+  private pointerEnterHandler(): void {
     if (this.disabled) {
       return;
     }
@@ -234,8 +263,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     }
   }
 
-  @Listen("pointerleave")
-  pointerLeaveHandler(): void {
+  private pointerLeaveHandler(): void {
     if (this.disabled) {
       return;
     }
@@ -247,37 +275,9 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  connectedCallback(): void {
-    this.renderInput();
-  }
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    this.input.parentNode.removeChild(this.input);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region Rendering
 
   private renderInput(): void {
     this.input =
@@ -302,7 +302,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     this.el.insertAdjacentElement("beforeend", this.input);
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const {
       checked,
       description,
@@ -357,4 +357,6 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

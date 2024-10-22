@@ -4,6 +4,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+
 const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
 interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "resizable"> {

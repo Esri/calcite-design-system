@@ -226,7 +226,7 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     set to `hex` by default.
   - Removed ,`intlNoColor` property.
 
-  *note: color-picker-hex-input is `internal` component.*
+  _note: color-picker-hex-input is `internal` component._
 
 - **color-picker:**
 

@@ -1,4 +1,4 @@
-(async function(): Promise<void> {
+(async function (): Promise<void> {
   try {
     const childProcess = await import("child_process");
     const { promisify } = await import("util");

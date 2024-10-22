@@ -6,7 +6,7 @@
 
 | Property             | Attribute  | Description                             | Type      | Default     |
 | -------------------- | ---------- | --------------------------------------- | --------- | ----------- |
-| `label` *(required)* | `label`    | Accessible name for the component.      | `string`  | `undefined` |
+| `label` _(required)_ | `label`    | Accessible name for the component.      | `string`  | `undefined` |
 | `selected`           | `selected` | When `true`, the component is selected. | `boolean` | `false`     |
 
 ## Slots
@@ -17,4 +17,4 @@
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

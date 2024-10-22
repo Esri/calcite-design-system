@@ -1,4 +1,6 @@
-import { Component, Element, h, Host, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale } from "../interfaces";
 import {
   componentFocusable,
@@ -7,185 +9,155 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
-import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
+import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
-import { TableCellMessages } from "./assets/table-cell/t9n";
+import T9nStrings from "./assets/t9n/table-cell.t9n.en.json";
+import { styles } from "./table-cell.scss";
 
-/**
- * @slot - A slot for adding content, usually text content.
- */
-@Component({
-  tag: "calcite-table-cell",
-  styleUrl: "table-cell.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class TableCell
-  implements InteractiveComponent, LocalizedComponent, LoadableComponent, T9nComponent
-{
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-table-cell": TableCell;
+  }
+}
+
+/** @slot - A slot for adding content, usually text content. */
+export class TableCell extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private containerEl = createRef<HTMLTableCellElement>();
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() contentsText = "";
+
+  @state() focused = false;
+
+  @state() selectionText = "";
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Specifies the alignment of the component. */
-  @Prop({ reflect: true }) alignment: Alignment = "start";
+  @property({ reflect: true }) alignment: Alignment = "start";
 
   /** Specifies the number of columns the component should span. */
-  @Prop({ reflect: true }) colSpan: number;
+  @property({ reflect: true }) colSpan: number;
 
-  /** Specifies the number of rows the component should span. */
-  @Prop({ reflect: true }) rowSpan: number;
+  /** @notPublic */
+  @property() disabled: boolean;
 
-  /** @internal */
-  @Prop() disabled: boolean;
+  /** @notPublic */
+  @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @internal */
-  @Prop() interactionMode: TableInteractionMode = "interactive";
+  /** @notPublic */
+  @property() lastCell: boolean;
 
-  /** @internal */
-  @Prop() lastCell: boolean;
-
-  /** @internal */
-  @Prop() numberCell: boolean;
-
-  /** @internal */
-  @Prop() parentRowIsSelected: boolean;
-
-  @Watch("parentRowIsSelected")
-  onSelectedChange(): void {
-    this.updateScreenReaderSelectionText();
-  }
-
-  /** @internal */
-  @Prop() parentRowAlignment: Alignment = "start";
-
-  /** @internal */
-  @Prop() parentRowPositionLocalized: string;
-
-  /** @internal */
-  @Prop() parentRowType: RowType;
-
-  /** @internal */
-  @Prop() positionInRow: number;
-
-  /** @internal */
-  @Prop() readCellContentsToAT: boolean;
-
-  /** @internal */
-  @Prop() scale: Scale = "m";
-
-  /** @internal */
-  @Prop() selectionCell: boolean;
+  /** Use this property to override individual strings used by the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @notPublic
    */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TableCellMessages;
+  @property() messages = useT9n<typeof T9nStrings>();
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TableCellMessages>;
+  /** @notPublic */
+  @property() numberCell: boolean;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** @notPublic */
+  @property() parentRowAlignment: Alignment = "start";
+
+  /** @notPublic */
+  @property() parentRowIsSelected: boolean;
+
+  /** @notPublic */
+  @property() parentRowPositionLocalized: string;
+
+  /** @notPublic */
+  @property() parentRowType: RowType;
+
+  /** @notPublic */
+  @property() positionInRow: number;
+
+  /** @notPublic */
+  @property() readCellContentsToAT: boolean;
+
+  /** Specifies the number of rows the component should span. */
+  @property({ reflect: true }) rowSpan: number;
+
+  /** @notPublic */
+  @property() scale: Scale = "m";
+
+  /** @notPublic */
+  @property() selectionCell: boolean;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.containerEl.value.focus();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteTableCellElement;
+  // #region Lifecycle
 
-  @State() contentsText = "";
-
-  @State() defaultMessages: TableCellMessages;
-
-  @State() focused = false;
-
-  @State() selectionText = "";
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  private containerEl: HTMLTableCellElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  async componentWillLoad(): Promise<void> {
+  async load(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
     this.updateScreenReaderContentsText();
     this.updateScreenReaderSelectionText();
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("parentRowIsSelected")) {
+      this.onSelectedChange();
+    }
   }
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-  }
-
-  componentDidRender(): void {
+  override updated(): void {
     updateHostInteraction(this);
   }
 
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
+  loaded(): void {
+    setComponentLoaded(this);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.containerEl.focus();
+  // #region Private Methods
+
+  private onSelectedChange(): void {
+    this.updateScreenReaderSelectionText();
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   private updateScreenReaderSelectionText(): void {
     const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
@@ -193,25 +165,23 @@ export class TableCell
     this.selectionText = this.parentRowIsSelected ? selectedText : unselectedText;
   }
 
-  private updateScreenReaderContentsText = (): void => {
+  private updateScreenReaderContentsText(): void {
     this.contentsText = this.el.textContent;
-  };
+  }
 
-  private onContainerBlur = (): void => {
+  private onContainerBlur(): void {
     this.focused = false;
-  };
+  }
 
-  private onContainerFocus = (): void => {
+  private onContainerFocus(): void {
     this.focused = true;
-  };
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const dir = getElementDir(this.el);
     const staticCell =
       this.disabled ||
@@ -219,39 +189,39 @@ export class TableCell
         (!this.selectionCell || (this.selectionCell && this.parentRowType === "foot")));
 
     return (
-      <Host>
-        <InteractiveContainer disabled={this.disabled}>
-          <td
-            class={{
-              [CSS.footerCell]: this.parentRowType === "foot",
-              [CSS.contentCell]: !this.numberCell && !this.selectionCell,
-              [CSS.numberCell]: this.numberCell,
-              [CSS.selectionCell]: this.selectionCell,
-              [CSS.selectedCell]: this.parentRowIsSelected,
-              [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
-              [CSS_UTILITY.rtl]: dir === "rtl",
-              [CSS.staticCell]: staticCell,
-              [this.parentRowAlignment]:
-                this.parentRowAlignment === "start" || this.parentRowAlignment === "end",
-            }}
-            colSpan={this.colSpan}
-            onBlur={this.onContainerBlur}
-            onFocus={this.onContainerFocus}
-            ref={(el) => (this.containerEl = el)}
-            role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
-            rowSpan={this.rowSpan}
-            tabIndex={staticCell ? -1 : 0}
-          >
-            {(this.selectionCell || this.readCellContentsToAT) && (
-              <span aria-live={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
-                {this.selectionCell && this.selectionText}
-                {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
-              </span>
-            )}
-            <slot onSlotchange={this.updateScreenReaderContentsText} />
-          </td>
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={this.disabled}>
+        <td
+          class={{
+            [CSS.footerCell]: this.parentRowType === "foot",
+            [CSS.contentCell]: !this.numberCell && !this.selectionCell,
+            [CSS.numberCell]: this.numberCell,
+            [CSS.selectionCell]: this.selectionCell,
+            [CSS.selectedCell]: this.parentRowIsSelected,
+            [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.staticCell]: staticCell,
+            [this.parentRowAlignment]:
+              this.parentRowAlignment === "start" || this.parentRowAlignment === "end",
+          }}
+          colSpan={this.colSpan}
+          onBlur={this.onContainerBlur}
+          onFocus={this.onContainerFocus}
+          ref={this.containerEl}
+          role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
+          rowSpan={this.rowSpan}
+          tabIndex={staticCell ? -1 : 0}
+        >
+          {(this.selectionCell || this.readCellContentsToAT) && (
+            <span ariaLive={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
+              {this.selectionCell && this.selectionText}
+              {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
+            </span>
+          )}
+          <slot onSlotChange={this.updateScreenReaderContentsText} />
+        </td>
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

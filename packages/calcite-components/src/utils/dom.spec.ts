@@ -1,3 +1,4 @@
+import { describe, expect, it, beforeEach, vi, Mock } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
 import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
@@ -665,14 +666,14 @@ describe("dom", () => {
 
     let element: HTMLDivElement;
     let dispatchTransitionEvent: TransitionEventDispatcher;
-    let onStartCallback: jest.Mock;
-    let onEndCallback: jest.Mock;
+    let onStartCallback: Mock;
+    let onEndCallback: Mock;
 
     beforeEach(() => {
       dispatchTransitionEvent = createTransitionEventDispatcher();
       element = window.document.createElement("div");
-      onStartCallback = jest.fn();
-      onEndCallback = jest.fn();
+      onStartCallback = vi.fn();
+      onEndCallback = vi.fn();
     });
 
     it("should return a promise that resolves after the transition", async () => {
@@ -766,14 +767,14 @@ describe("dom", () => {
 
     let element: HTMLDivElement;
     let dispatchAnimationEvent: AnimationEventDispatcher;
-    let onStartCallback: jest.Mock;
-    let onEndCallback: jest.Mock;
+    let onStartCallback: Mock;
+    let onEndCallback: Mock;
 
     beforeEach(() => {
       dispatchAnimationEvent = createAnimationEventDispatcher();
       element = window.document.createElement("div");
-      onStartCallback = jest.fn();
-      onEndCallback = jest.fn();
+      onStartCallback = vi.fn();
+      onEndCallback = vi.fn();
     });
 
     it("should return a promise that resolves after the animation", async () => {

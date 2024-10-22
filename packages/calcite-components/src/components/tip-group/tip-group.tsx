@@ -1,5 +1,12 @@
-import { Component, h, Prop, VNode } from "@stencil/core";
+import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { logger } from "../../utils/logger";
+import { styles } from "./tip-group.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-tip-group": TipGroup;
+  }
+}
 
 logger.deprecated("component", {
   name: "tip-group",
@@ -11,25 +18,25 @@ logger.deprecated("component", {
  * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
  * @slot - A slot for adding `calcite-tip`s.
  */
-@Component({
-  tag: "calcite-tip-group",
-  styleUrl: "tip-group.scss",
-  shadow: true,
-})
-export class TipGroup {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class TipGroup extends LitElement {
+  // #region Static Members
 
-  /**
-   * The component header text for all nested `calcite-tip`s.
-   *
-   */
-  @Prop() groupTitle: string;
+  static override styles = styles;
 
-  render(): VNode {
+  // #endregion
+
+  // #region Public Properties
+
+  /** The component header text for all nested `calcite-tip`s. */
+  @property() groupTitle: string;
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     return <slot />;
   }
+
+  // #endregion
 }

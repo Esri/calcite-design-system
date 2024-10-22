@@ -10,7 +10,7 @@ For comprehensive guidance on using and implementing `calcite-radio-button-group
 | ------------------- | -------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------- |
 | `disabled`          | `disabled`           | When `true`, interaction is prevented and the component is displayed with lower opacity.             | `boolean`                              | `false`        |
 | `layout`            | `layout`             | Defines the layout of the component.                                                                 | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `name` *(required)* | `name`               | Specifies the name of the component on form submission. Must be unique to other component instances. | `string`                               | `undefined`    |
+| `name` _(required)_ | `name`               | Specifies the name of the component on form submission. Must be unique to other component instances. | `string`                               | `undefined`    |
 | `required`          | `required`           | When `true`, the component must have a value in order for the form to submit.                        | `boolean`                              | `false`        |
 | `scale`             | `scale`              | Specifies the size of the component.                                                                 | `"l" \| "m" \| "s"`                    | `"m"`          |
 | `selectedItem`      | --                   | Specifies the component's selected item.                                                             | `HTMLCalciteRadioButtonElement`        | `null`         |
@@ -57,4 +57,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

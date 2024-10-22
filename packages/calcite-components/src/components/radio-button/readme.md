@@ -15,7 +15,7 @@ For comprehensive guidance on using and implementing `calcite-radio-button`, ref
 | `name`               | `name`     | Specifies the name of the component. Can be inherited from `calcite-radio-button-group`. Required to pass the component's `value` on form submission.        | `string`            | `undefined` |
 | `required`           | `required` | When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.                                 | `boolean`           | `false`     |
 | `scale`              | `scale`    | Specifies the size of the component inherited from the `calcite-radio-button-group`.                                                                         | `"l" \| "m" \| "s"` | `"m"`       |
-| `value` *(required)* | `value`    | The component's value.                                                                                                                                       | `any`               | `undefined` |
+| `value` _(required)_ | `value`    | The component's value.                                                                                                                                       | `any`               | `undefined` |
 
 ## Events
 
@@ -49,4 +49,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -19,7 +19,7 @@ For comprehensive guidance on using and implementing `calcite-chip`, refer to th
 | `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                                                   | `ChipMessages`                           | `undefined` |
 | `scale`              | `scale`             | Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. | `"l" \| "m" \| "s"`                      | `"m"`       |
 | `selected`           | `selected`          | When `true`, the component is selected.                                                                                   | `boolean`                                | `false`     |
-| `value` *(required)* | `value`             | The component's value.                                                                                                    | `any`                                    | `undefined` |
+| `value` _(required)_ | `value`             | The component's value.                                                                                                    | `any`                                    | `undefined` |
 
 ## Events
 
@@ -85,4 +85,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

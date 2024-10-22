@@ -20,4 +20,4 @@ For comprehensive guidance on using and implementing `calcite-tip-group`, refer 
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

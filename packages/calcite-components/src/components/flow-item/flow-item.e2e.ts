@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -16,6 +17,7 @@ import { GlobalTestProps } from "../../tests/utils";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import { CSS, SLOTS } from "./resources";
+import type { FlowItem } from "./flow-item";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -234,7 +236,7 @@ describe("calcite-flow-item", () => {
 
     await page.$eval(
       "calcite-flow-item",
-      (el: HTMLCalciteFlowItemElement) => (el.beforeClose = (window as TestWindow).beforeClose),
+      (el: FlowItem["el"]) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
 
     await page.waitForChanges();
@@ -299,7 +301,7 @@ describe("calcite-flow-item", () => {
 
     expect(await top.isIntersectingViewport()).toBe(false);
 
-    await page.$eval("calcite-flow-item", (panel: HTMLCalciteFlowItemElement) =>
+    await page.$eval("calcite-flow-item", (panel: FlowItem["el"]) =>
       panel.scrollContentTo({
         top: 0,
         behavior: "auto",

@@ -1,21 +1,12 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -27,18 +18,18 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { ICON_TYPES } from "../pick-list/resources";
 import { logger } from "../../utils/logger";
-import { PickListItemMessages } from "./assets/pick-list-item/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import T9nStrings from "./assets/t9n/pick-list-item.t9n.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { styles } from "./pick-list-item.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-pick-list-item": PickListItem;
+  }
+}
 
 logger.deprecated("component", {
   name: "pick-list-item",
@@ -51,108 +42,215 @@ logger.deprecated("component", {
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
-@Component({
-  tag: "calcite-pick-list-item",
-  styleUrl: "pick-list-item.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
 export class PickListItem
-  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent, T9nComponent
+  extends LitElement
+  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
 {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+  // #region Static Members
 
-  /**
-   * A description for the component that displays below the label text.
-   */
-  @Prop({ reflect: true }) description: string;
+  static override styles = styles;
 
-  @Watch("description")
-  descriptionWatchHandler(): void {
-    this.calciteInternalListItemPropsChange.emit();
-  }
+  // #endregion
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  // #region Private Properties
 
-  /**
-   * When `false`, the component cannot be deselected by user interaction.
-   */
-  @Prop({ reflect: true }) deselectDisabled = false;
+  private focusEl = createRef<HTMLLabelElement>();
 
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true }) nonInteractive = false;
+  private shiftPressed: boolean;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** A description for the component that displays below the label text. */
+  @property({ reflect: true }) description: string;
+
+  /** When `false`, the component cannot be deselected by user interaction. */
+  @property({ reflect: true }) deselectDisabled = false;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /**
    * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
    *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
    */
-  @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
+  @property({ reflect: true }) icon: ICON_TYPES | null = null;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /**
    * Label and accessible name for the component. Appears next to the icon.
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
+   *
+   * @required
    */
-  @Prop({ reflect: true }) label!: string;
+  @property({ reflect: true }) label: string;
 
-  @Watch("label")
-  labelWatchHandler(): void {
-    this.calciteInternalListItemPropsChange.emit();
-  }
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
+  /** Use this property to override individual strings used by the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<PickListItemMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @notPublic
    */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: PickListItemMessages;
+  @property() messages = useT9n<typeof T9nStrings>();
 
-  @Watch("defaultMessages")
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** Provides additional metadata to the component. Primary use is for a filter on the parent list. */
+  @property() metadata: Record<string, unknown>;
+
+  /** @notPublic */
+  @property({ reflect: true }) nonInteractive = false;
+
+  /** When `true`, displays a remove action that removes the item from the list. */
+  @property({ reflect: true }) removable = false;
+
+  /** When `true`, selects an item. Toggles when an item is checked/unchecked. */
+  @property({ reflect: true }) selected = false;
+
+  /**
+   * The component's value.
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
+   *
+   * @required
+   */
+  @property() value: any;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    this.focusEl.value?.focus();
   }
 
   /**
-   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
+   * Toggles the selection state. By default this won't trigger an event.
+   * The first argument allows the value to be coerced, rather than swapping values.
+   *
+   * @param coerce
    */
-  @Prop() metadata: Record<string, unknown>;
+  @method()
+  async toggleSelected(coerce?: boolean): Promise<void> {
+    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
+  }
 
-  @Watch("metadata")
-  metadataWatchHandler(): void {
+  // #endregion
+
+  // #region Events
+
+  /**
+   * Emits when the component's label, description, value, or metadata properties are modified.
+   *
+   * @notPublic
+   */
+  calciteInternalListItemPropsChange = createEvent({ cancelable: false });
+
+  /**
+   * Emits when the component's value property is modified.
+   *
+   * @notPublic
+   */
+  calciteInternalListItemValueChange = createEvent<{
+    oldValue: any;
+    newValue: any;
+  }>({ cancelable: false });
+
+  /** Fires when the component is selected or unselected. */
+  calciteListItemChange = createEvent<{
+    item: PickListItem["el"];
+    value: any;
+    selected: boolean;
+    shiftPressed: boolean;
+  }>({ cancelable: false });
+
+  /** Fires when the remove button is pressed. */
+  calciteListItemRemove = createEvent();
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("description")) {
+      this.descriptionWatchHandler();
+    }
+
+    if (changes.has("label")) {
+      this.labelWatchHandler();
+    }
+
+    if (changes.has("metadata")) {
+      this.metadataWatchHandler();
+    }
+
+    if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
+      this.selectedWatchHandler();
+    }
+
+    if (changes.has("value")) {
+      this.valueWatchHandler(this.value, changes.get("value"));
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private descriptionWatchHandler(): void {
     this.calciteInternalListItemPropsChange.emit();
   }
 
-  /**
-   * When `true`, displays a remove action that removes the item from the list.
-   */
-  @Prop({ reflect: true }) removable = false;
+  private labelWatchHandler(): void {
+    this.calciteInternalListItemPropsChange.emit();
+  }
 
-  /**
-   * When `true`, selects an item. Toggles when an item is checked/unchecked.
-   */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  private metadataWatchHandler(): void {
+    this.calciteInternalListItemPropsChange.emit();
+  }
 
-  @Watch("selected")
-  selectedWatchHandler(): void {
+  private selectedWatchHandler(): void {
     this.calciteListItemChange.emit({
       item: this.el,
       value: this.value,
@@ -163,147 +261,20 @@ export class PickListItem
     this.shiftPressed = false;
   }
 
-  /**
-   * The component's value.
-   */
-  @Prop() value!: any;
-
-  @Watch("value")
-  valueWatchHandler(newValue: any, oldValue: any): void {
+  private valueWatchHandler(newValue: any, oldValue?: any): void {
     this.calciteInternalListItemValueChange.emit({ oldValue, newValue });
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalcitePickListItemElement;
-
-  private focusEl: HTMLLabelElement;
-
-  shiftPressed: boolean;
-
-  @State() defaultMessages: PickListItemMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-    connectConditionalSlotComponent(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    disconnectConditionalSlotComponent(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the component is selected or unselected.
-   */
-  @Event({ cancelable: false }) calciteListItemChange: EventEmitter<{
-    item: HTMLCalcitePickListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  }>;
-
-  /**
-   * Fires when the remove button is pressed.
-   */
-  @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>;
-
-  /**
-   * Emits when the component's label, description, value, or metadata properties are modified.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalListItemPropsChange: EventEmitter<void>;
-
-  /**
-   * Emits when the component's value property is modified.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalListItemValueChange: EventEmitter<{
-    oldValue: any;
-    newValue: any;
-  }>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Toggles the selection state. By default this won't trigger an event.
-   * The first argument allows the value to be coerced, rather than swapping values.
-   *
-   * @param coerce
-   */
-  @Method()
-  async toggleSelected(coerce?: boolean): Promise<void> {
-    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
-  }
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.focusEl?.focus();
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  pickListClickHandler = (event: MouseEvent): void => {
+  private pickListClickHandler(event: MouseEvent): void {
     if (this.disabled || (this.deselectDisabled && this.selected) || this.nonInteractive) {
       return;
     }
 
     this.shiftPressed = event.shiftKey;
     this.selected = !this.selected;
-  };
+  }
 
-  pickListKeyDownHandler = (event: KeyboardEvent): void => {
+  private pickListKeyDownHandler(event: KeyboardEvent): void {
     if (event.key === " ") {
       event.preventDefault();
       if ((this.deselectDisabled && this.selected) || this.nonInteractive) {
@@ -311,19 +282,17 @@ export class PickListItem
       }
       this.selected = !this.selected;
     }
-  };
+  }
 
-  removeClickHandler = (): void => {
+  private removeClickHandler(): void {
     this.calciteListItemRemove.emit();
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderIcon(): VNode {
+  // #region Rendering
+
+  private renderIcon(): JsxNode {
     const { icon, iconFlipRtl } = this;
 
     if (!icon) {
@@ -345,7 +314,7 @@ export class PickListItem
     );
   }
 
-  renderRemoveAction(): VNode {
+  private renderRemoveAction(): JsxNode {
     return this.removable ? (
       <calcite-action
         class={CSS.remove}
@@ -357,7 +326,7 @@ export class PickListItem
     ) : null;
   }
 
-  renderActionsStart(): VNode {
+  private renderActionsStart(): JsxNode {
     const { el } = this;
     const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
 
@@ -368,7 +337,7 @@ export class PickListItem
     ) : null;
   }
 
-  renderActionsEnd(): VNode {
+  private renderActionsEnd(): JsxNode {
     const { el, removable } = this;
     const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
 
@@ -380,7 +349,7 @@ export class PickListItem
     ) : null;
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const { description, label } = this;
 
     return (
@@ -388,18 +357,14 @@ export class PickListItem
         {this.renderIcon()}
         {this.renderActionsStart()}
         <label
-          aria-label={label}
+          ariaLabel={label}
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
+          ref={this.focusEl}
           tabIndex={0}
         >
-          <div
-            aria-checked={toAriaBoolean(this.selected)}
-            class={CSS.textContainer}
-            role="menuitemcheckbox"
-          >
+          <div ariaChecked={this.selected} class={CSS.textContainer} role="menuitemcheckbox">
             <span class={CSS.title}>{label}</span>
             {description ? <span class={CSS.description}>{description}</span> : null}
           </div>
@@ -408,4 +373,6 @@ export class PickListItem
       </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

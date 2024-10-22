@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Rating } from "./rating";
+
 const { scale } = ATTRIBUTES;
 
 type RatingStoryArgs = Pick<Rating, "scale" | "value" | "showChip" | "average" | "count" | "readOnly" | "disabled">;

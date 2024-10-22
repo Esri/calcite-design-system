@@ -1,73 +1,176 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  forceUpdate,
-  h,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import {
   getElementDir,
   isPrimaryPointerButton,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { Layout, Position, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { ShellPanelMessages } from "./assets/shell-panel/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { ActionBar } from "../action-bar/action-bar";
+import T9nStrings from "./assets/t9n/shell-panel.t9n.en.json";
 import { CSS, SLOTS } from "./resources";
 import { DisplayMode } from "./interfaces";
+import { styles } from "./shell-panel.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-shell-panel": ShellPanel;
+  }
+}
 
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  */
-@Component({
-  tag: "calcite-shell-panel",
-  styleUrl: "shell-panel.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class ShellPanel implements LocalizedComponent, T9nComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class ShellPanel extends LitElement {
+  // #region Static Members
 
-  /**
-   * When `true`, hides the component's content area.
-   */
-  @Prop({ reflect: true }) collapsed = false;
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private actionBars: ActionBar["el"][] = [];
+
+  private contentEl: HTMLDivElement;
+
+  private contentHeightMax: number = null;
+
+  private contentHeightMin: number = null;
+
+  private contentWidthMax: number = null;
+
+  private contentWidthMin: number = null;
+
+  private initialClientX: number = null;
+
+  private initialClientY: number = null;
+
+  private initialContentHeight: number = null;
+
+  private initialContentWidth: number = null;
+
+  private separatorEl: HTMLDivElement;
+
+  private separatorPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.calciteInternalShellPanelResizeStart.emit();
+
+    event.preventDefault();
+    const { separatorEl } = this;
+
+    separatorEl && document.activeElement !== separatorEl && separatorEl.focus();
+
+    if (this.layout === "horizontal") {
+      this.setInitialContentHeight();
+      this.initialClientY = event.clientY;
+    } else {
+      this.setInitialContentWidth();
+      this.initialClientX = event.clientX;
+    }
+
+    window.addEventListener(
+      "pointerup",
+      this.separatorPointerUp,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    window.addEventListener(
+      "pointermove",
+      this.separatorPointerMove,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  };
+
+  private separatorPointerMove = (event: PointerEvent): void => {
+    event.preventDefault();
+
+    const {
+      el,
+      layout,
+      initialContentWidth,
+      initialContentHeight,
+      position,
+      initialClientX,
+      initialClientY,
+    } = this;
+
+    const offset =
+      layout === "horizontal" ? event.clientY - initialClientY : event.clientX - initialClientX;
+
+    const adjustmentDirection = layout === "vertical" && getElementDir(el) === "rtl" ? -1 : 1;
+
+    const adjustedOffset =
+      layout === "horizontal"
+        ? position === "end"
+          ? -adjustmentDirection * offset
+          : adjustmentDirection * offset
+        : position === "end"
+          ? -adjustmentDirection * offset
+          : adjustmentDirection * offset;
+
+    layout === "horizontal"
+      ? this.setContentHeight(initialContentHeight + adjustedOffset)
+      : this.setContentWidth(initialContentWidth + adjustedOffset);
+  };
+
+  private separatorPointerUp = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.calciteInternalShellPanelResizeEnd.emit();
+
+    event.preventDefault();
+    window.removeEventListener(
+      "pointerup",
+      this.separatorPointerUp,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    window.removeEventListener(
+      "pointermove",
+      this.separatorPointerMove,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  };
+
+  private step = 1;
+
+  private stepMultiplier = 10;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() contentHeight: number = null;
+
+  @state() contentWidth: number = null;
+
+  @state() hasHeader = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, hides the component's content area. */
+  @property({ reflect: true }) collapsed = false;
 
   /**
    * When `true`, the content area displays like a floating panel.
    *
    * @deprecated Use `displayMode` instead.
    */
-  @Prop({ reflect: true }) detached = false;
+  @property({ reflect: true }) detached = false;
 
-  @Watch("detached")
-  handleDetached(value: boolean): void {
-    if (value) {
-      this.displayMode = "float-content";
-    } else if (this.displayMode === "float-content" || this.displayMode === "float") {
-      this.displayMode = "dock";
-    }
-  }
+  /**
+   * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
+   *
+   * @deprecated Use `heightScale` instead.
+   */
+  @property({ reflect: true }) detachedHeightScale: Scale;
 
   /**
    * Specifies the display mode of the component, where:
@@ -82,294 +185,118 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
    *
    * `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
    */
-  @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
+  @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
-  @Watch("displayMode")
-  handleDisplayMode(value: DisplayMode): void {
-    this.detached = value === "float-content" || value === "float";
-  }
+  /** When `layout` is `horizontal`, specifies the maximum height of the component. */
+  @property({ reflect: true }) heightScale: Scale;
 
-  /**
-   * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
-   *
-   * @deprecated Use `heightScale` instead.
-   */
-  @Prop({ reflect: true }) detachedHeightScale: Scale;
+  /** The direction of the component. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
-  @Watch("detachedHeightScale")
-  handleDetachedHeightScale(value: Scale): void {
-    this.heightScale = value;
-  }
-
-  /**
-   * When `layout` is `horizontal`, specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale: Scale;
-
-  @Watch("heightScale")
-  handleHeightScale(value: Scale): void {
-    this.detachedHeightScale = value;
-  }
-
-  /**
-   * When `layout` is `vertical`, specifies the width of the component.
-   */
-
-  @Prop({ reflect: true }) widthScale: Scale = "m";
-
-  /**
-   *  The direction of the component.
-   */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
-
-  @Watch("layout")
-  layoutHandler(): void {
-    this.setActionBarsLayout(this.actionBars);
-  }
-
-  /**
-   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
-   */
-  @Prop({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
-
-  /**
-   * When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable.
-   */
-  @Prop({ reflect: true }) resizable = false;
+  /** Use this property to override individual strings used by the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @notPublic
    */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ShellPanelMessages;
+  @property() messages = useT9n<typeof T9nStrings>();
+
+  /** Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
+
+  /** When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable. */
+  @property({ reflect: true }) resizable = false;
+
+  /** When `layout` is `vertical`, specifies the width of the component. */
+  @property({ reflect: true }) widthScale: Scale = "m";
+
+  // #endregion
+
+  // #region Events
+
+  /** @notPublic */
+  calciteInternalShellPanelResizeEnd = createEvent({ cancelable: false });
+
+  /** @notPublic */
+  calciteInternalShellPanelResizeStart = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
 
   /**
-   * Use this property to override individual strings used by the component.
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ShellPanelMessages>;
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("detached") && (this.hasUpdated || this.detached !== false)) {
+      this.handleDetached(this.detached);
+    }
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+    if (changes.has("displayMode") && (this.hasUpdated || this.displayMode !== "dock")) {
+      this.handleDisplayMode(this.displayMode);
+    }
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-  }
+    if (changes.has("detachedHeightScale")) {
+      this.handleDetachedHeightScale(this.detachedHeightScale);
+    }
 
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-  }
+    if (changes.has("heightScale")) {
+      this.handleHeightScale(this.heightScale);
+    }
 
-  disconnectedCallback(): void {
-    this.disconnectSeparator();
-    disconnectLocalized(this);
-    disconnectMessages(this);
+    if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
+      this.layoutHandler();
+    }
   }
 
-  componentDidLoad(): void {
+  loaded(): void {
     this.updateAriaValues();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteShellPanelElement;
-
-  @State() contentWidth: number = null;
-
-  @State() contentHeight: number = null;
-
-  initialContentWidth: number = null;
-
-  initialContentHeight: number = null;
-
-  initialClientX: number = null;
-
-  initialClientY: number = null;
-
-  contentEl: HTMLDivElement;
-
-  separatorEl: HTMLDivElement;
-
-  contentWidthMax: number = null;
-
-  contentWidthMin: number = null;
-
-  contentHeightMax: number = null;
-
-  contentHeightMin: number = null;
-
-  step = 1;
-
-  stepMultiplier = 10;
-
-  actionBars: HTMLCalciteActionBarElement[] = [];
-
-  @State() defaultMessages: ShellPanelMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
+  override disconnectedCallback(): void {
+    this.disconnectSeparator();
   }
 
-  @State() hasHeader = false;
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  // #region Private Methods
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalShellPanelResizeStart: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalShellPanelResizeEnd: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-  renderHeader(): VNode {
-    return (
-      <div class={CSS.contentHeader} hidden={!this.hasHeader} key="header">
-        <slot name={SLOTS.header} onSlotchange={this.handleHeaderSlotChange} />
-      </div>
-    );
-  }
-
-  render(): VNode {
-    const {
-      collapsed,
-      position,
-      initialContentWidth,
-      initialContentHeight,
-      contentWidth,
-      contentWidthMax,
-      contentWidthMin,
-      contentHeight,
-      contentHeightMax,
-      contentHeightMin,
-      resizable,
-      layout,
-      displayMode,
-    } = this;
-
-    const dir = getElementDir(this.el);
-
-    const allowResizing = displayMode !== "float-content" && displayMode !== "float" && resizable;
-
-    const style = allowResizing
-      ? layout === "horizontal"
-        ? contentHeight
-          ? { height: `${contentHeight}px` }
-          : null
-        : contentWidth
-          ? { width: `${contentWidth}px` }
-          : null
-      : null;
-
-    const separatorNode =
-      !collapsed && allowResizing ? (
-        <div
-          aria-label={this.messages.resize}
-          aria-orientation={layout === "horizontal" ? "vertical" : "horizontal"}
-          aria-valuemax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
-          aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
-          aria-valuenow={
-            layout == "horizontal"
-              ? (contentHeight ?? initialContentHeight)
-              : (contentWidth ?? initialContentWidth)
-          }
-          class={CSS.separator}
-          key="separator"
-          onKeyDown={this.separatorKeyDown}
-          ref={this.connectSeparator}
-          role="separator"
-          tabIndex={0}
-          touch-action="none"
-        />
-      ) : null;
-
-    const getAnimationDir = (): string => {
-      if (layout === "horizontal") {
-        return position === "start"
-          ? CSS_UTILITY.calciteAnimateInDown
-          : CSS_UTILITY.calciteAnimateInUp;
-      } else {
-        const isStart =
-          (dir === "ltr" && position === "end") || (dir === "rtl" && position === "start");
-        return isStart ? CSS_UTILITY.calciteAnimateInLeft : CSS_UTILITY.calciteAnimateInRight;
-      }
-    };
-
-    const contentNode = (
-      <div
-        class={{
-          [CSS_UTILITY.rtl]: dir === "rtl",
-          [CSS.content]: true,
-          [CSS.contentOverlay]: displayMode === "overlay",
-          [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
-          [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
-          [getAnimationDir()]: displayMode === "overlay",
-        }}
-        hidden={collapsed}
-        key="content"
-        ref={this.storeContentEl}
-        style={style}
-      >
-        {this.renderHeader()}
-        <div class={CSS.contentBody}>
-          <slot />
-        </div>
-        {separatorNode}
-      </div>
-    );
-
-    const actionBarNode = (
-      <slot key="action-bar" name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
-    );
-
-    const mainNodes = [actionBarNode, contentNode];
-
-    if (position === "end") {
-      mainNodes.reverse();
+  private handleDetached(value: boolean): void {
+    if (value) {
+      this.displayMode = "float-content";
+    } else if (this.displayMode === "float-content" || this.displayMode === "float") {
+      this.displayMode = "dock";
     }
-
-    return (
-      <div class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}>
-        {mainNodes}
-      </div>
-    );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  private Methods
-  //
-  // --------------------------------------------------------------------------
+  private handleDisplayMode(value: DisplayMode): void {
+    this.detached = value === "float-content" || value === "float";
+  }
 
-  setContentWidth(width: number): void {
+  private handleDetachedHeightScale(value: Scale): void {
+    this.heightScale = value;
+  }
+
+  private handleHeightScale(value: Scale): void {
+    this.detachedHeightScale = value;
+  }
+
+  private layoutHandler(): void {
+    this.setActionBarsLayout(this.actionBars);
+  }
+
+  private setContentWidth(width: number): void {
     const { contentWidthMax, contentWidthMin } = this;
 
     const roundedWidth = Math.round(width);
@@ -380,7 +307,7 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
         : roundedWidth;
   }
 
-  updateAriaValues(): void {
+  private updateAriaValues(): void {
     const { contentEl } = this;
     const computedStyle = contentEl && getComputedStyle(contentEl);
 
@@ -392,10 +319,10 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
       ? this.updateHeights(computedStyle)
       : this.updateWidths(computedStyle);
 
-    forceUpdate(this);
+    this.requestUpdate();
   }
 
-  setContentHeight(height: number): void {
+  private setContentHeight(height: number): void {
     const { contentHeightMax, contentHeightMin } = this;
 
     const roundedWidth = Math.round(height);
@@ -406,7 +333,7 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
         : roundedWidth;
   }
 
-  updateWidths(computedStyle: CSSStyleDeclaration): void {
+  private updateWidths(computedStyle: CSSStyleDeclaration): void {
     const max = parseInt(computedStyle.getPropertyValue("max-width"), 10);
     const min = parseInt(computedStyle.getPropertyValue("min-width"), 10);
     const valueNow = parseInt(computedStyle.getPropertyValue("width"), 10);
@@ -424,7 +351,7 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
     }
   }
 
-  updateHeights(computedStyle: CSSStyleDeclaration): void {
+  private updateHeights(computedStyle: CSSStyleDeclaration): void {
     const max = parseInt(computedStyle.getPropertyValue("max-height"), 10);
     const min = parseInt(computedStyle.getPropertyValue("min-height"), 10);
     const valueNow = parseInt(computedStyle.getPropertyValue("height"), 10);
@@ -442,11 +369,11 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
     }
   }
 
-  storeContentEl = (contentEl: HTMLDivElement): void => {
+  private storeContentEl(contentEl: HTMLDivElement): void {
     this.contentEl = contentEl;
-  };
+  }
 
-  getKeyAdjustedSize = (event: KeyboardEvent): number | null => {
+  private getKeyAdjustedSize(event: KeyboardEvent): number | null {
     const { key } = event;
     const {
       el,
@@ -545,132 +472,189 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
     }
 
     return null;
-  };
+  }
 
-  initialKeydownWidth = (event: KeyboardEvent): void => {
+  private initialKeydownWidth(event: KeyboardEvent): void {
     this.setInitialContentWidth();
     const width = this.getKeyAdjustedSize(event);
 
     if (typeof width === "number") {
       this.setContentWidth(width);
     }
-  };
+  }
 
-  initialKeydownHeight = (event: KeyboardEvent): void => {
+  private initialKeydownHeight(event: KeyboardEvent): void {
     this.setInitialContentHeight();
     const height = this.getKeyAdjustedSize(event);
 
     if (typeof height === "number") {
       this.setContentHeight(height);
     }
-  };
+  }
 
-  separatorKeyDown = (event: KeyboardEvent): void => {
+  private separatorKeyDown(event: KeyboardEvent): void {
     this.layout === "horizontal"
       ? this.initialKeydownHeight(event)
       : this.initialKeydownWidth(event);
-  };
+  }
 
-  separatorPointerMove = (event: PointerEvent): void => {
-    event.preventDefault();
-
-    const {
-      el,
-      layout,
-      initialContentWidth,
-      initialContentHeight,
-      position,
-      initialClientX,
-      initialClientY,
-    } = this;
-
-    const offset =
-      layout === "horizontal" ? event.clientY - initialClientY : event.clientX - initialClientX;
-
-    const adjustmentDirection = layout === "vertical" && getElementDir(el) === "rtl" ? -1 : 1;
-
-    const adjustedOffset =
-      layout === "horizontal"
-        ? position === "end"
-          ? -adjustmentDirection * offset
-          : adjustmentDirection * offset
-        : position === "end"
-          ? -adjustmentDirection * offset
-          : adjustmentDirection * offset;
-
-    layout === "horizontal"
-      ? this.setContentHeight(initialContentHeight + adjustedOffset)
-      : this.setContentWidth(initialContentWidth + adjustedOffset);
-  };
-
-  separatorPointerUp = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    this.calciteInternalShellPanelResizeEnd.emit();
-
-    event.preventDefault();
-    window.removeEventListener("pointerup", this.separatorPointerUp);
-    window.removeEventListener("pointermove", this.separatorPointerMove);
-  };
-
-  setInitialContentHeight = (): void => {
+  private setInitialContentHeight(): void {
     this.initialContentHeight = this.contentEl?.getBoundingClientRect().height;
-  };
+  }
 
-  setInitialContentWidth = (): void => {
+  private setInitialContentWidth(): void {
     this.initialContentWidth = this.contentEl?.getBoundingClientRect().width;
-  };
+  }
 
-  separatorPointerDown = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    this.calciteInternalShellPanelResizeStart.emit();
-
-    event.preventDefault();
-    const { separatorEl } = this;
-
-    separatorEl && document.activeElement !== separatorEl && separatorEl.focus();
-
-    if (this.layout === "horizontal") {
-      this.setInitialContentHeight();
-      this.initialClientY = event.clientY;
-    } else {
-      this.setInitialContentWidth();
-      this.initialClientX = event.clientX;
-    }
-
-    window.addEventListener("pointerup", this.separatorPointerUp);
-    window.addEventListener("pointermove", this.separatorPointerMove);
-  };
-
-  connectSeparator = (separatorEl: HTMLDivElement): void => {
+  private connectSeparator(separatorEl: HTMLDivElement): void {
     this.disconnectSeparator();
     this.separatorEl = separatorEl;
-    separatorEl?.addEventListener("pointerdown", this.separatorPointerDown);
-  };
+    separatorEl?.addEventListener(
+      "pointerdown",
+      this.separatorPointerDown,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  }
 
-  disconnectSeparator = (): void => {
-    this.separatorEl?.removeEventListener("pointerdown", this.separatorPointerDown);
-  };
+  private disconnectSeparator(): void {
+    this.separatorEl?.removeEventListener(
+      "pointerdown",
+      this.separatorPointerDown,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  }
 
-  setActionBarsLayout = (actionBars: HTMLCalciteActionBarElement[]): void => {
+  private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
     actionBars.forEach((actionBar) => (actionBar.layout = this.layout));
-  };
+  }
 
-  handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteActionBarElement => el?.matches("calcite-action-bar"),
+  private handleActionBarSlotChange(event: Event): void {
+    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
+      el?.matches("calcite-action-bar"),
     );
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);
-  };
+  }
 
-  handleHeaderSlotChange = (event: Event): void => {
+  private handleHeaderSlotChange(event: Event): void {
     this.hasHeader = slotChangeHasAssignedElement(event);
-  };
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  private renderHeader(): JsxNode {
+    return (
+      <div class={CSS.contentHeader} hidden={!this.hasHeader} key="header">
+        <slot name={SLOTS.header} onSlotChange={this.handleHeaderSlotChange} />
+      </div>
+    );
+  }
+
+  override render(): JsxNode {
+    const {
+      collapsed,
+      position,
+      initialContentWidth,
+      initialContentHeight,
+      contentWidth,
+      contentWidthMax,
+      contentWidthMin,
+      contentHeight,
+      contentHeightMax,
+      contentHeightMin,
+      resizable,
+      layout,
+      displayMode,
+    } = this;
+
+    const dir = getElementDir(this.el);
+
+    const allowResizing = displayMode !== "float-content" && displayMode !== "float" && resizable;
+
+    const style = allowResizing
+      ? layout === "horizontal"
+        ? contentHeight
+          ? { height: `${contentHeight}px` }
+          : null
+        : contentWidth
+          ? { width: `${contentWidth}px` }
+          : null
+      : null;
+
+    const separatorNode =
+      !collapsed && allowResizing ? (
+        <div
+          ariaLabel={this.messages.resize}
+          ariaOrientation={layout === "horizontal" ? "vertical" : "horizontal"}
+          ariaValueMax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
+          ariaValueMin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
+          ariaValueNow={
+            layout == "horizontal"
+              ? (contentHeight ?? initialContentHeight)
+              : (contentWidth ?? initialContentWidth)
+          }
+          class={CSS.separator}
+          key="separator"
+          onKeyDown={this.separatorKeyDown}
+          ref={this.connectSeparator}
+          role="separator"
+          tabIndex={0}
+          touch-action="none"
+        />
+      ) : null;
+
+    const getAnimationDir = (): string => {
+      if (layout === "horizontal") {
+        return position === "start"
+          ? CSS_UTILITY.calciteAnimateInDown
+          : CSS_UTILITY.calciteAnimateInUp;
+      } else {
+        const isStart =
+          (dir === "ltr" && position === "end") || (dir === "rtl" && position === "start");
+        return isStart ? CSS_UTILITY.calciteAnimateInLeft : CSS_UTILITY.calciteAnimateInRight;
+      }
+    };
+
+    const contentNode = (
+      <div
+        class={{
+          [CSS_UTILITY.rtl]: dir === "rtl",
+          [CSS.content]: true,
+          [CSS.contentOverlay]: displayMode === "overlay",
+          [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
+          [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
+          [getAnimationDir()]: displayMode === "overlay",
+        }}
+        hidden={collapsed}
+        key="content"
+        ref={this.storeContentEl}
+        style={style}
+      >
+        {this.renderHeader()}
+        <div class={CSS.contentBody}>
+          <slot />
+        </div>
+        {separatorNode}
+      </div>
+    );
+
+    const actionBarNode = (
+      <slot key="action-bar" name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
+    );
+
+    const mainNodes = [actionBarNode, contentNode];
+
+    if (position === "end") {
+      mainNodes.reverse();
+    }
+
+    return (
+      <div class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}>
+        {mainNodes}
+      </div>
+    );
+  }
+
+  // #endregion
 }

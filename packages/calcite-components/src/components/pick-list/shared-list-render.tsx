@@ -1,10 +1,15 @@
-import { FunctionalComponent, h, VNode } from "@stencil/core";
-import { JSXBase } from "@stencil/core/internal";
+import { TemplateResult } from "lit-html";
+import { h, LuminaJsx } from "@arcgis/lumina";
 import { InteractiveContainer } from "../../utils/interactive";
-import { CSS, SLOTS } from "./resources";
+import type { ValueListItem } from "../value-list-item/value-list-item";
+import type { PickListItem } from "../pick-list-item/pick-list-item";
+import type { Filter } from "../filter/filter";
+import type { ValueList } from "../value-list/value-list";
 import { handleFilter, handleFilterEvent } from "./shared-list-logic";
+import { CSS, SLOTS } from "./resources";
+import type { PickList } from "./pick-list";
 
-type DOMAttributes = JSXBase.DOMAttributes<any>;
+type DOMAttributes = LuminaJsx.DOMAttributes<any>;
 
 interface ListProps extends DOMAttributes {
   disabled: boolean;
@@ -15,16 +20,14 @@ interface ListProps extends DOMAttributes {
   handleFilter: typeof handleFilter;
   handleFilterEvent: typeof handleFilterEvent;
   filterPlaceholder: string;
-  el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
-  setFilterEl: (el: HTMLCalciteFilterElement) => void;
-  setFilteredItems: (
-    filteredItems: HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement[],
-  ) => void;
+  el: PickList["el"] | ValueList["el"];
+  setFilterEl: (el: Filter["el"]) => void;
+  setFilteredItems: (filteredItems: PickListItem["el"] | ValueListItem["el"][]) => void;
   dragEnabled?: boolean;
   storeAssistiveEl?: (el: HTMLSpanElement) => void;
 }
 
-export const List: FunctionalComponent<{ props: ListProps }> = ({
+export const List = ({
   props: {
     disabled,
     loading,
@@ -37,21 +40,23 @@ export const List: FunctionalComponent<{ props: ListProps }> = ({
     dragEnabled,
     storeAssistiveEl,
   },
-}): VNode => {
+}: {
+  props: ListProps;
+}): TemplateResult => {
   const defaultSlot = <slot />;
   return (
     <InteractiveContainer disabled={disabled}>
       <section>
         {dragEnabled ? (
-          <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} />
+          <span ariaLive="assertive" class="assistive-text" ref={storeAssistiveEl} />
         ) : null}
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
             <calcite-filter
-              aria-label={filterPlaceholder}
+              ariaLabel={filterPlaceholder}
               disabled={disabled}
               items={dataForFilter}
-              onCalciteFilterChange={handleFilterEvent}
+              oncalciteFilterChange={handleFilterEvent}
               placeholder={filterPlaceholder}
               ref={setFilterEl}
               value={filterText}

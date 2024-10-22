@@ -20,7 +20,7 @@ For comprehensive guidance on using and implementing `calcite-action`, refer to 
 | `loading`           | `loading`           | When `true`, a busy indicator is displayed.                                                                                              | `boolean`                      | `false`     |
 | `messageOverrides`  | `message-overrides` | Use this property to override individual strings used by the component.                                                                  | `ActionMessages`               | `undefined` |
 | `scale`             | `scale`             | Specifies the size of the component.                                                                                                     | `"l" \| "m" \| "s"`            | `"m"`       |
-| `text` *(required)* | `text`              | Specifies text that accompanies the icon.                                                                                                | `string`                       | `undefined` |
+| `text` _(required)_ | `text`              | Specifies text that accompanies the icon.                                                                                                | `string`                       | `undefined` |
 | `textEnabled`       | `text-enabled`      | Indicates whether the text is displayed.                                                                                                 | `boolean`                      | `false`     |
 
 ## Methods
@@ -105,4 +105,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

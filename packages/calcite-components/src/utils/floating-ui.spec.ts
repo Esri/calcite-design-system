@@ -1,3 +1,4 @@
+import { describe, expect, it, beforeEach, vi } from "vitest";
 import { waitForAnimationFrame } from "../tests/utils";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
@@ -86,8 +87,8 @@ describe("repositioning", () => {
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).not.toBe("");
-    expect(floatingEl.style.top).toBe("0");
-    expect(floatingEl.style.left).toBe("0");
+    expect(floatingEl.style.top).toBe("0px");
+    expect(floatingEl.style.left).toBe("0px");
   }
 
   it("repositions only for open components", async () => {
@@ -123,7 +124,7 @@ describe("repositioning", () => {
   });
 
   it("debounces positioning per instance", async () => {
-    const positionSpy = jest.spyOn(floatingUI, "positionFloatingUI");
+    const positionSpy = vi.spyOn(floatingUI, "positionFloatingUI");
     fakeFloatingUiComponent.open = true;
 
     const anotherFakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);

@@ -18,14 +18,7 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: "module",
   },
-  plugins: [
-    "@typescript-eslint",
-    "import",
-    "jest",
-    "jsdoc",
-    "prettier",
-    "unicorn",
-  ],
+  plugins: ["@typescript-eslint", "import", "jest", "jsdoc", "prettier", "unicorn"],
   rules: {
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [

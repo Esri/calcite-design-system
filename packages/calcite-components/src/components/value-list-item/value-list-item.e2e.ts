@@ -1,7 +1,9 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { CSS as PICK_LIST_ITEM_CSS, SLOTS } from "../pick-list-item/resources";
 import { accessible, disabled, focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import type { ValueListItem } from "./value-list-item";
 
 describe("calcite-value-list-item", () => {
   describe("renders", () => {
@@ -110,7 +112,7 @@ describe("calcite-value-list-item", () => {
   function queryWrappedPickListPart(page: E2EPage, partSelector: string, partMethodToInvoke?: string): Promise<void> {
     return page.$eval(
       "calcite-value-list-item",
-      (item: HTMLCalciteValueListItemElement, selector: string, partMethod?: string) => {
+      (item: ValueListItem["el"], selector: string, partMethod?: string) => {
         const part = item.shadowRoot
           .querySelector("calcite-pick-list-item")
           .shadowRoot.querySelector<HTMLElement>(selector);

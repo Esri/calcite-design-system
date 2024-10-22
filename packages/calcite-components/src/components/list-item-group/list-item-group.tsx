@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -6,98 +6,76 @@ import {
 } from "../../utils/interactive";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { CSS } from "./resources";
-/**
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
- */
-@Component({
-  tag: "calcite-list-item-group",
-  styleUrl: "list-item-group.scss",
-  shadow: true,
-})
-export class ListItemGroup implements InteractiveComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+import { styles } from "./list-item-group.scss";
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+declare global {
+  interface DeclareElements {
+    "calcite-list-item-group": ListItemGroup;
+  }
+}
+/** @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements. */
+export class ListItemGroup extends LitElement implements InteractiveComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /**
    * Hides the component when filtered.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop({ reflect: true }) filterHidden = false;
+  @property({ reflect: true }) filterHidden = false;
 
-  /**
-   * The header text for all nested `calcite-list-item` rows.
-   *
-   */
-  @Prop({ reflect: true }) heading: string;
+  /** The header text for all nested `calcite-list-item` rows. */
+  @property({ reflect: true }) heading: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  /**
-   * Fires when changes occur in the default slot, notifying parent lists of the changes.
-   */
-  @Event({ cancelable: false })
-  calciteInternalListItemGroupDefaultSlotChange: EventEmitter<void>;
+  // #region Events
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  /** Fires when changes occur in the default slot, notifying parent lists of the changes. */
+  calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
 
-  componentDidRender(): void {
+  // #endregion
+
+  // #region Lifecycle
+
+  override updated(): void {
     updateHostInteraction(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteListItemGroupElement;
+  // #region Private Methods
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  private handleDefaultSlotChange(): void {
+    this.calciteInternalListItemGroupDefaultSlotChange.emit();
+  }
 
-  render(): VNode {
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     const { disabled, heading } = this;
     return (
-      <Host>
-        <InteractiveContainer disabled={disabled}>
-          <div class={CSS.container} role="row">
-            <div aria-colspan={MAX_COLUMNS} class={CSS.heading} role="cell">
-              {heading}
-            </div>
+      <InteractiveContainer disabled={disabled}>
+        <div class={CSS.container} role="row">
+          <div ariaColSpan={MAX_COLUMNS} class={CSS.heading} role="cell">
+            {heading}
           </div>
-          <slot onSlotchange={this.handleDefaultSlotChange} />
-        </InteractiveContainer>
-      </Host>
+        </div>
+        <slot onSlotChange={this.handleDefaultSlotChange} />
+      </InteractiveContainer>
     );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private handleDefaultSlotChange = (): void => {
-    this.calciteInternalListItemGroupDefaultSlotChange.emit();
-  };
+  // #endregion
 }

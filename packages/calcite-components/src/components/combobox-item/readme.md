@@ -21,8 +21,8 @@ For comprehensive guidance on using and implementing `calcite-combobox-item`, re
 | `metadata`               | --                | Provides additional metadata to the component used in filtering.                                                                                                | `{ [x: string]: unknown; }` | `undefined` |
 | `selected`               | `selected`        | When `true`, the component is selected.                                                                                                                         | `boolean`                   | `false`     |
 | `shortHeading`           | `short-heading`   | The component's short heading. When provided, the short heading will be displayed in the component's selection. It is recommended to use 5 characters or fewer. | `string`                    | `undefined` |
-| `textLabel` *(required)* | `text-label`      | <span style="color:red">**[DEPRECATED]**</span> Use `heading` instead.<br/><br/>The component's text.                                                           | `string`                    | `undefined` |
-| `value` *(required)*     | `value`           | The component's value.                                                                                                                                          | `any`                       | `undefined` |
+| `textLabel` _(required)_ | `text-label`      | <span style="color:red">**[DEPRECATED]**</span> Use `heading` instead.<br/><br/>The component's text.                                                           | `string`                    | `undefined` |
+| `value` _(required)_     | `value`           | The component's value.                                                                                                                                          | `any`                       | `undefined` |
 
 ## Events
 
@@ -60,4 +60,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

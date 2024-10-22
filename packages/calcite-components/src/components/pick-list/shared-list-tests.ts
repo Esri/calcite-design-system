@@ -1,17 +1,20 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import { disabled, focusable } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
 import { CSS as PICK_LIST_ITEM_CSS } from "../pick-list-item/resources";
+import type { PickListItem } from "../pick-list-item/pick-list-item";
+import type { ValueListItem } from "../value-list-item/value-list-item";
+import type { ValueList } from "../value-list/value-list";
+import type { PickList } from "./pick-list";
 
 type ListType = "pick" | "value";
-type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
+type ListElement = PickList["el"] | ValueList["el"];
 
 export function keyboardNavigation(listType: ListType): void {
   const getFocusedItemValue = (page: E2EPage): ReturnType<E2EPage["evaluate"]> =>
-    page.evaluate(
-      () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null,
-    );
+    page.evaluate(() => (document.activeElement as PickListItem["el"] | ValueListItem["el"])?.value ?? null);
 
   async function getSelectedItemValues(list: E2EElement, listType: string): Promise<string[]> {
     return Promise.all(
@@ -584,7 +587,7 @@ export function itemRemoval(listType: ListType): void {
           listType === "pick"
             ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
             : item.shadowRoot
-                .querySelector<HTMLCalcitePickListItemElement>("calcite-pick-list-item")
+                .querySelector<PickListItem["el"]>("calcite-pick-list-item")
                 .shadowRoot.querySelector<HTMLElement>(selector)
                 .click();
         });

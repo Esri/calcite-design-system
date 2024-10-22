@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -8,6 +8,13 @@ import { getSlotted } from "../../utils/dom";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
 import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
+import { styles } from "./pick-list-group.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-pick-list-group": PickListGroup;
+  }
+}
 
 logger.deprecated("component", {
   name: "pick-list-group",
@@ -19,58 +26,38 @@ logger.deprecated("component", {
  * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` elements.
  */
-@Component({
-  tag: "calcite-pick-list-group",
-  styleUrl: "pick-list-group.scss",
-  shadow: true,
-})
-export class PickListGroup implements ConditionalSlotComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class PickListGroup extends LitElement implements ConditionalSlotComponent {
+  // #region Static Members
 
-  /**
-   * Specifies the title for all nested `calcite-pick-list-item`s.
-   *
-   */
-  @Prop({ reflect: true }) groupTitle: string;
+  static override styles = styles;
 
-  /**
-   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Properties
 
-  @Element() el: HTMLCalcitePickListGroupElement;
+  /** Specifies the title for all nested `calcite-pick-list-item`s. */
+  @property({ reflect: true }) groupTitle: string;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  connectedCallback(): void {
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
     connectConditionalSlotComponent(this);
   }
 
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const { el, groupTitle, headingLevel } = this;
     const hasParentItem = getSlotted(el, SLOTS.parentItem) !== null;
     const sectionClasses = {
@@ -84,7 +71,7 @@ export class PickListGroup implements ConditionalSlotComponent {
     const level = headingLevel || relativeLevel;
 
     return (
-      <Fragment>
+      <>
         {title ? (
           <Heading class={CSS.heading} level={level}>
             {title}
@@ -94,7 +81,9 @@ export class PickListGroup implements ConditionalSlotComponent {
         <section class={sectionClasses}>
           <slot />
         </section>
-      </Fragment>
+      </>
     );
   }
+
+  // #endregion
 }

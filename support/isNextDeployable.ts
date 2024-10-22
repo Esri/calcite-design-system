@@ -19,10 +19,7 @@
     await runGit("checkout", "dev", "--quiet");
     await runGit("fetch", "--tags", "--quiet");
 
-    if (
-      (await latestCommit("dev")) != (await latestCommit("origin/dev")) &&
-      (await deployable("dev", "origin/dev"))
-    ) {
+    if ((await latestCommit("dev")) != (await latestCommit("origin/dev")) && (await deployable("dev", "origin/dev"))) {
       throw new Error("There is a more recent deployable install, aborting ⛔️");
     }
   }
@@ -70,7 +67,7 @@
   } catch (error) {
     console.log(
       `An error occurred during deployment ❌:
-${error}`
+${error}`,
     );
     process.exit(1);
   }

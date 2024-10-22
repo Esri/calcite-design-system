@@ -196,9 +196,7 @@ export function getDateFormatSupportedLocale(locale: string): string {
   }
 }
 
-/**
- * This interface is for components that need to determine locale from the lang attribute.
- */
+/** This interface is for components that need to determine locale from the lang attribute. */
 export interface LocalizedComponent {
   el: HTMLElement;
 
@@ -212,7 +210,7 @@ export interface LocalizedComponent {
    *
    * Components should watch this prop to ensure messages are updated.
    *
-   * @Watch("effectiveLocale")
+   * @Watch ("effectiveLocale")
    * effectiveLocaleChange(): void {
    *   updateMessages(this, this.effectiveLocale);
    * }
@@ -316,9 +314,7 @@ export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
   locale: string;
 }
 
-/**
- * This util formats and parses numbers for localization
- */
+/** This util formats and parses numbers for localization */
 export class NumberStringFormat {
   /**
    * The actual group separator for the specified locale.
@@ -366,9 +362,7 @@ export class NumberStringFormat {
     return this._numberFormatOptions;
   }
 
-  /**
-   * numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date
-   */
+  /** numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date */
   set numberFormatOptions(options: NumberStringFormatOptions) {
     options.locale = getSupportedLocale(options?.locale);
     options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
@@ -449,21 +443,22 @@ export type LocaleDateTimeOptionKey = string;
 /**
  * Exported for testing purposes only.
  *
- * @internal
+ * @notPublic
  */
 export let dateTimeFormatCache: Map<LocaleDateTimeOptionKey, Intl.DateTimeFormat>;
 
 /**
  * Used to ensure all cached formats are for the same locale.
  *
- * @internal
+ * @notPublic
  */
 let previousLocaleUsedForCaching: string;
 
 /**
  * Generates a cache key for date time format lookups.
  *
- * @internal
+ * @param options
+ * @notPublic
  */
 function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): string {
   return Object.entries(options)
@@ -478,7 +473,9 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  *
  * **Note**: the cache will be cleared if a different locale is provided
  *
- * @internal
+ * @param locale
+ * @param options
+ * @notPublic
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   locale = getSupportedLocale(locale);

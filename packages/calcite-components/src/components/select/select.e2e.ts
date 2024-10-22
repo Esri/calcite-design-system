@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -12,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
+import type { Select } from "./select";
 
 describe("calcite-select", () => {
   const simpleTestMarkup = html`
@@ -71,7 +73,7 @@ describe("calcite-select", () => {
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
     const selectedOptionValue = await page.$eval(
       "calcite-select",
-      (select: HTMLCalciteSelectElement): string => select.selectedOption.value,
+      (select: Select["el"]): string => select.selectedOption.value,
     );
 
     expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
@@ -381,7 +383,7 @@ describe("calcite-select", () => {
 
     type TestWindow = typeof window & { selectedOptionId: string };
 
-    await page.$eval("calcite-select", (select: HTMLCalciteSelectElement) =>
+    await page.$eval("calcite-select", (select: Select["el"]) =>
       select.addEventListener("calciteSelectChange", (event) => {
         (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
           "calcite-option[selected]",

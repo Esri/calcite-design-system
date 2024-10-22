@@ -41,4 +41,4 @@ For comprehensive guidance on using and implementing `calcite-shell-panel`, refe
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

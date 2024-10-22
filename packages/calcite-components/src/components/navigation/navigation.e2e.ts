@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
@@ -15,7 +16,7 @@ describe("calcite-navigation", () => {
     reflects("calcite-navigation", [
       {
         propertyName: "navigationAction",
-        value: "",
+        value: true,
       },
     ]);
   });
