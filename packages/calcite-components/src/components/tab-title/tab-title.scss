@@ -1,3 +1,22 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tab-text-color: Specifies the component's text color.
+ * @prop --calcite-tab-border-color: Specifies the component's border color.
+ * @prop --calcite-tab-background-color: Specifies the component's background color.
+ * @prop --calcite-accent-color: Specifies the component's accent color.
+ * @prop --calcite-accent-color-hover: Specifies the component's accent color when hovered.
+ * @prop --calcite-accent-color-press: Specifies the component's accent color when selected or active.
+ * @prop --calcite-tab-icon-start-color: Specifies the component's start icon color. Fallback to `--calcite-icon-color` or current color.  
+ * @prop --calcite-tab-icon-end-color: Specifies the component's end icon color. Fallback to `--calcite-icon-color` or current color.
+ * @prop --calcite-close-icon-color: Specifies the color of the close icon.
+ * @prop --calcite-close-icon-color-press: Specifies the color of the close icon when interacted with.
+ * @prop --calcite-close-background-color: Specifies the background color of the close icon.
+ * @prop --calcite-close-background-color-press: Specifies the background color of the close icon when interacted with.
+ */
+
 :host {
   @apply block outline-none;
   margin-inline-start: theme("margin.0");
@@ -90,110 +109,12 @@
   inset-inline-start: 0;
   inset-inline-end: 0;
   inline-size: 100%;
+  background-color: var(--calcite-accent-color, var(--calcite-color-transparent));
 }
 
 .container--bottom .selected-indicator {
   inset-block-end: unset;
   inset-block-start: 0;
-}
-
-:host([bordered]) .selected-indicator {
-  inset-block-start: 0;
-  inset-block-end: unset;
-  inset-inline-start: -1px;
-  inset-inline-end: 0;
-  inline-size: calc(100% + var(--calcite-spacing-base));
-}
-
-:host([bordered]) .container:not(.container--bottom) {
-  border-block-end: 1px solid transparent;
-}
-
-:host([bordered]:not([selected]):hover) .container:not(.container--bottom) {
-  border-block-end: 1px solid var(--calcite-internal-tabs-border-color);
-}
-
-:host([bordered]:not([selected]):hover:not(:focus)) {
-  .selected-indicator {
-    background-color: var(--calcite-internal-tab-accent-color-hover);
-  }
-  .container:not(.container--bottom) .selected-indicator {
-    box-shadow: inset 0 1px var(--calcite-internal-tabs-border-color);
-  }
-  .container.container--bottom .selected-indicator {
-    box-shadow: inset 0 -1px var(--calcite-internal-tabs-border-color);
-  }
-}
-
-:host([bordered][selected]) .container::after {
-  @apply absolute
-    block
-    w-full
-    h-0.5
-    transition-default;
-  inset-block-end: -1px;
-  inset-inline-start: 0;
-  inset-inline-end: 0;
-  inline-size: 100%;
-  background: var(--calcite-internal-tabs-background-color);
-  content: "";
-}
-
-:host([bordered][selected]) .container.container--bottom::after {
-  inset-block-start: -1px;
-}
-
-:host([bordered][selected]:hover) .container::after {
-  background: var(--calcite-internal-tab-background-color-hover);
-}
-
-:host([bordered][selected]:focus) .container::after {
-  background: transparent;
-}
-
-:host([bordered]) .container--bottom .selected-indicator {
-  inset-block-start: unset;
-  inset-block-end: 0;
-}
-
-:host(:hover) .selected-indicator {
-  background-color: var(--calcite-internal-tab-accent-color-hover);
-}
-
-:host([selected]) .selected-indicator,
-:host([selected]:hover) .selected-indicator,
-:host(:focus) .selected-indicator,
-:host(:active) .selected-indicator {
-  background-color: var(--calcite-internal-tab-accent-color-selected);
-}
-
-@media (forced-colors: active) {
-  .selected-indicator {
-    background-color: highlight;
-  }
-}
-
-:host([closed]) {
-  @apply hidden;
-}
-
-:host([selected]) .container {
-  @apply border-color-transparent;
-  color: var(--calcite-tab-text-color-selected, var(--calcite-color-text-1));
-}
-
-:host(:focus) .container {
-  @apply focus-inset;
-
-  &:focus-within {
-    @apply focus-base;
-  }
-}
-
-@include disabled() {
-  .container {
-    @apply pointer-events-none opacity-50;
-  }
 }
 
 .calcite-tab-title--icon {
@@ -207,11 +128,11 @@
 }
 
 .icon-start {
-  --calcite-icon-color: var(--calcite-tab-icon-start-color, var(--calcite-tab-icon-color));
+  color: var(--calcite-tab-icon-start-color, var(--calcite-icon-color));
 }
 
 .icon-end {
-  --calcite-icon-color: var(--calcite-tab-icon-end-color, var(--calcite-tab-icon-color));
+  color: var(--calcite-tab-icon-end-color, var(--calcite-icon-color));
 }
 
 .content--has-text {
@@ -240,29 +161,176 @@
   justify-center
   h-full
   self-center
-  text-color-3
   transition-default;
   margin-inline-start: var(--calcite-spacing-sm);
   margin-inline-end: var(--calcite-spacing-px);
   block-size: calc(100% - var(--calcite-spacing-xxs));
+  color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-close-background-color, var(--calcite-color-transparent));
 
   &:focus {
     @apply focus-normal;
   }
 
   &:focus,
-  &:hover {
-    @apply text-color-1;
-    background-color: var(--calcite-color-foreground-3);
-  }
-
+  &:hover,
   &:active {
-    @apply text-color-1;
-    background-color: var(--calcite-color-foreground-3);
+    color: var(--calcite-close-icon-color-press, var(--calcite-color-text-1));
+    background-color: var(--calcite-close-background-color-press, var(--calcite-color-foreground-3));
+  }
+}
+
+:host([bordered]) {
+  .container {
+    border-color: transparent;
+    border-inline-width: var(--calcite-spacing-px);
+    border-inline-style: solid;
+
+    .x-button {
+      & calcite-icon {
+        margin-block-start: var(--calcite-spacing-px);
+      }
+
+      &:focus,
+      &:hover,
+      &:active {
+        box-shadow: 0 2px 0 0 var(--calcite-close-background-color-press, var(--calcite-color-foreground-3));
+      }
+    }
+
+    &.container--bottom {
+      border-block-start-style: solid;
+      border-block-start-width: 1px;
+
+      .selected-indicator {
+        inset-block-start: unset;
+        inset-block-end: 0;
+      }
+
+      .x-button {
+        box-shadow: 0 -2px 0 0 var(--calcite-close-background-color, var(--calcite-color-transparent));
+
+        &:focus,
+        &:hover,
+        &:active {
+          box-shadow: 0 -2px 0 0 var(--calcite-close-background-color-press, var(--calcite-color-foreground-3));
+        }
+
+        calcite-icon {
+          margin-block-end: var(--calcite-spacing-px);
+        }
+      }
+    }
+
+    &:not(.container--bottom) {
+      border-block-end-style: solid;
+      border-block-end-width: 1px;
+
+      .x-button {
+        block-size: calc(100% - var(--calcite-spacing-px));
+        margin-block-start: -1px;
+      }
+    }
   }
 
-  & calcite-icon {
-    color: inherit;
+  .selected-indicator {
+    inset-block-start: 0;
+    inset-block-end: unset;
+    inset-inline-start: -1px;
+    inset-inline-end: 0;
+    inline-size: calc(100% + var(--calcite-spacing-base));
+  }
+
+  &:host([selected]) {
+    .container {
+      border-inline-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+
+      &::after {
+        @apply absolute
+          block
+          w-full
+          h-0.5
+          transition-default;
+        inset-block-end: -1px;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        inline-size: 100%;
+        background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+        content: "";
+      }
+    }
+
+    &.container--bottom::after {
+      inset-block-start: -1px;
+    }
+
+    &:host(:hover) .container::after {
+      background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-2));
+    }
+
+    &:host(:focus) .container::after {
+      background: transparent;
+    }
+  }
+
+  &:host(:not([selected])) {
+    .container .x-button {
+      box-shadow: 0 2px 0 0 transparent;
+    }
+
+    &:host(:hover) {
+      .container:not(.container--bottom) {
+        border-block-end-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+      }
+
+      &:host(:not(:focus)) {
+        .selected-indicator {
+          background-color: var(--calcite-tab-accent-color-hover, var(--calcite-color-border-3));
+          box-shadow: inset 0 var(--calcite-internal-tab-shadow-length)
+            var(--calcite-tab-border-color, var(--calcite-color-border-1));
+        }
+        :not(.container--bottom) {
+          --calcite-internal-tab-shadow-length: 1px;
+        }
+        .container--bottom {
+          --calcite-internal-tab-shadow-length: -1px;
+        }
+      }
+    }
+  }
+
+  &:host(:hover) {
+    .container {
+      background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-2));
+    }
+  }
+}
+
+:host(:hover) .selected-indicator {
+  background-color: var(--calcite-accent-color-hover, var(--calcite-color-border-3));
+}
+
+:host([selected]) .selected-indicator,
+:host([selected]:hover) .selected-indicator,
+:host(:focus) .selected-indicator,
+:host(:active) .selected-indicator {
+  background-color: var(--calcite-accent-color-press, var(--calcite-color-brand));
+}
+
+:host([closed]) {
+  @apply hidden;
+}
+
+:host([selected]) .container {
+  @apply border-color-transparent;
+  color: var(--calcite-tab-text-color, var(--calcite-color-text-1));
+}
+
+:host(:focus) .container {
+  @apply focus-inset;
+
+  &:focus-within {
+    @apply focus-base;
   }
 }
 
@@ -271,55 +339,6 @@
   .calcite-tab-title--icon:first-child {
     margin-inline-end: var(--calcite-spacing-sm);
   }
-}
-
-// bordered styles
-:host([bordered]) .container {
-  &:not(.container--bottom) .x-button {
-    block-size: calc(100% - var(--calcite-spacing-px));
-    margin-block-start: -1px;
-  }
-  .x-button {
-    & calcite-icon {
-      margin-block-start: var(--calcite-spacing-px);
-    }
-
-    &:focus,
-    &:hover,
-    &:active {
-      box-shadow: 0 2px 0 0 var(--calcite-color-foreground-3);
-    }
-  }
-
-  &.container--bottom .x-button {
-    box-shadow: 0 -2px 0 0 transparent;
-    & calcite-icon {
-      margin-block-end: var(--calcite-spacing-px);
-    }
-    &:focus,
-    &:hover,
-    &:active {
-      box-shadow: 0 -2px 0 0 var(--calcite-color-foreground-3);
-    }
-  }
-}
-
-:host([bordered]:not([selected])) .container .x-button {
-  box-shadow: 0 2px 0 0 transparent;
-}
-
-:host([bordered]:hover) {
-  .container {
-    background-color: var(--calcite-internal-tab-background-color-hover);
-  }
-}
-
-:host([bordered]) .container {
-  border-inline: var(--calcite-spacing-px) solid transparent;
-}
-
-:host([selected][bordered]) .container {
-  border-inline-color: var(--calcite-internal-tabs-border-color);
 }
 
 :host([layout="inline"][bordered]),
@@ -363,14 +382,6 @@
     outline-color: highlight;
   }
 
-  :host([bordered]) .container {
-    border-block-end-style: solid;
-  }
-
-  :host([bordered]) .container--bottom {
-    border-block-start-style: solid;
-  }
-
   :host([bordered][selected]) .container {
     border-block-end-style: none;
   }
@@ -383,6 +394,15 @@
     /* in high contrast the tab title outline covers the close button outline without a z-index */
     @apply z-default;
   }
+
+  .selected-indicator {
+    background-color: highlight;
+  }
 }
 
 @include base-component();
+@include disabled() {
+  .container {
+    @apply pointer-events-none opacity-50;
+  }
+}

@@ -3,15 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-tab-content-space-y: Specifies the vertical space between the component's content in the `default` slot.
  * @prop --calcite-tab-content-block-padding: [Deprecated] Use `--calcite-tab-content-space-y` instead. Specifies the block padding of the component's content in the `default` slot.
  */
-
-:host([selected]) {
-  section,
-  .container {
-    @apply block;
-  }
-}
 
 :host {
   @apply hidden h-full w-full;
@@ -19,6 +13,11 @@
 
 :host([selected]) {
   @apply block h-full w-full overflow-auto;
+
+  section,
+  .container {
+    @apply block;
+  }
 }
 
 .content {

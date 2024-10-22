@@ -3,39 +3,20 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-accent-color-hover: Specifies the component's accent color when hovered.
- * @prop --calcite-tab-accent-color-selected: Specifies the component's accent color when selected.
- * @prop --calcite-tab-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-tab-background-color: Specifies the component's background color.
- * @prop --calcite-tab-content-space-y: Specifies the block padding of the component's content.
- * @prop --calcite-tab-icon-color: Specifies the component's icon color.
- * @prop --calcite-tab-icon-end-color: Specifies the component's `iconEnd` color. Fallback to `--calcite-tab-icon-color` or current color.
- * @prop --calcite-tab-icon-start-color: Specifies the component's `iconStart` color. Fallback to `--calcite-tab-icon-color` or current color.
- * @prop --calcite-tab-text-color-selected: Specifies the component's text color when selected.
- * @prop --calcite-tab-text-color: Specifies the component's text color.
- * @prop --calcite-tabs-background-color: The background color of the component.
- * @prop --calcite-tabs-border-color: The border color of the component.
+ * @prop --calcite-tab-background-color: The background color of the component.
+ * @prop --calcite-tab-border-color: The border color of the component.
  */
 
 :host {
   @apply flex flex-col;
-
-  --calcite-internal-tabs-border-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
-  --calcite-internal-tabs-background-color: var(--calcite-tabs-background-color, var(--calcite-color-foreground-1));
-  --calcite-internal-tab-accent-color-hover: var(--calcite-tab-accent-color-hover, var(--calcite-color-border-3));
-  --calcite-internal-tab-accent-color-selected: var(--calcite-tab-accent-color-selected, var(--calcite-color-brand));
-  --calcite-internal-tab-background-color-hover: var(
-    --calcite-tab-background-color-hover,
-    var(--calcite-color-foreground-2)
-  );
 }
 
 :host([bordered]) {
-  box-shadow: inset 0 1px 0 var(--calcite-internal-tabs-border-color);
-  background-color: var(--calcite-internal-tabs-background-color);
+  box-shadow: inset 0 1px 0 var(--calcite-tab-border-color, var(--calcite-color-border-1));
+  background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
 
   section {
-    border-color: var(--calcite-internal-tabs-border-color);
+    border-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
     border-style: solid;
   }
 }
@@ -44,13 +25,13 @@ section {
   @apply border flex flex-grow overflow-hidden;
 
   border-block-start-style: solid;
-  border-block-start-color: var(--calcite-internal-tabs-border-color);
+  border-block-start-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
 }
 
 :host([bordered][position="bottom"]) {
   box-shadow:
-    inset 0 1px 0 var(--calcite-internal-tabs-border-color),
-    inset 0 -1px 0 var(--calcite-internal-tabs-border-color);
+    inset 0 1px 0 var(--calcite-tab-border-color, var(--calcite-color-border-1)),
+    inset 0 -1px 0 var(--calcite-tab-border-color, var(--calcite-color-border-1));
 }
 
 :host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
@@ -81,7 +62,7 @@ section {
 
 :host([position="bottom"]:not([bordered])) section {
   border-block-end-style: solid;
-  border-block-end-color: var(--calcite-internal-tabs-border-color);
+  border-block-end-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
 }
 
 @media (forced-colors: active) {

@@ -1,16 +1,24 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tab-background-color: Specifies background color of the component.
+ * @prop --calcite-tab-border-color: Specifies border color of the component. Used for "bordered" tabs.
+ * @prop --calcite-tab-text-color: Specifies the icon and text color of the component. 
+ */
+
 :host {
   --calcite-internal-tab-nav-gradient-start-side: left;
   --calcite-internal-tab-nav-gradient-end-side: right;
-
-  --calcite-internal-tab-nav-button-background-color: var(--calcite-color-transparent);
-  --calcite-internal-tab-nav-button-border-color: var(--calcite-color-transparent);
 
   @apply relative flex;
 }
 
 :host([bordered]) {
-  --calcite-internal-tab-nav-button-background-color: var(--calcite-internal-tabs-background-color);
-  --calcite-internal-tab-nav-button-border-color: var(--calcite-internal-tabs-border-color);
+  .container {
+    background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+  }
 }
 
 .scale-s {
@@ -135,27 +143,20 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   @apply absolute bottom-0 top-0;
 
   calcite-button {
-    --calcite-internal-tab-icon-color: var(--calcite-tab-icon-color, var(--calcite-color-text-3));
+    --calcite-button-text-color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
+    --calcite-button-background-color: var(--calcite-color-transparent);
+    --calcite-button-border-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
 
-    --calcite-button-background-color: var(
-      --calcite-internal-tab-nav-button-background-color,
-      var(--calcite-color-transparent)
-    );
-    --calcite-button-border-color: var(--calcite-internal-tab-nav-button-border-color);
-    --calcite-button-icon-color: var(--calcite-internal-tab-icon-color);
-    --calcite-button-shadow-color: var(--calcite-color-transparent);
     --calcite-offset-invert-focus: 1;
 
     block-size: var(--calcite-container-size-content-fluid);
 
-    &:active,
-    &:hover {
-      --calcite-button-background-color: var(
-        --calcite-internal-tab-background-color-hover,
-        var(--calcite-color-transparent-hover)
-      );
-      --calcite-button-border-color: var(--calcite-internal-tab-nav-button-border-color);
-      --calcite-button-icon-color: var(--calcite-internal-tab-icon-color);
+    &:hover &:focus {
+      --calcite-button-background-color: var(--calcite-color-transparent-hover);
+    }
+
+    &:active {
+      --calcite-button-background-color: var(--calcite-color-transparent-press);
     }
   }
 }
@@ -173,8 +174,9 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 :host(:not([bordered])) {
   .scroll-button-container--backward,
   .scroll-button-container--forward {
+    // Scroll arrow separators
     &::before {
-      background-color: var(--calcite-internal-tabs-border-color);
+      background-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
       opacity: $calcite-opacity-50;
       content: "";
       inline-size: var(--calcite-border-width-sm);
