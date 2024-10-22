@@ -1,5 +1,7 @@
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "../../../src/components/navigation-logo/resources";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
@@ -66,5 +68,70 @@ describe("calcite-navigation-logo", () => {
         defaultValue: undefined,
       },
     ]);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const navigationLogoHtml = html`
+        <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" icon="layers">
+        </calcite-navigation-logo>
+      `;
+
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-logo-background-color": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-navigation-logo-background-color-hover": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-navigation-logo-background-color-active": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.anchor } },
+        },
+        "--calcite-navigation-logo-border-color": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-navigation-logo-description-text-color": {
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
+        "--calcite-navigation-logo-heading-text-color": {
+          shadowSelector: `.${CSS.heading}`,
+          targetProp: "color",
+        },
+        "--calcite-navigation-logo-icon-color-active": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "--calcite-icon-color",
+          state: { press: { attribute: "class", value: CSS.anchor } },
+        },
+      };
+      themed(navigationLogoHtml, tokens);
+    });
+
+    describe("active", () => {
+      const navigationLogoActiveHtml = html`
+        <calcite-navigation-logo
+          active
+          heading="Walt's Chips"
+          description="Eastern Potato Chip Company"
+          icon="layers"
+          active
+        >
+        </calcite-navigation-logo>
+      `;
+
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-logo-border-color": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "borderBlockEndColor",
+        },
+      };
+      themed(navigationLogoActiveHtml, tokens);
+    });
   });
 });
