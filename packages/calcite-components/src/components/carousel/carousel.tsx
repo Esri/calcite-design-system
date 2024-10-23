@@ -148,7 +148,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>();
+  private messages = useT9n<typeof T9nStrings>();
 
   /**
    * Made into a prop for testing purposes only

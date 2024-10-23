@@ -149,7 +149,7 @@ export class Button
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>();
+  private messages = useT9n<typeof T9nStrings>();
 
   /** Specifies the name of the component on form submission. */
   @property({ reflect: true }) name?: string;

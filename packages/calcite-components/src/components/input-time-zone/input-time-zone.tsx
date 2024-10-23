@@ -116,7 +116,7 @@ export class InputTimeZone
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
+  private messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * This specifies the type of `value` and the associated options presented to the user:

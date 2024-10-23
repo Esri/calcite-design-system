@@ -1,5 +1,5 @@
 import { toHaveNoViolations } from "jest-axe";
-import { PublicLitElement } from "@arcgis/lumina";
+import { LitElement, PublicLitElement } from "@arcgis/lumina";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it, beforeEach } from "vitest";
 import { MessageBundle } from "../../utils/t9n";
@@ -30,11 +30,15 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
     page = e2ePage;
 
-    type CalciteComponentsWithMessages = IntrinsicElementsWithProp<"messages"> & HTMLElement;
+    type CalciteComponentsWithMessages = LitElement & {
+      manager: {
+        component: IntrinsicElementsWithProp<"messages">;
+      };
+    };
 
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
-      return page.$eval(tag, (component: CalciteComponentsWithMessages) => component.messages);
+      return page.$eval(tag, (el: CalciteComponentsWithMessages) => el.manager.component.messages);
     };
   });
 

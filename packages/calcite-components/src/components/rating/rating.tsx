@@ -95,7 +95,7 @@ export class Rating
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
+  private messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * Specifies the name of the component.

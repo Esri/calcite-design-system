@@ -202,7 +202,7 @@ export class ShellPanel extends LitElement {
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>();
+  private messages = useT9n<typeof T9nStrings>();
 
   /** Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
