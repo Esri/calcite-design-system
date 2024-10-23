@@ -23,12 +23,19 @@ jobs:
 
           printf "changed non-icon files:\n%s" "$non_icon_changes"
 
-          # skip if the only changes are in package/calcite-ui-icons
+          # skip if there are changes outside of package/calcite-ui-icons
           if [ -z "$non_icon_changes" ]; then
             echo "SKIP=true" >> "$GITHUB_OUTPUT"
           else
             echo "SKIP=false" >> "$GITHUB_OUTPUT"
           fi
+      - if: steps.check-diff.outputs.SKIP == 'false'
+        name: Label icon PRs
+        env:
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr edit "$PR_NUMBER" --add-label "calcite-ui-icons"
       - if: steps.check-diff.outputs.SKIP == 'false'
         name: Check pull request author and reviewers
         uses: actions/github-script@v7
