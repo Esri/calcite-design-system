@@ -1,17 +1,13 @@
 import { html } from "../../support/formatting";
 
 export const tileTokens = {
+  calciteTileAccentColorPress: "",
   calciteTileBackgroundColor: "",
   calciteTileBorderColor: "",
-  calciteTileDescriptionTextColor: "",
-  calciteTileDescriptionTextColorHover: "",
+  calciteTileCornerRadius: "",
   calciteTileHeadingTextColor: "",
-  calciteTileHeadingTextColorHover: "",
-  calciteTileHrefIconColorHover: "",
-  calciteTileIconColor: "",
-  calciteTileSelectionColor: "",
-  calciteTileSelectionColorHover: "",
   calciteTileShadow: "",
+  calciteTileTextColor: "",
 };
 
 export const tile = html`
