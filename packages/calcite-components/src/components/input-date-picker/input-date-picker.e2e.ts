@@ -158,7 +158,6 @@ describe("calcite-input-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
       const inputDatePicker = await page.find("calcite-input-date-picker");
-      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
       const inputWrapper = await page.find(`calcite-input-date-picker >>> .${CSS.inputWrapper}`);
@@ -166,7 +165,7 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
 
-      expect(await input.getProperty("open")).toBe(true);
+      expect(await inputDatePicker.getProperty("open")).toBe(true);
 
       const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
       expect(await calendar.isVisible()).toBe(true);
@@ -1778,10 +1777,12 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(false);
 
     await inputDatePicker.click();
+    await page.waitForChanges();
     expect(await calendar.isVisible()).toBe(true);
     expect(await isElementFocused(page, "#input-date")).toBe(true);
 
     await input.click();
+    await page.waitForChanges();
     expect(await calendar.isVisible()).toBe(false);
     expect(await isElementFocused(page, "#input")).toBe(true);
   });
