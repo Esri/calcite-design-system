@@ -65,16 +65,6 @@
         }
       ]
     },
-    "packages/calcite-components-angular/projects/component-library": {
-      "component": "@esri/calcite-components-angular",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": "/examples/components/angular/package.json",
-          "jsonpath": "$.dependencies['@esri/calcite-components-angular']"
-        }
-      ]
-    },
     "packages/calcite-design-tokens": {
       "component": "@esri/calcite-design-tokens"
     },
@@ -94,7 +84,7 @@
     {
       "type": "linked-versions",
       "groupName": "components",
-      "components": ["@esri/calcite-components", "@esri/calcite-components-react", "@esri/calcite-components-angular"]
+      "components": ["@esri/calcite-components", "@esri/calcite-components-react"]
     },
     {
       "type": "sentence-case"
