@@ -15,7 +15,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-      - run: |
+      - name: Build storybook
+        run: |
           npm install
           npm --workspace="packages/calcite-design-tokens" run build
           npm --workspace="packages/calcite-ui-icons" run build
