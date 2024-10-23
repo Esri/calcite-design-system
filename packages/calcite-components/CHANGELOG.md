@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.16...@esri/calcite-components@2.14.0-next.17) (2024-10-23)
+
+### Features
+
+- **input-date-picker, date-picker:** improve date picking experience ([#8402](https://github.com/Esri/calcite-design-system/issues/8402)) ([24d43ad](https://github.com/Esri/calcite-design-system/commit/24d43ad2568118457f00221d1c6f216a563c3895)), closes [#3455](https://github.com/Esri/calcite-design-system/issues/3455) [#10113](https://github.com/Esri/calcite-design-system/issues/10113) [#9167](https://github.com/Esri/calcite-design-system/issues/9167)
+
 ## [2.14.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.15...@esri/calcite-components@2.14.0-next.16) (2024-10-23)
 
 **Note:** Version bump only for package @esri/calcite-components
