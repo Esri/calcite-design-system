@@ -120,7 +120,6 @@ export class PickList<ItemElement extends PickListItem["el"] = PickListItem["el"
   @property({ reflect: true }) filterPlaceholder: string;
 
   /** Text for the filter input field. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic
   @property({ reflect: true }) filterText: string;
 
   /**
@@ -128,7 +127,6 @@ export class PickList<ItemElement extends PickListItem["el"] = PickListItem["el"
    *
    * @readonly
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic
   @property() filteredData: ItemData = [];
 
   /**

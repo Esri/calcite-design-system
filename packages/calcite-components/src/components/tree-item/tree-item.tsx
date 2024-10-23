@@ -93,7 +93,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
    *
    * @notPublic
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- ignoring until https://github.com/stencil-community/stencil-eslint/issues/111 is fixed
   @property({ reflect: true }) indeterminate = false;
 
   /** Accessible name for the component. */

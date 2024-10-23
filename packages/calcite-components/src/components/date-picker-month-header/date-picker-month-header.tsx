@@ -73,7 +73,6 @@ export class DatePickerMonthHeader extends LitElement {
    * @notPublic
    * @readonly
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messages: typeof T9nStrings;
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */

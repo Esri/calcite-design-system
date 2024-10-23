@@ -172,9 +172,8 @@ export class InputNumber
    *
    * @notPublic
    */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
   @property()
-  autofocus: boolean /* TODO: [MIGRATION] The name of this class member (autofocus) clashes 
+  autofocus: boolean /* TODO: [MIGRATION] The name of this class member (autofocus) clashes
   with the name of an HTMLElement.autofocus property. If this is not intentional, please rename it to avoid issues.
   If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers--docs#usewatchattributes */;
 
@@ -197,9 +196,8 @@ export class InputNumber
    * @futureBreaking kebab-cased attribute will not be supported in a future release
    * @notPublic
    */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
   @property()
-  enterKeyHint: string /* TODO: [MIGRATION] The name of this class member (enterKeyHint) clashes 
+  enterKeyHint: string /* TODO: [MIGRATION] The name of this class member (enterKeyHint) clashes
   with the name of an HTMLElement.enterKeyHint property. If this is not intentional, please rename it to avoid issues.
   If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers--docs#usewatchattributes */;
 
@@ -229,9 +227,8 @@ export class InputNumber
    * @futureBreaking kebab-cased attribute will not be supported in a future release
    * @notPublic
    */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
   @property()
-  inputMode: string /* TODO: [MIGRATION] The name of this class member (inputMode) clashes 
+  inputMode: string /* TODO: [MIGRATION] The name of this class member (inputMode) clashes
   with the name of an HTMLElement.inputMode property. If this is not intentional, please rename it to avoid issues.
   If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers--docs#usewatchattributes */;
 
@@ -267,7 +264,6 @@ export class InputNumber
   @property({ reflect: true }) maxLength: number;
 
   /** Use this property to override individual strings used by the component. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -276,7 +272,6 @@ export class InputNumber
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messages = useT9n<typeof T9nStrings>();
 
   /**
@@ -359,7 +354,6 @@ export class InputNumber
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
   @property() validity: MutableValidityState = {
     valid: false,
     badInput: false,

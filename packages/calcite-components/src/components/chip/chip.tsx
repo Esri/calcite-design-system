@@ -95,7 +95,6 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   @property() label: string;
 
   /** Use this property to override individual strings used by the component. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -104,7 +103,6 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messages = useT9n<typeof T9nStrings>();
 
   /** @notPublic */
