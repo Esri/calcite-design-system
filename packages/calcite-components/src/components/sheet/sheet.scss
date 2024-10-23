@@ -219,7 +219,7 @@
 }
 
 .resize-handle {
-  @apply flex bg-background justify-center items-center overflow-hidden focus-base;
+  @apply flex bg-background justify-center items-center overflow-hidden focus-base select-none;
 
   color: var(--calcite-color-border-input);
 
@@ -231,7 +231,7 @@
 .resize-handle:active,
 .resize-handle:hover,
 .resize-handle:focus {
-  @apply text-color-1;
+  @apply text-color-1 bg-foreground-2;
 }
 
 .resize-handle:focus {
