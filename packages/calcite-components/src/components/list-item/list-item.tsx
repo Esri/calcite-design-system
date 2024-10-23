@@ -23,7 +23,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -215,6 +215,12 @@ export class ListItem
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = null;
+
+  /**
+   * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+   * @internal
+   */
+  @Prop() interactionMode: InteractionMode = null;
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -660,6 +666,7 @@ export class ListItem
       selected,
       selectionAppearance,
       selectionMode,
+      interactionMode,
       closed,
       filterHidden,
       bordered,
@@ -669,6 +676,12 @@ export class ListItem
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
     const borderSelected = showBorder && selected;
     const borderUnselected = showBorder && !selected;
+
+    const containerInteractive =
+      interactionMode === "interactive" ||
+      (interactionMode === "static" &&
+        selectionMode !== "none" &&
+        selectionAppearance === "border");
 
     return (
       <Host>
@@ -684,7 +697,7 @@ export class ListItem
               class={{
                 [CSS.row]: true,
                 [CSS.container]: true,
-                [CSS.containerHover]: true,
+                [CSS.containerHover]: containerInteractive,
                 [CSS.containerBorder]: showBorder,
                 [CSS.containerBorderSelected]: borderSelected,
                 [CSS.containerBorderUnselected]: borderUnselected,

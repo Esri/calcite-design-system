@@ -173,7 +173,8 @@ button {
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h px-2 py-1 font-normal;
+    @apply text-n2h px-2 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xxs));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -182,7 +183,8 @@ button {
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h px-4 py-3 font-normal;
+    @apply text-n1h px-4 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-md));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -191,7 +193,8 @@ button {
 
 :host([scale="l"]) {
   .button {
-    @apply text-0h p-5 font-normal;
+    @apply text-0h px-5 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xl));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
