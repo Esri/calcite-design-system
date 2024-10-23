@@ -67,6 +67,9 @@ simpleDarkMode.parameters = { themes: modesDarkDefault };
 export const resizable = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
+export const resizableBlockStart = (): string =>
+  html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
+
 export const resizableLoremIpsum = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-end"
     >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel viverra purus. Vestibulum fringilla fringilla orci
