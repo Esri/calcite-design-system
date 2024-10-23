@@ -18,7 +18,7 @@
 
 :host {
   @extend %component-host;
-  @apply flex bg-transparent;
+  @apply flex bg-transparent cursor-pointer;
 }
 
 :host,
@@ -62,7 +62,6 @@ button {
     m-0
     flex
     w-auto
-    cursor-pointer
     items-center
     justify-start
     border-none
@@ -73,6 +72,7 @@ button {
   color: var(--calcite-action-text-color, var(--calcite-color-text-3));
   text-align: unset;
   flex: 1 0 auto;
+  cursor: inherit;
 
   &:hover,
   &:focus {

@@ -591,6 +591,7 @@ export class Dropdown
       this.toggleDropdown();
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
+      event.preventDefault();
       this.focusLastDropdownItem = key === "ArrowUp";
       this.open = true;
       this.el.addEventListener("calciteDropdownOpen", this.onOpenEnd);
