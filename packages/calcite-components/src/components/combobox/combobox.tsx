@@ -536,6 +536,7 @@ export class Combobox
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.filter.cancel();
   }
 
   //--------------------------------------------------------------------------
@@ -1077,14 +1078,23 @@ export class Combobox
     return [...this.groupItems, ...this.items];
   }
 
-  private filterItems = (() => {
+  private filterItems(text: string, setOpenToEmptyState = false, emit = true): void {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
       filteredData.some(({ label, value }) =>
         isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
-    return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
+    this.filter(find, text, setOpenToEmptyState, emit);
+  }
+
+  private filter = debounce(
+    (
+      find: (item: ComboboxChildElement, filteredData: ItemData[]) => boolean,
+      text: string,
+      setOpenToEmptyState = false,
+      emit = true,
+    ): void => {
       const filteredData = filter(this.data, text);
       const itemsAndGroups = this.getItemsAndGroups();
 
@@ -1124,8 +1134,9 @@ export class Combobox
       if (emit) {
         this.calciteComboboxFilterChange.emit();
       }
-    }, DEBOUNCE.filter);
-  })();
+    },
+    DEBOUNCE.filter,
+  );
 
   internalComboboxChangeEvent = (): void => {
     this.calciteComboboxChange.emit();

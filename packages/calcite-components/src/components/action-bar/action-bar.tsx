@@ -233,6 +233,7 @@ export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComp
     this.resizeObserver?.disconnect();
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resize.cancel();
   }
 
   // --------------------------------------------------------------------------
