@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   State,
@@ -408,6 +409,26 @@ export class Modal
   }
 
   @State() defaultMessages: ModalMessages;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown", { target: "window" })
+  handleEscape(event: KeyboardEvent): void {
+    if (
+      this.open &&
+      !this.escapeDisabled &&
+      event.key === "Escape" &&
+      !event.defaultPrevented &&
+      this.focusTrapDisabled
+    ) {
+      this.open = false;
+      event.preventDefault();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
