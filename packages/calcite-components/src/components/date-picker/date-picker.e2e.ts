@@ -4,6 +4,8 @@ import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTes
 import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 import { Position } from "../interfaces";
+import { CSS as MONTH_CSS } from "../date-picker-month/resources";
+import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 
 describe("calcite-date-picker", () => {
   describe("renders", () => {
@@ -579,7 +581,7 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
 
       const [monthSelectStart, monthSelectEnd] = await page.findAll(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
       );
       const [yearInputStart, yearInputEnd] = await page.findAll(
         "calcite-date-picker >>> calcite-date-picker-month-header >>> input",
@@ -593,7 +595,7 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
 
       await page.select(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select >>> select",
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker} >>> select`,
         "October",
       );
       await page.waitForChanges();
@@ -612,7 +614,7 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
 
       const [monthSelectStart, monthSelectEnd] = await page.findAll(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
       );
       const [yearInputStart, yearInputEnd] = await page.findAll(
         "calcite-date-picker >>> calcite-date-picker-month-header >>> input",
@@ -626,7 +628,7 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
 
       await page.select(
-        `calcite-date-picker >>> [data-test-calendar="end"] >>> calcite-select.month-select >>> select`,
+        `calcite-date-picker >>> [data-test-calendar="end"] >>> calcite-select.${MONTH_HEADER_CSS.monthPicker} >>> select`,
         "January",
       );
       await page.waitForChanges();
@@ -643,7 +645,7 @@ describe("calcite-date-picker", () => {
     const activeDate = await page.find(
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
     );
-    expect(activeDate.classList.contains("current-day")).toBe(true);
+    expect(activeDate.classList.contains(MONTH_CSS.currentDay)).toBe(true);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -653,9 +655,9 @@ describe("calcite-date-picker", () => {
     const firstDayInPreviousMonth = await page.find(
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
     );
-    expect(firstDayInPreviousMonth.classList.contains("current-day")).toBe(false);
+    expect(firstDayInPreviousMonth.classList.contains(MONTH_CSS.currentDay)).toBe(false);
     let currentDay = await page.find(
-      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.current-day",
+      `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
     );
     expect(currentDay).toBeTruthy();
 
@@ -680,9 +682,9 @@ describe("calcite-date-picker", () => {
     const firstDayInNextMonth = await page.find(
       "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[tabindex='0']",
     );
-    expect(firstDayInNextMonth.classList.contains("current-day")).toBe(false);
+    expect(firstDayInNextMonth.classList.contains(MONTH_CSS.currentDay)).toBe(false);
     currentDay = await page.find(
-      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.current-day",
+      `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
     );
     expect(currentDay).toBeFalsy();
   });
@@ -693,7 +695,7 @@ describe("calcite-date-picker", () => {
       await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
 
       const [prevMonth, nextMonth] = await page.findAll(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action",
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-action`,
       );
       const monthSelect = await page.find("calcite-date-picker >>> calcite-select");
       const yearInput = await page.find("calcite-date-picker >>> input");
@@ -714,7 +716,7 @@ describe("calcite-date-picker", () => {
       await page.setContent(html`<calcite-date-picker value="2025-09-25" max="2025-11-11"></calcite-date-picker>`);
 
       const nextMonth = await page.find(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action[aria-label='Next month']",
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-action[aria-label='Next month']`,
       );
 
       await nextMonth.click();
@@ -735,7 +737,7 @@ describe("calcite-date-picker", () => {
       await page.setContent(html`<calcite-date-picker min="2024-11-11" value="2025-01-01"></calcite-date-picker>`);
 
       const prevMonth = await page.find(
-        "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action[aria-label='Previous month']",
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-action[aria-label='Previous month']`,
       );
 
       await prevMonth.click();
@@ -1046,7 +1048,7 @@ async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
   const [startMonth, endMonth] = await page.findAll(
-    "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-select.month-select",
+    `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
   );
 
   if (position === "start") {
