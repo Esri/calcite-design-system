@@ -969,4 +969,27 @@ describe("calcite-input-time-picker", () => {
       expect(await popover.isVisible()).toBe(false);
     });
   });
+
+  it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input-time-picker></calcite-input-time-picker>`);
+    await skipAnimations(page);
+    await page.waitForChanges();
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+
+    await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+
+    expect(await popover.isVisible()).toBe(true);
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+
+    expect(await popover.isVisible()).toBe(false);
+  });
 });

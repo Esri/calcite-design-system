@@ -289,6 +289,20 @@ describe("calcite-sheet properties", () => {
     expect(await sheet.isVisible()).toBe(true);
   });
 
+  it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-sheet focus-trap-disabled></calcite-sheet>`);
+    await skipAnimations(page);
+    const sheet = await page.find("calcite-sheet");
+    sheet.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await sheet.isVisible()).toBe(true);
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(await sheet.isVisible()).toBe(false);
+    expect(await sheet.getProperty("open")).toBe(false);
+  });
+
   it("should close when the scrim is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-sheet ></calcite-sheet>`);
