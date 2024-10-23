@@ -203,6 +203,31 @@ export function prevMonth(date: Date): Date {
 }
 
 /**
+ * Get active date in a given month.
+ *
+ * @param date
+ * @param month
+ */
+export function getDateInMonth(date: Date, month: number): Date {
+  const nextDate = new Date(date);
+  nextDate.setMonth(month);
+  return nextDate;
+}
+
+/**
+ * Get First Valid date in a month.
+ *
+ * @param date
+ * @param min
+ * @param max
+ */
+export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
+  const newDate = new Date(date);
+  newDate.setDate(1);
+  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max);
+}
+
+/**
  * Get a date one month in the future
  *
  * @param date
@@ -272,4 +297,16 @@ export function getDaysDiff(date1: Date, date2: Date): number {
 export function setEndOfDay(date: Date): Date {
   date.setHours(23, 59, 59, 999);
   return date;
+}
+
+/**
+ *
+ * Returns true if two dates have same month and year.
+ *
+ * @param date1
+ * @param date2
+ * @returns {boolean}
+ */
+export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
+  return date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
 }
