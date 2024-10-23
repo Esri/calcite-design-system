@@ -219,7 +219,7 @@
 }
 
 .resize-handle {
-  @apply flex bg-background justify-center items-center overflow-hidden focus-base select-none;
+  @apply flex bg-background justify-center items-center focus-base select-none box-border;
 
   color: var(--calcite-color-border-input);
 
