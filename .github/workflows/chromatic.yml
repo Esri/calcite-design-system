@@ -16,6 +16,9 @@ jobs:
         with:
           node-version-file: package.json
       - name: Build storybook
+        env:
+          STORYBOOK_SCREENSHOT_TEST_BUILD: true
+          CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
         run: |
           npm install
           npm --workspace="packages/calcite-design-tokens" run build
