@@ -1,0 +1,23 @@
+%type-vars {
+  --calcite-code-family: "Consolas", "Andale Mono", "Lucida Console", "Monaco", monospace;
+  --calcite-sans-family: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+
+  /* Component type variables */
+  --calcite-font-size--3: 0.625rem; //  10px
+  --calcite-font-size--2: 0.75rem; //   12px
+  --calcite-font-size--1: 0.875rem; //  14px
+  --calcite-font-size-0: 1rem; //   16px
+  --calcite-font-size-1: 1.125rem; //   18px
+  --calcite-font-size-2: 1.25rem; //    20px
+  --calcite-font-size-3: 1.625rem; //   26px
+  --calcite-font-size-4: 2rem; //   32px
+  --calcite-font-size-5: 2.5rem; // 40px
+  --calcite-font-size-6: 3rem; //   48px
+  --calcite-font-size-7: 3.5rem; // 56px
+  --calcite-font-size-8: 4rem; //   64px
+
+  --calcite-font-weight-light: 300;
+  --calcite-font-weight-normal: 400;
+  --calcite-font-weight-medium: 500;
+  --calcite-font-weight-bold: 600;
+}

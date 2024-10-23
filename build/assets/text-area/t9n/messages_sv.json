@@ -1,0 +1,4 @@
+{
+  "invalid": "Ogiltig",
+  "tooLong": "Den aktuella teckenlängden är {currentLength}, vilket överskrider den maximala teckenlängden på {maxLength}."
+}
