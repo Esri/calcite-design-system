@@ -5,6 +5,7 @@
  *
  * @prop --calcite-tile-background-color: Specifies the background color of the component.
  * @prop --calcite-tile-border-color: Specifies the border color of the component.
+ * @prop --calcite-tile-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
  * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
  * @prop --calcite-tile-icon-color: Specifies the icon color in the component.
@@ -22,6 +23,7 @@
 .container {
   background-color: var(--calcite-tile-background-color, var(--calcite-color-foreground-1));
   block-size: var(--calcite-container-size-content-fluid);
+  border-radius: var(--calcite-tile-corner-radius, var(--calcite-corner-radius-sharp));
   box-sizing: border-box;
   inline-size: var(--calcite-container-size-content-fluid);
   outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color, var(--calcite-color-border-2));

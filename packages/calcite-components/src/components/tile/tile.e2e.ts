@@ -243,6 +243,10 @@ describe("calcite-tile", () => {
             shadowSelector: `.${CSS.container}`,
             targetProp: "outlineColor",
           },
+          "--calcite-tile-corner-radius": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
           "--calcite-tile-description-text-color": {
             shadowSelector: `.${CSS.description}`,
             targetProp: "color",
