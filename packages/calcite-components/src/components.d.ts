@@ -9,91 +9,191 @@ import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Intera
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+import { ActionMessages } from "./components/action/assets/action/t9n";
 import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { Columns } from "./components/action-group/interfaces";
+import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
+import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
+import { BlockMessages } from "./components/block/assets/block/t9n";
 import { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+import { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+import { ButtonMessages } from "./components/button/assets/button/t9n";
+import { CardMessages } from "./components/card/assets/card/t9n";
 import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { MutableValidityState } from "./utils/form";
+import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
+import { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
-import { DateLocaleData } from "./components/date-picker/utils";
+import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { HoverRange } from "./utils/date";
+import { DateLocaleData } from "./components/date-picker/utils";
+import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+import { FilterMessages } from "./components/filter/assets/filter/t9n";
 import { FlowItemLikeElement } from "./components/flow/interfaces";
+import { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 import { ColorStop, DataSeries } from "./components/graph/interfaces";
+import { HandleMessages } from "./components/handle/assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./components/handle/interfaces";
+import { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 import { InputPlacement } from "./components/input/interfaces";
+import { InputMessages } from "./components/input/assets/input/t9n";
+import { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+import { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+import { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
+import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
+import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+import { MenuMessages } from "./components/menu/assets/menu/t9n";
+import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 import { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
+import { ModalMessages } from "./components/modal/assets/modal/t9n";
+import { NoticeMessages } from "./components/notice/assets/notice/t9n";
+import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+import { PanelMessages } from "./components/panel/assets/panel/t9n";
 import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 import { ICON_TYPES } from "./components/pick-list/resources";
+import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+import { PopoverMessages } from "./components/popover/assets/popover/t9n";
+import { RatingMessages } from "./components/rating/assets/rating/t9n";
+import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 import { Element } from "@stencil/core";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
+import { TableMessages } from "./components/table/assets/table/t9n";
+import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+import { TipMessages } from "./components/tip/assets/tip/t9n";
+import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+export { ActionMessages } from "./components/action/assets/action/t9n";
 export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { Columns } from "./components/action-group/interfaces";
+export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
+export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
+export { BlockMessages } from "./components/block/assets/block/t9n";
 export { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+export { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+export { ButtonMessages } from "./components/button/assets/button/t9n";
+export { CardMessages } from "./components/card/assets/card/t9n";
 export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { MutableValidityState } from "./utils/form";
+export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
+export { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
-export { DateLocaleData } from "./components/date-picker/utils";
+export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { HoverRange } from "./utils/date";
+export { DateLocaleData } from "./components/date-picker/utils";
+export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+export { FilterMessages } from "./components/filter/assets/filter/t9n";
 export { FlowItemLikeElement } from "./components/flow/interfaces";
+export { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 export { ColorStop, DataSeries } from "./components/graph/interfaces";
+export { HandleMessages } from "./components/handle/assets/handle/t9n";
 export { HandleChange, HandleNudge } from "./components/handle/interfaces";
+export { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 export { InputPlacement } from "./components/input/interfaces";
+export { InputMessages } from "./components/input/assets/input/t9n";
+export { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+export { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+export { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
+export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
+export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+export { MenuMessages } from "./components/menu/assets/menu/t9n";
+export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 export { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
+export { ModalMessages } from "./components/modal/assets/modal/t9n";
+export { NoticeMessages } from "./components/notice/assets/notice/t9n";
+export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+export { PanelMessages } from "./components/panel/assets/panel/t9n";
 export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 export { ICON_TYPES } from "./components/pick-list/resources";
+export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+export { PopoverMessages } from "./components/popover/assets/popover/t9n";
+export { RatingMessages } from "./components/rating/assets/rating/t9n";
+export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 export { Element } from "@stencil/core";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
+export { TableMessages } from "./components/table/assets/table/t9n";
+export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+export { TipMessages } from "./components/tip/assets/tip/t9n";
+export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+export { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 export { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export namespace Components {
     interface CalciteAccordion {
@@ -1403,6 +1503,10 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max": string;
@@ -1426,6 +1530,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -1535,9 +1643,17 @@ export namespace Components {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -1547,9 +1663,21 @@ export namespace Components {
          */
         "max": Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -1589,6 +1717,14 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -2389,6 +2525,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -6603,7 +6743,7 @@ declare global {
         new (): HTMLCalciteDatePickerElement;
     };
     interface HTMLCalciteDatePickerDayElementEventMap {
-        "calciteDaySelect": void;
+        "calciteInternalDaySelect": void;
         "calciteInternalDayHover": void;
     }
     interface HTMLCalciteDatePickerDayElement extends Components.CalciteDatePickerDay, HTMLStencilElement {
@@ -6621,10 +6761,14 @@ declare global {
         new (): HTMLCalciteDatePickerDayElement;
     };
     interface HTMLCalciteDatePickerMonthElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
-        "calciteInternalDatePickerHover": Date;
-        "calciteInternalDatePickerActiveDateChange": Date;
-        "calciteInternalDatePickerMouseOut": void;
+        "calciteInternalDatePickerDaySelect": Date;
+        "calciteInternalDatePickerDayHover": Date;
+        "calciteInternalDatePickerMonthActiveDateChange": Date;
+        "calciteInternalDatePickerMonthMouseOut": void;
+        "calciteInternalDatePickerMonthChange": {
+    date: Date;
+    position: string;
+  };
     }
     interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6641,7 +6785,7 @@ declare global {
         new (): HTMLCalciteDatePickerMonthElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
+        "calciteInternalDatePickerMonthHeaderSelectChange": Date;
     }
     interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9450,6 +9594,10 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max"?: string;
@@ -9473,6 +9621,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -9536,13 +9688,13 @@ declare namespace LocalJSX {
          */
         "highlighted"?: boolean;
         /**
-          * Fires when user selects day.
-         */
-        "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
-        /**
           * Fires when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
+        /**
+          * Fires when user selects day.
+         */
+        "onCalciteInternalDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
           * When `true`, activates the component's range mode to allow a start and end date.
          */
@@ -9586,9 +9738,17 @@ declare namespace LocalJSX {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -9598,22 +9758,41 @@ declare namespace LocalJSX {
          */
         "max"?: Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
         /**
-          * Active date for the user keyboard access.
+          * Specifies the monthStyle used by the component.
          */
-        "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Fires when user hovers the date.
          */
-        "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
-        "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        "onCalciteInternalDatePickerDayHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
           * Fires when user selects the date.
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerDaySelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Active date for the user keyboard access.
+         */
+        "onCalciteInternalDatePickerMonthActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+         */
+        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{
+    date: Date;
+    position: string;
+  }>) => void;
+        "onCalciteInternalDatePickerMonthMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range"?: boolean;
         /**
           * Specifies the size of the component.
          */
@@ -9654,9 +9833,17 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
+        /**
           * Fires to active date
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerMonthHeaderSelectChange"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -10477,6 +10664,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
