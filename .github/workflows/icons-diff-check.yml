@@ -23,7 +23,7 @@ jobs:
 
           printf "changed non-icon files:\n%s" "$non_icon_changes"
 
-          # skip if there are changes outside of package/calcite-ui-icons
+          # skip if the only changes are in package/calcite-ui-icons
           if [ -z "$non_icon_changes" ]; then
             echo "SKIP=true" >> "$GITHUB_OUTPUT"
           else
