@@ -16,11 +16,11 @@ For comprehensive guidance on using and implementing `calcite-progress`, refer t
 
 ## CSS Custom Properties
 
-| Name                                  | Description                                    |
-| ------------------------------------- | ---------------------------------------------- |
-| `--calcite-progress-background-color` | Defines the background color of the component. |
-| `--calcite-progress-fill-color`       | Defines the fill color of the progress bar.    |
-| `--calcite-progress-text-color`       | Defines the text color of the component.       |
+| Name                                  | Description                                 |
+| ------------------------------------- | ------------------------------------------- |
+| `--calcite-progress-background-color` | Specifies the component's background color. |
+| `--calcite-progress-fill-color`       | Specifies the component's fill color.       |
+| `--calcite-progress-text-color`       | Specifies the component's text color.       |
 
 ## Dependencies
 
