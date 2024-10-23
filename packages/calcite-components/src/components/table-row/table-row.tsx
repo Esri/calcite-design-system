@@ -94,6 +94,9 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   /** @internal */
   @Prop() bodyRowCount: number;
 
+  /** @internal */
+  @Prop() userHidden = false;
+
   @Watch("bodyRowCount")
   @Watch("scale")
   @Watch("selected")
@@ -118,6 +121,10 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.userHidden = this.el.hidden;
+  }
 
   componentDidLoad(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
