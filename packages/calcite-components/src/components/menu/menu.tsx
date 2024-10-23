@@ -1,7 +1,12 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
-import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  focusElement,
+  focusElementInGroup,
+  focusFirstTabbable,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -75,7 +80,7 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.menuItems[0]?.focus();
+    focusFirstTabbable(this.menuItems[0]);
   }
 
   // #endregion

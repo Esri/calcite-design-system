@@ -38,7 +38,7 @@ type Layout = "horizontal" | "vertical";
 export class CalciteMenuItem extends LitElement implements LoadableComponent {
   // #region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = { mode: "open" as const };
 
   static override styles = styles;
 

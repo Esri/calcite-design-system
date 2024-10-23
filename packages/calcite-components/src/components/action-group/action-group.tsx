@@ -9,7 +9,7 @@ import {
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { Columns } from "./interfaces";
@@ -101,7 +101,7 @@ export class ActionGroup extends LitElement implements LoadableComponent {
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   // #endregion

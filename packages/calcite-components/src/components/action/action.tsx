@@ -35,7 +35,7 @@ declare global {
 export class Action extends LitElement implements InteractiveComponent, LoadableComponent {
   // #region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = { mode: "open" as const };
 
   static override styles = styles;
 

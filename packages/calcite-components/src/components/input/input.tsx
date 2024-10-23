@@ -2,19 +2,24 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { literal } from "lit-html/static.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
   LuminaJsx,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
-import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Scale, Status, Alignment } from "../interfaces";
+import {
+  focusFirstTabbable,
+  getElementDir,
+  isPrimaryPointerButton,
+  setRequestedIcon,
+} from "../../utils/dom";
+import { Alignment, Scale, Status } from "../interfaces";
 import {
   connectForm,
   disconnectForm,
@@ -77,7 +82,7 @@ export class Input
 {
   // #region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = { mode: "open" as const };
 
   static override styles = styles;
 
@@ -463,11 +468,7 @@ export class Input
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    if (this.type === "number") {
-      this.childNumberEl?.focus();
-    } else {
-      this.childEl?.focus();
-    }
+    focusFirstTabbable(this.type === "number" ? this.childNumberEl : this.childEl);
   }
 
   // #endregion
