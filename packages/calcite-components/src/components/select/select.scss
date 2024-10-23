@@ -12,6 +12,7 @@
   @extend %component-spacing;
   @apply flex flex-col;
   font-size: var(--calcite-select-font-size);
+  font-weight: var(--calcite-internal-select-font-weight, var(--calcite-font-weight-regular));
 }
 
 .wrapper {
@@ -76,12 +77,12 @@
     rounded-none
     border-solid;
   font-size: inherit;
+  font-weight: inherit;
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-select-spacing-inline);
   padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: theme("borderWidth.0");
-  font-weight: var(--calcite-select-font-weight, var(--calcite-font-weight-regular));
   line-height: var(--calcite-select-line-height, normal);
   &:focus {
     @apply focus-inset;
