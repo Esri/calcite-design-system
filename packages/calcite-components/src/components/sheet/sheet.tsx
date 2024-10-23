@@ -546,11 +546,12 @@ export class Sheet
       ],
       listeners: {
         move: ({ rect }: ResizeEvent) => {
-          if (position === "block-start" || position === "block-end") {
-            this.updateSize({ size: rect.height, type: "blockSize" });
-          } else {
-            this.updateSize({ size: rect.width, type: "inlineSize" });
-          }
+          const isBlock = position === "block-start" || position === "block-end";
+
+          this.updateSize({
+            size: isBlock ? rect.height : rect.width,
+            type: isBlock ? "blockSize" : "inlineSize",
+          });
         },
       },
     });
