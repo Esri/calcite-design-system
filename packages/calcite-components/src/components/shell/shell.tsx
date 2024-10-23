@@ -1,6 +1,18 @@
-import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import type { Dialog } from "../dialog/dialog";
+import type { Modal } from "../modal/modal";
+import type { Sheet } from "../sheet/sheet";
+import type { Alert } from "../alert/alert";
+import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
+
+declare global {
+  interface DeclareElements {
+    "calcite-shell": Shell;
+  }
+}
 
 /**
  * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
@@ -16,208 +28,218 @@ import { CSS, SLOTS } from "./resources";
  * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
  * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
  */
+export class Shell extends LitElement {
+  // #region Static Members
 
-@Component({
-  tag: "calcite-shell",
-  styleUrl: "shell.scss",
-  shadow: true,
-})
-export class Shell {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+  static override styles = styles;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasAlerts = false;
+
+  @state() hasDialogs = false;
+
+  @state() hasFooter = false;
+
+  @state() hasHeader = false;
+
+  @state() hasModals = false;
+
+  @state() hasOnlyPanelBottom = false;
+
+  @state() hasPanelBottom = false;
+
+  @state() hasPanelTop = false;
+
+  @state() hasSheets = false;
+
+  @state() panelIsResizing = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** Positions the center content behind any `calcite-shell-panel`s. */
+  @property({ reflect: true }) contentBehind = false;
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen(
+      "calciteInternalShellPanelResizeStart",
+      this.handleCalciteInternalShellPanelResizeStart,
+    );
+    this.listen(
+      "calciteInternalShellPanelResizeEnd",
+      this.handleCalciteInternalShellPanelResizeEnd,
+    );
+  }
 
   /**
-   * Positions the center content behind any `calcite-shell-panel`s.
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
    */
-  @Prop({ reflect: true }) contentBehind = false;
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("hasPanelTop") && (this.hasUpdated || this.hasPanelTop !== false)) ||
+      (changes.has("hasPanelBottom") && (this.hasUpdated || this.hasPanelBottom !== false))
+    ) {
+      this.updateHasOnlyPanelBottom();
+    }
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Listen("calciteInternalShellPanelResizeStart")
-  handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
+  // #region Private Methods
+
+  private handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
     this.panelIsResizing = true;
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalShellPanelResizeEnd")
-  handleCalciteInternalShellPanelResizeEnd(event: CustomEvent<void>): void {
+  private handleCalciteInternalShellPanelResizeEnd(event: CustomEvent<void>): void {
     this.panelIsResizing = false;
     event.stopPropagation();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteShellElement;
-
-  @State() hasHeader = false;
-
-  @State() hasFooter = false;
-
-  @State() hasAlerts = false;
-
-  @State() hasModals = false;
-
-  @State() hasDialogs = false;
-
-  @State() hasSheets = false;
-
-  @State() hasPanelTop = false;
-
-  @State() hasPanelBottom = false;
-
-  @State() hasOnlyPanelBottom = false;
-
-  @State() panelIsResizing = false;
-
-  @Watch("hasPanelTop")
-  @Watch("hasPanelBottom")
-  updateHasOnlyPanelBottom(): void {
+  private updateHasOnlyPanelBottom(): void {
     this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  handleHeaderSlotChange = (event: Event): void => {
+  private handleHeaderSlotChange(event: Event): void {
     this.hasHeader = !!slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleFooterSlotChange = (event: Event): void => {
+  private handleFooterSlotChange(event: Event): void {
     this.hasFooter = !!slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleAlertsSlotChange = (event: Event): void => {
+  private handleAlertsSlotChange(event: Event): void {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.tagName === "CALCITE-ALERT") {
-        (el as HTMLCalciteAlertElement).embedded = true;
+        (el as Alert["el"]).embedded = true;
       }
     });
-  };
+  }
 
-  handleSheetsSlotChange = (event: Event): void => {
+  private handleSheetsSlotChange(event: Event): void {
     this.hasSheets = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.tagName === "CALCITE-SHEET") {
-        (el as HTMLCalciteSheetElement).embedded = true;
+        (el as Sheet["el"]).embedded = true;
       }
     });
-  };
+  }
 
-  handleModalsSlotChange = (event: Event): void => {
+  private handleModalsSlotChange(event: Event): void {
     this.hasModals = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.tagName === "CALCITE-MODAL") {
-        (el as HTMLCalciteModalElement).embedded = true;
+        (el as Modal["el"]).embedded = true;
       }
     });
-  };
+  }
 
-  handlePanelTopChange = (event: Event): void => {
+  private handlePanelTopChange(event: Event): void {
     this.hasPanelTop = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handlePanelBottomChange = (event: Event): void => {
+  private handlePanelBottomChange(event: Event): void {
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleDialogsSlotChange = (event: Event): void => {
+  private handleDialogsSlotChange(event: Event): void {
     this.hasDialogs = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.tagName === "CALCITE-DIALOG") {
-        (el as HTMLCalciteDialogElement).embedded = true;
+        (el as Dialog["el"]).embedded = true;
       }
     });
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderHeader(): VNode {
+  // #region Rendering
+
+  private renderHeader(): JsxNode {
     return (
       <div hidden={!this.hasHeader}>
-        <slot key="header" name={SLOTS.header} onSlotchange={this.handleHeaderSlotChange} />
+        <slot key="header" name={SLOTS.header} onSlotChange={this.handleHeaderSlotChange} />
       </div>
     );
   }
 
-  renderFooter(): VNode {
+  private renderFooter(): JsxNode {
     return (
       <div class={CSS.footer} hidden={!this.hasFooter} key="footer">
-        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+        <slot name={SLOTS.footer} onSlotChange={this.handleFooterSlotChange} />
       </div>
     );
   }
 
-  renderAlerts(): VNode {
+  private renderAlerts(): JsxNode {
     return (
       <div hidden={!this.hasAlerts}>
-        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
+        <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
       </div>
     );
   }
 
-  renderSheets(): VNode {
+  private renderSheets(): JsxNode {
     return (
       <div hidden={!this.hasSheets}>
-        <slot key="sheets" name={SLOTS.sheets} onSlotchange={this.handleSheetsSlotChange} />
+        <slot key="sheets" name={SLOTS.sheets} onSlotChange={this.handleSheetsSlotChange} />
       </div>
     );
   }
 
-  renderModals(): VNode {
+  private renderModals(): JsxNode {
     return (
       <div hidden={!this.hasModals}>
-        <slot key="modals" name={SLOTS.modals} onSlotchange={this.handleModalsSlotChange} />
+        <slot key="modals" name={SLOTS.modals} onSlotChange={this.handleModalsSlotChange} />
       </div>
     );
   }
 
-  renderDialogs(): VNode {
+  private renderDialogs(): JsxNode {
     return (
       <div hidden={!this.hasDialogs}>
-        <slot key="dialogs" name={SLOTS.dialogs} onSlotchange={this.handleDialogsSlotChange} />
+        <slot key="dialogs" name={SLOTS.dialogs} onSlotChange={this.handleDialogsSlotChange} />
       </div>
     );
   }
 
-  renderContent(): VNode[] {
+  private renderContent(): JsxNode {
     const { panelIsResizing } = this;
-    const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const defaultSlotNode: JsxNode = <slot key="default-slot" />;
     const defaultSlotContainerNode = panelIsResizing ? (
       <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>
     ) : (
       defaultSlotNode
     );
-    const deprecatedCenterRowSlotNode: VNode = (
+    const deprecatedCenterRowSlotNode: JsxNode = (
       <slot key="center-row-slot" name={SLOTS.centerRow} />
     );
-    const panelBottomSlotNode: VNode = (
+    const panelBottomSlotNode: JsxNode = (
       <slot
         key="panel-bottom-slot"
         name={SLOTS.panelBottom}
-        onSlotchange={this.handlePanelBottomChange}
+        onSlotChange={this.handlePanelBottomChange}
       />
     );
-    const panelTopSlotNode: VNode = (
-      <slot key="panel-top-slot" name={SLOTS.panelTop} onSlotchange={this.handlePanelTopChange} />
+    const panelTopSlotNode: JsxNode = (
+      <slot key="panel-top-slot" name={SLOTS.panelTop} onSlotChange={this.handlePanelTopChange} />
     );
 
     const contentContainerKey = "content-container";
@@ -259,7 +281,7 @@ export class Shell {
     return content;
   }
 
-  renderMain(): VNode {
+  private renderMain(): JsxNode {
     return (
       <div class={CSS.main}>
         <slot name={SLOTS.panelStart} />
@@ -269,7 +291,7 @@ export class Shell {
     );
   }
 
-  renderPositionedSlots(): VNode {
+  private renderPositionedSlots(): JsxNode {
     return (
       <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
@@ -280,14 +302,16 @@ export class Shell {
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Fragment>
+      <>
         {this.renderHeader()}
         {this.renderMain()}
         {this.renderFooter()}
         {this.renderPositionedSlots()}
-      </Fragment>
+      </>
     );
   }
+
+  // #endregion
 }

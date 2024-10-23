@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { locales, defaultLocale } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { DatePicker } from "./date-picker";
+
 const { scale } = ATTRIBUTES;
 
 interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" | "scale" | "value"> {
@@ -38,7 +39,11 @@ export default {
   parameters: {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
+      diffThreshold:
+        Number(
+          /* TODO: [MIGRATION] Unknown env variable. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-publishing--docs#bundling-code-conditionally for docs on what env variables are available and how to define additional */ import.meta
+            .env.CHROMATIC_DIFF_THRESHOLD,
+        ) || 0.3,
       delay: 500,
     },
   },

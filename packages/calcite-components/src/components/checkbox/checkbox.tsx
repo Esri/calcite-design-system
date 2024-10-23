@@ -1,15 +1,6 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  VNode,
-} from "@stencil/core";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { getElementDir } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -33,48 +24,76 @@ import {
 } from "../../utils/loadable";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import type { Label } from "../label/label";
 import { CSS } from "./resources";
+import { styles } from "./checkbox.scss";
 
-@Component({
-  tag: "calcite-checkbox",
-  styleUrl: "checkbox.scss",
-  shadow: true,
-})
+declare global {
+  interface DeclareElements {
+    "calcite-checkbox": Checkbox;
+  }
+}
+
 export class Checkbox
+  extends LitElement
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
+
+  defaultChecked: boolean;
+
+  defaultValue: Checkbox["checked"];
+
+  formEl: HTMLFormElement;
+
+  private readonly indeterminatePath = "M13 8v1H3V8z";
+
+  labelEl: Label["el"];
+
+  onLabelClick = (): void => {
+    this.toggle();
+  };
+
+  private toggleEl = createRef<HTMLDivElement>();
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, the component is checked. */
-  @Prop({ reflect: true, mutable: true }) checked = false;
+  @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
   /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true }) form: string;
+  @property({ reflect: true }) form: string;
 
   /**
    * The `id` attribute of the component. When omitted, a globally unique identifier is used.
    *
    * @deprecated No longer necessary.
    */
-  @Prop({ reflect: true, mutable: true }) guid: string;
+  @property({ reflect: true }) guid: string;
 
   /**
    * The hovered state of the checkbox.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop({ reflect: true }) hovered = false;
+  @property({ reflect: true }) hovered = false;
 
   /**
    * When `true`, the component is initially indeterminate, which is independent from its `checked` value.
@@ -83,26 +102,26 @@ export class Checkbox
    *
    * @mdn [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
    */
-  @Prop({ reflect: true, mutable: true }) indeterminate = false;
+  @property({ reflect: true }) indeterminate = false;
 
   /** Accessible name for the component. */
-  @Prop() label: string;
+  @property() label: string;
 
   /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
    */
-  @Prop({ reflect: true }) name: string;
+  @property({ reflect: true }) name: string;
 
   /** When `true`, the component must have a value in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
+  @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ reflect: true }) status: Status = "idle";
+  @property({ reflect: true }) status: Status = "idle";
 
   /**
    * The current validation state of the component.
@@ -111,7 +130,7 @@ export class Checkbox
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity: MutableValidityState = {
+  @property() validity: MutableValidityState = {
     valid: false,
     badInput: false,
     customError: false,
@@ -126,180 +145,145 @@ export class Checkbox
   };
 
   /** The component's value. */
-  @Prop() value: any;
+  @property() value: any;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteCheckboxElement;
-
-  readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
-
-  readonly indeterminatePath = "M13 8v1H3V8z";
-
-  labelEl: HTMLCalciteLabelElement;
-
-  formEl: HTMLFormElement;
-
-  defaultChecked: boolean;
-
-  defaultValue: Checkbox["checked"];
-
-  toggleEl: HTMLDivElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.toggleEl?.focus();
+    this.toggleEl.value?.focus();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component's `checked` status changes. */
+  calciteCheckboxChange = createEvent({ cancelable: false });
+
+  /**
+   * Fires when the component is blurred.
+   *
+   * @notPublic
+   */
+  calciteInternalCheckboxBlur = createEvent<boolean>({ cancelable: false });
+
+  /**
+   * Fires when the component is focused.
+   *
+   * @notPublic
+   */
+  calciteInternalCheckboxFocus = createEvent<boolean>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("click", this.clickHandler);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
+    this.guid = this.el.id || `calcite-checkbox-${guid()}`;
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "checkbox";
   }
 
-  getPath = (): string =>
-    this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
+  private getPath(): string {
+    return this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
+  }
 
-  toggle = (): void => {
+  private toggle(): void {
     if (!this.disabled) {
       this.checked = !this.checked;
       this.setFocus();
       this.indeterminate = false;
       this.calciteCheckboxChange.emit();
     }
-  };
+  }
 
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (isActivationKey(event.key)) {
       this.toggle();
       event.preventDefault();
     }
-  };
+  }
 
-  clickHandler = (): void => {
+  private clickHandler(): void {
     this.toggle();
-  };
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when the component is blurred.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalCheckboxBlur: EventEmitter<boolean>;
-
-  /** Fires when the component's `checked` status changes. */
-  @Event({ cancelable: false }) calciteCheckboxChange: EventEmitter<void>;
-
-  /**
-   * Fires when the component is focused.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalCheckboxFocus: EventEmitter<boolean>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  onToggleBlur = (): void => {
+  private onToggleBlur(): void {
     this.calciteInternalCheckboxBlur.emit(false);
-  };
+  }
 
-  onToggleFocus = (): void => {
+  private onToggleFocus(): void {
     this.calciteInternalCheckboxFocus.emit(true);
-  };
-
-  onLabelClick = (): void => {
-    this.toggle();
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.guid = this.el.id || `calcite-checkbox-${guid()}`;
-    connectLabel(this);
-    connectForm(this);
   }
 
-  disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-  }
+  // #endregion
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
+  // #region Rendering
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  render(): VNode {
+  override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
 
     return (
-      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <InteractiveContainer disabled={this.disabled}>
-          <div
-            aria-checked={toAriaBoolean(this.checked)}
-            aria-label={getLabelText(this)}
-            class={{
-              [CSS.toggle]: true,
-              [CSS_UTILITY.rtl]: rtl,
-            }}
-            onBlur={this.onToggleBlur}
-            onFocus={this.onToggleFocus}
-            ref={(toggleEl) => (this.toggleEl = toggleEl)}
-            role="checkbox"
-            tabIndex={this.disabled ? undefined : 0}
-          >
-            <svg aria-hidden="true" class={CSS.check} viewBox="0 0 16 16">
-              <path d={this.getPath()} />
-            </svg>
-            <slot />
-          </div>
-          <HiddenFormInputSlot component={this} />
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          ariaChecked={this.checked}
+          ariaLabel={getLabelText(this)}
+          class={{
+            [CSS.toggle]: true,
+            [CSS_UTILITY.rtl]: rtl,
+          }}
+          onBlur={this.onToggleBlur}
+          onFocus={this.onToggleFocus}
+          ref={this.toggleEl}
+          role="checkbox"
+          tabIndex={this.disabled ? undefined : 0}
+        >
+          <svg ariaHidden="true" class={CSS.check} viewBox="0 0 16 16">
+            <path d={this.getPath()} />
+          </svg>
+          <slot />
+        </div>
+        <HiddenFormInputSlot component={this} />
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

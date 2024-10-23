@@ -25,4 +25,4 @@ For comprehensive guidance on using and implementing `calcite-list-item-group`, 
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

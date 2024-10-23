@@ -2,6 +2,7 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Table } from "./table";
+
 const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
 
 type TableStoryArgs = Pick<

@@ -14,7 +14,7 @@ For comprehensive guidance on using and implementing `calcite-meter`, refer to t
 | `form`               | `form`             | The `id` of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                      | `string`                                 | `undefined`      |
 | `groupSeparator`     | `group-separator`  | When `true`, number values are displayed with a group separator corresponding to the language and country format.                                                            | `boolean`                                | `false`          |
 | `high`               | `high`             | Specifies a high value. When `fillType` is `"range"`, displays a different color when above the specified threshold.                                                         | `number`                                 | `undefined`      |
-| `label` *(required)* | `label`            | Accessible name for the component.                                                                                                                                           | `string`                                 | `undefined`      |
+| `label` _(required)_ | `label`            | Accessible name for the component.                                                                                                                                           | `string`                                 | `undefined`      |
 | `low`                | `low`              | Specifies a low value. When `fillType` is `"range"`, displays a different color when above the specified threshold.                                                          | `number`                                 | `undefined`      |
 | `max`                | `max`              | Specifies the highest allowed value of the component.                                                                                                                        | `number`                                 | `100`            |
 | `min`                | `min`              | Specifies the lowest allowed value of the component.                                                                                                                         | `number`                                 | `0`              |
@@ -30,4 +30,4 @@ For comprehensive guidance on using and implementing `calcite-meter`, refer to t
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

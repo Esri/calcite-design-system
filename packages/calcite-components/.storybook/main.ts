@@ -1,31 +1,31 @@
+import { UserConfig } from "vite";
+
 module.exports = {
   addons: [
     "@storybook/addon-a11y",
     "@storybook/addon-docs",
     "@storybook/addon-controls",
-    "@storybook/addon-interactions",
     "@storybook/addon-mdx-gfm",
     "@storybook/addon-themes",
-    "@storybook/addon-webpack5-compiler-babel",
     "@whitespace/storybook-addon-html",
     "storybook-addon-rtl",
   ],
-
+  core: {
+    builder: "@storybook/builder-vite",
+  },
   framework: {
-    name: "@storybook/html-webpack5",
+    name: "@storybook/web-components-vite",
     options: {},
   },
+  async viteFinal(config: UserConfig, { configType }) {
+    const { mergeConfig } = await import("vite");
 
-  staticDirs: ["../__docs-temp__"],
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.ts"],
-
-  babel: async (options) => {
-    return {
-      ...options,
-      presets: ["@babel/preset-typescript"],
-    };
+    return mergeConfig(config, {
+      assetsInclude: ["**/*.md"],
+      define: { "process.env": {} },
+    });
   },
-
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.ts"],
   previewHead: (head: string): string =>
     `
     ${head}
@@ -39,7 +39,6 @@ module.exports = {
         : ""
     }
   `,
-
   managerHead: (head: string): string => {
     if (process.env.STORYBOOK_SCREENSHOT_TEST_BUILD || process.env.STORYBOOK_SCREENSHOT_LOCAL_BUILD) {
       return head;

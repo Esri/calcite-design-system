@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
+
 const { collapseDirection, scale } = ATTRIBUTES;
 
 interface FlowItemStoryArgs

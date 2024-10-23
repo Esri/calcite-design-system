@@ -1,7 +1,9 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
+import type { Filter } from "./filter";
 
 describe("calcite-filter", () => {
   describe("renders", () => {
@@ -104,7 +106,7 @@ describe("calcite-filter", () => {
 
         await page.$eval(
           "calcite-filter",
-          async (filter: HTMLCalciteFilterElement, buttonSelector: string): Promise<void> => {
+          async (filter: Filter["el"], buttonSelector: string): Promise<void> => {
             return filter.shadowRoot
               .querySelector("calcite-input")
               .shadowRoot.querySelector<HTMLElement>(buttonSelector)
@@ -214,7 +216,7 @@ describe("calcite-filter", () => {
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
 
-      await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
+      await page.$eval("calcite-filter", (filter: Filter["el"]): void => {
         filter.items = filter.items.slice(3);
       });
       await page.waitForTimeout(DEBOUNCE.filter);
@@ -223,7 +225,7 @@ describe("calcite-filter", () => {
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
 
-      await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
+      await page.$eval("calcite-filter", (filter: Filter["el"]): void => {
         filter.items = [];
       });
       await page.waitForTimeout(DEBOUNCE.filter);

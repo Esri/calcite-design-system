@@ -9,7 +9,7 @@
   try {
     const __dirname = dirname(fileURLToPath(import.meta.url));
 
-    const outFile = resolve(__dirname, "..", "dist", "extras", "translations-json.json");
+    const outFile = resolve(__dirname, "..", "dist", "docs", "translations-json.json");
     const assetsPaths = resolve(__dirname, "..", "dist", "calcite", "assets");
     const components = await readdir(assetsPaths);
 

@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tree } from "./tree";
+
 const { selectionMode, scale } = ATTRIBUTES;
 
 type TreeStoryArgs = Pick<Tree, "lines" | "selectionMode" | "scale">;

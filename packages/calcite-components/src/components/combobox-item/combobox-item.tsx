@@ -1,15 +1,5 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -23,85 +13,99 @@ import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
+import { styles } from "./combobox-item.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-combobox-item": ComboboxItem;
+  }
+}
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
  */
-@Component({
-  tag: "calcite-combobox-item",
-  styleUrl: "combobox-item.scss",
-  shadow: true,
-})
-export class ComboboxItem implements InteractiveComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class ComboboxItem extends LitElement implements InteractiveComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private _selected = false;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasContent = false;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, the component is active. */
-  @Prop({ reflect: true }) active = false;
+  @property({ reflect: true }) active = false;
 
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
-  @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
+  @property() ancestors: ComboboxChildElement[];
 
-  /**
-   * A description for the component, which displays below the label.
-   */
-  @Prop() description: string;
+  /** A description for the component, which displays below the label. */
+  @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
-  @Watch("disabled")
-  @Watch("textLabel")
-  handleComboboxItemPropsChange(): void {
-    this.calciteInternalComboboxItemChange.emit();
-  }
-
-  /**
-   * When `true`, omits the component from the `calcite-combobox` filtered search results.
-   */
-  @Prop({ reflect: true }) filterDisabled: boolean;
+  /** When `true`, omits the component from the `calcite-combobox` filtered search results. */
+  @property({ reflect: true }) filterDisabled: boolean;
 
   /**
    * Pattern for highlighting filter text matches.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
+  @property({ reflect: true }) filterTextMatchPattern: RegExp;
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid = guid();
+  @property({ reflect: true }) guid = guid();
+
+  /** The component's text. */
+  @property() heading: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
-  @Watch("selected")
-  selectedWatchHandler(): void {
-    this.calciteComboboxItemChange.emit();
-  }
+  /** The component's label. */
+  @property() label: any;
 
-  /**
-   * Provides additional metadata to the component used in filtering.
-   */
-  @Prop() metadata: Record<string, unknown>;
+  /** Provides additional metadata to the component used in filtering. */
+  @property() metadata: Record<string, unknown>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop() scale: Scale = "m";
+  @property() scale: Scale = "m";
 
-  /**
-   * When `true`, the component is selected.
-   */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  /** When `true`, the component is selected. */
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+
+  set selected(selected: boolean) {
+    const oldSelected = this._selected;
+    if (selected !== oldSelected) {
+      this._selected = selected;
+      this.selectedWatchHandler();
+    }
+  }
 
   /**
    * Specifies the selection mode of the component, where:
@@ -114,9 +118,9 @@ export class ComboboxItem implements InteractiveComponent {
    *
    * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop({ reflect: true }) selectionMode: Extract<
+  @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   > = "multiple";
@@ -128,78 +132,89 @@ export class ComboboxItem implements InteractiveComponent {
    *
    * It is recommended to use 5 characters or fewer.
    */
-  @Prop() shortHeading: string;
-
-  /** The component's text. */
-  @Prop() heading: string;
+  @property() shortHeading: string;
 
   /**
    * The component's text.
    *
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
+   *
    * @deprecated Use `heading` instead.
+   * @required
    */
-  @Prop({ reflect: true }) textLabel!: string;
-
-  /** The component's value. */
-  @Prop() value!: any;
-
-  /** The component's label. */
-  @Prop() label: any;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteComboboxItemElement;
-
-  @State() hasContent = false;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.ancestors = getAncestors(this.el);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  @property({ reflect: true }) textLabel: string;
 
   /**
-   * Fires whenever the component is selected or unselected.
+   * The component's value.
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
+   * @required
    */
-  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
+  @property() value: any;
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires whenever the component is selected or unselected. */
+  calciteComboboxItemChange = createEvent({ cancelable: false });
 
   /**
    * Fires whenever a property the parent combobox needs to know about is changed.
    *
-   * @internal
+   * @notPublic
    */
-  @Event({ cancelable: false }) calciteInternalComboboxItemChange: EventEmitter<void>;
+  calciteInternalComboboxItemChange = createEvent({ cancelable: false });
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  private handleDefaultSlotChange = (event: Event): void => {
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.ancestors = getAncestors(this.el);
+  }
+
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      changes.has("textLabel")
+    ) {
+      this.handleComboboxItemPropsChange();
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleComboboxItemPropsChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
+
+  private selectedWatchHandler(): void {
+    this.calciteComboboxItemChange.emit();
+  }
+
+  private handleDefaultSlotChange(event: Event): void {
     this.hasContent = slotChangeHasContent(event);
-  };
+  }
 
-  toggleSelected(): Promise<void> {
+  private toggleSelected(): Promise<void> {
     const isSinglePersistSelect = this.selectionMode === "single-persist";
 
     if (this.disabled || (isSinglePersistSelect && this.selected)) {
@@ -209,17 +224,15 @@ export class ComboboxItem implements InteractiveComponent {
     this.selected = !this.selected;
   }
 
-  private itemClickHandler = (): void => {
+  private itemClickHandler(): void {
     this.toggleSelected();
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderIcon(iconPath: IconNameOrString): VNode {
+  // #region Rendering
+
+  private renderIcon(iconPath: IconNameOrString): JsxNode {
     return this.icon ? (
       <calcite-icon
         class={{
@@ -234,9 +247,11 @@ export class ComboboxItem implements InteractiveComponent {
     ) : null;
   }
 
-  renderSelectIndicator(showDot: boolean): VNode;
-  renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): VNode;
-  renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): VNode {
+  private renderSelectIndicator(showDot: boolean): JsxNode;
+
+  private renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): JsxNode;
+
+  private renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): JsxNode {
     return showDot ? (
       <span
         class={{
@@ -258,15 +273,15 @@ export class ComboboxItem implements InteractiveComponent {
     );
   }
 
-  renderChildren(): VNode {
+  private renderChildren(): JsxNode {
     return (
       <ul hidden={!this.hasContent} key="default-slot-container">
-        <slot onSlotchange={this.handleDefaultSlotChange} />
+        <slot onSlotChange={this.handleDefaultSlotChange} />
       </ul>
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const { disabled, heading, label, textLabel, value } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
     const defaultIcon = isSingleSelect ? undefined : "check";
@@ -282,46 +297,48 @@ export class ComboboxItem implements InteractiveComponent {
       [CSS.single]: isSingleSelect,
     };
     const depth = getDepth(this.el) + 1;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaHidden = "true";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLabel = itemLabel;
 
     return (
-      <Host aria-hidden="true" aria-label={itemLabel}>
-        <InteractiveContainer disabled={disabled}>
-          <div
-            class={{
-              [CSS.container]: true,
-              [CSS.scale(this.scale)]: true,
-            }}
-            style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
-          >
-            <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-              {this.renderSelectIndicator(showDot, iconPath)}
-              {this.renderIcon(iconPath)}
-              <div class={CSS.centerContent}>
-                <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
-                {this.description ? (
-                  <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
-                ) : null}
-              </div>
-              {this.shortHeading ? (
-                <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
+      <InteractiveContainer disabled={disabled}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.scale(this.scale)]: true,
+          }}
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+        >
+          <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
+            {this.renderSelectIndicator(showDot, iconPath)}
+            {this.renderIcon(iconPath)}
+            <div class={CSS.centerContent}>
+              <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
+              {this.description ? (
+                <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
               ) : null}
-              <slot name={SLOTS.contentEnd} />
-            </li>
-            {this.renderChildren()}
-          </div>
-        </InteractiveContainer>
-      </Host>
+            </div>
+            {this.shortHeading ? (
+              <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
+            ) : null}
+            <slot name={SLOTS.contentEnd} />
+          </li>
+          {this.renderChildren()}
+        </div>
+      </InteractiveContainer>
     );
   }
 
-  private renderTextContent(text: string): string | (string | VNode)[] {
+  private renderTextContent(text: string): string | (string | JsxNode)[] {
     const pattern = this.filterTextMatchPattern;
 
     if (!pattern || !text) {
       return text;
     }
 
-    const parts: (string | VNode)[] = text.split(pattern);
+    const parts: (string | JsxNode)[] = text.split(pattern);
 
     if (parts.length > 1) {
       // we only highlight the first match
@@ -330,4 +347,6 @@ export class ComboboxItem implements InteractiveComponent {
 
     return parts;
   }
+
+  // #endregion
 }

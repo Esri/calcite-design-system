@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   disabled,
@@ -399,7 +400,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("partial");
     });
 
-    it("should update the ui of the rating when a hover event triggers on a rating label", async () => {
+    it("should update the UI of the rating when a hover event triggers on a rating label", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3.5></calcite-rating>");
       const element = await page.find("calcite-rating");

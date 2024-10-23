@@ -80,7 +80,7 @@ Make the following changes and submit a PR:
 1. In [`release-please-config.json`](https://github.com/Esri/calcite-design-system/blob/dev/release-please-config.json) under the `packages` field, add the new package's path as well as any package-specific configurations. The only required field is the package's name, taken from the `name` field in its `package.json`.
 1. If the new package needs to be linked to Calcite Component's version, add its name to the `LINKED_VERSIONS_TRACKING_PACKAGES` array in [`support/syncLinkedPackageVersions.ts`](https://github.com/Esri/calcite-design-system/blob/dev/support/syncLinkedPackageVersions.ts).
 1. Potentially rename the new package's NPM scripts so they match the pipeline names in `turbo.json` (build, test, clean, etc.). Note: having all of the NPM scripts that are specified in `turbo.json` is not required.
-1. If present and when possible, the `test` NPM script should *not* build first. Turbo will make sure the `build` script runs first and will cache the results.
+1. If present and when possible, the `test` NPM script should _not_ build first. Turbo will make sure the `build` script runs first and will cache the results.
 1. Potentially rename directories for consistency with the other packages:
 
 - `src/` - source code

@@ -113,7 +113,7 @@ This will give you an object containing all the icons in the library at all size
 }
 ```
 
-*Note: path data omitted for brevity.*
+_Note: path data omitted for brevity._
 
 Most icons will have simple strings as path data, but some will be more complex as they need to store not only path, but opacity as well for multiple shapes. Icons of this structure will be annotated with the `multiPath` flag.
 

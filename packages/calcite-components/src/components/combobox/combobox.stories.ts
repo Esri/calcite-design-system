@@ -10,7 +10,6 @@ import type { Combobox } from "./combobox";
  * @param context - the context object
  * @param context.args - the args object
  * @param context.args.selectionMode - the selection mode(s) to use for the combobox
- *
  * @returns the composite story for all scales for each specified selection mode
  */
 function allScaleComboboxBuilder(

@@ -1,7 +1,7 @@
-import { Build } from "@stencil/core";
+import { isServer } from "lit-html/is-server.js";
 
 export const isBrowser = (): boolean =>
-  Build.isBrowser &&
+  !isServer &&
   typeof navigator !== "undefined" &&
   typeof window !== "undefined" &&
   typeof location !== "undefined" &&

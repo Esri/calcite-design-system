@@ -1,17 +1,15 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  VNode,
-} from "@stencil/core";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
+import type { DatePickerDay } from "../date-picker-day/date-picker-day";
+import { styles } from "./date-picker-month.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-date-picker-month": DatePickerMonth;
+  }
+}
 
 const DAYS_PER_WEEK = 7;
 const DAYS_MAXIMUM_INDEX = 6;
@@ -25,95 +23,103 @@ interface Day {
   ref?: boolean;
 }
 
-@Component({
-  tag: "calcite-date-picker-month",
-  styleUrl: "date-picker-month.scss",
-  shadow: true,
-})
-export class DatePickerMonth {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+export class DatePickerMonth extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private activeFocus: boolean;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** The currently active Date. */
+  @property() activeDate: Date = new Date();
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop() dateTimeFormat: Intl.DateTimeFormat;
+  @property() dateTimeFormat: Intl.DateTimeFormat;
 
-  /** Already selected date.*/
-  @Prop() selectedDate: Date;
+  /** End date currently active. */
+  @property() endDate?: Date;
 
-  /** The currently active Date.*/
-  @Prop() activeDate: Date = new Date();
-
-  /** Start date currently active. */
-  @Prop() startDate?: Date;
-
-  /** End date currently active.  */
-  @Prop() endDate?: Date;
-
-  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @Prop() min: Date;
-
-  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @Prop() max: Date;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale;
+  /** The range of dates currently being hovered. */
+  @property() hoverRange: HoverRange;
 
   /**
    * CLDR locale data for current locale.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop() localeData: DateLocaleData;
+  @property() localeData: DateLocaleData;
 
-  /** The range of dates currently being hovered. */
-  @Prop() hoverRange: HoverRange;
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  @property() max: Date;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  @property() min: Date;
 
-  /**
-   * Fires when user selects the date.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale;
 
-  /**
-   * Fires when user hovers the date.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDatePickerHover: EventEmitter<Date>;
+  /** Already selected date. */
+  @property() selectedDate: Date;
+
+  /** Start date currently active. */
+  @property() startDate?: Date;
+
+  // #endregion
+
+  // #region Events
 
   /**
    * Active date for the user keyboard access.
    *
-   * @internal
+   * @notPublic
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerActiveDateChange: EventEmitter<Date>;
+  calciteInternalDatePickerActiveDateChange = createEvent<Date>({ cancelable: false });
 
   /**
-   * @internal
+   * Fires when user hovers the date.
+   *
+   * @notPublic
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerMouseOut: EventEmitter<void>;
+  calciteInternalDatePickerHover = createEvent<Date>({ cancelable: false });
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  /** @notPublic */
+  calciteInternalDatePickerMouseOut = createEvent({ cancelable: false });
 
-  keyDownHandler = (event: KeyboardEvent): void => {
+  /**
+   * Fires when user selects the date.
+   *
+   * @notPublic
+   */
+  calciteInternalDatePickerSelect = createEvent<Date>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("pointerout", this.pointerOutHandler);
+    this.listen("focusout", this.disableActiveFocus);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private keyDownHandler(event: KeyboardEvent): void {
     if (event.defaultPrevented) {
       return;
     }
@@ -164,105 +170,20 @@ export class DatePickerMonth {
       case "Tab":
         this.activeFocus = false;
     }
-  };
+  }
 
   /**
    * Once user is not interacting via keyboard,
    * disable auto focusing of active date
    */
-  disableActiveFocus = (): void => {
+  private disableActiveFocus(): void {
     this.activeFocus = false;
-  };
+  }
 
-  @Listen("pointerout")
-  pointerOutHandler(): void {
+  private pointerOutHandler(): void {
     this.calciteInternalDatePickerMouseOut.emit();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-  render(): VNode {
-    const month = this.activeDate.getMonth();
-    const year = this.activeDate.getFullYear();
-    const startOfWeek = this.localeData.weekStart % 7;
-    const { abbreviated, short, narrow } = this.localeData.days;
-    const weekDays =
-      this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
-    const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
-    const curMonDays = this.getCurrentMonthDays(month, year);
-    const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
-    const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
-    let dayInWeek = 0;
-    const getDayInWeek = () => dayInWeek++ % 7;
-
-    const days: Day[] = [
-      ...prevMonDays.map((day) => {
-        return {
-          active: false,
-          day,
-          dayInWeek: getDayInWeek(),
-          date: new Date(year, month - 1, day),
-        };
-      }),
-      ...curMonDays.map((day) => {
-        const date = new Date(year, month, day);
-        const active = sameDate(date, this.activeDate);
-        return {
-          active,
-          currentMonth: true,
-          day,
-          dayInWeek: getDayInWeek(),
-          date,
-          ref: true,
-        };
-      }),
-      ...nextMonDays.map((day) => {
-        return {
-          active: false,
-          day,
-          dayInWeek: getDayInWeek(),
-          date: new Date(year, month + 1, day),
-        };
-      }),
-    ];
-
-    return (
-      <Host onFocusout={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
-        <div class="calendar" role="grid">
-          <div class="week-headers" role="row">
-            {adjustedWeekDays.map((weekday) => (
-              <span class="week-header" role="columnheader">
-                {weekday}
-              </span>
-            ))}
-          </div>
-
-          <div class="week-days" role="row">
-            {days.map((day, index) => this.renderDateDay(day, index))}
-          </div>
-        </div>
-      </Host>
-    );
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDatePickerMonthElement;
-
-  private activeFocus: boolean;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
   /**
    * Add n months to the current month
    *
@@ -404,20 +325,122 @@ export class DatePickerMonth {
     );
   }
 
-  dayHover = (event: CustomEvent): void => {
-    const target = event.target as HTMLCalciteDatePickerDayElement;
+  private dayHover(event: CustomEvent): void {
+    const target = event.target as DatePickerDay["el"];
     if (target.disabled) {
       this.calciteInternalDatePickerMouseOut.emit();
     } else {
       this.calciteInternalDatePickerHover.emit(target.value);
     }
     event.stopPropagation();
-  };
+  }
 
-  daySelect = (event: CustomEvent): void => {
-    const target = event.target as HTMLCalciteDatePickerDayElement;
+  private daySelect(event: CustomEvent): void {
+    const target = event.target as DatePickerDay["el"];
     this.calciteInternalDatePickerSelect.emit(target.value);
-  };
+  }
+
+  private isFocusedOnStart(): boolean {
+    return this.hoverRange?.focused === "start";
+  }
+
+  private isHoverInRange(): boolean {
+    if (!this.hoverRange) {
+      return false;
+    }
+    const { start, end } = this.hoverRange;
+    return !!(
+      (!this.isFocusedOnStart() && this.startDate && (!this.endDate || end < this.endDate)) ||
+      (this.isFocusedOnStart() && this.startDate && start > this.startDate)
+    );
+  }
+
+  private isRangeHover(date): boolean {
+    if (!this.hoverRange) {
+      return false;
+    }
+    const { start, end } = this.hoverRange;
+    const isStart = this.isFocusedOnStart();
+    const insideRange = this.isHoverInRange();
+    const cond1 =
+      insideRange &&
+      ((!isStart && date > this.startDate && (date < end || sameDate(date, end))) ||
+        (isStart && date < this.endDate && (date > start || sameDate(date, start))));
+    const cond2 =
+      !insideRange &&
+      ((!isStart && date >= this.endDate && (date < end || sameDate(date, end))) ||
+        (isStart &&
+          ((this.startDate && date < this.startDate) ||
+            (this.endDate && sameDate(date, this.startDate))) &&
+          ((start && date > start) || sameDate(date, start))));
+    return cond1 || cond2;
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const month = this.activeDate.getMonth();
+    const year = this.activeDate.getFullYear();
+    const startOfWeek = this.localeData.weekStart % 7;
+    const { abbreviated, short, narrow } = this.localeData.days;
+    const weekDays =
+      this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
+    const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
+    const curMonDays = this.getCurrentMonthDays(month, year);
+    const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
+    const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
+    let dayInWeek = 0;
+    const getDayInWeek = () => dayInWeek++ % 7;
+
+    const days: Day[] = [
+      ...prevMonDays.map((day) => {
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month - 1, day),
+        };
+      }),
+      ...curMonDays.map((day) => {
+        const date = new Date(year, month, day);
+        const active = sameDate(date, this.activeDate);
+        return {
+          active,
+          currentMonth: true,
+          day,
+          dayInWeek: getDayInWeek(),
+          date,
+          ref: true,
+        };
+      }),
+      ...nextMonDays.map((day) => {
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month + 1, day),
+        };
+      }),
+    ];
+
+    return (
+      <div class="calendar" role="grid">
+        <div class="week-headers" role="row">
+          {adjustedWeekDays.map((weekday) => (
+            <span class="week-header" role="columnheader">
+              {weekday}
+            </span>
+          ))}
+        </div>
+
+        <div class="week-days" role="row">
+          {days.map((day, index) => this.renderDateDay(day, index))}
+        </div>
+      </div>
+    );
+  }
 
   /**
    * Render calcite-date-picker-day
@@ -458,12 +481,12 @@ export class DatePickerMonth {
           disabled={!inRange(date, this.min, this.max)}
           endOfRange={this.isEndOfRange(date)}
           highlighted={this.betweenSelectedRange(date)}
-          onCalciteDaySelect={this.daySelect}
-          onCalciteInternalDayHover={this.dayHover}
+          oncalciteDaySelect={this.daySelect}
+          oncalciteInternalDayHover={this.dayHover}
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
           rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={this.isRangeHover(date)}
-          ref={(el: HTMLCalciteDatePickerDayElement) => {
+          ref={(el) => {
             // when moving via keyboard, focus must be updated on active date
             if (ref && active && this.activeFocus) {
               el?.setFocus();
@@ -478,39 +501,5 @@ export class DatePickerMonth {
     );
   }
 
-  private isFocusedOnStart(): boolean {
-    return this.hoverRange?.focused === "start";
-  }
-
-  private isHoverInRange(): boolean {
-    if (!this.hoverRange) {
-      return false;
-    }
-    const { start, end } = this.hoverRange;
-    return !!(
-      (!this.isFocusedOnStart() && this.startDate && (!this.endDate || end < this.endDate)) ||
-      (this.isFocusedOnStart() && this.startDate && start > this.startDate)
-    );
-  }
-
-  private isRangeHover(date): boolean {
-    if (!this.hoverRange) {
-      return false;
-    }
-    const { start, end } = this.hoverRange;
-    const isStart = this.isFocusedOnStart();
-    const insideRange = this.isHoverInRange();
-    const cond1 =
-      insideRange &&
-      ((!isStart && date > this.startDate && (date < end || sameDate(date, end))) ||
-        (isStart && date < this.endDate && (date > start || sameDate(date, start))));
-    const cond2 =
-      !insideRange &&
-      ((!isStart && date >= this.endDate && (date < end || sameDate(date, end))) ||
-        (isStart &&
-          ((this.startDate && date < this.startDate) ||
-            (this.endDate && sameDate(date, this.startDate))) &&
-          ((start && date > start) || sameDate(date, start))));
-    return cond1 || cond2;
-  }
+  // #endregion
 }

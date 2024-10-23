@@ -9,7 +9,7 @@ For comprehensive guidance on using and implementing `calcite-option-group`, ref
 | Property             | Attribute  | Description                                                                              | Type      | Default     |
 | -------------------- | ---------- | ---------------------------------------------------------------------------------------- | --------- | ----------- |
 | `disabled`           | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
-| `label` *(required)* | `label`    | Accessible name for the component.                                                       | `string`  | `undefined` |
+| `label` _(required)_ | `label`    | Accessible name for the component.                                                       | `string`  | `undefined` |
 
 ## Slots
 
@@ -19,4 +19,4 @@ For comprehensive guidance on using and implementing `calcite-option-group`, ref
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

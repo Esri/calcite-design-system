@@ -1,23 +1,8 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { LocalizedComponent } from "../../utils/locale";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
-import {
-  focusElementInGroup,
-  FocusElementInGroupDestination,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
@@ -26,148 +11,169 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
+import type { TableHeader } from "../table-header/table-header";
+import type { TableCell } from "../table-cell/table-cell";
 import { CSS } from "./resources";
+import { styles } from "./table-row.scss";
 
-/**
- * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
- */
+declare global {
+  interface DeclareElements {
+    "calcite-table-row": TableRow;
+  }
+}
 
-@Component({
-  tag: "calcite-table-row",
-  styleUrl: "table-row.scss",
-  shadow: true,
-})
-export class TableRow implements InteractiveComponent, LocalizedComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+/** @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements. */
+export class TableRow extends LitElement implements InteractiveComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  messages;
+
+  private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
+
+  private tableRowEl = createRef<HTMLTableRowElement>();
+
+  private tableRowSlotEl = createRef<HTMLSlotElement>();
+
+  // #endregion
+
+  // #region Public Properties
+
   /** Specifies the alignment of the component. */
-  @Prop({ reflect: true }) alignment: Alignment;
+  @property({ reflect: true }) alignment: Alignment;
+
+  /** @notPublic */
+  @property() bodyRowCount: number;
+
+  /** @notPublic */
+  @property() cellCount: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
+
+  /** @notPublic */
+  @property() interactionMode: TableInteractionMode = "interactive";
+
+  /** @notPublic */
+  @property() lastVisibleRow: boolean;
+
+  /** @notPublic */
+  @property() numbered = false;
+
+  /** @notPublic */
+  @property() positionAll: number;
+
+  /** @notPublic */
+  @property() positionSection: number;
+
+  /** @notPublic */
+  @property() positionSectionLocalized: string;
+
+  /** @notPublic */
+  @property() readCellContentsToAT: boolean;
+
+  /** @notPublic */
+  @property() rowType: RowType;
+
+  /** @notPublic */
+  @property() scale: Scale;
 
   /** When `true`, the component is selected. */
-  @Prop({ reflect: true }) selected = false;
+  @property({ reflect: true }) selected = false;
 
-  /** @internal */
-  @Prop({ mutable: true }) cellCount: number;
+  /** @notPublic */
+  @property() selectedRowCount: number;
 
-  /** @internal */
-  @Prop() interactionMode: TableInteractionMode = "interactive";
+  /** @notPublic */
+  @property() selectedRowCountLocalized: string;
 
-  /** @internal */
-  @Prop() lastVisibleRow: boolean;
+  /** @notPublic */
+  @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
-  /** @internal */
-  @Prop() rowType: RowType;
+  // #endregion
 
-  /** @internal */
-  @Prop() numbered = false;
+  // #region Events
 
-  /** @internal */
-  @Prop() positionSection: number;
+  /** @notPublic */
+  calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
 
-  /** @internal */
-  @Prop() positionSectionLocalized: string;
+  /** Fires when the selected state of the component changes. */
+  calciteTableRowSelect = createEvent({ cancelable: false });
 
-  /** @internal */
-  @Prop() positionAll: number;
+  // #endregion
 
-  /** @internal */
-  @Prop() readCellContentsToAT: boolean;
+  // #region Lifecycle
 
-  /** @internal */
-  @Prop() scale: Scale;
+  constructor() {
+    super();
+    this.listenOn<CustomEvent>(
+      document,
+      "calciteInternalTableRowFocusChange",
+      this.calciteInternalTableRowFocusChangeHandler,
+    );
+  }
 
-  /** @internal */
-  @Prop() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      changes.has("bodyRowCount") ||
+      changes.has("scale") ||
+      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
+      changes.has("selectedRowCount") ||
+      (changes.has("interactionMode") &&
+        (this.hasUpdated || this.interactionMode !== "interactive"))
+    ) {
+      this.handleCellChanges();
+    }
 
-  /** @internal */
-  @Prop() selectedRowCount: number;
+    if (
+      (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
+      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none"))
+    ) {
+      this.handleDelayedCellChanges();
+    }
+  }
 
-  /** @internal */
-  @Prop() selectedRowCountLocalized: string;
+  override updated(): void {
+    updateHostInteraction(this);
+  }
 
-  /** @internal */
-  @Prop() bodyRowCount: number;
-
-  @Watch("bodyRowCount")
-  @Watch("scale")
-  @Watch("selected")
-  @Watch("selectedRowCount")
-  @Watch("interactionMode")
-  handleCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+  loaded(): void {
+    if (this.tableRowEl.value && this.rowCells.length > 0) {
       this.updateCells();
     }
   }
 
-  @Watch("numbered")
-  @Watch("selectionMode")
-  handleDelayedCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+  // #endregion
+
+  // #region Private Methods
+
+  private handleCellChanges(): void {
+    if (this.tableRowEl.value && this.rowCells.length > 0) {
+      this.updateCells();
+    }
+  }
+
+  private handleDelayedCellChanges(): void {
+    if (this.tableRowEl.value && this.rowCells.length > 0) {
       requestAnimationFrame(() => this.updateCells());
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentDidLoad(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
-      this.updateCells();
-    }
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTableRowElement;
-
-  private rowCells: (HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement)[] = [];
-
-  private tableRowEl: HTMLTableRowElement;
-
-  private tableRowSlotEl: HTMLSlotElement;
-
-  @State() effectiveLocale = "";
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the selected state of the component changes.
-   */
-  @Event({ cancelable: false }) calciteTableRowSelect: EventEmitter<void>;
-
-  /** @internal */
-  @Event({ cancelable: false })
-  calciteInternalTableRowFocusRequest: EventEmitter<TableRowFocusEvent>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteInternalTableRowFocusChange", { target: "document" })
-  calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {
+  private calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {
     if ((event.target as Element).contains(this.el)) {
       const position = event.detail.cellPosition;
       const rowPosition = event.detail.rowPosition;
@@ -192,17 +198,11 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (this.interactionMode !== "interactive") {
       return;
     }
-    const el = event.target as HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement;
+    const el = event.target as TableCell["el"] | TableHeader["el"];
     const key = event.key;
     const isControl = event.ctrlKey;
     const cells = this.rowCells;
@@ -252,46 +252,43 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
           break;
       }
     }
-  };
+  }
 
-  private emitTableRowFocusRequest = (
+  private emitTableRowFocusRequest(
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
     lastCell?: boolean,
-  ): void => {
+  ): void {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
       rowPosition,
       destination,
       lastCell,
     });
-  };
+  }
 
-  private updateCells = (): void => {
+  private updateCells(): void {
     const alignment = this.alignment
       ? this.alignment
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = this.tableRowSlotEl
+    const slottedCells = this.tableRowSlotEl.value
       ?.assignedElements({ flatten: true })
       ?.filter(
-        (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
+        (el: TableCell["el"] | TableHeader["el"]) =>
           el.matches("calcite-table-cell") || el.matches("calcite-table-header"),
       );
 
     const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
-    )?.filter(
-      (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
-        el.numberCell || el.selectionCell,
-    );
+      this.tableRowEl.value?.querySelectorAll("calcite-table-header, calcite-table-cell"),
+    )?.filter((el: TableCell["el"] | TableHeader["el"]) => el.numberCell || el.selectionCell);
 
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
 
     if (cells.length > 0) {
-      cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
+      cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
         cell.parentRowAlignment = alignment;
@@ -301,37 +298,34 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
-          (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
-          (cell as HTMLCalciteTableCellElement).disabled = this.disabled;
+          (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
+          (cell as TableCell["el"]).disabled = this.disabled;
         }
       });
     }
 
-    this.rowCells =
-      (cells as (HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement)[]) || [];
+    this.rowCells = (cells as (TableCell["el"] | TableHeader["el"])[]) || [];
     this.cellCount = cells?.length;
-  };
+  }
 
-  private handleSelectionOfRow = (): void => {
+  private handleSelectionOfRow(): void {
     this.calciteTableRowSelect.emit();
-  };
+  }
 
-  private handleKeyboardSelection = (event: KeyboardEvent): void => {
+  private handleKeyboardSelection(event: KeyboardEvent): void {
     if (isActivationKey(event.key)) {
       if (event.key === " ") {
         event.preventDefault();
       }
       this.handleSelectionOfRow();
     }
-  };
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  renderSelectionIcon(): VNode {
+  // #region Rendering
+
+  private renderSelectionIcon(): JsxNode {
     const icon =
       this.selectionMode === "multiple" && this.selected
         ? "check-square-f"
@@ -344,7 +338,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
     return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
   }
 
-  renderSelectableCell(): VNode {
+  private renderSelectableCell(): JsxNode {
     return this.rowType === "head" ? (
       <calcite-table-header
         alignment="center"
@@ -381,7 +375,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
     );
   }
 
-  renderNumberedCell(): VNode {
+  private renderNumberedCell(): JsxNode {
     return this.rowType === "head" ? (
       <calcite-table-header
         alignment="center"
@@ -408,26 +402,23 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Host>
-        <InteractiveContainer disabled={this.disabled}>
-          <tr
-            aria-rowindex={this.positionAll + 1}
-            aria-selected={toAriaBoolean(this.selected)}
-            class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
-            onKeyDown={this.keyDownHandler}
-            ref={(el) => (this.tableRowEl = el)}
-          >
-            {this.numbered && this.renderNumberedCell()}
-            {this.selectionMode !== "none" && this.renderSelectableCell()}
-            <slot
-              onSlotchange={this.updateCells}
-              ref={(el) => (this.tableRowSlotEl = el as HTMLSlotElement)}
-            />
-          </tr>
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={this.disabled}>
+        <tr
+          ariaRowIndex={this.positionAll + 1}
+          ariaSelected={this.selected}
+          class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
+          onKeyDown={this.keyDownHandler}
+          ref={this.tableRowEl}
+        >
+          {this.numbered && this.renderNumberedCell()}
+          {this.selectionMode !== "none" && this.renderSelectableCell()}
+          <slot onSlotChange={this.updateCells} ref={this.tableRowSlotEl} />
+        </tr>
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

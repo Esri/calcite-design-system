@@ -1,21 +1,9 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  toAriaBoolean,
 } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -31,14 +19,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -47,8 +27,18 @@ import {
 } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
-import { PanelMessages } from "./assets/panel/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Alert } from "../alert/alert";
+import type { ActionBar } from "../action-bar/action-bar";
+import T9nStrings from "./assets/t9n/panel.t9n.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { styles } from "./panel.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-panel": Panel;
+  }
+}
 
 /**
  * @slot - A slot for adding custom content.
@@ -66,108 +56,115 @@ import { CSS, ICONS, IDS, SLOTS } from "./resources";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-@Component({
-  tag: "calcite-panel",
-  styleUrl: "panel.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class Panel
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class Panel extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private containerEl: HTMLElement;
+
+  private panelScrollEl: HTMLElement;
+
+  private resizeObserver = createObserver("resize", () => this.resizeHandler());
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasActionBar = false;
+
+  @state() hasContentBottom = false;
+
+  @state() hasContentTop = false;
+
+  @state() hasEndActions = false;
+
+  @state() hasFab = false;
+
+  @state() hasFooterActions = false;
+
+  @state() hasFooterContent = false;
+
+  @state() hasFooterEndContent = false;
+
+  @state() hasFooterStartContent = false;
+
+  @state() hasHeaderContent = false;
+
+  @state() hasMenuItems = false;
+
+  @state() hasStartActions = false;
+
+  @state() isClosed = false;
+
+  @state() showHeaderContent = false;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Passes a function to run before the component closes. */
-  @Prop() beforeClose: () => Promise<void>;
-
-  /** When `true`, the component will be hidden. */
-  @Prop({ mutable: true, reflect: true }) closed = false;
-
-  @Watch("closed")
-  toggleDialog(value: boolean): void {
-    value ? this.close() : this.open();
-  }
-
-  /**
-   *  When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  @property() beforeClose: () => Promise<void>;
 
   /** When `true`, displays a close button in the trailing side of the header. */
-  @Prop({ reflect: true }) closable = false;
+  @property({ reflect: true }) closable = false;
 
-  /**
-   * When `true`, hides the component's content area.
-   */
-  @Prop({ reflect: true }) collapsed = false;
+  /** When `true`, the component will be hidden. */
+  @property({ reflect: true }) closed = false;
 
   /**
    * Specifies the direction of the collapse.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop() collapseDirection: CollapseDirection = "down";
+  @property() collapseDirection: CollapseDirection = "down";
 
-  /**
-   * When `true`, the component is collapsible.
-   */
-  @Prop({ reflect: true }) collapsible = false;
+  /** When `true`, hides the component's content area. */
+  @property({ reflect: true }) collapsed = false;
 
-  /**
-   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
-
-  /**
-   * When `true`, a busy indicator is displayed.
-   */
-  @Prop({ reflect: true }) loading = false;
-
-  /**
-   * The component header text.
-   */
-  @Prop() heading: string;
+  /** When `true`, the component is collapsible. */
+  @property({ reflect: true }) collapsible = false;
 
   /** A description for the component. */
-  @Prop() description: string;
+  @property() description: string;
 
-  /**
-   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() menuFlipPlacements: FlipPlacement[];
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
-  /**
-   * When `true`, the action menu items in the `header-menu-actions` slot are open.
-   */
-  @Prop({ reflect: true }) menuOpen = false;
+  /** The component header text. */
+  @property() heading: string;
 
-  /**
-   * Determines where the action menu will be positioned.
-   */
-  @Prop({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
+  @property() menuFlipPlacements: FlipPlacement[];
+
+  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  @property({ reflect: true }) menuOpen = false;
+
+  /** Determines where the action menu will be positioned. */
+  @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
+
+  /** Use this property to override individual strings used by the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @notPublic
    */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: PanelMessages;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  @property() messages = useT9n<typeof T9nStrings>();
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -175,123 +172,103 @@ export class Panel
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
    *
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
    */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
+  // #region Public Methods
+
+  /**
+   * Scrolls the component's content to a specified set of coordinates.
+   *
+   * @example
+   * myCalciteFlowItem.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
+   * @param options - allows specific coordinates to be defined.
+   * @returns - promise that resolves once the content is scrolled to.
+   */
+  @method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    this.panelScrollEl?.scrollTo(options);
   }
 
-  async componentWillLoad(): Promise<void> {
+  /** Sets focus on the component's first focusable element. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.containerEl);
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the close button is clicked. */
+  calcitePanelClose = createEvent({ cancelable: false });
+
+  /** Fires when the content is scrolled. */
+  calcitePanelScroll = createEvent({ cancelable: false });
+
+  /** Fires when the collapse button is clicked. */
+  calcitePanelToggle = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("keydown", this.panelKeyDownHandler);
+  }
+
+  async load(): Promise<void> {
     setUpLoadableComponent(this);
     this.isClosed = this.closed;
-    await setUpMessages(this);
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
+      this.toggleDialog(this.closed);
+    }
   }
 
-  componentDidRender(): void {
+  override updated(): void {
     updateHostInteraction(this);
   }
 
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalcitePanelElement;
+  // #region Private Methods
 
-  containerEl: HTMLElement;
-
-  panelScrollEl: HTMLElement;
-
-  resizeObserver = createObserver("resize", () => this.resizeHandler());
-
-  @State() isClosed = false;
-
-  @State() hasStartActions = false;
-
-  @State() hasEndActions = false;
-
-  @State() hasMenuItems = false;
-
-  @State() hasHeaderContent = false;
-
-  @State() hasActionBar = false;
-
-  @State() hasContentBottom = false;
-
-  @State() hasContentTop = false;
-
-  @State() hasFab = false;
-
-  @State() hasFooterActions = false;
-
-  @State() hasFooterContent = false;
-
-  @State() hasFooterEndContent = false;
-
-  @State() hasFooterStartContent = false;
-
-  @State() defaultMessages: PanelMessages;
-
-  @State() effectiveLocale = "";
-
-  @State() showHeaderContent = false;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
+  private toggleDialog(value: boolean): void {
+    value ? this.close() : this.open();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the close button is clicked.
-   */
-  @Event({ cancelable: false }) calcitePanelClose: EventEmitter<void>;
-
-  /**
-   * Fires when the collapse button is clicked.
-   */
-  @Event({ cancelable: false }) calcitePanelToggle: EventEmitter<void>;
-
-  /**
-   * Fires when the content is scrolled.
-   */
-  @Event({ cancelable: false }) calcitePanelScroll: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  resizeHandler = (): void => {
+  private resizeHandler(): void {
     const { panelScrollEl } = this;
 
     if (
@@ -310,29 +287,29 @@ export class Panel
     } else {
       panelScrollEl.removeAttribute("tabindex");
     }
-  };
+  }
 
-  setContainerRef = (node: HTMLElement): void => {
+  private setContainerRef(node: HTMLElement): void {
     this.containerEl = node;
-  };
+  }
 
-  panelKeyDownHandler = (event: KeyboardEvent): void => {
+  private panelKeyDownHandler(event: KeyboardEvent): void {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
       this.handleUserClose();
       event.preventDefault();
     }
-  };
+  }
 
-  private handleUserClose = (): void => {
+  private handleUserClose(): void {
     this.closed = true;
     this.calcitePanelClose.emit();
-  };
+  }
 
-  open = (): void => {
+  private open(): void {
     this.isClosed = false;
-  };
+  }
 
-  close = async (): Promise<void> => {
+  private async close(): Promise<void> {
     const beforeClose = this.beforeClose ?? (() => Promise.resolve());
 
     try {
@@ -346,110 +323,94 @@ export class Panel
     }
 
     this.isClosed = true;
-  };
+  }
 
-  collapse = (): void => {
+  private collapse(): void {
     this.collapsed = !this.collapsed;
     this.calcitePanelToggle.emit();
-  };
+  }
 
-  panelScrollHandler = (): void => {
+  private panelScrollHandler(): void {
     this.calcitePanelScroll.emit();
-  };
+  }
 
-  handleHeaderActionsStartSlotChange = (event: Event): void => {
+  private handleHeaderActionsStartSlotChange(event: Event): void {
     this.hasStartActions = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleHeaderActionsEndSlotChange = (event: Event): void => {
+  private handleHeaderActionsEndSlotChange(event: Event): void {
     this.hasEndActions = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleHeaderMenuActionsSlotChange = (event: Event): void => {
+  private handleHeaderMenuActionsSlotChange(event: Event): void {
     this.hasMenuItems = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteActionBarElement => el?.matches("calcite-action-bar"),
+  private handleActionBarSlotChange(event: Event): void {
+    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
+      el?.matches("calcite-action-bar"),
     );
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
     this.hasActionBar = !!actionBars.length;
-  };
+  }
 
-  handleHeaderContentSlotChange = (event: Event): void => {
+  private handleHeaderContentSlotChange(event: Event): void {
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleFabSlotChange = (event: Event): void => {
+  private handleFabSlotChange(event: Event): void {
     this.hasFab = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleFooterActionsSlotChange = (event: Event): void => {
+  private handleFooterActionsSlotChange(event: Event): void {
     this.hasFooterActions = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleFooterEndSlotChange = (event: Event): void => {
+  private handleFooterEndSlotChange(event: Event): void {
     this.hasFooterEndContent = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleFooterStartSlotChange = (event: Event): void => {
+  private handleFooterStartSlotChange(event: Event): void {
     this.hasFooterStartContent = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleFooterSlotChange = (event: Event): void => {
+  private handleFooterSlotChange(event: Event): void {
     this.hasFooterContent = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private contentBottomSlotChangeHandler = (event: Event): void => {
+  private contentBottomSlotChangeHandler(event: Event): void {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private contentTopSlotChangeHandler = (event: Event): void => {
+  private contentTopSlotChangeHandler(event: Event): void {
     this.hasContentTop = slotChangeHasAssignedElement(event);
-  };
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Sets focus on the component's first focusable element.
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.containerEl);
   }
 
-  /**
-   * Scrolls the component's content to a specified set of coordinates.
-   *
-   * @example
-   * myCalciteFlowItem.scrollContentTo({
-   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-   * });
-   * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
-   */
-  @Method()
-  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    this.panelScrollEl?.scrollTo(options);
+  private setPanelScrollEl(el: HTMLElement): void {
+    this.panelScrollEl = el;
+    this.resizeObserver?.disconnect();
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+      this.resizeHandler();
+    }
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  private handleAlertsSlotChange(event: Event): void {
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-ALERT") {
+        (el as Alert["el"]).embedded = true;
+      }
+    });
+  }
 
-  renderHeaderContent(): VNode {
+  // #endregion
+
+  // #region Rendering
+
+  private renderHeaderContent(): JsxNode {
     const { heading, headingLevel, description, hasHeaderContent } = this;
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel}>
@@ -467,23 +428,23 @@ export class Panel
     ) : null;
   }
 
-  renderActionBar(): VNode {
+  private renderActionBar(): JsxNode {
     return (
       <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
-        <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
+        <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
       </div>
     );
   }
 
-  renderHeaderSlottedContent(): VNode {
+  private renderHeaderSlottedContent(): JsxNode {
     return (
       <div class={CSS.headerContent} hidden={!this.hasHeaderContent} key="slotted-header-content">
-        <slot name={SLOTS.headerContent} onSlotchange={this.handleHeaderContentSlotChange} />
+        <slot name={SLOTS.headerContent} onSlotChange={this.handleHeaderContentSlotChange} />
       </div>
     );
   }
 
-  renderHeaderStartActions(): VNode {
+  private renderHeaderStartActions(): JsxNode {
     const { hasStartActions } = this;
 
     return (
@@ -494,13 +455,13 @@ export class Panel
       >
         <slot
           name={SLOTS.headerActionsStart}
-          onSlotchange={this.handleHeaderActionsStartSlotChange}
+          onSlotChange={this.handleHeaderActionsStartSlotChange}
         />
       </div>
     );
   }
 
-  renderHeaderActionsEnd(): VNode {
+  private renderHeaderActionsEnd(): JsxNode {
     const {
       hasEndActions,
       messages,
@@ -520,8 +481,8 @@ export class Panel
 
     const collapseNode = collapsible ? (
       <calcite-action
-        aria-expanded={toAriaBoolean(!collapsed)}
-        aria-label={collapse}
+        ariaExpanded={!collapsed}
+        ariaLabel={collapse}
         icon={collapsed ? icons[0] : icons[1]}
         id={IDS.collapse}
         onClick={this.collapse}
@@ -533,7 +494,7 @@ export class Panel
 
     const closeNode = closable ? (
       <calcite-action
-        aria-label={close}
+        ariaLabel={close}
         icon={ICONS.close}
         id={IDS.close}
         onClick={this.handleUserClose}
@@ -544,7 +505,7 @@ export class Panel
     ) : null;
 
     const slotNode = (
-      <slot name={SLOTS.headerActionsEnd} onSlotchange={this.handleHeaderActionsEndSlotChange} />
+      <slot name={SLOTS.headerActionsEnd} onSlotChange={this.handleHeaderActionsEndSlotChange} />
     );
 
     const showContainer = hasEndActions || collapseNode || closeNode || hasMenuItems;
@@ -563,7 +524,7 @@ export class Panel
     );
   }
 
-  renderMenu(): VNode {
+  private renderMenu(): JsxNode {
     const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
 
     return (
@@ -584,13 +545,13 @@ export class Panel
         />
         <slot
           name={SLOTS.headerMenuActions}
-          onSlotchange={this.handleHeaderMenuActionsSlotChange}
+          onSlotChange={this.handleHeaderMenuActionsSlotChange}
         />
       </calcite-action-menu>
     );
   }
 
-  renderHeaderNode(): VNode {
+  private renderHeaderNode(): JsxNode {
     const {
       hasHeaderContent,
       hasStartActions,
@@ -631,7 +592,7 @@ export class Panel
     );
   }
 
-  renderFooterNode(): VNode {
+  private renderFooterNode(): JsxNode {
     const { hasFooterEndContent, hasFooterStartContent, hasFooterContent, hasFooterActions } = this;
 
     const showFooter =
@@ -640,36 +601,26 @@ export class Panel
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
         <div class={CSS.footerContent} hidden={!hasFooterContent}>
-          <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+          <slot name={SLOTS.footer} onSlotChange={this.handleFooterSlotChange} />
         </div>
         <div class={CSS.footerStart} hidden={hasFooterContent || !hasFooterStartContent}>
-          <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+          <slot name={SLOTS.footerStart} onSlotChange={this.handleFooterStartSlotChange} />
         </div>
         <div class={CSS.footerEnd} hidden={hasFooterContent || !hasFooterEndContent}>
-          <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
+          <slot name={SLOTS.footerEnd} onSlotChange={this.handleFooterEndSlotChange} />
         </div>
         <div class={CSS.footerActions} hidden={hasFooterContent || !hasFooterActions}>
           <slot
             key="footer-actions-slot"
             name={SLOTS.footerActions}
-            onSlotchange={this.handleFooterActionsSlotChange}
+            onSlotChange={this.handleFooterActionsSlotChange}
           />
         </div>
       </footer>
     );
   }
 
-  setPanelScrollEl = (el: HTMLElement): void => {
-    this.panelScrollEl = el;
-    this.resizeObserver?.disconnect();
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-      this.resizeHandler();
-    }
-  };
-
-  renderContent(): VNode {
+  private renderContent(): JsxNode {
     return (
       <div
         class={CSS.contentWrapper}
@@ -683,44 +634,36 @@ export class Panel
     );
   }
 
-  renderContentBottom(): VNode {
+  private renderContentBottom(): JsxNode {
     return (
       <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
-        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
+        <slot name={SLOTS.contentBottom} onSlotChange={this.contentBottomSlotChangeHandler} />
       </div>
     );
   }
 
-  renderContentTop(): VNode {
+  private renderContentTop(): JsxNode {
     return (
       <div class={CSS.contentTop} hidden={!this.hasContentTop}>
-        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
+        <slot name={SLOTS.contentTop} onSlotChange={this.contentTopSlotChangeHandler} />
       </div>
     );
   }
 
-  renderFab(): VNode {
+  private renderFab(): JsxNode {
     return (
       <div class={CSS.fabContainer} hidden={!this.hasFab}>
-        <slot name={SLOTS.fab} onSlotchange={this.handleFabSlotChange} />
+        <slot name={SLOTS.fab} onSlotChange={this.handleFabSlotChange} />
       </div>
     );
   }
 
-  handleAlertsSlotChange = (event: Event): void => {
-    slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.nodeName === "CALCITE-ALERT") {
-        (el as HTMLCalciteAlertElement).embedded = true;
-      }
-    });
-  };
-
-  render(): VNode {
+  override render(): JsxNode {
     const { disabled, loading, isClosed } = this;
 
     const panelNode = (
       <article
-        aria-busy={toAriaBoolean(loading)}
+        ariaBusy={loading}
         class={CSS.container}
         hidden={isClosed}
         ref={this.setContainerRef}
@@ -729,17 +672,17 @@ export class Panel
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
-        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
+        <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
       </article>
     );
 
     return (
-      <Host onKeyDown={this.panelKeyDownHandler}>
-        <InteractiveContainer disabled={disabled}>
-          {loading ? <calcite-scrim loading={loading} /> : null}
-          {panelNode}
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={disabled}>
+        {loading ? <calcite-scrim loading={loading} /> : null}
+        {panelNode}
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

@@ -1,16 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -23,21 +11,23 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
 import { Scale } from "../interfaces";
-import { FlowItemMessages } from "./assets/flow-item/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Panel } from "../panel/panel";
+import type { Action } from "../action/action";
+import T9nStrings from "./assets/t9n/flow-item.t9n.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { styles } from "./flow-item.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-flow-item": FlowItem;
+  }
+}
 
 /**
  * @slot - A slot for adding custom content.
@@ -55,98 +45,78 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-@Component({
-  tag: "calcite-flow-item",
-  styleUrl: "flow-item.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class FlowItem
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class FlowItem extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private backButtonEl: Action["el"];
+
+  private containerEl: Panel["el"];
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
+  @property() beforeBack: () => Promise<void>;
+
+  /** Passes a function to run before the component closes. */
+  @property() beforeClose: () => Promise<void>;
 
   /** When `true`, displays a close button in the trailing side of the component's header. */
-  @Prop({ reflect: true }) closable = false;
+  @property({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
-  @Prop({ reflect: true }) closed = false;
-
-  /**
-   * When `true`, hides the component's content area.
-   */
-  @Prop({ reflect: true }) collapsed = false;
+  @property({ reflect: true }) closed = false;
 
   /**
    * Specifies the direction of the collapse.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop() collapseDirection: CollapseDirection = "down";
+  @property() collapseDirection: CollapseDirection = "down";
 
-  /**
-   * When `true`, the component is collapsible.
-   */
-  @Prop({ reflect: true }) collapsible = false;
+  /** When `true`, hides the component's content area. */
+  @property({ reflect: true }) collapsed = false;
 
-  /**
-   * When provided, the method will be called before it is removed from its parent `calcite-flow`.
-   */
-  @Prop() beforeBack: () => Promise<void>;
-
-  /** Passes a function to run before the component closes. */
-  @Prop() beforeClose: () => Promise<void>;
+  /** When `true`, the component is collapsible. */
+  @property({ reflect: true }) collapsible = false;
 
   /** A description for the component. */
-  @Prop() description: string;
+  @property() description: string;
 
-  /**
-   *  When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
-  /**
-   * The component header text.
-   */
-  @Prop() heading: string;
+  /** The component header text. */
+  @property() heading: string;
 
-  /**
-   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /**
-   * When `true`, a busy indicator is displayed.
-   */
-  @Prop({ reflect: true }) loading = false;
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
 
-  /**
-   * When `true`, the action menu items in the `header-menu-actions` slot are open.
-   */
-  @Prop({ reflect: true }) menuOpen = false;
+  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  @property({ reflect: true }) menuOpen = false;
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
+  /** Use this property to override individual strings used by the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<FlowItemMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @notPublic
    */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: FlowItemMessages;
+  @property() messages = useT9n<typeof T9nStrings>();
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -154,119 +124,22 @@ export class FlowItem
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
    *
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
    */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, displays a back button in the component's header.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop() showBackButton = false;
+  @property() showBackButton = false;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-    setUpLoadableComponent(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the back button is clicked.
-   */
-  @Event({ cancelable: true }) calciteFlowItemBack: EventEmitter<void>;
-
-  /**
-   * Fires when the content is scrolled.
-   */
-  @Event({ cancelable: false }) calciteFlowItemScroll: EventEmitter<void>;
-
-  /**
-   * Fires when the close button is clicked.
-   */
-  @Event({ cancelable: false }) calciteFlowItemClose: EventEmitter<void>;
-
-  /**
-   * Fires when the collapse button is clicked.
-   */
-  @Event({ cancelable: false }) calciteFlowItemToggle: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteFlowItemElement;
-
-  containerEl: HTMLCalcitePanelElement;
-
-  backButtonEl: HTMLCalciteActionElement;
-
-  @State() defaultMessages: FlowItemMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Sets focus on the component.
-   *
-   * @returns promise.
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const { backButtonEl, containerEl } = this;
-
-    if (backButtonEl) {
-      return backButtonEl.setFocus();
-    } else if (containerEl) {
-      return containerEl.setFocus();
-    }
-  }
+  // #region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -280,27 +153,75 @@ export class FlowItem
    * @param options - allows specific coordinates to be defined.
    * @returns - promise that resolves once the content is scrolled to.
    */
-  @Method()
+  @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
     await this.containerEl?.scrollContentTo(options);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  /**
+   * Sets focus on the component.
+   *
+   * @returns promise.
+   */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
 
-  handleInternalPanelScroll = (event: CustomEvent<void>): void => {
+    const { backButtonEl, containerEl } = this;
+
+    if (backButtonEl) {
+      return backButtonEl.setFocus();
+    } else if (containerEl) {
+      return containerEl.setFocus();
+    }
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the back button is clicked. */
+  calciteFlowItemBack = createEvent();
+
+  /** Fires when the close button is clicked. */
+  calciteFlowItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the content is scrolled. */
+  calciteFlowItemScroll = createEvent({ cancelable: false });
+
+  /** Fires when the collapse button is clicked. */
+  calciteFlowItemToggle = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleInternalPanelScroll(event: CustomEvent<void>): void {
     if (event.target !== this.containerEl) {
       return;
     }
 
     event.stopPropagation();
     this.calciteFlowItemScroll.emit();
-  };
+  }
 
-  handleInternalPanelClose = (event: CustomEvent<void>): void => {
+  private handleInternalPanelClose(event: CustomEvent<void>): void {
     if (event.target !== this.containerEl) {
       return;
     }
@@ -308,37 +229,35 @@ export class FlowItem
     event.stopPropagation();
     this.closed = true;
     this.calciteFlowItemClose.emit();
-  };
+  }
 
-  handleInternalPanelToggle = (event: CustomEvent<void>): void => {
+  private handleInternalPanelToggle(event: CustomEvent<void>): void {
     if (event.target !== this.containerEl) {
       return;
     }
 
     event.stopPropagation();
-    this.collapsed = (event.target as HTMLCalcitePanelElement).collapsed;
+    this.collapsed = (event.target as Panel["el"]).collapsed;
     this.calciteFlowItemToggle.emit();
-  };
+  }
 
-  backButtonClick = (): void => {
+  private backButtonClick(): void {
     this.calciteFlowItemBack.emit();
-  };
+  }
 
-  setBackRef = (node: HTMLCalciteActionElement): void => {
+  private setBackRef(node: Action["el"]): void {
     this.backButtonEl = node;
-  };
+  }
 
-  setContainerRef = (node: HTMLCalcitePanelElement): void => {
+  private setContainerRef(node: Panel["el"]): void {
     this.containerEl = node;
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderBackButton(): VNode {
+  // #region Rendering
+
+  private renderBackButton(): JsxNode {
     const { el } = this;
 
     const rtl = getElementDir(el) === "rtl";
@@ -348,7 +267,7 @@ export class FlowItem
 
     return showBackButton ? (
       <calcite-action
-        aria-label={label}
+        ariaLabel={label}
         class={CSS.backButton}
         icon={icon}
         key="flow-back-button"
@@ -362,7 +281,7 @@ export class FlowItem
     ) : null;
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const {
       collapsed,
       collapseDirection,
@@ -380,47 +299,47 @@ export class FlowItem
       beforeClose,
     } = this;
     return (
-      <Host>
-        <InteractiveContainer disabled={disabled}>
-          <calcite-panel
-            beforeClose={beforeClose}
-            closable={closable}
-            closed={closed}
-            collapseDirection={collapseDirection}
-            collapsed={collapsed}
-            collapsible={collapsible}
-            description={description}
-            disabled={disabled}
-            heading={heading}
-            headingLevel={headingLevel}
-            loading={loading}
-            menuOpen={menuOpen}
-            messageOverrides={messages}
-            onCalcitePanelClose={this.handleInternalPanelClose}
-            onCalcitePanelScroll={this.handleInternalPanelScroll}
-            onCalcitePanelToggle={this.handleInternalPanelToggle}
-            overlayPositioning={overlayPositioning}
-            ref={this.setContainerRef}
-            scale={this.scale}
-          >
-            {this.renderBackButton()}
-            <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-            <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
-            <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
-            <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
-            <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
-            <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
-            <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-            <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
-            <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-            <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-            <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
-            <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-            <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
-            <slot />
-          </calcite-panel>
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={disabled}>
+        <calcite-panel
+          beforeClose={beforeClose}
+          closable={closable}
+          closed={closed}
+          collapseDirection={collapseDirection}
+          collapsed={collapsed}
+          collapsible={collapsible}
+          description={description}
+          disabled={disabled}
+          heading={heading}
+          headingLevel={headingLevel}
+          loading={loading}
+          menuOpen={menuOpen}
+          messageOverrides={messages}
+          oncalcitePanelClose={this.handleInternalPanelClose}
+          oncalcitePanelScroll={this.handleInternalPanelScroll}
+          oncalcitePanelToggle={this.handleInternalPanelToggle}
+          overlayPositioning={overlayPositioning}
+          ref={this.setContainerRef}
+          scale={this.scale}
+        >
+          {this.renderBackButton()}
+          <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+          <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
+          <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+          <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+          <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+          <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+          <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+          <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+          <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+          <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+          <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+          <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+          <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
+          <slot />
+        </calcite-panel>
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

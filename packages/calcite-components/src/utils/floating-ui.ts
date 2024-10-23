@@ -165,9 +165,7 @@ export const positionFloatingUI =
     });
   };
 
-/**
- * Exported for testing purposes only
- */
+/** Exported for testing purposes only */
 export const placementDataAttribute = "data-placement";
 
 export type ReferenceElement = VirtualElement | Element;
@@ -274,21 +272,16 @@ export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
-  /**
-   * Whether the component is opened.
-   */
+  /** Whether the component is opened. */
   open: boolean;
 
-  /**
-   * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
-   */
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   overlayPositioning: OverlayPositioning;
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    *
    * Possible values: "auto", "auto-start", "auto-end", "top", "right", "bottom", "left", "top-start", "top-end", "right-start", "right-end", "bottom-start", "bottom-end", "left-start", "left-end", "leading-start", "leading", "leading-end", "trailing-end", "trailing",  or "trailing-start".
-   *
    */
   placement: LogicalPlacement;
 
@@ -489,7 +482,7 @@ type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
 /**
  * Exported for testing purposes only
  *
- * @internal
+ * @notPublic
  */
 export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 

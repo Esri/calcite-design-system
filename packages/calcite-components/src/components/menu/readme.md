@@ -8,7 +8,7 @@ For comprehensive guidance on using and implementing `calcite-menu`, refer to th
 
 | Property             | Attribute           | Description                                                             | Type                         | Default        |
 | -------------------- | ------------------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
-| `label` *(required)* | `label`             | Accessible name for the component.                                      | `string`                     | `undefined`    |
+| `label` _(required)_ | `label`             | Accessible name for the component.                                      | `string`                     | `undefined`    |
 | `layout`             | `layout`            | Specifies the layout of the component.                                  | `"horizontal" \| "vertical"` | `"horizontal"` |
 | `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component. | `MenuMessages`               | `undefined`    |
 
@@ -38,4 +38,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

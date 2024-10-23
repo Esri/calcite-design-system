@@ -254,9 +254,7 @@ export function containsCrossShadowBoundary(element: Element, maybeDescendant: E
   return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
 }
 
-/**
- * An element which may contain a `setFocus` method.
- */
+/** An element which may contain a `setFocus` method. */
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
@@ -666,7 +664,6 @@ export const focusElementInGroup = <T extends Element = Element>(
  *
  * @param a the reference element to compare
  * @param b the element to compare against
- *
  * @returns true when a is before b in the DOM
  */
 export function isBefore(a: HTMLElement, b: HTMLElement): boolean {

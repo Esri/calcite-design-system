@@ -1,18 +1,5 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
 import Sortable from "sortablejs";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentFocusable,
@@ -20,15 +7,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import {
   calciteInternalListItemValueChangeHandler,
   calciteListFocusOutHandler,
@@ -62,9 +41,19 @@ import {
 } from "../../utils/sortableComponent";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { logger } from "../../utils/logger";
-import { ValueListMessages } from "./assets/value-list/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { ValueListItem } from "../value-list-item/value-list-item";
+import type { Filter } from "../filter/filter";
+import T9nStrings from "./assets/t9n/value-list.t9n.en.json";
 import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
+import { styles } from "./value-list.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-value-list": ValueList;
+  }
+}
 
 logger.deprecated("component", {
   name: "value-list",
@@ -77,143 +66,39 @@ logger.deprecated("component", {
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
-@Component({
-  tag: "calcite-value-list",
-  styleUrl: "value-list.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class ValueList<
-    ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement,
-  >
-  implements
-    InteractiveComponent,
-    LoadableComponent,
-    LocalizedComponent,
-    T9nComponent,
-    SortableComponent
+export class ValueList<ItemElement extends ValueListItem["el"] = ValueListItem["el"]>
+  extends LitElement
+  implements InteractiveComponent, LoadableComponent, SortableComponent
 {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+  // #region Static Members
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  static override styles = styles;
 
-  /**
-   * When provided, the method will be called to determine whether the element can move from the list.
-   */
-  @Prop() canPull: (detail: DragDetail) => boolean;
+  // #endregion
 
-  /**
-   * When provided, the method will be called to determine whether the element can be added from another list.
-   */
-  @Prop() canPut: (detail: DragDetail) => boolean;
+  // #region Private Properties
 
-  /**
-   * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
-   */
-  @Prop({ reflect: true }) dragEnabled = false;
+  private assistiveTextEl: HTMLSpanElement;
 
-  /**
-   * The currently filtered items.
-   *
-   * @readonly
-   */
-  @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
+  deselectRemovedItems = deselectRemovedItems.bind(this);
 
-  /**
-   * The currently filtered data.
-   *
-   * @readonly
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
-  @Prop({ mutable: true }) filteredData: ItemData = [];
+  deselectSiblingItems = deselectSiblingItems.bind(this);
 
-  /**
-   * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
-   */
-  @Prop({ reflect: true }) filterEnabled = false;
+  dragSelector = "calcite-value-list-item";
 
-  /**
-   * Placeholder text for the filter's input field.
-   */
-  @Prop({ reflect: true }) filterPlaceholder: string;
+  emitCalciteListChange: () => void;
 
-  /**
-   * Text for the filter input field.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
-  @Prop({ reflect: true, mutable: true }) filterText: string;
+  emitCalciteListFilter: () => void;
 
-  /**
-   * The component's group identifier.
-   *
-   * To drag elements from one list into another, both lists must have the same group value.
-   */
-  @Prop({ reflect: true }) group?: string;
+  filterEl: Filter["el"];
 
-  /**
-   * When `true`, a busy indicator is displayed.
-   */
-  @Prop({ reflect: true }) loading = false;
+  getItemData = getItemData.bind(this);
 
-  /**
-   * Similar to standard radio buttons and checkboxes.
-   * When `true`, a user can select multiple `calcite-value-list-item`s at a time.
-   * When `false`, only a single `calcite-value-list-item` can be selected at a time,
-   * and a new selection will deselect previous selections.
-   */
-  @Prop({ reflect: true }) multiple = false;
+  handleFilter = handleFilter.bind(this);
 
-  /**
-   * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
-   */
-  @Prop({ reflect: true }) selectionFollowsFocus = false;
+  handleFilterEvent = handleFilterEvent.bind(this);
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ValueListMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ValueListMessages;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteValueListElement;
-
-  @State() dataForFilter: ItemData = [];
-
-  @State() defaultMessages: ValueListMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() selectedValues: Map<string, ItemElement> = new Map();
+  handleSelector = `.${CSS.handle}`;
 
   items: ItemElement[];
 
@@ -221,110 +106,208 @@ export class ValueList<
 
   mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
 
+  selectSiblings = selectSiblings.bind(this);
+
+  setFilterEl = (el: Filter["el"]): void => {
+    this.filterEl = el;
+  };
+
   sortable: Sortable;
 
-  emitCalciteListChange: () => void;
+  storeAssistiveEl = (el: HTMLSpanElement): void => {
+    this.assistiveTextEl = el;
+  };
 
-  emitCalciteListFilter: () => void;
+  // #endregion
 
-  filterEl: HTMLCalciteFilterElement;
+  // #region State Properties
 
-  assistiveTextEl: HTMLSpanElement;
+  @state() dataForFilter: ItemData = [];
 
-  handleSelector = `.${CSS.handle}`;
+  @state() selectedValues: Map<string, ItemElement> = new Map();
 
-  dragSelector = "calcite-value-list-item";
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Properties
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
+  /** When provided, the method will be called to determine whether the element can move from the list. */
+  @property() canPull: (detail: DragDetail) => boolean;
+
+  /** When provided, the method will be called to determine whether the element can be added from another list. */
+  @property() canPut: (detail: DragDetail) => boolean;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** When `true`, `calcite-value-list-item`s are sortable via a draggable button. */
+  @property({ reflect: true }) dragEnabled = false;
+
+  /** When `true`, an input appears at the top of the component that can be used by end users to filter list items. */
+  @property({ reflect: true }) filterEnabled = false;
+
+  /** Placeholder text for the filter's input field. */
+  @property({ reflect: true }) filterPlaceholder: string;
+
+  /** Text for the filter input field. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
+  @property({ reflect: true }) filterText: string;
+
+  /**
+   * The currently filtered data.
+   *
+   * @readonly
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
+  @property() filteredData: ItemData = [];
+
+  /**
+   * The currently filtered items.
+   *
+   * @readonly
+   */
+  @property() filteredItems: ValueListItem["el"][] = [];
+
+  /**
+   * The component's group identifier.
+   *
+   * To drag elements from one list into another, both lists must have the same group value.
+   */
+  @property({ reflect: true }) group?: string;
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /** Use this property to override individual strings used by the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @notPublic
+   */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * Similar to standard radio buttons and checkboxes.
+   * When `true`, a user can select multiple `calcite-value-list-item`s at a time.
+   * When `false`, only a single `calcite-value-list-item` can be selected at a time,
+   * and a new selection will deselect previous selections.
+   */
+  @property({ reflect: true }) multiple = false;
+
+  /** When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard. */
+  @property({ reflect: true }) selectionFollowsFocus = false;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Returns the component's selected items. */
+  @method()
+  async getSelectedItems(): Promise<Map<string, ValueListItem["el"]>> {
+    return this.selectedValues;
+  }
+
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param focusId
+   */
+  @method()
+  async setFocus(focusId?: ListFocusId): Promise<void> {
+    await componentFocusable(this);
+
+    return setFocus.call(this, focusId);
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Emits when any of the list item selections have changed. */
+  calciteListChange = createEvent<Map<string, ValueListItem["el"]>>({ cancelable: false });
+
+  /** Emits when a filter has changed. */
+  calciteListFilter = createEvent({ cancelable: false });
+
+  /** Emits when the order of the list has changed. */
+  calciteListOrderChange = createEvent<any[]>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("focusout", this.calciteListFocusOutHandler);
+    this.listen("calciteListItemRemove", this.calciteListItemRemoveHandler);
+    this.listen("calciteListItemChange", this.calciteListItemChangeHandler);
+    this.listen(
+      "calciteInternalListItemPropsChange",
+      this.calciteInternalListItemPropsChangeHandler,
+    );
+    this.listen(
+      "calciteInternalListItemValueChange",
+      this.calciteInternalListItemValueChangeHandler,
+    );
+    this.listen("calciteValueListItemDragHandleBlur", this.handleValueListItemBlur);
+    this.listen("blur", this.handleBlur);
+    this.listen("focusin", this.handleFocusIn);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
     initialize.call(this);
     initializeObserver.call(this);
     this.setUpSorting();
   }
 
-  async componentWillLoad(): Promise<void> {
+  async load(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
   }
 
-  componentDidLoad(): void {
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
     setComponentLoaded(this);
     handleInitialFilter.call(this);
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     disconnectSortableComponent(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
     cleanUpObserver.call(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  /**
-   * Emits when any of the list item selections have changed.
-   */
-  @Event({ cancelable: false }) calciteListChange: EventEmitter<
-    Map<string, HTMLCalciteValueListItemElement>
-  >;
+  // #region Private Methods
 
-  /**
-   * Emits when the order of the list has changed.
-   */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<any[]>;
-
-  /**
-   * Emits when a filter has changed.
-   */
-  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
-
-  @Listen("focusout")
-  calciteListFocusOutHandler(event: FocusEvent): void {
+  private calciteListFocusOutHandler(event: FocusEvent): void {
     calciteListFocusOutHandler.call(this, event);
   }
 
-  @Listen("calciteListItemRemove")
-  calciteListItemRemoveHandler(event: CustomEvent<void>): void {
+  private calciteListItemRemoveHandler(event: CustomEvent<void>): void {
     removeItem.call(this, event);
   }
 
-  @Listen("calciteListItemChange")
-  calciteListItemChangeHandler(event: CustomEvent): void {
+  private calciteListItemChangeHandler(event: CustomEvent): void {
     calciteListItemChangeHandler.call(this, event);
   }
 
-  @Listen("calciteInternalListItemPropsChange")
-  calciteInternalListItemPropsChangeHandler(event: CustomEvent): void {
+  private calciteInternalListItemPropsChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.setUpFilter();
   }
 
-  @Listen("calciteInternalListItemValueChange")
-  calciteInternalListItemValueChangeHandler(event: CustomEvent): void {
+  private calciteInternalListItemValueChangeHandler(event: CustomEvent): void {
     calciteInternalListItemValueChangeHandler.call(this, event);
     event.stopPropagation();
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   onGlobalDragStart(): void {
     cleanUpObserver.call(this);
@@ -344,7 +327,7 @@ export class ValueList<
     this.calciteListOrderChange.emit(values);
   }
 
-  getItems(): ItemElement[] {
+  private getItems(): ItemElement[] {
     return Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
   }
 
@@ -359,15 +342,11 @@ export class ValueList<
     }
   }
 
-  setFilterEl = (el: HTMLCalciteFilterElement): void => {
-    this.filterEl = el;
-  };
-
-  setFilteredItems = (filteredItems: HTMLCalciteValueListItemElement[]): void => {
+  setFilteredItems(filteredItems: ValueListItem["el"][]): void {
     this.filteredItems = filteredItems;
-  };
+  }
 
-  setUpSorting(): void {
+  private setUpSorting(): void {
     const { dragEnabled } = this;
 
     if (!dragEnabled) {
@@ -377,19 +356,7 @@ export class ValueList<
     connectSortableComponent(this);
   }
 
-  deselectRemovedItems = deselectRemovedItems.bind(this);
-
-  deselectSiblingItems = deselectSiblingItems.bind(this);
-
-  selectSiblings = selectSiblings.bind(this);
-
-  handleFilter = handleFilter.bind(this);
-
-  handleFilterEvent = handleFilterEvent.bind(this);
-
-  getItemData = getItemData.bind(this);
-
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (event.defaultPrevented) {
       return;
     }
@@ -436,43 +403,13 @@ export class ValueList<
     item.handleActivated = true;
 
     this.updateHandleAriaLabel(handle, getScreenReaderText(item, "change", this));
-  };
+  }
 
-  handleBlur(): void {
+  private handleBlur(): void {
     if (this.dragEnabled) {
       this.updateScreenReaderText("");
     }
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Returns the component's selected items. */
-  @Method()
-  async getSelectedItems(): Promise<Map<string, HTMLCalciteValueListItemElement>> {
-    return this.selectedValues;
-  }
-
-  /**
-   * Sets focus on the component's first focusable element.
-   *
-   * @param focusId
-   */
-  @Method()
-  async setFocus(focusId?: ListFocusId): Promise<void> {
-    await componentFocusable(this);
-
-    return setFocus.call(this, focusId);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
 
   getIconType(): typeof ICON_TYPES | null {
     let type = null;
@@ -482,27 +419,22 @@ export class ValueList<
     return type;
   }
 
-  updateScreenReaderText(text: string): void {
+  private updateScreenReaderText(text: string): void {
     this.assistiveTextEl.textContent = text;
   }
 
-  updateHandleAriaLabel(handleElement: HTMLSpanElement, text: string): void {
+  private updateHandleAriaLabel(handleElement: HTMLSpanElement, text: string): void {
     handleElement.ariaLabel = text;
   }
 
-  storeAssistiveEl = (el: HTMLSpanElement): void => {
-    this.assistiveTextEl = el;
-  };
-
-  handleFocusIn = (event: FocusEvent): void => {
+  private handleFocusIn(event: FocusEvent): void {
     const { handle, item } = getHandleAndItemElement(event);
     if (!item?.handleActivated && item && handle) {
       this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
     }
-  };
+  }
 
-  @Listen("calciteValueListItemDragHandleBlur")
-  handleValueListItemBlur(event: CustomEvent<ListItemAndHandle>): void {
+  private handleValueListItemBlur(event: CustomEvent<ListItemAndHandle>): void {
     const { item, handle } = event.detail;
     if (!item?.handleActivated && item) {
       this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
@@ -510,17 +442,17 @@ export class ValueList<
     event.stopPropagation();
   }
 
-  render(): VNode {
-    return (
-      <Host
-        aria-busy={toAriaBoolean(this.loading)}
-        onBlur={this.handleBlur}
-        onFocusin={this.handleFocusIn}
-        onKeyDown={this.keyDownHandler}
-        role="menu"
-      >
-        <List props={this} />
-      </Host>
-    );
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaBusy = toAriaBoolean(this.loading);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "menu";
+    return <List props={this} />;
   }
+
+  // #endregion
 }

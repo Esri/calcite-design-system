@@ -1,15 +1,6 @@
-import {
-  Component,
-  h,
-  VNode,
-  Prop,
-  Element,
-  Listen,
-  EventEmitter,
-  Event,
-  Method,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -22,29 +13,53 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-/**
- * @slot - A slot for adding one or more `calcite-chip`s.
- */
-@Component({
-  tag: "calcite-chip-group",
-  styleUrl: "chip-group.scss",
-  shadow: true,
-})
-export class ChipGroup implements InteractiveComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+import type { Chip } from "../chip/chip";
+import { styles } from "./chip-group.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-chip-group": ChipGroup;
+  }
+}
+/** @slot - A slot for adding one or more `calcite-chip`s. */
+export class ChipGroup extends LitElement implements InteractiveComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private items: Chip["el"][] = [];
+
+  private slotRefEl = createRef<HTMLSlotElement>();
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
-  /** Accessible name for the component. */
-  @Prop() label!: string;
+  /**
+   * Accessible name for the component.
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
+   *
+   * @required
+   */
+  @property() label: string;
 
   /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Specifies the component's selected items.
+   *
+   * @readonly
+   */
+  @property() selectedItems: Chip["el"][] = [];
 
   /**
    * Specifies the selection mode of the component, where:
@@ -57,69 +72,80 @@ export class ChipGroup implements InteractiveComponent {
    *
    * `"none"` does not allow any selections.
    */
-  @Prop({ reflect: true }) selectionMode: Extract<
+  @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   > = "none";
 
-  @Watch("selectionMode")
-  onSelectionModeChange(): void {
-    this.updateItems();
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component's first focusable element. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    if (!this.disabled) {
+      return (this.selectedItems[0] || this.items[0])?.setFocus();
+    }
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component's selection changes. */
+  calciteChipGroupSelect = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalChipKeyEvent", this.calciteInternalChipKeyEventListener);
+    this.listen("calciteChipClose", this.calciteChipCloseListener);
+    this.listen("calciteChipSelect", this.calciteChipSelectListener);
+    this.listen("calciteInternalChipSelect", this.calciteInternalChipSelectListener);
+    this.listen("calciteInternalSyncSelectedChips", this.calciteInternalSyncSelectedChips);
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
   }
 
   /**
-   * Specifies the component's selected items.
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *
-   * @readonly
+   * @param changes
    */
-  @Prop({ mutable: true }) selectedItems: HTMLCalciteChipElement[] = [];
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) {
+      this.onSelectionModeChange();
+    }
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteChipGroupElement;
-
-  private items: HTMLCalciteChipElement[] = [];
-
-  private slotRefEl: HTMLSlotElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fires when the component's selection changes. */
-  @Event({ cancelable: false }) calciteChipGroupSelect: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentDidRender(): void {
+  override updated(): void {
     updateHostInteraction(this);
   }
 
-  componentDidLoad(): void {
+  loaded(): void {
     setComponentLoaded(this);
   }
 
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Listen("calciteInternalChipKeyEvent")
-  calciteInternalChipKeyEventListener(event: CustomEvent): void {
+  // #region Private Methods
+
+  private onSelectionModeChange(): void {
+    this.updateItems();
+  }
+
+  private calciteInternalChipKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items?.filter((el) => !el.disabled);
       switch (event.detail.key) {
@@ -140,9 +166,8 @@ export class ChipGroup implements InteractiveComponent {
     event.stopPropagation();
   }
 
-  @Listen("calciteChipClose")
-  calciteChipCloseListener(event: CustomEvent): void {
-    const item = event.target as HTMLCalciteChipElement;
+  private calciteChipCloseListener(event: CustomEvent): void {
+    const item = event.target as Chip["el"];
     if (this.items?.includes(item)) {
       if (this.items?.indexOf(item) > 0) {
         focusElementInGroup(this.items, item, "previous");
@@ -156,64 +181,36 @@ export class ChipGroup implements InteractiveComponent {
     event.stopPropagation();
   }
 
-  @Listen("calciteChipSelect")
-  calciteChipSelectListener(event: CustomEvent): void {
+  private calciteChipSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      this.setSelectedItems(true, event.target as HTMLCalciteChipElement);
+      this.setSelectedItems(true, event.target as Chip["el"]);
     }
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalChipSelect")
-  calciteInternalChipSelectListener(event: CustomEvent): void {
+  private calciteInternalChipSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      this.setSelectedItems(false, event.target as HTMLCalciteChipElement);
+      this.setSelectedItems(false, event.target as Chip["el"]);
     }
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalSyncSelectedChips")
-  calciteInternalSyncSelectedChips(event: CustomEvent): void {
+  private calciteInternalSyncSelectedChips(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.updateSelectedItems();
       if (this.selectionMode === "single" && this.selectedItems.length > 1) {
-        this.setSelectedItems(false, event.target as HTMLCalciteChipElement);
+        this.setSelectedItems(false, event.target as Chip["el"]);
       }
     }
     event.stopPropagation();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Sets focus on the component's first focusable element.
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled) {
-      return (this.selectedItems[0] || this.items[0])?.setFocus();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private updateItems = (event?: Event): void => {
-    const itemsFromSlot = this.slotRefEl
+  private updateItems(event?: Event): void {
+    const itemsFromSlot = this.slotRefEl.value
       ?.assignedElements({ flatten: true })
-      .filter((el): el is HTMLCalciteChipElement => el?.matches("calcite-chip"));
+      .filter((el): el is Chip["el"] => el?.matches("calcite-chip"));
 
-    this.items = !event
-      ? itemsFromSlot
-      : slotChangeGetAssignedElements<HTMLCalciteChipElement>(event);
+    this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Chip["el"]>(event);
 
     if (this.items?.length < 1) {
       return;
@@ -227,13 +224,13 @@ export class ChipGroup implements InteractiveComponent {
     });
 
     this.setSelectedItems(false);
-  };
+  }
 
-  private updateSelectedItems = (): void => {
+  private updateSelectedItems(): void {
     this.selectedItems = this.items?.filter((el) => el.selected);
-  };
+  }
 
-  private setSelectedItems = (emit: boolean, elToMatch?: HTMLCalciteChipElement): void => {
+  private setSelectedItems(emit: boolean, elToMatch?: Chip["el"]): void {
     if (elToMatch) {
       this.items?.forEach((el) => {
         const matchingEl = elToMatch === el;
@@ -260,28 +257,25 @@ export class ChipGroup implements InteractiveComponent {
     if (emit) {
       this.calciteChipGroupSelect.emit();
     }
-  };
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const role =
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
     const { disabled } = this;
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <div aria-label={this.label} class="container" role={role}>
-          <slot
-            onSlotchange={this.updateItems}
-            ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
-          />
+        <div ariaLabel={this.label} class="container" role={role}>
+          <slot onSlotChange={this.updateItems} ref={this.slotRefEl} />
         </div>
       </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

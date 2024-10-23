@@ -15,12 +15,12 @@ For comprehensive guidance on using and implementing `calcite-pick-list-item`, r
 | `disabled`           | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                   | `boolean`                   | `false`     |
 | `icon`               | `icon`              | Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`. | `string`                    | `null`      |
 | `iconFlipRtl`        | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).               | `boolean`                   | `false`     |
-| `label` *(required)* | `label`             | Label and accessible name for the component. Appears next to the icon.                                     | `string`                    | `undefined` |
+| `label` _(required)_ | `label`             | Label and accessible name for the component. Appears next to the icon.                                     | `string`                    | `undefined` |
 | `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                                    | `PickListItemMessages`      | `undefined` |
 | `metadata`           | --                  | Provides additional metadata to the component. Primary use is for a filter on the parent list.             | `{ [x: string]: unknown; }` | `undefined` |
 | `removable`          | `removable`         | When `true`, displays a remove action that removes the item from the list.                                 | `boolean`                   | `false`     |
 | `selected`           | `selected`          | When `true`, selects an item. Toggles when an item is checked/unchecked.                                   | `boolean`                   | `false`     |
-| `value` *(required)* | `value`             | The component's value.                                                                                     | `any`                       | `undefined` |
+| `value` _(required)_ | `value`             | The component's value.                                                                                     | `any`                       | `undefined` |
 
 ## Events
 
@@ -86,4 +86,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

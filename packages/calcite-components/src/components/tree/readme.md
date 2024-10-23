@@ -27,4 +27,4 @@ For comprehensive guidance on using and implementing `calcite-tree`, refer to th
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

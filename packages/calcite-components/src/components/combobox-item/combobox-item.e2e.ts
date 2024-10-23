@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
 
 describe("calcite-combobox-item", () => {

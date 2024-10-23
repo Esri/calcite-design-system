@@ -5,6 +5,7 @@ import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputDatePicker } from "./input-date-picker";
+
 const { scale, status } = ATTRIBUTES;
 
 interface InputDatePickerStoryArgs

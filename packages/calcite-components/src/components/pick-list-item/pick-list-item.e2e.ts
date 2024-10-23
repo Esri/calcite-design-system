@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, disabled, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -9,7 +10,7 @@ describe("calcite-pick-list-item", () => {
   });
 
   describe("honors hidden attribute", () => {
-    hidden("calcite-list-item");
+    hidden("calcite-pick-list-item");
   });
 
   // eslint-disable-next-line jest/no-disabled-tests

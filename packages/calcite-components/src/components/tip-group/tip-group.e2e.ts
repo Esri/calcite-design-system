@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tip-group", () => {

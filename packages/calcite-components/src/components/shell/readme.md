@@ -35,4 +35,4 @@ For comprehensive guidance on using and implementing `calcite-shell`, refer to t
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

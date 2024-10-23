@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Fab } from "./fab";
 import { ICONS } from "./resources";
+
 const { appearance, scale } = ATTRIBUTES;
 
 type FabStoryArgs = Pick<

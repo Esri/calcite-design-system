@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -19,7 +20,9 @@ import {
   testWorkaroundForGlobalPropRemoval,
 } from "../input/common/tests";
 import { assertCaretPosition } from "../../tests/utils";
+import type { InputMessage } from "../input-message/input-message";
 import { CSS } from "./resources";
+import type { InputText } from "./input-text";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -295,7 +298,7 @@ describe("calcite-input-text", () => {
     await page.setContent(html`<calcite-input-text min-length="2" max-length="3" value=""></calcite-input-text>`);
 
     const getInputValidity = async () =>
-      page.$eval("calcite-input-text", (element: HTMLCalciteInputTextElement) => {
+      page.$eval("calcite-input-text", (element: InputText["el"]) => {
         const input = element.shadowRoot.querySelector("input");
         return input.validity.valid;
       });
@@ -414,7 +417,7 @@ describe("calcite-input-text", () => {
 
     expect(await isElementFocused(page, componentTag)).toBe(false);
 
-    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: InputMessage["el"]) => {
       element.click();
     });
     await page.waitForChanges();

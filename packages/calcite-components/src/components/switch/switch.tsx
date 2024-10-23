@@ -1,15 +1,5 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  VNode,
-} from "@stencil/core";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { focusElement } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -30,100 +20,136 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
+import type { Label } from "../label/label";
 import { CSS } from "./resources";
+import { styles } from "./switch.scss";
 
-@Component({
-  tag: "calcite-switch",
-  styleUrl: "switch.scss",
-  shadow: true,
-})
+declare global {
+  interface DeclareElements {
+    "calcite-switch": Switch;
+  }
+}
+
 export class Switch
+  extends LitElement
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  defaultChecked: boolean;
+
+  defaultValue: Switch["checked"];
+
+  formEl: HTMLFormElement;
+
+  labelEl: Label["el"];
+
+  private switchEl: HTMLDivElement;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, the component is checked. */
+  @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
   /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @property({ reflect: true }) form: string;
 
   /** Accessible name for the component. */
-  @Prop() label: string;
+  @property() label: string;
 
   /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
    */
-  @Prop({ reflect: true }) name: string;
+  @property({ reflect: true }) name: string;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** When `true`, the component is checked. */
-  @Prop({ reflect: true, mutable: true }) checked = false;
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** The component's value. */
-  @Prop() value: any;
+  @property() value: any;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteSwitchElement;
-
-  labelEl: HTMLCalciteLabelElement;
-
-  switchEl: HTMLDivElement;
-
-  formEl: HTMLFormElement;
-
-  defaultValue: Switch["checked"];
-
-  defaultChecked: boolean;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
     focusElement(this.switchEl);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the `checked` value has changed. */
+  calciteSwitchChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("click", this.clickHandler);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "checkbox";
   }
 
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (!this.disabled && isActivationKey(event.key)) {
       this.toggle();
       event.preventDefault();
     }
-  };
+  }
 
   onLabelClick(): void {
     if (!this.disabled) {
@@ -137,82 +163,41 @@ export class Switch
     this.calciteSwitchChange.emit();
   }
 
-  private clickHandler = (): void => {
+  private clickHandler(): void {
     if (this.disabled) {
       return;
     }
 
     this.toggle();
-  };
+  }
 
-  private setSwitchEl = (el: HTMLDivElement): void => {
+  private setSwitchEl(el: HTMLDivElement): void {
     this.switchEl = el;
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when the `checked` value has changed.
-   */
-  @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
   }
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
+  // #endregion
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
+  // #region Rendering
 
-  disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <InteractiveContainer disabled={this.disabled}>
-          <div
-            aria-checked={toAriaBoolean(this.checked)}
-            aria-label={getLabelText(this)}
-            class={CSS.container}
-            ref={this.setSwitchEl}
-            role="switch"
-            tabIndex={0}
-          >
-            <div class={CSS.track}>
-              <div class={CSS.handle} />
-            </div>
-            <HiddenFormInputSlot component={this} />
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          ariaChecked={this.checked}
+          ariaLabel={getLabelText(this)}
+          class={CSS.container}
+          ref={this.setSwitchEl}
+          role="switch"
+          tabIndex={0}
+        >
+          <div class={CSS.track}>
+            <div class={CSS.handle} />
           </div>
-        </InteractiveContainer>
-      </Host>
+          <HiddenFormInputSlot component={this} />
+        </div>
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

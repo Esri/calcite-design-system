@@ -1,4 +1,5 @@
 import Color from "color";
+import { describe, expect, it } from "vitest";
 import {
   colorEqual,
   hexToRGB,

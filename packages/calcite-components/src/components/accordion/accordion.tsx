@@ -1,45 +1,44 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-  Prop,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { Appearance, Position, IconType, Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
 import { CSS } from "./resources";
-/**
- * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
- */
-@Component({
-  tag: "calcite-accordion",
-  styleUrl: "accordion.scss",
-  shadow: true,
-})
-export class Accordion {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+import { styles } from "./accordion.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-accordion": Accordion;
+  }
+}
+/** @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. */
+export class Accordion extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /** Specifies the placement of the icon in the header. */
-  @Prop({ reflect: true }) iconPosition: Extract<"start" | "end", Position> = "end";
+  @property({ reflect: true }) iconPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the type of the icon in the header. */
-  @Prop({ reflect: true }) iconType: Extract<"chevron" | "caret" | "plus-minus", IconType> =
+  @property({ reflect: true }) iconType: Extract<"chevron" | "caret" | "plus-minus", IconType> =
     "chevron";
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the selection mode of the component, where:
@@ -50,46 +49,87 @@ export class Accordion {
    *
    * `"single-persist"` allows one selection and prevents de-selection.
    */
-  @Prop({ reflect: true }) selectionMode: Extract<
+  @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple",
     SelectionMode
   > = "multiple";
 
-  @Watch("iconPosition")
-  @Watch("iconType")
-  @Watch("scale")
-  @Watch("selectionMode")
-  handlePropsChange(): void {
-    this.updateAccordionItems();
+  // #endregion
+
+  // #region Events
+
+  /** @notPublic */
+  private calciteInternalAccordionChange = createEvent<RequestedItem>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalAccordionItemSelect", this.updateActiveItemOnChange);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) private calciteInternalAccordionChange: EventEmitter<RequestedItem>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
+  override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateAccordionItems();
   }
 
-  disconnectedCallback(): void {
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("iconPosition") && (this.hasUpdated || this.iconPosition !== "end")) ||
+      (changes.has("iconType") && (this.hasUpdated || this.iconType !== "chevron")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "multiple"))
+    ) {
+      this.handlePropsChange();
+    }
+  }
+
+  override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
   }
 
-  render(): VNode {
+  // #endregion
+
+  // #region Private Methods
+
+  private handlePropsChange(): void {
+    this.updateAccordionItems();
+  }
+
+  private updateActiveItemOnChange(event: CustomEvent): void {
+    this.calciteInternalAccordionChange.emit({
+      requestedAccordionItem: event.detail.requestedAccordionItem,
+    });
+    event.stopPropagation();
+  }
+
+  private updateAccordionItems(): void {
+    this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
+      item.iconPosition = this.iconPosition;
+      item.iconType = this.iconType;
+      item.scale = this.scale;
+    });
+
+    // sync props on items across shadow DOM
+    document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     const transparent = this.appearance === "transparent";
     return (
       <div
@@ -103,44 +143,5 @@ export class Accordion {
     );
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteInternalAccordionItemSelect")
-  updateActiveItemOnChange(event: CustomEvent): void {
-    this.calciteInternalAccordionChange.emit({
-      requestedAccordionItem: event.detail.requestedAccordionItem,
-    });
-    event.stopPropagation();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAccordionElement;
-
-  mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private updateAccordionItems(): void {
-    this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
-      item.iconPosition = this.iconPosition;
-      item.iconType = this.iconType;
-      item.scale = this.scale;
-    });
-
-    // sync props on items across shadow DOM
-    document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
-  }
+  // #endregion
 }

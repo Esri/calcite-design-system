@@ -13,7 +13,7 @@ For comprehensive guidance on using and implementing `calcite-alert`, refer to t
 | `icon`               | `icon`                | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                               | `undefined` |
 | `iconFlipRtl`        | `icon-flip-rtl`       | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                                         | `false`     |
 | `kind`               | `kind`                | Specifies the kind of the component, which will apply to top border and icon.                                         | `"brand" \| "danger" \| "info" \| "success" \| "warning"`                         | `"brand"`   |
-| `label` *(required)* | `label`               | Specifies an accessible name for the component.                                                                       | `string`                                                                          | `undefined` |
+| `label` _(required)_ | `label`               | Specifies an accessible name for the component.                                                                       | `string`                                                                          | `undefined` |
 | `messageOverrides`   | `message-overrides`   | Use this property to override individual strings used by the component.                                               | `AlertMessages`                                                                   | `undefined` |
 | `numberingSystem`    | `numbering-system`    | Specifies the Unicode numeral system used by the component for localization.                                          | `"arab" \| "arabext" \| "latn"`                                                   | `undefined` |
 | `open`               | `open`                | When `true`, displays and positions the component.                                                                    | `boolean`                                                                         | `false`     |
@@ -77,4 +77,4 @@ graph TD;
 
 ---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

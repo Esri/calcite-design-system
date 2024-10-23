@@ -1,8 +1,11 @@
+import type { Accordion } from "../accordion/accordion";
+import type { AccordionItem } from "./accordion-item";
+
 export interface RegistryEntry {
-  parent: HTMLCalciteAccordionElement;
+  parent: Accordion["el"];
   position: number;
 }
 
 export interface RequestedItem {
-  requestedAccordionItem: HTMLCalciteAccordionItemElement;
+  requestedAccordionItem: AccordionItem["el"];
 }

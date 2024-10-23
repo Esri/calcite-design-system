@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name : "Assign for verification"
+      - name: "Assign for verification"
         if: github.event.label.name == '3 - installed'
         uses: actions/github-script@v7
         env:
@@ -50,4 +50,3 @@ jobs:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent.js')
             await action({github, context, core})
-

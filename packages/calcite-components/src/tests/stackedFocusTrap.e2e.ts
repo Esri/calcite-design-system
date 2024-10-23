@@ -1,7 +1,8 @@
-import { E2EElement, newE2EPage, E2EPage } from "@stencil/core/testing";
 import { camelCase } from "change-case";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";
-import { skipAnimations } from "../tests/utils";
+import { skipAnimations } from "./utils";
 
 describe("stacked focus-trap components", () => {
   const componentStack = html`

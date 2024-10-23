@@ -1,4 +1,5 @@
 import { toHaveNoViolations } from "jest-axe";
+import { expect, it } from "vitest";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
@@ -22,7 +23,6 @@ expect.extend(toHaveNoViolations);
  *      }
  *    ])
  * })
- *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param componentTestSetup
  * @param {object[]} propsToTest - the properties to test
@@ -37,7 +37,7 @@ export function defaults(
   }[],
 ): void {
   it.each(propsToTest.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
-    "%p",
+    "%s",
     async (propertyName, defaultValue) => {
       const { page, tag } = await getTagAndPage(componentTestSetup);
       const element = await page.find(tag);

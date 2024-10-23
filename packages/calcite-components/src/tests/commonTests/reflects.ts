@@ -1,12 +1,12 @@
 import { toHaveNoViolations } from "jest-axe";
-import { skipAnimations } from "./../utils";
+import { expect, it } from "vitest";
+import { skipAnimations } from "../utils";
 import { getTagAndPage, propToAttr } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
 /**
- *
  * Helper for asserting that a component reflects
  *
  * Note that this helper should be used within a describe block.
@@ -24,7 +24,6 @@ expect.extend(toHaveNoViolations);
  *      }
  *    ])
  * })
- *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param componentTestSetup
  * @param {object[]} propsToTest - the properties to test
@@ -40,7 +39,7 @@ export function reflects(
 ): void {
   const cases = propsToTest.map(({ propertyName, value }) => [propertyName, value]);
 
-  it.each(cases)("%p", async (propertyName, value) => {
+  it.each(cases)("%s", async (propertyName, value) => {
     const { page, tag: componentTag } = await getTagAndPage(componentTestSetup);
     await skipAnimations(page);
     const element = await page.find(componentTag);

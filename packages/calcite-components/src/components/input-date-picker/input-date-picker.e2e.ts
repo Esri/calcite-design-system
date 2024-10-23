@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import {
   accessible,
   defaults,
@@ -15,7 +16,12 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import type { DatePickerDay } from "../date-picker-day/date-picker-day";
+import type { DatePickerMonth } from "../date-picker-month/date-picker-month";
+import type { DatePicker } from "../date-picker/date-picker";
+import type { InputDatePicker } from "./input-date-picker";
 import { CSS } from "./resources";
+
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
@@ -111,10 +117,10 @@ describe("calcite-input-date-picker", () => {
     await page.evaluate(
       async (dayIndex: number) =>
         document
-          .querySelector<HTMLCalciteInputDatePickerElement>("calcite-input-date-picker")
-          .shadowRoot.querySelector<HTMLCalciteDatePickerElement>("calcite-date-picker")
-          .shadowRoot.querySelector<HTMLCalciteDatePickerMonthElement>("calcite-date-picker-month")
-          .shadowRoot.querySelectorAll<HTMLCalciteDatePickerDayElement>("calcite-date-picker-day[current-month]")
+          .querySelector<InputDatePicker["el"]>("calcite-input-date-picker")
+          .shadowRoot.querySelector<DatePicker["el"]>("calcite-date-picker")
+          .shadowRoot.querySelector<DatePickerMonth["el"]>("calcite-date-picker-month")
+          .shadowRoot.querySelectorAll<DatePickerDay["el"]>("calcite-date-picker-day[current-month]")
           [dayIndex].click(),
       dayIndex,
     );
@@ -227,7 +233,8 @@ describe("calcite-input-date-picker", () => {
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await input.click();
+      const toggleIcon = await input.find(`>>> .${CSS.toggleIcon}`);
+      await toggleIcon.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
 
@@ -326,7 +333,7 @@ describe("calcite-input-date-picker", () => {
       await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await page.$eval("calcite-input-date-picker", (element: HTMLCalciteInputDatePickerElement) => {
+      await page.$eval("calcite-input-date-picker", (element: InputDatePicker["el"]) => {
         element.valueAsDate = [new Date(1, 1, 2020), new Date(31, 1, 2020)];
       });
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -685,8 +692,8 @@ describe("calcite-input-date-picker", () => {
       const day = "19";
 
       /* eslint-disable import/no-dynamic-require -- allowing dynamic asset path for maintainability */
-      const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
-      const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
+      const langTranslations = await import(`../date-picker/assets/nls/${lang}.json`);
+      const newLangTranslations = await import(`../date-picker/assets/nls/${newLang}.json`);
       /* eslint-enable import/no-dynamic-require */
 
       const page = await newE2EPage();
@@ -862,7 +869,7 @@ describe("calcite-input-date-picker", () => {
     element.setProperty("max", "2023-11-15");
     await page.waitForChanges();
     const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
-    const minDateAsTime = await page.$eval("calcite-input-date-picker", (picker: HTMLCalciteInputDatePickerElement) =>
+    const minDateAsTime = await page.$eval("calcite-input-date-picker", (picker: InputDatePicker["el"]) =>
       picker.minAsDate.getTime(),
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
@@ -881,12 +888,12 @@ describe("calcite-input-date-picker", () => {
 
     const element = await page.find("calcite-input-date-picker");
 
-    element.setProperty("min", null);
-    element.setProperty("max", null);
+    element.setProperty("min", undefined);
+    element.setProperty("max", undefined);
     await page.waitForChanges();
 
-    expect(await element.getProperty("minAsDate")).toBe(null);
-    expect(await element.getProperty("maxAsDate")).toBe(null);
+    expect(await element.getProperty("minAsDate")).toBe(undefined);
+    expect(await element.getProperty("maxAsDate")).toBe(undefined);
   });
 
   describe("owns a floating-ui", () => {
@@ -1269,7 +1276,8 @@ describe("calcite-input-date-picker", () => {
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await element.click();
+      const toggleIcon = await element.find(`>>> .${CSS.toggleIcon}`);
+      await toggleIcon.click();
       await page.waitForChanges();
       await page.keyboard.type("1/1/20");
       await page.keyboard.press("Enter");

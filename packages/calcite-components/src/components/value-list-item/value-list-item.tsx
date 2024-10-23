@@ -1,15 +1,13 @@
+import { createRef } from "lit-html/directives/ref.js";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  VNode,
-} from "@stencil/core";
+  method,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -31,8 +29,16 @@ import {
 import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICON_TYPES } from "../pick-list/resources";
 import { logger } from "../../utils/logger";
+import type { PickListItem } from "../pick-list-item/pick-list-item";
 import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
+import { styles } from "./value-list-item.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-value-list-item": ValueListItem;
+  }
+}
 
 logger.deprecated("component", {
   name: "value-list-item",
@@ -45,125 +51,91 @@ logger.deprecated("component", {
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
-@Component({
-  tag: "calcite-value-list-item",
-  styleUrl: "value-list-item.scss",
-  shadow: true,
-})
 export class ValueListItem
+  extends LitElement
   implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
 {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+  // #region Static Members
 
-  /**
-   * A description for the component that displays below the label text.
-   */
-  @Prop({ reflect: true }) description?: string;
+  static override styles = styles;
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  // #endregion
 
-  /**
-   * @internal
-   */
-  @Prop() deselectDisabled = false;
+  // #region Private Properties
 
-  /**
-   * When `true`, prevents the content of the component from user interaction.
-   */
-  @Prop({ reflect: true }) nonInteractive = false;
+  private guid = `calcite-value-list-item-${guid()}`;
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) handleActivated? = false;
+  private handleEl = createRef<HTMLSpanElement>();
+
+  private pickListItem: PickListItem["el"] = null;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** A description for the component that displays below the label text. */
+  @property({ reflect: true }) description?: string;
+
+  /** @notPublic */
+  @property() deselectDisabled = false;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** @notPublic */
+  @property() handleActivated? = false;
 
   /**
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
    *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
    */
-  @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
+  @property({ reflect: true }) icon?: ICON_TYPES | null = null;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /**
    * Label and accessible name for the component. Appears next to the icon.
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
+   *
+   * @required
    */
-  @Prop({ reflect: true }) label!: string;
+  @property({ reflect: true }) label: string;
 
-  /**
-   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-   */
-  @Prop() metadata?: Record<string, unknown>;
+  /** Provides additional metadata to the component. Primary use is for a filter on the parent list. */
+  @property() metadata?: Record<string, unknown>;
 
-  /**
-   * When `true`, adds an action to remove the component.
-   */
-  @Prop({ reflect: true }) removable = false;
+  /** When `true`, prevents the content of the component from user interaction. */
+  @property({ reflect: true }) nonInteractive = false;
 
-  /**
-   * When `true`, the component is selected.
-   */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  /** When `true`, adds an action to remove the component. */
+  @property({ reflect: true }) removable = false;
+
+  /** When `true`, the component is selected. */
+  @property({ reflect: true }) selected = false;
 
   /**
    * The component's value.
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
+   *
+   * @required
    */
-  @Prop() value!: any;
+  @property() value: any;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteValueListItemElement;
+  // #region Public Methods
 
-  pickListItem: HTMLCalcitePickListItemElement = null;
+  /** Set focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
 
-  handleEl: HTMLSpanElement;
-
-  guid = `calcite-value-list-item-${guid()}`;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
+    return this.pickListItem?.setFocus();
   }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-  }
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
 
   /**
    * Toggle the selection state. By default this won't trigger an event.
@@ -171,83 +143,92 @@ export class ValueListItem
    *
    * @param coerce
    */
-  @Method()
+  @method()
   async toggleSelected(coerce?: boolean): Promise<void> {
     this.pickListItem.toggleSelected(coerce);
   }
 
-  /** Set focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
+  // #endregion
 
-    return this.pickListItem?.setFocus();
-  }
+  // #region Events
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the component is selected or unselected.
-   */
-  @Event({ cancelable: false }) calciteListItemChange: EventEmitter<{
-    item: HTMLCalciteValueListItemElement;
+  /** Fires when the component is selected or unselected. */
+  calciteListItemChange = createEvent<{
+    item: ValueListItem["el"];
     value: any;
     selected: boolean;
     shiftPressed: boolean;
-  }>;
+  }>({ cancelable: false });
+  /** Fires when the remove button is pressed. */
 
-  /**
-   * Fires when the remove button is pressed.
-   */
-  @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
+  // wrapped pick-list-item emits this
+  calciteListItemRemove = createEvent();
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false })
-  calciteValueListItemDragHandleBlur: EventEmitter<ListItemAndHandle>;
+  /** @notPublic */
+  calciteValueListItemDragHandleBlur = createEvent<ListItemAndHandle>({ cancelable: false });
 
-  @Listen("calciteListItemChange")
-  calciteListItemChangeHandler(event: CustomEvent): void {
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteListItemChange", this.calciteListItemChangeHandler);
+  }
+
+  override connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private calciteListItemChangeHandler(event: CustomEvent): void {
     // adjust item payload from wrapped item before bubbling
     event.detail.item = this.el;
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  private getPickListRef(el: PickListItem["el"]): void {
+    this.pickListItem = el;
+  }
 
-  getPickListRef = (el: HTMLCalcitePickListItemElement): HTMLCalcitePickListItemElement =>
-    (this.pickListItem = el);
-
-  handleKeyDown = (event: KeyboardEvent): void => {
+  private handleKeyDown(event: KeyboardEvent): void {
     if (event.key === " ") {
       this.handleActivated = !this.handleActivated;
     }
-  };
+  }
 
-  handleBlur = (): void => {
+  private handleBlur(): void {
     this.handleActivated = false;
-    this.calciteValueListItemDragHandleBlur.emit({ item: this.el, handle: this.handleEl });
-  };
+    this.calciteValueListItemDragHandleBlur.emit({ item: this.el, handle: this.handleEl.value });
+  }
 
-  handleSelectChange = (event: CustomEvent): void => {
+  private handleSelectChange(event: CustomEvent): void {
     this.selected = event.detail.selected;
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderActionsEnd(): VNode {
+  // #region Rendering
+
+  private renderActionsEnd(): JsxNode {
     const { el } = this;
     const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
 
@@ -256,7 +237,7 @@ export class ValueListItem
     ) : null;
   }
 
-  renderActionsStart(): VNode {
+  private renderActionsStart(): JsxNode {
     const { el } = this;
     const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
 
@@ -265,7 +246,7 @@ export class ValueListItem
     ) : null;
   }
 
-  renderHandle(): VNode {
+  private renderHandle(): JsxNode {
     const { icon, iconFlipRtl } = this;
     if (icon === ICON_TYPES.grip) {
       return (
@@ -277,9 +258,9 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
-          ref={(el) => (this.handleEl = el)}
+          ref={this.handleEl}
           role="button"
-          tabindex="0"
+          tabIndex="0"
         >
           <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
         </span>
@@ -287,29 +268,31 @@ export class ValueListItem
     }
   }
 
-  render(): VNode {
+  override render(): JsxNode {
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "id", this.el.id || this.guid);
     return (
-      <Host id={this.el.id || this.guid}>
-        <InteractiveContainer disabled={this.disabled}>
-          {this.renderHandle()}
-          <calcite-pick-list-item
-            description={this.description}
-            deselectDisabled={this.deselectDisabled}
-            disabled={this.disabled}
-            label={this.label}
-            metadata={this.metadata}
-            nonInteractive={this.nonInteractive}
-            onCalciteListItemChange={this.handleSelectChange}
-            ref={this.getPickListRef}
-            removable={this.removable}
-            selected={this.selected}
-            value={this.value}
-          >
-            {this.renderActionsStart()}
-            {this.renderActionsEnd()}
-          </calcite-pick-list-item>
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={this.disabled}>
+        {this.renderHandle()}
+        <calcite-pick-list-item
+          description={this.description}
+          deselectDisabled={this.deselectDisabled}
+          disabled={this.disabled}
+          label={this.label}
+          metadata={this.metadata}
+          nonInteractive={this.nonInteractive}
+          oncalciteListItemChange={this.handleSelectChange}
+          ref={this.getPickListRef}
+          removable={this.removable}
+          selected={this.selected}
+          value={this.value}
+        >
+          {this.renderActionsStart()}
+          {this.renderActionsEnd()}
+        </calcite-pick-list-item>
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

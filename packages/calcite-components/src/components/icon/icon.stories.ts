@@ -4,6 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { Icon } from "./icon";
+
 const { scale } = ATTRIBUTES;
 
 const sampleIcon = iconNames.find((item) => item === "arrowRight");

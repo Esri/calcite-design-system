@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { dragAndDrop } from "../../tests/utils";
@@ -77,7 +78,7 @@ describe("calcite-value-list", () => {
       const icon = await item.getProperty("icon");
       expect(icon).toBe(ICON_TYPES.grip);
     });
-    it("should be null when drag and drop is disabled", async () => {
+    it("should be undefined when drag and drop is disabled", async () => {
       const page = await newE2EPage({
         html: `<calcite-value-list>
         <calcite-value-list-item value="one"></calcite-value-list-item>
@@ -86,7 +87,7 @@ describe("calcite-value-list", () => {
 
       const item = await page.find("calcite-value-list-item");
       const icon = await item.getProperty("icon");
-      expect(icon).toBeNull();
+      expect(icon).toBeUndefined();
     });
   });
 

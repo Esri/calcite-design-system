@@ -1,7 +1,8 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { isElementFocused } from "./../utils";
+import { isElementFocused } from "../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 export { TagOrHTMLWithBeforeContent } from "./interfaces";
 import { FocusableOptions } from "./focusable";
@@ -70,9 +71,7 @@ export async function assertLabelable({
 }
 
 export interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" | "shadowFocusTargetSelector"> {
-  /**
-   * If clicking on a label toggles the labelable component, use this prop to specify the name of the toggled prop.
-   */
+  /** If clicking on a label toggles the labelable component, use this prop to specify the name of the toggled prop. */
   propertyToToggle?: string;
 }
 
@@ -85,7 +84,6 @@ export interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSel
  * describe("labelable", () => {
  *    async () => labelable("calcite-button")
  * })
- *
  * @param {string} componentTagOrHtml - The component tag or HTML used to test label support.
  * @param {LabelableOptions} [options] - Labelable options.
  */

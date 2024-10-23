@@ -1,8 +1,8 @@
-import { FunctionalComponent, h, VNode } from "@stencil/core";
-import { JSXAttributes } from "@stencil/core/internal";
+import { TemplateResult } from "lit-html";
+import { h, LuminaJsx } from "@arcgis/lumina";
 import { FloatingLayout } from "../../utils/floating-ui";
 
-interface FloatingArrowProps extends JSXAttributes<SVGSVGElement> {
+interface FloatingArrowProps extends LuminaJsx.CustomAttributes<SVGSVGElement> {
   floatingLayout: FloatingLayout;
 }
 
@@ -29,11 +29,7 @@ const DEFAULTS = {
  * @param floatingLayout.key
  * @param floatingLayout.ref
  */
-export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
-  floatingLayout,
-  key,
-  ref,
-}): VNode => {
+export const FloatingArrow = ({ floatingLayout, key, ref }: FloatingArrowProps): TemplateResult => {
   const { width, height, strokeWidth } = DEFAULTS;
   const svgX = width / 2;
   const isVertical = floatingLayout === "vertical";
@@ -47,7 +43,7 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
 
   return (
     <svg
-      aria-hidden="true"
+      ariaHidden="true"
       class={CSS.arrow}
       height={width}
       key={key}

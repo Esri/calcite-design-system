@@ -1,4 +1,4 @@
-import { HTMLStencilElement } from "@stencil/core/internal";
+import { PublicLitElement } from "@arcgis/lumina";
 import { Scale } from "../components/interfaces";
 
 export function getIconScale(componentScale: Scale): Extract<Scale, "s" | "m"> {
@@ -18,6 +18,6 @@ export async function componentOnReady(el: HTMLElement): Promise<void> {
     : new Promise<void>((resolve) => requestAnimationFrame(() => resolve())));
 }
 
-function isStencilEl(el: HTMLElement): el is HTMLStencilElement {
-  return typeof (el as HTMLStencilElement).componentOnReady === "function";
+function isStencilEl(el: HTMLElement): el is PublicLitElement {
+  return typeof (el as PublicLitElement).componentOnReady === "function";
 }

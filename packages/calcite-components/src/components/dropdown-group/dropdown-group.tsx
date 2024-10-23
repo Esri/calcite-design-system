@@ -1,46 +1,54 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "../dropdown-item/resources";
+import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import { RequestedItem } from "./interfaces";
+import { styles } from "./dropdown-group.scss";
 
-/**
- * @slot - A slot for adding `calcite-dropdown-item`s.
- */
-@Component({
-  tag: "calcite-dropdown-group",
-  styleUrl: "dropdown-group.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-})
-export class DropdownGroup {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-dropdown-group": DropdownGroup;
+  }
+}
+
+/** @slot - A slot for adding `calcite-dropdown-item`s. */
+export class DropdownGroup extends LitElement {
+  // #region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  /** position of group within a dropdown */
+  private groupPosition: number;
+
+  private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  /** the requested group */
+  private requestedDropdownGroup: DropdownGroup["el"];
+
+  /** the requested item */
+  private requestedDropdownItem: DropdownItem["el"];
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Specifies and displays a group title. */
-  @Prop({ reflect: true }) groupTitle: string;
+  @property({ reflect: true }) groupTitle: string;
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
    *
-   * @internal
+   * @notPublic
    */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the selection mode of the component, where:
@@ -51,77 +59,64 @@ export class DropdownGroup {
    *
    * `"none"` does not allow any selections.
    */
-  @Prop({ reflect: true }) selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> =
-    "single";
+  @property({ reflect: true }) selectionMode: Extract<
+    "none" | "single" | "multiple",
+    SelectionMode
+  > = "single";
 
-  @Watch("selectionMode")
-  handlePropsChange(): void {
-    this.updateItems();
+  // #endregion
+
+  // #region Events
+
+  /** @notPublic */
+  calciteInternalDropdownItemChange = createEvent<RequestedItem>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalDropdownItemSelect", this.updateActiveItemOnChange);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
+  override connectedCallback(): void {
     this.updateItems();
     this.mutationObserver?.observe(this.el, { childList: true });
   }
 
-  componentWillLoad(): void {
+  load(): void {
     this.groupPosition = this.getGroupPosition();
   }
 
-  disconnectedCallback(): void {
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "single")) {
+      this.handlePropsChange();
+    }
+  }
+
+  override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
   }
 
-  render(): VNode {
-    const groupTitle = this.groupTitle ? (
-      <span aria-hidden="true" class="dropdown-title">
-        {this.groupTitle}
-      </span>
-    ) : null;
+  // #endregion
 
-    const dropdownSeparator =
-      this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
+  // #region Private Methods
 
-    return (
-      <Host aria-label={this.groupTitle} role="group">
-        <div
-          class={{
-            [CSS.container]: true,
-          }}
-        >
-          {dropdownSeparator}
-          {groupTitle}
-          <slot />
-        </div>
-      </Host>
-    );
+  private handlePropsChange(): void {
+    this.updateItems();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteInternalDropdownItemSelect")
-  updateActiveItemOnChange(event: CustomEvent): void {
+  private updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
     this.calciteInternalDropdownItemChange.emit({
@@ -130,36 +125,11 @@ export class DropdownGroup {
     });
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDropdownGroupElement;
-
-  /** position of group within a dropdown */
-  private groupPosition: number;
-
-  /** the requested group */
-  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
-
-  /** the requested item */
-  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
-
-  private updateItems = (): void => {
+  private updateItems(): void {
     Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
       (item) => (item.selectionMode = this.selectionMode),
     );
-  };
-
-  mutationObserver = createObserver("mutation", () => this.updateItems());
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  }
 
   private getGroupPosition(): number {
     return Array.prototype.indexOf.call(
@@ -167,4 +137,37 @@ export class DropdownGroup {
       this.el,
     );
   }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const groupTitle = this.groupTitle ? (
+      <span ariaHidden="true" class="dropdown-title">
+        {this.groupTitle}
+      </span>
+    ) : null;
+
+    const dropdownSeparator =
+      this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLabel = this.groupTitle;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "group";
+
+    return (
+      <div
+        class={{
+          [CSS.container]: true,
+        }}
+      >
+        {dropdownSeparator}
+        {groupTitle}
+        <slot />
+      </div>
+    );
+  }
+
+  // #endregion
 }

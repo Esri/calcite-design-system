@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
@@ -22,7 +23,7 @@ describe("calcite-navigation-user", () => {
       },
       {
         propertyName: "textDisabled",
-        value: "",
+        value: true,
       },
     ]);
   });

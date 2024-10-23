@@ -3,6 +3,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TextArea } from "./text-area";
+
 const { scale, status } = ATTRIBUTES;
 
 type TextAreaStoryArgs = Pick<
@@ -114,7 +115,7 @@ export const chineseLang_TestOnly = (): string => html`
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
-/**  Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
+/** Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
 const wrapperStyles = html`
   <style>
     .wrapper {

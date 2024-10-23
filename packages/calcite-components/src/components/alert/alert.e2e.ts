@@ -1,10 +1,12 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils";
 import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
+import type { Alert } from "./alert";
 
 describe("defaults", () => {
   defaults("calcite-alert", [
@@ -444,7 +446,7 @@ describe("calcite-alert", () => {
     expect(await chip.getProperty("value")).toEqual(chipQueueCount2);
     expect(chip.textContent).toEqual(chipQueueCount2);
 
-    await page.$eval("#third-open", (alert: HTMLCalciteAlertElement) => {
+    await page.$eval("#third-open", (alert: Alert["el"]) => {
       alert.remove();
     });
     await page.waitForChanges();
@@ -453,7 +455,7 @@ describe("calcite-alert", () => {
     expect(await chip.getProperty("value")).toEqual(chipQueueCount1);
     expect(chip.textContent).toEqual(chipQueueCount1);
 
-    await page.$eval("#second-open", (alert: HTMLCalciteAlertElement) => {
+    await page.$eval("#second-open", (alert: Alert["el"]) => {
       alert.remove();
     });
     await page.waitForChanges();
