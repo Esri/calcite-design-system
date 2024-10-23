@@ -972,7 +972,7 @@ describe("calcite-input-time-picker", () => {
 
   it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input-time-picker></calcite-input-time-picker>`);
+    await page.setContent(html` <calcite-input-time-picker focus-trap-disabled></calcite-input-time-picker>`);
     await skipAnimations(page);
     await page.waitForChanges();
     const inputTimePicker = await page.find("calcite-input-time-picker");
