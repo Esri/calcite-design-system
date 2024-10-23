@@ -192,7 +192,7 @@ export class Dialog
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  private messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>();
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;

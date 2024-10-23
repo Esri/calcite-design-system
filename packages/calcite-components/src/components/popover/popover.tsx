@@ -161,7 +161,7 @@ export class Popover
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  private messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
