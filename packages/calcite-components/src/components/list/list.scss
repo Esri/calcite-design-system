@@ -20,7 +20,7 @@
 }
 
 .table {
-  @apply w-full border-collapse;
+  @apply w-full;
 }
 
 .stack {
@@ -33,9 +33,6 @@
   top-0
   z-sticky
   bg-foreground-1;
-  & th {
-    @apply p-0;
-  }
 }
 
 .assistive-text {

@@ -1602,7 +1602,7 @@ export class Combobox
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
-    const showLabel = !open && single && !!selectedItem;
+    const showLabel = !open && single && !!selectedItem && !this.filterText;
 
     return (
       <span
@@ -1635,7 +1635,7 @@ export class Combobox
           class={{
             [CSS.input]: true,
             "input--single": true,
-            "input--hidden": showLabel,
+            [CSS.inputHidden]: showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
           data-test-id="input"

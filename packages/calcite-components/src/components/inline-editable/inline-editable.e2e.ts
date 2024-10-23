@@ -65,6 +65,22 @@ describe("calcite-inline-editable", () => {
       }
     });
 
+    it("should set title attributes for controls", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-inline-editable controls editing-enabled>
+          <calcite-input />
+        </calcite-inline-editable>`,
+      });
+
+      const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
+
+      expect(buttons).toHaveLength(3);
+
+      for (const button of buttons) {
+        expect(await button.getProperty("title")).toBeTruthy();
+      }
+    });
+
     it("uses a child input's scale when none are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`
