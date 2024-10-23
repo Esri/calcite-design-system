@@ -5,17 +5,20 @@
  *
  * @prop --calcite-select-font-size: The font size of `calcite-option`s in the component.
  * @prop --calcite-select-spacing: The padding around the selected option text.
+ * @prop --calcite-select-text-color: The text color of the component.
  */
 
 :host {
   @extend %component-spacing;
   @apply flex flex-col;
+  font-size: var(--calcite-select-font-size);
+  font-weight: var(--calcite-internal-select-font-weight, var(--calcite-font-weight-regular));
 }
 
 .wrapper {
   @apply relative flex items-stretch;
   inline-size: var(--select-width);
-
+  block-size: var(--calcite-internal-select-block-size, #{$calcite-size-32});
   &:focus-within,
   &:active,
   &:hover {
@@ -30,40 +33,21 @@
 :host([scale="s"]) {
   --calcite-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
-
-  .wrapper {
-    @apply h-6;
-  }
-
-  .icon-container {
-    @apply px-2;
-  }
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-sm);
+  --calcite-internal-select-block-size: #{$calcite-size-24};
 }
 
 :host([scale="m"]) {
   --calcite-select-font-size: theme("fontSize.n1h");
   --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
-
-  .wrapper {
-    @apply h-8;
-  }
-
-  .icon-container {
-    @apply px-3;
-  }
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-md);
 }
 
 :host([scale="l"]) {
   --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
-
-  .wrapper {
-    block-size: 44px;
-  }
-
-  .icon-container {
-    @apply px-4;
-  }
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-lg);
+  --calcite-internal-select-block-size: #{$calcite-size-44};
 }
 
 :host([width="auto"]) {
@@ -79,11 +63,27 @@
 }
 
 .select {
-  @apply bg-foreground-1 border-color-input text-color-2 font-inherit focus-base m-0 box-border w-full cursor-pointer appearance-none truncate rounded-none border border-solid;
-  font-size: var(--calcite-select-font-size);
+  @apply bg-foreground-1
+    border-color-input
+    text-color-2
+    font-inherit
+    focus-base
+    m-0
+    box-border
+    w-full
+    cursor-pointer
+    appearance-none
+    truncate
+    rounded-none
+    border-solid;
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--calcite-select-text-color, var(--calcite-color-text-2));
+  border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-select-spacing-inline);
+  padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: theme("borderWidth.0");
-
+  line-height: var(--calcite-select-line-height, normal);
   &:focus {
     @apply focus-inset;
   }
@@ -97,8 +97,9 @@ select:disabled {
 .icon-container {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
-
+  border-inline-width: theme("borderWidth.0")
+    var(--calcite-select-internal-icon-border-inline-end-width, theme("borderWidth.DEFAULT"));
+  padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
   .icon {
     color: var(--calcite-color-text-3);
   }
