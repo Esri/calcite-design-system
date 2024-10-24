@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import {
   accessible,
+  debounceCancelled,
   defaults,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -65,6 +66,10 @@ describe("calcite-action-bar", () => {
         value: "fixed",
       },
     ]);
+  });
+
+  describe("debounceCancelled", () => {
+    debounceCancelled(`<action-bar></action-bar>`);
   });
 
   describe("delegates to floating-ui-owner component", () => {

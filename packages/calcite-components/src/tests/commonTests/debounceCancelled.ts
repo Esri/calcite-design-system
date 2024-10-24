@@ -11,7 +11,7 @@ expect.extend(toHaveNoViolations);
  *
  * @example
  * describe("debounceCancelled"), () => {
- *    accessible(`<action-bar></action-bar>`);
+ *    debounceCancelled(`<action-bar></action-bar>`);
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test

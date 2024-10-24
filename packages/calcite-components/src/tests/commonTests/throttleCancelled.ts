@@ -11,7 +11,7 @@ expect.extend(toHaveNoViolations);
  *
  * @example
  * describe("throttleCancelled"), () => {
- *    accessible(`<color-picker></color-picker>`);
+ *    throttleCancelled(`<color-picker></color-picker>`);
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
