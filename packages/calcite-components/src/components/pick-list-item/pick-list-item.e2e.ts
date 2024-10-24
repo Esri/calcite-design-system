@@ -9,7 +9,7 @@ describe("calcite-pick-list-item", () => {
   });
 
   describe("honors hidden attribute", () => {
-    hidden("calcite-list-item");
+    hidden("calcite-pick-list-item");
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
