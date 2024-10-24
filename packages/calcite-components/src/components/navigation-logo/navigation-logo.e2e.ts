@@ -130,6 +130,10 @@ describe("calcite-navigation-logo", () => {
           shadowSelector: `.${CSS.anchor}`,
           targetProp: "borderBlockEndColor",
         },
+        "--calcite-navigation-logo-icon-color-press": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "--calcite-icon-color",
+        },
       };
       themed(navigationLogoActiveHtml, tokens);
     });

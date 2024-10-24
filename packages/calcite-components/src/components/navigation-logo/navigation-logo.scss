@@ -27,8 +27,7 @@
   color: inherit;
   font-size: var(--calcite-font-size-0);
   line-height: var(--calcite-font-line-height-fixed-lg);
-  border-block-end: var(--calcite-spacing-base) solid
-    var(--calcite-navigation-logo-border-color, var(--calcite-internal-navigation-logo-border-color, transparent));
+  border-block-end: var(--calcite-spacing-base) solid var(--calcite-navigation-logo-border-color, transparent);
   background-color: var(--calcite-navigation-logo-background-color, var(--calcite-color-foreground-1));
 }
 
@@ -61,8 +60,8 @@
 }
 
 :host([active]) .anchor {
-  --calcite-icon-color: var(--calcite-color-brand);
-  --calcite-internal-navigation-logo-border-color: var(--calcite-color-brand);
+  --calcite-icon-color: var(--calcite-navigation-logo-icon-color-press, var(--calcite-color-brand));
+  border-block-end-color: var(--calcite-navigation-logo-border-color, var(--calcite-color-brand));
 }
 
 .container {
