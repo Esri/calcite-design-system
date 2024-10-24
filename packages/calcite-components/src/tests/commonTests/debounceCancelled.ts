@@ -20,7 +20,7 @@ export function debounceCancelled(componentTestSetup: ComponentTestSetup): void 
   it("should cancel debounced when component is disconnected", async () => {
     const cancel = jest.fn();
 
-    jest.mock("lodash/debounce", () => (fn) => {
+    jest.mock("lodash/debounce", () => (fn: { cancel: jest.Mock<any> }) => {
       fn.cancel = cancel;
       return cancel;
     });

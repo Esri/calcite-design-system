@@ -5,19 +5,19 @@ import { getTagAndPage } from "./utils";
 expect.extend(toHaveNoViolations);
 
 /**
- * Helper for asserting that debounce has been cancelled when component is disconnected.
+ * Helper for asserting that throttle has been cancelled when component is disconnected.
  *
  * Note that this helper should be used within a describe block.
  *
  * @example
- * describe("debounceCancelled"), () => {
- *    accessible(`<action-bar></action-bar>`);
+ * describe("throttleCancelled"), () => {
+ *    accessible(`<color-picker></color-picker>`);
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
 export function throttleCancelled(componentTestSetup: ComponentTestSetup): void {
-  it("should cancel debounced when component is disconnected", async () => {
+  it("should cancel throttle when component is disconnected", async () => {
     const cancel = jest.fn();
 
     jest.mock("lodash/throttle", () => (fn: { cancel: jest.Mock<any> }) => {
