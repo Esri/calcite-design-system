@@ -69,7 +69,7 @@ describe("calcite-action-bar", () => {
   });
 
   describe("debounceCancelled", () => {
-    debounceCancelled(`<action-bar></action-bar>`);
+    debounceCancelled("calcite-action-bar");
   });
 
   describe("delegates to floating-ui-owner component", () => {

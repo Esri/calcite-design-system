@@ -1,6 +1,7 @@
 import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
+  debounceCancelled,
   defaults,
   disabled,
   hidden,
@@ -124,6 +125,10 @@ describe("calcite-combobox", () => {
         value: true,
       },
     ]);
+  });
+
+  describe("debounceCancelled", () => {
+    debounceCancelled("calcite-combobox");
   });
 
   describe("honors hidden attribute", () => {
