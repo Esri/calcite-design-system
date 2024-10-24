@@ -56,7 +56,7 @@
     "@storybook/preview-api": "8.2.9",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/test": "8.2.9",
-    "@tokens-studio/sd-transforms": "0.12.2",
+    "@tokens-studio/sd-transforms": "1.2.5",
     "@types/dedent": "0.7.2",
     "@types/eslint": "8.56.12",
     "@types/estree": "1.0.6",
