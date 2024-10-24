@@ -443,6 +443,7 @@ export class List
     disconnectSortableComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.updateListItems.cancel();
   }
 
   // --------------------------------------------------------------------------

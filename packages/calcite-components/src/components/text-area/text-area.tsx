@@ -298,6 +298,7 @@ export class TextArea
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
+    this.setHeightAndWidthToAuto.cancel();
   }
 
   render(): VNode {

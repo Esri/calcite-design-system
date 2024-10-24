@@ -785,6 +785,7 @@ export class ColorPicker
     window.removeEventListener("pointerup", this.globalPointerUpHandler);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.drawColorControls.cancel();
   }
 
   componentDidRender(): void {
