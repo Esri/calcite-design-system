@@ -2,6 +2,13 @@ import { html } from "../../support/formatting";
 
 const buttonProps: [args: string, content: string] = ["", ""];
 
+export const buttonTokens = {
+  calciteButtonBackgroundColor: "",
+  calciteButtonBorderColor: "",
+  calciteButtonTextColor: "",
+  calciteButtonCornerRadius: "",
+};
+
 export const button = (props: { kind?: string; appearance?: string }): string => {
   const [buttonArgs, content] = Object.entries(props)
     .filter(([key, value]) => key && value && value !== "")
