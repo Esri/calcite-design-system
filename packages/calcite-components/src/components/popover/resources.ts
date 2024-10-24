@@ -1,4 +1,5 @@
 export const CSS = {
+  positionContainer: "position-container",
   container: "container",
   imageContainer: "image-container",
   closeButtonContainer: "close-button-container",
