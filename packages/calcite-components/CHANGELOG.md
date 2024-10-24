@@ -156,6 +156,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **text-area:** ensure border-color token doesn't override invalid styles ([#10390](https://github.com/Esri/calcite-design-system/issues/10390)) ([699e166](https://github.com/Esri/calcite-design-system/commit/699e166f19786cee7c9b4a542a1d19426c1051ed)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
 - **tooltip:** closed tooltips should not reappear ([#10420](https://github.com/Esri/calcite-design-system/issues/10420)) ([a2f3925](https://github.com/Esri/calcite-design-system/commit/a2f392527dd3efb0fe0f160e67fb4e88115cf203)), closes [#10416](https://github.com/Esri/calcite-design-system/issues/10416)
 
+## [2.13.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.1...@esri/calcite-components@2.13.2) (2024-10-23)
+
+### Bug Fixes
+
+- **shell-center-row:** Ensure deprecation warning doesn’t show when using standalone `shell` or `shell-panel` ([#10561](https://github.com/Esri/calcite-design-system/issues/10561)) ([09d74ae](https://github.com/Esri/calcite-design-system/commit/09d74aeb1b4d18299806903e63ce33b28d7406cd))
+
 ## [2.13.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.0...@esri/calcite-components@2.13.1) (2024-10-11)
 
 ### Bug Fixes
