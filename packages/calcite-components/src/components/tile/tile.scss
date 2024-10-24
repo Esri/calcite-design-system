@@ -251,10 +251,12 @@
 
 :host([selection-mode="none"]) {
   .container {
-    outline-color: var(--calcite-tile-border-color, var(--calcite-color-border-2));
+    &:hover,
+    &.selected {
+      outline-color: var(--calcite-tile-border-color, var(--calcite-color-border-2));
+    }
     &:focus {
-      outline-color: var(--calcite-color-brand);
-      position: relative;
+      outline-color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
     }
   }
 }

@@ -435,6 +435,50 @@ describe("calcite-tile", () => {
           },
         );
       });
+      describe(`selection-mode="none"`, () => {
+        describe("applies --calcite-tile-border-color when idle and selected attribute is present", () => {
+          themed(
+            html`
+              <calcite-tile
+                heading="Tile heading lorem ipsum"
+                description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+                icon="layers"
+                interactive
+                selection-mode="none"
+                selected
+              >
+              </calcite-tile>
+            `,
+            {
+              "--calcite-tile-border-color": {
+                shadowSelector: `.${CSS.container}`,
+                targetProp: "outlineColor",
+              },
+            },
+          );
+        });
+        describe("applies --calcite-tile-border-color when hovered", () => {
+          themed(
+            html`
+              <calcite-tile
+                heading="Tile heading lorem ipsum"
+                description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+                icon="layers"
+                interactive
+                selection-mode="none"
+              >
+              </calcite-tile>
+            `,
+            {
+              "--calcite-tile-border-color": {
+                shadowSelector: `.${CSS.container}`,
+                targetProp: "outlineColor",
+                state: "hover",
+              },
+            },
+          );
+        });
+      });
     });
     describe("link", () => {
       describe("text colors", () => {
