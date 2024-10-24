@@ -481,7 +481,67 @@ describe("calcite-tile", () => {
       });
     });
     describe("link", () => {
-      describe("text colors", () => {
+      describe("--calcite-color-text-link applies to heading text on hover", () => {
+        themed(
+          html`
+            <calcite-tile
+              heading="Tile heading lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+              icon="layers"
+              href="#"
+            >
+            </calcite-tile>
+          `,
+          {
+            "--calcite-color-text-link": {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+              state: "hover",
+            },
+          },
+        );
+      });
+      describe("--calcite-color-text-link applies to icon on hover", () => {
+        themed(
+          html`
+            <calcite-tile
+              heading="Tile heading lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+              icon="layers"
+              href="#"
+            >
+            </calcite-tile>
+          `,
+          {
+            "--calcite-color-text-link": {
+              shadowSelector: `.${CSS.icon}`,
+              targetProp: "color",
+              state: "hover",
+            },
+          },
+        );
+      });
+      describe("--calcite-color-text-link applies to border on hover", () => {
+        themed(
+          html`
+            <calcite-tile
+              heading="Tile heading lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+              icon="layers"
+              href="#"
+            >
+            </calcite-tile>
+          `,
+          {
+            "--calcite-color-text-link": {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "outlineColor",
+              state: "hover",
+            },
+          },
+        );
+      });
+      describe("tile text-color tokens apply to heading and description on hover", () => {
         themed(
           html`
             <calcite-tile
@@ -506,7 +566,7 @@ describe("calcite-tile", () => {
           },
         );
       });
-      describe("icon color", () => {
+      describe("tile text-color token applies to icon on hover", () => {
         themed(
           html`
             <calcite-tile
