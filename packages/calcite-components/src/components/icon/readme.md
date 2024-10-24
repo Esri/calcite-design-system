@@ -36,7 +36,6 @@ For comprehensive guidance on using and implementing `calcite-icon`, refer to th
 - [calcite-chip](../chip)
 - [calcite-combobox](../combobox)
 - [calcite-combobox-item](../combobox-item)
-- [calcite-date-picker-month-header](../date-picker-month-header)
 - [calcite-dropdown-item](../dropdown-item)
 - [calcite-handle](../handle)
 - [calcite-input](../input)
@@ -84,7 +83,6 @@ graph TD;
   calcite-chip --> calcite-icon
   calcite-combobox --> calcite-icon
   calcite-combobox-item --> calcite-icon
-  calcite-date-picker-month-header --> calcite-icon
   calcite-dropdown-item --> calcite-icon
   calcite-handle --> calcite-icon
   calcite-input --> calcite-icon
