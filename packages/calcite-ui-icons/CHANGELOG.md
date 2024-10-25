@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.33.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.4...@esri/calcite-ui-icons@3.33.0-next.5) (2024-10-23)
+
+### Features
+
+- add buffer point, buffer polygon, buffer polyline, contour, offset ([#10594](https://github.com/Esri/calcite-design-system/issues/10594)) ([274cffd](https://github.com/Esri/calcite-design-system/commit/274cffddd311829be9f7b2d0e1a8ebdad5125cc3))
+
+## [3.33.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.3...@esri/calcite-ui-icons@3.33.0-next.4) (2024-10-23)
+
+### Bug Fixes
+
+- updated web-adapter name ([#10581](https://github.com/Esri/calcite-design-system/issues/10581)) ([fc1b875](https://github.com/Esri/calcite-design-system/commit/fc1b875be2575fa1c1fe10d207d24d7847ea2a65))
+
 ## [3.33.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.2...@esri/calcite-ui-icons@3.33.0-next.3) (2024-10-21)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
