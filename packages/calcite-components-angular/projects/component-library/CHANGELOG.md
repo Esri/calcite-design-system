@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.14.0-next.16...@esri/calcite-components-angular@2.14.0-next.17) (2024-10-23)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
+## [2.14.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.14.0-next.15...@esri/calcite-components-angular@2.14.0-next.16) (2024-10-23)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
 ## [2.14.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.14.0-next.14...@esri/calcite-components-angular@2.14.0-next.15) (2024-10-21)
 
 **Note:** Version bump only for package @esri/calcite-components-angular
@@ -66,6 +74,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ## [2.14.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.13.0-next.15...@esri/calcite-components-angular@2.14.0-next.0) (2024-10-01)
 
 **Note:** Version bump only for package @esri/calcite-components-angular
+
+## [2.13.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.13.1...@esri/calcite-components-angular@2.13.2) (2024-10-23)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-angular:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from 2.13.1 to 2.13.2
 
 ## [2.13.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.13.0...@esri/calcite-components-angular@2.13.1) (2024-10-11)
 
