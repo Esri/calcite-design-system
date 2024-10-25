@@ -53,9 +53,9 @@ describe("calcite-navigation-user", () => {
           shadowSelector: `calcite-avatar`,
           targetProp: "--calcite-avatar-corner-radius",
         },
-        "--calcite-navigation-user-avatar-text-color": {
+        "--calcite-navigation-user-avatar-color": {
           shadowSelector: `calcite-avatar`,
-          targetProp: "--calcite-avatar-text-color",
+          targetProp: "--calcite-avatar-color",
         },
         "--calcite-navigation-user-background-color": {
           shadowSelector: `.${CSS.button}`,
