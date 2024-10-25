@@ -36,6 +36,7 @@ import { tabs } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
+import { tileTokens, tile } from "./custom-theme/tile";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -116,9 +117,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover}</div>
-        ${navigationLogos}
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile}</div>
         ${alert}
+        ${navigationLogos}
       </div>
     </div>
   </div>`;
@@ -143,6 +144,7 @@ const componentTokens = {
   ...inputTokens,
   ...textAreaTokens,
   ...navigationLogoTokens,
+  ...tileTokens,
 };
 
 export default {
