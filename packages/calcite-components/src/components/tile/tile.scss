@@ -3,13 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tile-accent-color-press: Specifies the color of the component's selection indicators (radio, checkbox, border).
- * @prop --calcite-tile-background-color: Specifies the background color of the component.
- * @prop --calcite-tile-border-color: Specifies the border color of the component.
+ * @prop --calcite-tile-accent-color-press: When the parent `calcite-tile-group` has a `selectionMode` that is not `"none"`, specifies the color of the component's selection elements, such as the radio, checkbox, and border.
+ * @prop --calcite-tile-background-color: Specifies the component's background color.
+ * @prop --calcite-tile-border-color: Specifies the component's border color.
  * @prop --calcite-tile-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
+ * @prop --calcite-tile-heading-text-color: Specifies the component's `heading` text color.
  * @prop --calcite-tile-shadow: Specifies the shadow around the component.
- * @prop --calcite-tile-text-color: Specifies the text color of the component, which affects description and icon, but not the heading text.
+ * @prop --calcite-tile-text-color: Specifies the component's `description` and `icon` text color, but not the `heading` text color.
  */
 
 :host {
