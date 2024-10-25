@@ -4,8 +4,8 @@ import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
 import { toElementHandle } from "../utils";
-import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
+import type { ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -166,7 +166,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
     // Assert the targetProp in each testTarget's styles matches the expected value
     for (let i = 0; i < testTargets.length; i++) {
       await page.waitForChanges();
-      await assertThemedProps(page, { ...testTargets[i] });
+      await assertThemedProps(page, testTargets[i]);
     }
   });
 }
@@ -228,9 +228,10 @@ type TestSelectToken = {
  *
  * This is a workaround for Stencil's `E2EElement.getComputedStyle()` not returning computed style of CSS custom properties.
  *
- * @param element
- * @param property
- * @param pseudoElement
+ * @param element - the element to get the computed style from
+ * @param property - the style property to get
+ * @param pseudoElement - an optional pseudo-element (:hover, :active) to get the style from
+ * @returns the computed style of the element's CSS property as a Promise.
  */
 async function getComputedStylePropertyValue(
   element: E2EElement,
@@ -374,7 +375,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
 
   if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
-    expect(getStyleString(token, targetProp, styles[targetProp])).toMatch(expectedValue);
+    const regexStr = new RegExp(expectedValue, "g");
+    // We only need to test that the expected value is set somewhere in the computed style
+    expect(styles[targetProp]).toMatch(regexStr);
     return;
   }
 
@@ -389,6 +392,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
  * @param token - the token as a CSS variable
  * @param prop - the CSS property
  * @param value - the value of the CSS property
+ * @returns a string with the format `[token:property] value`
  */
 function getStyleString(token: string, prop: string, value: string): string {
   return `[${token}:${prop}] ${value}`;
