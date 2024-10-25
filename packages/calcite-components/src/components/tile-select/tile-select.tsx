@@ -29,12 +29,6 @@ import { logger } from "../../utils/logger";
 import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
 
-logger.deprecated("component", {
-  name: "tile-select",
-  removalVersion: 4,
-  suggested: ["tile", "tile-group"],
-});
-
 /**
  * @deprecated Use the `calcite-tile` component instead.
  * @slot - A slot for adding custom content.
@@ -258,6 +252,12 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   }
 
   componentWillLoad(): void {
+    logger.deprecated("component", {
+      name: "tile-select",
+      removalVersion: 4,
+      suggested: ["tile", "tile-group"],
+    });
+
     setUpLoadableComponent(this);
   }
 
