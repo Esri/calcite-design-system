@@ -300,7 +300,9 @@ export async function waitForAnimationFrame(): Promise<void> {
  * @returns {Promise<E2EPage>} an e2e page
  */
 export async function newProgrammaticE2EPage(): Promise<E2EPage> {
-  return await newE2EPage();
+  const page = await newE2EPage();
+  await page.setContent("");
+  return page;
 }
 
 /**
