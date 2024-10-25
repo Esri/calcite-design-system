@@ -117,7 +117,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           ${chips} ${pagination} ${slider}
         </div>
         <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover}</div>
-        <div class="demo-column">${navigationLogos}</div>
+        ${navigationLogos}
         ${alert}
       </div>
     </div>

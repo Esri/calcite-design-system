@@ -1,4 +1,5 @@
 import { html } from "../../support/formatting";
+import { boolean } from "../../.storybook/utils";
 
 export const navigationLogoTokens = {
   calciteNavigationLogoBackgroundColor: "",
@@ -16,7 +17,7 @@ const navigationLogo = (active = false): string => html`
     description="Eastern Potato Chip Company"
     icon="layers"
     label="Walt's Chips"
-    ${active ? active : ""}
+    ${boolean("active", active)}
   >
   </calcite-navigation-logo>
 `;
