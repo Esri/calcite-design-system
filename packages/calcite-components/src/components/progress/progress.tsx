@@ -17,7 +17,7 @@ export class Progress {
    */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
 
-  /** When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0. */
+  /** The component's value. Valid only for `"determinate"` indicators. Percent complete of 100. */
   @Prop() value = 0;
 
   /** Accessible name for the component. */
@@ -31,14 +31,14 @@ export class Progress {
 
   render(): VNode {
     const isDeterminate = this.type === "determinate";
-    const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
+    const barStyles = isDeterminate ? { width: `${this.value}%` } : {};
     const dir = getElementDir(this.el);
     return (
       <div
         aria-label={this.label || this.text}
-        aria-valuemax={1}
-        aria-valuemin={0}
-        aria-valuenow={this.value}
+        aria-valuemax={isDeterminate ? "100" : undefined}
+        aria-valuemin={isDeterminate ? "0" : undefined}
+        aria-valuenow={isDeterminate ? this.value : undefined}
         role="progressbar"
       >
         <div class="track">
