@@ -50,6 +50,11 @@ export default {
       control: { type: "select" },
     },
   },
+  parameters: {
+    chromatic: {
+      delay: 1000,
+    },
+  },
 };
 
 export const simple = (args: InputDatePickerStoryArgs): string => html`
