@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
@@ -43,8 +44,9 @@ describe("calcite-navigation-user", () => {
   });
 
   describe("theme", () => {
-    const navigationUserHtml = html`
-      <calcite-navigation-user full-name="Walt McChipson" username="waltChip"> </calcite-navigation-user>
+    const navigationUserHtml = (active = false): string => html`
+      <calcite-navigation-user full-name="Walt McChipson" username="waltChip" ${boolean("active", active)}>
+      </calcite-navigation-user>
     `;
 
     describe("default", () => {
@@ -57,7 +59,7 @@ describe("calcite-navigation-user", () => {
           shadowSelector: `calcite-avatar`,
           targetProp: "--calcite-avatar-color",
         },
-        "--calcite-navigation-user-background-color": {
+        "--calcite-navigation-background-color": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
         },
@@ -75,6 +77,16 @@ describe("calcite-navigation-user", () => {
         },
       };
       themed(navigationUserHtml, tokens);
+    });
+
+    describe("active", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-user-border-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderBlockEndColor",
+        },
+      };
+      themed(navigationUserHtml(true), tokens);
     });
   });
 });

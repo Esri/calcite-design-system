@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the corner radius of avatar of the component.
- * @prop --calcite-navigation-user-avatar-color: Specifies the icon color of avatar of the component.
- * @prop --calcite-navigation-user-background-color: Specifies the background color of the component.
- * @prop --calcite-navigation-user-border-color: Specifies the border color of the component.
- * @prop --calcite-navigation-user-full-name-text-color: Specifies the text color of full name of the component.
- * @prop --calcite-navigation-user-name-text-color: Specifies the text color of user name of the component.
+ * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the corner radius of avatar.
+ * @prop --calcite-navigation-user-avatar-color: Specifies the icon color of avatar.
+ * @prop --calcite-navigation-background-color: Specifies the component's background color.
+ * @prop --calcite-navigation-user-border-color: Specifies the components's border color.
+ * @prop --calcite-navigation-user-full-name-text-color: Specifies the component's full name text color.
+ * @prop --calcite-navigation-user-name-text-color: Specifies the component's username text color.
  *
  */
 
@@ -21,17 +21,16 @@
       justify-center
       cursor-pointer
       transition-default
-      focus-base;
-    font-family: var(--calcite-font-family);
+      focus-base
+      font-sans
+      text-0h;
+    border: none;
     background-color: var(
-      --calcite-navigation-user-background-color,
+      --calcite-navigation-background-color,
       var(--calcite-internal-navigation-user-background-color, transparent)
     );
-    border: none;
-    border-block-end: var(--calcite-spacing-base) solid
+    border-block-end: 2px solid
       var(--calcite-navigation-user-border-color, var(--calcite-internal-navigation-user-border-color, transparent));
-    font-size: var(--calcite-font-size-0);
-    line-height: var(--calcite-font-line-height-fixed-lg);
   }
 }
 
@@ -79,7 +78,6 @@ calcite-avatar ~ .text-container {
 }
 
 :host([active]) .button {
-  --calcite-ui-icon-color: var(--calcite-color-brand);
   --calcite-internal-navigation-user-border-color: var(--calcite-color-brand);
 }
 
