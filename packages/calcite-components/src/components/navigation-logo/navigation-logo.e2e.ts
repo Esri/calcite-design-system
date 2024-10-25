@@ -78,36 +78,46 @@ describe("calcite-navigation-logo", () => {
       `;
 
       const tokens: ComponentTestTokens = {
-        "--calcite-navigation-logo-background-color": {
-          shadowSelector: `.${CSS.anchor}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-navigation-logo-background-color-hover": {
-          shadowSelector: `.${CSS.anchor}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-navigation-logo-background-color-press": {
-          shadowSelector: `.${CSS.anchor}`,
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: CSS.anchor } },
-        },
-        "--calcite-navigation-logo-border-color": {
-          shadowSelector: `.${CSS.anchor}`,
-          targetProp: "borderBlockEndColor",
-        },
-        "--calcite-navigation-logo-description-text-color": {
-          shadowSelector: `.${CSS.description}`,
-          targetProp: "color",
-        },
+        "--calcite-navigation-background-color": [
+          {
+            shadowSelector: `.${CSS.anchor}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${CSS.anchor}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.anchor}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.anchor } },
+          },
+        ],
+        "--calcite-navigation-logo-border-color": [
+          {
+            shadowSelector: `.${CSS.anchor}`,
+            targetProp: "borderBlockEndColor",
+          },
+        ],
+        "--calcite-navigation-logo-text-color": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `calcite-icon`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `calcite-icon`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.anchor } },
+          },
+        ],
         "--calcite-navigation-logo-heading-text-color": {
           shadowSelector: `.${CSS.heading}`,
           targetProp: "color",
-        },
-        "--calcite-navigation-logo-icon-color-press": {
-          shadowSelector: `calcite-icon`,
-          targetProp: "--calcite-icon-color",
-          state: { press: { attribute: "class", value: CSS.anchor } },
         },
       };
       themed(navigationLogoHtml, tokens);
@@ -130,9 +140,9 @@ describe("calcite-navigation-logo", () => {
           shadowSelector: `.${CSS.anchor}`,
           targetProp: "borderBlockEndColor",
         },
-        "--calcite-navigation-logo-icon-color-press": {
+        "--calcite-navigation-logo-text-color": {
           shadowSelector: `calcite-icon`,
-          targetProp: "--calcite-icon-color",
+          targetProp: "color",
         },
       };
       themed(navigationLogoActiveHtml, tokens);

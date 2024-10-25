@@ -1,18 +1,14 @@
 /*
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-navigation-logo-background-color: Specifies the background color of the component.
-* @prop --calcite-navigation-logo-background-color-hover: Specifies the background color of the component when hovered.
-* @prop --calcite-navigation-logo-background-color-press: Specifies the background color of the component when active.
 * @prop --calcite-navigation-logo-border-color: Specifies the border color of the component.
-* @prop --calcite-navigation-logo-description-text-color: Specifies text color of description of component.
-* @prop --calcite-navigation-logo-heading-text-color: Specifies the text color of heading of component.
-* @prop --calcite-navigation-logo-icon-color-press: Specifies the icon color of the component when active.
+* @prop --calcite-navigation-logo-heading-text-color: Specifies text color of description of component.
+* @prop --calcite-navigation-logo-text-color: Specifies the component's default color for icons and description text.
 *
 */
 
 :host {
-  @apply inline-flex outline-none;
+  @apply inline-flex outline-none focus-base;
 }
 
 .anchor {
@@ -22,32 +18,27 @@
     justify-center
     cursor-pointer
     transition-default
-    focus-base
-    no-underline;
-  color: inherit;
-  font-size: var(--calcite-font-size-0);
-  line-height: var(--calcite-font-line-height-fixed-lg);
-  border-block-end: var(--calcite-spacing-base) solid var(--calcite-navigation-logo-border-color, transparent);
-  background-color: var(--calcite-navigation-logo-background-color, var(--calcite-color-foreground-1));
+    no-underline 
+    text-0h;
+  border-block-end: var(--calcite-spacing-base) solid
+    var(--calcite-navigation-logo-border-color, var(--calcite-internal-navigation-logo-border-color, transparent));
+  background-color: var(
+    --calcite-navigation-background-color,
+    var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
+  );
 }
 
-.anchor:hover,
-.anchor:focus {
-  background-color: var(--calcite-navigation-logo-background-color-hover, var(--calcite-color-foreground-2));
-}
-.anchor:focus {
+:host(:focus) {
   @apply focus-inset;
-}
-
-.anchor:active {
-  background-color: var(--calcite-navigation-logo-background-color-press, var(--calcite-color-foreground-3));
-  --calcite-icon-color: var(--calcite-navigation-logo-icon-color-press, var(--calcite-color-text-1));
 }
 
 .image,
 .icon {
-  @apply flex h-7 m-0;
-  padding-inline: var(--calcite-spacing-xl);
+  @apply flex h-7 m-0 px-4;
+  color: var(
+    --calcite-navigation-logo-text-color,
+    var(--calcite-internal-navigation-logo-text-color, var(--calcite-icon-color, inherit))
+  );
 }
 
 .image ~ .icon {
@@ -59,34 +50,52 @@
   @apply ps-0;
 }
 
+:host(:hover),
+:host(:focus) {
+  .anchor {
+    --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-2);
+  }
+}
+
+:host(:active) .anchor {
+  --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-3);
+}
+
 :host([active]) .anchor {
-  --calcite-icon-color: var(--calcite-navigation-logo-icon-color-press, var(--calcite-color-brand));
-  border-block-end-color: var(--calcite-navigation-logo-border-color, var(--calcite-color-brand));
+  --calcite-internal-navigation-logo-border-color: var(--calcite-color-brand);
+}
+
+:host([active]),
+:host(:active) {
+  .icon {
+    --calcite-internal-navigation-logo-text-color: var(--calcite-icon-color, var(--calcite-color-brand));
+  }
 }
 
 .container {
   @apply flex
   flex-col
   truncate
-  text-start;
-  padding-inline: var(--calcite-spacing-xl);
-  margin-block-start: var(--calcite-spacing-base);
+  text-start
+  px-4
+  mt-0.5;
 }
 
 .heading {
-  @apply ms-0 truncate;
-  font-weight: var(--calcite-font-weight-medium);
+  @apply text-0
+  ms-0
+  truncate
+  font-medium;
   color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
-  font-size: var(--calcite-font-size-0);
 }
 
 .standalone {
-  font-size: var(--calcite-font-size-1);
+  @apply text-1;
 }
 
 .description {
-  @apply truncate;
-  color: var(--calcite-navigation-logo-description-text-color, var(--calcite-color-text-2));
+  @apply text-color-2 truncate;
+  color: var(--calcite-navigation-logo-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-font-size--1);
 }
 
