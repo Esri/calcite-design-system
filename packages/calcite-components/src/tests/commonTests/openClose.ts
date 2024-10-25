@@ -1,6 +1,6 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { GlobalTestProps, newProgrammaticE2EPage, toElementHandle } from "../utils";
+import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations, toElementHandle } from "../utils";
 import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./utils";
 import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
 
@@ -71,9 +71,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
 
   it(`emits with animations disabled`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
-    await page.addStyleTag({
-      content: `:root { --calcite-duration-factor: 0; }`,
-    });
+    await skipAnimations(page);
     await setUpEventListeners(tag, page);
     await testOpenCloseEvents({
       animationsEnabled: false,
@@ -122,9 +120,7 @@ openClose.initial = function openCloseInitial(
 
   it("emits on initialization with animations disabled", async () => {
     const page = await newProgrammaticE2EPage();
-    await page.addStyleTag({
-      content: `:root { --calcite-duration-factor: 0; }`,
-    });
+    await skipAnimations(page);
     await beforeContent(page);
     await setUpEventListeners(tag, page);
     await testOpenCloseEvents({
