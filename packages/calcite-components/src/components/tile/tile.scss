@@ -8,6 +8,7 @@
  * @prop --calcite-tile-border-color: Specifies the component's border color.
  * @prop --calcite-tile-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-tile-heading-text-color: Specifies the component's `heading` text color.
+ * @prop --calcite-tile-link-color: When the `href` property exists, specifies the color of the component's link elements, such as the border, icon and heading text.
  * @prop --calcite-tile-shadow: Specifies the shadow around the component.
  * @prop --calcite-tile-text-color: Specifies the component's `description` and `icon` text color, but not the `heading` text color.
  */
@@ -225,22 +226,22 @@
 :host([href]:focus:not([disabled])),
 :host([href]:hover:not([disabled])) {
   .container {
-    outline-color: var(--calcite-color-text-link);
+    outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
     position: relative;
     z-index: var(--calcite-z-index);
   }
   .icon {
-    color: var(--calcite-tile-text-color, var(--calcite-color-text-link));
+    color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
   }
   .heading {
-    color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-link));
+    color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
   }
 }
 
 :host([href]:active:not([disabled])) {
   .container {
-    box-shadow: inset 0 0 0 1px var(--calcite-color-text-link);
-    outline-color: var(--calcite-color-text-link);
+    box-shadow: inset 0 0 0 1px var(--calcite-tile-link-color, var(--calcite-color-text-link));
+    outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
   }
 }
 

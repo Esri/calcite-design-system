@@ -6,6 +6,7 @@ export const tileTokens = {
   calciteTileBorderColor: "",
   calciteTileCornerRadius: "",
   calciteTileHeadingTextColor: "",
+  calciteTileLinkColor: "",
   calciteTileShadow: "",
   calciteTileTextColor: "",
 };
