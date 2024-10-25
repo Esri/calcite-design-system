@@ -714,6 +714,7 @@ describe("calcite-input-time-picker", () => {
       await inputTimePicker.callMethod("setFocus");
       await page.waitForChanges();
       await page.keyboard.type("0123456789");
+      await page.waitForChanges();
 
       expect(await getInputValue(page)).toBe("٠١٢٣٤٥٦٧٨٩");
     });
@@ -731,6 +732,7 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
       await page.keyboard.type("2:45:30 م");
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(await getInputValue(page)).toBe("٠٢:٤٥:٣٠ م");
@@ -795,6 +797,7 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
       await page.keyboard.type("1.2.3");
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(await getInputValue(page)).toBe("01.02.03");
       expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -830,6 +833,7 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
       await page.keyboard.type("2:3:5 am");
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(await getInputValue(page)).toBe("02:03:05 am");
       expect(changeEvent).toHaveReceivedEventTimes(1);
