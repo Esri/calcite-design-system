@@ -1,6 +1,7 @@
 const {
   teams: { admins, iconDesigners },
   labels: { snapshots },
+  packages,
 } = require("./support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
@@ -81,8 +82,9 @@ module.exports = async ({ github, context, core }) => {
     owner,
     repo,
     issue_number: pull_number,
-    labels: [snapshots.skip],
+    labels: [snapshots.skip, packages.icons],
   });
+
   core.setFailed(
     `An admin needs to review these changes because a file outside of package/calcite-ui-icons was changed.`,
   );
