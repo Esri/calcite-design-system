@@ -77,7 +77,6 @@ export default defineConfig({
   /*
    * While useLumina() pre-configures everything for you, you can still
    * provide any Vite, Vitest, ESBuild or Rollup configuration option. See:
-   * - https://vitejs.dev/config/
    * - https://vitest.dev/config/
    */
 });
