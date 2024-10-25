@@ -37,7 +37,7 @@
   @apply flex h-7 m-0 px-4;
   color: var(
     --calcite-navigation-logo-text-color,
-    var(--calcite-internal-navigation-logo-text-color, var(--calcite-icon-color, inherit))
+    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, inherit))
   );
 }
 
@@ -68,7 +68,7 @@
 :host([active]),
 :host(:active) {
   .icon {
-    --calcite-internal-navigation-logo-text-color: var(--calcite-icon-color, var(--calcite-color-brand));
+    --calcite-internal-navigation-logo-text-color: var(--calcite-color-brand);
   }
 }
 
