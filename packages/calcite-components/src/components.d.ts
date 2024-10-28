@@ -2956,7 +2956,7 @@ export namespace Components {
          */
         "form": string;
         /**
-          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+          * Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
         "hourFormat": HourFormat;
         /**
@@ -5698,7 +5698,7 @@ export namespace Components {
     }
     interface CalciteTimePicker {
         /**
-          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+          * Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
         "hourFormat": HourFormat;
         /**
@@ -11120,7 +11120,7 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
-          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+          * Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
         "hourFormat"?: HourFormat;
         /**
@@ -13993,7 +13993,7 @@ declare namespace LocalJSX {
     }
     interface CalciteTimePicker {
         /**
-          * Formats the displayed time value in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+          * Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
          */
         "hourFormat"?: HourFormat;
         /**
