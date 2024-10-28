@@ -1,7 +1,14 @@
 // @ts-check
 
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
-const customFunctions = [];
+const customFunctions = [
+  "get-trailing-text-input-padding",
+  "medium-modular-scale",
+  "modular-scale",
+  "scale-duration",
+  "scaleDuration",
+  "small-modular-scale",
+];
 // ⚠️ END OF AUTO-GENERATED CODE
 
 const scssPatternRules = [
