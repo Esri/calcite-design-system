@@ -233,8 +233,8 @@ export function getMeridiemFormatToken(locale: SupportedLocale): "a" | "A" | "a 
   } else {
     separator = timeParts[meridiemOrder - 1].type === "second" ? "" : " ";
   }
-  // Unknown dayjs parsing bug with norwegian.  Dayjs only accepts uppercase meridiems for some reason, despite the LT/LTS config
   if (
+    // Unknown dayjs parsing bug with norwegian.  Dayjs only accepts uppercase meridiems for some reason, despite the LT/LTS config
     locale !== "no" &&
     localizedAM === localizedAM.toLocaleLowerCase(locale) &&
     localizedPM === localizedPM.toLocaleLowerCase(locale)
