@@ -39,7 +39,7 @@ export default {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
-      delay: 1200,
+      delay: 2000,
     },
   },
 };
