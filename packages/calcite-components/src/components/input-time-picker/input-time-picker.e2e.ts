@@ -106,15 +106,13 @@ describe("calcite-input-time-picker", () => {
     disabled("calcite-input-time-picker");
   });
 
-  describe("initial state", () => {
-    it("resets initial value to empty when it is not a valid time value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`);
+  it("resets initial value to empty when it is not a valid time value", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`);
 
-      const inputTimePicker = await page.find("calcite-input-time-picker");
+    const inputTimePicker = await page.find("calcite-input-time-picker");
 
-      expect(await inputTimePicker.getProperty("value")).toBe("");
-    });
+    expect(await inputTimePicker.getProperty("value")).toBe("");
   });
 
   describe("openClose", () => {
@@ -125,61 +123,57 @@ describe("calcite-input-time-picker", () => {
     });
   });
 
-  describe("prevent default", () => {
-    it("resets to previous value when default event behavior is prevented", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
+  it("resets to previous value when default event behavior is prevented", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
 
-      const inputTimePicker = await page.find("calcite-input-time-picker");
+    const inputTimePicker = await page.find("calcite-input-time-picker");
 
-      await page.evaluate(() => {
-        const inputTimePicker = document.querySelector("calcite-input-time-picker");
-        inputTimePicker.addEventListener("calciteInputTimePickerChange", (event) => {
-          event.preventDefault();
-        });
+    await page.evaluate(() => {
+      const inputTimePicker = document.querySelector("calcite-input-time-picker");
+      inputTimePicker.addEventListener("calciteInputTimePickerChange", (event) => {
+        event.preventDefault();
       });
-
-      expect(await inputTimePicker.getProperty("value")).toBe("14:59");
-
-      await inputTimePicker.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("5");
-      await page.keyboard.press("Enter");
-      await page.waitForChanges();
-
-      expect(await inputTimePicker.getProperty("value")).toBe("14:59");
     });
+
+    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+
+    await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("5");
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
   });
 
-  describe("readonly", () => {
-    it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`,
-      );
+  it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`,
+    );
 
-      const component = await page.find("#canReadOnly");
-      const input = await page.find("#canReadOnly >>> calcite-input-text");
-      const popover = await page.find("#canReadOnly >>> calcite-popover");
+    const component = await page.find("#canReadOnly");
+    const input = await page.find("#canReadOnly >>> calcite-input-text");
+    const popover = await page.find("#canReadOnly >>> calcite-popover");
 
-      expect(await input.getProperty("value")).toBe("");
+    expect(await input.getProperty("value")).toBe("");
 
-      await component.click();
-      await page.waitForChanges();
+    await component.click();
+    await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
-      expect(await popover.getProperty("open")).toBe(false);
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
+    expect(await popover.getProperty("open")).toBe(false);
 
-      await component.click();
-      await page.waitForChanges();
-      expect(await popover.getProperty("open")).toBe(false);
+    await component.click();
+    await page.waitForChanges();
+    expect(await popover.getProperty("open")).toBe(false);
 
-      await component.type("attention attention");
-      await page.waitForChanges();
+    await component.type("attention attention");
+    await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBe("");
-    });
+    expect(await input.getProperty("value")).toBe("");
   });
 
   describe("direct value setting", () => {
@@ -588,8 +582,10 @@ describe("calcite-input-time-picker", () => {
           expect(initialValue).toBe("14:02:30");
           if (locale === "es-MX") {
             // test environment treats es-MX as es
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe("02:02:30 p. m.");
           } else {
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe(
               localizeTimeString({ hour12: true, includeSeconds: true, locale, value: initialValue }),
             );
@@ -625,8 +621,10 @@ describe("calcite-input-time-picker", () => {
           expect(typedValue).toBe("14:30:45");
           if (locale === "es-MX") {
             // test environment treats es-MX as es
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe("02:30:45 p. m.");
           } else {
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe(localizedTypedValue);
           }
 
@@ -635,6 +633,7 @@ describe("calcite-input-time-picker", () => {
 
           if (locale !== "es-MX") {
             // test environment changes value to 02:30:45 a. m. for some reason even though this isn't happening in real browsers
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(changeEvent).toHaveReceivedEventTimes(1);
           }
 
@@ -653,6 +652,7 @@ describe("calcite-input-time-picker", () => {
           await page.waitForChanges();
 
           if (locale !== "es-MX") {
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(changeEvent).toHaveReceivedEventTimes(2);
           }
 
@@ -667,8 +667,10 @@ describe("calcite-input-time-picker", () => {
           expect(blurredValue).toBe("16:15:30");
           if (locale === "es-MX") {
             // test environment treats es-MX as es
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe("04:15:30 p. m.");
           } else {
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe(localizedBlurredValue);
           }
 
