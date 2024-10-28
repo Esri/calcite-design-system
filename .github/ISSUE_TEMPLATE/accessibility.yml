@@ -8,7 +8,7 @@ body:
       label: Check existing issues
       description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
       options:
-        - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates
+        - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates and reviewed the [Accessibility page](https://developers.arcgis.com/calcite-design-system/foundations/accessibility) for guidance.
     validations:
       required: true
   - type: textarea
@@ -124,6 +124,7 @@ body:
         - ArcGIS Business/Community Analyst
         - ArcGIS Charts
         - ArcGIS Dashboards
+        - ArcGIS Data Pipelines
         - ArcGIS Developer Experience
         - ArcGIS Enterprise
         - ArcGIS Excalibur

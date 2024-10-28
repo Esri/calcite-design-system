@@ -47,6 +47,9 @@ const resources = {
     admins: "calcite-design-system-admins",
     iconDesigners: "calcite-icon-designers",
   },
+  packages: {
+    icons: "calcite-ui-icons",
+  },
 };
 
 module.exports = resources;

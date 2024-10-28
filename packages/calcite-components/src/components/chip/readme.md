@@ -45,6 +45,19 @@ Type: `Promise<void>`
 |           | A slot for adding text.     |
 | `"image"` | A slot for adding an image. |
 
+## CSS Custom Properties
+
+| Name                                       | Description                                                         |
+| ------------------------------------------ | ------------------------------------------------------------------- |
+| `--calcite-chip-background-color`          | Specifies the component's background color.                         |
+| `--calcite-chip-border-color`              | Specifies the component's border color.                             |
+| `--calcite-chip-close-icon-color`          | Specifies the component's close element icon color.                 |
+| `--calcite-chip-corner-radius`             | Specifies the component's corner radius.                            |
+| `--calcite-chip-icon-color`                | Specifies the component's icon color.                               |
+| `--calcite-chip-select-icon-color`         | Specifies the component's selection element icon color.             |
+| `--calcite-chip-select-icon-color-pressed` | Specifies the component's selection element icon color when active. |
+| `--calcite-chip-text-color`                | Specifies the component's text color.                               |
+
 ## Dependencies
 
 ### Used by

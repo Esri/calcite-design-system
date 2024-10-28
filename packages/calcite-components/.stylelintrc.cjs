@@ -3,7 +3,11 @@
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
 const customFunctions = [
   "get-trailing-text-input-padding",
-  "scale-duration"
+  "medium-modular-scale",
+  "modular-scale",
+  "scale-duration",
+  "scaleDuration",
+  "small-modular-scale"
 ];
 // ⚠️ END OF AUTO-GENERATED CODE
 

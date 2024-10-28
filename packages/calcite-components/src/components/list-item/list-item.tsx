@@ -23,7 +23,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -197,6 +197,11 @@ export class ListItem
   }
 
   /**
+   * When `true`, the component's content appears inactive.
+   */
+  @Prop({ reflect: true }) unavailable = false;
+
+  /**
    * The component's value.
    */
   @Prop() value: any;
@@ -210,6 +215,12 @@ export class ListItem
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = null;
+
+  /**
+   * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+   * @internal
+   */
+  @Prop() interactionMode: InteractionMode = null;
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -344,15 +355,15 @@ export class ListItem
 
   @State() hasContentBottom = false;
 
-  containerEl: HTMLTableRowElement;
+  containerEl: HTMLDivElement;
 
-  contentEl: HTMLTableCellElement;
+  contentEl: HTMLDivElement;
 
-  actionsStartEl: HTMLTableCellElement;
+  actionsStartEl: HTMLDivElement;
 
-  actionsEndEl: HTMLTableCellElement;
+  actionsEndEl: HTMLDivElement;
 
-  handleGridEl: HTMLTableCellElement;
+  handleGridEl: HTMLDivElement;
 
   defaultSlotEl: HTMLSlotElement;
 
@@ -429,7 +440,7 @@ export class ListItem
     }
 
     return (
-      <td
+      <div
         class={{
           [CSS.selectionContainer]: true,
           [CSS.selectionContainerSingle]:
@@ -450,7 +461,7 @@ export class ListItem
           }
           scale="s"
         />
-      </td>
+      </div>
     );
   }
 
@@ -458,9 +469,9 @@ export class ListItem
     const { label, dragHandle, dragSelected, dragDisabled, setPosition, setSize } = this;
 
     return dragHandle ? (
-      <td
+      <div
         aria-label={label}
-        class={CSS.dragContainer}
+        class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
         onFocusin={this.focusCellHandle}
         ref={(el) => (this.handleGridEl = el)}
@@ -474,7 +485,7 @@ export class ListItem
           setPosition={setPosition}
           setSize={setSize}
         />
-      </td>
+      </div>
     ) : null;
   }
 
@@ -485,23 +496,23 @@ export class ListItem
     const tooltip = open ? messages.collapse : messages.expand;
 
     return openable ? (
-      <td
+      <div
         class={CSS.openContainer}
         key="open-container"
         onClick={this.handleToggleClick}
         title={tooltip}
       >
         <calcite-icon icon={icon} key={icon} scale="s" />
-      </td>
+      </div>
     ) : null;
   }
 
   renderActionsStart(): VNode {
     const { label, hasActionsStart } = this;
     return (
-      <td
+      <div
         aria-label={label}
-        class={CSS.actionsStart}
+        class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
         onFocusin={this.focusCellActionsStart}
@@ -509,16 +520,16 @@ export class ListItem
         role="gridcell"
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
-      </td>
+      </div>
     );
   }
 
   renderActionsEnd(): VNode {
     const { label, hasActionsEnd, closable, messages } = this;
     return (
-      <td
+      <div
         aria-label={label}
-        class={CSS.actionsEnd}
+        class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         onFocusin={this.focusCellActionsEnd}
@@ -537,7 +548,7 @@ export class ListItem
             text={messages.close}
           />
         ) : null}
-      </td>
+      </div>
     );
   }
 
@@ -613,7 +624,7 @@ export class ListItem
   }
 
   renderContentContainer(): VNode {
-    const { description, label, selectionMode, hasCustomContent } = this;
+    const { description, label, selectionMode, hasCustomContent, unavailable } = this;
     const hasCenterContent = hasCustomContent || !!label || !!description;
     const content = [
       this.renderContentStart(),
@@ -623,10 +634,12 @@ export class ListItem
     ];
 
     return (
-      <td
+      <div
         aria-label={label}
         class={{
+          [CSS.gridCell]: true,
           [CSS.contentContainer]: true,
+          [CSS.contentContainerUnavailable]: unavailable,
           [CSS.contentContainerSelectable]: selectionMode !== "none",
           [CSS.contentContainerHasCenterContent]: hasCenterContent,
         }}
@@ -637,7 +650,7 @@ export class ListItem
         role="gridcell"
       >
         {content}
-      </td>
+      </div>
     );
   }
 
@@ -653,6 +666,7 @@ export class ListItem
       selected,
       selectionAppearance,
       selectionMode,
+      interactionMode,
       closed,
       filterHidden,
       bordered,
@@ -663,11 +677,17 @@ export class ListItem
     const borderSelected = showBorder && selected;
     const borderUnselected = showBorder && !selected;
 
+    const containerInteractive =
+      interactionMode === "interactive" ||
+      (interactionMode === "static" &&
+        selectionMode !== "none" &&
+        selectionAppearance === "border");
+
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
           <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
-            <tr
+            <div
               aria-expanded={openable ? toAriaBoolean(open) : null}
               aria-label={label}
               aria-level={level}
@@ -675,8 +695,9 @@ export class ListItem
               aria-selected={toAriaBoolean(selected)}
               aria-setsize={setSize}
               class={{
+                [CSS.row]: true,
                 [CSS.container]: true,
-                [CSS.containerHover]: true,
+                [CSS.containerHover]: containerInteractive,
                 [CSS.containerBorder]: showBorder,
                 [CSS.containerBorderSelected]: borderSelected,
                 [CSS.containerBorderUnselected]: borderUnselected,
@@ -695,7 +716,7 @@ export class ListItem
               {this.renderActionsStart()}
               {this.renderContentContainer()}
               {this.renderActionsEnd()}
-            </tr>
+            </div>
             {this.renderContentBottom()}
           </div>
           {this.renderDefaultContainer()}
@@ -710,7 +731,7 @@ export class ListItem
   //
   // --------------------------------------------------------------------------
 
-  private dragHandleSelectedChangeHandler = (event: CustomEvent): void => {
+  private dragHandleSelectedChangeHandler = (event: CustomEvent<void>): void => {
     this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
     this.calciteListItemDragHandleChange.emit();
     event.stopPropagation();
@@ -841,7 +862,7 @@ export class ListItem
     this.calciteListItemSelect.emit();
   };
 
-  private getGridCells(): HTMLTableCellElement[] {
+  private getGridCells(): HTMLDivElement[] {
     return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
       (el) => el && !el.hidden,
     );
@@ -902,13 +923,13 @@ export class ListItem
     this.focusCell(null);
   };
 
-  private handleCellFocusIn = (focusEl: HTMLTableCellElement): void => {
+  private handleCellFocusIn = (focusEl: HTMLDivElement): void => {
     this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
   };
 
   // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
   private setFocusCell = (
-    focusEl: HTMLTableCellElement | null,
+    focusEl: HTMLDivElement | null,
     focusedEl: HTMLElement,
     saveFocusIndex: boolean,
   ): void => {
@@ -937,7 +958,7 @@ export class ListItem
     }
   };
 
-  private focusCell = (focusEl: HTMLTableCellElement | null, saveFocusIndex = true): void => {
+  private focusCell = (focusEl: HTMLDivElement | null, saveFocusIndex = true): void => {
     const focusedEl = getFirstTabbable(focusEl);
     this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();

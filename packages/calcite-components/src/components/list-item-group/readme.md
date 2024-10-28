@@ -13,9 +13,9 @@ For comprehensive guidance on using and implementing `calcite-list-item-group`, 
 
 ## Events
 
-| Event                                           | Description                                                                          | Type                     |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------ |
-| `calciteInternalListItemGroupDefaultSlotChange` | Fires when changes occur in the default slot, notifying parent lists of the changes. | `CustomEvent<DragEvent>` |
+| Event                                           | Description                                                                          | Type                |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------- |
+| `calciteInternalListItemGroupDefaultSlotChange` | Fires when changes occur in the default slot, notifying parent lists of the changes. | `CustomEvent<void>` |
 
 ## Slots
 

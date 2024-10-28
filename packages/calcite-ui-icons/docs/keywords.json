@@ -8901,7 +8901,7 @@
     "category": "Lists",
     "release": "3.29.6"
   },
-  "web-adaptor": {
+  "web-adapter": {
     "alias": ["3.32.0", "gis", "web", "diagram", "nodes", "storage", "servers", "transfer"],
     "category": "GIS",
     "release": "3.32.0"
@@ -8970,5 +8970,205 @@
     "alias": ["3.32.0", "symbols", "check", "circle", "validated", "arrow", "complete"],
     "category": "Symbols",
     "release": "3.32.0"
+  },
+  "spaces": {
+    "alias": ["3.32.0", "gis", "lines", "grid", "workspace", "work mode"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "square-brackets-x": {
+    "alias": ["3.32.0", "gis", "code", "syntax", "script", "text", "letter"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "spaces-parameter": {
+    "alias": ["3.32.0", "gis", "forms", "display", "space", "text"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "3d-building": {
+    "alias": ["3.32.0", "objects", "three dimesional", "infrastructure"],
+    "category": "Objects",
+    "release": "3.32.0"
+  },
+  "3d-building-parameter": {
+    "alias": ["3.32.0", "gis", "three dimensional", "building", "infrastructure", "parameter", "text", "parantheses"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "divide": {
+    "alias": ["3.32.0", "symbols", "sign", "math", "split", "halve", "cut"],
+    "category": "Symbols",
+    "release": "3.32.0"
+  },
+  "parcel": {
+    "alias": ["3.32.0", "gis", "features", "assets", "data", "points", "lines"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "parcel-parameter": {
+    "alias": ["3.32.0", "gis", "feature", "data", "points", "lines", "assets"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "n-variable": {
+    "alias": ["3.32.0", "text", "variables", "math", "calculation", "letter"],
+    "category": "Text",
+    "release": "3.32.0"
+  },
+  "zoning-parameter": {
+    "alias": ["3.32.0", "gis", "forms", "variable", "text", "letter"],
+    "category": "GIS",
+    "release": "3.32.0"
+  },
+  "dashboard-graph": {
+    "alias": ["3.32.0", "windows", "measure", "objects", "statistics", "measurements"],
+    "category": "Windows",
+    "release": "3.32.0"
+  },
+  "replica-sync-enable": {
+    "alias": ["3.33.0", "gis", "toggle", "features", "synchronize", "replication", "layer"],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "portal-other": {
+    "alias": ["3.33.0", "gis", "layers", "data", "reference", "enterprise"],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "drag-resize-horizontal": {
+    "alias": [
+      "3.33.0",
+      "generic",
+      "dragging",
+      "resize",
+      "resizing",
+      "length",
+      "direction",
+      "panels",
+      "sidebar",
+      "horizontally"
+    ],
+    "category": "Generic",
+    "release": "3.33.0"
+  },
+  "drag-resize-vertical": {
+    "alias": [
+      "3.33.0",
+      "generic",
+      "dragging",
+      "resize",
+      "resizing",
+      "height",
+      "direction",
+      "panels",
+      "sidebar",
+      "vertically"
+    ],
+    "category": "Generic",
+    "release": "3.33.0"
+  },
+  "buffer-point": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "point",
+      "dot",
+      "circles",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "sphere",
+      "round"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "buffer-polygon": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "selection",
+      "shape",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "offset"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "contour": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "contour map",
+      "topographic",
+      "relief map",
+      "lines",
+      "height",
+      "curve",
+      "deliniation",
+      "outline",
+      "profile"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "offset": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "dashed",
+      "expand",
+      "line",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "intersection",
+      "outline"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "buffer-polyline": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "line",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "intersection",
+      "offset",
+      "outline"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "user-risk": {
+    "alias": ["3.33.0", "people", "risk", "population", "caution", "danger", "user"],
+    "category": "People",
+    "release": "3.33.0"
   }
 }

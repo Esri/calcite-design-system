@@ -51,9 +51,12 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                    | Description                           |
-| ----------------------- | ------------------------------------- |
-| `--calcite-alert-width` | Specifies the width of the component. |
+| Name                               | Description                                 |
+| ---------------------------------- | ------------------------------------------- |
+| `--calcite-alert-background-color` | Specifies the component's background color. |
+| `--calcite-alert-corner-radius`    | Specifies the component's corner radius.    |
+| `--calcite-alert-shadow`           | Specifies the component's shadow.           |
+| `--calcite-alert-width`            | Specifies the width of the component.       |
 
 ## Dependencies
 

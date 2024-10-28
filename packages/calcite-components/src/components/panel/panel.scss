@@ -6,6 +6,7 @@
  * @prop --calcite-panel-content-space: Specifies the padding of the component's content.
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
+ * @prop --calcite-panel-background-color: Specifies the background color of the component.
  */
 
 :host {
@@ -160,14 +161,12 @@
   flex-auto
   flex-col
   flex-nowrap
-  focus-base
   items-stretch
-  bg-background
   overflow-auto
   h-full
-  focus-base
-  relative;
+  focus-base;
   padding: var(--calcite-panel-content-space, 0);
+  background: var(--calcite-panel-background-color, var(--calcite-color-background));
 }
 
 .content-wrapper:focus-visible {
@@ -180,6 +179,7 @@
 }
 
 .header-content {
+  flex: 1 1 auto;
   padding-block: var(--calcite-internal-panel-header-vertical-padding);
   padding-inline: var(--calcite-internal-panel-default-padding);
 }

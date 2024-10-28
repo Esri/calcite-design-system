@@ -22,6 +22,8 @@ export default class TooltipManager {
 
   private registeredElementCount = 0;
 
+  private clickedTooltip: HTMLCalciteTooltipElement = null;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -79,10 +81,13 @@ export default class TooltipManager {
       if (activeTooltip?.open) {
         this.clearHoverTimeout();
         this.closeActiveTooltip();
-
         const referenceElement = getEffectiveReferenceElement(activeTooltip);
+        const composedPath = event.composedPath();
 
-        if (referenceElement instanceof Element && referenceElement.contains(event.target as HTMLElement)) {
+        if (
+          (referenceElement instanceof Element && composedPath.includes(referenceElement)) ||
+          composedPath.includes(activeTooltip)
+        ) {
           event.preventDefault();
         }
       }
@@ -100,11 +105,17 @@ export default class TooltipManager {
       return;
     }
 
+    if (tooltip === this.clickedTooltip) {
+      return;
+    }
+
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
     } else if (activeTooltip?.open) {
       this.closeHoveredTooltip();
     }
+
+    this.clickedTooltip = null;
   };
 
   private pathHasOpenTooltip(tooltip: HTMLCalciteTooltipElement, composedPath: EventTarget[]): boolean {
@@ -116,6 +127,7 @@ export default class TooltipManager {
   }
 
   private clickHandler = (event: Event): void => {
+    this.clickedTooltip = null;
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
 
@@ -133,6 +145,7 @@ export default class TooltipManager {
     this.clearHoverTimeout();
 
     if (tooltip.closeOnClick) {
+      this.clickedTooltip = tooltip;
       this.toggleTooltip(tooltip, false);
       return;
     }
@@ -163,26 +176,26 @@ export default class TooltipManager {
   };
 
   private addShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.addEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.addEventListener("focusin", this.focusInHandler);
   }
 
   private removeShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.removeEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.removeEventListener("focusin", this.focusInHandler);
   }
 
   private addListeners(): void {
-    window.addEventListener("keydown", this.keyDownHandler, { capture: true });
-    window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.addEventListener("click", this.clickHandler, { capture: true });
-    window.addEventListener("focusin", this.focusInHandler, { capture: true });
+    window.addEventListener("keydown", this.keyDownHandler);
+    window.addEventListener("pointermove", this.pointerMoveHandler);
+    window.addEventListener("click", this.clickHandler);
+    window.addEventListener("focusin", this.focusInHandler);
     window.addEventListener("blur", this.blurHandler);
   }
 
   private removeListeners(): void {
-    window.removeEventListener("keydown", this.keyDownHandler, { capture: true });
-    window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.removeEventListener("click", this.clickHandler, { capture: true });
-    window.removeEventListener("focusin", this.focusInHandler, { capture: true });
+    window.removeEventListener("keydown", this.keyDownHandler);
+    window.removeEventListener("pointermove", this.pointerMoveHandler);
+    window.removeEventListener("click", this.clickHandler);
+    window.removeEventListener("focusin", this.focusInHandler);
     window.removeEventListener("blur", this.blurHandler);
   }
 

@@ -776,7 +776,8 @@ export class Combobox
         break;
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
-          this.toggleSelection(this.filteredItems[this.activeItemIndex]);
+          const item = this.filteredItems[this.activeItemIndex];
+          this.toggleSelection(item, !item.selected);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1132,10 +1133,13 @@ export class Combobox
 
   private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
-  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
+  toggleSelection(item: HTMLCalciteComboboxItemElement, value: boolean): void {
     if (
       !item ||
-      (this.selectionMode === "single-persist" && item.selected && item.value === this.value)
+      (this.selectionMode === "single-persist" &&
+        item.selected &&
+        item.value === this.value &&
+        !value)
     ) {
       return;
     }
@@ -1596,7 +1600,7 @@ export class Combobox
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
-    const showLabel = !open && single && !!selectedItem;
+    const showLabel = !open && single && !!selectedItem && !this.filterText;
 
     return (
       <span
@@ -1629,7 +1633,7 @@ export class Combobox
           class={{
             [CSS.input]: true,
             "input--single": true,
-            "input--hidden": showLabel,
+            [CSS.inputHidden]: showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
           data-test-id="input"

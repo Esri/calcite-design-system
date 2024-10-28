@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -231,7 +230,14 @@ export class Dialog
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLocalized(this);
     connectMessages(this);
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        // Scrim has it's own close handler, allow it to take over.
+        clickOutsideDeactivates: false,
+        escapeDeactivates: this.escapeDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
+      },
+    });
     this.setupInteractions();
   }
 
@@ -255,7 +261,6 @@ export class Dialog
             [CSS.containerOpen]: opened,
             [CSS.containerEmbedded]: this.embedded,
           }}
-          ref={this.setContainerEl}
         >
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -364,8 +369,6 @@ export class Dialog
 
   transitionEl: HTMLDivElement;
 
-  containerEl: HTMLDivElement;
-
   focusTrap: FocusTrap;
 
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
@@ -382,19 +385,17 @@ export class Dialog
     this.handleMutationObserver(),
   );
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
+  private escapeDeactivates = (event: KeyboardEvent): boolean => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
     }
-  }
+    event.preventDefault();
+    return true;
+  };
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -608,9 +609,16 @@ export class Dialog
       dragPosition: { x, y },
       resizePosition,
       transitionEl,
+      dragEnabled,
+      resizable,
     } = this;
 
     if (!transitionEl) {
+      return;
+    }
+
+    if (!dragEnabled && !resizable) {
+      transitionEl.style.transform = null;
       return;
     }
 
@@ -619,7 +627,8 @@ export class Dialog
     const translateX = Math.round(x + left + right);
     const translateY = Math.round(y + top + bottom);
 
-    transitionEl.style.transform = `translate(${translateX}px, ${translateY}px)`;
+    transitionEl.style.transform =
+      translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
   }
 
   private updateSize({
@@ -763,10 +772,6 @@ export class Dialog
         };
     }
   }
-
-  private setContainerEl = (el: HTMLDivElement): void => {
-    this.containerEl = el;
-  };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;

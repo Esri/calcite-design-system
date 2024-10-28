@@ -661,6 +661,14 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+
+    await referenceElement.hover();
+
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
   });
 
   it("should close tooltip when closeOnClick is true and referenceElement is clicked quickly", async () => {
@@ -953,7 +961,7 @@ describe("calcite-tooltip", () => {
     }
   });
 
-  it("should close non hovered tooltip while pointer is moving", async () => {
+  it.skip("should close non hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>

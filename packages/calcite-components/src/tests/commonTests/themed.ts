@@ -1,8 +1,8 @@
 import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { ElementHandle } from "puppeteer";
 import type { RequireExactlyOne } from "type-fest";
 import { getTokenValue } from "../utils/cssTokenValues";
+import { toElementHandle } from "../utils";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -174,7 +174,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
   });
 }
 
-type ContextSelectByAttr = { attribute: string; value: string | RegExp };
+type ContextSelectByAttr = { attribute: string; value: string };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
@@ -266,11 +266,9 @@ async function getComputedStylePropertyValue(
   property: string,
   pseudoElement?: string,
 ): Promise<string> {
-  type E2EElementInternal = E2EElement & {
-    _elmHandle: ElementHandle;
-  };
+  const elementHandle = await toElementHandle(element);
 
-  return await (element as E2EElementInternal)._elmHandle.evaluate(
+  return await elementHandle.evaluate(
     (el, targetProp, pseudoElement): string => window.getComputedStyle(el, pseudoElement).getPropertyValue(targetProp),
     property,
     pseudoElement,
@@ -303,15 +301,12 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
         const { attribute, value } = context as {
           attribute: string;
-          value: string | RegExp;
+          value: string;
         };
         if (node.nodeType === 1) {
           const attr = (node as Element).getAttribute(attribute);
           if (typeof value === "string" && attr === value) {
             return node;
-          }
-          if (value instanceof RegExp && attr && value.test(attr)) {
-            return node ?? undefined;
           }
           if (attr === value) {
             return node;

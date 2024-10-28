@@ -14,7 +14,6 @@ import {
 } from "@stencil/core";
 import {
   getElementDir,
-  getSlotted,
   isPrimaryPointerButton,
   setRequestedIcon,
   toAriaBoolean,
@@ -56,7 +55,6 @@ import {
   parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -102,6 +100,7 @@ export class Input
   @Watch("autofocus")
   @Watch("enterkeyhint")
   @Watch("inputmode")
+  @Watch("spellcheck")
   handleGlobalAttributesChanged(): void {
     forceUpdate(this);
   }
@@ -134,11 +133,6 @@ export class Input
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  disabledWatcher(): void {
-    this.setDisabledAction();
-  }
 
   /**
    * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
@@ -487,8 +481,6 @@ export class Input
 
   private nudgeNumberValueIntervalId: number;
 
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
-
   private userChangedValue = false;
 
   //--------------------------------------------------------------------------
@@ -526,10 +518,6 @@ export class Input
     }
     connectLabel(this);
     connectForm(this);
-
-    this.mutationObserver?.observe(this.el, { childList: true });
-
-    this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -538,8 +526,6 @@ export class Input
     disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-
-    this.mutationObserver?.disconnect();
     this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -955,24 +941,6 @@ export class Input
     this.childNumberEl = el;
   };
 
-  private setDisabledAction(): void {
-    const slottedActionEl = getSlotted(this.el, "action");
-
-    if (!slottedActionEl) {
-      return;
-    }
-
-    if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled") == null) {
-        this.slottedActionElDisabledInternally = true;
-      }
-      slottedActionEl.setAttribute("disabled", "");
-    } else if (this.slottedActionElDisabledInternally) {
-      slottedActionEl.removeAttribute("disabled");
-      this.slottedActionElDisabledInternally = false;
-    }
-  }
-
   private setInputValue = (newInputValue: string): void => {
     if (this.type === "text" && !this.childEl) {
       return;
@@ -1242,6 +1210,7 @@ export class Input
               readOnly={this.readOnly}
               ref={this.setChildElRef}
               required={this.required ? true : null}
+              spellcheck={this.el.spellcheck}
               step={this.step}
               tabIndex={
                 this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null

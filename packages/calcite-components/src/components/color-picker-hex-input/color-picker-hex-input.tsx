@@ -64,7 +64,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
 
     if (allowEmpty) {
-      this.internalSetValue(null, null, false);
+      this.internalSetValue(undefined, undefined, false);
     }
   }
 
@@ -83,7 +83,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When `true`, an empty color (`undefined`) will be allowed as a `value`.
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
@@ -316,7 +316,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
-  @State() internalColor: Color | null = DEFAULT_COLOR;
+  @State() internalColor: Color | undefined = DEFAULT_COLOR;
 
   private opacityInputNode: HTMLCalciteInputNumberElement;
 
@@ -395,7 +395,11 @@ export class ColorPickerHexInput implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
+  private internalSetValue(
+    value: string | undefined,
+    oldValue: string | undefined,
+    emit = true,
+  ): void {
     if (value) {
       const { alphaChannel } = this;
       const normalized = normalizeHex(value, alphaChannel, alphaChannel);
@@ -420,8 +424,8 @@ export class ColorPickerHexInput implements LoadableComponent {
         return;
       }
     } else if (this.allowEmpty) {
-      this.internalColor = null;
-      this.value = null;
+      this.internalColor = undefined;
+      this.value = undefined;
 
       if (emit) {
         this.calciteColorPickerHexInputChange.emit();

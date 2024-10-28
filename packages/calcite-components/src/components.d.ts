@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -35,8 +35,8 @@ import { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
+import { DateLocaleData } from "./components/date-picker/utils";
 import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -101,7 +101,7 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -131,8 +131,8 @@ export { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
+export { DateLocaleData } from "./components/date-picker/utils";
 export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -405,9 +405,17 @@ export namespace Components {
          */
         "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements": FlipPlacement[];
+        /**
           * When `true`, the `calcite-action-menu` is open.
          */
         "menuOpen": boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement": LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -650,6 +658,14 @@ export namespace Components {
           * When `true`, a busy indicator is displayed.
          */
         "loading": boolean;
+        /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements": FlipPlacement[];
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement": LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -968,6 +984,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -1199,7 +1216,7 @@ export namespace Components {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`undefined`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty": boolean;
         /**
@@ -1488,6 +1505,10 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max": string;
@@ -1511,6 +1532,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -1620,9 +1645,17 @@ export namespace Components {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -1632,9 +1665,21 @@ export namespace Components {
          */
         "max": Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -1674,6 +1719,14 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -2475,6 +2528,10 @@ export namespace Components {
          */
         "minAsDate": Date;
         /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name": string;
@@ -3185,6 +3242,10 @@ export namespace Components {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label": string;
@@ -3272,6 +3333,10 @@ export namespace Components {
          */
         "filterHidden": boolean;
         /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label": string;
@@ -3318,6 +3383,10 @@ export namespace Components {
           * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
          */
         "setSize": number;
+        /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable": boolean;
         /**
           * The component's value.
          */
@@ -3879,9 +3948,17 @@ export namespace Components {
          */
         "loading": boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements": FlipPlacement[];
+        /**
           * When `true`, the action menu items in the `header-menu-actions` slot are open.
          */
         "menuOpen": boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement": LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4177,6 +4254,7 @@ export namespace Components {
         "form": string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid": string;
         /**
@@ -4544,6 +4622,9 @@ export namespace Components {
          */
         "contentBehind": boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
@@ -5767,6 +5848,7 @@ export namespace Components {
           * When `true`, displays indentation guide lines.
          */
         "lines": boolean;
+        "parentExpanded": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -6671,7 +6753,7 @@ declare global {
         new (): HTMLCalciteDatePickerElement;
     };
     interface HTMLCalciteDatePickerDayElementEventMap {
-        "calciteDaySelect": void;
+        "calciteInternalDaySelect": void;
         "calciteInternalDayHover": void;
     }
     interface HTMLCalciteDatePickerDayElement extends Components.CalciteDatePickerDay, HTMLStencilElement {
@@ -6689,10 +6771,14 @@ declare global {
         new (): HTMLCalciteDatePickerDayElement;
     };
     interface HTMLCalciteDatePickerMonthElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
-        "calciteInternalDatePickerHover": Date;
-        "calciteInternalDatePickerActiveDateChange": Date;
-        "calciteInternalDatePickerMouseOut": void;
+        "calciteInternalDatePickerDaySelect": Date;
+        "calciteInternalDatePickerDayHover": Date;
+        "calciteInternalDatePickerMonthActiveDateChange": Date;
+        "calciteInternalDatePickerMonthMouseOut": void;
+        "calciteInternalDatePickerMonthChange": {
+    date: Date;
+    position: string;
+  };
     }
     interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6709,7 +6795,7 @@ declare global {
         new (): HTMLCalciteDatePickerMonthElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
+        "calciteInternalDatePickerMonthHeaderSelectChange": Date;
     }
     interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7114,7 +7200,7 @@ declare global {
         new (): HTMLCalciteListItemElement;
     };
     interface HTMLCalciteListItemGroupElementEventMap {
-        "calciteInternalListItemGroupDefaultSlotChange": DragEvent;
+        "calciteInternalListItemGroupDefaultSlotChange": void;
     }
     interface HTMLCalciteListItemGroupElement extends Components.CalciteListItemGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(type: K, listener: (this: HTMLCalciteListItemGroupElement, ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7532,6 +7618,9 @@ declare global {
         prototype: HTMLCalciteShellElement;
         new (): HTMLCalciteShellElement;
     };
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface HTMLCalciteShellCenterRowElement extends Components.CalciteShellCenterRow, HTMLStencilElement {
     }
     var HTMLCalciteShellCenterRowElement: {
@@ -7860,7 +7949,7 @@ declare global {
         new (): HTMLCalciteTileSelectGroupElement;
     };
     interface HTMLCalciteTimePickerElementEventMap {
-        "calciteInternalTimePickerChange": string;
+        "calciteInternalTimePickerChange": void;
     }
     interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8341,9 +8430,17 @@ declare namespace LocalJSX {
          */
         "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements"?: FlipPlacement[];
+        /**
           * When `true`, the `calcite-action-menu` is open.
          */
         "menuOpen"?: boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement"?: LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8593,6 +8690,14 @@ declare namespace LocalJSX {
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
+        /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements"?: FlipPlacement[];
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement"?: LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8933,6 +9038,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -9183,7 +9289,7 @@ declare namespace LocalJSX {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`undefined`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty"?: boolean;
         /**
@@ -9498,6 +9604,10 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max"?: string;
@@ -9521,6 +9631,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -9584,13 +9698,13 @@ declare namespace LocalJSX {
          */
         "highlighted"?: boolean;
         /**
-          * Fires when user selects day.
-         */
-        "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
-        /**
           * Fires when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
+        /**
+          * Fires when user selects day.
+         */
+        "onCalciteInternalDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
           * When `true`, activates the component's range mode to allow a start and end date.
          */
@@ -9634,9 +9748,17 @@ declare namespace LocalJSX {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -9646,22 +9768,41 @@ declare namespace LocalJSX {
          */
         "max"?: Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
         /**
-          * Active date for the user keyboard access.
+          * Specifies the monthStyle used by the component.
          */
-        "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Fires when user hovers the date.
          */
-        "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
-        "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        "onCalciteInternalDatePickerDayHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
           * Fires when user selects the date.
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerDaySelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Active date for the user keyboard access.
+         */
+        "onCalciteInternalDatePickerMonthActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+         */
+        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{
+    date: Date;
+    position: string;
+  }>) => void;
+        "onCalciteInternalDatePickerMonthMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range"?: boolean;
         /**
           * Specifies the size of the component.
          */
@@ -9702,9 +9843,17 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
+        /**
           * Fires to active date
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerMonthHeaderSelectChange"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -10526,6 +10675,10 @@ declare namespace LocalJSX {
          */
         "minAsDate"?: Date;
         /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
+        /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
@@ -11282,6 +11435,10 @@ declare namespace LocalJSX {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label"?: string;
@@ -11388,6 +11545,10 @@ declare namespace LocalJSX {
          */
         "filterHidden"?: boolean;
         /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label"?: string;
@@ -11455,6 +11616,10 @@ declare namespace LocalJSX {
          */
         "setSize"?: number;
         /**
+          * When `true`, the component's content appears inactive.
+         */
+        "unavailable"?: boolean;
+        /**
           * The component's value.
          */
         "value"?: any;
@@ -11475,7 +11640,7 @@ declare namespace LocalJSX {
         /**
           * Fires when changes occur in the default slot, notifying parent lists of the changes.
          */
-        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
+        "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<void>) => void;
     }
     interface CalciteLoader {
         /**
@@ -12011,9 +12176,17 @@ declare namespace LocalJSX {
          */
         "loading"?: boolean;
         /**
+          * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "menuFlipPlacements"?: FlipPlacement[];
+        /**
           * When `true`, the action menu items in the `header-menu-actions` slot are open.
          */
         "menuOpen"?: boolean;
+        /**
+          * Determines where the action menu will be positioned.
+         */
+        "menuPlacement"?: LogicalPlacement;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -12326,6 +12499,7 @@ declare namespace LocalJSX {
         "form"?: string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
+          * @deprecated No longer necessary.
          */
         "guid"?: string;
         /**
@@ -12717,6 +12891,9 @@ declare namespace LocalJSX {
          */
         "contentBehind"?: boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
@@ -13831,7 +14008,7 @@ declare namespace LocalJSX {
           * Specifies the Unicode numeral system used by the component for localization.
          */
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
+        "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */
@@ -13978,6 +14155,7 @@ declare namespace LocalJSX {
           * Fires when the user selects/deselects `calcite-tree-items`.
          */
         "onCalciteTreeSelect"?: (event: CalciteTreeCustomEvent<void>) => void;
+        "parentExpanded"?: boolean;
         /**
           * Specifies the size of the component.
          */
@@ -14384,6 +14562,9 @@ declare module "@stencil/core" {
             "calcite-select": LocalJSX.CalciteSelect & JSXBase.HTMLAttributes<HTMLCalciteSelectElement>;
             "calcite-sheet": LocalJSX.CalciteSheet & JSXBase.HTMLAttributes<HTMLCalciteSheetElement>;
             "calcite-shell": LocalJSX.CalciteShell & JSXBase.HTMLAttributes<HTMLCalciteShellElement>;
+            /**
+             * @deprecated Use the `calcite-shell-panel` component instead.
+             */
             "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
             "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
             "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;

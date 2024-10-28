@@ -75,17 +75,21 @@
     p-0;
 }
 
-tr,
-td {
+.content-container--unavailable {
+  @apply opacity-disabled;
+}
+
+.row,
+.grid-cell {
   @apply focus-base;
 }
 
-tr {
+.row {
   @apply relative;
 }
 
-tr:focus,
-td:focus {
+.row:focus,
+.grid-cell:focus {
   @apply focus-inset;
 }
 
@@ -212,7 +216,7 @@ td:focus {
   }
 }
 
-tr:focus {
+.row:focus {
   .actions-start,
   .actions-end {
     inset-block: theme("spacing[0.5]");

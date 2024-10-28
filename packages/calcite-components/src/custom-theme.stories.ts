@@ -10,12 +10,14 @@ import {
   actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
+import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { buttons } from "./custom-theme/button";
+import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
-import { chips } from "./custom-theme/chips";
+import { chips, chipTokens } from "./custom-theme/chips";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -26,11 +28,14 @@ import { inputText } from "./custom-theme/input-text";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
+import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
-import { calciteSwitch } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
+import { textArea, textAreaTokens } from "./custom-theme/text-area";
+import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
+import { tileTokens, tile } from "./custom-theme/tile";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -111,27 +116,39 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${progress} ${handle}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile}</div>
+        ${alert}
       </div>
     </div>
   </div>`;
+
+const componentTokens = {
+  ...globalTokens,
+  ...accordionTokens,
+  ...accordionItemTokens,
+  ...actionTokens,
+  ...actionBarTokens,
+  ...actionGroupTokens,
+  ...actionMenuTokens,
+  ...actionPadTokens,
+  ...avatarTokens,
+  ...cardTokens,
+  ...alertTokens,
+  ...chipTokens,
+  ...checkboxTokens,
+  ...handleTokens,
+  ...popoverTokens,
+  ...progressTokens,
+  ...inputTokens,
+  ...textAreaTokens,
+  ...tileTokens,
+};
 
 export default {
   title: "Theming/Custom Theme",
   args: {
     ...globalTokens,
-    ...accordionTokens,
-    ...accordionItemTokens,
-    ...actionTokens,
-    ...actionBarTokens,
-    ...actionMenuTokens,
-    ...actionPadTokens,
-    ...actionGroupTokens,
-    ...cardTokens,
-    ...checkboxTokens,
-    ...handleTokens,
-    ...progressTokens,
-    ...inputTokens,
+    ...componentTokens,
   },
 };
 
@@ -139,21 +156,10 @@ export const themingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
 
-export const theming_TestOnly = (): string => {
+export const theming = (): string => {
   return kitchenSink(
     {
-      ...accordionTokens,
-      ...accordionItemTokens,
-      ...actionTokens,
-      ...actionBarTokens,
-      ...actionMenuTokens,
-      ...actionPadTokens,
-      ...actionGroupTokens,
-      ...cardTokens,
-      ...checkboxTokens,
-      ...handleTokens,
-      ...progressTokens,
-      ...inputTokens,
+      ...componentTokens,
     },
     true,
   );

@@ -399,6 +399,7 @@ describe("calcite-input-time-picker", () => {
       expect(await inputTimePicker.getProperty("value")).toBe("14:00:00");
 
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
     });
@@ -666,7 +667,7 @@ describe("calcite-input-time-picker", () => {
           expect(blurredValue).toBe("16:15:30");
           if (locale === "es-MX") {
             // test environment treats es-MX as es
-            expect(await getInputValue(page)).toBe("04:15:30 p. m.")
+            expect(await getInputValue(page)).toBe("04:15:30 p. m.");
           } else {
             expect(await getInputValue(page)).toBe(localizedBlurredValue);
           }
@@ -674,12 +675,14 @@ describe("calcite-input-time-picker", () => {
           await inputTimePicker.setProperty("hourFormat", "24");
           await page.waitForChanges();
 
-          expect(await getInputValue(page)).toBe(localizeTimeString({
-            hour12: false,
-            includeSeconds: true,
-            locale,
-            value: blurredValue,
-          }));
+          expect(await getInputValue(page)).toBe(
+            localizeTimeString({
+              hour12: false,
+              includeSeconds: true,
+              locale,
+              value: blurredValue,
+            }),
+          );
         });
 
         it("supports localized 24-hour format", async () => {
@@ -750,14 +753,16 @@ describe("calcite-input-time-picker", () => {
 
           if (locale === "es-MX") {
             // test environment treats es-MX as es
-            expect(await getInputValue(page)).toBe("04:15:30 p. m.")
+            expect(await getInputValue(page)).toBe("04:15:30 p. m.");
           } else {
-            expect(await getInputValue(page)).toBe(localizeTimeString({
-              hour12: true,
-              includeSeconds: true,
-              locale,
-              value: await inputTimePicker.getProperty("value"),
-            }));
+            expect(await getInputValue(page)).toBe(
+              localizeTimeString({
+                hour12: true,
+                includeSeconds: true,
+                locale,
+                value: await inputTimePicker.getProperty("value"),
+              }),
+            );
           }
         });
       });

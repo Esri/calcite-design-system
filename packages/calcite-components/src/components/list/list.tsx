@@ -20,9 +20,8 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import {
   connectSortableComponent,
@@ -163,7 +162,7 @@ export class List
   @Prop() filterProps: string[];
 
   @Watch("filterProps")
-  async handlefilterPropsChange(): Promise<void> {
+  async handleFilterPropsChange(): Promise<void> {
     this.performFilter();
   }
 
@@ -222,6 +221,17 @@ export class List
   > = "none";
 
   /**
+   * Specifies the interaction mode of the component.
+   *
+   * `"interactive"` allows interaction styling and pointer changes on hover
+   *
+   * `"static"` does not allow interaction styling and pointer changes on hover
+   *
+   * The `"static"` value should only be used when `selectionMode` is `"none"`.
+   */
+  @Prop({ reflect: true }) interactionMode: InteractionMode = "interactive";
+
+  /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
@@ -232,7 +242,7 @@ export class List
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleListItemChange(): void {
-    this.updateListItems();
+    this.updateListItems({ performFilter: true });
   }
 
   //--------------------------------------------------------------------------
@@ -409,13 +419,14 @@ export class List
     connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
-    this.updateListItems();
+    this.updateListItems({ performFilter: true });
     this.setUpSorting();
     this.setParentList();
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.handleInteractionModeWarning();
     await setUpMessages(this);
   }
 
@@ -471,7 +482,9 @@ export class List
 
   listItems: HTMLCalciteListItemElement[] = [];
 
-  mutationObserver = createObserver("mutation", () => this.updateListItems());
+  mutationObserver = createObserver("mutation", () =>
+    this.updateListItems({ performFilter: true }),
+  );
 
   visibleItems: HTMLCalciteListItemElement[] = [];
 
@@ -534,7 +547,7 @@ export class List
           ) : null}
           {this.renderItemAriaLive()}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-          <table
+          <div
             aria-busy={toAriaBoolean(loading)}
             aria-label={label || ""}
             class={CSS.table}
@@ -542,9 +555,9 @@ export class List
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <thead class={CSS.sticky}>
-                <tr>
-                  <th colSpan={MAX_COLUMNS}>
+              <div class={CSS.sticky} role="rowgroup">
+                <div role="row">
+                  <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
                       <slot
                         name={SLOTS.filterActionsStart}
@@ -567,14 +580,14 @@ export class List
                         slot={STACK_SLOTS.actionsEnd}
                       />
                     </calcite-stack>
-                  </th>
-                </tr>
-              </thead>
+                  </div>
+                </div>
+              </div>
             ) : null}
-            <tbody class={CSS.tableContainer}>
+            <div class={CSS.tableContainer} role="rowgroup">
               <slot onSlotchange={this.handleDefaultSlotChange} />
-            </tbody>
-          </table>
+            </div>
+          </div>
           <div
             aria-live="polite"
             data-test-id="no-results-container"
@@ -807,10 +820,15 @@ export class List
       this.filteredData = filterEl.filteredItems as ItemData;
     }
 
-    this.updateListItems(emit);
+    this.updateListItems({ emitFilterChange: emit });
   }
 
-  private async performFilter(): Promise<void> {
+  private async filterAndUpdateData(): Promise<void> {
+    await this.filterEl?.filter(this.filterText);
+    this.updateFilteredData();
+  }
+
+  private performFilter(): void {
     const { filterEl, filterText, filterProps } = this;
 
     if (!filterEl) {
@@ -819,8 +837,7 @@ export class List
 
     filterEl.value = filterText;
     filterEl.filterProps = filterProps;
-    await filterEl.filter(filterText);
-    this.updateFilteredData();
+    this.filterAndUpdateData();
   }
 
   private setFilterEl = (el: HTMLCalciteFilterElement): void => {
@@ -844,39 +861,56 @@ export class List
     }));
   };
 
-  private updateListItems = debounce((emitFilterChange = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled, el } = this;
+  private updateListItems = debounce(
+    (options?: { emitFilterChange?: boolean; performFilter?: boolean }): void => {
+      const emitFilterChange = options?.emitFilterChange ?? false;
+      const performFilter = options?.performFilter ?? false;
 
-    const items = Array.from(this.el.querySelectorAll(listItemSelector));
+      const {
+        selectionAppearance,
+        selectionMode,
+        interactionMode,
+        dragEnabled,
+        el,
+        filterEl,
+        filterEnabled,
+      } = this;
 
-    items.forEach((item) => {
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      if (item.closest("calcite-list") === el) {
-        item.dragHandle = dragEnabled;
+      const items = Array.from(this.el.querySelectorAll(listItemSelector));
+
+      items.forEach((item) => {
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
+        if (item.closest("calcite-list") === el) {
+          item.dragHandle = dragEnabled;
+        }
+      });
+
+      if (this.parentListEl) {
+        this.setUpSorting();
+        return;
       }
-    });
 
-    if (this.parentListEl) {
+      this.listItems = items;
+      if (filterEnabled && performFilter) {
+        this.dataForFilter = this.getItemData();
+
+        if (filterEl) {
+          filterEl.items = this.dataForFilter;
+          this.filterAndUpdateData();
+        }
+      }
+      this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
+      this.updateFilteredItems(emitFilterChange);
+      this.borderItems();
+      this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
+      this.setActiveListItem();
+      this.updateSelectedItems();
       this.setUpSorting();
-      return;
-    }
-
-    this.listItems = items;
-    if (this.filterEnabled) {
-      this.dataForFilter = this.getItemData();
-      if (this.filterEl) {
-        this.filterEl.items = this.dataForFilter;
-      }
-    }
-    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.updateFilteredItems(emitFilterChange);
-    this.borderItems();
-    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
-    this.setActiveListItem();
-    this.updateSelectedItems();
-    this.setUpSorting();
-  }, debounceTimeout);
+    },
+    debounceTimeout,
+  );
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
     const { focusableItems } = this;
@@ -945,6 +979,16 @@ export class List
       }
     }
   };
+
+  private handleInteractionModeWarning(): void {
+    if (
+      this.interactionMode === "static" &&
+      this.selectionMode !== "none" &&
+      this.selectionAppearance === "border"
+    ) {
+      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+    }
+  }
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { handleSelector, dragSelector } = this;

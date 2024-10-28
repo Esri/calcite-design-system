@@ -4,16 +4,41 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
- * @prop --calcite-action-background-color: Specifies the component's  background color.
+ * @prop --calcite-action-background-color: Specifies the component's background color.
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
  * @prop --calcite-action-background-color-pressed: Specifies the component's background color when active.
- * @prop --calcite-action-text-color: Specifies the text color of the component.
+ * @prop --calcite-action-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-action-corner-radius-end-end: Specifies the component's corner radius end end.
+ * @prop --calcite-action-corner-radius-end-start: Specifies the component's corner radius end start.
+ * @prop --calcite-action-corner-radius-start-end: Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius-start-start: Specifies the component's corner radius start start.
+ * @prop --calcite-action-text-color: Specifies the component's text color.
  * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
  */
 
 :host {
   @extend %component-host;
   @apply flex bg-transparent;
+}
+
+:host,
+button {
+  border-end-end-radius: var(
+    --calcite-action-corner-radius-end-end,
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
+  );
+  border-end-start-radius: var(
+    --calcite-action-corner-radius-end-start,
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
+  );
+  border-start-end-radius: var(
+    --calcite-action-corner-radius-start-end,
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
+  );
+  border-start-start-radius: var(
+    --calcite-action-corner-radius-start-start,
+    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
+  );
 }
 
 @mixin action-indicator() {
@@ -148,7 +173,8 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h px-2 py-1 font-normal;
+    @apply text-n2h px-2 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xxs));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -157,7 +183,8 @@
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h px-4 py-3 font-normal;
+    @apply text-n1h px-4 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-md));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -166,7 +193,8 @@
 
 :host([scale="l"]) {
   .button {
-    @apply text-0h p-5 font-normal;
+    @apply text-0h px-5 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xl));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
