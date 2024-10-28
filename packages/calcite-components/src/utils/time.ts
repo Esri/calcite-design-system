@@ -158,7 +158,8 @@ export function getLocalizedMeridiem(
   numberingSystem: NumberingSystem = "latn",
 ): string {
   const formatter = createLocaleDateTimeFormatter({ hour12: true, locale, numberingSystem });
-  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, meridiem === "AM" ? 6 : 18, 0)));
+  const dateWithHourBasedOnMeridiem = new Date(Date.UTC(0, 0, 0, meridiem === "AM" ? 6 : 18, 0));
+  const parts = formatter.formatToParts(dateWithHourBasedOnMeridiem);
   return getLocalizedTimePart("meridiem" as TimePart, parts);
 }
 
