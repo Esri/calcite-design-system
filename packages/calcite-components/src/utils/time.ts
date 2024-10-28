@@ -130,11 +130,11 @@ export function getLocaleHourFormat(locale: SupportedLocale): HourFormat {
   const options: DateTimeFormatterOptions = { locale };
   if (locale === "mk") {
     // Chromium's Intl.DateTimeFormat incorrectly formats mk time to 12-hour cycle so we need to force hour12 to false
-    // @link https://issues.chromium.org/issues/40676973
+    // @see https://issues.chromium.org/issues/40676973
     options.hour12 = false;
   } else if (locale.toLowerCase() === "es-mx") {
     // Firefox incorrectly formats es-MX time to 24-hour (should be 12)
-    // @link https://bugzilla.mozilla.org/show_bug.cgi?id=1919656
+    // @see https://bugzilla.mozilla.org/show_bug.cgi?id=1919656
     options.hour12 = true;
   }
   const formatter = createLocaleDateTimeFormatter(options);
@@ -392,8 +392,8 @@ export function localizeTimeString({
     result = result.replaceAll(" ч.", "");
   }
 
-  // @link https://issues.chromium.org/issues/40172622
-  // @link https://issues.chromium.org/issues/40676973
+  // @see https://issues.chromium.org/issues/40172622
+  // @see https://issues.chromium.org/issues/40676973
   if (locale === "bs" || locale === "mk") {
     const localeData = localizedTwentyFourHourMeridiems.get(locale);
     if (result.includes("AM")) {
@@ -429,8 +429,8 @@ export function localizeTimeStringToParts({
     const parts = formatter.formatToParts(dateFromTimeString);
     let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
 
-    // @link https://issues.chromium.org/issues/40172622
-    // @link https://issues.chromium.org/issues/40676973
+    // @see https://issues.chromium.org/issues/40172622
+    // @see https://issues.chromium.org/issues/40676973
     if (hour12 && (locale === "bs" || locale === "mk")) {
       const localeData = localizedTwentyFourHourMeridiems.get(locale);
       localizedMeridiem = dateFromTimeString.getHours() > 11 ? localeData.am : localeData.pm;
