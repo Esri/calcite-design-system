@@ -67,7 +67,7 @@ describe("calcite-input-time-picker", () => {
     `);
   });
 
-  describe("t9n", () => {
+  describe("translation support", () => {
     t9n("calcite-input-time-picker");
   });
 
