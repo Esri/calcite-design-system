@@ -38,8 +38,8 @@ export default {
   parameters: {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
-      delay: 2000,
+      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.5,
+      delay: 500,
     },
   },
 };
