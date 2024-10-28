@@ -36,6 +36,11 @@
 
 :host {
   @apply block;
+
+  // remove top padding applied by validation component.
+  .validation-container {
+    padding-block-start: 0 !important;
+  }
 }
 
 .container {
