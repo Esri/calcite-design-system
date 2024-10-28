@@ -1108,6 +1108,10 @@ export class InputDatePicker
         )
       : null;
 
+    if (!this.dateTimeFormat) {
+      this.handleDateTimeFormatChange();
+    }
+
     this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
     this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
