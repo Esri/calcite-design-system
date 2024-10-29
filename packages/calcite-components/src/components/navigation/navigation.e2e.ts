@@ -96,20 +96,10 @@ describe("calcite-navigation", () => {
 
     describe("default", () => {
       const tokens: ComponentTestTokens = {
-        "--calcite-navigation-background-color": [
-          {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "backgroundColor",
-          },
-          {
-            selector: "calcite-navigation-logo",
-            targetProp: "backgroundColor",
-          },
-          {
-            selector: "calcite-navigation-user",
-            targetProp: "backgroundColor",
-          },
-        ],
+        "--calcite-navigation-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
         "--calcite-navigation-width": {
           shadowSelector: `.${CSS.containerContent}`,
           targetProp: "width",
@@ -117,15 +107,15 @@ describe("calcite-navigation", () => {
         "--calcite-navigation-border-color": [
           {
             shadowSelector: `.${CSS.primary}`,
-            targetProp: "borderColor",
+            targetProp: "borderBlockEndColor",
           },
           {
             shadowSelector: `.${CSS.secondary}`,
-            targetProp: "borderColor",
+            targetProp: "borderBlockEndColor",
           },
           {
             shadowSelector: `.${CSS.tertiary}`,
-            targetProp: "borderColor",
+            targetProp: "borderBlockEndColor",
           },
         ],
       };
