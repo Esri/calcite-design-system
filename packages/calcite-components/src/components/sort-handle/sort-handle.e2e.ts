@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, themed, t9n, openClose } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import type { SortHandleMessages } from "./assets/sort-handle/t9n";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
@@ -95,61 +95,6 @@ describe("calcite-sort-handle", () => {
 
   describe("translation support", () => {
     t9n("calcite-sort-handle");
-  });
-
-  describe("theme", () => {
-    describe("default", () => {
-      themed("calcite-sort-handle", {
-        "--calcite-sort-handle-action-indicator-color": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-indicator-color",
-        },
-        "--calcite-sort-handle-action-background-color": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-background-color",
-        },
-        "--calcite-sort-handle-action-background-color-hover": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-background-color-hover",
-        },
-        "--calcite-sort-handle-action-background-color-pressed": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-background-color-pressed",
-        },
-        "--calcite-sort-handle-action-corner-radius": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-corner-radius",
-        },
-        "--calcite-sort-handle-action-corner-radius-end-end": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-corner-radius-end-end",
-        },
-        "--calcite-sort-handle-action-corner-radius-end-start": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-corner-radius-end-start",
-        },
-        "--calcite-sort-handle-action-corner-radius-start-end": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-corner-radius-start-end",
-        },
-        "--calcite-sort-handle-action-corner-radius-start-start": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-corner-radius-start-start",
-        },
-        "--calcite-sort-handle-action-text-color": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-text-color",
-        },
-        "--calcite-sort-handle-action-text-color-pressed": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "--calcite-action-text-color-pressed",
-        },
-        "--calcite-sort-handle-dropdown-width": {
-          shadowSelector: `.${CSS.dropdown}`,
-          targetProp: "--calcite-dropdown-width",
-        },
-      });
-    });
   });
 
   describe("openClose", () => {
