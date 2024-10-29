@@ -1,3 +1,4 @@
+import commonjs from "@rollup/plugin-commonjs";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import { version } from "./package.json";
@@ -5,6 +6,7 @@ import { version } from "./package.json";
 export default {
   input: "src/index.ts",
   plugins: [
+    commonjs(),
     nodeResolve({
       preferBuiltins: true,
     }),
@@ -13,7 +15,6 @@ export default {
   treeshake: {
     moduleSideEffects: "no-external",
   },
-  external: ["stencil-eslint-core"],
   output: {
     banner: `/*
 All material copyright ESRI, All Rights Reserved, unless otherwise specified.
