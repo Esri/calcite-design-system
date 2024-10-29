@@ -17,6 +17,8 @@
       flex-col
       items-stretch
       p-0;
+    animation-name: none;
+    animation-duration: var(--calcite-animation-timing);
   }
 
   ::slotted(*) {
@@ -34,11 +36,11 @@
   }
 
   .frame--advancing {
-    animation: calcite-frame-advance var(--calcite-animation-timing);
+    animation-name: calcite-frame-advance;
   }
 
   .frame--retreating {
-    animation: calcite-frame-retreat var(--calcite-animation-timing);
+    animation-name: calcite-frame-retreat;
   }
 
   @keyframes calcite-frame-advance {

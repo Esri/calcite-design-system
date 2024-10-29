@@ -1,4 +1,15 @@
-import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
+import {
+  Build,
+  Component,
+  Element,
+  h,
+  Listen,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 import {
   componentFocusable,
@@ -6,6 +17,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { whenAnimationDone } from "../../utils/dom";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
 import { CSS } from "./resources";
 
@@ -92,11 +104,27 @@ export class Flow implements LoadableComponent {
 
   @Element() el: HTMLCalciteFlowElement;
 
-  @State() flowDirection: FlowDirection = null;
+  @State() flowDirection: FlowDirection = "standby";
+
+  @Watch("flowDirection")
+  async handleFlowDirectionChange(flowDirection: string): Promise<void> {
+    if (flowDirection === "standby") {
+      return;
+    }
+
+    await whenAnimationDone(
+      this.frameEl,
+      flowDirection === "retreating" ? "calcite-frame-retreat" : "calcite-frame-advance",
+    );
+
+    this.resetFlowDirection();
+  }
 
   @State() items: FlowItemLikeElement[] = [];
 
   selectedIndex = -1;
+
+  private frameEl: HTMLDivElement;
 
   itemMutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserverChange(),
@@ -147,26 +175,31 @@ export class Flow implements LoadableComponent {
     return this.setFocus();
   }
 
-  resetFlowDirection = (): void => {
-    if (this.el.hasAttribute("data-test-disable-animation-reset")) {
+  private resetFlowDirection = (): void => {
+    const runningInE2ETest = Build.isTesting && Build.isBrowser;
+
+    if (runningInE2ETest) {
       return;
     }
 
-    this.flowDirection = null;
+    this.flowDirection = "standby";
   };
 
-  getFlowDirection = (oldSelectedIndex: number, newSelectedIndex: number): FlowDirection | null => {
+  private getFlowDirection = (
+    oldSelectedIndex: number,
+    newSelectedIndex: number,
+  ): FlowDirection | null => {
     const allowRetreatingDirection = oldSelectedIndex > 0;
     const allowAdvancingDirection = oldSelectedIndex > -1 && newSelectedIndex > 0;
 
     if (!allowAdvancingDirection && !allowRetreatingDirection) {
-      return null;
+      return "standby";
     }
 
     return newSelectedIndex < oldSelectedIndex ? "retreating" : "advancing";
   };
 
-  handleMutationObserverChange = (): void => {
+  private handleMutationObserverChange = (): void => {
     const { customItemSelectors, el } = this;
 
     const newItems = Array.from<FlowItemLikeElement>(
@@ -182,7 +215,7 @@ export class Flow implements LoadableComponent {
     this.updateFlowProps();
   };
 
-  updateFlowProps = (): void => {
+  private updateFlowProps = (): void => {
     const { selectedIndex, items } = this;
     const foundSelectedIndex = this.findSelectedFlowItemIndex(items);
 
@@ -206,7 +239,7 @@ export class Flow implements LoadableComponent {
     this.selectedIndex = foundSelectedIndex;
   };
 
-  findSelectedFlowItemIndex = (
+  private findSelectedFlowItemIndex = (
     items: (HTMLCalciteFlowItemElement | FlowItemLikeElement)[],
   ): number => {
     const selectedItem = items
@@ -217,7 +250,7 @@ export class Flow implements LoadableComponent {
     return items.indexOf(selectedItem);
   };
 
-  ensureSelectedFlowItemExists(): void {
+  private ensureSelectedFlowItemExists(): void {
     const { items } = this;
     const foundSelectedIndex = this.findSelectedFlowItemIndex(items);
 
@@ -231,6 +264,10 @@ export class Flow implements LoadableComponent {
       lastItem.selected = true;
     }
   }
+
+  private setFrameEl = (el: HTMLDivElement): void => {
+    this.frameEl = el;
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -248,7 +285,7 @@ export class Flow implements LoadableComponent {
     };
 
     return (
-      <div class={frameDirectionClasses} onAnimationEnd={this.resetFlowDirection}>
+      <div class={frameDirectionClasses} ref={this.setFrameEl}>
         <slot />
       </div>
     );

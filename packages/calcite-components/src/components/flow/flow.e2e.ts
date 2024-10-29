@@ -184,7 +184,7 @@ describe("calcite-flow", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        html`<calcite-flow data-test-disable-animation-reset>
+        html`<calcite-flow>
           <calcite-flow-item></calcite-flow-item>
         </calcite-flow>`,
       );
@@ -211,11 +211,7 @@ describe("calcite-flow", () => {
     it("frame advancing should add animation class when subtree is modified", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(
-        html`<calcite-flow data-test-disable-animation-reset
-          ><calcite-flow-item>flow1</calcite-flow-item></calcite-flow
-        >`,
-      );
+      await page.setContent(html`<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>`);
 
       const element = await page.find("calcite-flow");
 
@@ -238,7 +234,7 @@ describe("calcite-flow", () => {
     it("frame retreating should add animation class", async () => {
       const page = await newE2EPage();
 
-      await page.setContent("<calcite-flow data-test-disable-animation-reset></calcite-flow>");
+      await page.setContent("<calcite-flow></calcite-flow>");
 
       await page.$eval("calcite-flow", (elm: HTMLElement) => {
         elm.innerHTML = `

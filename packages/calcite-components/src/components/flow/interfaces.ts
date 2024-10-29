@@ -1,4 +1,4 @@
-export type FlowDirection = "advancing" | "retreating";
+export type FlowDirection = "advancing" | "retreating" | "standby";
 
 export type FlowItemLike = Pick<
   HTMLCalciteFlowItemElement,
