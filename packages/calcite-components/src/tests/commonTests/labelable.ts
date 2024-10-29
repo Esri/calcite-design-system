@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { html } from "../../../support/formatting";
-import { isElementFocused } from "./../utils";
+import { isElementFocused } from "../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 export { TagOrHTMLWithBeforeContent } from "./interfaces";
 import { FocusableOptions } from "./focusable";

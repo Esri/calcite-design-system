@@ -13,13 +13,15 @@ import {
   Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { intersects, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { Validation } from "../functional/Validation";
 import {
   afterConnectDefaultValueSet,
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
   InteractiveComponent,
@@ -43,9 +45,10 @@ import {
 } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import { BigDecimal } from "../../utils/number";
-import { CSS, maxTickElementThreshold } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 
 function isRange(value: number | number[]): value is number[] {
@@ -211,6 +214,36 @@ export class Slider
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -315,6 +348,8 @@ export class Slider
       <Host id={id} onKeyDown={this.handleKeyDown} onTouchStart={this.handleTouchStart}>
         <InteractiveContainer disabled={this.disabled}>
           <div
+            aria-errormessage={IDS.validationMessage}
+            aria-invalid={toAriaBoolean(this.status === "invalid")}
             aria-label={getLabelText(this)}
             class={{
               [CSS.container]: true,
@@ -368,6 +403,15 @@ export class Slider
               <HiddenFormInputSlot component={this} />
             </div>
           </div>
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              id={IDS.validationMessage}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
         </InteractiveContainer>
       </Host>
     );

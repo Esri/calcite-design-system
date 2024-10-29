@@ -9165,5 +9165,10 @@
     ],
     "category": "GIS",
     "release": "3.33.0"
+  },
+  "user-risk": {
+    "alias": ["3.33.0", "people", "risk", "population", "caution", "danger", "user"],
+    "category": "People",
+    "release": "3.33.0"
   }
 }

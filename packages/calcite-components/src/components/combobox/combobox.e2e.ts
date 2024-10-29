@@ -1019,7 +1019,6 @@ describe("calcite-combobox", () => {
 
     it("should replace current value to new custom value in single selection mode", async () => {
       const page = await newE2EPage();
-      await skipAnimations(page);
       await page.setContent(html`
         <calcite-combobox allow-custom-values selection-mode="single">
           <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
@@ -1027,6 +1026,7 @@ describe("calcite-combobox", () => {
           <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
+      await skipAnimations(page);
       const combobox = await page.find("calcite-combobox");
       const input = await page.find("calcite-combobox >>> input");
 
@@ -2163,8 +2163,8 @@ describe("calcite-combobox", () => {
   describe("active item when opened", () => {
     async function assertActiveItem(html: string, expectedActiveItemValue: string): Promise<void> {
       const page = await newE2EPage();
-      await skipAnimations(page);
       await page.setContent(html);
+      await skipAnimations(page);
       await page.click("calcite-combobox");
       await page.waitForChanges();
 
