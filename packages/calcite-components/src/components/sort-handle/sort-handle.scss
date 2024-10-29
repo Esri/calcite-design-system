@@ -23,6 +23,7 @@
 
 .handle {
   @apply cursor-move;
+  --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
   --calcite-action-indicator-color: var(--calcite-sort-handle-action-indicator-color);
   --calcite-action-background-color: var(--calcite-sort-handle-action-background-color);
   --calcite-action-background-color-hover: var(--calcite-sort-handle-action-background-color-hover);
