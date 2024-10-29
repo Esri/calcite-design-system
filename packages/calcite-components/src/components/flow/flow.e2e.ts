@@ -1,10 +1,16 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { isElementFocused } from "../../tests/utils";
 import { CSS } from "./resources";
 import { FlowItemLikeElement } from "./interfaces";
+
+async function slowPageAnimations(page: E2EPage): Promise<void> {
+  await page.addStyleTag({
+    content: `:root { --calcite-duration-factor: 9999; }`,
+  });
+}
 
 describe("calcite-flow", () => {
   describe("renders", () => {
@@ -189,6 +195,8 @@ describe("calcite-flow", () => {
         </calcite-flow>`,
       );
 
+      await slowPageAnimations(page);
+
       const items = await page.findAll("calcite-flow-item");
 
       expect(items).toHaveLength(1);
@@ -213,6 +221,8 @@ describe("calcite-flow", () => {
 
       await page.setContent(html`<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>`);
 
+      await slowPageAnimations(page);
+
       const element = await page.find("calcite-flow");
 
       element.innerHTML = html`<calcite-flow-item>flow1</calcite-flow-item
@@ -235,6 +245,8 @@ describe("calcite-flow", () => {
       const page = await newE2EPage();
 
       await page.setContent("<calcite-flow></calcite-flow>");
+
+      await slowPageAnimations(page);
 
       await page.$eval("calcite-flow", (elm: HTMLElement) => {
         elm.innerHTML = `
