@@ -24,12 +24,6 @@ import { logger } from "../../utils/logger";
 import { TipManagerMessages } from "./assets/tip-manager/t9n";
 import { CSS, ICONS } from "./resources";
 
-logger.deprecated("component", {
-  name: "tip-manager",
-  removalVersion: 4,
-  suggested: "carousel",
-});
-
 /**
  * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
  * @slot - A slot for adding `calcite-tip`s.
@@ -132,6 +126,12 @@ export class TipManager {
   }
 
   async componentWillLoad(): Promise<void> {
+    logger.deprecated("component", {
+      name: "tip-manager",
+      removalVersion: 4,
+      suggested: "carousel",
+    });
+
     await setUpMessages(this);
     this.updateGroupTitle();
   }

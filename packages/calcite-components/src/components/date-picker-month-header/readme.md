@@ -11,6 +11,7 @@
 | `localeData`   | --              | CLDR locale data for translated calendar info.                                        | `DateLocaleData`             | `undefined` |
 | `max`          | --              | Specifies the latest allowed date (`"yyyy-mm-dd"`).                                   | `Date`                       | `undefined` |
 | `min`          | --              | Specifies the earliest allowed date (`"yyyy-mm-dd"`).                                 | `Date`                       | `undefined` |
+| `monthStyle`   | `month-style`   | Specifies the monthStyle used by the component.                                       | `"abbreviated" \| "wide"`    | `undefined` |
 | `scale`        | `scale`         | Specifies the size of the component.                                                  | `"l" \| "m" \| "s"`          | `undefined` |
 | `selectedDate` | --              | Already selected date.                                                                | `Date`                       | `undefined` |
 
@@ -18,18 +19,27 @@
 
 ### Used by
 
-- [calcite-date-picker](../date-picker)
+- [calcite-date-picker-month](../date-picker-month)
 
 ### Depends on
 
-- [calcite-icon](../icon)
+- [calcite-select](../select)
+- [calcite-option](../option)
+- [calcite-action](../action)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-date-picker-month-header --> calcite-icon
-  calcite-date-picker --> calcite-date-picker-month-header
+  calcite-date-picker-month-header --> calcite-select
+  calcite-date-picker-month-header --> calcite-option
+  calcite-date-picker-month-header --> calcite-action
+  calcite-select --> calcite-icon
+  calcite-select --> calcite-input-message
+  calcite-input-message --> calcite-icon
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
+  calcite-date-picker-month --> calcite-date-picker-month-header
   style calcite-date-picker-month-header fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

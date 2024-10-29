@@ -20,9 +20,8 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import {
   connectSortableComponent,
@@ -222,6 +221,17 @@ export class List
   > = "none";
 
   /**
+   * Specifies the interaction mode of the component.
+   *
+   * `"interactive"` allows interaction styling and pointer changes on hover
+   *
+   * `"static"` does not allow interaction styling and pointer changes on hover
+   *
+   * The `"static"` value should only be used when `selectionMode` is `"none"`.
+   */
+  @Prop({ reflect: true }) interactionMode: InteractionMode = "interactive";
+
+  /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
@@ -416,6 +426,7 @@ export class List
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.handleInteractionModeWarning();
     await setUpMessages(this);
   }
 
@@ -536,7 +547,7 @@ export class List
           ) : null}
           {this.renderItemAriaLive()}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-          <table
+          <div
             aria-busy={toAriaBoolean(loading)}
             aria-label={label || ""}
             class={CSS.table}
@@ -544,9 +555,9 @@ export class List
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <thead class={CSS.sticky}>
-                <tr>
-                  <th colSpan={MAX_COLUMNS}>
+              <div class={CSS.sticky} role="rowgroup">
+                <div role="row">
+                  <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
                       <slot
                         name={SLOTS.filterActionsStart}
@@ -569,14 +580,14 @@ export class List
                         slot={STACK_SLOTS.actionsEnd}
                       />
                     </calcite-stack>
-                  </th>
-                </tr>
-              </thead>
+                  </div>
+                </div>
+              </div>
             ) : null}
-            <tbody class={CSS.tableContainer}>
+            <div class={CSS.tableContainer} role="rowgroup">
               <slot onSlotchange={this.handleDefaultSlotChange} />
-            </tbody>
-          </table>
+            </div>
+          </div>
           <div
             aria-live="polite"
             data-test-id="no-results-container"
@@ -855,13 +866,22 @@ export class List
       const emitFilterChange = options?.emitFilterChange ?? false;
       const performFilter = options?.performFilter ?? false;
 
-      const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
+      const {
+        selectionAppearance,
+        selectionMode,
+        interactionMode,
+        dragEnabled,
+        el,
+        filterEl,
+        filterEnabled,
+      } = this;
 
       const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
       items.forEach((item) => {
         item.selectionAppearance = selectionAppearance;
         item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
         if (item.closest("calcite-list") === el) {
           item.dragHandle = dragEnabled;
         }
@@ -959,6 +979,16 @@ export class List
       }
     }
   };
+
+  private handleInteractionModeWarning(): void {
+    if (
+      this.interactionMode === "static" &&
+      this.selectionMode !== "none" &&
+      this.selectionAppearance === "border"
+    ) {
+      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+    }
+  }
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { handleSelector, dragSelector } = this;
