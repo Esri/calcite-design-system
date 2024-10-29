@@ -16,8 +16,11 @@ import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
-  describe("renders", () => {
+  describe("renders when closed", () => {
     renders("calcite-popover", { display: "block" });
+  });
+
+  describe("renders when open", () => {
     renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
       display: "block",
     });

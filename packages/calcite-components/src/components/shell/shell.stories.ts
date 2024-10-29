@@ -1849,14 +1849,15 @@ export const panelWithPopoverZIndex = (): string =>
         </calcite-flow>
       </calcite-shell-panel> </calcite-shell
     ><calcite-popover
-      overlay-positioning="fixed"
+      overlay-positioning="absolute"
       open
       reference-element="button"
       offset-distance="-50"
       offset-skidding="15"
       style="z-index: 100"
     >
-      <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel>
+      <calcite-panel height-scale="m" heading="popover panel header" style="height: 200px; width:250px;">
+      </calcite-panel>
     </calcite-popover>`;
 
 export const popoverZIndex = (): string =>
