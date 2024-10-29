@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.18...@esri/calcite-components@2.14.0-next.19) (2024-10-29)
+
+### Features
+
+- **rating, slider:** add validation message to support form error handling ([#10621](https://github.com/Esri/calcite-design-system/issues/10621)) ([c4c9b1d](https://github.com/Esri/calcite-design-system/commit/c4c9b1d43d7f8dbcb5bb8babadb26831308382de)), closes [#9999](https://github.com/Esri/calcite-design-system/issues/9999)
+
+## [2.14.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.17...@esri/calcite-components@2.14.0-next.18) (2024-10-26)
+
+### Features
+
+- **tile:** add design tokens ([#10476](https://github.com/Esri/calcite-design-system/issues/10476)) ([3c338eb](https://github.com/Esri/calcite-design-system/commit/3c338eb6a3f0edc751f888477299d3cacbb696de)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [2.14.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.16...@esri/calcite-components@2.14.0-next.17) (2024-10-23)
 
 ### Features

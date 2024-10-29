@@ -7,12 +7,6 @@ import {
 import { logger } from "../../utils/logger";
 import { TileSelectGroupLayout } from "./interfaces";
 
-logger.deprecated("component", {
-  name: "tile-select-group",
-  removalVersion: 4,
-  suggested: ["tile", "tile-group"],
-});
-
 /**
  * @deprecated Use the `calcite-tile-group` component instead.
  * @slot - A slot for adding `calcite-tile-select` elements.
@@ -52,6 +46,14 @@ export class TileSelectGroup implements InteractiveComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    logger.deprecated("component", {
+      name: "tile-select-group",
+      removalVersion: 4,
+      suggested: ["tile", "tile-group"],
+    });
+  }
 
   componentDidRender(): void {
     updateHostInteraction(this);
