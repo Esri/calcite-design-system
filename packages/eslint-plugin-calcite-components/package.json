@@ -13,7 +13,7 @@
     "dist/index.js"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin json typescript --bundleConfigAsCjs",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
@@ -23,7 +23,8 @@
     "ts-node": "10.9.2"
   },
   "peerDependencies": {
-    "eslint": ">=8.0.0"
+    "eslint": ">=8.0.0",
+    "@typescript-eslint/utils": ">=8.0.0"
   },
   "packageManager": "npm@8.19.4",
   "volta": {

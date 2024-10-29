@@ -40,8 +40,6 @@
     "@lit/react": "1.0.6",
     "@octokit/webhooks-types": "7.6.1",
     "@prettier/sync": "0.5.2",
-    "@rollup/plugin-commonjs": "28.0.1",
-    "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-node-resolve": "15.3.0",
     "@rollup/plugin-replace": "5.0.7",
     "@rollup/plugin-typescript": "11.1.6",
