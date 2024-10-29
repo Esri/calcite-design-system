@@ -390,63 +390,42 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     ) : null;
   }
 
-  private renderTop(): VNode {
-    const { setPosition, messages } = this;
-
-    return setPosition !== 1 && setPosition !== 2 ? (
+  private renderDropdownItem(positionIndex: number, label: string): VNode {
+    return (
       <calcite-dropdown-item
-        data-value={REORDER_VALUES[0]}
-        key={REORDER_VALUES[0]}
-        label={messages.moveToTop}
+        data-value={REORDER_VALUES[positionIndex]}
+        key={REORDER_VALUES[positionIndex]}
+        label={label}
         onCalciteDropdownItemSelect={this.handleReorder}
       >
-        {messages.moveToTop}
+        {label}
       </calcite-dropdown-item>
-    ) : null;
+    );
   }
 
-  private renderUp(): VNode {
-    const { setPosition, messages } = this;
+  private renderTop(): VNode | null {
+    const { setPosition } = this;
 
-    return setPosition !== 1 ? (
-      <calcite-dropdown-item
-        data-value={REORDER_VALUES[1]}
-        key={REORDER_VALUES[1]}
-        label={messages.moveUp}
-        onCalciteDropdownItemSelect={this.handleReorder}
-      >
-        {messages.moveUp}
-      </calcite-dropdown-item>
-    ) : null;
+    return setPosition !== 1 && setPosition !== 2
+      ? this.renderDropdownItem(0, this.messages.moveToTop)
+      : null;
   }
 
-  private renderDown(): VNode {
-    const { setPosition, setSize, messages } = this;
-
-    return setPosition !== setSize ? (
-      <calcite-dropdown-item
-        data-value={REORDER_VALUES[2]}
-        key={REORDER_VALUES[2]}
-        label={messages.moveDown}
-        onCalciteDropdownItemSelect={this.handleReorder}
-      >
-        {messages.moveDown}
-      </calcite-dropdown-item>
-    ) : null;
+  private renderUp(): VNode | null {
+    return this.setPosition !== 1 ? this.renderDropdownItem(1, this.messages.moveUp) : null;
   }
 
-  private renderBottom(): VNode {
-    const { setPosition, setSize, messages } = this;
+  private renderDown(): VNode | null {
+    return this.setPosition !== this.setSize
+      ? this.renderDropdownItem(2, this.messages.moveDown)
+      : null;
+  }
 
-    return setPosition !== setSize && setPosition !== setSize - 1 ? (
-      <calcite-dropdown-item
-        data-value={REORDER_VALUES[3]}
-        key={REORDER_VALUES[3]}
-        label={messages.moveToBottom}
-        onCalciteDropdownItemSelect={this.handleReorder}
-      >
-        {messages.moveToBottom}
-      </calcite-dropdown-item>
-    ) : null;
+  private renderBottom(): VNode | null {
+    const { setPosition, setSize } = this;
+
+    return setPosition !== setSize && setPosition !== setSize - 1
+      ? this.renderDropdownItem(3, this.messages.moveToBottom)
+      : null;
   }
 }

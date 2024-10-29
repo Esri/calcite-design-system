@@ -11,17 +11,19 @@ export const closed = (): string => html`
 export const open = (): string =>
   html`<calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>`;
 
-export const firstPosition = (): string =>
-  html`<calcite-sort-handle label="test" set-position="1" set-size="10" open></calcite-sort-handle>`;
+export const positions = (): string => html`
+  <h2>First Position</h2>
+  <calcite-sort-handle label="test" set-position="1" set-size="10" open></calcite-sort-handle>
 
-export const secondPosition = (): string =>
-  html`<calcite-sort-handle label="test" set-position="2" set-size="10" open></calcite-sort-handle>`;
+  <h2>Second Position</h2>
+  <calcite-sort-handle label="test" set-position="2" set-size="10" open></calcite-sort-handle>
 
-export const secondToLastPosition = (): string =>
-  html`<calcite-sort-handle label="test" set-position="9" set-size="10" open></calcite-sort-handle>`;
+  <h2>Second to Last Position</h2>
+  <calcite-sort-handle label="test" set-position="9" set-size="10" open></calcite-sort-handle>
 
-export const lastPosition = (): string =>
-  html`<calcite-sort-handle label="test" set-position="10" set-size="10" open></calcite-sort-handle>`;
+  <h2>Last Position</h2>
+  <calcite-sort-handle label="test" set-position="10" set-size="10" open></calcite-sort-handle>
+`;
 
 export const withItems = (): string =>
   html`<calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
