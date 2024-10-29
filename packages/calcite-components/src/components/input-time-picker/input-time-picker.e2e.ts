@@ -550,6 +550,7 @@ describe("calcite-input-time-picker", () => {
             <calcite-label>
               ${locale}
               <calcite-input-time-picker
+                focus-trap-disabled
                 hour-format="12"
                 lang="${locale}"
                 step="1"
@@ -681,6 +682,7 @@ describe("calcite-input-time-picker", () => {
             <calcite-label>
               ${locale}
               <calcite-input-time-picker
+                focus-trap-disabled
                 hour-format="24"
                 lang="${locale}"
                 step="1"
