@@ -3,6 +3,7 @@ import { stencilComponentContext } from "stencil-eslint-core";
 
 const rule: Rule.RuleModule = {
   meta: {
+    deprecated: true,
     docs: {
       description:
         "This rule helps enforce the payload type to EventEmitters to avoid misleading `any` type on the CustomEvent detail object.",
