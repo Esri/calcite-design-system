@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
+  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   labelable,
+  reflects,
   renders,
   t9n,
 } from "../../tests/commonTests";
@@ -57,6 +59,32 @@ describe("calcite-rating", () => {
 
     describe("is form-associated", () => {
       formAssociated("calcite-rating", { testValue: 3 });
+    });
+
+    describe("defaults", () => {
+      defaults("calcite-rating", [
+        { propertyName: "scale", defaultValue: "m" },
+        { propertyName: "status", defaultValue: "idle" },
+        { propertyName: "validationIcon", defaultValue: undefined },
+        { propertyName: "validationMessage", defaultValue: undefined },
+      ]);
+    });
+
+    describe("reflects", () => {
+      reflects("calcite-rating", [
+        {
+          propertyName: "scale",
+          value: "m",
+        },
+        {
+          propertyName: "status",
+          value: "invalid",
+        },
+        {
+          propertyName: "validationIcon",
+          value: true,
+        },
+      ]);
     });
   });
 
