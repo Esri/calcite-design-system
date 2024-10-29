@@ -4373,6 +4373,24 @@ export namespace Components {
          */
         "showChip": boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": number;
@@ -4788,6 +4806,10 @@ export namespace Components {
          */
         "snap": boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
           * Specifies the interval to move with the up, or down keys.
          */
         "step": number;
@@ -4795,6 +4817,20 @@ export namespace Components {
           * Displays tick marks on the number line at a specified interval.
          */
         "ticks": number;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
         /**
           * The component's value.
          */
@@ -12622,6 +12658,24 @@ declare namespace LocalJSX {
          */
         "showChip"?: boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: number;
@@ -13055,6 +13109,10 @@ declare namespace LocalJSX {
          */
         "snap"?: boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
           * Specifies the interval to move with the up, or down keys.
          */
         "step"?: number;
@@ -13062,6 +13120,20 @@ declare namespace LocalJSX {
           * Displays tick marks on the number line at a specified interval.
          */
         "ticks"?: number;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
         /**
           * The component's value.
          */
