@@ -14,7 +14,7 @@ An array of event names to ban or an array of objects with the event name and cu
 
 ```json
 {
-  "@esri/calcite-components/ban-props-on-host": [
+  "@esri/calcite-components/ban-events": [
     "error",
     [
       {
