@@ -191,7 +191,7 @@
           }
         },
         "bold": {
-          "value": "{core.font.weight.bold}",
+          "value": "{core.font.weight.semibold}",
           "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
