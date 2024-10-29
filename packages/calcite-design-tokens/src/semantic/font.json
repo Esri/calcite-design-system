@@ -668,6 +668,7 @@
         "tight": {
           "value": "{core.size.default.none} - .4 ",
           "type": "letterSpacing",
+          "description": "deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -692,6 +693,7 @@
         "normal": {
           "value": "{core.size.default.none}",
           "type": "letterSpacing",
+          "description": "deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -716,6 +718,7 @@
         "wide": {
           "value": "{core.size.default.none} + .4 ",
           "type": "letterSpacing",
+          "description": "deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -742,6 +745,7 @@
         "normal": {
           "value": "{core.size.default.4}",
           "type": "paragraphSpacing",
+          "description": "deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -768,6 +772,7 @@
         "none": {
           "value": "{core.font.text-decoration.none}",
           "type": "textDecoration",
+          "description": "deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -818,6 +823,7 @@
         "none": {
           "value": "{core.font.text-case.none}",
           "type": "textCase",
+          "description": "deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -842,6 +848,7 @@
         "uppercase": {
           "value": "{core.font.text-case.uppercase}",
           "type": "textCase",
+          "description": "deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
