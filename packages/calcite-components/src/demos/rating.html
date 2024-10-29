@@ -391,6 +391,38 @@
           <calcite-rating disabled average="3.65" value="2" count="240" show-chip scale="l"></calcite-rating>
         </div>
       </div>
+
+      <!-- Validation message -->
+      <div class="parent">
+        <div class="child right-aligned-text">Validation message</div>
+
+        <div class="child">
+          <calcite-rating
+            scale="s"
+            validation-message="Please select one of these options."
+            status="invalid"
+            validation-icon
+          ></calcite-rating>
+        </div>
+
+        <div class="child">
+          <calcite-rating
+            scale="m"
+            validation-message="Please select one of these options."
+            status="invalid"
+            validation-icon
+          ></calcite-rating>
+        </div>
+
+        <div class="child">
+          <calcite-rating
+            scale="l"
+            validation-message="Please select one of these options."
+            status="invalid"
+            validation-icon
+          ></calcite-rating>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>

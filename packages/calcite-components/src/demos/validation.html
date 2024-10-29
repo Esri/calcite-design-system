@@ -253,10 +253,11 @@
                   label-ticks
                   ticks="2"
                   label="Number of components"
-                  value="0"
                   min="0"
                   max="10"
                   step="1"
+                  required
+                  validation-message="Please select one of these options."
                 ></calcite-slider>
               </calcite-label>
             </li>
@@ -300,7 +301,11 @@
             <li>
               <calcite-label>
                 How many stars would you give Calcite components?
-                <calcite-rating name="rating" value="1"></calcite-rating>
+                <calcite-rating
+                  name="rating"
+                  required
+                  validation-message="Please select one of these options."
+                ></calcite-rating>
               </calcite-label>
             </li>
           </ol>

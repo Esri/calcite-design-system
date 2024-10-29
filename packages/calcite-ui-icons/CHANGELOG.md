@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.33.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.5...@esri/calcite-ui-icons@3.33.0-next.6) (2024-10-26)
+
+### Features
+
+- add user risk ([#10625](https://github.com/Esri/calcite-design-system/issues/10625)) ([36301b1](https://github.com/Esri/calcite-design-system/commit/36301b15d5dba177f17753f9ee31afd7023184d2))
+
+## [3.33.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.4...@esri/calcite-ui-icons@3.33.0-next.5) (2024-10-23)
+
+### Features
+
+- add buffer point, buffer polygon, buffer polyline, contour, offset ([#10594](https://github.com/Esri/calcite-design-system/issues/10594)) ([274cffd](https://github.com/Esri/calcite-design-system/commit/274cffddd311829be9f7b2d0e1a8ebdad5125cc3))
+
+## [3.33.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.3...@esri/calcite-ui-icons@3.33.0-next.4) (2024-10-23)
+
+### Bug Fixes
+
+- updated web-adapter name ([#10581](https://github.com/Esri/calcite-design-system/issues/10581)) ([fc1b875](https://github.com/Esri/calcite-design-system/commit/fc1b875be2575fa1c1fe10d207d24d7847ea2a65))
+
+## [3.33.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.2...@esri/calcite-ui-icons@3.33.0-next.3) (2024-10-21)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [3.33.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.1...@esri/calcite-ui-icons@3.33.0-next.2) (2024-10-17)
+
+### Features
+
+- add drag resize vertical and drag resize horizontal ([#10553](https://github.com/Esri/calcite-design-system/issues/10553)) ([25aeb64](https://github.com/Esri/calcite-design-system/commit/25aeb64495ab3ea4518ec78f236e1ac21496c154))
+
+## [3.33.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.0...@esri/calcite-ui-icons@3.33.0-next.1) (2024-10-09)
+
+### Features
+
+- add portal-other, replica sync enable ([#10517](https://github.com/Esri/calcite-design-system/issues/10517)) ([6b55f02](https://github.com/Esri/calcite-design-system/commit/6b55f02a12a26ce5c21fc45ffbf96953f93d55c3))
+
 ## [3.33.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.32.0-next.5...@esri/calcite-ui-icons@3.33.0-next.0) (2024-10-01)
 
 ### Features
