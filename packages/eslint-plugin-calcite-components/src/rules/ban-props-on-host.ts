@@ -11,6 +11,7 @@ const allowedAttributeName = (attributeName: string): boolean =>
 
 const rule: Rule.RuleModule = {
   meta: {
+    deprecated: true,
     docs: {
       description: "This rule catches usage of banned props on <Host>.",
       category: "Possible Errors",
