@@ -122,11 +122,11 @@ export class Flow implements LoadableComponent {
 
   @State() items: FlowItemLikeElement[] = [];
 
-  selectedIndex = -1;
+  private selectedIndex = -1;
 
   private frameEl: HTMLDivElement;
 
-  itemMutationObserver: MutationObserver = createObserver("mutation", () =>
+  private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserverChange(),
   );
 
