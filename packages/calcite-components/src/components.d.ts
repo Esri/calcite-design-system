@@ -3325,11 +3325,6 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
-          * When `true`, the component's drag handle is selected.
-          * @deprecated use sortHandleOpen instead.
-         */
-        "dragSelected": boolean;
-        /**
           * Hides the component when filtered.
          */
         "filterHidden": boolean;
@@ -7247,7 +7242,6 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
-        "calciteListItemDragHandleChange": void;
         "calciteListItemSortHandleBeforeClose": void;
         "calciteListItemSortHandleClose": void;
         "calciteListItemSortHandleBeforeOpen": void;
@@ -11633,11 +11627,6 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
-          * When `true`, the component's drag handle is selected.
-          * @deprecated use sortHandleOpen instead.
-         */
-        "dragSelected"?: boolean;
-        /**
           * Hides the component when filtered.
          */
         "filterHidden"?: boolean;
@@ -11677,11 +11666,6 @@ declare namespace LocalJSX {
           * Fires when the close button is clicked.
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
-        /**
-          * Fires when the drag handle is selected.
-          * @deprecated use calciteListItemSortHandleOpen instead.
-         */
-        "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the component is selected.
          */

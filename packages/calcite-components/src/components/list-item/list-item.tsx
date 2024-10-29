@@ -137,13 +137,6 @@ export class ListItem
   @Prop() dragHandle = false;
 
   /**
-   * When `true`, the component's drag handle is selected.
-   *
-   * @deprecated use sortHandleOpen instead.
-   */
-  @Prop({ reflect: true }) dragSelected = false;
-
-  /**
    * Hides the component when filtered.
    *
    * @internal
@@ -283,13 +276,6 @@ export class ListItem
    * Fires when the close button is clicked.
    */
   @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
-
-  /**
-   * Fires when the drag handle is selected.
-   *
-   * @deprecated use calciteListItemSortHandleOpen instead.
-   */
-  @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
 
   /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteListItemSortHandleBeforeClose: EventEmitter<void>;
