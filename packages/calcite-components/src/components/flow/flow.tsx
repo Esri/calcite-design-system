@@ -176,7 +176,7 @@ export class Flow implements LoadableComponent {
   }
 
   private resetFlowDirection = (): void => {
-    const runningInE2ETest = Build.isTesting && Build.isBrowser;
+    const runningInE2ETest = Build.isTesting;
 
     if (runningInE2ETest) {
       return;
