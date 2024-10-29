@@ -1,5 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import {
+  accessible,
+  disabled,
+  formAssociated,
+  hidden,
+  HYDRATED_ATTR,
+  labelable,
+  themed,
+} from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -130,5 +140,16 @@ describe("calcite-switch", () => {
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-action`, {
+        "--calcite-switch-background-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
   });
 });
