@@ -70,7 +70,7 @@ function createLocaleDateTimeFormatter({
     timeZone: "UTC",
     numberingSystem: getSupportedNumberingSystem(numberingSystem),
   };
-  if (typeof hour12 === "boolean") {
+  if (hour12 === true || hour12 === false) {
     options.hour12 = hour12;
   }
   if (includeSeconds) {
