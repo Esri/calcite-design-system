@@ -48,7 +48,7 @@ export type CalciteTokenFile = {
 
 export type CalciteTokenFileArguments = {
   name: string;
-  path: string;
+  path: string | string[];
   source?: string[];
   references?: string[];
   options?: ConfigOptions;
