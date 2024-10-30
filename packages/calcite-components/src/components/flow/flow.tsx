@@ -54,7 +54,6 @@ export class Flow implements LoadableComponent {
 
     selectedItem.selected = false;
     nextSelectedItem.selected = true;
-    this.updateFlowProps();
     return nextSelectedItem;
   }
 
