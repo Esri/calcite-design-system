@@ -566,19 +566,14 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(0);
 
-          const initialValue = await inputTimePicker.getProperty("value");
+          const expectedInitialValue = await inputTimePicker.getProperty("value");
+          const expectedLocalizedInitialValue =
+            locale === "es-MX" // test environment treats es-MX as es
+              ? "02:02:30 p. m."
+              : localizeTimeString({ hour12: true, includeSeconds: true, locale, value: expectedInitialValue });
 
-          expect(initialValue).toBe("14:02:30");
-          if (locale === "es-MX") {
-            // test environment treats es-MX as es
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe("02:02:30 p. m.");
-          } else {
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe(
-              localizeTimeString({ hour12: true, includeSeconds: true, locale, value: initialValue }),
-            );
-          }
+          expect(expectedInitialValue).toBe("14:02:30");
+          expect(await getInputValue(page)).toBe(expectedLocalizedInitialValue);
 
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
@@ -600,31 +595,26 @@ describe("calcite-input-time-picker", () => {
           expect(changeEvent).toHaveReceivedEventTimes(1);
 
           const typedValue = await inputTimePicker.getProperty("value");
-          const localizedTypedValue = localizeTimeString({
-            hour12: true,
-            includeSeconds: true,
-            locale,
-            value: typedValue,
-          });
+          const localizedTypedValue =
+            locale === "es-MX" // test environment treats es-MX as es
+              ? "02:30:45 p. m."
+              : localizeTimeString({
+                  hour12: true,
+                  includeSeconds: true,
+                  locale,
+                  value: typedValue,
+                });
 
           expect(typedValue).toBe("14:30:45");
-          if (locale === "es-MX") {
-            // test environment treats es-MX as es
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe("02:30:45 p. m.");
-          } else {
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe(localizedTypedValue);
-          }
+          expect(await getInputValue(page)).toBe(localizedTypedValue);
 
           await page.keyboard.press("Enter");
           await page.waitForChanges();
 
-          if (locale !== "es-MX") {
-            // test environment changes value to 02:30:45 a. m. for some reason even though this isn't happening in real browsers
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(changeEvent).toHaveReceivedEventTimes(1);
-          }
+          // test environment changes value to 02:30:45 a. m. for some reason even though this isn't happening in real browsers
+          let expectedChangeEventCount = locale === "es-MX" ? 2 : 1;
+
+          expect(changeEvent).toHaveReceivedEventTimes(expectedChangeEventCount);
 
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
@@ -640,28 +630,24 @@ describe("calcite-input-time-picker", () => {
           await input.focus();
           await page.waitForChanges();
 
-          if (locale !== "es-MX") {
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(changeEvent).toHaveReceivedEventTimes(2);
-          }
+          // test environment changes value to 02:30:45 a. m. for some reason even though this isn't happening in real browsers
+          expectedChangeEventCount = locale === "es-MX" ? 3 : 2;
+
+          expect(changeEvent).toHaveReceivedEventTimes(expectedChangeEventCount);
 
           const blurredValue = await inputTimePicker.getProperty("value");
-          const localizedBlurredValue = localizeTimeString({
-            hour12: true,
-            includeSeconds: true,
-            locale,
-            value: blurredValue,
-          });
+          const localizedBlurredValue =
+            locale === "es-MX" // test environment treats es-MX as es
+              ? "04:15:30 p. m."
+              : localizeTimeString({
+                  hour12: true,
+                  includeSeconds: true,
+                  locale,
+                  value: blurredValue,
+                });
 
           expect(blurredValue).toBe("16:15:30");
-          if (locale === "es-MX") {
-            // test environment treats es-MX as es
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe("04:15:30 p. m.");
-          } else {
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe(localizedBlurredValue);
-          }
+          expect(await getInputValue(page)).toBe(localizedBlurredValue);
 
           await inputTimePicker.setProperty("hourFormat", "24");
           await page.waitForChanges();
@@ -745,8 +731,10 @@ describe("calcite-input-time-picker", () => {
 
           if (locale === "es-MX") {
             // test environment treats es-MX as es
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe("04:15:30 p. m.");
           } else {
+            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
             expect(await getInputValue(page)).toBe(
               localizeTimeString({
                 hour12: true,
