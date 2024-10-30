@@ -80,9 +80,7 @@
         } else {
           inputTimePickerEl.setAttribute("value", "14:30");
         }
-        labelEl.append(
-          document.createTextNode(`${name} (${locale})${numberingSystemLabel}${hourFormatLabel}${stepLabel}`),
-        );
+        labelEl.textContent = `${name} (${locale})${numberingSystemLabel}${hourFormatLabel}${stepLabel}`;
         labelEl.append(inputTimePickerEl);
 
         return labelEl;
