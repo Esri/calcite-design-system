@@ -1,4 +1,5 @@
 :host {
+  // todo: css variable bg
   @apply flex flex-col bg-foreground-1;
 }
 
@@ -8,6 +9,7 @@
 
 @include disabled();
 
+// todo: css variable text color
 .container {
   @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-medium;
 }

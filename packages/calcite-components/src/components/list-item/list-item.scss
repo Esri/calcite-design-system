@@ -1,4 +1,6 @@
 :host {
+  // todo: css variable bg color
+  // todo: css variable icon color
   @apply flex flex-col bg-foreground-1;
   --calcite-list-item-icon-color: theme("colors.brand");
 }
@@ -9,11 +11,13 @@
 }
 
 .wrapper--bordered {
+  // todo: css variable border color
   border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 @include disabled();
 
+// todo: css variable bg color
 .container {
   @apply bg-foreground-1
   box-border
@@ -25,10 +29,12 @@
   }
 }
 
+// todo: css variable bg color hover
 .container--hover:hover {
   @apply bg-foreground-2 cursor-pointer;
 }
 
+// todo: css variable bg color active
 .container:active {
   @apply bg-foreground-1;
 }
@@ -38,6 +44,7 @@
   border-inline-start-style: solid;
 }
 
+// todo: css variable border color selected
 .container--border-selected {
   border-inline-start-color: theme("colors.brand");
 }
@@ -46,12 +53,14 @@
   border-inline-start-color: transparent;
 }
 
+// todo: css variable border color hover
 .container:hover {
   &.container--border-unselected {
     @apply border-color-1;
   }
 }
 
+// todo: css variable border color
 .nested-container {
   @apply hidden flex-col
     border-solid
@@ -65,6 +74,7 @@
   @apply flex;
 }
 
+// todo: css variable text color
 .content-container {
   @apply text-color-2
     select-none
@@ -113,6 +123,7 @@
   }
 }
 
+// todo: css variable text color
 .label {
   @apply text-color-1;
 }
@@ -121,10 +132,12 @@
   @apply font-medium;
 }
 
+// todo: css variable text color
 .description {
   @apply text-color-3 mt-0.5;
 }
 
+// todo: css variable text color
 :host([selected]) .description {
   @apply text-color-2;
 }
@@ -155,6 +168,7 @@
   @apply flex-initial;
 }
 
+// todo: css variable border color selection
 .selection-container {
   @apply flex py-0;
   color: theme("borderColor.color.input");
@@ -165,20 +179,24 @@
   color: transparent;
 }
 
+// todo: css variable
 :host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
   color: theme("borderColor.color.1");
 }
 
+// todo: css variable
 :host([selected]:hover) .selection-container,
 :host([selected]:hover) .selection-container--single,
 :host([selected]) .selection-container {
   color: var(--calcite-list-item-icon-color);
 }
 
+// todo: css variable
 .open-container {
   color: theme("textColor.color.3");
 }
 
+// todo: css variable
 :host(:not([disabled])) .container:hover .open-container {
   color: theme("textColor.color.1");
 }
