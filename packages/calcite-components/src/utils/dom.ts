@@ -442,7 +442,7 @@ export function setRequestedIcon(
 ): IconNameOrString | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
-  } else if (iconValue === "") {
+  } else if (iconValue === "" || iconValue === true) {
     return iconObject[matchedValue];
   }
 }
