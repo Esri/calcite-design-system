@@ -461,7 +461,7 @@ export class DatePickerMonthHeader {
     const fontStyle = getComputedStyle(this.monthPickerEl).font;
     const localeMonths = this.localeData.months[this.monthStyle];
     const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
-    const selectedOptionWidth = getTextWidth(activeLocaleMonth, fontStyle);
+    const selectedOptionWidth = Math.ceil(getTextWidth(activeLocaleMonth, fontStyle));
     this.monthPickerEl.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
   }
 
