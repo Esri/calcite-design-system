@@ -37,6 +37,7 @@ import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
+import { navigationTokens, navigation } from "./custom-theme/navigation";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -101,26 +102,28 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       }
     </style>
     <div class="demo">
-        <div class="demo-column">
-          ${accordion} ${actionBar} ${notices} ${segmentedControl}
-          <div style="display: flex">
-            ${actionPad}
-            <div style="width: 40px; height: 40px;">${actionMenu}</div>
-            ${icon}
-          </div>
-          ${input} ${inputNumber} ${inputText}
+      <div class="demo-column">
+        ${accordion} ${actionBar} ${notices} ${segmentedControl}
+        <div style="display: flex">
+          ${actionPad}
+          <div style="width: 40px; height: 40px;">${actionMenu}</div>
+          ${icon}
         </div>
-        <div class="demo-column">
-          <div>${card}</div>
-          ${cardThumbnail}
-          <div>${dropdown} ${buttons}</div>
-          <div>${checkbox}</div>
-          ${chips} ${pagination} ${slider}
-        </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile}</div>
-        ${alert}
-        ${navigationUsers}
+        ${input} ${inputNumber} ${inputText}
       </div>
+      <div class="demo-column">
+        <div>${card}</div>
+        ${cardThumbnail}
+        <div>${dropdown} ${buttons}</div>
+        <div>${checkbox}</div>
+        ${chips} ${pagination} ${slider}
+      </div>
+      <div class="demo-column">
+        ${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress}
+        ${handle} ${textArea} ${popover} ${tile}
+      </div>
+      ${alert} ${navigation}
+      ${navigationUsers}
     </div>
   </div>`;
 
@@ -145,6 +148,7 @@ const componentTokens = {
   ...textAreaTokens,
   ...navigationUserTokens,
   ...tileTokens,
+  ...navigationTokens,
 };
 
 export default {
