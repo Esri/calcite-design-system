@@ -2,6 +2,7 @@ import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "../../../src/components/navigation-logo/resources";
+import { boolean } from "../../../.storybook/utils";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
@@ -71,12 +72,17 @@ describe("calcite-navigation-logo", () => {
   });
 
   describe("theme", () => {
-    describe("default", () => {
-      const navigationLogoHtml = html`
-        <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" icon="layers">
-        </calcite-navigation-logo>
-      `;
+    const navigationLogoHtml = (active = false): string => html`
+      <calcite-navigation-logo
+        heading="Walt's Chips"
+        description="Eastern Potato Chip Company"
+        icon="layers"
+        ${boolean("active", active)}
+      >
+      </calcite-navigation-logo>
+    `;
 
+    describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-navigation-background-color": [
           {
@@ -120,21 +126,10 @@ describe("calcite-navigation-logo", () => {
           targetProp: "color",
         },
       };
-      themed(navigationLogoHtml, tokens);
+      themed(navigationLogoHtml(), tokens);
     });
 
     describe("active", () => {
-      const navigationLogoActiveHtml = html`
-        <calcite-navigation-logo
-          active
-          heading="Walt's Chips"
-          description="Eastern Potato Chip Company"
-          icon="layers"
-          active
-        >
-        </calcite-navigation-logo>
-      `;
-
       const tokens: ComponentTestTokens = {
         "--calcite-navigation-logo-border-color": {
           shadowSelector: `.${CSS.anchor}`,
@@ -145,7 +140,7 @@ describe("calcite-navigation-logo", () => {
           targetProp: "color",
         },
       };
-      themed(navigationLogoActiveHtml, tokens);
+      themed(navigationLogoHtml(true), tokens);
     });
   });
 });

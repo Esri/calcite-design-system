@@ -109,17 +109,20 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        <div class="demo-column">
-          <div>${card}</div>
-          ${cardThumbnail}
-          <div>${dropdown} ${buttons}</div>
-          <div>${checkbox}</div>
-          ${chips} ${pagination} ${slider}
-        </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile}</div>
-        ${alert}
-        ${navigationLogos}
-        ${navigation}
+        ${input} ${inputNumber} ${inputText}
+      </div>
+      <div class="demo-column">
+        <div>${card}</div>
+        ${cardThumbnail}
+        <div>${dropdown} ${buttons}</div>
+        <div>${checkbox}</div>
+        ${chips} ${pagination} ${slider}
+      </div>
+      <div class="demo-column">
+        ${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress}
+        ${handle} ${textArea} ${popover} ${tile}
+      </div>
+      ${alert} ${navigation} ${navigationLogos}
     </div>
   </div>`;
 
