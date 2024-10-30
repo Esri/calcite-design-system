@@ -109,9 +109,10 @@
         opacity-0;
     }
     &.hyphen::after {
-      content: "\2014";
+      content: " \2014";
       display: inline-block;
       inline-size: 1em;
+      margin-inline: 0.25rem;
     }
     &.hyphen--wrap {
       display: flex;
@@ -371,6 +372,15 @@
       );
     }
   }
+}
+
+.track--vertical {
+  transform: rotate(-90deg);
+}
+
+.handle__label--vertical,
+.tick__label--vertical {
+  transform: rotate(90deg);
 }
 
 @include hidden-form-input();

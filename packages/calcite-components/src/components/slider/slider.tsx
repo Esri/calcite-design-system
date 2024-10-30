@@ -211,6 +211,8 @@ export class Slider
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -247,6 +249,9 @@ export class Slider
   }
 
   componentDidRender(): void {
+    if (this.layout === "vertical") {
+      return;
+    }
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
       if (isRange(this.value)) {
@@ -273,7 +278,8 @@ export class Slider
     const thumbTypes = this.buildThumbType("max");
     const thumb = this.renderThumb({
       type: thumbTypes,
-      thumbPlacement: thumbTypes.includes("histogram") ? "below" : "above",
+      thumbPlacement:
+        this.layout === "horizontal" && thumbTypes.includes("histogram") ? "below" : "above",
       maxInterval,
       minInterval,
       mirror,
@@ -285,7 +291,9 @@ export class Slider
       this.renderThumb({
         type: minThumbTypes,
         thumbPlacement:
-          minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
+          (this.layout === "horizontal" &&
+            (minThumbTypes.includes("histogram") || minThumbTypes.includes("precise"))) ||
+          (this.layout === "vertical" && valueIsRange && this.precise)
             ? "below"
             : "above",
         maxInterval,
@@ -320,6 +328,7 @@ export class Slider
               [CSS.container]: true,
               [CSS.containerRange]: valueIsRange,
               [`scale--${this.scale}`]: true,
+              [CSS.trackVertical]: this.layout === "vertical",
             }}
           >
             {this.renderGraph()}
@@ -414,7 +423,13 @@ export class Slider
 
     const labels = isLabeled
       ? [
-          <span aria-hidden="true" class={thumbLabelClasses}>
+          <span
+            aria-hidden="true"
+            class={{
+              [thumbLabelClasses]: true,
+              [CSS.handleLabelVertical]: this.layout === "vertical",
+            }}
+          >
             {displayedValue}
           </span>,
           <span aria-hidden="true" class={`${thumbLabelClasses} ${CSS.static}`}>
@@ -439,7 +454,7 @@ export class Slider
     return (
       <div
         aria-label={ariaLabel}
-        aria-orientation="horizontal"
+        aria-orientation={this.layout}
         aria-valuemax={this.max}
         aria-valuemin={this.min}
         aria-valuenow={ariaValuenow}
@@ -497,6 +512,7 @@ export class Slider
           [CSS.tickLabel]: true,
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
+          [CSS.tickLabelVertical]: this.layout === "vertical",
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
@@ -559,8 +575,9 @@ export class Slider
       return;
     }
 
-    const x = event.clientX || event.pageX;
-    const position = this.mapToRange(x);
+    const pointerPos =
+      this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
+    const position = this.mapToRange(pointerPos);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -577,7 +594,7 @@ export class Slider
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
-    this.focusActiveHandle(x);
+    this.focusActiveHandle(pointerPos);
   }
 
   handleTouchStart(event: TouchEvent): void {
@@ -802,7 +819,9 @@ export class Slider
 
     event.preventDefault();
     if (this.dragProp) {
-      const value = this.mapToRange(event.clientX || event.pageX);
+      const valueToTranslate =
+        this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
+      const value = this.mapToRange(valueToTranslate);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -938,13 +957,17 @@ export class Slider
   /**
    * Translate a pixel position to value along the range
    *
-   * @param x
+   * @param pixel
    * @internal
    */
-  private mapToRange(x: number): number {
+  private mapToRange(pixel: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.getBoundingClientRect();
-    const percent = (x - left) / width;
+    const rect = this.trackEl.getBoundingClientRect();
+    const percent =
+      this.layout === "horizontal"
+        ? (pixel - rect.left) / rect.width
+        : (rect.bottom - pixel) / rect.height;
+
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
     const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
@@ -1059,7 +1082,7 @@ export class Slider
     );
 
     const hyphenLabel = leftValueLabel;
-    const labelOffset = labelFontSize / 2;
+    const labelOffset = labelFontSize / 2 + 2;
 
     if (labelTransformedOverlap > 0) {
       hyphenLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
