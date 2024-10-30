@@ -37,6 +37,7 @@ import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
 import { tileTokens, tile } from "./custom-theme/tile";
+import { navigationTokens, navigation } from "./custom-theme/navigation";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -101,14 +102,12 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       }
     </style>
     <div class="demo">
-        <div class="demo-column">
-          ${accordion} ${actionBar} ${notices} ${segmentedControl}
-          <div style="display: flex">
-            ${actionPad}
-            <div style="width: 40px; height: 40px;">${actionMenu}</div>
-            ${icon}
-          </div>
-          ${input} ${inputNumber} ${inputText}
+      <div class="demo-column">
+        ${accordion} ${actionBar} ${notices} ${segmentedControl}
+        <div style="display: flex">
+          ${actionPad}
+          <div style="width: 40px; height: 40px;">${actionMenu}</div>
+          ${icon}
         </div>
         <div class="demo-column">
           <div>${card}</div>
@@ -120,7 +119,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile}</div>
         ${alert}
         ${navigationLogos}
-      </div>
+        ${navigation}
     </div>
   </div>`;
 
@@ -145,6 +144,7 @@ const componentTokens = {
   ...textAreaTokens,
   ...navigationLogoTokens,
   ...tileTokens,
+  ...navigationTokens,
 };
 
 export default {
