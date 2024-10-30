@@ -91,70 +91,60 @@
         await customElements.whenDefined("calcite-input-time-picker");
 
         locales.forEach((options) => {
-          if (options.hourFormat === "12") {
-            h12.append(createInputTimePicker(options));
-            h12.append(
-              createInputTimePicker({
-                ...options,
-                ...{ step: 1 },
-              }),
-            );
-            h12.append(
-              createInputTimePicker({
-                ...options,
-                ...{ step: 0.001 },
-              }),
-            );
-            h12.append(
-              createInputTimePicker({
-                ...options,
-                ...{ hourFormat: "24" },
-              }),
-            );
-            h12.append(
-              createInputTimePicker({
-                ...options,
-                ...{ hourFormat: "24", step: 1 },
-              }),
-            );
-            h12.append(
-              createInputTimePicker({
-                ...options,
-                ...{ hourFormat: "24", step: 0.001 },
-              }),
-            );
+          const { hourFormat } = options;
+          const defaultHourFormat = createInputTimePicker(options);
+          const defaultHourFormatSeconds = createInputTimePicker({
+            ...options,
+            ...{ step: 1 },
+          });
+          const defaultHourFormatMilliSeconds = createInputTimePicker({
+            ...options,
+            ...{ step: 0.001 },
+          });
+          const oppositeHourFormat =
+            hourFormat === "12"
+              ? createInputTimePicker({
+                  ...options,
+                  ...{ hourFormat: "24" },
+                })
+              : createInputTimePicker({
+                  ...options,
+                  ...{ hourFormat: "12" },
+                });
+          const oppositeHourFormatSeconds =
+            hourFormat === "12"
+              ? createInputTimePicker({
+                  ...options,
+                  ...{ hourFormat: "24", step: 1 },
+                })
+              : createInputTimePicker({
+                  ...options,
+                  ...{ hourFormat: "12", step: 1 },
+                });
+          const oppositeHourFormatMilliSeconds =
+            hourFormat === "12"
+              ? createInputTimePicker({
+                  ...options,
+                  ...{ hourFormat: "24", step: 0.001 },
+                })
+              : createInputTimePicker({
+                  ...options,
+                  ...{ hourFormat: "12", step: 0.001 },
+                });
+          if (hourFormat === "12") {
+            h12.append(defaultHourFormat);
+            h12.append(defaultHourFormatSeconds);
+            h12.append(defaultHourFormatMilliSeconds);
+            h12.append(oppositeHourFormat);
+            h12.append(oppositeHourFormatSeconds);
+            h12.append(oppositeHourFormatMilliSeconds);
           } else {
-            h23.append(createInputTimePicker(options));
-            h23.append(
-              createInputTimePicker({
-                ...options,
-                ...{ step: 1 },
-              }),
-            );
-            h23.append(
-              createInputTimePicker({
-                ...options,
-                ...{ step: 0.001 },
-              }),
-            );
-            h23.append(
-              createInputTimePicker({
-                ...options,
-                ...{ hourFormat: "12" },
-              }),
-            );
-            h23.append(
-              createInputTimePicker({
-                ...options,
-                ...{ hourFormat: "12", step: 1 },
-              }),
-            );
-            h23.append(
-              createInputTimePicker({
-                ...options,
-                ...{ hourFormat: "12", step: 0.001 },
-              }),
-            );
+            h23.append(defaultHourFormat);
+            h23.append(defaultHourFormatSeconds);
+            h23.append(defaultHourFormatMilliSeconds);
+            h23.append(oppositeHourFormat);
+            h23.append(oppositeHourFormatSeconds);
+            h23.append(oppositeHourFormatMilliSeconds);
           }
         });
       })();
