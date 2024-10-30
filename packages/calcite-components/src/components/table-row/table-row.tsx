@@ -1,5 +1,4 @@
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
@@ -36,9 +35,9 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
-  private tableRowEl = createRef<HTMLTableRowElement>();
+  private tableRowEl: HTMLTableRowElement;
 
-  private tableRowSlotEl = createRef<HTMLSlotElement>();
+  private tableRowSlotEl: HTMLSlotElement;
 
   // #endregion
 
@@ -111,11 +110,20 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   constructor() {
     super();
+    this.listen("slotchange", this.updateCells);
     this.listenOn<CustomEvent>(
       document,
       "calciteInternalTableRowFocusChange",
       this.calciteInternalTableRowFocusChangeHandler,
     );
+  }
+
+  connectedCallback(): void {
+    this.el.shadowRoot.addEventListener("slotchange", this.handleSlotChange);
+  }
+
+  disconnectedCallback(): void {
+    this.el.shadowRoot.removeEventListener("slotchange", this.handleSlotChange);
   }
 
   /**
@@ -152,7 +160,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   }
 
   loaded(): void {
-    if (this.tableRowEl.value && this.rowCells.length > 0) {
+    if (this.tableRowEl && this.rowCells.length > 0) {
       this.updateCells();
     }
   }
@@ -161,14 +169,18 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   // #region Private Methods
 
+  private handleSlotChange = (): void => {
+    this.updateCells();
+  };
+
   private handleCellChanges(): void {
-    if (this.tableRowEl.value && this.rowCells.length > 0) {
+    if (this.tableRowEl && this.rowCells.length > 0) {
       this.updateCells();
     }
   }
 
   private handleDelayedCellChanges(): void {
-    if (this.tableRowEl.value && this.rowCells.length > 0) {
+    if (this.tableRowEl && this.rowCells.length > 0) {
       requestAnimationFrame(() => this.updateCells());
     }
   }
@@ -274,7 +286,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = this.tableRowSlotEl.value
+    const slottedCells = this.tableRowSlotEl
       ?.assignedElements({ flatten: true })
       ?.filter(
         (el: TableCell["el"] | TableHeader["el"]) =>
@@ -282,7 +294,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       );
 
     const renderedCells = Array.from(
-      this.tableRowEl.value?.querySelectorAll("calcite-table-header, calcite-table-cell"),
+      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
     )?.filter((el: TableCell["el"] | TableHeader["el"]) => el.numberCell || el.selectionCell);
 
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
@@ -308,25 +320,26 @@ export class TableRow extends LitElement implements InteractiveComponent {
     this.cellCount = cells?.length;
   }
 
-  private handleSelectionOfRow(): void {
+  private handleSelectionOfRow = (): void => {
     this.calciteTableRowSelect.emit();
-  }
+  };
 
-  private handleKeyboardSelection(event: KeyboardEvent): void {
+  private handleKeyboardSelection = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
       if (event.key === " ") {
         event.preventDefault();
       }
       this.handleSelectionOfRow();
     }
-  }
+  };
 
   // #endregion
 
   // #region Rendering
 
-  private renderSelectionIcon(): JsxNode {
-    const icon =
+  private renderSelectionIcon(): HTMLElement {
+    const icon = document.createElement("calcite-icon");
+    const iconName =
       this.selectionMode === "multiple" && this.selected
         ? "check-square-f"
         : this.selectionMode === "multiple"
@@ -335,71 +348,58 @@ export class TableRow extends LitElement implements InteractiveComponent {
             ? "circle-f"
             : "circle";
 
-    return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
+    icon.icon = iconName;
+    icon.scale = getIconScale(this.scale);
+
+    return icon;
   }
 
-  private renderSelectableCell(): JsxNode {
-    return this.rowType === "head" ? (
-      <calcite-table-header
-        alignment="center"
-        bodyRowCount={this.bodyRowCount}
-        key="selection-head"
-        onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
-        onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
-        parentRowAlignment={this.alignment}
-        selectedRowCount={this.selectedRowCount}
-        selectedRowCountLocalized={this.selectedRowCountLocalized}
-        selectionCell={true}
-        selectionMode={this.selectionMode}
-      />
-    ) : this.rowType === "body" ? (
-      <calcite-table-cell
-        alignment="center"
-        key="selection-body"
-        onClick={this.handleSelectionOfRow}
-        onKeyDown={this.handleKeyboardSelection}
-        parentRowAlignment={this.alignment}
-        parentRowIsSelected={this.selected}
-        parentRowPositionLocalized={this.positionSectionLocalized}
-        selectionCell={true}
-      >
-        {this.renderSelectionIcon()}
-      </calcite-table-cell>
-    ) : (
-      <calcite-table-cell
-        alignment="center"
-        key="selection-foot"
-        parentRowAlignment={this.alignment}
-        selectionCell={true}
-      />
-    );
+  private renderNumberedCell(): void {
+    const cell =
+      this.rowType === "head"
+        ? document.createElement("calcite-table-header")
+        : document.createElement("calcite-table-cell");
+
+    cell.alignment = "center";
+    cell.numberCell = true;
+    cell.parentRowAlignment = this.alignment;
+
+    if (this.rowType === "body") {
+      cell.textContent = this.positionSectionLocalized;
+    }
+
+    this.tableRowEl.append(cell);
   }
 
-  private renderNumberedCell(): JsxNode {
-    return this.rowType === "head" ? (
-      <calcite-table-header
-        alignment="center"
-        key="numbered-head"
-        numberCell={true}
-        parentRowAlignment={this.alignment}
-      />
-    ) : this.rowType === "body" ? (
-      <calcite-table-cell
-        alignment="center"
-        key="numbered-body"
-        numberCell={true}
-        parentRowAlignment={this.alignment}
-      >
-        {this.positionSectionLocalized}
-      </calcite-table-cell>
-    ) : (
-      <calcite-table-cell
-        alignment="center"
-        key="numbered-foot"
-        numberCell={true}
-        parentRowAlignment={this.alignment}
-      />
-    );
+  private renderSelectableCell(): void {
+    const cell: any =
+      this.rowType === "head"
+        ? document.createElement("calcite-table-header")
+        : document.createElement("calcite-table-cell");
+
+    cell.alignment = "center";
+    cell.selectionCell = true;
+    cell.parentRowAlignment = this.alignment;
+
+    if (this.rowType === "head") {
+      cell.bodyRowCount = this.bodyRowCount;
+      cell.selectedRowCount = this.selectedRowCount;
+      cell.selectedRowCountLocalized = this.selectedRowCountLocalized;
+      cell.selectionMode = this.selectionMode;
+
+      if (this.selectionMode === "multiple") {
+        cell.addEventListener("click", this.handleSelectionOfRow);
+        cell.addEventListener("keydown", this.handleKeyboardSelection);
+      }
+    } else if (this.rowType === "body") {
+      cell.parentRowIsSelected = this.selected;
+      cell.parentRowPositionLocalized = this.positionSectionLocalized;
+      cell.addEventListener("click", this.handleSelectionOfRow);
+      cell.addEventListener("keydown", this.handleKeyboardSelection);
+      cell.append(this.renderSelectionIcon());
+    }
+
+    this.tableRowEl.append(cell);
   }
 
   override render(): JsxNode {
@@ -410,11 +410,27 @@ export class TableRow extends LitElement implements InteractiveComponent {
           ariaSelected={this.selected}
           class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
           onKeyDown={this.keyDownHandler}
-          ref={this.tableRowEl}
+          ref={(el) => {
+            if (!el || this.tableRowEl) {
+              return;
+            }
+
+            this.tableRowEl = el;
+            if (this.numbered) {
+              this.renderNumberedCell();
+            }
+
+            if (this.selectionMode !== "none") {
+              this.renderSelectableCell();
+            }
+
+            const defaultSlot = document.createElement("slot");
+            el.append(defaultSlot);
+
+            this.tableRowSlotEl = defaultSlot;
+          }}
         >
-          {this.numbered && this.renderNumberedCell()}
-          {this.selectionMode !== "none" && this.renderSelectableCell()}
-          <slot onSlotChange={this.updateCells} ref={this.tableRowSlotEl} />
+          {/*contents are generated programmatically to work around HTML parser issue*/}
         </tr>
       </InteractiveContainer>
     );

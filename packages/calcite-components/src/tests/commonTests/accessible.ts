@@ -26,6 +26,7 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
 
     await page.addScriptTag({ path: require.resolve("axe-core") });
     await page.waitForFunction(() => (window as AxeOwningWindow).axe);
+    await page.waitForTimeout(500);
 
     expect(
       await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag),

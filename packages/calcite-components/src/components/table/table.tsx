@@ -53,11 +53,11 @@ export class Table extends LitElement implements LoadableComponent {
 
   private paginationEl = createRef<Pagination["el"]>();
 
-  private tableBodySlotEl = createRef<HTMLSlotElement>();
+  private tableBodySlotEl: HTMLSlotElement;
 
-  private tableFootSlotEl = createRef<HTMLSlotElement>();
+  private tableFootSlotEl: HTMLSlotElement;
 
-  private tableHeadSlotEl = createRef<HTMLSlotElement>();
+  private tableHeadSlotEl: HTMLSlotElement;
 
   // #endregion
 
@@ -108,7 +108,7 @@ export class Table extends LitElement implements LoadableComponent {
    * @notPublic
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** When `true`, displays the position of the row in numeric form. */
   @property({ reflect: true }) numbered = false;
@@ -127,7 +127,11 @@ export class Table extends LitElement implements LoadableComponent {
    *
    * @readonly
    */
-  @property() selectedItems: TableRow["el"][] = [];
+  @property() get selectedItems(): TableRow["el"][] {
+    return this._selectedItems;
+  }
+
+  @state() _selectedItems: TableRow["el"][] = [];
 
   /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
@@ -179,10 +183,17 @@ export class Table extends LitElement implements LoadableComponent {
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
 
+  connectedCallback(): void {
+    this.el.shadowRoot.addEventListener("slotchange", this.handleSlotChange);
+  }
+
+  disconnectedCallback(): void {
+    this.el.shadowRoot.removeEventListener("slotchange", this.handleSlotChange);
+  }
+
   async load(): Promise<void> {
     setUpLoadableComponent(this);
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
-    this.updateRows();
   }
 
   /**
@@ -216,6 +227,10 @@ export class Table extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Methods
+
+  private handleSlotChange = (): void => {
+    this.updateRows();
+  };
 
   private handleNumberedChange(): void {
     this.updateRows();
@@ -287,9 +302,9 @@ export class Table extends LitElement implements LoadableComponent {
   }
 
   private updateRows(): void {
-    const headRows = this.getSlottedRows(this.tableHeadSlotEl.value) || [];
-    const bodyRows = this.getSlottedRows(this.tableBodySlotEl.value) || [];
-    const footRows = this.getSlottedRows(this.tableFootSlotEl.value) || [];
+    const headRows = this.getSlottedRows(this.tableHeadSlotEl) || [];
+    const bodyRows = this.getSlottedRows(this.tableBodySlotEl) || [];
+    const footRows = this.getSlottedRows(this.tableFootSlotEl) || [];
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
     headRows?.forEach((row) => {
@@ -356,7 +371,7 @@ export class Table extends LitElement implements LoadableComponent {
 
   private updateSelectedItems(emit?: boolean): void {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
-    this.selectedItems = selectedItems;
+    this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
     this.allRows?.forEach((row) => {
       row.selectedRowCount = this.selectedCount;
@@ -401,7 +416,7 @@ export class Table extends LitElement implements LoadableComponent {
   // #region Rendering
 
   private renderSelectionArea(): JsxNode {
-    const outOfViewCount = this.selectedItems?.filter((el) => el.hidden)?.length;
+    const outOfViewCount = this._selectedItems?.filter((el) => el.hidden)?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;
@@ -457,30 +472,6 @@ export class Table extends LitElement implements LoadableComponent {
     );
   }
 
-  private renderTHead(): JsxNode {
-    return (
-      <thead>
-        <slot name={SLOTS.tableHeader} onSlotChange={this.updateRows} ref={this.tableHeadSlotEl} />
-      </thead>
-    );
-  }
-
-  private renderTBody(): JsxNode {
-    return (
-      <tbody>
-        <slot onSlotChange={this.updateRows} ref={this.tableBodySlotEl} />
-      </tbody>
-    );
-  }
-
-  private renderTFoot(): JsxNode {
-    return (
-      <tfoot>
-        <slot name={SLOTS.tableFooter} onSlotChange={this.updateRows} ref={this.tableFootSlotEl} />
-      </tfoot>
-    );
-  }
-
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
@@ -496,15 +487,37 @@ export class Table extends LitElement implements LoadableComponent {
         >
           <table
             ariaColCount={this.colCount}
-            ariaMultiSelectable={this.selectionMode === "multiple"}
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}
+            ref={(el) => {
+              if (!el || this.tableHeadSlotEl) {
+                return;
+              }
+
+              const thead = el.querySelector("thead");
+              const tbody = el.querySelector("tbody");
+              const tfoot = el.querySelector("tfoot");
+
+              const theadSlot = document.createElement("slot");
+              theadSlot.name = SLOTS.tableHeader;
+              this.tableHeadSlotEl = theadSlot;
+              thead.append(theadSlot);
+
+              const tbodySlot = document.createElement("slot");
+              this.tableBodySlotEl = tbodySlot;
+              tbody.append(tbodySlot);
+
+              const tfootSlot = document.createElement("slot");
+              tfootSlot.name = SLOTS.tableFooter;
+              this.tableFootSlotEl = tfootSlot;
+              tfoot.append(tfootSlot);
+            }}
             role={this.interactionMode === "interactive" ? "grid" : "table"}
           >
             <caption class={CSS.assistiveText}>{this.caption}</caption>
-            {this.renderTHead()}
-            {this.renderTBody()}
-            {this.renderTFoot()}
+            <thead>{/* slots added programmatically to work around HTML parser issue */}</thead>
+            <tbody>{/* slots added programmatically to work around HTML parser issue */}</tbody>
+            <tfoot>{/* slots added programmatically to work around HTML parser issue */}</tfoot>
           </table>
         </div>
         {this.pageSize > 0 && this.renderPaginationArea()}
