@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.1...@esri/calcite-components@3.0.0-next.2) (2024-10-31)
+
+### ⚠ BREAKING CHANGES
+
+- floating-ui elements no longer take up space when closed (#10241)
+
+### Bug Fixes
+
+- floating-ui elements no longer take up space when closed ([#10241](https://github.com/Esri/calcite-design-system/issues/10241)) ([91d9b2e](https://github.com/Esri/calcite-design-system/commit/91d9b2e71338faeec24575b98a6b928482cfaee1)), closes [#10240](https://github.com/Esri/calcite-design-system/issues/10240)
+
 ## [3.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.0...@esri/calcite-components@3.0.0-next.1) (2024-10-31)
 
 ### ⚠ BREAKING CHANGES
