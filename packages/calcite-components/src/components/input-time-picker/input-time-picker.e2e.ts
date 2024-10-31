@@ -729,21 +729,17 @@ describe("calcite-input-time-picker", () => {
           await inputTimePicker.setProperty("hourFormat", "12");
           await page.waitForChanges();
 
-          if (locale === "es-MX") {
-            // test environment treats es-MX as es
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe("04:15:30 p. m.");
-          } else {
-            /* eslint-disable jest/no-conditional-expect -- Using conditional logic to handle quirk with Mexican Spanish in looped test so as not to maintain a separate test. **/
-            expect(await getInputValue(page)).toBe(
-              localizeTimeString({
-                hour12: true,
-                includeSeconds: true,
-                locale,
-                value: await inputTimePicker.getProperty("value"),
-              }),
-            );
-          }
+          const expectedInputValue =
+            locale === "es-MX"
+              ? "04:15:30 p. m." // test environment treats es-MX as es
+              : localizeTimeString({
+                  hour12: true,
+                  includeSeconds: true,
+                  locale,
+                  value: await inputTimePicker.getProperty("value"),
+                });
+
+          expect(await getInputValue(page)).toBe(expectedInputValue);
         });
       });
     });
