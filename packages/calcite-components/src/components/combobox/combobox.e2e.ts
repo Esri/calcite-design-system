@@ -556,7 +556,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await combobox.type("group");
       await page.waitForChanges();
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       const one = await page.find("#value1");
       const two = await page.find("#value2");
@@ -578,7 +578,7 @@ describe("calcite-combobox", () => {
 
       await combobox.type("1");
       await page.waitForChanges();
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       expect(await group1.isVisible()).toBeTruthy();
       expect(await one.isVisible()).toBeTruthy();
@@ -611,17 +611,17 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await combobox.type("an");
       await page.waitForChanges();
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       const one = await page.find("#one");
       const two = await page.find("#two");
       const three = await page.find("#three");
-
       expect(await one.isVisible()).toBeFalsy();
       expect(await two.isVisible()).toBeFalsy();
       expect(await three.isVisible()).toBeTruthy();
 
       await combobox.type("m");
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
       await page.waitForChanges();
       expect(await one.isVisible()).toBeFalsy();
       expect(await two.isVisible()).toBeFalsy();
