@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.2...@esri/calcite-components@3.0.0-next.3) (2024-10-31)
+
+### Bug Fixes
+
+- **sort-handle:** adjust icon color ([#10663](https://github.com/Esri/calcite-design-system/issues/10663)) ([1c586f2](https://github.com/Esri/calcite-design-system/commit/1c586f2be360c3d6aec395988e993ac80e015ec1)), closes [#7537](https://github.com/Esri/calcite-design-system/issues/7537)
+
 ## [3.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.1...@esri/calcite-components@3.0.0-next.2) (2024-10-31)
 
 ### ⚠ BREAKING CHANGES
