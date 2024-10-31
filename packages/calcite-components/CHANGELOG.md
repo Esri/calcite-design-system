@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.20...@esri/calcite-components@3.0.0-next.0) (2024-10-31)
+
+### ⚠ BREAKING CHANGES
+
+- **pick-list, pick-list-group, pick-list-item, value-list, value-list-group, value-list-item:** Use the `List` component instead.
+- **action-bar, action-pad:** When slotting actions within the component you must now
+  set `textEnabled` on them if necessary.
+
+### Features
+
+- add default focus color token ([#10512](https://github.com/Esri/calcite-design-system/issues/10512)) ([b78626c](https://github.com/Esri/calcite-design-system/commit/b78626c17ee415b6cf95ac0db83bd08250b69f66)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180) [#10510](https://github.com/Esri/calcite-design-system/issues/10510)
+- **navigation:** add component tokens ([#10644](https://github.com/Esri/calcite-design-system/issues/10644)) ([7b9efea](https://github.com/Esri/calcite-design-system/commit/7b9efeaf150f092a4ceb8d308e8f2cc5695a6d19)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** Do not modify text-enabled on slotted actions unless expanded is toggled ([#9554](https://github.com/Esri/calcite-design-system/issues/9554)) ([b379374](https://github.com/Esri/calcite-design-system/commit/b379374f059fd0d367c7d238ee988d7c117f3eac)), closes [#8886](https://github.com/Esri/calcite-design-system/issues/8886)
+
+### Code Refactoring
+
+- **pick-list, pick-list-group, pick-list-item, value-list, value-list-group, value-list-item:** Remove deprecated components. ([#10653](https://github.com/Esri/calcite-design-system/issues/10653)) ([a99368d](https://github.com/Esri/calcite-design-system/commit/a99368d3f33ea7dd9a1bc5768a20e22c1bd9e770)), closes [#9296](https://github.com/Esri/calcite-design-system/issues/9296) [#9297](https://github.com/Esri/calcite-design-system/issues/9297)
+
 ## [2.14.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.14.0-next.19...@esri/calcite-components@2.14.0-next.20) (2024-10-30)
 
 **Note:** Version bump only for package @esri/calcite-components
