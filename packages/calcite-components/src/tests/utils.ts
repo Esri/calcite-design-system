@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { BoundingBox } from "puppeteer";
+import { BoundingBox, ElementHandle } from "puppeteer";
 import type { JSX } from "../components";
 import { ComponentTag } from "./commonTests/interfaces";
 
@@ -301,10 +301,7 @@ export async function waitForAnimationFrame(): Promise<void> {
  */
 export async function newProgrammaticE2EPage(): Promise<E2EPage> {
   const page = await newE2EPage();
-  // we need to initialize the page with any component to ensure they are available in the browser context
-  await page.setContent("<calcite-icon></calcite-icon>");
-  await page.evaluate(() => document.querySelector("calcite-icon").remove());
-
+  await page.setContent("");
   return page;
 }
 
@@ -324,9 +321,7 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
  */
 export async function skipAnimations(page: E2EPage): Promise<void> {
   await page.addStyleTag({
-    // using 0.01 to ensure `openCloseComponent` utils work consistently
-    // this should be removed once https://github.com/Esri/calcite-design-system/issues/6604 is addressed
-    content: `:root { --calcite-duration-factor: 0.01; }`,
+    content: `:root { --calcite-duration-factor: 0; }`,
   });
 }
 
@@ -526,4 +521,18 @@ export async function assertCaretPosition({
       shadowInputTypeSelector,
     ),
   ).toBeTruthy();
+}
+
+/**
+ * This utils helps to get the element handle from an E2EElement.
+ *
+ * @param element - the E2E element
+ * @returns {Promise<ElementHandle>} - the element handle
+ */
+export async function toElementHandle(element: E2EElement): Promise<ElementHandle> {
+  type E2EElementInternal = E2EElement & {
+    _elmHandle: ElementHandle;
+  };
+
+  return (element as E2EElementInternal)._elmHandle;
 }

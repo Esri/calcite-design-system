@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -35,8 +35,8 @@ import { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
+import { DateLocaleData } from "./components/date-picker/utils";
 import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -61,6 +61,7 @@ import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
+import { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
 import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 import { MenuMessages } from "./components/menu/assets/menu/t9n";
 import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
@@ -70,15 +71,14 @@ import { ModalMessages } from "./components/modal/assets/modal/t9n";
 import { NoticeMessages } from "./components/notice/assets/notice/t9n";
 import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 import { PanelMessages } from "./components/panel/assets/panel/t9n";
-import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
-import { ICON_TYPES } from "./components/pick-list/resources";
-import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
 import { PopoverMessages } from "./components/popover/assets/popover/t9n";
 import { RatingMessages } from "./components/rating/assets/rating/t9n";
 import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+import { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
+import { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -98,9 +98,7 @@ import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces
 import { TipMessages } from "./components/tip/assets/tip/t9n";
 import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
-import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
-import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -130,8 +128,8 @@ export { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
+export { DateLocaleData } from "./components/date-picker/utils";
 export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -156,6 +154,7 @@ export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
+export { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
 export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 export { MenuMessages } from "./components/menu/assets/menu/t9n";
 export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
@@ -165,15 +164,14 @@ export { ModalMessages } from "./components/modal/assets/modal/t9n";
 export { NoticeMessages } from "./components/notice/assets/notice/t9n";
 export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 export { PanelMessages } from "./components/panel/assets/panel/t9n";
-export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
-export { ICON_TYPES } from "./components/pick-list/resources";
-export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
 export { PopoverMessages } from "./components/popover/assets/popover/t9n";
 export { RatingMessages } from "./components/rating/assets/rating/t9n";
 export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+export { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
+export { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -193,8 +191,6 @@ export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces
 export { TipMessages } from "./components/tip/assets/tip/t9n";
 export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
-export { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
-export { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export namespace Components {
     interface CalciteAccordion {
         /**
@@ -1503,6 +1499,10 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max": string;
@@ -1526,6 +1526,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -1635,9 +1639,17 @@ export namespace Components {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -1647,9 +1659,21 @@ export namespace Components {
          */
         "max": Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -1689,6 +1713,14 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -2021,6 +2053,7 @@ export namespace Components {
     interface CalciteFlow {
         /**
           * Removes the currently active `calcite-flow-item`.
+          * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
          */
         "back": () => Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>;
         /**
@@ -2029,6 +2062,7 @@ export namespace Components {
         "customItemSelectors": string;
         /**
           * Sets focus on the component.
+          * @returns Promise<void>
          */
         "setFocus": () => Promise<void>;
     }
@@ -2108,6 +2142,10 @@ export namespace Components {
           * @returns - promise that resolves once the content is scrolled to.
          */
         "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
+        /**
+          * When true, flow-item is displayed within a parent flow.
+         */
+        "selected": boolean;
         /**
           * Sets focus on the component.
           * @returns promise.
@@ -2489,6 +2527,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -3196,6 +3238,10 @@ export namespace Components {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label": string;
@@ -3275,13 +3321,13 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
-          * When `true`, the component's drag handle is selected.
-         */
-        "dragSelected": boolean;
-        /**
           * Hides the component when filtered.
          */
         "filterHidden": boolean;
+        /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -3298,6 +3344,10 @@ export namespace Components {
           * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
          */
         "metadata": Record<string, unknown>;
+        /**
+          * Sets the item to display a border.
+         */
+        "moveToItems": MoveTo[];
         /**
           * When `true`, the item is open to show child components.
          */
@@ -3322,13 +3372,17 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setPosition": number;
         /**
-          * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setSize": number;
+        /**
+          * When `true`, displays and positions the sort handle.
+         */
+        "sortHandleOpen": boolean;
         /**
           * When `true`, the component's content appears inactive.
          */
@@ -3933,139 +3987,6 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickList {
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        /**
-          * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
-         */
-        "filterEnabled": boolean;
-        /**
-          * Placeholder text for the filter input field.
-         */
-        "filterPlaceholder": string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText": string;
-        /**
-          * The component's filtered data.
-          * @readonly
-         */
-        "filteredData": ItemData1;
-        /**
-          * The component's filtered items.
-          * @readonly
-         */
-        "filteredItems": HTMLCalcitePickListItemElement[];
-        /**
-          * Returns the component's selected `calcite-pick-list-item`s.
-         */
-        "getSelectedItems": () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel": HeadingLevel;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading": boolean;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-pick-list-item`s at a time. When `false`, only a single `calcite-pick-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple": boolean;
-        /**
-          * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus": boolean;
-        /**
-          * Sets focus on the component's first focusable element.
-          * @param focusId
-         */
-        "setFocus": (focusId?: ListFocusId) => Promise<void>;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListGroup {
-        /**
-          * Specifies the title for all nested `calcite-pick-list-item`s.
-         */
-        "groupTitle": string;
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel": HeadingLevel;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description": string;
-        /**
-          * When `false`, the component cannot be deselected by user interaction.
-         */
-        "deselectDisabled": boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon": ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl": boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides": Partial<PickListItemMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages": PickListItemMessages;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata": Record<string, unknown>;
-        "nonInteractive": boolean;
-        /**
-          * When `true`, displays a remove action that removes the item from the list.
-         */
-        "removable": boolean;
-        /**
-          * When `true`, selects an item. Toggles when an item is checked/unchecked.
-         */
-        "selected": boolean;
-        /**
-          * Sets focus on the component.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * Toggles the selection state. By default this won't trigger an event. The first argument allows the value to be coerced, rather than swapping values.
-          * @param coerce
-         */
-        "toggleSelected": (coerce?: boolean) => Promise<void>;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
     interface CalcitePopover {
         /**
           * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
@@ -4325,6 +4246,24 @@ export namespace Components {
          */
         "showChip": boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": number;
@@ -4568,6 +4507,9 @@ export namespace Components {
          */
         "contentBehind": boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
@@ -4737,6 +4679,10 @@ export namespace Components {
          */
         "snap": boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
           * Specifies the interval to move with the up, or down keys.
          */
         "step": number;
@@ -4745,9 +4691,87 @@ export namespace Components {
          */
         "ticks": number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": null | number | number[];
+    }
+    interface CalciteSortHandle {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement1[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label": string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems": number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<SortHandleMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages": SortHandleMessages;
+        /**
+          * Defines the "Move to" items.
+         */
+        "moveToItems": MoveTo[];
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning1;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement": MenuPlacement1;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The current position of the handle.
+         */
+        "setPosition": number;
+        /**
+          * The total number of sortable items.
+         */
+        "setSize": number;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale": Scale;
     }
     interface CalciteSortableList {
         /**
@@ -5839,139 +5863,6 @@ export namespace Components {
         "selected": boolean;
         "selectionMode": SelectionMode;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueList {
-        /**
-          * When provided, the method will be called to determine whether the element can move from the list.
-         */
-        "canPull": (detail: DragDetail) => boolean;
-        /**
-          * When provided, the method will be called to determine whether the element can be added from another list.
-         */
-        "canPut": (detail: DragDetail) => boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        /**
-          * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
-         */
-        "dragEnabled": boolean;
-        /**
-          * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
-         */
-        "filterEnabled": boolean;
-        /**
-          * Placeholder text for the filter's input field.
-         */
-        "filterPlaceholder": string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText": string;
-        /**
-          * The currently filtered data.
-          * @readonly
-         */
-        "filteredData": ItemData1;
-        /**
-          * The currently filtered items.
-          * @readonly
-         */
-        "filteredItems": HTMLCalciteValueListItemElement[];
-        /**
-          * Returns the component's selected items.
-         */
-        "getSelectedItems": () => Promise<Map<string, HTMLCalciteValueListItemElement>>;
-        /**
-          * The component's group identifier.  To drag elements from one list into another, both lists must have the same group value.
-         */
-        "group"?: string;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading": boolean;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides": Partial<ValueListMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages": ValueListMessages;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-value-list-item`s at a time. When `false`, only a single `calcite-value-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple": boolean;
-        /**
-          * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus": boolean;
-        /**
-          * Sets focus on the component's first focusable element.
-          * @param focusId
-         */
-        "setFocus": (focusId?: ListFocusId) => Promise<void>;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description"?: string;
-        "deselectDisabled": boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        "handleActivated"?: boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon"?: ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl": boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata"?: Record<string, unknown>;
-        /**
-          * When `true`, prevents the content of the component from user interaction.
-         */
-        "nonInteractive": boolean;
-        /**
-          * When `true`, adds an action to remove the component.
-         */
-        "removable": boolean;
-        /**
-          * When `true`, the component is selected.
-         */
-        "selected": boolean;
-        /**
-          * Set focus on the component.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * Toggle the selection state. By default this won't trigger an event. The first argument allows the value to be coerced, rather than swapping values.
-          * @param coerce
-         */
-        "toggleSelected": (coerce?: boolean) => Promise<void>;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
 }
 export interface CalciteAccordionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6165,14 +6056,6 @@ export interface CalcitePanelCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalcitePanelElement;
 }
-export interface CalcitePickListCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalcitePickListElement;
-}
-export interface CalcitePickListItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalcitePickListItemElement;
-}
 export interface CalcitePopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalcitePopoverElement;
@@ -6212,6 +6095,10 @@ export interface CalciteShellPanelCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSliderElement;
+}
+export interface CalciteSortHandleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteSortHandleElement;
 }
 export interface CalciteSortableListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6288,14 +6175,6 @@ export interface CalciteTreeCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteTreeItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteTreeItemElement;
-}
-export interface CalciteValueListCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteValueListElement;
-}
-export interface CalciteValueListItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteValueListItemElement;
 }
 declare global {
     interface HTMLCalciteAccordionElementEventMap {
@@ -6692,7 +6571,7 @@ declare global {
         new (): HTMLCalciteDatePickerElement;
     };
     interface HTMLCalciteDatePickerDayElementEventMap {
-        "calciteDaySelect": void;
+        "calciteInternalDaySelect": void;
         "calciteInternalDayHover": void;
     }
     interface HTMLCalciteDatePickerDayElement extends Components.CalciteDatePickerDay, HTMLStencilElement {
@@ -6710,10 +6589,14 @@ declare global {
         new (): HTMLCalciteDatePickerDayElement;
     };
     interface HTMLCalciteDatePickerMonthElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
-        "calciteInternalDatePickerHover": Date;
-        "calciteInternalDatePickerActiveDateChange": Date;
-        "calciteInternalDatePickerMouseOut": void;
+        "calciteInternalDatePickerDaySelect": Date;
+        "calciteInternalDatePickerDayHover": Date;
+        "calciteInternalDatePickerMonthActiveDateChange": Date;
+        "calciteInternalDatePickerMonthMouseOut": void;
+        "calciteInternalDatePickerMonthChange": {
+    date: Date;
+    position: string;
+  };
     }
     interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6730,7 +6613,7 @@ declare global {
         new (): HTMLCalciteDatePickerMonthElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
+        "calciteInternalDatePickerMonthHeaderSelectChange": Date;
     }
     interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6859,6 +6742,7 @@ declare global {
         "calciteFlowItemScroll": void;
         "calciteFlowItemClose": void;
         "calciteFlowItemToggle": void;
+        "calciteInternalFlowItemChange": void;
     }
     interface HTMLCalciteFlowItemElement extends Components.CalciteFlowItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(type: K, listener: (this: HTMLCalciteFlowItemElement, ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7109,7 +6993,10 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
-        "calciteListItemDragHandleChange": void;
+        "calciteListItemSortHandleBeforeClose": void;
+        "calciteListItemSortHandleClose": void;
+        "calciteListItemSortHandleBeforeOpen": void;
+        "calciteListItemSortHandleOpen": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
@@ -7329,67 +7216,6 @@ declare global {
         prototype: HTMLCalcitePanelElement;
         new (): HTMLCalcitePanelElement;
     };
-    interface HTMLCalcitePickListElementEventMap {
-        "calciteListChange": Map<string, HTMLCalcitePickListItemElement>;
-        "calciteListFilter": void;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalcitePickListElement extends Components.CalcitePickList, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalcitePickListElement: {
-        prototype: HTMLCalcitePickListElement;
-        new (): HTMLCalcitePickListElement;
-    };
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalcitePickListGroupElement extends Components.CalcitePickListGroup, HTMLStencilElement {
-    }
-    var HTMLCalcitePickListGroupElement: {
-        prototype: HTMLCalcitePickListGroupElement;
-        new (): HTMLCalcitePickListGroupElement;
-    };
-    interface HTMLCalcitePickListItemElementEventMap {
-        "calciteListItemChange": {
-    item: HTMLCalcitePickListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  };
-        "calciteListItemRemove": void;
-        "calciteInternalListItemPropsChange": void;
-        "calciteInternalListItemValueChange": {
-    oldValue: any;
-    newValue: any;
-  };
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalcitePickListItemElement extends Components.CalcitePickListItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalcitePickListItemElement: {
-        prototype: HTMLCalcitePickListItemElement;
-        new (): HTMLCalcitePickListItemElement;
-    };
     interface HTMLCalcitePopoverElementEventMap {
         "calcitePopoverBeforeClose": void;
         "calcitePopoverClose": void;
@@ -7553,6 +7379,9 @@ declare global {
         prototype: HTMLCalciteShellElement;
         new (): HTMLCalciteShellElement;
     };
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface HTMLCalciteShellCenterRowElement extends Components.CalciteShellCenterRow, HTMLStencilElement {
     }
     var HTMLCalciteShellCenterRowElement: {
@@ -7594,6 +7423,28 @@ declare global {
     var HTMLCalciteSliderElement: {
         prototype: HTMLCalciteSliderElement;
         new (): HTMLCalciteSliderElement;
+    };
+    interface HTMLCalciteSortHandleElementEventMap {
+        "calciteSortHandleBeforeClose": void;
+        "calciteSortHandleBeforeOpen": void;
+        "calciteSortHandleReorder": ReorderEventDetail;
+        "calciteSortHandleMove": MoveEventDetail;
+        "calciteSortHandleClose": void;
+        "calciteSortHandleOpen": void;
+    }
+    interface HTMLCalciteSortHandleElement extends Components.CalciteSortHandle, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteSortHandleElementEventMap>(type: K, listener: (this: HTMLCalciteSortHandleElement, ev: CalciteSortHandleCustomEvent<HTMLCalciteSortHandleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteSortHandleElementEventMap>(type: K, listener: (this: HTMLCalciteSortHandleElement, ev: CalciteSortHandleCustomEvent<HTMLCalciteSortHandleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteSortHandleElement: {
+        prototype: HTMLCalciteSortHandleElement;
+        new (): HTMLCalciteSortHandleElement;
     };
     interface HTMLCalciteSortableListElementEventMap {
         "calciteListOrderChange": void;
@@ -8000,55 +7851,6 @@ declare global {
         prototype: HTMLCalciteTreeItemElement;
         new (): HTMLCalciteTreeItemElement;
     };
-    interface HTMLCalciteValueListElementEventMap {
-        "calciteListChange": Map<string, HTMLCalciteValueListItemElement>;
-        "calciteListOrderChange": any[];
-        "calciteListFilter": void;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalciteValueListElement extends Components.CalciteValueList, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalciteValueListElement: {
-        prototype: HTMLCalciteValueListElement;
-        new (): HTMLCalciteValueListElement;
-    };
-    interface HTMLCalciteValueListItemElementEventMap {
-        "calciteListItemChange": {
-    item: HTMLCalciteValueListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  };
-        "calciteListItemRemove": void;
-        "calciteValueListItemDragHandleBlur": ListItemAndHandle;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalciteValueListItemElement extends Components.CalciteValueListItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalciteValueListItemElement: {
-        prototype: HTMLCalciteValueListItemElement;
-        new (): HTMLCalciteValueListItemElement;
-    };
     interface HTMLElementTagNameMap {
         "calcite-accordion": HTMLCalciteAccordionElement;
         "calcite-accordion-item": HTMLCalciteAccordionItemElement;
@@ -8116,9 +7918,6 @@ declare global {
         "calcite-option-group": HTMLCalciteOptionGroupElement;
         "calcite-pagination": HTMLCalcitePaginationElement;
         "calcite-panel": HTMLCalcitePanelElement;
-        "calcite-pick-list": HTMLCalcitePickListElement;
-        "calcite-pick-list-group": HTMLCalcitePickListGroupElement;
-        "calcite-pick-list-item": HTMLCalcitePickListItemElement;
         "calcite-popover": HTMLCalcitePopoverElement;
         "calcite-progress": HTMLCalciteProgressElement;
         "calcite-radio-button": HTMLCalciteRadioButtonElement;
@@ -8133,6 +7932,7 @@ declare global {
         "calcite-shell-center-row": HTMLCalciteShellCenterRowElement;
         "calcite-shell-panel": HTMLCalciteShellPanelElement;
         "calcite-slider": HTMLCalciteSliderElement;
+        "calcite-sort-handle": HTMLCalciteSortHandleElement;
         "calcite-sortable-list": HTMLCalciteSortableListElement;
         "calcite-split-button": HTMLCalciteSplitButtonElement;
         "calcite-stack": HTMLCalciteStackElement;
@@ -8159,8 +7959,6 @@ declare global {
         "calcite-tooltip": HTMLCalciteTooltipElement;
         "calcite-tree": HTMLCalciteTreeElement;
         "calcite-tree-item": HTMLCalciteTreeItemElement;
-        "calcite-value-list": HTMLCalciteValueListElement;
-        "calcite-value-list-item": HTMLCalciteValueListItemElement;
     }
 }
 declare namespace LocalJSX {
@@ -9536,6 +9334,10 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max"?: string;
@@ -9559,6 +9361,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -9622,13 +9428,13 @@ declare namespace LocalJSX {
          */
         "highlighted"?: boolean;
         /**
-          * Fires when user selects day.
-         */
-        "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
-        /**
           * Fires when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
+        /**
+          * Fires when user selects day.
+         */
+        "onCalciteInternalDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
           * When `true`, activates the component's range mode to allow a start and end date.
          */
@@ -9672,9 +9478,17 @@ declare namespace LocalJSX {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -9684,22 +9498,41 @@ declare namespace LocalJSX {
          */
         "max"?: Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
         /**
-          * Active date for the user keyboard access.
+          * Specifies the monthStyle used by the component.
          */
-        "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Fires when user hovers the date.
          */
-        "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
-        "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        "onCalciteInternalDatePickerDayHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
           * Fires when user selects the date.
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerDaySelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Active date for the user keyboard access.
+         */
+        "onCalciteInternalDatePickerMonthActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+         */
+        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{
+    date: Date;
+    position: string;
+  }>) => void;
+        "onCalciteInternalDatePickerMonthMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range"?: boolean;
         /**
           * Specifies the size of the component.
          */
@@ -9740,9 +9573,17 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
+        /**
           * Fires to active date
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerMonthHeaderSelectChange"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -10164,6 +10005,7 @@ declare namespace LocalJSX {
           * Fires when the collapse button is clicked.
          */
         "onCalciteFlowItemToggle"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+        "onCalciteInternalFlowItemChange"?: (event: CalciteFlowItemCustomEvent<void>) => void;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -10172,6 +10014,10 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * When true, flow-item is displayed within a parent flow.
+         */
+        "selected"?: boolean;
         /**
           * When `true`, displays a back button in the component's header.
          */
@@ -10563,6 +10409,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -11316,6 +11166,10 @@ declare namespace LocalJSX {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label"?: string;
@@ -11414,13 +11268,13 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
-          * When `true`, the component's drag handle is selected.
-         */
-        "dragSelected"?: boolean;
-        /**
           * Hides the component when filtered.
          */
         "filterHidden"?: boolean;
+        /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -11437,6 +11291,10 @@ declare namespace LocalJSX {
           * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
          */
         "metadata"?: Record<string, unknown>;
+        /**
+          * Sets the item to display a border.
+         */
+        "moveToItems"?: MoveTo[];
         "onCalciteInternalFocusPreviousItem"?: (event: CalciteListItemCustomEvent<void>) => void;
         "onCalciteInternalListItemActive"?: (event: CalciteListItemCustomEvent<void>) => void;
         "onCalciteInternalListItemChange"?: (event: CalciteListItemCustomEvent<void>) => void;
@@ -11450,13 +11308,25 @@ declare namespace LocalJSX {
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
-          * Fires when the drag handle is selected.
-         */
-        "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
-        /**
           * Fires when the component is selected.
          */
         "onCalciteListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteListItemSortHandleBeforeClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteListItemSortHandleBeforeOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is closed and animation is complete.
+         */
+        "onCalciteListItemSortHandleClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is open and animation is complete.
+         */
+        "onCalciteListItemSortHandleOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the open button is clicked.
          */
@@ -11481,13 +11351,17 @@ declare namespace LocalJSX {
     SelectionMode
   >;
         /**
-          * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setPosition"?: number;
         /**
-          * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setSize"?: number;
+        /**
+          * When `true`, displays and positions the sort handle.
+         */
+        "sortHandleOpen"?: boolean;
         /**
           * When `true`, the component's content appears inactive.
          */
@@ -12089,153 +11963,6 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickList {
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        /**
-          * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
-         */
-        "filterEnabled"?: boolean;
-        /**
-          * Placeholder text for the filter input field.
-         */
-        "filterPlaceholder"?: string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText"?: string;
-        /**
-          * The component's filtered data.
-          * @readonly
-         */
-        "filteredData"?: ItemData1;
-        /**
-          * The component's filtered items.
-          * @readonly
-         */
-        "filteredItems"?: HTMLCalcitePickListItemElement[];
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel"?: HeadingLevel;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading"?: boolean;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-pick-list-item`s at a time. When `false`, only a single `calcite-pick-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple"?: boolean;
-        /**
-          * Emits when any of the `calcite-pick-list-item` selections have changed.
-         */
-        "onCalciteListChange"?: (event: CalcitePickListCustomEvent<Map<string, HTMLCalcitePickListItemElement>>) => void;
-        /**
-          * Emits when a filter has changed.
-         */
-        "onCalciteListFilter"?: (event: CalcitePickListCustomEvent<void>) => void;
-        /**
-          * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus"?: boolean;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListGroup {
-        /**
-          * Specifies the title for all nested `calcite-pick-list-item`s.
-         */
-        "groupTitle"?: string;
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel"?: HeadingLevel;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description"?: string;
-        /**
-          * When `false`, the component cannot be deselected by user interaction.
-         */
-        "deselectDisabled"?: boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon"?: ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl"?: boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides"?: Partial<PickListItemMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages"?: PickListItemMessages;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata"?: Record<string, unknown>;
-        "nonInteractive"?: boolean;
-        /**
-          * Emits when the component's label, description, value, or metadata properties are modified.
-         */
-        "onCalciteInternalListItemPropsChange"?: (event: CalcitePickListItemCustomEvent<void>) => void;
-        /**
-          * Emits when the component's value property is modified.
-         */
-        "onCalciteInternalListItemValueChange"?: (event: CalcitePickListItemCustomEvent<{
-    oldValue: any;
-    newValue: any;
-  }>) => void;
-        /**
-          * Fires when the component is selected or unselected.
-         */
-        "onCalciteListItemChange"?: (event: CalcitePickListItemCustomEvent<{
-    item: HTMLCalcitePickListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  }>) => void;
-        /**
-          * Fires when the remove button is pressed.
-         */
-        "onCalciteListItemRemove"?: (event: CalcitePickListItemCustomEvent<void>) => void;
-        /**
-          * When `true`, displays a remove action that removes the item from the list.
-         */
-        "removable"?: boolean;
-        /**
-          * When `true`, selects an item. Toggles when an item is checked/unchecked.
-         */
-        "selected"?: boolean;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
     interface CalcitePopover {
         /**
           * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
@@ -12509,6 +12236,24 @@ declare namespace LocalJSX {
          */
         "showChip"?: boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: number;
@@ -12764,6 +12509,9 @@ declare namespace LocalJSX {
          */
         "contentBehind"?: boolean;
     }
+    /**
+     * @deprecated Use the `calcite-shell-panel` component instead.
+     */
     interface CalciteShellCenterRow {
         /**
           * When `true`, the content area displays like a floating panel.
@@ -12939,6 +12687,10 @@ declare namespace LocalJSX {
          */
         "snap"?: boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
           * Specifies the interval to move with the up, or down keys.
          */
         "step"?: number;
@@ -12947,9 +12699,107 @@ declare namespace LocalJSX {
          */
         "ticks"?: number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: null | number | number[];
+    }
+    interface CalciteSortHandle {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement1[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label"?: string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems"?: number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<SortHandleMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages"?: SortHandleMessages;
+        /**
+          * Defines the "Move to" items.
+         */
+        "moveToItems"?: MoveTo[];
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteSortHandleBeforeClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteSortHandleBeforeOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteSortHandleClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when a move item has been selected.
+         */
+        "onCalciteSortHandleMove"?: (event: CalciteSortHandleCustomEvent<MoveEventDetail>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteSortHandleOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when a reorder has been selected.
+         */
+        "onCalciteSortHandleReorder"?: (event: CalciteSortHandleCustomEvent<ReorderEventDetail>) => void;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning1;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement"?: MenuPlacement1;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+        /**
+          * The current position of the handle.
+         */
+        "setPosition"?: number;
+        /**
+          * The total number of sortable items.
+         */
+        "setSize"?: number;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale"?: Scale;
     }
     interface CalciteSortableList {
         /**
@@ -14074,147 +13924,6 @@ declare namespace LocalJSX {
         "selected"?: boolean;
         "selectionMode"?: SelectionMode;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueList {
-        /**
-          * When provided, the method will be called to determine whether the element can move from the list.
-         */
-        "canPull"?: (detail: DragDetail) => boolean;
-        /**
-          * When provided, the method will be called to determine whether the element can be added from another list.
-         */
-        "canPut"?: (detail: DragDetail) => boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        /**
-          * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
-         */
-        "dragEnabled"?: boolean;
-        /**
-          * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
-         */
-        "filterEnabled"?: boolean;
-        /**
-          * Placeholder text for the filter's input field.
-         */
-        "filterPlaceholder"?: string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText"?: string;
-        /**
-          * The currently filtered data.
-          * @readonly
-         */
-        "filteredData"?: ItemData1;
-        /**
-          * The currently filtered items.
-          * @readonly
-         */
-        "filteredItems"?: HTMLCalciteValueListItemElement[];
-        /**
-          * The component's group identifier.  To drag elements from one list into another, both lists must have the same group value.
-         */
-        "group"?: string;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading"?: boolean;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides"?: Partial<ValueListMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages"?: ValueListMessages;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-value-list-item`s at a time. When `false`, only a single `calcite-value-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple"?: boolean;
-        /**
-          * Emits when any of the list item selections have changed.
-         */
-        "onCalciteListChange"?: (event: CalciteValueListCustomEvent<Map<string, HTMLCalciteValueListItemElement>>) => void;
-        /**
-          * Emits when a filter has changed.
-         */
-        "onCalciteListFilter"?: (event: CalciteValueListCustomEvent<void>) => void;
-        /**
-          * Emits when the order of the list has changed.
-         */
-        "onCalciteListOrderChange"?: (event: CalciteValueListCustomEvent<any[]>) => void;
-        /**
-          * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus"?: boolean;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description"?: string;
-        "deselectDisabled"?: boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        "handleActivated"?: boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon"?: ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl"?: boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata"?: Record<string, unknown>;
-        /**
-          * When `true`, prevents the content of the component from user interaction.
-         */
-        "nonInteractive"?: boolean;
-        /**
-          * Fires when the component is selected or unselected.
-         */
-        "onCalciteListItemChange"?: (event: CalciteValueListItemCustomEvent<{
-    item: HTMLCalciteValueListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  }>) => void;
-        /**
-          * Fires when the remove button is pressed.
-         */
-        "onCalciteListItemRemove"?: (event: CalciteValueListItemCustomEvent<void>) => void;
-        "onCalciteValueListItemDragHandleBlur"?: (event: CalciteValueListItemCustomEvent<ListItemAndHandle>) => void;
-        /**
-          * When `true`, adds an action to remove the component.
-         */
-        "removable"?: boolean;
-        /**
-          * When `true`, the component is selected.
-         */
-        "selected"?: boolean;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
     interface IntrinsicElements {
         "calcite-accordion": CalciteAccordion;
         "calcite-accordion-item": CalciteAccordionItem;
@@ -14282,9 +13991,6 @@ declare namespace LocalJSX {
         "calcite-option-group": CalciteOptionGroup;
         "calcite-pagination": CalcitePagination;
         "calcite-panel": CalcitePanel;
-        "calcite-pick-list": CalcitePickList;
-        "calcite-pick-list-group": CalcitePickListGroup;
-        "calcite-pick-list-item": CalcitePickListItem;
         "calcite-popover": CalcitePopover;
         "calcite-progress": CalciteProgress;
         "calcite-radio-button": CalciteRadioButton;
@@ -14299,6 +14005,7 @@ declare namespace LocalJSX {
         "calcite-shell-center-row": CalciteShellCenterRow;
         "calcite-shell-panel": CalciteShellPanel;
         "calcite-slider": CalciteSlider;
+        "calcite-sort-handle": CalciteSortHandle;
         "calcite-sortable-list": CalciteSortableList;
         "calcite-split-button": CalciteSplitButton;
         "calcite-stack": CalciteStack;
@@ -14325,8 +14032,6 @@ declare namespace LocalJSX {
         "calcite-tooltip": CalciteTooltip;
         "calcite-tree": CalciteTree;
         "calcite-tree-item": CalciteTreeItem;
-        "calcite-value-list": CalciteValueList;
-        "calcite-value-list-item": CalciteValueListItem;
     }
 }
 export { LocalJSX as JSX };
@@ -14405,18 +14110,6 @@ declare module "@stencil/core" {
             "calcite-option-group": LocalJSX.CalciteOptionGroup & JSXBase.HTMLAttributes<HTMLCalciteOptionGroupElement>;
             "calcite-pagination": LocalJSX.CalcitePagination & JSXBase.HTMLAttributes<HTMLCalcitePaginationElement>;
             "calcite-panel": LocalJSX.CalcitePanel & JSXBase.HTMLAttributes<HTMLCalcitePanelElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-pick-list": LocalJSX.CalcitePickList & JSXBase.HTMLAttributes<HTMLCalcitePickListElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-pick-list-group": LocalJSX.CalcitePickListGroup & JSXBase.HTMLAttributes<HTMLCalcitePickListGroupElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-pick-list-item": LocalJSX.CalcitePickListItem & JSXBase.HTMLAttributes<HTMLCalcitePickListItemElement>;
             "calcite-popover": LocalJSX.CalcitePopover & JSXBase.HTMLAttributes<HTMLCalcitePopoverElement>;
             "calcite-progress": LocalJSX.CalciteProgress & JSXBase.HTMLAttributes<HTMLCalciteProgressElement>;
             "calcite-radio-button": LocalJSX.CalciteRadioButton & JSXBase.HTMLAttributes<HTMLCalciteRadioButtonElement>;
@@ -14428,9 +14121,13 @@ declare module "@stencil/core" {
             "calcite-select": LocalJSX.CalciteSelect & JSXBase.HTMLAttributes<HTMLCalciteSelectElement>;
             "calcite-sheet": LocalJSX.CalciteSheet & JSXBase.HTMLAttributes<HTMLCalciteSheetElement>;
             "calcite-shell": LocalJSX.CalciteShell & JSXBase.HTMLAttributes<HTMLCalciteShellElement>;
+            /**
+             * @deprecated Use the `calcite-shell-panel` component instead.
+             */
             "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
             "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
             "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;
+            "calcite-sort-handle": LocalJSX.CalciteSortHandle & JSXBase.HTMLAttributes<HTMLCalciteSortHandleElement>;
             "calcite-sortable-list": LocalJSX.CalciteSortableList & JSXBase.HTMLAttributes<HTMLCalciteSortableListElement>;
             "calcite-split-button": LocalJSX.CalciteSplitButton & JSXBase.HTMLAttributes<HTMLCalciteSplitButtonElement>;
             "calcite-stack": LocalJSX.CalciteStack & JSXBase.HTMLAttributes<HTMLCalciteStackElement>;
@@ -14472,14 +14169,6 @@ declare module "@stencil/core" {
             "calcite-tooltip": LocalJSX.CalciteTooltip & JSXBase.HTMLAttributes<HTMLCalciteTooltipElement>;
             "calcite-tree": LocalJSX.CalciteTree & JSXBase.HTMLAttributes<HTMLCalciteTreeElement>;
             "calcite-tree-item": LocalJSX.CalciteTreeItem & JSXBase.HTMLAttributes<HTMLCalciteTreeItemElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-value-list": LocalJSX.CalciteValueList & JSXBase.HTMLAttributes<HTMLCalciteValueListElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-value-list-item": LocalJSX.CalciteValueListItem & JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
         }
     }
 }

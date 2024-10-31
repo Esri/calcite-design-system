@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -50,12 +49,6 @@ import { CSS, ICONS, SLOTS } from "./resources";
 
 let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";
-
-logger.deprecated("component", {
-  name: "modal",
-  removalVersion: 4,
-  suggested: "dialog",
-});
 
 /**
  * @deprecated Use the `calcite-dialog` component instead.
@@ -172,6 +165,12 @@ export class Modal
   //--------------------------------------------------------------------------
 
   async componentWillLoad(): Promise<void> {
+    logger.deprecated("component", {
+      name: "modal",
+      removalVersion: 4,
+      suggested: "dialog",
+    });
+
     await setUpMessages(this);
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
@@ -190,7 +189,14 @@ export class Modal
     this.updateSizeCssVars();
     connectLocalized(this);
     connectMessages(this);
-    connectFocusTrap(this);
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        // Scrim has it's own close handler, allow it to take over.
+        clickOutsideDeactivates: false,
+        escapeDeactivates: this.escapeDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
+      },
+    });
   }
 
   disconnectedCallback(): void {
@@ -405,20 +411,6 @@ export class Modal
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -619,5 +611,17 @@ export class Modal
 
   private contentBottomSlotChangeHandler = (event: Event): void => {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
+  };
+
+  private escapeDeactivates = (event: KeyboardEvent) => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  };
+
+  private focusTrapDeactivates = () => {
+    this.open = false;
   };
 }
