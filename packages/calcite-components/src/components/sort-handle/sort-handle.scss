@@ -1,0 +1,16 @@
+:host {
+  @apply flex;
+}
+
+.handle {
+  @apply cursor-move;
+  --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
+}
+
+.dropdown {
+  block-size: 100%;
+}
+
+@include disabled();
+
+@include base-component();
