@@ -48,16 +48,6 @@
         padding: var(--calcite-spacing-md);
       }
 
-      #when {
-        display: flex;
-      }
-
-      #whenDate,
-      #whenTime {
-        align-self: center;
-        width: 50%;
-      }
-
       /* Progress bar */
       #progress {
         position: fixed;
@@ -89,10 +79,11 @@
         padding: 0 var(--calcite-spacing-sm);
       }
 
-      /* custom styling of invalid elements */
+      /* custom styling of invalid elements
       [status="invalid"] {
         --calcite-color-foreground-1: #f4c4d3;
       }
+      */
     </style>
   </head>
 
@@ -244,7 +235,6 @@
                   max="10"
                   step="1"
                   required
-                  validation-message="Please select one of these options."
                 ></calcite-slider>
               </calcite-label>
             </li>
@@ -288,11 +278,7 @@
             <li>
               <calcite-label>
                 How many stars would you give Calcite components?
-                <calcite-rating
-                  name="rating"
-                  required
-                  validation-message="Please select one of these options."
-                ></calcite-rating>
+                <calcite-rating required name="rating"></calcite-rating>
               </calcite-label>
             </li>
           </ol>
