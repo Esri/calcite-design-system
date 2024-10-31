@@ -48,7 +48,7 @@ export const positions = (): string => html`
 `;
 
 export const withItems = (): string => html`
-  <div style="height:300px">
+  <div style="height:600px; width:600px;">
     <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
   </div>
   <script>
