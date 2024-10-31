@@ -19,6 +19,7 @@ import {
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
@@ -138,7 +139,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() effectiveReferenceElement: ReferenceElement;
+  @State() referenceEl: ReferenceElement;
 
   @State() floatingLayout: FloatingLayout = "vertical";
 
@@ -149,6 +150,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  floatingEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -170,14 +173,14 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   }
 
   componentDidLoad(): void {
-    if (this.referenceElement && !this.effectiveReferenceElement) {
+    if (this.referenceElement && !this.referenceEl) {
       this.setUpReferenceElement();
     }
   }
 
   disconnectedCallback(): void {
     this.removeReferences();
-    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectFloatingUI(this);
   }
 
   //--------------------------------------------------------------------------
@@ -212,20 +215,20 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   @Method()
   async reposition(delayed = false): Promise<void> {
     const {
-      el,
-      effectiveReferenceElement,
+      referenceEl,
       placement,
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
       arrowEl,
+      floatingEl,
     } = this;
 
     return reposition(
       this,
       {
-        floatingEl: el,
-        referenceEl: effectiveReferenceElement,
+        floatingEl,
+        referenceEl: referenceEl,
         overlayPositioning,
         placement,
         offsetDistance,
@@ -257,19 +260,25 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   onClose(): void {
     this.calciteTooltipClose.emit();
+    hideFloatingUI(this);
   }
 
-  private setTransitionEl = (el): void => {
+  private setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+    requestAnimationFrame(() => this.setUpReferenceElement());
+  };
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
-    this.effectiveReferenceElement = getEffectiveReferenceElement(this.el);
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    this.referenceEl = getEffectiveReferenceElement(this.el);
+    connectFloatingUI(this);
 
-    const { el, referenceElement, effectiveReferenceElement } = this;
-    if (warn && referenceElement && !effectiveReferenceElement) {
+    const { el, referenceElement, referenceEl } = this;
+    if (warn && referenceElement && !referenceEl) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el,
       });
@@ -283,33 +292,33 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   };
 
   addReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
     const id = this.getId();
 
-    if ("setAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    if ("setAttribute" in referenceEl) {
+      referenceEl.setAttribute(ARIA_DESCRIBED_BY, id);
     }
 
-    manager.registerElement(effectiveReferenceElement, this.el);
+    manager.registerElement(referenceEl, this.el);
   };
 
   removeReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
-    if ("removeAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    if ("removeAttribute" in referenceEl) {
+      referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
     }
 
-    manager.unregisterElement(effectiveReferenceElement);
+    manager.unregisterElement(referenceEl);
   };
 
   // --------------------------------------------------------------------------
@@ -319,8 +328,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { effectiveReferenceElement, label, open, floatingLayout } = this;
-    const displayed = effectiveReferenceElement && open;
+    const { referenceEl, label, open, floatingLayout } = this;
+    const displayed = referenceEl && open;
     const hidden = !displayed;
 
     return (
@@ -328,23 +337,24 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         aria-live="polite"
-        calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="tooltip"
       >
-        <div
-          class={{
-            [FloatingCSS.animation]: true,
-            [FloatingCSS.animationActive]: displayed,
-          }}
-          ref={this.setTransitionEl}
-        >
-          <FloatingArrow
-            floatingLayout={floatingLayout}
-            ref={(arrowEl) => (this.arrowEl = arrowEl)}
-          />
-          <div class={CSS.container}>
-            <slot />
+        <div class={CSS.positionContainer} ref={this.setFloatingEl}>
+          <div
+            class={{
+              [FloatingCSS.animation]: true,
+              [FloatingCSS.animationActive]: displayed,
+            }}
+            ref={this.setTransitionEl}
+          >
+            <FloatingArrow
+              floatingLayout={floatingLayout}
+              ref={(arrowEl) => (this.arrowEl = arrowEl)}
+            />
+            <div class={CSS.container}>
+              <slot />
+            </div>
           </div>
         </div>
       </Host>

@@ -28,4 +28,8 @@ export const CSS = {
   transformed: "transformed",
 };
 
+export const IDS = {
+  validationMessage: "validationMessage",
+};
+
 export const maxTickElementThreshold = 250;
