@@ -497,6 +497,6 @@ export function formAssociated(
 
     expect(await element.getProperty("status")).toBe(testProps?.status ?? "idle");
     expect(await element.getProperty("validationMessage")).toBe(testProps?.message ?? "");
-    expect(element.getAttribute("validation-icon")).toBe(testProps?.icon ?? null);
+    expect(await element.getProperty("validationIcon")).toBe(testProps?.icon ?? false);
   }
 }
