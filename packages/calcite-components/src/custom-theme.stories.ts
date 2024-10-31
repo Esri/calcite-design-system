@@ -25,6 +25,7 @@ import { icon } from "./custom-theme/icon";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
+import { list, listTokens } from "./custom-theme/list";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
@@ -116,7 +117,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div>${checkbox}</div>
           ${chips} ${pagination} ${slider}
         </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile}</div>
+        <div class="demo-column">${datePicker} ${tabs} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile}</div>
         ${alert}
       </div>
     </div>
@@ -137,6 +138,7 @@ const componentTokens = {
   ...chipTokens,
   ...checkboxTokens,
   ...handleTokens,
+  ...listTokens,
   ...popoverTokens,
   ...progressTokens,
   ...inputTokens,

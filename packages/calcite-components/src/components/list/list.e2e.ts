@@ -1,11 +1,12 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
+import { accessible, hidden, renders, focusable, disabled, defaults, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { ListDragDetail } from "./interfaces";
+import { CSS } from "./resources";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -1531,6 +1532,17 @@ describe("calcite-list", () => {
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await handle.getProperty("selected")).toBe(false);
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-list`, {
+        "--calcite-list-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+      });
     });
   });
 });

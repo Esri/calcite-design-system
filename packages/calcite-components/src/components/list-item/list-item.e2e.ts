@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { defaults, disabled, focusable, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -399,5 +399,76 @@ describe("calcite-list-item", () => {
     await page.waitForChanges();
     expect(await listItem.getProperty("dragSelected")).toBe(false);
     expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(2);
+  });
+
+  describe("themed", () => {
+    describe(`selection-appearance="icon"`, () => {
+      themed(
+        html`<calcite-list-item
+          selected
+          label="Park offices"
+          description="Home base for park staff to converse with visitors."
+          value="offices"
+          bordered
+          selection-mode="single"
+          selection-appearance="icon"
+        ></calcite-list-item>`,
+        {
+          "--calcite-list-item-background-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-list-item-background-color-hover": {
+            shadowSelector: `.${CSS.container}`,
+            state: "hover",
+            targetProp: "backgroundColor",
+          },
+          "--calcite-list-item-background-color-press": {
+            shadowSelector: `.${CSS.container}`,
+            state: "press",
+            targetProp: "backgroundColor",
+          },
+          "--calcite-list-item-border-color": {
+            shadowSelector: `.${CSS.wrapper}`,
+            targetProp: "borderBlockEndColor",
+          },
+          "--calcite-list-item-content-color": {
+            shadowSelector: `.${CSS.contentContainer}`,
+            targetProp: "color",
+          },
+          "--calcite-list-item-description-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          "--calcite-list-item-icon-color": {
+            shadowSelector: `.${CSS.selectionContainer}`,
+            targetProp: "color",
+          },
+          "--calcite-list-item-label-color": {
+            shadowSelector: `.${CSS.label}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+    describe(`selection-appearance="border"`, () => {
+      themed(
+        html`<calcite-list-item
+          selected
+          label="Park offices"
+          description="Home base for park staff to converse with visitors."
+          value="offices"
+          bordered
+          selection-mode="single"
+          selection-appearance="border"
+        ></calcite-list-item>`,
+        {
+          "--calcite-list-item-selection-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineStartColor",
+          },
+        },
+      );
+    });
   });
 });

@@ -1,8 +1,21 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-item-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-list-item-background-color-press: Specifies the component's background color when pressed.
+ * @prop --calcite-list-item-background-color: Specifies the component's background color.
+ * @prop --calcite-list-item-border-color: Specifies the component's border color.
+ * @prop --calcite-list-item-content-color: Specifies the content color.
+ * @prop --calcite-list-item-description-color: Specifies the description color.
+ * @prop --calcite-list-item-icon-color: Specifies the component's icon color.
+ * @prop --calcite-list-item-label-color: Specifies the label color.
+ * @prop --calcite-list-item-selection-border-color: Specifies the component's selection border color.
+ */
+
 :host {
-  // todo: css variable bg color
-  // todo: css variable icon color
-  @apply flex flex-col bg-foreground-1;
-  --calcite-list-item-icon-color: theme("colors.brand");
+  @apply flex flex-col;
 }
 
 :host([filter-hidden]),
@@ -11,32 +24,29 @@
 }
 
 .wrapper--bordered {
-  // todo: css variable border color
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  border-block-end: 1px solid var(--calcite-list-item-border-color, var(--calcite-color-border-3));
 }
 
 @include disabled();
 
-// todo: css variable bg color
 .container {
-  @apply bg-foreground-1
-  box-border
+  @apply box-border
   flex
   flex-1
   overflow-hidden;
+  background-color: var(--calcite-list-item-background-color, var(--calcite-color-foreground-1));
   * {
     @apply box-border;
   }
 }
 
-// todo: css variable bg color hover
 .container--hover:hover {
-  @apply bg-foreground-2 cursor-pointer;
+  @apply cursor-pointer;
+  background-color: var(--calcite-list-item-background-color-hover, var(--calcite-color-foreground-2));
 }
 
-// todo: css variable bg color active
 .container:active {
-  @apply bg-foreground-1;
+  background-color: var(--calcite-list-item-background-color-press, var(--calcite-color-foreground-1));
 }
 
 .container--border {
@@ -44,29 +54,25 @@
   border-inline-start-style: solid;
 }
 
-// todo: css variable border color selected
 .container--border-selected {
-  border-inline-start-color: theme("colors.brand");
+  border-inline-start-color: var(--calcite-list-item-selection-border-color, var(--calcite-color-brand));
 }
 
 .container--border-unselected {
   border-inline-start-color: transparent;
 }
 
-// todo: css variable border color hover
 .container:hover {
   &.container--border-unselected {
-    @apply border-color-1;
+    border-inline-start-color: var(--calcite-list-item-selection-border-color, var(--calcite-color-border-1));
   }
 }
 
-// todo: css variable border color
 .nested-container {
   @apply hidden flex-col
     border-solid
-    border-0
-    border-color-3;
-
+    border-0;
+  border-color: 1px solid var(--calcite-list-item-border-color, var(--calcite-color-border-3));
   margin-inline-start: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
 }
 
@@ -74,15 +80,14 @@
   @apply flex;
 }
 
-// todo: css variable text color
 .content-container {
-  @apply text-color-2
-    select-none
+  @apply select-none
     flex
     flex-auto
     font-normal
     items-stretch
     p-0;
+  color: var(--calcite-list-item-content-color, var(--calcite-color-text-2));
 }
 
 .content-container--unavailable {
@@ -123,23 +128,21 @@
   }
 }
 
-// todo: css variable text color
 .label {
-  @apply text-color-1;
+  color: var(--calcite-list-item-label-color, var(--calcite-color-text-1));
 }
 
 :host([selected]) .label {
   @apply font-medium;
 }
 
-// todo: css variable text color
 .description {
-  @apply text-color-3 mt-0.5;
+  @apply mt-0.5;
+  color: var(--calcite-list-item-description-color, var(--calcite-color-text-3));
 }
 
-// todo: css variable text color
 :host([selected]) .description {
-  @apply text-color-2;
+  color: var(--calcite-list-item-description-color, var(--calcite-color-text-2));
 }
 
 .content-start {
@@ -168,10 +171,9 @@
   @apply flex-initial;
 }
 
-// todo: css variable border color selection
 .selection-container {
   @apply flex py-0;
-  color: theme("borderColor.color.input");
+  color: var(--calcite-list-item-icon-color, var(--calcite-color-border-input));
   padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xxs);
 }
 
@@ -179,26 +181,22 @@
   color: transparent;
 }
 
-// todo: css variable
 :host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
-  color: theme("borderColor.color.1");
+  color: var(--calcite-list-item-icon-color, var(--calcite-color-border-1));
 }
 
-// todo: css variable
 :host([selected]:hover) .selection-container,
 :host([selected]:hover) .selection-container--single,
 :host([selected]) .selection-container {
-  color: var(--calcite-list-item-icon-color);
+  color: var(--calcite-list-item-icon-color, var(--calcite-color-brand));
 }
 
-// todo: css variable
 .open-container {
-  color: theme("textColor.color.3");
+  color: var(--calcite-list-item-icon-color, var(--calcite-color-text-3));
 }
 
-// todo: css variable
 :host(:not([disabled])) .container:hover .open-container {
-  color: theme("textColor.color.1");
+  color: var(--calcite-list-item-icon-color, var(--calcite-color-text-1));
 }
 
 .actions-start,
