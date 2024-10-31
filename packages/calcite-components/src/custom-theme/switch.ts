@@ -1,6 +1,16 @@
 import { html } from "../../support/formatting";
 
-export const switchTokens = {};
+export const switchTokens = {
+  calciteSwitchBackgroundColor: "",
+  calciteSwitchBackgroundColorHover: "",
+  calciteSwitchBorderColor: "",
+  calciteSwitchHandleBorderColor: "",
+  calciteSwitchHandleBackgroundColor: "",
+  calciteSwitchHandleBackgroundColorHover: "",
+  calciteSwitchHandleShadow: "",
+  calciteSwitchCornerRadius: "",
+  calciteSwitchHandleCornerRadius: "",
+};
 
 export const calciteSwitch = html`
   <calcite-label layout="inline">

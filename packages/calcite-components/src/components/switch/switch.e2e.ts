@@ -144,10 +144,44 @@ describe("calcite-switch", () => {
 
   describe("themed", () => {
     describe("default", () => {
-      themed(html`calcite-action`, {
+      themed(html`calcite-switch`, {
         "--calcite-switch-background-color": {
           shadowSelector: `.${CSS.track}`,
           targetProp: "backgroundColor",
+        },
+        "--calcite-switch-background-color-hover": {
+          shadowSelector: `.${CSS.track}`,
+          state: "hover",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-switch-border-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-switch-corner-radius": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-switch-handle-background-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-switch-handle-background-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          state: "hover",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-switch-handle-border-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-switch-handle-corner-radius": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-switch-handle-shadow": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
         },
       });
     });
