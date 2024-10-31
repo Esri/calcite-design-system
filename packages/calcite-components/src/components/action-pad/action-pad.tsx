@@ -142,9 +142,9 @@ export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComp
 
   @State() expandTooltip: HTMLCalciteTooltipElement;
 
-  mutationObserver = createObserver("mutation", () =>
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
-  );
+  mutationObserver = createObserver("mutation", () => this.updateGroups());
+
+  actionGroups: HTMLCalciteActionGroupElement[];
 
   @State() effectiveLocale = "";
 
@@ -167,21 +167,19 @@ export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComp
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.mutationObserver?.disconnect();
-  }
-
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
     await setUpMessages(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    this.mutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -209,7 +207,7 @@ export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComp
   actionMenuOpenHandler = (event: CustomEvent<void>): void => {
     if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
-      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+      this.actionGroups?.forEach((group) => {
         if (!composedPath.includes(group)) {
           group.menuOpen = false;
         }
@@ -223,19 +221,17 @@ export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComp
   };
 
   updateGroups(): void {
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = groups;
+    this.setGroupLayout(groups);
   }
 
   setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
     groups.forEach((group) => (group.layout = this.layout));
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteActionGroupElement => el?.matches("calcite-action-group"),
-    );
-
-    this.setGroupLayout(groups);
+  handleDefaultSlotChange = (): void => {
+    this.updateGroups();
   };
 
   handleTooltipSlotChange = (event: Event): void => {
