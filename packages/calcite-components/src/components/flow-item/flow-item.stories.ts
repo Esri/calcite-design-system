@@ -8,7 +8,15 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface FlowItemStoryArgs
   extends Pick<
     FlowItem,
-    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading" | "scale"
+    | "closed"
+    | "disabled"
+    | "closable"
+    | "collapsible"
+    | "collapsed"
+    | "collapseDirection"
+    | "loading"
+    | "scale"
+    | "selected"
   > {
   heightScale: string;
 }
@@ -25,6 +33,7 @@ export default {
     heightScale: scale.defaultValue,
     scale: scale.defaultValue,
     loading: false,
+    selected: true,
   },
   argTypes: {
     collapseDirection: {
@@ -93,6 +102,7 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     height-scale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    ${boolean("selected", args.selected)}
     heading="Heading"
     description="A wonderful flow item description"
   >
@@ -108,6 +118,7 @@ export const simple = (args: FlowItemStoryArgs): string => html`
 export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-flow-item
+      selected
       height-scale="s"
       heading-level="2"
       description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
@@ -117,21 +128,21 @@ export const onlyProps = (): string => html`
 `;
 
 export const collapsed_TestOnly = (): string => html`
-  <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
+  <calcite-flow-item selected collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
 export const collapseDirectionUp_TestOnly = (): string => html`
-  <calcite-flow-item collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
+  <calcite-flow-item selected collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`
-  <calcite-flow-item style="height: 100%;" heading="Heading" disabled>
+  <calcite-flow-item selected style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-flow-item>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-flow-item collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
+  <calcite-flow-item selected collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
     ${flowItemContent}
   </calcite-flow-item>
 `;
@@ -214,7 +225,7 @@ export const overflowContent_TestOnly = (): string =>
 
 export const withActionBarAndContentTop_TestOnly = (): string =>
   html`<div style="width: 300px;">
-    <calcite-flow-item height-scale="s">
+    <calcite-flow-item selected height-scale="s">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -230,7 +241,7 @@ export const withActionBarAndContentTop_TestOnly = (): string =>
 
 export const footerPaddingAndContentBottom = (): string =>
   html` <div style="width: 300px;">
-    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -241,7 +252,7 @@ export const footerPaddingAndContentBottom = (): string =>
 
 export const footerStartEndAndContentBottom = (): string =>
   html`<div style="width: 300px; height: 300px;">
-    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -251,7 +262,7 @@ export const footerStartEndAndContentBottom = (): string =>
 
 export const footerSlot = (): string =>
   html`<div style="width: 300px;">
-    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -262,12 +273,16 @@ export const footerSlot = (): string =>
   </div>`;
 
 export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
-  html`<calcite-flow-item style="--calcite-flow-item-header-border-block-end:none;" height-scale="s" heading="My Panel"
+  html`<calcite-flow-item
+    selected
+    style="--calcite-flow-item-header-border-block-end:none;"
+    height-scale="s"
+    heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
 
 export const withAlertsSlot = (): string => html`
-  <calcite-flow-item height-scale="s" heading="My Panel" style="width: 500px; height:200px">
+  <calcite-flow-item selected height-scale="s" heading="My Panel" style="width: 500px; height:200px">
     Slotted content!
     <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
       <div slot="title">Hello there!</div>

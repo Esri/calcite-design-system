@@ -79,17 +79,17 @@
   @apply opacity-disabled;
 }
 
-tr,
-td {
+.row,
+.grid-cell {
   @apply focus-base;
 }
 
-tr {
+.row {
   @apply relative;
 }
 
-tr:focus,
-td:focus {
+.row:focus,
+.grid-cell:focus {
   @apply focus-inset;
 }
 
@@ -193,7 +193,7 @@ td:focus {
   @apply flex items-center;
 
   calcite-action,
-  calcite-handle {
+  calcite-sort-handle {
     @apply self-stretch;
   }
 }
@@ -208,7 +208,7 @@ td:focus {
   @apply p-0 relative;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
-  ::slotted(calcite-handle),
+  ::slotted(calcite-sort-handle),
   ::slotted(calcite-dropdown) {
     @apply self-stretch;
 
@@ -216,14 +216,14 @@ td:focus {
   }
 }
 
-tr:focus {
+.row:focus {
   .actions-start,
   .actions-end {
     inset-block: theme("spacing[0.5]");
     .close,
     ::slotted(calcite-action),
     ::slotted(calcite-action-menu),
-    ::slotted(calcite-handle),
+    ::slotted(calcite-sort-handle),
     ::slotted(calcite-dropdown) {
       block-size: calc(100% - theme("spacing[1]"));
     }

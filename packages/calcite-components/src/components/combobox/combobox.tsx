@@ -24,6 +24,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   reposition,
@@ -499,7 +500,7 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -511,7 +512,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
     setComponentLoaded(this);
   }
 
@@ -533,7 +534,7 @@ export class Combobox
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
-    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectFloatingUI(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -591,6 +592,10 @@ export class Combobox
 
   textInput: HTMLInputElement = null;
 
+  floatingEl: HTMLDivElement;
+
+  referenceEl: HTMLDivElement;
+
   private data: ItemData[];
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
@@ -603,10 +608,6 @@ export class Combobox
   private guid = guid();
 
   private inputHeight = 0;
-
-  private floatingEl: HTMLDivElement;
-
-  private referenceEl: HTMLDivElement;
 
   private chipContainerEl: HTMLDivElement;
 
@@ -826,6 +827,7 @@ export class Combobox
 
   onClose(): void {
     this.calciteComboboxClose.emit();
+    hideFloatingUI(this);
   }
 
   setMaxScrollerHeight = async (): Promise<void> => {
@@ -972,7 +974,7 @@ export class Combobox
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   private setCompactSelectionDisplay({
@@ -1003,7 +1005,7 @@ export class Combobox
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   setAllSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {
@@ -1600,7 +1602,7 @@ export class Combobox
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
-    const showLabel = !open && single && !!selectedItem;
+    const showLabel = !open && single && !!selectedItem && !this.filterText;
 
     return (
       <span
@@ -1633,7 +1635,7 @@ export class Combobox
           class={{
             [CSS.input]: true,
             "input--single": true,
-            "input--hidden": showLabel,
+            [CSS.inputHidden]: showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
           data-test-id="input"
@@ -1676,14 +1678,7 @@ export class Combobox
     };
 
     return (
-      <div
-        aria-hidden="true"
-        class={{
-          "floating-ui-container": true,
-          "floating-ui-container--active": open,
-        }}
-        ref={setFloatingEl}
-      >
+      <div aria-hidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />

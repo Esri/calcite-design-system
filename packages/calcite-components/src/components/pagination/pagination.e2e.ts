@@ -344,4 +344,24 @@ describe("calcite-pagination", () => {
       expect(item).toEqual(1);
     });
   });
+
+  describe("chevrons", () => {
+    it("hides first and last chevrons when width is not xxsmall", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-pagination total-items="123456789" page-size="10" scale="l"></calcite-pagination>`,
+      );
+      const hiddenChevrons = await page.findAll(`calcite-pagination >>> .${CSS.hiddenItem}`);
+      expect(hiddenChevrons.length).toBe(2);
+    });
+
+    it("does not hide first and last chevrons when width is xxsmall", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<div style="width: 100px;"><calcite-pagination total-items="123456789" page-size="10" scale="l"></calcite-pagination></div>`,
+      );
+      const hiddenChevrons = await page.findAll(`calcite-pagination >>> .${CSS.hiddenItem}`);
+      expect(hiddenChevrons.length).toBe(0);
+    });
+  });
 });
