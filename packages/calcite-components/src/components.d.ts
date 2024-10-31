@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, unknown as InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -59,7 +59,6 @@ import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input
 import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
-import { GroupItemData } from "./components/list-item-group/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
 import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
@@ -80,6 +79,9 @@ import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+import { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
+import { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
+import { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -101,7 +103,7 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, unknown as InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -155,7 +157,6 @@ export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input
 export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
-export { GroupItemData } from "./components/list-item-group/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
 export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
@@ -176,6 +177,9 @@ export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+export { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
+export { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
+export { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -3187,7 +3191,7 @@ export namespace Components {
           * The currently filtered `calcite-list-item` data.
           * @readonly
          */
-        "filteredData": (ItemData | GroupItemData)[];
+        "filteredData": ItemData;
         /**
           * The currently filtered `calcite-list-item`s.
           * @readonly
@@ -3197,6 +3201,10 @@ export namespace Components {
           * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
          */
         "group"?: string;
+        /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
         /**
           * Specifies an accessible name for the component.
          */
@@ -4754,6 +4762,70 @@ export namespace Components {
          */
         "value": null | number | number[];
     }
+    interface CalciteSortHandle {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement1[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label": string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems": number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<SortHandleMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages": SortHandleMessages;
+        /**
+          * Defines the "Move to" items.
+         */
+        "moveToItems": MoveTo[];
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning1;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement": MenuPlacement1;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The current position of the handle.
+         */
+        "setPosition": number;
+        /**
+          * The total number of sortable items.
+         */
+        "setSize": number;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale": Scale;
+    }
     interface CalciteSortableList {
         /**
           * When provided, the method will be called to determine whether the element can  move from the list.
@@ -6218,6 +6290,10 @@ export interface CalciteSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSliderElement;
 }
+export interface CalciteSortHandleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteSortHandleElement;
+}
 export interface CalciteSortableListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSortableListElement;
@@ -7603,6 +7679,28 @@ declare global {
         prototype: HTMLCalciteSliderElement;
         new (): HTMLCalciteSliderElement;
     };
+    interface HTMLCalciteSortHandleElementEventMap {
+        "calciteSortHandleBeforeClose": void;
+        "calciteSortHandleBeforeOpen": void;
+        "calciteSortHandleReorder": ReorderEventDetail;
+        "calciteSortHandleMove": MoveEventDetail;
+        "calciteSortHandleClose": void;
+        "calciteSortHandleOpen": void;
+    }
+    interface HTMLCalciteSortHandleElement extends Components.CalciteSortHandle, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteSortHandleElementEventMap>(type: K, listener: (this: HTMLCalciteSortHandleElement, ev: CalciteSortHandleCustomEvent<HTMLCalciteSortHandleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteSortHandleElementEventMap>(type: K, listener: (this: HTMLCalciteSortHandleElement, ev: CalciteSortHandleCustomEvent<HTMLCalciteSortHandleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteSortHandleElement: {
+        prototype: HTMLCalciteSortHandleElement;
+        new (): HTMLCalciteSortHandleElement;
+    };
     interface HTMLCalciteSortableListElementEventMap {
         "calciteListOrderChange": void;
     }
@@ -8141,6 +8239,7 @@ declare global {
         "calcite-shell-center-row": HTMLCalciteShellCenterRowElement;
         "calcite-shell-panel": HTMLCalciteShellPanelElement;
         "calcite-slider": HTMLCalciteSliderElement;
+        "calcite-sort-handle": HTMLCalciteSortHandleElement;
         "calcite-sortable-list": HTMLCalciteSortableListElement;
         "calcite-split-button": HTMLCalciteSplitButtonElement;
         "calcite-stack": HTMLCalciteStackElement;
@@ -11313,7 +11412,7 @@ declare namespace LocalJSX {
           * The currently filtered `calcite-list-item` data.
           * @readonly
          */
-        "filteredData"?: (ItemData | GroupItemData)[];
+        "filteredData"?: ItemData;
         /**
           * The currently filtered `calcite-list-item`s.
           * @readonly
@@ -11323,6 +11422,10 @@ declare namespace LocalJSX {
           * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
          */
         "group"?: string;
+        /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
         /**
           * Specifies an accessible name for the component.
          */
@@ -12962,6 +13065,90 @@ declare namespace LocalJSX {
          */
         "value"?: null | number | number[];
     }
+    interface CalciteSortHandle {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement1[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label"?: string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems"?: number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<SortHandleMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages"?: SortHandleMessages;
+        /**
+          * Defines the "Move to" items.
+         */
+        "moveToItems"?: MoveTo[];
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteSortHandleBeforeClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteSortHandleBeforeOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteSortHandleClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when a move item has been selected.
+         */
+        "onCalciteSortHandleMove"?: (event: CalciteSortHandleCustomEvent<MoveEventDetail>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteSortHandleOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when a reorder has been selected.
+         */
+        "onCalciteSortHandleReorder"?: (event: CalciteSortHandleCustomEvent<ReorderEventDetail>) => void;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning1;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement"?: MenuPlacement1;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+        /**
+          * The current position of the handle.
+         */
+        "setPosition"?: number;
+        /**
+          * The total number of sortable items.
+         */
+        "setSize"?: number;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale"?: Scale;
+    }
     interface CalciteSortableList {
         /**
           * When provided, the method will be called to determine whether the element can  move from the list.
@@ -14310,6 +14497,7 @@ declare namespace LocalJSX {
         "calcite-shell-center-row": CalciteShellCenterRow;
         "calcite-shell-panel": CalciteShellPanel;
         "calcite-slider": CalciteSlider;
+        "calcite-sort-handle": CalciteSortHandle;
         "calcite-sortable-list": CalciteSortableList;
         "calcite-split-button": CalciteSplitButton;
         "calcite-stack": CalciteStack;
@@ -14445,6 +14633,7 @@ declare module "@stencil/core" {
             "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
             "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
             "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;
+            "calcite-sort-handle": LocalJSX.CalciteSortHandle & JSXBase.HTMLAttributes<HTMLCalciteSortHandleElement>;
             "calcite-sortable-list": LocalJSX.CalciteSortableList & JSXBase.HTMLAttributes<HTMLCalciteSortableListElement>;
             "calcite-split-button": LocalJSX.CalciteSplitButton & JSXBase.HTMLAttributes<HTMLCalciteSplitButtonElement>;
             "calcite-stack": LocalJSX.CalciteStack & JSXBase.HTMLAttributes<HTMLCalciteStackElement>;
