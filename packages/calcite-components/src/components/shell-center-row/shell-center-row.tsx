@@ -5,12 +5,6 @@ import { getHeight } from "../../utils/dynamicCSSConst";
 import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
 
-logger.deprecated("component", {
-  name: "shell-center-row",
-  removalVersion: 4,
-  suggested: "shell-panel",
-});
-
 /**
  * @deprecated Use the `calcite-shell-panel` component instead.
  * @slot - A slot for adding content to the `calcite-shell-panel`.
@@ -57,6 +51,20 @@ export class ShellCenterRow {
   @Element() el: HTMLCalciteShellCenterRowElement;
 
   @State() actionBar: HTMLCalciteActionBarElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    logger.deprecated("component", {
+      name: "shell-center-row",
+      removalVersion: 4,
+      suggested: "shell-panel",
+    });
+  }
 
   // --------------------------------------------------------------------------
   //

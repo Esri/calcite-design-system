@@ -51,12 +51,6 @@ import { CSS, ICONS, SLOTS } from "./resources";
 let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
-logger.deprecated("component", {
-  name: "modal",
-  removalVersion: 4,
-  suggested: "dialog",
-});
-
 /**
  * @deprecated Use the `calcite-dialog` component instead.
  * @slot header - A slot for adding header text.
@@ -179,6 +173,12 @@ export class Modal
   //--------------------------------------------------------------------------
 
   async componentWillLoad(): Promise<void> {
+    logger.deprecated("component", {
+      name: "modal",
+      removalVersion: 4,
+      suggested: "dialog",
+    });
+
     await setUpMessages(this);
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire

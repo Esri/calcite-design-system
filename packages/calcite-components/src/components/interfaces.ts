@@ -33,3 +33,4 @@ export type Width = "s" | "m" | "l" | "auto" | "half" | "full";
 export type IconType = "chevron" | "caret" | "ellipsis" | "overflow" | "plus-minus";
 export type CollapseDirection = "down" | "up";
 export type Dir = "ltr" | "rtl";
+export type InteractionMode = "interactive" | "static";

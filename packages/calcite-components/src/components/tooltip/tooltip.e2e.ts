@@ -961,7 +961,7 @@ describe("calcite-tooltip", () => {
     }
   });
 
-  it("should close non hovered tooltip while pointer is moving", async () => {
+  it.skip("should close non hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>

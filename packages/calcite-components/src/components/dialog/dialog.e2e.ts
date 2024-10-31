@@ -261,8 +261,8 @@ describe("calcite-dialog", () => {
     const page = await newE2EPage();
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await skipAnimations(page);
     await page.setContent(`<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`);
+    await skipAnimations(page);
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
@@ -616,12 +616,12 @@ describe("calcite-dialog", () => {
 
     it("subsequently opening a dialog dynamically gets focus trapped", async () => {
       const page = await newE2EPage();
-      await skipAnimations(page);
       await page.setContent(html`
         <calcite-dialog open id="dialog1" heading="Dialog 1">
           <calcite-button id="openButton">open second dialog</calcite-button>
         </calcite-dialog>
       `);
+      await skipAnimations(page);
 
       await page.waitForChanges();
 
