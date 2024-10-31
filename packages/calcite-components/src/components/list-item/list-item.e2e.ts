@@ -407,6 +407,7 @@ describe("calcite-list-item", () => {
         html`<calcite-list-item
           selected
           label="Park offices"
+          interaction-mode="interactive"
           description="Home base for park staff to converse with visitors."
           value="offices"
           bordered
@@ -425,8 +426,8 @@ describe("calcite-list-item", () => {
           },
           "--calcite-list-item-background-color-press": {
             shadowSelector: `.${CSS.container}`,
-            state: "press",
             targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.content } },
           },
           "--calcite-list-item-border-color": {
             shadowSelector: `.${CSS.wrapper}`,
@@ -457,6 +458,7 @@ describe("calcite-list-item", () => {
           selected
           label="Park offices"
           description="Home base for park staff to converse with visitors."
+          interaction-mode="interactive"
           value="offices"
           bordered
           selection-mode="single"
