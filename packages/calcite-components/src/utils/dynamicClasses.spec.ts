@@ -1,6 +1,6 @@
 import { getDimension } from "./dynamicClasses";
 
-it("getDimension", () => {
+describe("getDimension", () => {
   const types = ["width", "height"] as const;
   const sizes = ["small", "medium", "large", ""] as const;
   const scales = ["small", "medium", "large", ""] as const;
