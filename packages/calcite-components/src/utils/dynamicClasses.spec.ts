@@ -2,8 +2,8 @@ import { getDimension } from "./dynamicClasses";
 
 describe("getDimension", () => {
   const types = ["width", "height"] as const;
-  const sizes = ["small", "medium", "large", ""] as const;
-  const scales = ["small", "medium", "large", ""] as const;
+  const sizes = ["s", "m", "l", ""] as const;
+  const scales = ["s", "m", "l", ""] as const;
 
   types.forEach((type) => {
     sizes.forEach((size) => {
