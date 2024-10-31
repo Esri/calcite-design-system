@@ -55,6 +55,7 @@ export default {
     chromatic: {
       delay: 1000,
     },
+    layout: "fullscreen",
   },
 };
 
@@ -1849,8 +1850,8 @@ export const panelWithPopoverZIndex = (): string =>
         </calcite-flow>
       </calcite-shell-panel> </calcite-shell
     ><calcite-popover open reference-element="button" offset-distance="-50" offset-skidding="15" style="z-index: 100">
-      <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel>
-    </calcite-popover>`;
+      <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel
+    ></calcite-popover>`;
 
 export const popoverZIndex = (): string =>
   html`<calcite-shell>
@@ -1866,7 +1867,9 @@ export const popoverZIndex = (): string =>
     </calcite-shell-panel>
 
     <!--  Popover here  -->
-    <calcite-popover reference-element="target-element" open><p>This is a popover</p></calcite-popover>
+    <calcite-popover overlay-positioning="fixed" reference-element="target-element" open
+      ><p>This is a popover</p></calcite-popover
+    >
 
     <calcite-shell-panel slot="panel-end" position="end" id="shell-panel-end" collapsed>
       <calcite-action-bar slot="action-bar">

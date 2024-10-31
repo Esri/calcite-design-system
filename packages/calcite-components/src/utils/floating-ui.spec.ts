@@ -45,6 +45,8 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
         type: "menu",
       });
     },
+    floatingEl,
+    referenceEl,
     overlayPositioning: "absolute",
     placement: "auto",
   };
@@ -75,24 +77,36 @@ describe("repositioning", () => {
       type: "popover",
     };
 
-    connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    connectFloatingUI(fakeFloatingUiComponent);
   });
 
-  function assertPreOpenPositioning(floatingEl: HTMLElement): void {
+  function assertClosedPositioning(floatingEl: HTMLElement): void {
+    expect(floatingEl.style.display).toBe("");
+    expect(floatingEl.style.pointerEvents).toBe("");
+    expect(floatingEl.style.position).toBe("");
     expect(floatingEl.style.transform).toBe("");
-    expect(floatingEl.style.top).toBe("");
-    expect(floatingEl.style.left).toBe("");
+    expect(floatingEl.style.visibility).toBe("");
+  }
+
+  function assertPreOpenPositioning(floatingEl: HTMLElement): void {
+    expect(floatingEl.style.display).toBe("block");
+    expect(floatingEl.style.pointerEvents).toBe("");
+    expect(floatingEl.style.position).toBe("absolute");
+    expect(floatingEl.style.transform).toBe("");
+    expect(floatingEl.style.visibility).toBe("");
   }
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
+    expect(floatingEl.style.display).toBe("block");
+    expect(floatingEl.style.pointerEvents).toBe("none");
+    expect(floatingEl.style.position).not.toBe("");
     expect(floatingEl.style.transform).not.toBe("");
-    expect(floatingEl.style.top).toBe("0");
-    expect(floatingEl.style.left).toBe("0");
+    expect(floatingEl.style.visibility).toBe("hidden");
   }
 
   it("repositions only for open components", async () => {
     await reposition(fakeFloatingUiComponent, positionOptions);
-    assertPreOpenPositioning(floatingEl);
+    assertClosedPositioning(floatingEl);
 
     fakeFloatingUiComponent.open = true;
 
@@ -101,6 +115,8 @@ describe("repositioning", () => {
   });
 
   it("repositions immediately by default", async () => {
+    assertClosedPositioning(floatingEl);
+
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions);
@@ -112,6 +128,8 @@ describe("repositioning", () => {
   });
 
   it("can reposition after a delay", async () => {
+    assertClosedPositioning(floatingEl);
+
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions, true);
@@ -162,27 +180,27 @@ describe("connect/disconnect helpers", () => {
     expect(floatingEl.style.visibility).toBe("");
     expect(floatingEl.style.pointerEvents).toBe("");
 
-    await connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    await connectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(true);
     expect(floatingEl.style.position).toBe("absolute");
     expect(floatingEl.style.visibility).toBe("hidden");
     expect(floatingEl.style.pointerEvents).toBe("none");
 
-    disconnectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    disconnectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(false);
     expect(floatingEl.style.position).toBe("absolute");
 
     fakeFloatingUiComponent.overlayPositioning = "fixed";
-    await connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    await connectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(true);
     expect(floatingEl.style.position).toBe("fixed");
     expect(floatingEl.style.visibility).toBe("hidden");
     expect(floatingEl.style.pointerEvents).toBe("none");
 
-    disconnectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
+    disconnectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(false);
     expect(floatingEl.style.position).toBe("fixed");
