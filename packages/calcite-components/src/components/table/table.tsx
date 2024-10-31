@@ -487,6 +487,10 @@ export class Table extends LitElement implements LoadableComponent {
         >
           <table
             ariaColCount={this.colCount}
+            ariaMultiSelectable={
+              /* workaround to ensure the attr gets removed; we should be able to avoid the ternary when fixed */
+              this.selectionMode === "multiple" ? "true" : null
+            }
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}
             ref={(el) => {
