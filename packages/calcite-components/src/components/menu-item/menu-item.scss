@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-menu-item-action-background-color-press: defines the background color of an action sub-component when active.
+ * @prop --calcite-menu-item-action-background-color-pressed: defines the background color of an action sub-component when active.
  * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
  * @prop --calcite-menu-item-action-border-color: Specifies the border inline start color of an action sub-component.
@@ -54,24 +54,23 @@
   px-4
   h-full
   w-full;
-  color: var(--calcite-menu-item-text-color, var(--calcite-internal-menu-item-text-color, var(--calcite-color-text-2)));
+  text-decoration: none;
+  padding-block-start: theme("spacing[0.5]");
+
   background-color: var(
     --calcite-menu-item-background-color,
     var(--calcite-internal-menu-item-background-color, var(--calcite-color-foreground-1))
   );
-
-  text-decoration: none;
   border-block-end: var(--calcite-spacing-base) solid
     var(
       --calcite-menu-item-border-color,
       var(--calcite-internal-menu-item-border-color, var(--calcite-color-transparent))
     );
-  padding-block-start: theme("spacing[0.5]");
+  color: var(--calcite-menu-item-text-color, var(--calcite-internal-menu-item-text-color, var(--calcite-color-text-2)));
 
   &:hover,
   &:focus {
     --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-2);
-    --calcite-internal-menu-item-text-color: var(--calcite-color-text-2);
   }
 
   &:focus {
@@ -97,10 +96,6 @@
 
 :host([layout="vertical"]) .content {
   padding-inline: var(--calcite-spacing-md);
-  border-color: var(
-    --calcite-menu-item-border-color,
-    var(--calcite-internal-menu-item-border-color, var(--calcite-color-transparent))
-  );
 }
 
 :host([active]) {
@@ -110,12 +105,15 @@
     --calcite-internal-menu-item-border-color: var(--calcite-color-brand);
   }
   .icon {
-    color: var(--calcite-internal-menu-item-icon-color, var(--calcite-color-brand));
+    --calcite-internal-menu-item-icon-color: var(--calcite-color-brand);
   }
 }
 
 .icon {
-  color: var(--calcite-menu-item-icon-color, var(--calcite-internal-menu-item-icon-color, var(--calcite-color-text-3)));
+  color: var(
+    --calcite-menu-item-icon-color,
+    var(--calcite-icon-color, var(--calcite-internal-menu-item-icon-color, var(--calcite-color-text-3)))
+  );
 }
 
 .icon--start {
@@ -171,8 +169,12 @@
 
 calcite-action {
   @apply relative h-auto;
-  border-inline-start: 1px solid var(--calcite-color-foreground-1);
-  background-color: var(--calcite-menu-item-action-background-color, var(--calcite-action-background-color));
+  border-inline-start: 1px solid
+    var(
+      --calcite-menu-item-action-border-color,
+      var(--calcite-menu-item-action-border-color, var(--calcite-color-foreground-1))
+    );
+  --calcite-action-background-color: var(--calcite-menu-item-action-background-color);
 
   &::after {
     @apply block w-px  absolute -start-px;
@@ -188,17 +190,11 @@ calcite-action {
 
   &:hover,
   &:focus {
-    background-color: var(
-      --calcite-menu-item-action-background-color-hover,
-      var(--calcite-action-background-color-hover)
-    );
+    --calcite-action-background-color-hover: var(--calcite-menu-item-action-background-color-hover);
   }
 
   &:active {
-    background-color: var(
-      --calcite-menu-item-action-background-color-press,
-      var(--calcite-action-background-color-pressed)
-    );
+    --calcite-action-background-color-pressed: var(--calcite-menu-item-action-background-color-pressed);
   }
 }
 
@@ -206,16 +202,12 @@ calcite-action {
 .content:focus ~ calcite-action,
 .content:hover ~ calcite-action {
   --calcite-action-text-color-pressed: var(--calcite-menu-item-action-text-color-press, var(--calcite-color-text-1));
-  border-inline-start: 1px solid var(--calcite-menu-item-action-border-color, var(--calcite-color-border-3));
+  --calcite-menu-item-action-border-color: var(--calcite-color-border-3);
 }
 
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   border: 1px solid var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
-  background: var(
-    --calcite-menu-item-background-color,
-    var(--calcite-internal-menu-item-background-color, var(--calcite-color-foreground-1))
-  );
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
