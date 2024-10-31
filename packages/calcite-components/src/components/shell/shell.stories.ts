@@ -1874,7 +1874,9 @@ export const popoverZIndex = (): string =>
     </calcite-shell-panel>
 
     <!--  Popover here  -->
-    <calcite-popover reference-element="target-element" open><p>This is a popover</p></calcite-popover>
+    <calcite-popover overlay-positioning="fixed" reference-element="target-element" open
+      ><p>This is a popover</p></calcite-popover
+    >
 
     <calcite-shell-panel slot="panel-end" position="end" id="shell-panel-end" collapsed>
       <calcite-action-bar slot="action-bar">
