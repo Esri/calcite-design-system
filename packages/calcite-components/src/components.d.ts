@@ -59,6 +59,7 @@ import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input
 import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
+import { GroupItemData } from "./components/list-item-group/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
@@ -152,6 +153,7 @@ export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input
 export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
+export { GroupItemData } from "./components/list-item-group/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
 export { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
@@ -3240,7 +3242,7 @@ export namespace Components {
           * The currently filtered `calcite-list-item` data.
           * @readonly
          */
-        "filteredData": ItemData;
+        "filteredData": (ItemData | GroupItemData)[];
         /**
           * The currently filtered `calcite-list-item`s.
           * @readonly
@@ -3250,10 +3252,6 @@ export namespace Components {
           * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
          */
         "group"?: string;
-        /**
-          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
-         */
-        "interactionMode": InteractionMode;
         /**
           * Specifies an accessible name for the component.
          */
@@ -11212,7 +11210,7 @@ declare namespace LocalJSX {
           * The currently filtered `calcite-list-item` data.
           * @readonly
          */
-        "filteredData"?: ItemData;
+        "filteredData"?: (ItemData | GroupItemData)[];
         /**
           * The currently filtered `calcite-list-item`s.
           * @readonly
@@ -11222,10 +11220,6 @@ declare namespace LocalJSX {
           * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
          */
         "group"?: string;
-        /**
-          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
-         */
-        "interactionMode"?: InteractionMode;
         /**
           * Specifies an accessible name for the component.
          */
