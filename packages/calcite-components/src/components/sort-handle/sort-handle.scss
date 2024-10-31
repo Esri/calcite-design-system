@@ -5,6 +5,7 @@
 .handle {
   @apply cursor-move;
   --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
+  --calcite-action-text-color: var(--calcite-color-border-input);
 }
 
 .dropdown {
