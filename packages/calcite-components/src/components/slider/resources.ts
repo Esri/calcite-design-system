@@ -7,7 +7,6 @@ export const CSS = {
   handleLabel: "handle__label",
   handleLabelMinValue: "handle__label--minValue",
   handleLabelValue: "handle__label--value",
-  handleLabelVertical: "handle__label--vertical",
   hyphen: "hyphen",
   hyphenWrap: "hyphen--wrap",
   static: "static",
@@ -27,7 +26,6 @@ export const CSS = {
   track: "track",
   trackRange: "track__range",
   transformed: "transformed",
-  trackVertical: "track--vertical",
 };
 
 export const maxTickElementThreshold = 250;

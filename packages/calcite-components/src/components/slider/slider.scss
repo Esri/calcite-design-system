@@ -36,6 +36,10 @@
 
 :host {
   @apply block;
+
+  &:host([layout="vertical"]) {
+    transform: rotate(-90deg);
+  }
 }
 
 .container {
@@ -374,11 +378,6 @@
   }
 }
 
-.track--vertical {
-  transform: rotate(-90deg);
-}
-
-.handle__label--vertical,
 .tick__label--vertical {
   transform: rotate(90deg);
 }

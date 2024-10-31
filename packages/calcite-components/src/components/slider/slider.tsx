@@ -249,9 +249,6 @@ export class Slider
   }
 
   componentDidRender(): void {
-    if (this.layout === "vertical") {
-      return;
-    }
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
       if (isRange(this.value)) {
@@ -328,7 +325,6 @@ export class Slider
               [CSS.container]: true,
               [CSS.containerRange]: valueIsRange,
               [`scale--${this.scale}`]: true,
-              [CSS.trackVertical]: this.layout === "vertical",
             }}
           >
             {this.renderGraph()}
@@ -427,7 +423,6 @@ export class Slider
             aria-hidden="true"
             class={{
               [thumbLabelClasses]: true,
-              [CSS.handleLabelVertical]: this.layout === "vertical",
             }}
           >
             {displayedValue}
@@ -1027,7 +1022,9 @@ export class Slider
   }
 
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
-    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
+    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
+      `.handle__label--${name}:not(.static):not(.transformed)`,
+    );
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.static`,
     );
@@ -1035,12 +1032,24 @@ export class Slider
       `.handle__label--${name}.transformed`,
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
-    const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
-    label.style.transform = `translateX(${labelStaticOffset}px)`;
-    labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
+    const labelStaticOffset = this.getHostOffset(
+      this.layout === "horizontal" ? labelStaticBounds.left : labelStaticBounds.top,
+      this.layout === "horizontal" ? labelStaticBounds.right : labelStaticBounds.top,
+    );
+    const verticalRotate = this.layout === "vertical" ? `rotate(90deg)` : ``;
+    label.style.transform = `translateX(${labelStaticOffset}px) ${verticalRotate}`;
+    labelTransformed.style.transform = `translateX(${labelStaticOffset}px) ${verticalRotate}`;
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
+    if (this.layout === "horizontal") {
+      this.hyphenateHorizontalCollidingRangeHandleLabels();
+    } else {
+      this.hyphenateVerticalCollidingRangeHandleLabels();
+    }
+  }
+
+  private hyphenateHorizontalCollidingRangeHandleLabels(): void {
     const { shadowRoot } = this.el;
 
     const mirror = this.shouldMirror();
@@ -1082,7 +1091,7 @@ export class Slider
     );
 
     const hyphenLabel = leftValueLabel;
-    const labelOffset = labelFontSize / 2 + 2;
+    const labelOffset = labelFontSize / 2;
 
     if (labelTransformedOverlap > 0) {
       hyphenLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
@@ -1158,6 +1167,65 @@ export class Slider
     }
   }
 
+  private hyphenateVerticalCollidingRangeHandleLabels(): void {
+    const minHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.thumbMinValue}`,
+    );
+    const maxHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(`.${CSS.thumbValue}`);
+
+    if (!minHandle || !maxHandle) {
+      return;
+    }
+
+    const minHandleBounds = minHandle.getBoundingClientRect();
+    const maxHandleBounds = maxHandle.getBoundingClientRect();
+    const { shadowRoot } = this.el;
+    const mirror = this.shouldMirror();
+    const leftModifier = mirror ? "value" : "minValue";
+    const rightModifier = mirror ? "minValue" : "value";
+
+    const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}`,
+    );
+    const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}.static`,
+    );
+    const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}.transformed`,
+    );
+    const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}`,
+    );
+    const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}.static`,
+    );
+    const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}.transformed`,
+    );
+
+    if (intersects(minHandleBounds, maxHandleBounds)) {
+      mirror
+        ? rightValueLabel.classList.add(CSS.hyphen, CSS.hyphenWrap)
+        : leftValueLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
+      const rightBoundingBox = rightValueLabelStatic.getBoundingClientRect();
+      const leftBoundingBox = leftValueLabelStatic.getBoundingClientRect();
+      const offset = Math.abs(leftBoundingBox.top - rightBoundingBox.top);
+      let additionalRightTransform = "";
+      if (mirror) {
+        additionalRightTransform = `translateY(-${leftBoundingBox.width - 10}px)`;
+      } else {
+        leftValueLabel.style.transform = `translateY(-${rightBoundingBox.width - 10}px) rotate(90deg)`;
+        leftValueLabelTransformed.style.transform = `translateY(-${rightBoundingBox.width - 10}px) rotate(90deg)`;
+      }
+      rightValueLabel.style.transform = `${additionalRightTransform} translateX(-${offset}px) rotate(90deg)`;
+      rightValueLabelTransformed.style.transform = `${additionalRightTransform} translateX(-${offset}px) rotate(90deg)`;
+    } else {
+      mirror
+        ? rightValueLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap)
+        : leftValueLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
+    }
+  }
+
   /**
    * Hides bounding tick labels that are obscured by either handle.
    */
@@ -1214,22 +1282,24 @@ export class Slider
   }
 
   /**
-   * Returns an integer representing the number of pixels to offset on the left or right side based on desired position behavior.
+   * Returns an integer representing the number of pixels to offset on the left/top or right/bottom side based on desired position behavior.
    *
-   * @param leftBounds
-   * @param rightBounds
+   * @param startBounds
+   * @param endBounds
    * @internal
    */
-  private getHostOffset(leftBounds: number, rightBounds: number): number {
+  private getHostOffset(startBounds: number, endBounds: number): number {
     const hostBounds = this.el.getBoundingClientRect();
     const buffer = 7;
+    const hostStart = this.layout === "horizontal" ? hostBounds.left : hostBounds.top;
+    const hostEnd = this.layout === "horizontal" ? hostBounds.right : hostBounds.bottom;
 
-    if (leftBounds + buffer < hostBounds.left) {
-      return hostBounds.left - leftBounds - buffer;
+    if (startBounds + buffer < hostStart) {
+      return hostStart - startBounds - buffer;
     }
 
-    if (rightBounds - buffer > hostBounds.right) {
-      return -(rightBounds - hostBounds.right) + buffer;
+    if (endBounds - buffer > hostEnd) {
+      return -(endBounds - hostEnd) + buffer;
     }
 
     return 0;
@@ -1245,8 +1315,14 @@ export class Slider
   private getRangeLabelOverlap(leftLabel: HTMLSpanElement, rightLabel: HTMLSpanElement): number {
     const leftLabelBounds = leftLabel.getBoundingClientRect();
     const rightLabelBounds = rightLabel.getBoundingClientRect();
-    const leftLabelFontSize = this.getFontSizeForElement(leftLabel);
-    const rangeLabelOverlap = leftLabelBounds.right + leftLabelFontSize - rightLabelBounds.left;
+    const labelFontSize =
+      this.layout === "horizontal"
+        ? this.getFontSizeForElement(leftLabel)
+        : this.getFontSizeForElement(rightLabel);
+    const rangeLabelOverlap =
+      this.layout === "horizontal"
+        ? leftLabelBounds.right + labelFontSize - rightLabelBounds.left
+        : rightLabelBounds.bottom + labelFontSize - leftLabelBounds.top;
 
     return Math.max(rangeLabelOverlap, 0);
   }
