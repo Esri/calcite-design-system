@@ -40,15 +40,15 @@
   @apply self-start;
 }
 
-:host .height-s {
+.height-s {
   block-size: theme("width[1/3]");
 }
 
-:host .height-m {
+.height-m {
   block-size: 70%;
 }
 
-:host .height-l {
+.height-l {
   @apply h-full;
 }
 

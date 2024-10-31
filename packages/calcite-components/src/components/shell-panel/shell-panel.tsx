@@ -18,7 +18,7 @@ import {
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
-import { getHeight, getWidth } from "../../utils/dynamicCSSConst";
+import { getHeight, getWidth } from "../../utils/dynamicClasses";
 import {
   connectMessages,
   disconnectMessages,
@@ -343,7 +343,7 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
           [getWidth(this.width, this.widthScale)]: !!this.width || !!this.widthScale,
-          [getHeight(this.height, this.heightScale)]: !!this.height || !!this.heightScale,
+          [getHeight(this.height, this.heightScale)]: !!(this.width || this.widthScale),
         }}
         hidden={collapsed}
         key="content"

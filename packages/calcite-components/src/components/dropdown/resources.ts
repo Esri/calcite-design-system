@@ -3,7 +3,7 @@ export const SLOTS = {
 };
 
 export const CSS = {
-  calciteDropdownWrapper: "calcite-dropdown-wrapper",
+  wrapper: "calcite-dropdown-wrapper",
   width: "width",
   widthScale: "width-scale",
 };
