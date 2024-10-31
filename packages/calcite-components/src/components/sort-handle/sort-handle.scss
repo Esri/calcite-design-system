@@ -11,4 +11,6 @@
   block-size: 100%;
 }
 
+@include disabled();
+
 @include base-component();
