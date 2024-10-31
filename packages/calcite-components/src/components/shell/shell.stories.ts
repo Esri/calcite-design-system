@@ -1232,18 +1232,18 @@ position:relative;
             <calcite-block drag-handle heading="Attributes" summary="2/98" collapsible>
               <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
               <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
-              <calcite-value-list drag-enabled>
-                <calcite-value-list-item
+              <calcite-list drag-enabled>
+                <calcite-list-item
                   label="2018 Total Households (Esri)"
                   value="Households"
                   description="{TOTHH_CY}"
-                ></calcite-value-list-item>
-                <calcite-value-list-item
+                ></calcite-list-item>
+                <calcite-list-item
                   label="2018 Average Household Size (Esri)"
                   value="Household"
                   description="{AVGHHSZ_CY}"
-                ></calcite-value-list-item>
-              </calcite-value-list>
+                ></calcite-list-item>
+              </calcite-list>
               <div class="row">
                 <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" kind="neutral"
                   >Select attributes</calcite-button
