@@ -10,8 +10,7 @@ describe("getDimension", () => {
       scales.forEach((scale) => {
         const expected = size ? `${type}-${size}` : scale ? `${type}-${scale}` : "";
         it(`should return "${expected}" for type="${type}", size="${size}", scale="${scale}"`, () => {
-          const result = getDimension(type, size, scale);
-          expect(result).toBe(expected);
+          expect(getDimension(type, size, scale)).toBe(expected);
         });
       });
     });

@@ -9,7 +9,6 @@ export const CSS = {
   floatContent: "float--content",
   height: "height",
   separator: "separator",
-  width: "width",
 };
 
 export const SLOTS = {

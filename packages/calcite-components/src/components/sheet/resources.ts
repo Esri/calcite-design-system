@@ -5,5 +5,4 @@ export const CSS = {
   content: "content",
   containerEmbedded: "container--embedded",
   height: "height",
-  width: "width",
 };
