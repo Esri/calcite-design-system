@@ -511,6 +511,10 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
+    /**
+     * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+     * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+     */
     interface CalciteAlert {
         /**
           * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
@@ -729,6 +733,10 @@ export namespace Components {
          */
         "toggleDisplay": BlockSectionToggleDisplay;
     }
+    /**
+     * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+     */
     interface CalciteButton {
         /**
           * Specifies the alignment of the component's elements.
@@ -3149,6 +3157,11 @@ export namespace Components {
          */
         "scale": Scale;
     }
+    /**
+     * Any attributes placed on <calcite-link> component will propagate to the rendered child
+     * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+     */
     interface CalciteLink {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -3778,6 +3791,12 @@ export namespace Components {
          */
         "username": string;
     }
+    /**
+     * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+     * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+     * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+     * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+     */
     interface CalciteNotice {
         /**
           * When `true`, a close button is added to the component.
@@ -5096,6 +5115,9 @@ export namespace Components {
          */
         "syncId": string;
     }
+    /**
+     * Tab-titles are optionally individually closable.
+     */
     interface CalciteTabTitle {
         /**
           * This activates a tab in order for it and its associated tab-title be selected.
@@ -6281,6 +6303,10 @@ declare global {
         "calciteAlertBeforeOpen": void;
         "calciteAlertOpen": void;
     }
+    /**
+     * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+     * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+     */
     interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(type: K, listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6339,6 +6365,10 @@ declare global {
         prototype: HTMLCalciteBlockSectionElement;
         new (): HTMLCalciteBlockSectionElement;
     };
+    /**
+     * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+     */
     interface HTMLCalciteButtonElement extends Components.CalciteButton, HTMLStencilElement {
     }
     var HTMLCalciteButtonElement: {
@@ -6959,6 +6989,11 @@ declare global {
         prototype: HTMLCalciteLabelElement;
         new (): HTMLCalciteLabelElement;
     };
+    /**
+     * Any attributes placed on <calcite-link> component will propagate to the rendered child
+     * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+     */
     interface HTMLCalciteLinkElement extends Components.CalciteLink, HTMLStencilElement {
     }
     var HTMLCalciteLinkElement: {
@@ -7132,6 +7167,12 @@ declare global {
         "calciteNoticeClose": void;
         "calciteNoticeOpen": void;
     }
+    /**
+     * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+     * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+     * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+     * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+     */
     interface HTMLCalciteNoticeElement extends Components.CalciteNotice, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteNoticeElementEventMap>(type: K, listener: (this: HTMLCalciteNoticeElement, ev: CalciteNoticeCustomEvent<HTMLCalciteNoticeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7580,6 +7621,9 @@ declare global {
         "calciteInternalTabTitleRegister": TabID;
         "calciteInternalTabIconChanged": void;
     }
+    /**
+     * Tab-titles are optionally individually closable.
+     */
     interface HTMLCalciteTabTitleElement extends Components.CalciteTabTitle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTabTitleElementEventMap>(type: K, listener: (this: HTMLCalciteTabTitleElement, ev: CalciteTabTitleCustomEvent<HTMLCalciteTabTitleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8268,6 +8312,10 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
+    /**
+     * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+     * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+     */
     interface CalciteAlert {
         /**
           * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
@@ -8514,6 +8562,10 @@ declare namespace LocalJSX {
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
     }
+    /**
+     * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+     */
     interface CalciteButton {
         /**
           * Specifies the alignment of the component's elements.
@@ -11081,6 +11133,11 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
+    /**
+     * Any attributes placed on <calcite-link> component will propagate to the rendered child
+     * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+     */
     interface CalciteLink {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -11752,6 +11809,12 @@ declare namespace LocalJSX {
          */
         "username"?: string;
     }
+    /**
+     * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+     * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+     * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+     * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+     */
     interface CalciteNotice {
         /**
           * When `true`, a close button is added to the component.
@@ -13124,6 +13187,9 @@ declare namespace LocalJSX {
          */
         "syncId"?: string;
     }
+    /**
+     * Tab-titles are optionally individually closable.
+     */
     interface CalciteTabTitle {
         "bordered"?: boolean;
         /**
@@ -14045,10 +14111,18 @@ declare module "@stencil/core" {
             "calcite-action-group": LocalJSX.CalciteActionGroup & JSXBase.HTMLAttributes<HTMLCalciteActionGroupElement>;
             "calcite-action-menu": LocalJSX.CalciteActionMenu & JSXBase.HTMLAttributes<HTMLCalciteActionMenuElement>;
             "calcite-action-pad": LocalJSX.CalciteActionPad & JSXBase.HTMLAttributes<HTMLCalciteActionPadElement>;
+            /**
+             * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+             * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+             */
             "calcite-alert": LocalJSX.CalciteAlert & JSXBase.HTMLAttributes<HTMLCalciteAlertElement>;
             "calcite-avatar": LocalJSX.CalciteAvatar & JSXBase.HTMLAttributes<HTMLCalciteAvatarElement>;
             "calcite-block": LocalJSX.CalciteBlock & JSXBase.HTMLAttributes<HTMLCalciteBlockElement>;
             "calcite-block-section": LocalJSX.CalciteBlockSection & JSXBase.HTMLAttributes<HTMLCalciteBlockSectionElement>;
+            /**
+             * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+             * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+             */
             "calcite-button": LocalJSX.CalciteButton & JSXBase.HTMLAttributes<HTMLCalciteButtonElement>;
             "calcite-card": LocalJSX.CalciteCard & JSXBase.HTMLAttributes<HTMLCalciteCardElement>;
             "calcite-card-group": LocalJSX.CalciteCardGroup & JSXBase.HTMLAttributes<HTMLCalciteCardGroupElement>;
@@ -14087,6 +14161,11 @@ declare module "@stencil/core" {
             "calcite-input-time-picker": LocalJSX.CalciteInputTimePicker & JSXBase.HTMLAttributes<HTMLCalciteInputTimePickerElement>;
             "calcite-input-time-zone": LocalJSX.CalciteInputTimeZone & JSXBase.HTMLAttributes<HTMLCalciteInputTimeZoneElement>;
             "calcite-label": LocalJSX.CalciteLabel & JSXBase.HTMLAttributes<HTMLCalciteLabelElement>;
+            /**
+             * Any attributes placed on <calcite-link> component will propagate to the rendered child
+             * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+             * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+             */
             "calcite-link": LocalJSX.CalciteLink & JSXBase.HTMLAttributes<HTMLCalciteLinkElement>;
             /**
              * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -14105,6 +14184,12 @@ declare module "@stencil/core" {
             "calcite-navigation": LocalJSX.CalciteNavigation & JSXBase.HTMLAttributes<HTMLCalciteNavigationElement>;
             "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo & JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;
             "calcite-navigation-user": LocalJSX.CalciteNavigationUser & JSXBase.HTMLAttributes<HTMLCalciteNavigationUserElement>;
+            /**
+             * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+             * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+             * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+             * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+             */
             "calcite-notice": LocalJSX.CalciteNotice & JSXBase.HTMLAttributes<HTMLCalciteNoticeElement>;
             "calcite-option": LocalJSX.CalciteOption & JSXBase.HTMLAttributes<HTMLCalciteOptionElement>;
             "calcite-option-group": LocalJSX.CalciteOptionGroup & JSXBase.HTMLAttributes<HTMLCalciteOptionGroupElement>;
@@ -14136,6 +14221,9 @@ declare module "@stencil/core" {
             "calcite-switch": LocalJSX.CalciteSwitch & JSXBase.HTMLAttributes<HTMLCalciteSwitchElement>;
             "calcite-tab": LocalJSX.CalciteTab & JSXBase.HTMLAttributes<HTMLCalciteTabElement>;
             "calcite-tab-nav": LocalJSX.CalciteTabNav & JSXBase.HTMLAttributes<HTMLCalciteTabNavElement>;
+            /**
+             * Tab-titles are optionally individually closable.
+             */
             "calcite-tab-title": LocalJSX.CalciteTabTitle & JSXBase.HTMLAttributes<HTMLCalciteTabTitleElement>;
             "calcite-table": LocalJSX.CalciteTable & JSXBase.HTMLAttributes<HTMLCalciteTableElement>;
             "calcite-table-cell": LocalJSX.CalciteTableCell & JSXBase.HTMLAttributes<HTMLCalciteTableCellElement>;
