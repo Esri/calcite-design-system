@@ -281,7 +281,7 @@ function invalidHandler(event: Event) {
         formComponent.status = "idle";
       }
 
-      // don't clear if a specific icon was specified
+      // don't clear if an icon was specified by the user
       if (
         "validationIcon" in formComponent &&
         (formComponent.validationIcon === "" || formComponent.validationIcon === true)
