@@ -287,8 +287,7 @@ slot[name="primary"] {
         max-block-size: unset;
       }
     }
-    :host([width-scale="#{$size}"][docked]) .container,
-    :host([width="#{$size}"][docked]) .container {
+    :host([docked]) .container .width-#{$size} {
       align-items: flex-end;
     }
   }

@@ -135,7 +135,7 @@ describe("calcite-shell-panel", () => {
       "calcite-shell-panel",
       (panel: HTMLCalciteShellPanelElement, containerClass: string, contentClass: string) => {
         const container = panel.shadowRoot.querySelector(containerClass);
-        return container.firstElementChild.className.split(" ")[0] == contentClass;
+        return container.firstElementChild.classList.contains(contentClass);
       },
       `.${CSS.container}`,
       CSS.content,
