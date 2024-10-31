@@ -69,7 +69,7 @@ import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
+import { ComboboxChildElement, SelectionDisplay, GroupData, ItemData } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
@@ -78,18 +78,6 @@ import {
   hasActiveChildren,
   isSingleLike,
 } from "./utils";
-
-interface ItemData {
-  description: string;
-  label: string;
-  metadata: Record<string, unknown>;
-  shortHeading: string;
-  value: string;
-}
-
-interface GroupData {
-  label: string;
-}
 
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
