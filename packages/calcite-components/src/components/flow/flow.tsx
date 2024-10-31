@@ -1,4 +1,4 @@
-import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, h, Listen, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 import {
   componentFocusable,
@@ -6,6 +6,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { whenAnimationDone } from "../../utils/dom";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
 import { CSS } from "./resources";
 
@@ -26,35 +27,40 @@ export class Flow implements LoadableComponent {
 
   /**
    * Removes the currently active `calcite-flow-item`.
+   *
+   * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
    */
   @Method()
   async back(): Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement> {
-    const { items } = this;
+    const { items, selectedIndex } = this;
 
-    const lastItem = items[items.length - 1];
+    const selectedItem = items[selectedIndex];
+    const nextSelectedItem = items[selectedIndex - 1];
 
-    if (!lastItem) {
+    if (!selectedItem || !nextSelectedItem) {
       return;
     }
 
-    const beforeBack = lastItem.beforeBack
-      ? lastItem.beforeBack
+    const beforeBack = selectedItem.beforeBack
+      ? selectedItem.beforeBack
       : (): Promise<void> => Promise.resolve();
 
     try {
-      await beforeBack.call(lastItem);
+      await beforeBack.call(selectedItem);
     } catch (_error) {
       // back prevented
       return;
     }
 
-    lastItem.remove();
-
-    return lastItem;
+    selectedItem.selected = false;
+    nextSelectedItem.selected = true;
+    return nextSelectedItem;
   }
 
   /**
    * Sets focus on the component.
+   *
+   * @returns Promise<void>
    */
   @Method()
   async setFocus(): Promise<void> {
@@ -87,13 +93,31 @@ export class Flow implements LoadableComponent {
 
   @Element() el: HTMLCalciteFlowElement;
 
-  @State() flowDirection: FlowDirection = null;
+  @State() flowDirection: FlowDirection = "standby";
 
-  @State() itemCount = 0;
+  @Watch("flowDirection")
+  async handleFlowDirectionChange(flowDirection: string): Promise<void> {
+    if (flowDirection === "standby") {
+      return;
+    }
+
+    await whenAnimationDone(
+      this.frameEl,
+      flowDirection === "retreating" ? "calcite-frame-retreat" : "calcite-frame-advance",
+    );
+
+    this.resetFlowDirection();
+  }
 
   @State() items: FlowItemLikeElement[] = [];
 
-  itemMutationObserver = createObserver("mutation", () => this.updateFlowProps());
+  private selectedIndex = -1;
+
+  private frameEl: HTMLDivElement;
+
+  private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserverChange(),
+  );
 
   // --------------------------------------------------------------------------
   //
@@ -103,7 +127,7 @@ export class Flow implements LoadableComponent {
 
   connectedCallback(): void {
     this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.updateFlowProps();
+    this.handleMutationObserverChange();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -124,6 +148,12 @@ export class Flow implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
+  @Listen("calciteInternalFlowItemChange")
+  handleCalciteInternalFlowItemChange(event: CustomEvent): void {
+    event.stopPropagation();
+    this.updateFlowProps();
+  }
+
   @Listen("calciteFlowItemBack")
   async handleItemBackClick(event: CustomEvent): Promise<void> {
     if (event.defaultPrevented) {
@@ -134,19 +164,26 @@ export class Flow implements LoadableComponent {
     return this.setFocus();
   }
 
-  getFlowDirection = (oldFlowItemCount: number, newFlowItemCount: number): FlowDirection | null => {
-    const allowRetreatingDirection = oldFlowItemCount > 1;
-    const allowAdvancingDirection = oldFlowItemCount && newFlowItemCount > 1;
-
-    if (!allowAdvancingDirection && !allowRetreatingDirection) {
-      return null;
-    }
-
-    return newFlowItemCount < oldFlowItemCount ? "retreating" : "advancing";
+  private resetFlowDirection = (): void => {
+    this.flowDirection = "standby";
   };
 
-  updateFlowProps = (): void => {
-    const { customItemSelectors, el, items } = this;
+  private getFlowDirection = (
+    oldSelectedIndex: number,
+    newSelectedIndex: number,
+  ): FlowDirection | null => {
+    const allowRetreatingDirection = oldSelectedIndex > 0;
+    const allowAdvancingDirection = oldSelectedIndex > -1 && newSelectedIndex > 0;
+
+    if (!allowAdvancingDirection && !allowRetreatingDirection) {
+      return "standby";
+    }
+
+    return newSelectedIndex < oldSelectedIndex ? "retreating" : "advancing";
+  };
+
+  private handleMutationObserverChange = (): void => {
+    const { customItemSelectors, el } = this;
 
     const newItems = Array.from<FlowItemLikeElement>(
       el.querySelectorAll(
@@ -154,29 +191,65 @@ export class Flow implements LoadableComponent {
       ),
     ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
 
-    const oldItemCount = items.length;
-    const newItemCount = newItems.length;
-    const activeItem = newItems[newItemCount - 1];
-    const previousItem = newItems[newItemCount - 2];
-
-    if (newItemCount && activeItem) {
-      newItems.forEach((itemNode) => {
-        itemNode.showBackButton = itemNode === activeItem && newItemCount > 1;
-        itemNode.hidden = itemNode !== activeItem;
-      });
-    }
-
-    if (previousItem) {
-      previousItem.menuOpen = false;
-    }
-
     this.items = newItems;
 
-    if (oldItemCount !== newItemCount) {
-      const flowDirection = this.getFlowDirection(oldItemCount, newItemCount);
-      this.itemCount = newItemCount;
-      this.flowDirection = flowDirection;
+    this.ensureSelectedFlowItemExists();
+
+    this.updateFlowProps();
+  };
+
+  private updateFlowProps = (): void => {
+    const { selectedIndex, items } = this;
+    const foundSelectedIndex = this.findSelectedFlowItemIndex(items);
+
+    items.forEach((flowItem, index) => {
+      const currentlySelected = index === foundSelectedIndex;
+      if (!currentlySelected) {
+        flowItem.menuOpen = false;
+      }
+
+      flowItem.showBackButton = currentlySelected && foundSelectedIndex > 0;
+    });
+
+    if (foundSelectedIndex === -1) {
+      return;
     }
+
+    if (selectedIndex !== foundSelectedIndex) {
+      this.flowDirection = this.getFlowDirection(selectedIndex, foundSelectedIndex);
+    }
+
+    this.selectedIndex = foundSelectedIndex;
+  };
+
+  private findSelectedFlowItemIndex = (
+    items: (HTMLCalciteFlowItemElement | FlowItemLikeElement)[],
+  ): number => {
+    const selectedItem = items
+      .slice(0)
+      .reverse()
+      .find((item) => !!item.selected);
+
+    return items.indexOf(selectedItem);
+  };
+
+  private ensureSelectedFlowItemExists(): void {
+    const { items } = this;
+    const foundSelectedIndex = this.findSelectedFlowItemIndex(items);
+
+    if (foundSelectedIndex !== -1) {
+      return;
+    }
+
+    const lastItem = items[items.length - 1];
+
+    if (lastItem) {
+      lastItem.selected = true;
+    }
+  }
+
+  private setFrameEl = (el: HTMLDivElement): void => {
+    this.frameEl = el;
   };
 
   // --------------------------------------------------------------------------
@@ -195,7 +268,7 @@ export class Flow implements LoadableComponent {
     };
 
     return (
-      <div class={frameDirectionClasses}>
+      <div class={frameDirectionClasses} ref={this.setFrameEl}>
         <slot />
       </div>
     );
