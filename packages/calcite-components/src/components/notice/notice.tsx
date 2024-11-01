@@ -38,9 +38,7 @@ import { CSS, SLOTS } from "./resources";
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
- */
-
-/**
+ *
  * @slot title - A slot for adding the title.
  * @slot message - A slot for adding the message.
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.

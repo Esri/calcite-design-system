@@ -25,6 +25,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
+  hideFloatingUI,
   MenuPlacement,
   OverlayPositioning,
   reposition,
@@ -48,7 +49,7 @@ import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
 import { ItemKeyboardEvent } from "./interfaces";
-import { SLOTS, CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -214,7 +215,7 @@ export class Dropdown
       onToggleOpenCloseComponent(this);
     }
     this.updateItems();
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   componentWillLoad(): void {
@@ -223,7 +224,7 @@ export class Dropdown
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   componentDidRender(): void {
@@ -233,7 +234,7 @@ export class Dropdown
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectFloatingUI(this);
   }
 
   render(): VNode {
@@ -562,17 +563,18 @@ export class Dropdown
 
   onClose(): void {
     this.calciteDropdownClose.emit();
+    hideFloatingUI(this);
   }
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
     this.resizeObserver.observe(el);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
@@ -602,6 +604,7 @@ export class Dropdown
       this.toggleDropdown();
       event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
+      event.preventDefault();
       this.focusLastDropdownItem = key === "ArrowUp";
       this.open = true;
       this.el.addEventListener("calciteDropdownOpen", this.onOpenEnd);
