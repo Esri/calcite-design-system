@@ -20,5 +20,6 @@
       "name": "calcite-dev",
       "path": "./support/dictionaries/dict-calcite-design-system.txt"
     }
-  ]
+  ],
+  "languageSettings": [{ "locale": "*" }]
 }
