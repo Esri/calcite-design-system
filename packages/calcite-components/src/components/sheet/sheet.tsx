@@ -27,7 +27,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { getDimension } from "../../utils/dynamicClasses";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
@@ -193,8 +193,10 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             [CSS.containerOpen]: this.opened,
             [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
-            [getDimension("width", this.width, this.widthScale)]: !!(this.width || this.widthScale),
-            [getDimension("height", this.height, this.heightScale)]: !!(
+            [getDimensionClass("width", this.width, this.widthScale)]: !!(
+              this.width || this.widthScale
+            ),
+            [getDimensionClass("height", this.height, this.heightScale)]: !!(
               this.height || this.heightScale
             ),
           }}

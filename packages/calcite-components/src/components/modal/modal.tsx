@@ -33,7 +33,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { getDimension } from "../../utils/dynamicClasses";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Kind, Scale, Width } from "../interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -237,7 +237,7 @@ export class Modal
           <div
             class={{
               [CSS.modal]: true,
-              [getDimension("width", this.width, this.widthScale)]: !!(
+              [getDimensionClass("width", this.width, this.widthScale)]: !!(
                 this.width || this.widthScale
               ),
             }}

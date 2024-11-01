@@ -1,7 +1,7 @@
 import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { Height, Position, Scale } from "../interfaces";
-import { getDimension } from "../../utils/dynamicClasses";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import { logger } from "../../utils/logger";
 import { CSS, SLOTS } from "./resources";
 
@@ -97,7 +97,7 @@ export class ShellCenterRow {
       <div
         class={{
           [CSS.container]: true,
-          [getDimension("height", this.height, this.heightScale)]: !!(
+          [getDimensionClass("height", this.height, this.heightScale)]: !!(
             this.height || this.heightScale
           ),
         }}

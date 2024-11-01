@@ -29,7 +29,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
-import { getDimension } from "../../utils/dynamicClasses";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -279,7 +279,7 @@ export class Dialog
             aria-modal={toAriaBoolean(this.modal)}
             class={{
               [CSS.dialog]: true,
-              [getDimension("width", this.width, this.widthScale)]: !!(
+              [getDimensionClass("width", this.width, this.widthScale)]: !!(
                 this.width || this.widthScale
               ),
             }}

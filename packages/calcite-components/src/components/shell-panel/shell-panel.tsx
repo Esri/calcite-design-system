@@ -18,7 +18,7 @@ import {
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
-import { getDimension } from "../../utils/dynamicClasses";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import {
   connectMessages,
   disconnectMessages,
@@ -342,8 +342,10 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
           [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
-          [getDimension("width", this.width, this.widthScale)]: !!(this.width || this.widthScale),
-          [getDimension("height", this.height, this.heightScale)]: !!(
+          [getDimensionClass("width", this.width, this.widthScale)]: !!(
+            this.width || this.widthScale
+          ),
+          [getDimensionClass("height", this.height, this.heightScale)]: !!(
             this.height || this.heightScale
           ),
         }}
