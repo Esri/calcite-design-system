@@ -347,12 +347,9 @@ describe("calcite-input-time-picker", () => {
 
       expect(changeEvent).toHaveReceivedEventTimes(0);
 
-      const inputValue = await getInputValue(page);
-
       await inputTimePicker.callMethod("setFocus");
-      inputValue.split("").forEach(async () => {
-        await page.keyboard.press("Backspace");
-      });
+      await selectText(inputTimePicker);
+      await page.keyboard.press("Backspace");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
