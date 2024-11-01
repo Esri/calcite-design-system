@@ -318,7 +318,9 @@ export class TableRow extends LitElement implements InteractiveComponent {
   }
 
   private handleSelectionOfRow = (): void => {
-    this.calciteTableRowSelect.emit();
+    if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
+      this.calciteTableRowSelect.emit();
+    }
   };
 
   private handleKeyboardSelection = (event: KeyboardEvent): void => {
@@ -392,8 +394,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
                       alignment="center"
                       bodyRowCount={this.bodyRowCount}
                       key="selection-head"
-                      onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
-                      onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
+                      onClick={this.handleSelectionOfRow}
+                      onKeyDown={this.handleKeyboardSelection}
                       parentRowAlignment={this.alignment}
                       selectedRowCount={this.selectedRowCount}
                       selectedRowCountLocalized={this.selectedRowCountLocalized}
