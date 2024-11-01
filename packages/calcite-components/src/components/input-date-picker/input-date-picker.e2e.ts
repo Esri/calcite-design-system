@@ -158,12 +158,14 @@ describe("calcite-input-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
       const inputDatePicker = await page.find("calcite-input-date-picker");
-      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await input.click();
+      const inputWrapper = await page.find(`calcite-input-date-picker >>> .${CSS.inputWrapper}`);
+      await inputWrapper.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
+
+      expect(await inputDatePicker.getProperty("open")).toBe(true);
 
       const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
       expect(await calendar.isVisible()).toBe(true);
@@ -785,11 +787,11 @@ describe("calcite-input-date-picker", () => {
     const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
 
     expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
-    expect(calendar).not.toHaveClass(CSS.menuActive);
+    expect(await calendar.isVisible()).toBe(false);
 
     await component.click();
     await page.waitForChanges();
-    expect(calendar).not.toHaveClass(CSS.menuActive);
+    expect(await calendar.isVisible()).toBe(false);
 
     await component.type("atención atención");
     await page.waitForChanges();
@@ -1775,10 +1777,12 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(false);
 
     await inputDatePicker.click();
+    await page.waitForChanges();
     expect(await calendar.isVisible()).toBe(true);
     expect(await isElementFocused(page, "#input-date")).toBe(true);
 
     await input.click();
+    await page.waitForChanges();
     expect(await calendar.isVisible()).toBe(false);
     expect(await isElementFocused(page, "#input")).toBe(true);
   });

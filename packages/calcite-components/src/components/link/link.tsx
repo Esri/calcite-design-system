@@ -15,11 +15,15 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 
-/** Any attributes placed on <calcite-link> component will propagate to the rendered child */
-/** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
-/** It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission */
-
-/** @slot - A slot for adding text. */
+/**
+ * Any attributes placed on <calcite-link> component will propagate to the rendered child
+ *
+ * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+ *
+ * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+ *
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-link",
   styleUrl: "link.scss",

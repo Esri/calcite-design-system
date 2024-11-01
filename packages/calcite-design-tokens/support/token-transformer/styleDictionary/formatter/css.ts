@@ -14,7 +14,7 @@ export const formatCssPlatform: CalledFormatterFunction = (args) => {
   if (Object.keys(extraOutput).length > 0) {
     formatExtraOutput(extraOutput, { ...args.options, header, buildPath: args.platform.buildPath });
   }
-  return prettierSync.format(header + `:root {${tokens.join(EOL)}}`, { parser: "css" });
+  return prettierSync.format(header + (tokens ? `:root {${tokens.join(EOL)}}` : ""), { parser: "css" });
 };
 
 export const registerFormatterCss = (sd: StyleDictionary): void => {
