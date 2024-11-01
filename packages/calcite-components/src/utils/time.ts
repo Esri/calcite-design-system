@@ -388,7 +388,7 @@ export function localizeTimeString({
   });
   let result = formatter.format(dateFromTimeString) || null;
 
-  // Confirmed with i18n team that the bulgarian "ч." character (abbreviation for "hours") shouldn't display for short and medium time formats.
+  // The bulgarian "ч." character (abbreviation for "hours") should not display for short and medium time formats.
   if (result && locale === "bg" && result.includes(" ч.")) {
     result = result.replaceAll(" ч.", "");
   }
