@@ -1190,39 +1190,21 @@ export class Slider
     const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
       `.handle__label--${leftModifier}.static`,
     );
-    const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.transformed`,
-    );
     const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
       `.handle__label--${rightModifier}`,
     );
     const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
       `.handle__label--${rightModifier}.static`,
     );
-    const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.transformed`,
-    );
 
     if (intersects(minHandleBounds, maxHandleBounds)) {
-      mirror
-        ? rightValueLabel.classList.add(CSS.hyphen, CSS.hyphenWrap)
-        : leftValueLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
+      leftValueLabel.textContent = `${leftValueLabelStatic.textContent} \u2014 ${rightValueLabelStatic.textContent}`;
+      rightValueLabel.style.visibility = "hidden";
       const rightBoundingBox = rightValueLabelStatic.getBoundingClientRect();
-      const leftBoundingBox = leftValueLabelStatic.getBoundingClientRect();
-      const offset = Math.abs(leftBoundingBox.top - rightBoundingBox.top);
-      let additionalRightTransform = "";
-      if (mirror) {
-        additionalRightTransform = `translateY(-${leftBoundingBox.width - 10}px)`;
-      } else {
-        leftValueLabel.style.transform = `translateY(-${rightBoundingBox.width - 10}px) rotate(90deg)`;
-        leftValueLabelTransformed.style.transform = `translateY(-${rightBoundingBox.width - 10}px) rotate(90deg)`;
-      }
-      rightValueLabel.style.transform = `${additionalRightTransform} translateX(-${offset}px) rotate(90deg)`;
-      rightValueLabelTransformed.style.transform = `${additionalRightTransform} translateX(-${offset}px) rotate(90deg)`;
+      leftValueLabel.style.transform = `translateY(-${rightBoundingBox.width / 2}px) rotate(90deg)`;
     } else {
-      mirror
-        ? rightValueLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap)
-        : leftValueLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
+      leftValueLabel.textContent = leftValueLabelStatic.textContent;
+      rightValueLabel.style.visibility = "visible";
     }
   }
 
