@@ -1,4 +1,4 @@
-import { getDimension } from "./dynamicClasses";
+import { getDimensionClass } from "./dynamicClasses";
 
 describe("getDimension", () => {
   const types = ["width", "height"] as const;
@@ -10,7 +10,7 @@ describe("getDimension", () => {
       scales.forEach((scale) => {
         const expected = size ? `${type}-${size}` : scale ? `${type}-${scale}` : "";
         it(`should return "${expected}" for type="${type}", size="${size}", scale="${scale}"`, () => {
-          expect(getDimension(type, size, scale)).toBe(expected);
+          expect(getDimensionClass(type, size, scale)).toBe(expected);
         });
       });
     });
