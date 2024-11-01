@@ -256,29 +256,15 @@ describe("getLocalizedMeridiem", () => {
 });
 
 describe("getMeridiemOrder", () => {
-  it("does not return 0 for arabic lang", () => {
+  it("returns correct order for rtl langs", () => {
     expect(getMeridiemOrder("ar")).not.toEqual(0);
-  });
-  it("returns 0 for chinese lang", () => {
-    expect(getMeridiemOrder("zh-CN")).toEqual(0);
-  });
-  it("returns 0 for chinese (hong kong) lang", () => {
-    expect(getMeridiemOrder("zh-HK")).toEqual(0);
-  });
-  it("does not return 0 for hebrew lang", () => {
     expect(getMeridiemOrder("he")).not.toEqual(0);
-  });
-  it("returns 0 for hungarian lang", () => {
     expect(getMeridiemOrder("hu")).toEqual(0);
-  });
-  it("returns 0 for japanese lang", () => {
     expect(getMeridiemOrder("ja")).toEqual(0);
-  });
-  it("returns 0 for korean lang", () => {
     expect(getMeridiemOrder("ko")).toEqual(0);
-  });
-  it("returns 0 for turkish lang", () => {
     expect(getMeridiemOrder("tr")).toEqual(0);
+    expect(getMeridiemOrder("zh-CN")).toEqual(0);
+    expect(getMeridiemOrder("zh-HK")).toEqual(0);
   });
   it("returns non-zero for ltr langs", () => {
     expect(getMeridiemOrder("el")).not.toEqual(0);
