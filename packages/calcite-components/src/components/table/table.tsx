@@ -183,13 +183,10 @@ export class Table extends LitElement implements LoadableComponent {
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
 
-  connectedCallback(): void {
-    this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
-  }
-
   async load(): Promise<void> {
     setUpLoadableComponent(this);
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
+    this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
   /**

@@ -117,7 +117,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
     );
   }
 
-  connectedCallback(): void {
+  load(): void {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
