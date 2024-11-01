@@ -393,6 +393,7 @@ export function localizeTimeString({
     result = result.replaceAll(" ч.", "");
   }
 
+  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
   // @see https://issues.chromium.org/issues/40172622
   // @see https://issues.chromium.org/issues/40676973
   if (locale === "bs" || locale === "mk") {
@@ -430,6 +431,7 @@ export function localizeTimeStringToParts({
     const parts = formatter.formatToParts(dateFromTimeString);
     let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
 
+    // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
     // @see https://issues.chromium.org/issues/40172622
     // @see https://issues.chromium.org/issues/40676973
     if (hour12 && (locale === "bs" || locale === "mk")) {
