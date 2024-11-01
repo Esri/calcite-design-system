@@ -1,13 +1,14 @@
 import { PropertyValues } from "lit";
+import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import {
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { numberStringFormatter, NumberingSystem } from "../../utils/locale";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
@@ -53,11 +54,11 @@ export class Table extends LitElement implements LoadableComponent {
 
   private paginationEl = createRef<Pagination["el"]>();
 
-  private tableBodySlotEl: HTMLSlotElement;
+  private tableBodySlotEl = createRef<HTMLSlotElement>();
 
-  private tableFootSlotEl: HTMLSlotElement;
+  private tableFootSlotEl = createRef<HTMLSlotElement>();
 
-  private tableHeadSlotEl: HTMLSlotElement;
+  private tableHeadSlotEl = createRef<HTMLSlotElement>();
 
   // #endregion
 
@@ -295,9 +296,9 @@ export class Table extends LitElement implements LoadableComponent {
   }
 
   private updateRows(): void {
-    const headRows = this.getSlottedRows(this.tableHeadSlotEl) || [];
-    const bodyRows = this.getSlottedRows(this.tableBodySlotEl) || [];
-    const footRows = this.getSlottedRows(this.tableFootSlotEl) || [];
+    const headRows = this.getSlottedRows(this.tableHeadSlotEl.value) || [];
+    const bodyRows = this.getSlottedRows(this.tableBodySlotEl.value) || [];
+    const footRows = this.getSlottedRows(this.tableFootSlotEl.value) || [];
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
     headRows?.forEach((row) => {
@@ -487,41 +488,29 @@ export class Table extends LitElement implements LoadableComponent {
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}
             ref={(el) => {
-              if (!el || this.tableHeadSlotEl) {
+              if (!el) {
                 return;
               }
 
-              const thead = el.querySelector("thead");
-              const tbody = el.querySelector("tbody");
-              const tfoot = el.querySelector("tfoot");
-
-              const theadSlot = document.createElement("slot");
-              theadSlot.name = SLOTS.tableHeader;
-              this.tableHeadSlotEl = theadSlot;
-              thead.append(theadSlot);
-
-              const tbodySlot = document.createElement("slot");
-              this.tableBodySlotEl = tbodySlot;
-              tbody.append(tbodySlot);
-
-              const tfootSlot = document.createElement("slot");
-              tfootSlot.name = SLOTS.tableFooter;
-              this.tableFootSlotEl = tfootSlot;
-              tfoot.append(tfootSlot);
+              /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
+              render(
+                <>
+                  <caption class={CSS.assistiveText}>{this.caption}</caption>
+                  <thead>
+                    <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotEl} />
+                  </thead>
+                  <tbody>
+                    <slot ref={this.tableBodySlotEl} />
+                  </tbody>
+                  <tfoot>
+                    <slot name={SLOTS.tableFooter} ref={this.tableFootSlotEl} />
+                  </tfoot>
+                </>,
+                el,
+              );
             }}
             role={this.interactionMode === "interactive" ? "grid" : "table"}
-          >
-            <caption class={CSS.assistiveText}>{this.caption}</caption>
-            <thead>
-              {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
-            </thead>
-            <tbody>
-              {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
-            </tbody>
-            <tfoot>
-              {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
-            </tfoot>
-          </table>
+          />
         </div>
         {this.pageSize > 0 && this.renderPaginationArea()}
       </div>

@@ -1,5 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
+import { render } from "lit-html";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
@@ -37,7 +39,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   private tableRowEl: HTMLTableRowElement;
 
-  private tableRowSlotEl: HTMLSlotElement;
+  private tableRowSlotEl = createRef<HTMLSlotElement>();
 
   // #endregion
 
@@ -281,7 +283,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = this.tableRowSlotEl
+    const slottedCells = this.tableRowSlotEl.value
       ?.assignedElements({ flatten: true })
       ?.filter(
         (el: TableCell["el"] | TableHeader["el"]) =>
@@ -332,71 +334,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   // #region Rendering
 
-  private renderSelectionIcon(): HTMLElement {
-    const icon = document.createElement("calcite-icon");
-    const iconName =
-      this.selectionMode === "multiple" && this.selected
-        ? "check-square-f"
-        : this.selectionMode === "multiple"
-          ? "square"
-          : this.selected
-            ? "circle-f"
-            : "circle";
-
-    icon.icon = iconName;
-    icon.scale = getIconScale(this.scale);
-
-    return icon;
-  }
-
-  private renderNumberedCell(): void {
-    const cell =
-      this.rowType === "head"
-        ? document.createElement("calcite-table-header")
-        : document.createElement("calcite-table-cell");
-
-    cell.alignment = "center";
-    cell.numberCell = true;
-    cell.parentRowAlignment = this.alignment;
-
-    if (this.rowType === "body") {
-      cell.textContent = this.positionSectionLocalized;
-    }
-
-    this.tableRowEl.append(cell);
-  }
-
-  private renderSelectableCell(): void {
-    const cell: any =
-      this.rowType === "head"
-        ? document.createElement("calcite-table-header")
-        : document.createElement("calcite-table-cell");
-
-    cell.alignment = "center";
-    cell.selectionCell = true;
-    cell.parentRowAlignment = this.alignment;
-
-    if (this.rowType === "head") {
-      cell.bodyRowCount = this.bodyRowCount;
-      cell.selectedRowCount = this.selectedRowCount;
-      cell.selectedRowCountLocalized = this.selectedRowCountLocalized;
-      cell.selectionMode = this.selectionMode;
-
-      if (this.selectionMode === "multiple") {
-        cell.addEventListener("click", this.handleSelectionOfRow);
-        cell.addEventListener("keydown", this.handleKeyboardSelection);
-      }
-    } else if (this.rowType === "body") {
-      cell.parentRowIsSelected = this.selected;
-      cell.parentRowPositionLocalized = this.positionSectionLocalized;
-      cell.addEventListener("click", this.handleSelectionOfRow);
-      cell.addEventListener("keydown", this.handleKeyboardSelection);
-      cell.append(this.renderSelectionIcon());
-    }
-
-    this.tableRowEl.append(cell);
-  }
-
   override render(): JsxNode {
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -406,27 +343,90 @@ export class TableRow extends LitElement implements InteractiveComponent {
           class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
           onKeyDown={this.keyDownHandler}
           ref={(el) => {
-            if (!el || this.tableRowEl) {
+            if (!el) {
               return;
             }
 
             this.tableRowEl = el;
-            if (this.numbered) {
-              this.renderNumberedCell();
-            }
 
-            if (this.selectionMode !== "none") {
-              this.renderSelectableCell();
-            }
+            const icon =
+              this.selectionMode === "multiple" && this.selected
+                ? "check-square-f"
+                : this.selectionMode === "multiple"
+                  ? "square"
+                  : this.selected
+                    ? "circle-f"
+                    : "circle";
 
-            const defaultSlot = document.createElement("slot");
-            el.append(defaultSlot);
-
-            this.tableRowSlotEl = defaultSlot;
+            /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
+            render(
+              <>
+                {this.numbered &&
+                  (this.rowType === "head" ? (
+                    <calcite-table-header
+                      alignment="center"
+                      key="numbered-head"
+                      numberCell={true}
+                      parentRowAlignment={this.alignment}
+                    />
+                  ) : this.rowType === "body" ? (
+                    <calcite-table-cell
+                      alignment="center"
+                      key="numbered-body"
+                      numberCell={true}
+                      parentRowAlignment={this.alignment}
+                    >
+                      {this.positionSectionLocalized}
+                    </calcite-table-cell>
+                  ) : (
+                    <calcite-table-cell
+                      alignment="center"
+                      key="numbered-foot"
+                      numberCell={true}
+                      parentRowAlignment={this.alignment}
+                    />
+                  ))}
+                {this.selectionMode !== "none" &&
+                  (this.rowType === "head" ? (
+                    <calcite-table-header
+                      alignment="center"
+                      bodyRowCount={this.bodyRowCount}
+                      key="selection-head"
+                      onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
+                      onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
+                      parentRowAlignment={this.alignment}
+                      selectedRowCount={this.selectedRowCount}
+                      selectedRowCountLocalized={this.selectedRowCountLocalized}
+                      selectionCell={true}
+                      selectionMode={this.selectionMode}
+                    />
+                  ) : this.rowType === "body" ? (
+                    <calcite-table-cell
+                      alignment="center"
+                      key="selection-body"
+                      onClick={this.handleSelectionOfRow}
+                      onKeyDown={this.handleKeyboardSelection}
+                      parentRowAlignment={this.alignment}
+                      parentRowIsSelected={this.selected}
+                      parentRowPositionLocalized={this.positionSectionLocalized}
+                      selectionCell={true}
+                    >
+                      <calcite-icon icon={icon} scale={getIconScale(this.scale)} />
+                    </calcite-table-cell>
+                  ) : (
+                    <calcite-table-cell
+                      alignment="center"
+                      key="selection-foot"
+                      parentRowAlignment={this.alignment}
+                      selectionCell={true}
+                    />
+                  ))}
+                <slot ref={this.tableRowSlotEl} />
+              </>,
+              el,
+            );
           }}
-        >
-          {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
-        </tr>
+        />
       </InteractiveContainer>
     );
   }
