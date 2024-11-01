@@ -544,17 +544,14 @@ describe("calcite-input-time-picker", () => {
         it("supports localized 12-hour format", async () => {
           const page = await newE2EPage();
           await page.setContent(html`
-            <calcite-label>
-              ${locale}
-              <calcite-input-time-picker
-                focus-trap-disabled
-                hour-format="12"
-                lang="${locale}"
-                step="1"
-                value="14:02:30"
-              ></calcite-input-time-picker>
-              <calcite-label> <input /> </calcite-label
-            ></calcite-label>
+            <calcite-input-time-picker
+              focus-trap-disabled
+              hour-format="12"
+              lang="${locale}"
+              step="1"
+              value="14:02:30"
+            ></calcite-input-time-picker>
+            <input placeholder="${locale}" />
           `);
 
           const input = await page.find("input");
@@ -662,17 +659,14 @@ describe("calcite-input-time-picker", () => {
         it("supports localized 24-hour format", async () => {
           const page = await newE2EPage();
           await page.setContent(html`
-            <calcite-label>
-              ${locale}
-              <calcite-input-time-picker
-                focus-trap-disabled
-                hour-format="24"
-                lang="${locale}"
-                step="1"
-                value="14:02:30"
-              ></calcite-input-time-picker>
-            </calcite-label>
-            <input />
+            <calcite-input-time-picker
+              focus-trap-disabled
+              hour-format="24"
+              lang="${locale}"
+              step="1"
+              value="14:02:30"
+            ></calcite-input-time-picker>
+            <input placeholder="${locale}" />
           `);
 
           const inputTimePicker = await page.find("calcite-input-time-picker");
