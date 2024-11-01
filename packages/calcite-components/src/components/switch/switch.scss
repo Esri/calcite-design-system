@@ -101,7 +101,8 @@
   box-shadow: var(--calcite-switch-handle-shadow);
 }
 
-:host(:hover, :focus) {
+:host(:hover:not([disabled])),
+:host(:focus:not([disabled])) {
   .handle {
     border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand));
     box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 1px var(--calcite-color-brand));
@@ -118,7 +119,7 @@
     inset-inline: theme("inset.auto") -1px;
   }
 
-  &:host(:hover) {
+  &:host(:hover:not([disabled])) {
     .handle {
       border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand-hover));
       box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 1px var(--calcite-color-brand-hover));
