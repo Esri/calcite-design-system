@@ -1,6 +1,6 @@
 import { Scale, Width, Height } from "../components/interfaces";
 
-export function getDimension(
+export function getDimensionClass(
   type: "width" | "height",
   size: Width | Height,
   scale: Scale,

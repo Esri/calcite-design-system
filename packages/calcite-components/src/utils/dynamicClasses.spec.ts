@@ -1,4 +1,4 @@
-import { getDimension } from "./getDimensionClass";
+import { getDimension } from "./dynamicClasses";
 
 describe("getDimension", () => {
   const types = ["width", "height"] as const;

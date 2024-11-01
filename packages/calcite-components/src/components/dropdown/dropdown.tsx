@@ -44,7 +44,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { getDimension } from "../../utils/getDimensionClass";
+import { getDimension } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
 import { ItemKeyboardEvent } from "./interfaces";

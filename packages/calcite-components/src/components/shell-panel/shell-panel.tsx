@@ -18,7 +18,7 @@ import {
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
-import { getDimension } from "../../utils/getDimensionClass";
+import { getDimension } from "../../utils/dynamicClasses";
 import {
   connectMessages,
   disconnectMessages,
