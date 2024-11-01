@@ -149,11 +149,6 @@ describe("calcite-switch", () => {
           shadowSelector: `.${CSS.track}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-switch-background-color-hover": {
-          shadowSelector: `.${CSS.track}`,
-          state: "hover",
-          targetProp: "backgroundColor",
-        },
         "--calcite-switch-border-color": {
           shadowSelector: `.${CSS.track}`,
           targetProp: "borderColor",
@@ -164,11 +159,6 @@ describe("calcite-switch", () => {
         },
         "--calcite-switch-handle-background-color": {
           shadowSelector: `.${CSS.handle}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-switch-handle-background-color-hover": {
-          shadowSelector: `.${CSS.handle}`,
-          state: "hover",
           targetProp: "backgroundColor",
         },
         "--calcite-switch-handle-border-color": {

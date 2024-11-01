@@ -4,18 +4,13 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-switch-background-color: Specifies the component's background color.
- * @prop --calcite-switch-background-color-hover: Specifies the component's background color.
  * @prop --calcite-switch-border-color: Specifies the component's border color.
  * @prop --calcite-switch-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-switch-handle-background-color: Specifies the handle's background color.
- * @prop --calcite-switch-handle-background-color-hover: Specifies the handle's background color.
  * @prop --calcite-switch-handle-border-color: Specifies the handle's border color.
  * @prop --calcite-switch-handle-corner-radius: Specifies the handle's corner radius.
  * @prop --calcite-switch-handle-shadow: Specifies the handle's shadow.
  */
-
-// todo: question: do we need size variables for the scales?
-// todo: question: do we want to call the vars `handle`? I've also seen `thumb` used here.
 
 // sizes
 :host([scale="s"]) {
@@ -80,7 +75,6 @@
     align-top
     focus-base;
 
-  // todo: need var for 9999px?
   border-radius: var(--calcite-switch-corner-radius, 9999px);
   border-color: var(--calcite-switch-border-color, var(--calcite-color-border-2));
   background-color: var(--calcite-switch-background-color, var(--calcite-color-foreground-2));
@@ -107,15 +101,9 @@
   box-shadow: var(--calcite-switch-handle-shadow);
 }
 
-.container:hover,
-.container:focus {
-  .track {
-    background-color: var(--calcite-switch-background-color-hover);
-  }
+:host(:hover, :focus) {
   .handle {
     border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand));
-    background-color: var(--calcite-switch-handle-background-color-hover);
-    // todo: do we need a var for `inset 0 0 0 1px var(--calcite-color-brand)`?
     box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 1px var(--calcite-color-brand));
   }
 }
@@ -123,14 +111,14 @@
 :host([checked]) {
   .track {
     border-color: var(--calcite-switch-border-color, var(--calcite-color-brand-hover));
-    background-color: var(--calcite-switch-background-color-hover, var(--calcite-color-brand));
+    background-color: var(--calcite-switch-background-color, var(--calcite-color-brand));
   }
   .handle {
     border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand));
     inset-inline: theme("inset.auto") -1px;
   }
 
-  .container:hover {
+  &:host(:hover) {
     .handle {
       border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand-hover));
       box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 1px var(--calcite-color-brand-hover));

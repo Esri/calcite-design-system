@@ -2,11 +2,9 @@ import { html } from "../../support/formatting";
 
 export const switchTokens = {
   calciteSwitchBackgroundColor: "",
-  calciteSwitchBackgroundColorHover: "",
   calciteSwitchBorderColor: "",
   calciteSwitchHandleBorderColor: "",
   calciteSwitchHandleBackgroundColor: "",
-  calciteSwitchHandleBackgroundColorHover: "",
   calciteSwitchHandleShadow: "",
   calciteSwitchCornerRadius: "",
   calciteSwitchHandleCornerRadius: "",
