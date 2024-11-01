@@ -3253,6 +3253,10 @@ export namespace Components {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label": string;
@@ -11220,6 +11224,10 @@ declare namespace LocalJSX {
           * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
          */
         "group"?: string;
+        /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
         /**
           * Specifies an accessible name for the component.
          */
