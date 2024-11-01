@@ -184,11 +184,7 @@ export class Table extends LitElement implements LoadableComponent {
   }
 
   connectedCallback(): void {
-    this.el.shadowRoot.addEventListener("slotchange", this.handleSlotChange);
-  }
-
-  disconnectedCallback(): void {
-    this.el.shadowRoot.removeEventListener("slotchange", this.handleSlotChange);
+    this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
   async load(): Promise<void> {
@@ -228,9 +224,9 @@ export class Table extends LitElement implements LoadableComponent {
 
   // #region Private Methods
 
-  private handleSlotChange = (): void => {
+  private handleSlotChange(): void {
     this.updateRows();
-  };
+  }
 
   private handleNumberedChange(): void {
     this.updateRows();
@@ -519,9 +515,15 @@ export class Table extends LitElement implements LoadableComponent {
             role={this.interactionMode === "interactive" ? "grid" : "table"}
           >
             <caption class={CSS.assistiveText}>{this.caption}</caption>
-            <thead>{/* slots added programmatically to work around HTML parser issue */}</thead>
-            <tbody>{/* slots added programmatically to work around HTML parser issue */}</tbody>
-            <tfoot>{/* slots added programmatically to work around HTML parser issue */}</tfoot>
+            <thead>
+              {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
+            </thead>
+            <tbody>
+              {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
+            </tbody>
+            <tfoot>
+              {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
+            </tfoot>
           </table>
         </div>
         {this.pageSize > 0 && this.renderPaginationArea()}

@@ -110,7 +110,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   constructor() {
     super();
-    this.listen("slotchange", this.updateCells);
     this.listenOn<CustomEvent>(
       document,
       "calciteInternalTableRowFocusChange",
@@ -119,11 +118,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   }
 
   connectedCallback(): void {
-    this.el.shadowRoot.addEventListener("slotchange", this.handleSlotChange);
-  }
-
-  disconnectedCallback(): void {
-    this.el.shadowRoot.removeEventListener("slotchange", this.handleSlotChange);
+    this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
   /**
@@ -169,9 +164,9 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   // #region Private Methods
 
-  private handleSlotChange = (): void => {
+  private handleSlotChange(): void {
     this.updateCells();
-  };
+  }
 
   private handleCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
@@ -430,7 +425,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
             this.tableRowSlotEl = defaultSlot;
           }}
         >
-          {/*contents are generated programmatically to work around HTML parser issue*/}
+          {/*contents are generated dynamically to work around https://github.com/Esri/calcite-design-system/issues/10495 */}
         </tr>
       </InteractiveContainer>
     );
