@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
+import { defaults, disabled, formAssociated, hidden, labelable, renders, reflects } from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -68,6 +68,26 @@ describe("calcite-slider", () => {
       {
         propertyName: "layout",
         defaultValue: "horizontal",
+      },
+      { propertyName: "status", defaultValue: "idle" },
+      { propertyName: "validationIcon", defaultValue: undefined },
+      { propertyName: "validationMessage", defaultValue: undefined },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-slider", [
+      {
+        propertyName: "scale",
+        value: "m",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
       },
     ]);
   });

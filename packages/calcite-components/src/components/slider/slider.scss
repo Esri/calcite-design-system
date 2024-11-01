@@ -40,6 +40,11 @@
   &:host([layout="vertical"]) {
     transform: rotate(-90deg);
   }
+  
+  // remove top padding applied by validation component.
+  .validation-container {
+    padding-block-start: 0 !important;
+  }
 }
 
 .container {
@@ -382,5 +387,6 @@
   transform: rotate(90deg);
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();

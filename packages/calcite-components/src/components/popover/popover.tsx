@@ -21,6 +21,7 @@ import {
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
@@ -264,7 +265,7 @@ export class Popover
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() effectiveReferenceElement: ReferenceElement;
+  @State() referenceEl: ReferenceElement;
 
   @State() defaultMessages: PopoverMessages;
 
@@ -277,6 +278,8 @@ export class Popover
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  floatingEl: HTMLDivElement;
 
   hasLoaded = false;
 
@@ -314,7 +317,7 @@ export class Popover
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    if (this.referenceElement && !this.effectiveReferenceElement) {
+    if (this.referenceElement && !this.referenceEl) {
       this.setUpReferenceElement();
     }
 
@@ -329,7 +332,7 @@ export class Popover
     this.removeReferences();
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectFloatingUI(this);
     deactivateFocusTrap(this);
   }
 
@@ -365,8 +368,7 @@ export class Popover
   @Method()
   async reposition(delayed = false): Promise<void> {
     const {
-      el,
-      effectiveReferenceElement,
+      referenceEl,
       placement,
       overlayPositioning,
       flipDisabled,
@@ -374,12 +376,13 @@ export class Popover
       offsetDistance,
       offsetSkidding,
       arrowEl,
+      floatingEl,
     } = this;
     return reposition(
       this,
       {
-        floatingEl: el,
-        referenceEl: effectiveReferenceElement,
+        floatingEl,
+        referenceEl: referenceEl,
         overlayPositioning,
         placement,
         flipDisabled,
@@ -417,6 +420,11 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
+  private setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+    requestAnimationFrame(() => this.setUpReferenceElement());
+  };
+
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
@@ -431,11 +439,11 @@ export class Popover
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
-    this.effectiveReferenceElement = this.getReferenceElement();
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    this.referenceEl = this.getReferenceElement();
+    connectFloatingUI(this);
 
-    const { el, referenceElement, effectiveReferenceElement } = this;
-    if (warn && referenceElement && !effectiveReferenceElement) {
+    const { el, referenceElement, referenceEl } = this;
+    if (warn && referenceElement && !referenceEl) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el,
       });
@@ -449,47 +457,47 @@ export class Popover
   };
 
   setExpandedAttr = (): void => {
-    const { effectiveReferenceElement, open } = this;
+    const { referenceEl, open } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
-    if ("setAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    if ("setAttribute" in referenceEl) {
+      referenceEl.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
     }
   };
 
   addReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
     const id = this.getId();
 
-    if ("setAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    if ("setAttribute" in referenceEl) {
+      referenceEl.setAttribute(ARIA_CONTROLS, id);
     }
 
-    manager.registerElement(effectiveReferenceElement, this.el);
+    manager.registerElement(referenceEl, this.el);
     this.setExpandedAttr();
   };
 
   removeReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
-    if ("removeAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
-      effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    if ("removeAttribute" in referenceEl) {
+      referenceEl.removeAttribute(ARIA_CONTROLS);
+      referenceEl.removeAttribute(ARIA_EXPANDED);
     }
 
-    manager.unregisterElement(effectiveReferenceElement);
+    manager.unregisterElement(referenceEl);
   };
 
   getReferenceElement(): ReferenceElement {
@@ -521,6 +529,7 @@ export class Popover
 
   onClose(): void {
     this.calcitePopoverClose.emit();
+    hideFloatingUI(this);
     deactivateFocusTrap(this);
   }
 
@@ -532,8 +541,7 @@ export class Popover
   private clickOutsideDeactivates = (event: MouseEvent): boolean => {
     const path = event.composedPath();
     const isReferenceElementInPath =
-      this.effectiveReferenceElement instanceof EventTarget &&
-      path.includes(this.effectiveReferenceElement);
+      this.referenceEl instanceof EventTarget && path.includes(this.referenceEl);
 
     const outsideClick = !path.includes(this.el);
     const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
@@ -586,9 +594,8 @@ export class Popover
   }
 
   render(): VNode {
-    const { effectiveReferenceElement, heading, label, open, pointerDisabled, floatingLayout } =
-      this;
-    const displayed = effectiveReferenceElement && open;
+    const { referenceEl, heading, label, open, pointerDisabled, floatingLayout } = this;
+    const displayed = referenceEl && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
       <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.storeArrowEl} />
@@ -599,30 +606,31 @@ export class Popover
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         aria-live="polite"
-        calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="dialog"
       >
-        <div
-          class={{
-            [CSS.container]: true,
-            [FloatingCSS.animation]: true,
-            [FloatingCSS.animationActive]: displayed,
-          }}
-          ref={this.setTransitionEl}
-        >
-          {arrowNode}
+        <div class={CSS.positionContainer} ref={this.setFloatingEl}>
           <div
             class={{
-              [CSS.hasHeader]: !!heading,
-              [CSS.headerContainer]: true,
+              [CSS.container]: true,
+              [FloatingCSS.animation]: true,
+              [FloatingCSS.animationActive]: displayed,
             }}
+            ref={this.setTransitionEl}
           >
-            {this.renderHeader()}
-            <div class={CSS.content}>
-              <slot />
+            {arrowNode}
+            <div
+              class={{
+                [CSS.hasHeader]: !!heading,
+                [CSS.headerContainer]: true,
+              }}
+            >
+              {this.renderHeader()}
+              <div class={CSS.content}>
+                <slot />
+              </div>
+              {!heading ? this.renderCloseButton() : null}
             </div>
-            {!heading ? this.renderCloseButton() : null}
           </div>
         </div>
       </Host>

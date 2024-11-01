@@ -1,8 +1,9 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Slider } from "./slider";
-const { scale } = ATTRIBUTES;
+const { scale, status } = ATTRIBUTES;
 
 interface SliderStoryArgs
   extends Pick<
@@ -22,6 +23,9 @@ interface SliderStoryArgs
     | "snap"
     | "scale"
     | "layout"
+    | "status"
+    | "validationMessage"
+    | "validationIcon"
   > {
   temperature: string;
 }
@@ -44,10 +48,21 @@ export default {
     snap: true,
     scale: scale.defaultValue,
     layout: "horizontal",
+    status: status.defaultValue,
+    validationMessage: "",
+    validationIcon: "",
   },
   argTypes: {
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
       control: { type: "select" },
     },
   },
@@ -79,6 +94,9 @@ export const simple = (args: SliderStoryArgs): string => html`
     ${boolean("snap", args.snap)}
     scale="${args.scale}"
     layout="${args.layout}"
+    status="${args.status}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
   ></calcite-slider>
 `;
 
@@ -1164,3 +1182,166 @@ export const customLabelsAndTicks = (): string => html`
 customLabelsAndTicks.parameters = {
   chromatic: { delay: 500 },
 };
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      gap: 20px;
+    }
+  </style>
+
+  <h2>Standard</h2>
+
+  <div class="container">
+    <calcite-slider
+      scale="s"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-slider>
+    <calcite-slider
+      scale="m"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-slider>
+    <calcite-slider
+      scale="l"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-slider>
+  </div>
+
+  <br />
+
+  <h2>Labeled ticks</h2>
+
+  <div class="container">
+    <calcite-slider
+      scale="s"
+      min="0"
+      max="100"
+      step="10"
+      ticks="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      label-ticks
+    ></calcite-slider>
+    <calcite-slider
+      scale="m"
+      min="0"
+      max="100"
+      step="10"
+      ticks="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      label-ticks
+    ></calcite-slider>
+    <calcite-slider
+      scale="l"
+      min="0"
+      max="100"
+      step="10"
+      ticks="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      label-ticks
+    ></calcite-slider>
+  </div>
+
+  <br />
+
+  <h2>Precise</h2>
+
+  <div class="container">
+    <calcite-slider
+      scale="s"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="100"
+      step="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      precise
+    ></calcite-slider>
+    <calcite-slider
+      scale="m"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="100"
+      step="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      precise
+    ></calcite-slider>
+    <calcite-slider
+      scale="l"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="100"
+      step="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      precise
+    ></calcite-slider>
+  </div>
+
+  <br />
+
+  <h2>Labeled handles with precise</h2>
+
+  <div class="container">
+    <calcite-slider
+      scale="s"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="100"
+      step="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      precise
+      label-handles
+    ></calcite-slider>
+    <calcite-slider
+      scale="m"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="100"
+      step="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      precise
+      label-handles
+    ></calcite-slider>
+    <calcite-slider
+      scale="l"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="100"
+      step="10"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+      precise
+      label-handles
+    ></calcite-slider>
+  </div>
+`;
