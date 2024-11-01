@@ -209,7 +209,7 @@
   @apply flex items-center;
 
   calcite-action,
-  calcite-handle {
+  calcite-sort-handle {
     @apply self-stretch;
   }
 }
@@ -224,7 +224,7 @@
   @apply p-0 relative;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
-  ::slotted(calcite-handle),
+  ::slotted(calcite-sort-handle),
   ::slotted(calcite-dropdown) {
     @apply self-stretch;
 
@@ -239,7 +239,7 @@
     .close,
     ::slotted(calcite-action),
     ::slotted(calcite-action-menu),
-    ::slotted(calcite-handle),
+    ::slotted(calcite-sort-handle),
     ::slotted(calcite-dropdown) {
       block-size: calc(100% - theme("spacing[1]"));
     }

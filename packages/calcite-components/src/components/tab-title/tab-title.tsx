@@ -39,9 +39,7 @@ import { CSS, ICONS } from "./resources";
 
 /**
  * Tab-titles are optionally individually closable.
- */
-
-/**
+ *
  * @slot - A slot for adding text.
  */
 @Component({
