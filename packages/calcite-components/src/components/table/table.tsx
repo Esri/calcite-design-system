@@ -466,6 +466,30 @@ export class Table extends LitElement implements LoadableComponent {
     );
   }
 
+  renderTHead(): JsxNode {
+    return (
+      <thead>
+        <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotEl} />
+      </thead>
+    );
+  }
+
+  renderTBody(): JsxNode {
+    return (
+      <tbody>
+        <slot ref={this.tableBodySlotEl} />
+      </tbody>
+    );
+  }
+
+  renderTFoot(): JsxNode {
+    return (
+      <tfoot>
+        <slot name={SLOTS.tableFooter} ref={this.tableFootSlotEl} />
+      </tfoot>
+    );
+  }
+
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
@@ -496,15 +520,9 @@ export class Table extends LitElement implements LoadableComponent {
               render(
                 <>
                   <caption class={CSS.assistiveText}>{this.caption}</caption>
-                  <thead>
-                    <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotEl} />
-                  </thead>
-                  <tbody>
-                    <slot ref={this.tableBodySlotEl} />
-                  </tbody>
-                  <tfoot>
-                    <slot name={SLOTS.tableFooter} ref={this.tableFootSlotEl} />
-                  </tfoot>
+                  {this.renderTHead()}
+                  {this.renderTBody()}
+                  {this.renderTFoot()}
                 </>,
                 el,
               );

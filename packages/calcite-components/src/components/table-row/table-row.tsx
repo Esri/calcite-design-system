@@ -336,6 +336,83 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   // #region Rendering
 
+  renderSelectionIcon(): JsxNode {
+    const icon =
+      this.selectionMode === "multiple" && this.selected
+        ? "check-square-f"
+        : this.selectionMode === "multiple"
+          ? "square"
+          : this.selected
+            ? "circle-f"
+            : "circle";
+
+    return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
+  }
+
+  renderSelectableCell(): JsxNode {
+    return this.rowType === "head" ? (
+      <calcite-table-header
+        alignment="center"
+        bodyRowCount={this.bodyRowCount}
+        key="selection-head"
+        onClick={this.handleSelectionOfRow}
+        onKeyDown={this.handleKeyboardSelection}
+        parentRowAlignment={this.alignment}
+        selectedRowCount={this.selectedRowCount}
+        selectedRowCountLocalized={this.selectedRowCountLocalized}
+        selectionCell={true}
+        selectionMode={this.selectionMode}
+      />
+    ) : this.rowType === "body" ? (
+      <calcite-table-cell
+        alignment="center"
+        key="selection-body"
+        onClick={this.handleSelectionOfRow}
+        onKeyDown={this.handleKeyboardSelection}
+        parentRowAlignment={this.alignment}
+        parentRowIsSelected={this.selected}
+        parentRowPositionLocalized={this.positionSectionLocalized}
+        selectionCell={true}
+      >
+        {this.renderSelectionIcon()}
+      </calcite-table-cell>
+    ) : (
+      <calcite-table-cell
+        alignment="center"
+        key="selection-foot"
+        parentRowAlignment={this.alignment}
+        selectionCell={true}
+      />
+    );
+  }
+
+  renderNumberedCell(): JsxNode {
+    return this.rowType === "head" ? (
+      <calcite-table-header
+        alignment="center"
+        key="numbered-head"
+        numberCell={true}
+        parentRowAlignment={this.alignment}
+      />
+    ) : this.rowType === "body" ? (
+      <calcite-table-cell
+        alignment="center"
+        key="numbered-body"
+        numberCell={true}
+        parentRowAlignment={this.alignment}
+      >
+        {this.positionSectionLocalized}
+      </calcite-table-cell>
+    ) : (
+      <calcite-table-cell
+        alignment="center"
+        key="numbered-foot"
+        numberCell={true}
+        parentRowAlignment={this.alignment}
+      />
+    );
+  }
+
   override render(): JsxNode {
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -351,78 +428,11 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
             this.tableRowEl = el;
 
-            const icon =
-              this.selectionMode === "multiple" && this.selected
-                ? "check-square-f"
-                : this.selectionMode === "multiple"
-                  ? "square"
-                  : this.selected
-                    ? "circle-f"
-                    : "circle";
-
             /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
             render(
               <>
-                {this.numbered &&
-                  (this.rowType === "head" ? (
-                    <calcite-table-header
-                      alignment="center"
-                      key="numbered-head"
-                      numberCell={true}
-                      parentRowAlignment={this.alignment}
-                    />
-                  ) : this.rowType === "body" ? (
-                    <calcite-table-cell
-                      alignment="center"
-                      key="numbered-body"
-                      numberCell={true}
-                      parentRowAlignment={this.alignment}
-                    >
-                      {this.positionSectionLocalized}
-                    </calcite-table-cell>
-                  ) : (
-                    <calcite-table-cell
-                      alignment="center"
-                      key="numbered-foot"
-                      numberCell={true}
-                      parentRowAlignment={this.alignment}
-                    />
-                  ))}
-                {this.selectionMode !== "none" &&
-                  (this.rowType === "head" ? (
-                    <calcite-table-header
-                      alignment="center"
-                      bodyRowCount={this.bodyRowCount}
-                      key="selection-head"
-                      onClick={this.handleSelectionOfRow}
-                      onKeyDown={this.handleKeyboardSelection}
-                      parentRowAlignment={this.alignment}
-                      selectedRowCount={this.selectedRowCount}
-                      selectedRowCountLocalized={this.selectedRowCountLocalized}
-                      selectionCell={true}
-                      selectionMode={this.selectionMode}
-                    />
-                  ) : this.rowType === "body" ? (
-                    <calcite-table-cell
-                      alignment="center"
-                      key="selection-body"
-                      onClick={this.handleSelectionOfRow}
-                      onKeyDown={this.handleKeyboardSelection}
-                      parentRowAlignment={this.alignment}
-                      parentRowIsSelected={this.selected}
-                      parentRowPositionLocalized={this.positionSectionLocalized}
-                      selectionCell={true}
-                    >
-                      <calcite-icon icon={icon} scale={getIconScale(this.scale)} />
-                    </calcite-table-cell>
-                  ) : (
-                    <calcite-table-cell
-                      alignment="center"
-                      key="selection-foot"
-                      parentRowAlignment={this.alignment}
-                      selectionCell={true}
-                    />
-                  ))}
+                {this.numbered && this.renderNumberedCell()}
+                {this.selectionMode !== "none" && this.renderSelectableCell()}
                 <slot ref={this.tableRowSlotEl} />
               </>,
               el,
