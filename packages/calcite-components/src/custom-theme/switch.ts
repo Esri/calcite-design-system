@@ -7,7 +7,6 @@ export const switchTokens = {
   calciteSwitchHandleBackgroundColor: "",
   calciteSwitchHandleShadow: "",
   calciteSwitchCornerRadius: "",
-  calciteSwitchHandleCornerRadius: "",
 };
 
 export const calciteSwitch = html`
