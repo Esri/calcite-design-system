@@ -1,8 +1,9 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS } from "../tooltip/resources";
-import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
+import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils";
+import { FloatingCSS } from "../../utils/floating-ui";
 
 interface PointerMoveOptions {
   delay: number;
@@ -1198,6 +1199,58 @@ describe("calcite-tooltip", () => {
       await other.focus();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(false);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-tooltip heading="I'm a heading in the header using the 'heading' prop!">
+            Lorem Ipsum
+          </calcite-tooltip>
+        `,
+        {
+          "--calcite-tooltip-background-color": [
+            {
+              shadowSelector: `.${FloatingCSS.animation}`,
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${FloatingCSS.arrow}`,
+              targetProp: "fill",
+            },
+          ],
+          "--calcite-tooltip-border-color": [
+            {
+              shadowSelector: `.${FloatingCSS.animation}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${FloatingCSS.arrowStroke}`,
+              targetProp: "stroke",
+            },
+          ],
+          "--calcite-tooltip-corner-radius": [
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "borderRadius",
+            },
+            {
+              shadowSelector: `.${FloatingCSS.animation}`,
+              targetProp: "borderRadius",
+            },
+          ],
+          "--calcite-tooltip-text-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "color",
+          },
+          "--calcite-tooltip-z-index": {
+            shadowSelector: `.${CSS.positionContainer}`,
+            targetProp: "zIndex",
+          },
+        },
+      );
     });
   });
 });
