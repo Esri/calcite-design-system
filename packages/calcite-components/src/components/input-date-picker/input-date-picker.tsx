@@ -33,6 +33,7 @@ import {
   MenuPlacement,
   OverlayPositioning,
   reposition,
+  hideFloatingUI,
 } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -511,7 +512,7 @@ export class InputDatePicker
       onToggleOpenCloseComponent(this);
     }
 
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -524,14 +525,14 @@ export class InputDatePicker
   componentDidLoad(): void {
     setComponentLoaded(this);
     this.localizeInputValues();
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   disconnectedCallback(): void {
     deactivateFocusTrap(this);
     disconnectLabel(this);
     disconnectForm(this);
-    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectFloatingUI(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -598,10 +599,7 @@ export class InputDatePicker
                   aria-label={messages.chooseDate}
                   aria-live="polite"
                   aria-modal="true"
-                  class={{
-                    [CSS.menu]: true,
-                    [CSS.menuActive]: this.open,
-                  }}
+                  class={CSS.menu}
                   id={this.dialogId}
                   ref={this.setFloatingEl}
                   role="dialog"
@@ -780,9 +778,9 @@ export class InputDatePicker
 
   private endInput: HTMLCalciteInputTextElement;
 
-  private floatingEl: HTMLDivElement;
+  floatingEl: HTMLDivElement;
 
-  private referenceEl: HTMLDivElement;
+  referenceEl: HTMLDivElement;
 
   private startWrapper: HTMLDivElement;
 
@@ -805,7 +803,7 @@ export class InputDatePicker
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
 
-    requestAnimationFrame(() => connectFloatingUI(this, this.referenceEl, this.floatingEl));
+    requestAnimationFrame(() => connectFloatingUI(this));
   }
 
   private valueAsDateChangedExternally = false;
@@ -877,6 +875,7 @@ export class InputDatePicker
 
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
+    hideFloatingUI(this);
     deactivateFocusTrap(this);
     this.focusOnOpen = false;
     this.datePickerEl.reset();
@@ -986,7 +985,7 @@ export class InputDatePicker
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   setStartWrapper = (el: HTMLDivElement): void => {

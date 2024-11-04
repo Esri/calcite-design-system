@@ -327,7 +327,6 @@ describe("calcite-modal", () => {
 
     it("subsequently opening a modal dynamically gets focus trapped", async () => {
       const page = await newE2EPage();
-      await skipAnimations(page);
       await page.setContent(html`
         <calcite-modal open id="modal1">
           <div slot="header">Modal 1</div>
@@ -336,6 +335,7 @@ describe("calcite-modal", () => {
           </div>
         </calcite-modal>
       `);
+      await skipAnimations(page);
 
       await page.evaluate(() => {
         const btn = document.getElementById("openButton");

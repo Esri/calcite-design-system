@@ -104,38 +104,36 @@ export function formatExtraOutput(
 
     Object.entries(outputObject).forEach(([fileName, outputList]) => {
       const absoluteFilePath = resolve(args.buildPath, fileName);
+      let format;
+      let parser;
+
       switch (args.platform) {
         case Platform.CSS:
-          if (typeof outputList[0] === "string" && outputList[0].slice(0, 2) === "--") {
-            writeFileSync(
-              absoluteFilePath,
-              prettierSync.format(`${args.header}:root{${outputList.join("")}}`, { parser: "css" }),
-            );
-          } else {
-            writeFileSync(
-              absoluteFilePath,
-              prettierSync.format(`${args.header}${outputList.join("")}`, { parser: "css" }),
-            );
-          }
+          parser = "css";
+          format =
+            typeof outputList[0] === "string" && outputList[0].slice(0, 2) === "--"
+              ? `${args.header}:root{${outputList.join("")}}`
+              : `${args.header}${outputList.join("")}`;
           break;
         case Platform.SCSS:
         case Platform.SASS:
-          writeFileSync(
-            absoluteFilePath,
-            prettierSync.format(`${args.header}${outputList.join("")}`, { parser: "scss" }),
-          );
+          parser = "scss";
+          format = `${args.header}${outputList.join("")}`;
           break;
         case Platform.JS:
-          writeFileSync(
-            absoluteFilePath,
-            prettierSync.format(args.header + "export default " + outputList[0] + "", { parser: "babel" }),
-          );
+          parser = "babel";
+          format = args.header + "export default " + outputList[0] + "";
           break;
         case Platform.DOCS:
-          writeFileSync(absoluteFilePath, prettierSync.format(outputList[0].join(""), { parser: "json" }));
+          parser = "json";
+          format = outputList[0].join("");
           break;
         default:
           break;
+      }
+
+      if (parser && format) {
+        writeFileSync(absoluteFilePath, prettierSync.format(format, { parser }));
       }
     });
   }

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Calcite Components: calcite-sort-handle</title>
+
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <main>
+        <section class="example-container">
+          <h1>sort-handle</h1>
+
+          <calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>
+          <script>
+            const sortHandle = document.querySelector("calcite-sort-handle");
+            sortHandle.moveToItems = [
+              { label: "List 2", value: "list2" },
+              { label: "List 3", value: "list3" },
+            ];
+            sortHandle.addEventListener("calciteSortHandleReorder", (event) => {
+              console.log(event.detail);
+            });
+            sortHandle.addEventListener("calciteSortHandleMove", (event) => {
+              console.log(event.detail);
+            });
+          </script>
+        </section>
+      </main>
+    </demo-dom-swapper>
+  </body>
+</html>
