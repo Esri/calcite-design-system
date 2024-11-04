@@ -8,7 +8,6 @@
  * @prop --calcite-switch-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-switch-handle-background-color: Specifies the handle's background color.
  * @prop --calcite-switch-handle-border-color: Specifies the handle's border color.
- * @prop --calcite-switch-handle-corner-radius: Specifies the handle's corner radius.
  * @prop --calcite-switch-handle-shadow: Specifies the handle's shadow.
  */
 
@@ -97,7 +96,7 @@
   inset-inline: -1px theme("inset.auto");
   background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-border-input));
-  border-radius: var(--calcite-switch-handle-corner-radius, 9999px);
+  border-radius: var(--calcite-switch-corner-radius, 9999px);
   box-shadow: var(--calcite-switch-handle-shadow);
 }
 

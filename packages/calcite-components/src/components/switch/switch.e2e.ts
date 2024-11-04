@@ -165,10 +165,6 @@ describe("calcite-switch", () => {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "borderColor",
         },
-        "--calcite-switch-handle-corner-radius": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "borderRadius",
-        },
         "--calcite-switch-handle-shadow": {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "boxShadow",
