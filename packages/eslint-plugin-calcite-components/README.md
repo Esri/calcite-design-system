@@ -45,32 +45,13 @@ npm run lint
 
 This rule helps prevent usage of specific events and allows suggesting alternatives.
 
-- [`@esri/calcite-components/ban-props-on-host`](./docs/ban-props-on-host.md)
+- [`@esri/calcite-components/no-dynamic-createelement`](./docs/no-dynamic-createelement.md)
 
-This rule catches props/attributes that should be in the encapsulated HTML structure and not on the host element.
-
-- [`@esri/calcite-components/enforce-ref-last-prop`](./docs/enforce-ref-last-prop.md)
-
-This ensures the node passed into the `ref` callback is in sync with its JSX attributes/properties when invoked.
-
-- [`@esri/calcite-components/require-event-emitter-type`](./docs/require-event-emitter-type.md)
-
-This rule helps enforce the payload type to EventEmitters to avoid misleading `any` type on the CustomEvent detail object.
+This rule ensures that calls to `document.createElement()` use string literals to avoid dynamic tag creation to enhance plugin compatibility.
 
 - [`@esri/calcite-components/strict-boolean-attributes`](./docs/strict-boolean-attributes.md)
 
 This rule catches boolean props that are initialized in a way that does not conform to the HTML5 spec.
-
-## Recommended rules
-
-```json
-{
-  "@esri/calcite-components/ban-props-on-host": "error",
-  "@esri/calcite-components/enforce-ref-last-prop": "error",
-  "@esri/calcite-components/require-event-emitter-type": "error",
-  "@esri/calcite-components/strict-boolean-attributes": "error"
-}
-```
 
 ## Contributing
 

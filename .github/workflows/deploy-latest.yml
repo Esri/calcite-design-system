@@ -97,12 +97,10 @@ jobs:
 
           if ! git cherry-pick "$release_commit"; then
             git checkout --theirs \
-              ${{github.workspace}}/packages/*/CHANGELOG.md \
-              ${{github.workspace}}/packages/calcite-components-angular/projects/component-library/CHANGELOG.md
+              ${{github.workspace}}/packages/*/CHANGELOG.md
 
             git checkout --theirs \
-              ${{github.workspace}}/packages/*/package.json \
-              ${{github.workspace}}/packages/calcite-components-angular/projects/component-library/package.json
+              ${{github.workspace}}/packages/*/package.json
 
             git cherry-pick --continue
           fi
