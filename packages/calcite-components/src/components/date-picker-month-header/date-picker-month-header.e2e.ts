@@ -2,7 +2,7 @@ import { E2EPage } from "@stencil/core/testing";
 import { DateLocaleData } from "../date-picker/utils";
 import { renders } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
-import { DatePickerMessages } from "../../components";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 
 describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {
