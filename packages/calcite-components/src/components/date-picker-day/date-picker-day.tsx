@@ -127,6 +127,8 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
   /**
    * Fires when user selects day.
+   *
+   * @internal
    */
   @Event({ cancelable: false }) calciteInternalDaySelect: EventEmitter<void>;
 
