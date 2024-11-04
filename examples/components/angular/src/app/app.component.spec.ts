@@ -1,11 +1,10 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
-  ComponentFixtureAutoDetect,
   ComponentFixture,
+  ComponentFixtureAutoDetect,
   TestBed,
 } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
-import { defineCustomElements } from '@esri/calcite-components/dist/loader';
 
 let component: AppComponent;
 let fixture: ComponentFixture<AppComponent>;
@@ -20,9 +19,6 @@ describe('AppComponent', () => {
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
-    defineCustomElements(window, {
-      resourcesUrl: './assets',
-    });
   });
 
   it('should create the app', () => {

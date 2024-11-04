@@ -1,6 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { setAssetPath } from '@esri/calcite-components/dist/components';
+import '@esri/calcite-components/dist/components/calcite-button.js';
+import '@esri/calcite-components/dist/components/calcite-icon.js';
+import '@esri/calcite-components/dist/components/calcite-loader.js';
+import '@esri/calcite-components/dist/components/calcite-slider.js';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetch();
+    setAssetPath(window.location.href);
   }
 
   ngOnDestroy(): void {
