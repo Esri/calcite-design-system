@@ -49,9 +49,13 @@ export type Direction = "ltr" | "rtl";
 export function getModeName(el: HTMLElement): "light" | "dark" {
   const closestElWithMode = closestElementCrossShadowBoundary(
     el,
-    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`,
+    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}, .${CSS_UTILITY.autoMode}`,
   );
-  return closestElWithMode?.classList.contains("calcite-mode-dark") ? "dark" : "light";
+  return closestElWithMode?.classList.contains("calcite-mode-dark") ||
+    (closestElWithMode?.classList.contains("calcite-mode-auto") &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ? "dark"
+    : "light";
 }
 
 /**
