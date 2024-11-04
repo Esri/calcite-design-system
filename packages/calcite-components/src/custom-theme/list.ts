@@ -2,11 +2,9 @@ import { html } from "../../support/formatting";
 
 export const listTokens = {
   calciteListBackgroundColor: "",
-  calciteListItemGroupBackgroundColor: "",
   calciteListItemGroupColor: "",
-  calciteListItemBackgroundColorHover: "",
-  calciteListItemBackgroundColorPress: "",
-  calciteListItemBackgroundColor: "",
+  calciteListBackgroundColorHover: "",
+  calciteListBackgroundColorPress: "",
   calciteListItemBorderColor: "",
   calciteListItemContentColor: "",
   calciteListItemDescriptionColor: "",

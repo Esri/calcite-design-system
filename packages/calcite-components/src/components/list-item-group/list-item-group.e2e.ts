@@ -39,7 +39,7 @@ describe("calcite-list-item-group", () => {
   describe("themed", () => {
     describe("default", () => {
       themed(html`<calcite-list-item-group heading="Buildings"></calcite-list-item-group>`, {
-        "--calcite-list-item-group-background-color": {
+        "--calcite-list-background-color": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "backgroundColor",
         },

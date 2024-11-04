@@ -386,16 +386,16 @@ describe("calcite-list-item", () => {
           selection-appearance="icon"
         ></calcite-list-item>`,
         {
-          "--calcite-list-item-background-color": {
+          "--calcite-list-background-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-list-item-background-color-hover": {
+          "--calcite-list-background-color-hover": {
             shadowSelector: `.${CSS.container}`,
             state: "hover",
             targetProp: "backgroundColor",
           },
-          "--calcite-list-item-background-color-press": {
+          "--calcite-list-background-color-press": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
             state: { press: { attribute: "class", value: CSS.content } },

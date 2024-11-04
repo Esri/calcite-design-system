@@ -3,9 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-list-item-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-list-item-background-color-press: Specifies the component's background color when pressed.
- * @prop --calcite-list-item-background-color: Specifies the component's background color.
+ * @prop --calcite-list-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-list-background-color-press: Specifies the component's background color when pressed.
+ * @prop --calcite-list-background-color: Specifies the component's background color.
  * @prop --calcite-list-item-border-color: Specifies the component's border color.
  * @prop --calcite-list-item-content-color: Specifies the content color.
  * @prop --calcite-list-item-description-color: Specifies the description color.
@@ -34,7 +34,7 @@
   flex
   flex-1
   overflow-hidden;
-  background-color: var(--calcite-list-item-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
   * {
     @apply box-border;
   }
@@ -42,11 +42,11 @@
 
 .container--hover:hover {
   @apply cursor-pointer;
-  background-color: var(--calcite-list-item-background-color-hover, var(--calcite-color-foreground-2));
+  background-color: var(--calcite-list-background-color-hover, var(--calcite-color-foreground-2));
 }
 
 .container:active {
-  background-color: var(--calcite-list-item-background-color-press, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-1));
 }
 
 .container--border {

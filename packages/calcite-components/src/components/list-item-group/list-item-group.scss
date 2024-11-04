@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-list-item-group-background-color: Specifies the component's background color.
+ * @prop --calcite-list-background-color: Specifies the component's background color.
  * @prop --calcite-list-item-group-color: Specifies the component's color.
  */
 
@@ -19,7 +19,7 @@
 
 .container {
   @apply text-n1 m-0 flex flex-1 p-3 font-medium;
-  background-color: var(--calcite-list-item-group-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-list-item-group-color, var(--calcite-color-text-2));
 }
 
