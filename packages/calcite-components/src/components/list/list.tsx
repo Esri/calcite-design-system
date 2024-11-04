@@ -824,9 +824,9 @@ export class List
       this.filterElements({ el: listItem, filteredItems, visibleParents }),
     );
 
-    this.filterGroupItems(values, visibleParents);
-
     this.filteredItems = filteredItems;
+
+    this.filterGroupItems(values, visibleParents);
 
     if (emit) {
       this.calciteListFilter.emit();
@@ -854,7 +854,13 @@ export class List
     const itemDescendants = Array.from(item.querySelectorAll(listItemSelector));
     const groupDescendants = Array.from(item.querySelectorAll(groupItemSelector));
 
-    itemDescendants.forEach((descendant) => (descendant.filterHidden = false));
+    itemDescendants.forEach((descendant: HTMLCalciteListItemElement) => {
+      descendant.filterHidden = false;
+      if (this.filteredItems.indexOf(descendant) === -1) {
+        this.filteredItems.push(descendant);
+      }
+    });
+
     groupDescendants.forEach((descendant) => (descendant.filterHidden = false));
   };
 
