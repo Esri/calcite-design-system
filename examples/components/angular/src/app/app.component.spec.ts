@@ -1,31 +1,41 @@
-import { TestBed } from '@angular/core/testing';
-import { CalciteComponentsModule } from '@esri/calcite-components-angular';
+import {
+  ComponentFixtureAutoDetect,
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
+import { defineCustomElements } from '@esri/calcite-components/dist/loader';
+
+let component: AppComponent;
+let fixture: ComponentFixture<AppComponent>;
 
 describe('AppComponent', () => {
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CalciteComponentsModule],
-      declarations: [AppComponent],
-    }).compileComponents(),
-  );
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
+      imports: [AppComponent],
+    });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    defineCustomElements(window, {
+      resourcesUrl: './assets',
+    });
   });
 
-  it(`should have as title 'calcite-components-angular-example'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('calcite-components-angular-example');
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it(`should have 'calcite-components-angular-example' as title`, () => {
+    expect(component.title).toEqual('calcite-components-angular-example');
   });
 
   it('should render calcite-loader with label', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('calcite-loader')?.label).toBe('Loading...');
+    const loaderElement: HTMLCalciteLoaderElement =
+      fixture.nativeElement.querySelector('calcite-loader')!;
+    expect(loaderElement?.label).toBe('Loading...');
   });
 });
