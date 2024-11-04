@@ -6,7 +6,7 @@ import {
 } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
-let component: AppComponent;
+let app: AppComponent;
 let fixture: ComponentFixture<AppComponent>;
 
 describe('AppComponent', () => {
@@ -18,20 +18,21 @@ describe('AppComponent', () => {
     });
 
     fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
+    app = fixture.componentInstance;
   });
 
   it('should create the app', () => {
-    expect(component).toBeTruthy();
+    expect(app).toBeTruthy();
   });
 
   it(`should have 'calcite-components-angular-example' as title`, () => {
-    expect(component.title).toEqual('calcite-components-angular-example');
+    expect(app.title).toEqual('calcite-components-angular-example');
   });
 
   it('should render calcite-loader with label', () => {
     const loaderElement: HTMLCalciteLoaderElement =
       fixture.nativeElement.querySelector('calcite-loader')!;
+
     expect(loaderElement?.label).toBe('Loading...');
   });
 });
