@@ -13,6 +13,7 @@ import {
   Watch,
 } from "@stencil/core";
 import {
+  focusFirstTabbable,
   getElementDir,
   isPrimaryPointerButton,
   setRequestedIcon,
@@ -610,11 +611,7 @@ export class Input
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    if (this.type === "number") {
-      this.childNumberEl?.focus();
-    } else {
-      this.childEl?.focus();
-    }
+    focusFirstTabbable(this.type === "number" ? this.childNumberEl : this.childEl);
   }
 
   /** Selects the text of the component's `value`. */
