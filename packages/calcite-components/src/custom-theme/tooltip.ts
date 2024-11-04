@@ -10,8 +10,8 @@ export const tooltipTokens = {
 
 export const tooltip = html`
   <calcite-label layout="inline">
-    <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
-    <calcite-tooltip reference-element="reference-element" placement="auto" open>
+    <calcite-button title="Reference Element" id="tooltip-reference-element">nostrud exercitation</calcite-button>
+    <calcite-tooltip reference-element="tooltip-reference-element" placement="auto" open>
       these 🥨s are making me thirsty
     </calcite-tooltip>
   </calcite-label>
