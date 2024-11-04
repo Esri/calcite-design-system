@@ -6,10 +6,10 @@ export const listTokens = {
   calciteListBackgroundColorHover: "",
   calciteListBackgroundColorPress: "",
   calciteListItemBorderColor: "",
-  calciteListItemContentColor: "",
-  calciteListItemDescriptionColor: "",
+  calciteListItemContentTextColor: "",
+  calciteListItemDescriptionTextColor: "",
   calciteListItemIconColor: "",
-  calciteListItemLabelColor: "",
+  calciteListItemLabelTextColor: "",
   calciteListItemSelectionBorderColor: "",
 };
 

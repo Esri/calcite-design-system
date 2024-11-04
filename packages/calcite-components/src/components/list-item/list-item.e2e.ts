@@ -404,11 +404,11 @@ describe("calcite-list-item", () => {
             shadowSelector: `.${CSS.wrapper}`,
             targetProp: "borderBlockEndColor",
           },
-          "--calcite-list-item-content-color": {
+          "--calcite-list-item-content-text-color": {
             shadowSelector: `.${CSS.contentContainer}`,
             targetProp: "color",
           },
-          "--calcite-list-item-description-color": {
+          "--calcite-list-item-description-text-color": {
             shadowSelector: `.${CSS.description}`,
             targetProp: "color",
           },
@@ -416,7 +416,7 @@ describe("calcite-list-item", () => {
             shadowSelector: `.${CSS.selectionContainer}`,
             targetProp: "color",
           },
-          "--calcite-list-item-label-color": {
+          "--calcite-list-item-label-text-color": {
             shadowSelector: `.${CSS.label}`,
             targetProp: "color",
           },

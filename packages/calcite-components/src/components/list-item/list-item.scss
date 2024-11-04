@@ -7,10 +7,10 @@
  * @prop --calcite-list-background-color-press: Specifies the component's background color when pressed.
  * @prop --calcite-list-background-color: Specifies the component's background color.
  * @prop --calcite-list-item-border-color: Specifies the component's border color.
- * @prop --calcite-list-item-content-color: Specifies the content color.
- * @prop --calcite-list-item-description-color: Specifies the description color.
+ * @prop --calcite-list-item-content-text-color: Specifies the content color.
+ * @prop --calcite-list-item-description-text-color: Specifies the description color.
  * @prop --calcite-list-item-icon-color: Specifies the component's icon color.
- * @prop --calcite-list-item-label-color: Specifies the label color.
+ * @prop --calcite-list-item-label-text-color: Specifies the label color.
  * @prop --calcite-list-item-selection-border-color: Specifies the component's selection border color.
  */
 
@@ -87,7 +87,7 @@
     font-normal
     items-stretch
     p-0;
-  color: var(--calcite-list-item-content-color, var(--calcite-color-text-2));
+  color: var(--calcite-list-item-content-text-color, var(--calcite-color-text-2));
 }
 
 .content-container--unavailable {
@@ -129,7 +129,7 @@
 }
 
 .label {
-  color: var(--calcite-list-item-label-color, var(--calcite-color-text-1));
+  color: var(--calcite-list-item-label-text-color, var(--calcite-color-text-1));
 }
 
 :host([selected]) .label {
@@ -138,11 +138,11 @@
 
 .description {
   @apply mt-0.5;
-  color: var(--calcite-list-item-description-color, var(--calcite-color-text-3));
+  color: var(--calcite-list-item-description-text-color, var(--calcite-color-text-3));
 }
 
 :host([selected]) .description {
-  color: var(--calcite-list-item-description-color, var(--calcite-color-text-2));
+  color: var(--calcite-list-item-description-text-color, var(--calcite-color-text-2));
 }
 
 .content-start {
