@@ -1,8 +1,9 @@
-import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { HTMLStencilElement } from "@stencil/core/internal";
+import { PublicLitElement } from "@arcgis/lumina";
+import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect, it, beforeEach } from "vitest";
 import { MessageBundle } from "../../utils/t9n";
-import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "./../utils";
+import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTag, ComponentTestSetup } from "./interfaces";
 
@@ -17,7 +18,6 @@ expect.extend(toHaveNoViolations);
  * describe("translation support", () => {
  *   t9n("calcite-action");
  * });
- *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  */
 
@@ -55,7 +55,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     component.setProperty("messageOverrides", messageOverride);
     await page.waitForChanges();
 
-    expect(await getCurrentMessages()).toEqual({
+    expect({ ...(await getCurrentMessages()), _original: undefined }).toEqual({
       ...messages,
       ...messageOverride,
     });
@@ -72,7 +72,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
-          if (typeof input === "string" && input.endsWith("messages_es.json")) {
+          if (typeof input === "string" && input.endsWith(".t9n.es.json")) {
             const fakeEsMessages = {
               ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
@@ -102,7 +102,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
   async function assertNoErrorOnRemovalDuringMessageLoad(): Promise<void> {
     async function runTest(): Promise<void> {
-      type CalciteComponentsWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides"> & HTMLStencilElement;
+      type CalciteComponentsWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides"> & PublicLitElement;
 
       const page = await newProgrammaticE2EPage();
       await page.evaluate(async (tag: ComponentTag) => {

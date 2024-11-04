@@ -1,41 +1,26 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-  numberStringFormatter,
-} from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
+import { useT9n } from "../../controllers/useT9n";
 import { CSS, ICONS } from "./resources";
-import { PaginationMessages } from "./assets/pagination/t9n";
+import T9nStrings from "./assets/t9n/pagination.t9n.en.json";
+import { styles } from "./pagination.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-pagination": Pagination;
+  }
+}
 
 export interface PaginationDetail {
   start: number;
@@ -54,195 +39,81 @@ const maxItemBreakpoints = {
   xxsmall: 1,
 };
 
-@Component({
-  tag: "calcite-pagination",
-  styleUrl: "pagination.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-  assetsDirs: ["assets"],
-})
-export class Pagination
-  implements LocalizedComponent, LocalizedComponent, LoadableComponent, T9nComponent
-{
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+export class Pagination extends LitElement implements LoadableComponent {
+  // #region Static Members
 
-  /**
-   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
-   */
-  @Prop({ reflect: true }) groupSeparator = false;
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: PaginationMessages;
+  static override styles = styles;
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<PaginationMessages>;
+  // #endregion
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  // #region Private Properties
 
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   */
-  @Prop() numberingSystem: NumberingSystem;
-
-  /** Specifies the number of items per page. */
-  @Prop({ mutable: true, reflect: true }) pageSize = 20;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Specifies the starting item number. */
-  @Prop({ mutable: true, reflect: true }) startItem = 1;
-
-  /** Specifies the total number of items. */
-  @Prop({ reflect: true }) totalItems = 0;
-
-  @Watch("totalItems")
-  @Watch("pageSize")
-  handleTotalPages(): void {
-    if (this.pageSize < 1) {
-      this.pageSize = 1;
-    }
-    this.totalPages = this.totalItems / this.pageSize;
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalcitePaginationElement;
-
-  @State() defaultMessages: PaginationMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
-  }
-
-  @State() maxItems = maxItemBreakpoints.xxsmall;
-
-  @State() totalPages: number;
-
-  @State() lastStartItem: number;
-
-  @Watch("totalItems")
-  @Watch("pageSize")
-  @Watch("totalPages")
-  handleLastStartItemChange(): void {
-    const { totalItems, pageSize, totalPages } = this;
-
-    this.lastStartItem =
-      (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
-  }
-
-  @State() isXXSmall: boolean;
-
-  @Watch("maxItems")
-  handleIsXXSmall(): void {
-    this.isXXSmall = this.maxItems === maxItemBreakpoints.xxsmall;
-  }
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
+    this.setMaxItemsToBreakpoint(width);
 
   private resizeObserver = createObserver("resize", (entries) =>
     entries.forEach(this.resizeHandler),
   );
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
+
+  // #region State Properties
+
+  @state() isXXSmall: boolean;
+
+  @state() lastStartItem: number;
+
+  @state() maxItems = maxItemBreakpoints.xxsmall;
+
+  @state() totalPages: number;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  @property({ reflect: true }) groupSeparator = false;
+
+  /** Use this property to override individual strings used by the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Emits when the selected page changes.
+   * Made into a prop for testing purposes only
+   *
+   * @private
    */
-  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<void>;
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messages = useT9n<typeof T9nStrings>();
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @property() numberingSystem: NumberingSystem;
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-    this.resizeObserver?.observe(this.el);
-  }
+  /** Specifies the number of items per page. */
+  @property({ reflect: true }) pageSize = 20;
 
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-    setUpLoadableComponent(this);
-    this.handleTotalPages();
-    this.handleLastStartItemChange();
-    this.handleIsXXSmall();
-  }
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-    this.setMaxItemsToBreakpoint(this.el.clientWidth);
-  }
+  /** Specifies the starting item number. */
+  @property({ reflect: true }) startItem = 1;
 
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.resizeObserver?.disconnect();
-  }
+  /** Specifies the total number of items. */
+  @property({ reflect: true }) totalItems = 0;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  /** Sets focus on the component's first focusable element. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
-  }
-
-  /** Go to the next page of results. */
-  @Method()
-  async nextPage(): Promise<void> {
-    this.startItem = Math.min(this.lastStartItem, this.startItem + this.pageSize);
-  }
-
-  /** Go to the previous page of results. */
-  @Method()
-  async previousPage(): Promise<void> {
-    this.startItem = Math.max(1, this.startItem - this.pageSize);
-  }
+  // #region Public Methods
 
   /**
    * Set a specified page as active.
    *
    * @param page
    */
-  @Method()
+  @method()
   async goTo(page: number | "start" | "end"): Promise<void> {
     switch (page) {
       case "start":
@@ -263,11 +134,122 @@ export class Pagination
     }
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  /** Go to the next page of results. */
+  @method()
+  async nextPage(): Promise<void> {
+    this.startItem = Math.min(this.lastStartItem, this.startItem + this.pageSize);
+  }
+
+  /** Go to the previous page of results. */
+  @method()
+  async previousPage(): Promise<void> {
+    this.startItem = Math.max(1, this.startItem - this.pageSize);
+  }
+
+  /** Sets focus on the component's first focusable element. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.el.focus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Emits when the selected page changes. */
+  calcitePaginationChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.resizeObserver?.observe(this.el);
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.handleTotalPages();
+    this.handleLastStartItemChange();
+    this.handleIsXXSmall();
+  }
+
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("totalItems") && (this.hasUpdated || this.totalItems !== 0)) ||
+      (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 20))
+    ) {
+      this.handleTotalPages();
+    }
+
+    if (
+      (changes.has("totalItems") && (this.hasUpdated || this.totalItems !== 0)) ||
+      (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 20)) ||
+      changes.has("totalPages")
+    ) {
+      this.handleLastStartItemChange();
+    }
+
+    if (
+      changes.has("maxItems") &&
+      (this.hasUpdated || this.maxItems !== maxItemBreakpoints.xxsmall)
+    ) {
+      this.handleIsXXSmall();
+    }
+
+    if (changes.has("messages")) {
+      this.effectiveLocaleChange();
+    }
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+    this.setMaxItemsToBreakpoint(this.el.clientWidth);
+  }
+
+  override disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleTotalPages(): void {
+    if (this.pageSize < 1) {
+      this.pageSize = 1;
+    }
+    this.totalPages = this.totalItems / this.pageSize;
+  }
+
+  private effectiveLocaleChange(): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.messages._lang,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+  }
+
+  private handleLastStartItemChange(): void {
+    const { totalItems, pageSize, totalPages } = this;
+
+    this.lastStartItem =
+      (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
+  }
+
+  private handleIsXXSmall(): void {
+    this.isXXSmall = this.maxItems === maxItemBreakpoints.xxsmall;
+  }
 
   private setMaxItemsToBreakpoint(width: number): void {
     if (!breakpoints || !width) {
@@ -297,28 +279,25 @@ export class Pagination
     this.maxItems = maxItemBreakpoints.xxsmall;
   }
 
-  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
-    this.setMaxItemsToBreakpoint(width);
-
-  private firstClicked = (): void => {
+  private firstClicked(): void {
     this.startItem = 1;
     this.emitUpdate();
-  };
+  }
 
-  private lastClicked = (): void => {
+  private lastClicked(): void {
     this.startItem = this.lastStartItem;
     this.emitUpdate();
-  };
+  }
 
-  private previousClicked = async (): Promise<void> => {
+  private async previousClicked(): Promise<void> {
     await this.previousPage();
     this.emitUpdate();
-  };
+  }
 
-  private nextClicked = async (): Promise<void> => {
+  private async nextClicked(): Promise<void> {
     await this.nextPage();
     this.emitUpdate();
-  };
+  }
 
   private showStartEllipsis() {
     return (
@@ -340,19 +319,17 @@ export class Pagination
     this.calcitePaginationChange.emit();
   }
 
-  private handlePageClick = (event: Event) => {
+  private handlePageClick(event: Event) {
     const target = event.target as HTMLButtonElement;
     this.startItem = parseInt(target.value, 10);
     this.emitUpdate();
-  };
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  renderEllipsis(type: "start" | "end"): VNode {
+  // #region Rendering
+
+  private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
       <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
         &hellip;
@@ -360,11 +337,11 @@ export class Pagination
     );
   }
 
-  renderItems(): VNode[] {
+  private renderItems(): JsxNode {
     const { totalItems, pageSize, startItem, maxItems, totalPages, lastStartItem, isXXSmall } =
       this;
 
-    const items: VNode[] = [];
+    const items: JsxNode[] = [];
 
     if (isXXSmall) {
       items.push(this.renderPage(startItem));
@@ -428,12 +405,12 @@ export class Pagination
     return items;
   }
 
-  renderPage(start: number): VNode {
+  private renderPage(start: number): JsxNode {
     const { pageSize } = this;
     const page = Math.floor(start / pageSize) + (pageSize === 1 ? 0 : 1);
 
     numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -444,7 +421,7 @@ export class Pagination
     return (
       <li class={CSS.listItem}>
         <button
-          aria-current={selected ? "page" : "false"}
+          ariaCurrent={selected ? "page" : "false"}
           class={{
             [CSS.page]: true,
             [CSS.selected]: selected,
@@ -458,14 +435,14 @@ export class Pagination
     );
   }
 
-  renderPreviousChevron(): VNode {
+  private renderPreviousChevron(): JsxNode {
     const { pageSize, startItem, messages } = this;
 
     const disabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
 
     return (
       <button
-        aria-label={messages.previous}
+        ariaLabel={messages.previous}
         class={{
           [CSS.chevron]: true,
           [CSS.disabled]: disabled,
@@ -480,7 +457,7 @@ export class Pagination
     );
   }
 
-  renderNextChevron(): VNode {
+  private renderNextChevron(): JsxNode {
     const { totalItems, pageSize, startItem, messages } = this;
 
     const disabled =
@@ -488,7 +465,7 @@ export class Pagination
 
     return (
       <button
-        aria-label={messages.next}
+        ariaLabel={messages.next}
         class={{
           [CSS.chevron]: true,
           [CSS.disabled]: disabled,
@@ -503,14 +480,14 @@ export class Pagination
     );
   }
 
-  renderFirstChevron(): VNode {
+  private renderFirstChevron(): JsxNode {
     const { messages, startItem, isXXSmall } = this;
 
     const disabled = startItem === 1;
 
     return isXXSmall ? (
       <button
-        aria-label={messages.first}
+        ariaLabel={messages.first}
         class={{
           [CSS.chevron]: true,
           [CSS.disabled]: disabled,
@@ -524,14 +501,14 @@ export class Pagination
     ) : null;
   }
 
-  renderLastChevron(): VNode {
+  private renderLastChevron(): JsxNode {
     const { messages, startItem, isXXSmall, lastStartItem } = this;
 
     const disabled = startItem === lastStartItem;
 
     return isXXSmall ? (
       <button
-        aria-label={messages.last}
+        ariaLabel={messages.last}
         class={{
           [CSS.chevron]: true,
           [CSS.disabled]: disabled,
@@ -545,7 +522,7 @@ export class Pagination
     ) : null;
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
       <ul class={CSS.list}>
         <li
@@ -570,4 +547,6 @@ export class Pagination
       </ul>
     );
   }
+
+  // #endregion
 }

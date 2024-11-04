@@ -1,16 +1,7 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
 import { debounce } from "lodash-es";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
 import {
   InteractiveComponent,
@@ -23,35 +14,57 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
-import { FilterMessages } from "./assets/filter/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Input } from "../input/input";
+import T9nStrings from "./assets/t9n/filter.t9n.en.json";
 import { CSS, ICONS } from "./resources";
+import { styles } from "./filter.scss";
 
-@Component({
-  tag: "calcite-filter",
-  styleUrl: "filter.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-  assetsDirs: ["assets"],
-})
-export class Filter
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-filter": Filter;
+  }
+}
+
+export class Filter extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private filterDebounced = debounce(
+    (value: string, emit = false, onFilter?: () => void): void =>
+      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), emit, onFilter),
+    DEBOUNCE.filter,
+  );
+
+  private textInput = createRef<Input["el"]>();
+
+  private _value = "";
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */
+  @property() filterProps: string[];
+
+  /**
+   * The component's resulting items after filtering.
+   *
+   * @readonly
+   */
+  @property() filteredItems: object[] = [];
 
   /**
    * Defines the items to filter. The component uses the values as the starting point, and returns items
@@ -59,142 +72,45 @@ export class Filter
    * that contain the string entered in the input, using a partial match and recursive search.
    *
    * This property is needed to conduct filtering.
-   *
    */
-  @Prop() items: object[] = [];
+  @property() items: object[] = [];
 
-  @Watch("items")
-  watchItemsHandler(): void {
-    this.filterDebounced(this.value);
-  }
-
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * The component's resulting items after filtering.
-   *
-   * @readonly
-   */
-  @Prop({ mutable: true }) filteredItems: object[] = [];
-
-  /**
-   * Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched.
-   */
-  @Prop() filterProps: string[];
-
-  @Watch("filterProps")
-  filterPropsHandler(): void {
-    this.filterDebounced(this.value);
-  }
-
-  /**
-   * Specifies placeholder text for the input element.
-   */
-  @Prop() placeholder: string;
-
-  /**
-   * Specifies the size of the component.
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /**
-   * The component's value.
-   */
-  @Prop({ mutable: true }) value = "";
+  /** Use this property to override individual strings used by the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: FilterMessages;
+  @property() messages = useT9n<typeof T9nStrings>();
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
+  /** Specifies placeholder text for the input element. */
+  @property() placeholder: string;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** The component's value. */
+  @property()
+  get value(): string {
+    return this._value;
   }
 
-  @Watch("value")
-  valueHandler(value: string): void {
-    this.filterDebounced(value);
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueHandler(value);
+    }
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private State/Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteFilterElement;
-
-  textInput: HTMLCalciteInputElement;
-
-  @State() effectiveLocale: string;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: FilterMessages;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the filter text changes.
-   */
-  @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
-    await setUpMessages(this);
-  }
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.filterDebounced.cancel();
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Methods
 
   /**
    * Performs a filter on the component.
@@ -204,7 +120,7 @@ export class Filter
    * @param {string} value - The filter text value.
    * @returns {Promise<void>}
    */
-  @Method()
+  @method()
   async filter(value: string = this.value): Promise<void> {
     return new Promise((resolve) => {
       this.value = value;
@@ -213,32 +129,83 @@ export class Filter
   }
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    return this.textInput?.setFocus();
+    return this.textInput.value?.setFocus();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  private filterDebounced = debounce(
-    (value: string, emit = false, onFilter?: () => void): void =>
-      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), emit, onFilter),
-    DEBOUNCE.filter,
-  );
+  // #region Events
 
-  inputHandler = (event: CustomEvent): void => {
-    const target = event.target as HTMLCalciteInputElement;
+  /** Fires when the filter text changes. */
+  calciteFilterChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
+  }
+
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("items") && (this.hasUpdated || this.items?.length > 0)) {
+      this.watchItemsHandler();
+    }
+
+    if (changes.has("filterProps")) {
+      this.filterPropsHandler();
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    this.filterDebounced.cancel();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private watchItemsHandler(): void {
+    this.filterDebounced(this.value);
+  }
+
+  private filterPropsHandler(): void {
+    this.filterDebounced(this.value);
+  }
+
+  private valueHandler(value: string): void {
+    this.filterDebounced(value);
+  }
+
+  private inputHandler(event: CustomEvent): void {
+    const target = event.target as Input["el"];
     this.value = target.value;
     this.filterDebounced(target.value, true);
-  };
+  }
 
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (event.defaultPrevented) {
       return;
     }
@@ -251,15 +218,15 @@ export class Filter
     if (event.key === "Enter") {
       event.preventDefault();
     }
-  };
+  }
 
-  clear = (): void => {
+  private clear(): void {
     this.value = "";
     this.filterDebounced("", true);
     this.setFocus();
-  };
+  }
 
-  updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
+  private updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
     this.filteredItems = filtered;
     if (emit) {
       this.calciteFilterChange.emit();
@@ -267,13 +234,11 @@ export class Filter
     callback?.();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const { disabled, scale } = this;
 
     return (
@@ -286,12 +251,10 @@ export class Filter
               icon={ICONS.search}
               label={this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
-              onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
+              oncalciteInputInput={this.inputHandler}
               placeholder={this.placeholder}
-              ref={(el): void => {
-                this.textInput = el;
-              }}
+              ref={this.textInput}
               scale={scale}
               type="text"
               value={this.value}
@@ -301,4 +264,6 @@ export class Filter
       </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

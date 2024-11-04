@@ -3,6 +3,8 @@ import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Slider } from "./slider";
+import type { Slider as HTMLCalciteSliderElement } from "./slider";
+
 const { scale, status } = ATTRIBUTES;
 
 interface SliderStoryArgs
@@ -67,7 +69,11 @@ export default {
   parameters: {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
+      diffThreshold:
+        Number(
+          /* TODO: [MIGRATION] Unknown env variable. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-publishing--docs#bundling-code-conditionally for docs on what env variables are available and how to define additional */ import.meta
+            .env.CHROMATIC_DIFF_THRESHOLD,
+        ) || 0.3,
       delay: 500,
     },
   },
@@ -229,7 +235,7 @@ rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const Histogram = (): HTMLCalciteSliderElement => {
+export const Histogram = (): HTMLCalciteSliderElement["el"] => {
   const slider = document.createElement("calcite-slider");
   slider.min = -100;
   slider.minValue = -33.32;
@@ -249,7 +255,7 @@ export const Histogram = (): HTMLCalciteSliderElement => {
   return slider;
 };
 
-export const HistogramWithColors = (): HTMLCalciteSliderElement => {
+export const HistogramWithColors = (): HTMLCalciteSliderElement["el"] => {
   const slider = document.createElement("calcite-slider");
   slider.min = 0;
   slider.minValue = 35;
@@ -271,7 +277,7 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
   return slider;
 };
 
-export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
+export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement["el"] => {
   const slider = document.createElement("calcite-slider");
   slider.min = 0;
   slider.minValue = 25;

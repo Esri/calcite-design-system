@@ -1,10 +1,13 @@
 import { isBrowser } from "../../utils/browser";
+import type { List } from "../list/list";
+import type { ListItemGroup } from "../list-item-group/list-item-group";
+import type { ListItem } from "./list-item";
 
 const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
 const listItemSelector = "calcite-list-item";
 
-export function openAncestors(el: HTMLCalciteListItemElement): void {
+export function openAncestors(el: ListItem["el"]): void {
   const ancestor = el.parentElement?.closest(listItemSelector);
 
   if (!ancestor) {
@@ -19,15 +22,13 @@ export function hasListItemChildren(slotEl: HTMLSlotElement): boolean {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
   const groupChildren = assignedElements
-    .filter((el): el is HTMLCalciteListItemGroupElement => el?.matches(listItemGroupSelector))
-    .map((group) => Array.from(group.querySelectorAll<HTMLCalciteListItemElement>(listItemSelector)))
+    .filter((el): el is ListItemGroup["el"] => el?.matches(listItemGroupSelector))
+    .map((group) => Array.from(group.querySelectorAll<ListItem["el"]>(listItemSelector)))
     .flat();
 
-  const listItemChildren = assignedElements.filter((el): el is HTMLCalciteListItemElement =>
-    el?.matches(listItemSelector),
-  );
+  const listItemChildren = assignedElements.filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
 
-  const listChildren = assignedElements.filter((el): el is HTMLCalciteListElement => el?.matches(listSelector));
+  const listChildren = assignedElements.filter((el): el is List["el"] => el?.matches(listSelector));
 
   return [...listChildren, ...groupChildren, ...listItemChildren].length > 0;
 }
@@ -35,7 +36,7 @@ export function hasListItemChildren(slotEl: HTMLSlotElement): boolean {
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {
   const listItemChildren = slotEl
     .assignedElements({ flatten: true })
-    .filter((el): el is HTMLCalciteListItemElement => el?.matches(listItemSelector));
+    .filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
 
   listItemChildren.forEach((listItem) => {
     listItem.setPosition = listItemChildren.indexOf(listItem) + 1;

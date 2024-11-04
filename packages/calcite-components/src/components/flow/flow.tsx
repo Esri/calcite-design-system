@@ -1,4 +1,5 @@
-import { Component, Element, h, Listen, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import {
   componentFocusable,
@@ -7,31 +8,65 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { whenAnimationDone } from "../../utils/dom";
+import type { FlowItem } from "../flow-item/flow-item";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
 import { CSS } from "./resources";
+import { styles } from "./flow.scss";
 
-/**
- * @slot - A slot for adding `calcite-flow-item` elements to the component.
- */
-@Component({
-  tag: "calcite-flow",
-  styleUrl: "flow.scss",
-  shadow: true,
-})
-export class Flow implements LoadableComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-flow": Flow;
+  }
+}
+
+/** @slot - A slot for adding `calcite-flow-item` elements to the component. */
+export class Flow extends LitElement implements LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private frameEl: HTMLDivElement;
+
+  private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserverChange(),
+  );
+
+  private selectedIndex = -1;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() flowDirection: FlowDirection = "standby";
+
+  @state() items: FlowItemLikeElement[] = [];
+
+  // #endregion
+
+  // #region Public Properties
+
+  /**
+   * This property enables the component to consider other custom elements implementing flow-item's interface.
+   *
+   * @private
+   */
+  @property() customItemSelectors: string;
+
+  // #endregion
+
+  // #region Public Methods
 
   /**
    * Removes the currently active `calcite-flow-item`.
    *
    * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
    */
-  @Method()
-  async back(): Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement> {
+  @method()
+  async back(): Promise<FlowItem["el"] | FlowItemLikeElement> {
     const { items, selectedIndex } = this;
 
     const selectedItem = items[selectedIndex];
@@ -62,7 +97,7 @@ export class Flow implements LoadableComponent {
    *
    * @returns Promise<void>
    */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
@@ -72,31 +107,53 @@ export class Flow implements LoadableComponent {
     return activeItem?.setFocus();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalFlowItemChange", this.handleCalciteInternalFlowItemChange);
+    this.listen("calciteFlowItemBack", this.handleItemBackClick);
+  }
+
+  override connectedCallback(): void {
+    this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.handleMutationObserverChange();
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
 
   /**
-   * This property enables the component to consider other custom elements implementing flow-item's interface.
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *
-   * @internal
+   * @param changes
    */
-  @Prop() customItemSelectors: string;
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("flowDirection") && (this.hasUpdated || this.flowDirection !== "standby")) {
+      this.handleFlowDirectionChange(this.flowDirection);
+    }
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  loaded(): void {
+    setComponentLoaded(this);
+  }
 
-  @Element() el: HTMLCalciteFlowElement;
+  override disconnectedCallback(): void {
+    this.itemMutationObserver?.disconnect();
+  }
 
-  @State() flowDirection: FlowDirection = "standby";
+  // #endregion
 
-  @Watch("flowDirection")
-  async handleFlowDirectionChange(flowDirection: string): Promise<void> {
+  // #region Private Methods
+
+  private async handleFlowDirectionChange(flowDirection: FlowDirection): Promise<void> {
     if (flowDirection === "standby") {
       return;
     }
@@ -109,53 +166,12 @@ export class Flow implements LoadableComponent {
     this.resetFlowDirection();
   }
 
-  @State() items: FlowItemLikeElement[] = [];
-
-  private selectedIndex = -1;
-
-  private frameEl: HTMLDivElement;
-
-  private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserverChange(),
-  );
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.handleMutationObserverChange();
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    this.itemMutationObserver?.disconnect();
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  @Listen("calciteInternalFlowItemChange")
-  handleCalciteInternalFlowItemChange(event: CustomEvent): void {
+  private handleCalciteInternalFlowItemChange(event: CustomEvent): void {
     event.stopPropagation();
     this.updateFlowProps();
   }
 
-  @Listen("calciteFlowItemBack")
-  async handleItemBackClick(event: CustomEvent): Promise<void> {
+  private async handleItemBackClick(event: CustomEvent): Promise<void> {
     if (event.defaultPrevented) {
       return;
     }
@@ -164,14 +180,14 @@ export class Flow implements LoadableComponent {
     return this.setFocus();
   }
 
-  private resetFlowDirection = (): void => {
+  private resetFlowDirection(): void {
     this.flowDirection = "standby";
-  };
+  }
 
-  private getFlowDirection = (
+  private getFlowDirection(
     oldSelectedIndex: number,
     newSelectedIndex: number,
-  ): FlowDirection | null => {
+  ): FlowDirection | null {
     const allowRetreatingDirection = oldSelectedIndex > 0;
     const allowAdvancingDirection = oldSelectedIndex > -1 && newSelectedIndex > 0;
 
@@ -180,9 +196,9 @@ export class Flow implements LoadableComponent {
     }
 
     return newSelectedIndex < oldSelectedIndex ? "retreating" : "advancing";
-  };
+  }
 
-  private handleMutationObserverChange = (): void => {
+  private handleMutationObserverChange(): void {
     const { customItemSelectors, el } = this;
 
     const newItems = Array.from<FlowItemLikeElement>(
@@ -196,9 +212,9 @@ export class Flow implements LoadableComponent {
     this.ensureSelectedFlowItemExists();
 
     this.updateFlowProps();
-  };
+  }
 
-  private updateFlowProps = (): void => {
+  private updateFlowProps(): void {
     const { selectedIndex, items } = this;
     const foundSelectedIndex = this.findSelectedFlowItemIndex(items);
 
@@ -220,18 +236,16 @@ export class Flow implements LoadableComponent {
     }
 
     this.selectedIndex = foundSelectedIndex;
-  };
+  }
 
-  private findSelectedFlowItemIndex = (
-    items: (HTMLCalciteFlowItemElement | FlowItemLikeElement)[],
-  ): number => {
+  private findSelectedFlowItemIndex(items: (FlowItem["el"] | FlowItemLikeElement)[]): number {
     const selectedItem = items
       .slice(0)
       .reverse()
       .find((item) => !!item.selected);
 
     return items.indexOf(selectedItem);
-  };
+  }
 
   private ensureSelectedFlowItemExists(): void {
     const { items } = this;
@@ -248,17 +262,15 @@ export class Flow implements LoadableComponent {
     }
   }
 
-  private setFrameEl = (el: HTMLDivElement): void => {
+  private setFrameEl(el: HTMLDivElement): void {
     this.frameEl = el;
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const { flowDirection } = this;
 
     const frameDirectionClasses = {
@@ -273,4 +285,6 @@ export class Flow implements LoadableComponent {
       </div>
     );
   }
+
+  // #endregion
 }

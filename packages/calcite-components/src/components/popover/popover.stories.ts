@@ -1,8 +1,8 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
-import { defaultPopoverPlacement } from "../popover/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { defaultPopoverPlacement } from "./resources";
 import { Popover } from "./popover";
 
 const contentHTML = `

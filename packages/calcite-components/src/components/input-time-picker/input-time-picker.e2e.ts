@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage, E2EElement } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { localizeTimeString } from "../../utils/time";
 import {
   accessible,
@@ -15,7 +16,7 @@ import {
 import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { CSS as PopoverCSS } from "../../components/popover/resources";
+import { CSS as PopoverCSS } from "../popover/resources";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(

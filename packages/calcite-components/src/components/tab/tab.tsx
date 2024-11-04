@@ -1,75 +1,104 @@
-import { Component, Element, h, Host, Listen, Method, Prop, State, VNode } from "@stencil/core";
+import { LitElement, property, h, method, state, JsxNode, setAttribute } from "@arcgis/lumina";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import type { Tabs } from "../tabs/tabs";
 import { CSS } from "./resources";
 import { TabChangeEventDetail } from "./interfaces";
+import { styles } from "./tab.scss";
 
-/**
- * @slot - A slot for adding custom content.
- */
-@Component({
-  tag: "calcite-tab",
-  styleUrl: "tab.scss",
-  shadow: true,
-})
-export class Tab {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-tab": Tab;
+  }
+}
+
+/** @slot - A slot for adding custom content. */
+export class Tab extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private guid = `calcite-tab-title-${guid()}`;
+
+  private parentTabsEl: Tabs["el"];
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() labeledBy: string;
+
+  // #endregion
+
+  // #region Public Properties
 
   /**
-   * Specifies a unique name for the component.
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
    *
-   * When specified, use the same value on the `calcite-tab-title`.
+   * @private
    */
-  @Prop({ reflect: true }) tab: string;
+  @property() scale: Scale = "m";
 
   /**
    * When `true`, the component's contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   * Specifies a unique name for the component.
    *
-   * @internal
+   * When specified, use the same value on the `calcite-tab-title`.
    */
-  @Prop() scale: Scale = "m";
+  @property({ reflect: true }) tab: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
-    const id = this.el.id || this.guid;
+  // #region Public Methods
 
-    return (
-      <Host aria-labelledby={this.labeledBy} id={id}>
-        <div
-          class={{ [CSS.container]: true, [`scale-${this.scale}`]: true }}
-          role="tabpanel"
-          tabIndex={this.selected ? 0 : -1}
-        >
-          <section class={CSS.content}>
-            <slot />
-          </section>
-        </div>
-      </Host>
+  /** Returns the index of the component item within the tab array. */
+  @method()
+  async getTabIndex(): Promise<number> {
+    return Array.prototype.indexOf.call(
+      nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
+      this.el,
     );
   }
 
-  connectedCallback(): void {
+  /**
+   * @param tabIds
+   * @param titleIds
+   * @private
+   */
+  @method()
+  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
+    this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
+  }
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listenOn<CustomEvent<TabChangeEventDetail>>(
+      document.body,
+      "calciteInternalTabChange",
+      this.internalTabChangeHandler,
+    );
+  }
+
+  override connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabUnregister", {
@@ -78,14 +107,11 @@ export class Tab {
     );
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Listen("calciteInternalTabChange", { target: "body" })
-  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
+  // #region Private Methods
+
+  private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const targetTabsEl = event
       .composedPath()
       .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
@@ -107,50 +133,29 @@ export class Tab {
     event.stopPropagation();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  /**
-   * Returns the index of the component item within the tab array.
-   */
-  @Method()
-  async getTabIndex(): Promise<number> {
-    return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
-      this.el,
+  // #region Rendering
+
+  override render(): JsxNode {
+    const id = this.el.id || this.guid;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "aria-labelledby", this.labeledBy);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "id", id);
+
+    return (
+      <div
+        class={{ [CSS.container]: true, [`scale-${this.scale}`]: true }}
+        role="tabpanel"
+        tabIndex={this.selected ? 0 : -1}
+      >
+        <section class={CSS.content}>
+          <slot />
+        </section>
+      </div>
     );
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTabElement;
-
-  parentTabsEl: HTMLCalciteTabsElement;
-
-  guid = `calcite-tab-title-${guid()}`;
-
-  @State() labeledBy: string;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @param tabIds
-   * @param titleIds
-   * @internal
-   */
-  @Method()
-  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
-    this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
-  }
+  // #endregion
 }

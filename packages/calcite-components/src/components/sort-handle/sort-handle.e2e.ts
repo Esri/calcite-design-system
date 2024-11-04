@@ -1,8 +1,11 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
-import type { SortHandleMessages } from "./assets/sort-handle/t9n";
+import T9nStrings from "./assets/t9n/sort-handle.t9n.en.json";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
+import type { MoveEventDetail } from "./interfaces";
+import type { ReorderEventDetail } from "./interfaces";
 
 describe("calcite-sort-handle", () => {
   describe("renders", () => {
@@ -32,7 +35,7 @@ describe("calcite-sort-handle", () => {
     const handle = await page.find("calcite-sort-handle");
     await handle.callMethod("setFocus");
     const button = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
-    const messages: SortHandleMessages = await handle.getProperty("messages");
+    const messages: typeof T9nStrings = await handle.getProperty("messages");
 
     expect(await button.getProperty("title")).toBe(
       messages.repositionLabel
@@ -49,7 +52,7 @@ describe("calcite-sort-handle", () => {
 
     const sortHandle = await page.find("calcite-sort-handle");
 
-    const calciteSortHandleReorderSpy = await page.spyOnEvent("calciteSortHandleReorder");
+    const calciteSortHandleReorderSpy = await page.spyOnEvent<ReorderEventDetail>("calciteHandleNudge");
 
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
@@ -78,7 +81,7 @@ describe("calcite-sort-handle", () => {
     sortHandle.setProperty("moveToItems", moveToItems);
     await page.waitForChanges();
 
-    const calciteSortHandleMoveSpy = await page.spyOnEvent("calciteSortHandleMove");
+    const calciteSortHandleMoveSpy = await page.spyOnEvent<MoveEventDetail>("calciteHandleNudge");
 
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");

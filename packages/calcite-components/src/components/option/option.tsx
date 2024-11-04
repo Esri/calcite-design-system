@@ -1,66 +1,22 @@
-import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
+import { styles } from "./option.scss";
 
-@Component({
-  tag: "calcite-option",
-  styleUrl: "option.scss",
-  shadow: true,
-})
-export class Option {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({
-    reflect: true,
-  })
-  disabled = false;
-
-  /**
-   * Accessible name for the component.
-   */
-  @Prop({ mutable: true })
-  label: string;
-
-  /**
-   * When `true`, the component is selected.
-   */
-  @Prop({
-    reflect: true,
-  })
-  selected: boolean;
-
-  /**
-   * The component's value.
-   */
-  @Prop({ mutable: true })
-  value: any;
-
-  @Watch("disabled")
-  @Watch("label")
-  @Watch("selected")
-  @Watch("value")
-  protected handlePropChange(_newValue: any, _oldValue: any, propName: string): void {
-    if (propName === "label" || propName === "value") {
-      this.ensureTextContentDependentProps();
-    }
-
-    this.calciteInternalOptionChange.emit();
+declare global {
+  interface DeclareElements {
+    "calcite-option": Option;
   }
+}
 
-  //--------------------------------------------------------------------------
-  //
-  //  Variables
-  //
-  //--------------------------------------------------------------------------
+export class Option extends LitElement {
+  // #region Static Members
 
-  @Element()
-  private el: HTMLCalciteOptionElement;
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
 
   private internallySetLabel: string;
 
@@ -71,23 +27,92 @@ export class Option {
     this.calciteInternalOptionChange.emit();
   });
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({
+    reflect: true,
+  })
+  disabled = false;
+
+  /** Accessible name for the component. */
+  @property() label: string;
+
+  /** When `true`, the component is selected. */
+  @property({
+    reflect: true,
+  })
+  selected: boolean;
+
+  /** The component's value. */
+  @property() value: any;
+
+  // #endregion
+
+  // #region Events
+
+  /** @private */
+
+  private calciteInternalOptionChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.ensureTextContentDependentProps();
+    this.mutationObserver?.observe(this.el, {
+      attributeFilter: ["label", "value"],
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+  }
 
   /**
-   * @internal
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
    */
-  @Event({ cancelable: false })
-  private calciteInternalOptionChange: EventEmitter<void>;
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+      this.handlePropChange(this.disabled, changes.get("disabled"), "disabled");
+    }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+    if (changes.has("label")) {
+      this.handlePropChange(this.label, changes.get("label"), "label");
+    }
+
+    if (changes.has("selected")) {
+      this.handlePropChange(this.selected, changes.get("selected"), "selected");
+    }
+
+    if (changes.has("value")) {
+      this.handlePropChange(this.value, changes.get("value"), "value");
+    }
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  protected handlePropChange(_newValue: any, _oldValue: any, propName: string): void {
+    if (propName === "label" || propName === "value") {
+      this.ensureTextContentDependentProps();
+    }
+
+    this.calciteInternalOptionChange.emit();
+  }
 
   private ensureTextContentDependentProps(): void {
     const {
@@ -112,33 +137,13 @@ export class Option {
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  connectedCallback(): void {
-    this.ensureTextContentDependentProps();
-    this.mutationObserver?.observe(this.el, {
-      attributeFilter: ["label", "value"],
-      characterData: true,
-      childList: true,
-      subtree: true,
-    });
-  }
+  // #region Rendering
 
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
-
-  render(): VNode {
+  override render(): JsxNode {
     return <slot>{this.label}</slot>;
   }
+
+  // #endregion
 }

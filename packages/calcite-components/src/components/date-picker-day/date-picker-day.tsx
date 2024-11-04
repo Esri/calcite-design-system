@@ -1,15 +1,12 @@
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Listen,
-  Prop,
-  VNode,
-  Method,
-} from "@stencil/core";
+  method,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import { dateToISO } from "../../utils/date";
 import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
@@ -26,92 +23,159 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import type { DatePicker } from "../date-picker/date-picker";
+import { styles } from "./date-picker-day.scss";
 
-@Component({
-  tag: "calcite-date-picker-day",
-  styleUrl: "date-picker-day.scss",
-  shadow: true,
-})
-export class DatePickerDay implements InteractiveComponent, LoadableComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-date-picker-day": DatePickerDay;
+  }
+}
 
-  /** Day of the month to be shown. */
-  @Prop() day!: number;
+export class DatePickerDay extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private parentDatePickerEl: DatePicker["el"];
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, the component is active. */
+  @property({ reflect: true }) active = false;
+
+  /** Date is in the current month. */
+  @property({ reflect: true }) currentMonth = false;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
    *
-   * @internal
+   * @private
    */
-  @Prop() dateTimeFormat: Intl.DateTimeFormat;
+  @property() dateTimeFormat: Intl.DateTimeFormat;
+
+  /**
+   * Day of the month to be shown.
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
+   *
+   * @required
+   */
+  @property() day: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
-  /** Date is in the current month. */
-  @Prop({ reflect: true }) currentMonth = false;
-
-  /**  When `true`, the component is selected. */
-  @Prop({ reflect: true }) selected = false;
+  /** Date is the end of date range. */
+  @property({ reflect: true }) endOfRange = false;
 
   /** Date is currently highlighted as part of the range, */
-  @Prop({ reflect: true }) highlighted = false;
+  @property({ reflect: true }) highlighted = false;
 
   /** When `true`, activates the component's range mode to allow a start and end date. */
-  @Prop({ reflect: true }) range = false;
+  @property({ reflect: true }) range = false;
 
   /**
    * When `true`, highlight styling for edge dates is applied.
    *
-   * @internal
+   * @private
    */
-  @Prop({ reflect: true }) rangeEdge: "start" | "end" | undefined;
-
-  /** Date is the start of date range. */
-  @Prop({ reflect: true }) startOfRange = false;
-
-  /** Date is the end of date range. */
-  @Prop({ reflect: true }) endOfRange = false;
+  @property({ reflect: true }) rangeEdge: "start" | "end" | undefined;
 
   /** Date is being hovered and within the set range. */
-  @Prop({ reflect: true }) rangeHover = false;
-
-  /** When `true`, the component is active. */
-  @Prop({ reflect: true }) active = false;
+  @property({ reflect: true }) rangeHover = false;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale;
+
+  /** When `true`, the component is selected. */
+  @property({ reflect: true }) selected = false;
+
+  /** Date is the start of date range. */
+  @property({ reflect: true }) startOfRange = false;
 
   /** The component's value. */
-  @Prop() value: Date;
+  @property() value: Date;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  onClick = (): void => {
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.el.focus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /**
+   * Fires when user hovers over a day.
+   *
+   * @private
+   */
+  calciteInternalDayHover = createEvent({ cancelable: false });
+
+  /**
+   * Fires when user selects day.
+   *
+   * @private
+   */
+  calciteInternalDaySelect = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("pointerover", this.pointerOverHandler);
+    this.listen("click", this.onClick);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private onClick(): void {
     if (this.disabled) {
       return;
     }
 
     this.calciteInternalDaySelect.emit();
-  };
+  }
 
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (isActivationKey(event.key)) {
       !this.disabled && this.calciteInternalDaySelect.emit();
       event.preventDefault();
     }
-  };
+  }
 
-  @Listen("pointerover")
-  pointerOverHandler(): void {
+  private pointerOverHandler(): void {
     if (this.disabled) {
       return;
     }
@@ -119,55 +183,11 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
     this.calciteInternalDayHover.emit();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  /**
-   * Fires when user selects day.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDaySelect: EventEmitter<void>;
+  // #region Rendering
 
-  /**
-   * Fires when user hovers over a day.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDayHover: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
-  }
-
-  render(): VNode {
+  override render(): JsxNode {
     const dayId = dateToISO(this.value).replaceAll("-", "");
     if (this.parentDatePickerEl) {
       const { numberingSystem, lang: locale } = this.parentDatePickerEl;
@@ -180,39 +200,27 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
     const dayLabel = this.dateTimeFormat.format(this.value);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLabel = dayLabel;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaSelected = toAriaBoolean(this.active);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "id", dayId);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "button";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "tabIndex", this.active && !this.disabled ? 0 : -1);
 
     return (
-      <Host
-        aria-label={dayLabel}
-        aria-selected={toAriaBoolean(this.active)}
-        id={dayId}
-        onClick={this.onClick}
-        onKeyDown={this.keyDownHandler}
-        role="button"
-        tabIndex={this.active && !this.disabled ? 0 : -1}
-      >
-        <InteractiveContainer disabled={this.disabled}>
-          <div aria-hidden="true" class="day-wrapper">
-            <span class="day">
-              <span class="text">{formattedDay}</span>
-            </span>
-          </div>
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={this.disabled}>
+        <div ariaHidden="true" class="day-wrapper">
+          <span class="day">
+            <span class="text">{formattedDay}</span>
+          </span>
+        </div>
+      </InteractiveContainer>
     );
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDatePickerDayElement;
-
-  private parentDatePickerEl: HTMLCalciteDatePickerElement;
+  // #endregion
 }

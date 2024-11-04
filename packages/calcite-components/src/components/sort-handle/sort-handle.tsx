@@ -1,29 +1,11 @@
-import {
-  Event,
-  Component,
-  Element,
-  EventEmitter,
-  h,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -36,38 +18,68 @@ import {
   OverlayPositioning,
   defaultMenuPlacement,
 } from "../../utils/floating-ui";
-import { SortHandleMessages } from "./assets/sort-handle/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Dropdown } from "../dropdown/dropdown";
+import T9nStrings from "./assets/t9n/sort-handle.t9n.en.json";
 import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
+import { styles } from "./sort-handle.scss";
 
-@Component({
-  tag: "calcite-sort-handle",
-  styleUrl: "sort-handle.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class SortHandle implements LoadableComponent, T9nComponent, InteractiveComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-sort-handle": SortHandle;
+  }
+}
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+export class SortHandle extends LitElement implements LoadableComponent, InteractiveComponent {
+  // #region Static Members
 
-  /**
-   * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() flipPlacements: FlipPlacement[];
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private dropdownEl: Dropdown["el"];
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
+  @property() flipPlacements: FlipPlacement[];
+
+  /** Specifies the label of the component. */
+  @property() label: string;
 
   /**
    * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller.
    * Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
    */
-  @Prop({ reflect: true }) maxItems = 0;
+  @property({ reflect: true }) maxItems = 0;
+
+  /** Use this property to override individual strings used by the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   * @readonly
+   */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messages = useT9n<typeof T9nStrings>();
+
+  /** Defines the "Move to" items. */
+  @property() moveToItems: MoveTo[];
+
+  /** When `true`, displays and positions the component. */
+  @property({ reflect: true }) open = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -75,54 +87,97 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
    *
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
    */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the container element.
    *
    * @default "bottom-start"
    */
-  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @internal
-   * @readonly
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: SortHandleMessages;
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Specifies the label of the component.
-   */
-  @Prop() label: string;
+  /** The current position of the handle. */
+  @property() setPosition: number;
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<SortHandleMessages>;
+  /** The total number of sortable items. */
+  @property() setSize: number;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) widthScale: Scale;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.dropdownEl?.setFocus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteSortHandleBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteSortHandleBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteSortHandleClose = createEvent({ cancelable: false });
+
+  /** Fires when a move item has been selected. */
+  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: false });
+
+  /** Fires when the component is open and animation is complete. */
+  calciteSortHandleOpen = createEvent({ cancelable: false });
+
+  /** Fires when a reorder has been selected. */
+  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
   }
 
   /**
-   * Defines the "Move to" items.
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
    */
-  @Prop() moveToItems: MoveTo[];
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      this.openHandler();
+    }
+  }
 
-  /**
-   * When `true`, displays and positions the component.
-   */
-  @Prop({ reflect: true, mutable: true }) open = false;
+  override updated(): void {
+    updateHostInteraction(this);
+  }
 
-  @Watch("open")
-  openHandler(): void {
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private openHandler(): void {
     if (this.disabled) {
       this.open = false;
       return;
@@ -132,123 +187,10 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     this.dropdownEl.open = this.open;
   }
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /**
-   * The current position of the handle.
-   */
-  @Prop() setPosition: number;
-
-  /**
-   * The total number of sortable items.
-   */
-  @Prop() setSize: number;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale: Scale;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectMessages(this);
-    connectLocalized(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectMessages(this);
-    disconnectLocalized(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteSortHandleElement;
-
-  @State() defaultMessages: SortHandleMessages;
-
-  @State() effectiveLocale: string;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  dropdownEl: HTMLCalciteDropdownElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteSortHandleBeforeClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteSortHandleBeforeOpen: EventEmitter<void>;
-
-  /**
-   * Fires when a reorder has been selected.
-   */
-  @Event({ cancelable: false }) calciteSortHandleReorder: EventEmitter<ReorderEventDetail>;
-
-  /**
-   * Fires when a move item has been selected.
-   */
-  @Event({ cancelable: false }) calciteSortHandleMove: EventEmitter<MoveEventDetail>;
-
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteSortHandleClose: EventEmitter<void>;
-
-  /** Fires when the component is open and animation is complete. */
-  @Event({ cancelable: false }) calciteSortHandleOpen: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.dropdownEl?.setFocus();
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private setDropdownEl = (el: HTMLCalciteDropdownElement): void => {
+  private setDropdownEl(el: Dropdown["el"]): void {
     this.dropdownEl = el;
     this.openHandler();
-  };
+  }
 
   private getLabel(): string {
     const { label, messages, setPosition, setSize } = this;
@@ -265,47 +207,45 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     return formattedLabel.replace(SUBSTITUTIONS.total, setSize ? setSize.toString() : "");
   }
 
-  private handleBeforeOpen = (event: CustomEvent<void>): void => {
+  private handleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteSortHandleBeforeOpen.emit();
-  };
+  }
 
-  private handleOpen = (event: CustomEvent<void>): void => {
+  private handleOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteSortHandleOpen.emit();
     this.open = true;
-  };
+  }
 
-  private handleBeforeClose = (event: CustomEvent<void>): void => {
+  private handleBeforeClose(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteSortHandleBeforeClose.emit();
-  };
+  }
 
-  private handleClose = (event: CustomEvent<void>): void => {
+  private handleClose(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteSortHandleClose.emit();
     this.open = false;
-  };
+  }
 
-  private handleReorder = (event: Event): void => {
+  private handleReorder(event: Event): void {
     this.calciteSortHandleReorder.emit({
       reorder: (event.target as HTMLElement).dataset.value as Reorder,
     });
-  };
+  }
 
-  private handleMoveTo = (event: Event): void => {
+  private handleMoveTo(event: Event): void {
     const id = (event.target as HTMLElement).dataset.id;
     const moveTo = this.moveToItems.find((item) => item.id === id);
     this.calciteSortHandleMove.emit({ moveTo });
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const {
       disabled,
       flipPlacements,
@@ -328,10 +268,10 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
           class={CSS.dropdown}
           disabled={isDisabled}
           flipPlacements={flipPlacements}
-          onCalciteDropdownBeforeClose={this.handleBeforeClose}
-          onCalciteDropdownBeforeOpen={this.handleBeforeOpen}
-          onCalciteDropdownClose={this.handleClose}
-          onCalciteDropdownOpen={this.handleOpen}
+          oncalciteDropdownBeforeClose={this.handleBeforeClose}
+          oncalciteDropdownBeforeOpen={this.handleBeforeOpen}
+          oncalciteDropdownClose={this.handleClose}
+          oncalciteDropdownOpen={this.handleOpen}
           overlayPositioning={overlayPositioning}
           placement={placement}
           ref={this.setDropdownEl}
@@ -366,20 +306,20 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     );
   }
 
-  private renderMoveToItem(moveToItem: MoveTo): VNode {
+  private renderMoveToItem(moveToItem: MoveTo): JsxNode {
     return (
       <calcite-dropdown-item
         data-id={moveToItem.id}
         key={moveToItem.id}
         label={moveToItem.label}
-        onCalciteDropdownItemSelect={this.handleMoveTo}
+        oncalciteDropdownItemSelect={this.handleMoveTo}
       >
         {moveToItem.label}
       </calcite-dropdown-item>
     );
   }
 
-  private renderMoveToGroup(): VNode {
+  private renderMoveToGroup(): JsxNode {
     const { messages, moveToItems, scale } = this;
 
     return moveToItems?.length ? (
@@ -394,20 +334,20 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
     ) : null;
   }
 
-  private renderDropdownItem(positionIndex: number, label: string): VNode {
+  private renderDropdownItem(positionIndex: number, label: string): JsxNode {
     return (
       <calcite-dropdown-item
         data-value={REORDER_VALUES[positionIndex]}
         key={REORDER_VALUES[positionIndex]}
         label={label}
-        onCalciteDropdownItemSelect={this.handleReorder}
+        oncalciteDropdownItemSelect={this.handleReorder}
       >
         {label}
       </calcite-dropdown-item>
     );
   }
 
-  private renderTop(): VNode | null {
+  private renderTop(): JsxNode | null {
     const { setPosition } = this;
 
     return setPosition !== 1 && setPosition !== 2
@@ -415,21 +355,23 @@ export class SortHandle implements LoadableComponent, T9nComponent, InteractiveC
       : null;
   }
 
-  private renderUp(): VNode | null {
+  private renderUp(): JsxNode | null {
     return this.setPosition !== 1 ? this.renderDropdownItem(1, this.messages.moveUp) : null;
   }
 
-  private renderDown(): VNode | null {
+  private renderDown(): JsxNode | null {
     return this.setPosition !== this.setSize
       ? this.renderDropdownItem(2, this.messages.moveDown)
       : null;
   }
 
-  private renderBottom(): VNode | null {
+  private renderBottom(): JsxNode | null {
     const { setPosition, setSize } = this;
 
     return setPosition !== setSize && setPosition !== setSize - 1
       ? this.renderDropdownItem(3, this.messages.moveToBottom)
       : null;
   }
+
+  // #endregion
 }

@@ -1,155 +1,80 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { getElementDir } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  updateMessages,
-} from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { logger } from "../../utils/logger";
-import { TipManagerMessages } from "./assets/tip-manager/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Tip } from "../tip/tip";
+import T9nStrings from "./assets/t9n/tip-manager.t9n.en.json";
 import { CSS, ICONS } from "./resources";
+import { styles } from "./tip-manager.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-tip-manager": TipManager;
+  }
+}
 
 /**
  * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
  * @slot - A slot for adding `calcite-tip`s.
  */
-@Component({
-  tag: "calcite-tip-manager",
-  styleUrl: "tip-manager.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class TipManager {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
-  /**
-   * When `true`, does not display or position the component.
-   */
-  @Prop({ reflect: true, mutable: true }) closed = false;
+export class TipManager extends LitElement {
+  // #region Static Members
 
-  @Watch("closed")
-  closedChangeHandler(): void {
-    this.direction = null;
-  }
+  static override styles = styles;
 
-  /**
-   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+  // #endregion
+
+  // #region Private Properties
+
+  private container: HTMLDivElement;
+
+  private mutationObserver = createObserver("mutation", () => this.setUpTips());
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() direction: "advancing" | "retreating";
+
+  @state() groupTitle: string;
+
+  @state() selectedIndex: number;
+
+  @state() tips: Tip["el"][];
+
+  @state() total: number;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, does not display or position the component. */
+  @property({ reflect: true }) closed = false;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ reflect: true }) headingLevel: HeadingLevel;
+
+  /** Use this property to override individual strings used by the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
+  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TipManagerMessages;
+  @property() messages = useT9n<typeof T9nStrings>();
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TipManagerMessages>;
+  // #endregion
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTipManagerElement;
-
-  @State() selectedIndex: number;
-
-  @Watch("selectedIndex")
-  selectedChangeHandler(): void {
-    this.showSelectedTip();
-    this.updateGroupTitle();
-  }
-
-  @State() tips: HTMLCalciteTipElement[];
-
-  @State() total: number;
-
-  @State() direction: "advancing" | "retreating";
-
-  @State() groupTitle: string;
-
-  mutationObserver = createObserver("mutation", () => this.setUpTips());
-
-  container: HTMLDivElement;
-
-  @State() defaultMessages: TipManagerMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  async effectiveLocaleChange(): Promise<void> {
-    await updateMessages(this, this.effectiveLocale);
-    this.updateGroupTitle();
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-    this.setUpTips();
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  async componentWillLoad(): Promise<void> {
-    logger.deprecated("component", {
-      name: "tip-manager",
-      removalVersion: 4,
-      suggested: "carousel",
-    });
-
-    await setUpMessages(this);
-    this.updateGroupTitle();
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Selects the next `calcite-tip` to display. */
-  @Method()
+  @method()
   async nextTip(): Promise<void> {
     this.direction = "advancing";
     const nextIndex = this.selectedIndex + 1;
@@ -157,53 +82,100 @@ export class TipManager {
   }
 
   /** Selects the previous `calcite-tip` to display. */
-  @Method()
+  @method()
   async previousTip(): Promise<void> {
     this.direction = "retreating";
     const previousIndex = this.selectedIndex - 1;
     this.selectedIndex = (previousIndex + this.total) % this.total;
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
+
+  // #region Events
+
+  /** Emits when the component has been closed. */
+  calciteTipManagerClose = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.setUpTips();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
 
   /**
-   * Emits when the component has been closed.
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
    */
-  @Event({ cancelable: false }) calciteTipManagerClose: EventEmitter<void>;
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
+      this.closedChangeHandler();
+    }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+    if (changes.has("selectedIndex")) {
+      this.selectedChangeHandler();
+    }
 
-  setUpTips(): void {
+    if (changes.has("messages")) {
+      this.effectiveLocaleChange();
+    }
+  }
+
+  loaded(): void {
+    this.updateGroupTitle();
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private closedChangeHandler(): void {
+    this.direction = null;
+  }
+
+  private selectedChangeHandler(): void {
+    this.showSelectedTip();
+    this.updateGroupTitle();
+  }
+
+  private async effectiveLocaleChange(): Promise<void> {
+    this.updateGroupTitle();
+  }
+
+  private setUpTips(): void {
     const tips = Array.from(this.el.querySelectorAll("calcite-tip"));
     this.total = tips.length;
     if (this.total === 0) {
       return;
     }
-    const selectedTip = this.el.querySelector<HTMLCalciteTipElement>("calcite-tip[selected]");
+    const selectedTip = this.el.querySelector<Tip["el"]>("calcite-tip[selected]");
 
     this.tips = tips;
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
 
-    tips.forEach((tip: HTMLCalciteTipElement) => {
+    tips.forEach((tip: Tip["el"]) => {
       tip.closeDisabled = true;
     });
     this.showSelectedTip();
   }
 
-  hideTipManager = (): void => {
+  private hideTipManager(): void {
     this.closed = true;
     this.calciteTipManagerClose.emit();
-  };
+  }
 
-  showSelectedTip(): void {
+  private showSelectedTip(): void {
     this.tips.forEach((tip, index) => {
       const isSelected = this.selectedIndex === index;
       tip.selected = isSelected;
@@ -211,7 +183,7 @@ export class TipManager {
     });
   }
 
-  updateGroupTitle(): void {
+  private updateGroupTitle(): void {
     if (this.tips) {
       const selectedTip = this.tips[this.selectedIndex];
       const tipParent = selectedTip.closest("calcite-tip-group");
@@ -219,15 +191,15 @@ export class TipManager {
     }
   }
 
-  previousClicked = (): void => {
+  private previousClicked(): void {
     this.previousTip();
-  };
+  }
 
-  nextClicked = (): void => {
+  private nextClicked(): void {
     this.nextTip();
-  };
+  }
 
-  tipManagerKeyDownHandler = (event: KeyboardEvent): void => {
+  private tipManagerKeyDownHandler(event: KeyboardEvent): void {
     if (event.target !== this.container) {
       return;
     }
@@ -250,19 +222,17 @@ export class TipManager {
         this.selectedIndex = this.total - 1;
         break;
     }
-  };
+  }
 
-  storeContainerRef = (el: HTMLDivElement): void => {
+  private storeContainerRef(el: HTMLDivElement): void {
     this.container = el;
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderPagination(): VNode {
+  // #region Rendering
+
+  private renderPagination(): JsxNode {
     const dir = getElementDir(this.el);
     const { selectedIndex, tips, total, messages } = this;
 
@@ -291,7 +261,7 @@ export class TipManager {
     ) : null;
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const { closed, direction, headingLevel, groupTitle, selectedIndex, messages, total } = this;
 
     const closeLabel = messages.close;
@@ -302,7 +272,7 @@ export class TipManager {
 
     return (
       <section
-        aria-hidden={toAriaBoolean(closed)}
+        ariaHidden={closed}
         class={CSS.container}
         hidden={closed}
         onKeyDown={this.tipManagerKeyDownHandler}
@@ -337,4 +307,6 @@ export class TipManager {
       </section>
     );
   }
+
+  // #endregion
 }

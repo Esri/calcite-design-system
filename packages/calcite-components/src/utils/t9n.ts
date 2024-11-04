@@ -1,4 +1,4 @@
-import { getAssetPath } from "@stencil/core";
+import { getAssetPath } from "../runtime";
 import { getSupportedLocale, LocalizedComponent } from "./locale";
 import { isBrowser } from "./browser";
 
@@ -121,9 +121,7 @@ export interface T9nComponent extends LocalizedComponent {
    */
   messages: MessageBundle;
 
-  /**
-   * This property holds the component's default messages.
-   */
+  /** This property holds the component's default messages. */
   defaultMessages: MessageBundle;
 
   /**
@@ -138,7 +136,7 @@ export interface T9nComponent extends LocalizedComponent {
    *
    * This method should be empty and configured to watch for changes on  `messageOverrides` property.
    *
-   * @Watch("messageOverrides")
+   * @Watch ("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/
    * }

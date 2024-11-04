@@ -1,24 +1,21 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { BoundingBox, ElementHandle } from "puppeteer";
-import type { JSX } from "../components";
+import { LuminaJsx } from "@arcgis/lumina";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect } from "vitest";
 import { ComponentTag } from "./commonTests/interfaces";
 
-/**
- * Util to help type global props for testing.
- */
+/** Util to help type global props for testing. */
 export type GlobalTestProps<T> = T & Window & typeof globalThis;
 
 type FilterPropsByPropertyName<T, PropName extends string> = {
   [K in keyof T]: PropName extends keyof T[K] ? T[K] : never;
 };
 
-/**
- * Helper to extract a type by filtering the type by the property name.
- */
+/** Helper to extract a type by filtering the type by the property name. */
 export type IntrinsicElementsWithProp<T extends string> = FilterPropsByPropertyName<
-  JSX.IntrinsicElements,
+  LuminaJsx.IntrinsicElements,
   T
->[keyof FilterPropsByPropertyName<JSX.IntrinsicElements, T>];
+>[keyof FilterPropsByPropertyName<LuminaJsx.IntrinsicElements, T>];
 
 type DragAndDropSelector = string | SelectorOptions;
 
@@ -201,7 +198,6 @@ export async function getElementRect(
  *
  * await visualizeMouseCursor(page);
  * await page.waitForChanges();
- *
  * @param {E2EPage} page - the e2e page
  */
 export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
@@ -316,7 +312,6 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
  *
  * await skipAnimations(page);
  * await page.waitForChanges();
- *
  * @param page
  */
 export async function skipAnimations(page: E2EPage): Promise<void> {
@@ -326,9 +321,7 @@ export async function skipAnimations(page: E2EPage): Promise<void> {
 }
 
 interface MatchesFocusedElementOptions {
-  /**
-   * Set this to true when the focused element is expected to reside in the shadow DOM
-   */
+  /** Set this to true when the focused element is expected to reside in the shadow DOM */
   shadowed: boolean;
 }
 
@@ -358,9 +351,7 @@ export async function isElementFocused(
 }
 
 type GetFocusedElementProp = {
-  /**
-   * Set to true to use the shadow root's active element instead of the light DOM's.
-   */
+  /** Set to true to use the shadow root's active element instead of the light DOM's. */
   shadow: boolean;
 };
 
@@ -425,9 +416,7 @@ export function toBeNumber(): any {
 type HTMLSelectableElement = HTMLElement & { selectedItems: HTMLElement[] };
 
 interface SelectedItemsAssertionOptions {
-  /**
-   * IDs from items to assert selection
-   */
+  /** IDs from items to assert selection */
   expectedItemIds: string[];
 }
 
@@ -457,7 +446,6 @@ interface SelectedItemsAsserter {
  * const assertSelectedItems = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
  * await page.click("#item-2");
  * await assertSelectedItems({ expectedItemIds: ["item-2"] });
- *
  * @param page - the e2e page
  * @param selectableComponentTagName - the tag name of the selectable group element
  * @param selectionEventName - the name of the selection event
@@ -530,9 +518,5 @@ export async function assertCaretPosition({
  * @returns {Promise<ElementHandle>} - the element handle
  */
 export async function toElementHandle(element: E2EElement): Promise<ElementHandle> {
-  type E2EElementInternal = E2EElement & {
-    _elmHandle: ElementHandle;
-  };
-
-  return (element as E2EElementInternal)._elmHandle;
+  return element.handle;
 }
