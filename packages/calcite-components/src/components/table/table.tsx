@@ -1,13 +1,14 @@
 import { PropertyValues } from "lit";
+import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import {
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { numberStringFormatter, NumberingSystem } from "../../utils/locale";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
@@ -108,7 +109,7 @@ export class Table extends LitElement implements LoadableComponent {
    * @private
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** When `true`, displays the position of the row in numeric form. */
   @property({ reflect: true }) numbered = false;
@@ -127,7 +128,11 @@ export class Table extends LitElement implements LoadableComponent {
    *
    * @readonly
    */
-  @property() selectedItems: TableRow["el"][] = [];
+  @property() get selectedItems(): TableRow["el"][] {
+    return this._selectedItems;
+  }
+
+  @state() _selectedItems: TableRow["el"][] = [];
 
   /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
@@ -182,7 +187,7 @@ export class Table extends LitElement implements LoadableComponent {
   async load(): Promise<void> {
     setUpLoadableComponent(this);
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
-    this.updateRows();
+    this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
   /**
@@ -216,6 +221,10 @@ export class Table extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Methods
+
+  private handleSlotChange(): void {
+    this.updateRows();
+  }
 
   private handleNumberedChange(): void {
     this.updateRows();
@@ -356,7 +365,7 @@ export class Table extends LitElement implements LoadableComponent {
 
   private updateSelectedItems(emit?: boolean): void {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
-    this.selectedItems = selectedItems;
+    this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
     this.allRows?.forEach((row) => {
       row.selectedRowCount = this.selectedCount;
@@ -401,7 +410,7 @@ export class Table extends LitElement implements LoadableComponent {
   // #region Rendering
 
   private renderSelectionArea(): JsxNode {
-    const outOfViewCount = this.selectedItems?.filter((el) => el.hidden)?.length;
+    const outOfViewCount = this._selectedItems?.filter((el) => el.hidden)?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;
@@ -457,26 +466,26 @@ export class Table extends LitElement implements LoadableComponent {
     );
   }
 
-  private renderTHead(): JsxNode {
+  renderTHead(): JsxNode {
     return (
       <thead>
-        <slot name={SLOTS.tableHeader} onSlotChange={this.updateRows} ref={this.tableHeadSlotEl} />
+        <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotEl} />
       </thead>
     );
   }
 
-  private renderTBody(): JsxNode {
+  renderTBody(): JsxNode {
     return (
       <tbody>
-        <slot onSlotChange={this.updateRows} ref={this.tableBodySlotEl} />
+        <slot ref={this.tableBodySlotEl} />
       </tbody>
     );
   }
 
-  private renderTFoot(): JsxNode {
+  renderTFoot(): JsxNode {
     return (
       <tfoot>
-        <slot name={SLOTS.tableFooter} onSlotChange={this.updateRows} ref={this.tableFootSlotEl} />
+        <slot name={SLOTS.tableFooter} ref={this.tableFootSlotEl} />
       </tfoot>
     );
   }
@@ -496,16 +505,30 @@ export class Table extends LitElement implements LoadableComponent {
         >
           <table
             ariaColCount={this.colCount}
-            ariaMultiSelectable={this.selectionMode === "multiple"}
+            ariaMultiSelectable={
+              /* workaround to ensure the attr gets removed; we should be able to avoid the ternary when fixed */
+              this.selectionMode === "multiple" ? "true" : null
+            }
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}
+            ref={(el) => {
+              if (!el) {
+                return;
+              }
+
+              /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
+              render(
+                <>
+                  <caption class={CSS.assistiveText}>{this.caption}</caption>
+                  {this.renderTHead()}
+                  {this.renderTBody()}
+                  {this.renderTFoot()}
+                </>,
+                el,
+              );
+            }}
             role={this.interactionMode === "interactive" ? "grid" : "table"}
-          >
-            <caption class={CSS.assistiveText}>{this.caption}</caption>
-            {this.renderTHead()}
-            {this.renderTBody()}
-            {this.renderTFoot()}
-          </table>
+          />
         </div>
         {this.pageSize > 0 && this.renderPaginationArea()}
       </div>
