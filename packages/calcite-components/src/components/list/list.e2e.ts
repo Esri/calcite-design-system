@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
@@ -1575,7 +1575,8 @@ describe("calcite-list", () => {
     });
   });
 
-  describe("group filtering", () => {
+  // eslint-disable-next-line jest/no-focused-tests
+  describe.only("group filtering", () => {
     it("should include groups while filtering", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
@@ -1612,6 +1613,7 @@ describe("calcite-list", () => {
       `);
 
       const filter = await page.find(`calcite-list >>> calcite-filter`);
+      const list = await page.find("calcite-list");
       await filter.callMethod("setFocus");
       await page.waitForChanges();
 
@@ -1621,7 +1623,7 @@ describe("calcite-list", () => {
 
       await page.keyboard.type("Bui");
       await page.waitForChanges();
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       expect(await group1.isVisible()).toBe(false);
       await assertDescendantItems(page, "#recreation", false);
@@ -1632,32 +1634,33 @@ describe("calcite-list", () => {
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       expect(await group1.isVisible()).toBe(true);
       await assertDescendantItems(page, "#recreation", true);
       expect(await group2.isVisible()).toBe(true);
-      await assertDescendantItems(page, `#buildings`, true);
+      await assertDescendantItems(page, "#buildings", true);
       expect(await group3.isVisible()).toBe(true);
-      await assertDescendantItems(page, `#beaches`, true);
+      await assertDescendantItems(page, "#beaches", true);
 
       await page.keyboard.type("Bea");
       await page.waitForChanges();
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
 
       expect(await group1.isVisible()).toBe(true);
       await assertDescendantItems(page, "#recreation", false);
       expect(await group2.isVisible()).toBe(false);
-      await assertDescendantItems(page, `#buildings`, false);
+      await assertDescendantItems(page, "#buildings", false);
       expect(await group3.isVisible()).toBe(true);
-      await assertDescendantItems(page, `#beaches`, true);
+      await assertDescendantItems(page, "#beaches", true);
+
+      await page.waitForChanges();
+      expect(await list.getProperty("filteredItems")).toHaveLength(0);
     });
   });
 
   async function assertDescendantItems(page: E2EPage, groupSelector: string, visibility: boolean): Promise<void> {
-    const items = await page.findAll(`${groupSelector} > calcite-list-item`);
-    items.forEach(async (item) => {
-      expect(await item.isVisible()).toBe(visibility);
-    });
+    const items = await page.findAll(`calcite-list-item-group${groupSelector} > calcite-list-item`);
+    items.forEach(async (item: E2EElement) => expect(await item.isVisible()).toBe(visibility));
   }
 });
