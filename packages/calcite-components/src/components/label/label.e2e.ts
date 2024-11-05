@@ -1,7 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden } from "../../tests/commonTests";
+import { renders, hidden, themed } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-label", () => {
   describe("renders", () => {
@@ -202,5 +203,28 @@ describe("calcite-label", () => {
     const eventDetail: any = await page.evaluateHandle(() => (window as any).eventDetail);
 
     expect(eventDetail).toBeTruthy();
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-label>
+            Label text
+            <calcite-input></calcite-input>
+          </calcite-label>
+        `,
+        {
+          "--calcite-label-margin-bottom": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "marginBottom",
+          },
+          "--calcite-label-text-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 });
