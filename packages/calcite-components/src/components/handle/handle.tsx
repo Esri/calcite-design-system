@@ -68,7 +68,7 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
    * @readonly
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;

@@ -54,7 +54,7 @@ export class Tip extends LitElement {
    * @private
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When `true`, the component is selected if it has a parent `calcite-tip-manager`.

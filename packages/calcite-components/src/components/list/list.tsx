@@ -235,7 +235,7 @@ export class List
    * @private
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
