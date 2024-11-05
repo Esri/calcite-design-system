@@ -1,31 +1,38 @@
-import { TestBed } from '@angular/core/testing';
-import { CalciteComponentsModule } from '@esri/calcite-components-angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  ComponentFixture,
+  ComponentFixtureAutoDetect,
+  TestBed,
+} from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
+let app: AppComponent;
+let fixture: ComponentFixture<AppComponent>;
+
 describe('AppComponent', () => {
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CalciteComponentsModule],
-      declarations: [AppComponent],
-    }).compileComponents(),
-  );
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
+      imports: [AppComponent],
+    });
+
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+  });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'calcite-components-angular-example'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+  it(`should have 'calcite-components-angular-example' as title`, () => {
     expect(app.title).toEqual('calcite-components-angular-example');
   });
 
   it('should render calcite-loader with label', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('calcite-loader')?.label).toBe('Loading...');
+    const loaderElement: HTMLCalciteLoaderElement =
+      fixture.nativeElement.querySelector('calcite-loader')!;
+
+    expect(loaderElement?.label).toBe('Loading...');
   });
 });
