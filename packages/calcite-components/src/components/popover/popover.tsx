@@ -143,7 +143,7 @@ export class Popover
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * Accessible name for the component.
@@ -172,7 +172,7 @@ export class Popover
    *
    * @default 6
    */
-  @property({ reflect: true }) offsetDistance = defaultOffsetDistance;
+  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
   /** Offsets the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;

@@ -37,7 +37,7 @@ export class CalciteNavigationLogo extends LitElement implements LoadableCompone
   @property() heading: string;
 
   /** Specifies the heading level of the component's heading for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
   @property({ reflect: true }) href: string;

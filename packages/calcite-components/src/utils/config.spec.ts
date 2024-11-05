@@ -1,4 +1,5 @@
 import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
+
 describe("config", () => {
   let config: typeof import("./config");
 

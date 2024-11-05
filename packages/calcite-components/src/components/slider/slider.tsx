@@ -319,7 +319,7 @@ export class Slider
   };
 
   /** The component's value. */
-  @property({ reflect: true }) value: null | number | number[] = 0;
+  @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
 
   // #endregion
 

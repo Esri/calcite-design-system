@@ -37,7 +37,7 @@ export function defaults(
   }[],
 ): void {
   it.each(propsToTest.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
-    "%s",
+    "%p",
     async (propertyName, defaultValue) => {
       const { page, tag } = await getTagAndPage(componentTestSetup);
       const element = await page.find(tag);

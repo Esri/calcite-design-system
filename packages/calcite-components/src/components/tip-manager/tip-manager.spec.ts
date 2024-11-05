@@ -1,4 +1,5 @@
 import { describe, it } from "vitest";
+
 // TODO: Uncomment this test when there's a resolution to this bug. https://github.com/ionic-team/stencil/issues/1669
 // import { TipManager } from "./calcite-tip-manager";
 

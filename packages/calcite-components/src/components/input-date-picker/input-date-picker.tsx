@@ -197,7 +197,7 @@ export class InputDatePicker
   @property({ reflect: true }) form: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";

@@ -169,7 +169,7 @@ export class Dialog
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies the kind of the component, which will style the top border. */
   @property({ reflect: true }) kind: Extract<

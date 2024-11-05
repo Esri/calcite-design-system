@@ -1,4 +1,5 @@
 import { vi } from "vitest";
+
 /**
  * Mocks `getComputedStyle` to return the provided values for the provided element.
  * This is needed due to JSDOM issue with getComputedStyle - https://github.com/jsdom/jsdom/issues/3090

@@ -72,7 +72,7 @@ export class DatePickerMonth extends LitElement {
   @property() endDate?: Date;
 
   /** Specifies the number at which section headings should start. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** The range of dates currently being hovered. */
   @property() hoverRange: HoverRange;

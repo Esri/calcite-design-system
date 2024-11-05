@@ -139,7 +139,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;

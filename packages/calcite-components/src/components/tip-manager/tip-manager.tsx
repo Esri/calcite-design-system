@@ -3,6 +3,7 @@ import { LitElement, property, createEvent, h, method, state, JsxNode } from "@a
 import { getElementDir } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Heading, HeadingLevel } from "../functional/Heading";
+import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tip } from "../tip/tip";
 import T9nStrings from "./assets/t9n/tip-manager.t9n.en.json";
@@ -30,6 +31,14 @@ export class TipManager extends LitElement {
 
   private container: HTMLDivElement;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  messages = useT9n<typeof T9nStrings>();
+
   private mutationObserver = createObserver("mutation", () => this.setUpTips());
 
   // #endregion
@@ -54,20 +63,11 @@ export class TipManager extends LitElement {
   @property({ reflect: true }) closed = false;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Use this property to override individual strings used by the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @property() messages = useT9n<typeof T9nStrings>();
 
   // #endregion
 
@@ -103,6 +103,14 @@ export class TipManager extends LitElement {
   override connectedCallback(): void {
     this.setUpTips();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  async load(): Promise<void> {
+    logger.deprecated("component", {
+      name: "tip-manager",
+      removalVersion: 4,
+      suggested: "carousel",
+    });
   }
 
   /**

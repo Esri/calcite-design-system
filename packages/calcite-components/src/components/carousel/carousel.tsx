@@ -122,7 +122,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
   @property({ reflect: true }) autoplay: AutoplayType = false;
 
   /** When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item. */
-  @property({ reflect: true }) autoplayDuration = DURATION;
+  @property({ type: Number, reflect: true }) autoplayDuration = DURATION;
 
   /** Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items. */
   @property({ reflect: true }) controlOverlay = false;

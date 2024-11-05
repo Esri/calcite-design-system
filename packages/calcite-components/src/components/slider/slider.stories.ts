@@ -4,6 +4,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Slider } from "./slider";
 import type { Slider as HTMLCalciteSliderElement } from "./slider";
+import type { Slider as HTMLCalciteSliderElement } from "./slider";
 
 const { scale, status } = ATTRIBUTES;
 
@@ -235,7 +236,7 @@ rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const Histogram = (): HTMLCalciteSliderElement["el"] => {
+export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
   const slider = document.createElement("calcite-slider");
   slider.min = -100;
   slider.minValue = -33.32;
@@ -255,7 +256,7 @@ export const Histogram = (): HTMLCalciteSliderElement["el"] => {
   return slider;
 };
 
-export const HistogramWithColors = (): HTMLCalciteSliderElement["el"] => {
+export const HistogramWithColors = (): HTMLCalciteSliderElement["el"]["el"] => {
   const slider = document.createElement("calcite-slider");
   slider.min = 0;
   slider.minValue = 35;
@@ -277,7 +278,7 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement["el"] => {
   return slider;
 };
 
-export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement["el"] => {
+export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement["el"]["el"] => {
   const slider = document.createElement("calcite-slider");
   slider.min = 0;
   slider.minValue = 25;

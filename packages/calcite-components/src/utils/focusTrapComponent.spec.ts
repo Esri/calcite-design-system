@@ -1,4 +1,5 @@
 // TODO: [MIGRATION] manually migrate this jsdom import to happy-dom
+// TODO: [MIGRATION] manually migrate this jsdom import to happy-dom
 import { JSDOM } from "jsdom";
 import { describe, expect, it, beforeEach, vi } from "vitest";
 import { GlobalTestProps } from "../tests/utils";
