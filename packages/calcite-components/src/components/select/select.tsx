@@ -142,7 +142,6 @@ export class Select
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
   @property() validity: MutableValidityState = {
     valid: false,
     badInput: false,

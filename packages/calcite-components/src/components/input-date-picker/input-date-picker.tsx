@@ -209,7 +209,6 @@ export class InputDatePicker
   @property() maxAsDate: Date;
 
   /** Use this property to override individual strings used by the component. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messageOverrides?: typeof this.messages._overrides &
     Partial<typeof DatePickerMessages>;
 
@@ -219,7 +218,6 @@ export class InputDatePicker
    * @private
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
@@ -299,7 +297,6 @@ export class InputDatePicker
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
   @property() validity: MutableValidityState = {
     valid: false,
     badInput: false,

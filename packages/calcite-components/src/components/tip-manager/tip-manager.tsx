@@ -36,7 +36,6 @@ export class TipManager extends LitElement {
    *
    * @private
    */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver = createObserver("mutation", () => this.setUpTips());
@@ -66,7 +65,6 @@ export class TipManager extends LitElement {
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Use this property to override individual strings used by the component. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messageOverrides?: typeof this.messages._overrides;
 
   // #endregion

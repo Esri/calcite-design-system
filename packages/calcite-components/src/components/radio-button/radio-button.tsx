@@ -128,7 +128,6 @@ export class RadioButton
    *
    * @required
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @property() value: any;
 
   // #endregion

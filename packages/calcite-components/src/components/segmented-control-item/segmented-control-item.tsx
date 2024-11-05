@@ -35,7 +35,6 @@ export class SegmentedControlItem extends LitElement {
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
   /** When `true`, the component is checked. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @property({ reflect: true }) checked = false;
 
   /** Specifies an icon to display at the end of the component. */
@@ -62,7 +61,6 @@ export class SegmentedControlItem extends LitElement {
   @property() scale: Scale = "m";
 
   /** The component's value. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @property() value: any | null;
 
   // #endregion
