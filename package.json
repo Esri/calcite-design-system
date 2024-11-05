@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@arcgis/lumina-compiler": "4.32.0-next.11",
-    "@cspell/eslint-plugin": "8.15.4",
+    "@cspell/eslint-plugin": "8.15.6",
     "@esri/calcite-base": "1.2.0",
     "@esri/calcite-colors": "6.1.0",
     "@octokit/webhooks-types": "7.6.1",
@@ -75,7 +75,7 @@
     "axe-core": "4.10.1",
     "change-case": "4.1.2",
     "cheerio": "1.0.0",
-    "chokidar": "3.6.0",
+    "chokidar": "4.0.1",
     "chromatic": "11.12.6",
     "concurrently": "8.2.2",
     "conventional-changelog-conventionalcommits": "7.0.2",
@@ -135,8 +135,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "19.8.6",
-    "@nx/nx-linux-x64-gnu": "18.3.5",
-    "@nx/nx-win32-x64-msvc": "19.8.6"
+    "@nx/nx-darwin-arm64": "20.0.8",
+    "@nx/nx-linux-x64-gnu": "20.0.8",
+    "@nx/nx-win32-x64-msvc": "20.0.8"
   }
 }
