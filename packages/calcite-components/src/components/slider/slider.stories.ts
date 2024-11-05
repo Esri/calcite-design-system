@@ -4,7 +4,6 @@ import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Slider } from "./slider";
 import type { Slider as HTMLCalciteSliderElement } from "./slider";
-import type { Slider as HTMLCalciteSliderElement } from "./slider";
 
 const { scale, status } = ATTRIBUTES;
 
