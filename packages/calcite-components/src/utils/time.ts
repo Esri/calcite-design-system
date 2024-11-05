@@ -403,6 +403,9 @@ export function localizeTimeString({
     } else if (result.includes("PM")) {
       result = result.replaceAll("PM", localeData.pm);
     }
+    if (result.includes(".")) {
+      result = result.replaceAll(".", ",");
+    }
   }
 
   return result;

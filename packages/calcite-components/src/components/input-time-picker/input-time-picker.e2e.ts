@@ -548,8 +548,8 @@ describe("calcite-input-time-picker", () => {
               focus-trap-disabled
               hour-format="12"
               lang="${locale}"
-              step="1"
-              value="14:02:30"
+              step=".001"
+              value="14:02:30.001"
             ></calcite-input-time-picker>
             <input placeholder="${locale}" />
           `);
@@ -560,13 +560,19 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(0);
 
-          const expectedInitialValue = await inputTimePicker.getProperty("value");
+          const initialDelocalizedValue = await inputTimePicker.getProperty("value");
           const expectedLocalizedInitialValue =
             locale === "es-MX" // test environment treats es-MX as es
-              ? "02:02:30 p. m."
-              : localizeTimeString({ hour12: true, includeSeconds: true, locale, value: expectedInitialValue });
+              ? "02:02:30.001 p. m."
+              : localizeTimeString({
+                  fractionalSecondDigits: 3,
+                  hour12: true,
+                  includeSeconds: true,
+                  locale,
+                  value: initialDelocalizedValue,
+                });
 
-          expect(expectedInitialValue).toBe("14:02:30");
+          expect(initialDelocalizedValue).toBe("14:02:30.001");
           expect(await getInputValue(page)).toBe(expectedLocalizedInitialValue);
 
           await selectText(inputTimePicker);
@@ -588,19 +594,20 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(1);
 
-          const typedValue = await inputTimePicker.getProperty("value");
-          const localizedTypedValue =
+          const delocalizedValue = await inputTimePicker.getProperty("value");
+          const expectedLocalizedValue =
             locale === "es-MX" // test environment treats es-MX as es
-              ? "02:30:45 p. m."
+              ? "02:30:45.000 p. m."
               : localizeTimeString({
+                  fractionalSecondDigits: 3,
                   hour12: true,
                   includeSeconds: true,
                   locale,
-                  value: typedValue,
+                  value: delocalizedValue,
                 });
 
-          expect(typedValue).toBe("14:30:45");
-          expect(await getInputValue(page)).toBe(localizedTypedValue);
+          expect(delocalizedValue).toBe("14:30:45.000");
+          expect(await getInputValue(page)).toBe(expectedLocalizedValue);
 
           await page.keyboard.press("Enter");
           await page.waitForChanges();
@@ -629,29 +636,31 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(expectedChangeEventCount);
 
-          const blurredValue = await inputTimePicker.getProperty("value");
-          const localizedBlurredValue =
+          const delocalizedValueAfterBlur = await inputTimePicker.getProperty("value");
+          const expectedLocalizedValueAfterBlur =
             locale === "es-MX" // test environment treats es-MX as es
-              ? "04:15:30 p. m."
+              ? "04:15:30.000 p. m."
               : localizeTimeString({
+                  fractionalSecondDigits: 3,
                   hour12: true,
                   includeSeconds: true,
                   locale,
-                  value: blurredValue,
+                  value: delocalizedValueAfterBlur,
                 });
 
-          expect(blurredValue).toBe("16:15:30");
-          expect(await getInputValue(page)).toBe(localizedBlurredValue);
+          expect(delocalizedValueAfterBlur).toBe("16:15:30.000");
+          expect(await getInputValue(page)).toBe(expectedLocalizedValueAfterBlur);
 
           await inputTimePicker.setProperty("hourFormat", "24");
           await page.waitForChanges();
 
           expect(await getInputValue(page)).toBe(
             localizeTimeString({
+              fractionalSecondDigits: 3,
               hour12: false,
               includeSeconds: true,
               locale,
-              value: blurredValue,
+              value: delocalizedValueAfterBlur,
             }),
           );
         });
