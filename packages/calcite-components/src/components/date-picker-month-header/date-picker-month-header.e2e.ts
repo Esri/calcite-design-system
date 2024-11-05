@@ -1,13 +1,10 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
-import { renders } from "../../tests/commonTests";
+import { E2EPage } from "@stencil/core/testing";
 import { DateLocaleData } from "../date-picker/utils";
+import { renders } from "../../tests/commonTests";
+import { newProgrammaticE2EPage } from "../../tests/utils";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 
 describe("calcite-date-picker-month-header", () => {
-  describe("renders", () => {
-    renders("calcite-date-picker-month-header", { display: "block" });
-  });
-
   const localeDataFixture = {
     "default-calendar": "gregorian",
     separator: "/",
@@ -38,62 +35,37 @@ describe("calcite-date-picker-month-header", () => {
     },
   } as DateLocaleData;
 
+  let page: E2EPage;
+  let messages: DatePickerMessages;
+  beforeEach(async () => {
+    messages = await import(`../date-picker/assets/date-picker/t9n/messages.json`);
+    page = await newProgrammaticE2EPage();
+    await page.evaluate(
+      (localeData, messages) => {
+        const dateMonthHeader = document.createElement("calcite-date-picker-month-header");
+        const now = new Date();
+        dateMonthHeader.activeDate = now;
+        dateMonthHeader.localeData = localeData;
+        dateMonthHeader.messages = messages;
+        dateMonthHeader.monthStyle = "wide";
+        document.body.append(dateMonthHeader);
+      },
+      localeDataFixture,
+      messages,
+    );
+    await page.waitForChanges();
+  });
+
+  renders(() => ({ tag: "calcite-date-picker-month-header", page }), { display: "block" });
+
   it("displays next/previous options", async () => {
-    const page = await newE2EPage({
-      // intentionally using calcite-date-picker to wire up supporting components to be used in `evaluate` fn below
-      html: "<calcite-date-picker></calcite-date-picker>",
-    });
-    await page.waitForChanges();
-
-    await page.evaluate((localeData) => {
-      const dateMonthHeader = document.createElement("calcite-date-picker-month-header");
-      const now = new Date();
-      dateMonthHeader.activeDate = now;
-      dateMonthHeader.selectedDate = now;
-      dateMonthHeader.localeData = localeData;
-      dateMonthHeader.messages = {
-        nextMonth: "Next month",
-        prevMonth: "Previous month",
-        monthMenu: "Month menu",
-        yearMenu: "Year menu",
-        year: "Year",
-      };
-
-      document.body.innerHTML = "";
-      document.body.append(dateMonthHeader);
-    }, localeDataFixture);
-    await page.waitForChanges();
-
     const [prev, next] = await page.findAll("calcite-date-picker-month-header >>> .chevron");
-
     expect(await prev.isVisible()).toBe(true);
     expect(await next.isVisible()).toBe(true);
   });
 
   it("should set the input aria-label to year", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
-
-    await page.evaluate((localeData) => {
-      const dateMonthHeader = document.createElement("calcite-date-picker-month-header");
-      const now = new Date();
-      dateMonthHeader.activeDate = now;
-      dateMonthHeader.selectedDate = now;
-      dateMonthHeader.localeData = localeData;
-      dateMonthHeader.messages = {
-        nextMonth: "Next month",
-        prevMonth: "Previous month",
-        monthMenu: "Month menu",
-        yearMenu: "Year menu",
-        year: "Year",
-      };
-
-      document.body.innerHTML = "";
-      document.body.append(dateMonthHeader);
-    }, localeDataFixture);
-    await page.waitForChanges();
-    const date = await page.find(`calcite-date-picker-month-header >>> input`);
-
-    expect(await date.getAttribute("aria-label")).toBe("Year");
+    const yearInput = await page.find(`calcite-date-picker-month-header >>> input`);
+    expect(yearInput.getAttribute("aria-label")).toBe(messages.year);
   });
 });

@@ -5,95 +5,199 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { IconNameOrString } from "./components/icon/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+import { ActionMessages } from "./components/action/assets/action/t9n";
 import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { Columns } from "./components/action-group/interfaces";
+import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
+import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
+import { BlockMessages } from "./components/block/assets/block/t9n";
 import { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+import { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+import { ButtonMessages } from "./components/button/assets/button/t9n";
+import { CardMessages } from "./components/card/assets/card/t9n";
 import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { MutableValidityState } from "./utils/form";
+import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
+import { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
-import { DateLocaleData } from "./components/date-picker/utils";
+import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { HoverRange } from "./utils/date";
+import { DateLocaleData } from "./components/date-picker/utils";
+import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+import { FilterMessages } from "./components/filter/assets/filter/t9n";
 import { FlowItemLikeElement } from "./components/flow/interfaces";
+import { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 import { ColorStop, DataSeries } from "./components/graph/interfaces";
+import { HandleMessages } from "./components/handle/assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./components/handle/interfaces";
+import { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 import { InputPlacement } from "./components/input/interfaces";
+import { InputMessages } from "./components/input/assets/input/t9n";
+import { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+import { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+import { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
+import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
+import { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
+import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+import { MenuMessages } from "./components/menu/assets/menu/t9n";
+import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 import { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
+import { ModalMessages } from "./components/modal/assets/modal/t9n";
+import { NoticeMessages } from "./components/notice/assets/notice/t9n";
+import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+import { PanelMessages } from "./components/panel/assets/panel/t9n";
 import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 import { ICON_TYPES } from "./components/pick-list/resources";
+import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+import { PopoverMessages } from "./components/popover/assets/popover/t9n";
+import { RatingMessages } from "./components/rating/assets/rating/t9n";
+import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+import { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 import { Element } from "@stencil/core";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
+import { TableMessages } from "./components/table/assets/table/t9n";
+import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+import { TipMessages } from "./components/tip/assets/tip/t9n";
+import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+export { ActionMessages } from "./components/action/assets/action/t9n";
 export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { Columns } from "./components/action-group/interfaces";
+export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, AlertQueue } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
+export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
+export { BlockMessages } from "./components/block/assets/block/t9n";
 export { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+export { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+export { ButtonMessages } from "./components/button/assets/button/t9n";
+export { CardMessages } from "./components/card/assets/card/t9n";
 export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { MutableValidityState } from "./utils/form";
+export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
+export { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
-export { DateLocaleData } from "./components/date-picker/utils";
+export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { HoverRange } from "./utils/date";
+export { DateLocaleData } from "./components/date-picker/utils";
+export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+export { FilterMessages } from "./components/filter/assets/filter/t9n";
 export { FlowItemLikeElement } from "./components/flow/interfaces";
+export { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 export { ColorStop, DataSeries } from "./components/graph/interfaces";
+export { HandleMessages } from "./components/handle/assets/handle/t9n";
 export { HandleChange, HandleNudge } from "./components/handle/interfaces";
+export { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 export { InputPlacement } from "./components/input/interfaces";
+export { InputMessages } from "./components/input/assets/input/t9n";
+export { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+export { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+export { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
+export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
+export { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
+export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+export { MenuMessages } from "./components/menu/assets/menu/t9n";
+export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 export { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
+export { ModalMessages } from "./components/modal/assets/modal/t9n";
+export { NoticeMessages } from "./components/notice/assets/notice/t9n";
+export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+export { PanelMessages } from "./components/panel/assets/panel/t9n";
 export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 export { ICON_TYPES } from "./components/pick-list/resources";
+export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+export { PopoverMessages } from "./components/popover/assets/popover/t9n";
+export { RatingMessages } from "./components/rating/assets/rating/t9n";
+export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+export { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 export { Element } from "@stencil/core";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
+export { TableMessages } from "./components/table/assets/table/t9n";
+export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+export { TipMessages } from "./components/tip/assets/tip/t9n";
+export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+export { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 export { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export namespace Components {
     interface CalciteAccordion {
@@ -415,6 +519,10 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
+    /**
+     * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+     * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+     */
     interface CalciteAlert {
         /**
           * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
@@ -633,6 +741,10 @@ export namespace Components {
          */
         "toggleDisplay": BlockSectionToggleDisplay;
     }
+    /**
+     * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+     */
     interface CalciteButton {
         /**
           * Specifies the alignment of the component's elements.
@@ -1403,6 +1515,10 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max": string;
@@ -1426,6 +1542,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -1535,9 +1655,17 @@ export namespace Components {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -1547,9 +1675,21 @@ export namespace Components {
          */
         "max": Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -1589,6 +1729,14 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -1921,6 +2069,7 @@ export namespace Components {
     interface CalciteFlow {
         /**
           * Removes the currently active `calcite-flow-item`.
+          * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
          */
         "back": () => Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>;
         /**
@@ -1929,6 +2078,7 @@ export namespace Components {
         "customItemSelectors": string;
         /**
           * Sets focus on the component.
+          * @returns Promise<void>
          */
         "setFocus": () => Promise<void>;
     }
@@ -2008,6 +2158,10 @@ export namespace Components {
           * @returns - promise that resolves once the content is scrolled to.
          */
         "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
+        /**
+          * When true, flow-item is displayed within a parent flow.
+         */
+        "selected": boolean;
         /**
           * Sets focus on the component.
           * @returns promise.
@@ -2389,6 +2543,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate": Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle": "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -3007,6 +3165,11 @@ export namespace Components {
          */
         "scale": Scale;
     }
+    /**
+     * Any attributes placed on <calcite-link> component will propagate to the rendered child
+     * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+     */
     interface CalciteLink {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -3096,6 +3259,10 @@ export namespace Components {
          */
         "group"?: string;
         /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
+        /**
           * Specifies an accessible name for the component.
          */
         "label": string;
@@ -3175,13 +3342,13 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
-          * When `true`, the component's drag handle is selected.
-         */
-        "dragSelected": boolean;
-        /**
           * Hides the component when filtered.
          */
         "filterHidden": boolean;
+        /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode": InteractionMode;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -3198,6 +3365,10 @@ export namespace Components {
           * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
          */
         "metadata": Record<string, unknown>;
+        /**
+          * Sets the item to display a border.
+         */
+        "moveToItems": MoveTo[];
         /**
           * When `true`, the item is open to show child components.
          */
@@ -3222,13 +3393,17 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setPosition": number;
         /**
-          * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setSize": number;
+        /**
+          * When `true`, displays and positions the sort handle.
+         */
+        "sortHandleOpen": boolean;
         /**
           * When `true`, the component's content appears inactive.
          */
@@ -3624,6 +3799,12 @@ export namespace Components {
          */
         "username": string;
     }
+    /**
+     * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+     * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+     * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+     * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+     */
     interface CalciteNotice {
         /**
           * When `true`, a close button is added to the component.
@@ -4225,6 +4406,24 @@ export namespace Components {
          */
         "showChip": boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": number;
@@ -4640,6 +4839,10 @@ export namespace Components {
          */
         "snap": boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
           * Specifies the interval to move with the up, or down keys.
          */
         "step": number;
@@ -4648,9 +4851,87 @@ export namespace Components {
          */
         "ticks": number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": null | number | number[];
+    }
+    interface CalciteSortHandle {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements": FlipPlacement[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label": string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems": number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<SortHandleMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages": SortHandleMessages;
+        /**
+          * Defines the "Move to" items.
+         */
+        "moveToItems": MoveTo[];
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement": MenuPlacement;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The current position of the handle.
+         */
+        "setPosition": number;
+        /**
+          * The total number of sortable items.
+         */
+        "setSize": number;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale": Scale;
     }
     interface CalciteSortableList {
         /**
@@ -4975,6 +5256,9 @@ export namespace Components {
          */
         "syncId": string;
     }
+    /**
+     * Tab-titles are optionally individually closable.
+     */
     interface CalciteTabTitle {
         /**
           * This activates a tab in order for it and its associated tab-title be selected.
@@ -6116,6 +6400,10 @@ export interface CalciteSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSliderElement;
 }
+export interface CalciteSortHandleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteSortHandleElement;
+}
 export interface CalciteSortableListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteSortableListElement;
@@ -6305,6 +6593,10 @@ declare global {
         "calciteAlertBeforeOpen": void;
         "calciteAlertOpen": void;
     }
+    /**
+     * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+     * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+     */
     interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(type: K, listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6363,6 +6655,10 @@ declare global {
         prototype: HTMLCalciteBlockSectionElement;
         new (): HTMLCalciteBlockSectionElement;
     };
+    /**
+     * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+     */
     interface HTMLCalciteButtonElement extends Components.CalciteButton, HTMLStencilElement {
     }
     var HTMLCalciteButtonElement: {
@@ -6595,7 +6891,7 @@ declare global {
         new (): HTMLCalciteDatePickerElement;
     };
     interface HTMLCalciteDatePickerDayElementEventMap {
-        "calciteDaySelect": void;
+        "calciteInternalDaySelect": void;
         "calciteInternalDayHover": void;
     }
     interface HTMLCalciteDatePickerDayElement extends Components.CalciteDatePickerDay, HTMLStencilElement {
@@ -6613,10 +6909,14 @@ declare global {
         new (): HTMLCalciteDatePickerDayElement;
     };
     interface HTMLCalciteDatePickerMonthElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
-        "calciteInternalDatePickerHover": Date;
-        "calciteInternalDatePickerActiveDateChange": Date;
-        "calciteInternalDatePickerMouseOut": void;
+        "calciteInternalDatePickerDaySelect": Date;
+        "calciteInternalDatePickerDayHover": Date;
+        "calciteInternalDatePickerMonthActiveDateChange": Date;
+        "calciteInternalDatePickerMonthMouseOut": void;
+        "calciteInternalDatePickerMonthChange": {
+    date: Date;
+    position: string;
+  };
     }
     interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6633,7 +6933,7 @@ declare global {
         new (): HTMLCalciteDatePickerMonthElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
+        "calciteInternalDatePickerMonthHeaderSelectChange": Date;
     }
     interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6762,6 +7062,7 @@ declare global {
         "calciteFlowItemScroll": void;
         "calciteFlowItemClose": void;
         "calciteFlowItemToggle": void;
+        "calciteInternalFlowItemChange": void;
     }
     interface HTMLCalciteFlowItemElement extends Components.CalciteFlowItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(type: K, listener: (this: HTMLCalciteFlowItemElement, ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6978,6 +7279,11 @@ declare global {
         prototype: HTMLCalciteLabelElement;
         new (): HTMLCalciteLabelElement;
     };
+    /**
+     * Any attributes placed on <calcite-link> component will propagate to the rendered child
+     * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+     */
     interface HTMLCalciteLinkElement extends Components.CalciteLink, HTMLStencilElement {
     }
     var HTMLCalciteLinkElement: {
@@ -7012,7 +7318,10 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
-        "calciteListItemDragHandleChange": void;
+        "calciteListItemSortHandleBeforeClose": void;
+        "calciteListItemSortHandleClose": void;
+        "calciteListItemSortHandleBeforeOpen": void;
+        "calciteListItemSortHandleOpen": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
@@ -7148,6 +7457,12 @@ declare global {
         "calciteNoticeClose": void;
         "calciteNoticeOpen": void;
     }
+    /**
+     * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+     * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+     * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+     * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+     */
     interface HTMLCalciteNoticeElement extends Components.CalciteNotice, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteNoticeElementEventMap>(type: K, listener: (this: HTMLCalciteNoticeElement, ev: CalciteNoticeCustomEvent<HTMLCalciteNoticeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7501,6 +7816,28 @@ declare global {
         prototype: HTMLCalciteSliderElement;
         new (): HTMLCalciteSliderElement;
     };
+    interface HTMLCalciteSortHandleElementEventMap {
+        "calciteSortHandleBeforeClose": void;
+        "calciteSortHandleBeforeOpen": void;
+        "calciteSortHandleReorder": ReorderEventDetail;
+        "calciteSortHandleMove": MoveEventDetail;
+        "calciteSortHandleClose": void;
+        "calciteSortHandleOpen": void;
+    }
+    interface HTMLCalciteSortHandleElement extends Components.CalciteSortHandle, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteSortHandleElementEventMap>(type: K, listener: (this: HTMLCalciteSortHandleElement, ev: CalciteSortHandleCustomEvent<HTMLCalciteSortHandleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteSortHandleElementEventMap>(type: K, listener: (this: HTMLCalciteSortHandleElement, ev: CalciteSortHandleCustomEvent<HTMLCalciteSortHandleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteSortHandleElement: {
+        prototype: HTMLCalciteSortHandleElement;
+        new (): HTMLCalciteSortHandleElement;
+    };
     interface HTMLCalciteSortableListElementEventMap {
         "calciteListOrderChange": void;
     }
@@ -7635,6 +7972,9 @@ declare global {
         "calciteInternalTabTitleRegister": TabID;
         "calciteInternalTabIconChanged": void;
     }
+    /**
+     * Tab-titles are optionally individually closable.
+     */
     interface HTMLCalciteTabTitleElement extends Components.CalciteTabTitle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTabTitleElementEventMap>(type: K, listener: (this: HTMLCalciteTabTitleElement, ev: CalciteTabTitleCustomEvent<HTMLCalciteTabTitleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8039,6 +8379,7 @@ declare global {
         "calcite-shell-center-row": HTMLCalciteShellCenterRowElement;
         "calcite-shell-panel": HTMLCalciteShellPanelElement;
         "calcite-slider": HTMLCalciteSliderElement;
+        "calcite-sort-handle": HTMLCalciteSortHandleElement;
         "calcite-sortable-list": HTMLCalciteSortableListElement;
         "calcite-split-button": HTMLCalciteSplitButtonElement;
         "calcite-stack": HTMLCalciteStackElement;
@@ -8376,6 +8717,10 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
+    /**
+     * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+     * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+     */
     interface CalciteAlert {
         /**
           * This internal property, managed by the AlertManager, is used to inform the component if it is the active open Alert.
@@ -8622,6 +8967,10 @@ declare namespace LocalJSX {
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
     }
+    /**
+     * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+     */
     interface CalciteButton {
         /**
           * Specifies the alignment of the component's elements.
@@ -9442,6 +9791,10 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max"?: string;
@@ -9465,6 +9818,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -9528,13 +9885,13 @@ declare namespace LocalJSX {
          */
         "highlighted"?: boolean;
         /**
-          * Fires when user selects day.
-         */
-        "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
-        /**
           * Fires when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
+        /**
+          * Fires when user selects day.
+         */
+        "onCalciteInternalDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
           * When `true`, activates the component's range mode to allow a start and end date.
          */
@@ -9578,9 +9935,17 @@ declare namespace LocalJSX {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -9590,22 +9955,41 @@ declare namespace LocalJSX {
          */
         "max"?: Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
         /**
-          * Active date for the user keyboard access.
+          * Specifies the monthStyle used by the component.
          */
-        "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Fires when user hovers the date.
          */
-        "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
-        "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        "onCalciteInternalDatePickerDayHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
           * Fires when user selects the date.
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerDaySelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Active date for the user keyboard access.
+         */
+        "onCalciteInternalDatePickerMonthActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+         */
+        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{
+    date: Date;
+    position: string;
+  }>) => void;
+        "onCalciteInternalDatePickerMonthMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range"?: boolean;
         /**
           * Specifies the size of the component.
          */
@@ -9646,9 +10030,17 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
+        /**
           * Fires to active date
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerMonthHeaderSelectChange"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -10070,6 +10462,7 @@ declare namespace LocalJSX {
           * Fires when the collapse button is clicked.
          */
         "onCalciteFlowItemToggle"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+        "onCalciteInternalFlowItemChange"?: (event: CalciteFlowItemCustomEvent<void>) => void;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -10078,6 +10471,10 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * When true, flow-item is displayed within a parent flow.
+         */
+        "selected"?: boolean;
         /**
           * When `true`, displays a back button in the component's header.
          */
@@ -10469,6 +10866,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies the monthStyle used by the component.
+         */
+        "monthStyle"?: "abbreviated" | "wide";
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -11137,6 +11538,11 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
+    /**
+     * Any attributes placed on <calcite-link> component will propagate to the rendered child
+     * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+     * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+     */
     interface CalciteLink {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -11221,6 +11627,10 @@ declare namespace LocalJSX {
           * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
          */
         "group"?: string;
+        /**
+          * Specifies the interaction mode of the component.  `"interactive"` allows interaction styling and pointer changes on hover  `"static"` does not allow interaction styling and pointer changes on hover  The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
         /**
           * Specifies an accessible name for the component.
          */
@@ -11320,13 +11730,13 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
-          * When `true`, the component's drag handle is selected.
-         */
-        "dragSelected"?: boolean;
-        /**
           * Hides the component when filtered.
          */
         "filterHidden"?: boolean;
+        /**
+          * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+         */
+        "interactionMode"?: InteractionMode;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -11343,6 +11753,10 @@ declare namespace LocalJSX {
           * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
          */
         "metadata"?: Record<string, unknown>;
+        /**
+          * Sets the item to display a border.
+         */
+        "moveToItems"?: MoveTo[];
         "onCalciteInternalFocusPreviousItem"?: (event: CalciteListItemCustomEvent<void>) => void;
         "onCalciteInternalListItemActive"?: (event: CalciteListItemCustomEvent<void>) => void;
         "onCalciteInternalListItemChange"?: (event: CalciteListItemCustomEvent<void>) => void;
@@ -11356,13 +11770,25 @@ declare namespace LocalJSX {
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
-          * Fires when the drag handle is selected.
-         */
-        "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
-        /**
           * Fires when the component is selected.
          */
         "onCalciteListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteListItemSortHandleBeforeClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteListItemSortHandleBeforeOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is closed and animation is complete.
+         */
+        "onCalciteListItemSortHandleClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the sort handle is open and animation is complete.
+         */
+        "onCalciteListItemSortHandleOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the open button is clicked.
          */
@@ -11387,13 +11813,17 @@ declare namespace LocalJSX {
     SelectionMode
   >;
         /**
-          * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setPosition"?: number;
         /**
-          * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
+          * Used to determine what menu options are available in the sort-handle
          */
         "setSize"?: number;
+        /**
+          * When `true`, displays and positions the sort handle.
+         */
+        "sortHandleOpen"?: boolean;
         /**
           * When `true`, the component's content appears inactive.
          */
@@ -11784,6 +12214,12 @@ declare namespace LocalJSX {
          */
         "username"?: string;
     }
+    /**
+     * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+     * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+     * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+     * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+     */
     interface CalciteNotice {
         /**
           * When `true`, a close button is added to the component.
@@ -12415,6 +12851,24 @@ declare namespace LocalJSX {
          */
         "showChip"?: boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: number;
@@ -12848,6 +13302,10 @@ declare namespace LocalJSX {
          */
         "snap"?: boolean;
         /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
           * Specifies the interval to move with the up, or down keys.
          */
         "step"?: number;
@@ -12856,9 +13314,107 @@ declare namespace LocalJSX {
          */
         "ticks"?: number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: IconNameOrString | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: null | number | number[];
+    }
+    interface CalciteSortHandle {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
+         */
+        "flipPlacements"?: FlipPlacement[];
+        /**
+          * Specifies the label of the component.
+         */
+        "label"?: string;
+        /**
+          * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+         */
+        "maxItems"?: number;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<SortHandleMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+          * @readonly
+         */
+        "messages"?: SortHandleMessages;
+        /**
+          * Defines the "Move to" items.
+         */
+        "moveToItems"?: MoveTo[];
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteSortHandleBeforeClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteSortHandleBeforeOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteSortHandleClose"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when a move item has been selected.
+         */
+        "onCalciteSortHandleMove"?: (event: CalciteSortHandleCustomEvent<MoveEventDetail>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteSortHandleOpen"?: (event: CalciteSortHandleCustomEvent<void>) => void;
+        /**
+          * Fires when a reorder has been selected.
+         */
+        "onCalciteSortHandleReorder"?: (event: CalciteSortHandleCustomEvent<ReorderEventDetail>) => void;
+        /**
+          * When `true`, displays and positions the component.
+         */
+        "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-start"
+         */
+        "placement"?: MenuPlacement;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+        /**
+          * The current position of the handle.
+         */
+        "setPosition"?: number;
+        /**
+          * The total number of sortable items.
+         */
+        "setSize"?: number;
+        /**
+          * Specifies the width of the component.
+         */
+        "widthScale"?: Scale;
     }
     interface CalciteSortableList {
         /**
@@ -13183,6 +13739,9 @@ declare namespace LocalJSX {
          */
         "syncId"?: string;
     }
+    /**
+     * Tab-titles are optionally individually closable.
+     */
     interface CalciteTabTitle {
         "bordered"?: boolean;
         /**
@@ -14208,6 +14767,7 @@ declare namespace LocalJSX {
         "calcite-shell-center-row": CalciteShellCenterRow;
         "calcite-shell-panel": CalciteShellPanel;
         "calcite-slider": CalciteSlider;
+        "calcite-sort-handle": CalciteSortHandle;
         "calcite-sortable-list": CalciteSortableList;
         "calcite-split-button": CalciteSplitButton;
         "calcite-stack": CalciteStack;
@@ -14249,10 +14809,18 @@ declare module "@stencil/core" {
             "calcite-action-group": LocalJSX.CalciteActionGroup & JSXBase.HTMLAttributes<HTMLCalciteActionGroupElement>;
             "calcite-action-menu": LocalJSX.CalciteActionMenu & JSXBase.HTMLAttributes<HTMLCalciteActionMenuElement>;
             "calcite-action-pad": LocalJSX.CalciteActionPad & JSXBase.HTMLAttributes<HTMLCalciteActionPadElement>;
+            /**
+             * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+             * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+             */
             "calcite-alert": LocalJSX.CalciteAlert & JSXBase.HTMLAttributes<HTMLCalciteAlertElement>;
             "calcite-avatar": LocalJSX.CalciteAvatar & JSXBase.HTMLAttributes<HTMLCalciteAvatarElement>;
             "calcite-block": LocalJSX.CalciteBlock & JSXBase.HTMLAttributes<HTMLCalciteBlockElement>;
             "calcite-block-section": LocalJSX.CalciteBlockSection & JSXBase.HTMLAttributes<HTMLCalciteBlockSectionElement>;
+            /**
+             * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+             * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+             */
             "calcite-button": LocalJSX.CalciteButton & JSXBase.HTMLAttributes<HTMLCalciteButtonElement>;
             "calcite-card": LocalJSX.CalciteCard & JSXBase.HTMLAttributes<HTMLCalciteCardElement>;
             "calcite-card-group": LocalJSX.CalciteCardGroup & JSXBase.HTMLAttributes<HTMLCalciteCardGroupElement>;
@@ -14291,6 +14859,11 @@ declare module "@stencil/core" {
             "calcite-input-time-picker": LocalJSX.CalciteInputTimePicker & JSXBase.HTMLAttributes<HTMLCalciteInputTimePickerElement>;
             "calcite-input-time-zone": LocalJSX.CalciteInputTimeZone & JSXBase.HTMLAttributes<HTMLCalciteInputTimeZoneElement>;
             "calcite-label": LocalJSX.CalciteLabel & JSXBase.HTMLAttributes<HTMLCalciteLabelElement>;
+            /**
+             * Any attributes placed on <calcite-link> component will propagate to the rendered child
+             * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+             * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+             */
             "calcite-link": LocalJSX.CalciteLink & JSXBase.HTMLAttributes<HTMLCalciteLinkElement>;
             /**
              * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -14309,6 +14882,12 @@ declare module "@stencil/core" {
             "calcite-navigation": LocalJSX.CalciteNavigation & JSXBase.HTMLAttributes<HTMLCalciteNavigationElement>;
             "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo & JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;
             "calcite-navigation-user": LocalJSX.CalciteNavigationUser & JSXBase.HTMLAttributes<HTMLCalciteNavigationUserElement>;
+            /**
+             * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+             * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+             * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+             * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+             */
             "calcite-notice": LocalJSX.CalciteNotice & JSXBase.HTMLAttributes<HTMLCalciteNoticeElement>;
             "calcite-option": LocalJSX.CalciteOption & JSXBase.HTMLAttributes<HTMLCalciteOptionElement>;
             "calcite-option-group": LocalJSX.CalciteOptionGroup & JSXBase.HTMLAttributes<HTMLCalciteOptionGroupElement>;
@@ -14343,6 +14922,7 @@ declare module "@stencil/core" {
             "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
             "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
             "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;
+            "calcite-sort-handle": LocalJSX.CalciteSortHandle & JSXBase.HTMLAttributes<HTMLCalciteSortHandleElement>;
             "calcite-sortable-list": LocalJSX.CalciteSortableList & JSXBase.HTMLAttributes<HTMLCalciteSortableListElement>;
             "calcite-split-button": LocalJSX.CalciteSplitButton & JSXBase.HTMLAttributes<HTMLCalciteSplitButtonElement>;
             "calcite-stack": LocalJSX.CalciteStack & JSXBase.HTMLAttributes<HTMLCalciteStackElement>;
@@ -14351,6 +14931,9 @@ declare module "@stencil/core" {
             "calcite-switch": LocalJSX.CalciteSwitch & JSXBase.HTMLAttributes<HTMLCalciteSwitchElement>;
             "calcite-tab": LocalJSX.CalciteTab & JSXBase.HTMLAttributes<HTMLCalciteTabElement>;
             "calcite-tab-nav": LocalJSX.CalciteTabNav & JSXBase.HTMLAttributes<HTMLCalciteTabNavElement>;
+            /**
+             * Tab-titles are optionally individually closable.
+             */
             "calcite-tab-title": LocalJSX.CalciteTabTitle & JSXBase.HTMLAttributes<HTMLCalciteTabTitleElement>;
             "calcite-table": LocalJSX.CalciteTable & JSXBase.HTMLAttributes<HTMLCalciteTableElement>;
             "calcite-table-cell": LocalJSX.CalciteTableCell & JSXBase.HTMLAttributes<HTMLCalciteTableCellElement>;

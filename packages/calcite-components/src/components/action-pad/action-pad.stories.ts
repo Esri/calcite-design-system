@@ -42,6 +42,23 @@ export const simple = (args: ActionPadStoryArgs): string => html`
   </calcite-action-pad>
 `;
 
+export const withDefinedWidths = (): string => html`
+  <style>
+    calcite-action-pad {
+      --calcite-action-pad-expanded-max-width: 150px;
+    }
+  </style>
+  <calcite-action-pad expanded>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Add to my custom action pad application" icon="plus"></calcite-action>
+      <calcite-action text-enabled text="Save to my custom action pad application" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Layers in my custom action pad application" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-pad>
+`;
+
 export const withGroups = (): string =>
   html`<calcite-action-pad layout="horizontal">
     <calcite-action-group>

@@ -28,7 +28,7 @@ import { inputText } from "./custom-theme/input-text";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
-import { panel, panelTokens } from "./custom-theme/panel";
+import { panelTokens } from "./custom-theme/panel";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
@@ -36,6 +36,8 @@ import { slider } from "./custom-theme/slider";
 import { tabs } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
+import { tileTokens, tile } from "./custom-theme/tile";
+import { navigationTokens, navigation } from "./custom-theme/navigation";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -100,25 +102,27 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       }
     </style>
     <div class="demo">
-        <div class="demo-column">
-          ${accordion} ${actionBar} ${notices} ${segmentedControl}
-          <div style="display: flex">
-            ${actionPad}
-            <div style="width: 40px; height: 40px;">${actionMenu}</div>
-            ${icon}
-          </div>
-          ${input} ${inputNumber} ${inputText}
+      <div class="demo-column">
+        ${accordion} ${actionBar} ${notices} ${segmentedControl}
+        <div style="display: flex">
+          ${actionPad}
+          <div style="width: 40px; height: 40px;">${actionMenu}</div>
+          ${icon}
         </div>
-        <div class="demo-column">
-          <div>${card}</div>
-          ${cardThumbnail}
-          <div>${dropdown} ${buttons}</div>
-          <div>${checkbox}</div>
-          ${chips} ${pagination} ${slider}
-        </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${panel}</div>
-        ${alert}
+        ${input} ${inputNumber} ${inputText}
       </div>
+      <div class="demo-column">
+        <div>${card}</div>
+        ${cardThumbnail}
+        <div>${dropdown} ${buttons}</div>
+        <div>${checkbox}</div>
+        ${chips} ${pagination} ${slider}
+      </div>
+      <div class="demo-column">
+        ${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress}
+        ${handle} ${textArea} ${popover} ${tile}
+      </div>
+      ${alert} ${navigation}
     </div>
   </div>`;
 
@@ -141,6 +145,8 @@ const componentTokens = {
   ...progressTokens,
   ...inputTokens,
   ...textAreaTokens,
+  ...tileTokens,
+  ...navigationTokens,
   ...panelTokens,
 };
 

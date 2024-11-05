@@ -176,6 +176,7 @@ export class InlineEditable
                 opacity: this.editingEnabled ? "0" : "1",
                 width: this.editingEnabled ? "0" : "inherit",
               }}
+              title={this.messages.enableEditing}
               type="button"
             />
             {this.shouldShowControls && [
@@ -190,6 +191,7 @@ export class InlineEditable
                   onClick={this.cancelEditingHandler}
                   ref={(el) => (this.cancelEditingButton = el)}
                   scale={this.scale}
+                  title={this.messages.cancelEditing}
                   type="button"
                 />
               </div>,
@@ -204,6 +206,7 @@ export class InlineEditable
                 onClick={this.confirmChangesHandler}
                 ref={(el) => (this.confirmEditingButton = el)}
                 scale={this.scale}
+                title={this.messages.confirmChanges}
                 type="button"
               />,
             ]}
