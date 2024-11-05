@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage, E2EElement } from "@stencil/core/testing";
 import {
   getLocaleHourFormat,
+  getLocalizedDecimalSeparator,
   getLocalizedMeridiem,
   getLocalizedTimePartSuffix,
   getMeridiemOrder,
@@ -538,6 +539,7 @@ describe("calcite-input-time-picker", () => {
       const localizedHourSuffix = getLocalizedTimePartSuffix("hour", locale);
       const localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", locale);
       const localizedSecondSuffix = getLocalizedTimePartSuffix("second", locale);
+      const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, "latn");
       const localeHourFormat = getLocaleHourFormat(locale);
 
       describe(`${locale} (${localeHourFormat}-hour)`, () => {
@@ -579,14 +581,16 @@ describe("calcite-input-time-picker", () => {
           await page.keyboard.press("Backspace");
 
           const meridiemOrder = getMeridiemOrder(locale);
-          const localizedMeridiem = getLocalizedMeridiem(locale, "PM");
+          const localizedMeridiemToType = getLocalizedMeridiem(locale, "PM");
 
-          let localizedTime = `2${localizedHourSuffix}30${localizedMinuteSuffix}45`;
+          let localizedTimeToType = `2${localizedHourSuffix}30${localizedMinuteSuffix}45`;
           if (localizedSecondSuffix) {
-            localizedTime += localizedSecondSuffix;
+            localizedTimeToType += localizedSecondSuffix;
           }
           let valueToType =
-            meridiemOrder === 0 ? `${localizedMeridiem} ${localizedTime}` : `${localizedTime} ${localizedMeridiem}`;
+            meridiemOrder === 0
+              ? `${localizedMeridiemToType} ${localizedTimeToType}`
+              : `${localizedTimeToType} ${localizedMeridiemToType}`;
 
           await page.keyboard.type(valueToType);
           await page.keyboard.press("Enter");
@@ -620,12 +624,14 @@ describe("calcite-input-time-picker", () => {
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
 
-          localizedTime = `4${localizedHourSuffix}15${localizedMinuteSuffix}30`;
+          localizedTimeToType = `4${localizedHourSuffix}15${localizedMinuteSuffix}30`;
           if (localizedSecondSuffix) {
-            localizedTime += localizedSecondSuffix;
+            localizedTimeToType += localizedSecondSuffix;
           }
           valueToType =
-            meridiemOrder === 0 ? `${localizedMeridiem} ${localizedTime}` : `${localizedTime} ${localizedMeridiem}`;
+            meridiemOrder === 0
+              ? `${localizedMeridiemToType} ${localizedTimeToType}`
+              : `${localizedTimeToType} ${localizedMeridiemToType}`;
 
           await page.keyboard.type(valueToType);
           await input.focus();
@@ -672,67 +678,72 @@ describe("calcite-input-time-picker", () => {
               focus-trap-disabled
               hour-format="24"
               lang="${locale}"
-              step="1"
-              value="14:02:30"
+              step="0.001"
+              value="14:02:30.001"
             ></calcite-input-time-picker>
             <input placeholder="${locale}" />
           `);
 
           const inputTimePicker = await page.find("calcite-input-time-picker");
           const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+          const initialDelocalizedValue = await inputTimePicker.getProperty("value");
 
           expect(changeEvent).toHaveReceivedEventTimes(0);
-
-          const initialValue = await inputTimePicker.getProperty("value");
-
-          expect(initialValue).toBe("14:02:30");
+          expect(initialDelocalizedValue).toBe("14:02:30.001");
           expect(await getInputValue(page)).toBe(
-            localizeTimeString({ hour12: false, includeSeconds: true, locale, value: initialValue }),
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: false,
+              includeSeconds: true,
+              locale,
+              value: initialDelocalizedValue,
+            }),
           );
 
-          let localizedInputValue = `14${localizedHourSuffix}30${localizedMinuteSuffix}45`;
+          let localizedValueToType = `14${localizedHourSuffix}30${localizedMinuteSuffix}45${localizedDecimalSeparator}002`;
           if (localizedSecondSuffix) {
-            localizedInputValue += localizedSecondSuffix;
+            localizedValueToType += localizedSecondSuffix;
           }
 
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
-          await page.keyboard.type(localizedInputValue);
+          await page.keyboard.type(localizedValueToType);
           await page.keyboard.press("Enter");
           await page.waitForChanges();
 
           expect(changeEvent).toHaveReceivedEventTimes(1);
-          expect(await inputTimePicker.getProperty("value")).toBe("14:30:45");
-          expect(await getInputValue(page)).toBe(localizedInputValue);
+          expect(await inputTimePicker.getProperty("value")).toBe("14:30:45.002");
+          expect(await getInputValue(page)).toBe(localizedValueToType);
 
           await page.keyboard.press("Enter");
           await page.waitForChanges();
 
           expect(changeEvent).toHaveReceivedEventTimes(1);
 
-          localizedInputValue = `16${localizedHourSuffix}15${localizedMinuteSuffix}30`;
+          localizedValueToType = `16${localizedHourSuffix}15${localizedMinuteSuffix}30${localizedDecimalSeparator}003`;
           if (localizedSecondSuffix) {
-            localizedInputValue += localizedSecondSuffix;
+            localizedValueToType += localizedSecondSuffix;
           }
 
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
-          await page.keyboard.type(localizedInputValue);
+          await page.keyboard.type(localizedValueToType);
 
           const input = await page.find("input");
           await input.focus();
 
           expect(changeEvent).toHaveReceivedEventTimes(2);
-          expect(await inputTimePicker.getProperty("value")).toBe("16:15:30");
-          expect(await getInputValue(page)).toBe(localizedInputValue);
+          expect(await inputTimePicker.getProperty("value")).toBe("16:15:30.003");
+          expect(await getInputValue(page)).toBe(localizedValueToType);
 
           await inputTimePicker.setProperty("hourFormat", "12");
           await page.waitForChanges();
 
           const expectedInputValue =
             locale === "es-MX"
-              ? "04:15:30 p. m." // test environment treats es-MX as es
+              ? "04:15:30.003 p. m." // test environment treats es-MX as es
               : localizeTimeString({
+                  fractionalSecondDigits: 3,
                   hour12: true,
                   includeSeconds: true,
                   locale,
