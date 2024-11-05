@@ -477,7 +477,11 @@ export class Panel
 
   renderHeaderSlottedContent(): VNode {
     return (
-      <div class={CSS.headerContent} hidden={!this.hasHeaderContent} key="slotted-header-content">
+      <div
+        class={{ [CSS.headerContent]: true, [CSS.headerSlottedContent]: true }}
+        hidden={!this.hasHeaderContent}
+        key="slotted-header-content"
+      >
         <slot name={SLOTS.headerContent} onSlotchange={this.handleHeaderContentSlotChange} />
       </div>
     );

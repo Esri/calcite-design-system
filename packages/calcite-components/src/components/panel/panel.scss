@@ -22,7 +22,7 @@
  * @prop --calcite-panel-action-bar-border-color: Specifies the border color of the `"action-bar"` slot.
 
  * @prop --calcite-panel-space: Specifies the padding of the component's `"unnamed (default)"` slot.
- * @prop --calcite-panel-header-space: Specifies the padding of the `"header-content"` slot.
+ * @prop --calcite-panel-header-content-space: Specifies the padding of the `"header-content"` slot.
  * @prop --calcite-panel-footer-space: Specifies the padding of the component's footer.
  * @prop --calcite-panel-content-top-space: Specifies the padding of the `"content-top"` slot.
  * @prop --calcite-panel-content-bottom-space: Specifies the padding of the `"content-bottom"` slot.
@@ -98,13 +98,13 @@
 }
 
 .content-top {
-  background-color: var(--calcite-panel-content-top-background-color);
+  background-color: var(--calcite-panel-content-top-background-color, var(--calcite-color-foreground-1));
   padding: var(--calcite-panel-content-top-space, var(--calcite-internal-panel-default-space));
-  border-block-start: 1px solid var(--calcite-panel-content-top-border-color, var(--calcite-color-border-3));
+  border-block: 1px solid var(--calcite-panel-content-top-border-color, var(--calcite-color-border-3));
 }
 
 .content-bottom {
-  background-color: var(--calcite-panel-content-bottom-background-color);
+  background-color: var(--calcite-panel-content-bottom-background-color, var(--calcite-color-foreground-1));
   padding: var(--calcite-panel-content-bottom-space, var(--calcite-internal-panel-default-space));
   border-block-start: 1px solid var(--calcite-panel-content-bottom-border-color, var(--calcite-color-border-3));
 }
@@ -247,12 +247,16 @@ calcite-action-menu {
 .header-content {
   flex: 1 1 auto;
   justify-content: center;
-  padding: var(
-    --calcite-panel-header-space,
-    var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
-  );
-}
+  padding-block: var(--calcite-internal-panel-header-vertical-padding);
+  padding-inline: var(--calcite-internal-panel-default-space);
 
+  &.header-slotted-content {
+    padding: var(
+      --calcite-panel-header-content-space,
+      var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
+    );
+  }
+}
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center text-n2-wrap;
   border-block-start: 1px solid var(--calcite-panel-footer-border-color, var(--calcite-color-border-3));

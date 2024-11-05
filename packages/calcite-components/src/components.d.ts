@@ -71,9 +71,6 @@ import { ModalMessages } from "./components/modal/assets/modal/t9n";
 import { NoticeMessages } from "./components/notice/assets/notice/t9n";
 import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 import { PanelMessages } from "./components/panel/assets/panel/t9n";
-import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
-import { ICON_TYPES } from "./components/pick-list/resources";
-import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
 import { PopoverMessages } from "./components/popover/assets/popover/t9n";
 import { RatingMessages } from "./components/rating/assets/rating/t9n";
 import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
@@ -100,8 +97,6 @@ import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces
 import { TipMessages } from "./components/tip/assets/tip/t9n";
 import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
-import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
-import { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
@@ -168,9 +163,6 @@ export { ModalMessages } from "./components/modal/assets/modal/t9n";
 export { NoticeMessages } from "./components/notice/assets/notice/t9n";
 export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 export { PanelMessages } from "./components/panel/assets/panel/t9n";
-export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
-export { ICON_TYPES } from "./components/pick-list/resources";
-export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
 export { PopoverMessages } from "./components/popover/assets/popover/t9n";
 export { RatingMessages } from "./components/rating/assets/rating/t9n";
 export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
@@ -197,8 +189,6 @@ export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces
 export { TipMessages } from "./components/tip/assets/tip/t9n";
 export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
-export { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
-export { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export namespace Components {
     interface CalciteAccordion {
         /**
@@ -4014,139 +4004,6 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickList {
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        /**
-          * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
-         */
-        "filterEnabled": boolean;
-        /**
-          * Placeholder text for the filter input field.
-         */
-        "filterPlaceholder": string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText": string;
-        /**
-          * The component's filtered data.
-          * @readonly
-         */
-        "filteredData": ItemData1;
-        /**
-          * The component's filtered items.
-          * @readonly
-         */
-        "filteredItems": HTMLCalcitePickListItemElement[];
-        /**
-          * Returns the component's selected `calcite-pick-list-item`s.
-         */
-        "getSelectedItems": () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel": HeadingLevel;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading": boolean;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-pick-list-item`s at a time. When `false`, only a single `calcite-pick-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple": boolean;
-        /**
-          * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus": boolean;
-        /**
-          * Sets focus on the component's first focusable element.
-          * @param focusId
-         */
-        "setFocus": (focusId?: ListFocusId) => Promise<void>;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListGroup {
-        /**
-          * Specifies the title for all nested `calcite-pick-list-item`s.
-         */
-        "groupTitle": string;
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel": HeadingLevel;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description": string;
-        /**
-          * When `false`, the component cannot be deselected by user interaction.
-         */
-        "deselectDisabled": boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon": ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl": boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides": Partial<PickListItemMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages": PickListItemMessages;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata": Record<string, unknown>;
-        "nonInteractive": boolean;
-        /**
-          * When `true`, displays a remove action that removes the item from the list.
-         */
-        "removable": boolean;
-        /**
-          * When `true`, selects an item. Toggles when an item is checked/unchecked.
-         */
-        "selected": boolean;
-        /**
-          * Sets focus on the component.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * Toggles the selection state. By default this won't trigger an event. The first argument allows the value to be coerced, rather than swapping values.
-          * @param coerce
-         */
-        "toggleSelected": (coerce?: boolean) => Promise<void>;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
     interface CalcitePopover {
         /**
           * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
@@ -6026,139 +5883,6 @@ export namespace Components {
         "selected": boolean;
         "selectionMode": SelectionMode;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueList {
-        /**
-          * When provided, the method will be called to determine whether the element can move from the list.
-         */
-        "canPull": (detail: DragDetail) => boolean;
-        /**
-          * When provided, the method will be called to determine whether the element can be added from another list.
-         */
-        "canPut": (detail: DragDetail) => boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        /**
-          * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
-         */
-        "dragEnabled": boolean;
-        /**
-          * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
-         */
-        "filterEnabled": boolean;
-        /**
-          * Placeholder text for the filter's input field.
-         */
-        "filterPlaceholder": string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText": string;
-        /**
-          * The currently filtered data.
-          * @readonly
-         */
-        "filteredData": ItemData1;
-        /**
-          * The currently filtered items.
-          * @readonly
-         */
-        "filteredItems": HTMLCalciteValueListItemElement[];
-        /**
-          * Returns the component's selected items.
-         */
-        "getSelectedItems": () => Promise<Map<string, HTMLCalciteValueListItemElement>>;
-        /**
-          * The component's group identifier.  To drag elements from one list into another, both lists must have the same group value.
-         */
-        "group"?: string;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading": boolean;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides": Partial<ValueListMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages": ValueListMessages;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-value-list-item`s at a time. When `false`, only a single `calcite-value-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple": boolean;
-        /**
-          * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus": boolean;
-        /**
-          * Sets focus on the component's first focusable element.
-          * @param focusId
-         */
-        "setFocus": (focusId?: ListFocusId) => Promise<void>;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description"?: string;
-        "deselectDisabled": boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        "handleActivated"?: boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon"?: ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl": boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata"?: Record<string, unknown>;
-        /**
-          * When `true`, prevents the content of the component from user interaction.
-         */
-        "nonInteractive": boolean;
-        /**
-          * When `true`, adds an action to remove the component.
-         */
-        "removable": boolean;
-        /**
-          * When `true`, the component is selected.
-         */
-        "selected": boolean;
-        /**
-          * Set focus on the component.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * Toggle the selection state. By default this won't trigger an event. The first argument allows the value to be coerced, rather than swapping values.
-          * @param coerce
-         */
-        "toggleSelected": (coerce?: boolean) => Promise<void>;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
 }
 export interface CalciteAccordionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6352,14 +6076,6 @@ export interface CalcitePanelCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalcitePanelElement;
 }
-export interface CalcitePickListCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalcitePickListElement;
-}
-export interface CalcitePickListItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalcitePickListItemElement;
-}
 export interface CalcitePopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalcitePopoverElement;
@@ -6479,14 +6195,6 @@ export interface CalciteTreeCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteTreeItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteTreeItemElement;
-}
-export interface CalciteValueListCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteValueListElement;
-}
-export interface CalciteValueListItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteValueListItemElement;
 }
 declare global {
     interface HTMLCalciteAccordionElementEventMap {
@@ -7547,67 +7255,6 @@ declare global {
         prototype: HTMLCalcitePanelElement;
         new (): HTMLCalcitePanelElement;
     };
-    interface HTMLCalcitePickListElementEventMap {
-        "calciteListChange": Map<string, HTMLCalcitePickListItemElement>;
-        "calciteListFilter": void;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalcitePickListElement extends Components.CalcitePickList, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalcitePickListElement: {
-        prototype: HTMLCalcitePickListElement;
-        new (): HTMLCalcitePickListElement;
-    };
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalcitePickListGroupElement extends Components.CalcitePickListGroup, HTMLStencilElement {
-    }
-    var HTMLCalcitePickListGroupElement: {
-        prototype: HTMLCalcitePickListGroupElement;
-        new (): HTMLCalcitePickListGroupElement;
-    };
-    interface HTMLCalcitePickListItemElementEventMap {
-        "calciteListItemChange": {
-    item: HTMLCalcitePickListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  };
-        "calciteListItemRemove": void;
-        "calciteInternalListItemPropsChange": void;
-        "calciteInternalListItemValueChange": {
-    oldValue: any;
-    newValue: any;
-  };
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalcitePickListItemElement extends Components.CalcitePickListItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalcitePickListItemElement: {
-        prototype: HTMLCalcitePickListItemElement;
-        new (): HTMLCalcitePickListItemElement;
-    };
     interface HTMLCalcitePopoverElementEventMap {
         "calcitePopoverBeforeClose": void;
         "calcitePopoverClose": void;
@@ -8246,55 +7893,6 @@ declare global {
         prototype: HTMLCalciteTreeItemElement;
         new (): HTMLCalciteTreeItemElement;
     };
-    interface HTMLCalciteValueListElementEventMap {
-        "calciteListChange": Map<string, HTMLCalciteValueListItemElement>;
-        "calciteListOrderChange": any[];
-        "calciteListFilter": void;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalciteValueListElement extends Components.CalciteValueList, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalciteValueListElement: {
-        prototype: HTMLCalciteValueListElement;
-        new (): HTMLCalciteValueListElement;
-    };
-    interface HTMLCalciteValueListItemElementEventMap {
-        "calciteListItemChange": {
-    item: HTMLCalciteValueListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  };
-        "calciteListItemRemove": void;
-        "calciteValueListItemDragHandleBlur": ListItemAndHandle;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface HTMLCalciteValueListItemElement extends Components.CalciteValueListItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalciteValueListItemElement: {
-        prototype: HTMLCalciteValueListItemElement;
-        new (): HTMLCalciteValueListItemElement;
-    };
     interface HTMLElementTagNameMap {
         "calcite-accordion": HTMLCalciteAccordionElement;
         "calcite-accordion-item": HTMLCalciteAccordionItemElement;
@@ -8362,9 +7960,6 @@ declare global {
         "calcite-option-group": HTMLCalciteOptionGroupElement;
         "calcite-pagination": HTMLCalcitePaginationElement;
         "calcite-panel": HTMLCalcitePanelElement;
-        "calcite-pick-list": HTMLCalcitePickListElement;
-        "calcite-pick-list-group": HTMLCalcitePickListGroupElement;
-        "calcite-pick-list-item": HTMLCalcitePickListItemElement;
         "calcite-popover": HTMLCalcitePopoverElement;
         "calcite-progress": HTMLCalciteProgressElement;
         "calcite-radio-button": HTMLCalciteRadioButtonElement;
@@ -8406,8 +8001,6 @@ declare global {
         "calcite-tooltip": HTMLCalciteTooltipElement;
         "calcite-tree": HTMLCalciteTreeElement;
         "calcite-tree-item": HTMLCalciteTreeItemElement;
-        "calcite-value-list": HTMLCalciteValueListElement;
-        "calcite-value-list-item": HTMLCalciteValueListItemElement;
     }
 }
 declare namespace LocalJSX {
@@ -12431,153 +12024,6 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickList {
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        /**
-          * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
-         */
-        "filterEnabled"?: boolean;
-        /**
-          * Placeholder text for the filter input field.
-         */
-        "filterPlaceholder"?: string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText"?: string;
-        /**
-          * The component's filtered data.
-          * @readonly
-         */
-        "filteredData"?: ItemData1;
-        /**
-          * The component's filtered items.
-          * @readonly
-         */
-        "filteredItems"?: HTMLCalcitePickListItemElement[];
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel"?: HeadingLevel;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading"?: boolean;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-pick-list-item`s at a time. When `false`, only a single `calcite-pick-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple"?: boolean;
-        /**
-          * Emits when any of the `calcite-pick-list-item` selections have changed.
-         */
-        "onCalciteListChange"?: (event: CalcitePickListCustomEvent<Map<string, HTMLCalcitePickListItemElement>>) => void;
-        /**
-          * Emits when a filter has changed.
-         */
-        "onCalciteListFilter"?: (event: CalcitePickListCustomEvent<void>) => void;
-        /**
-          * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus"?: boolean;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListGroup {
-        /**
-          * Specifies the title for all nested `calcite-pick-list-item`s.
-         */
-        "groupTitle"?: string;
-        /**
-          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-         */
-        "headingLevel"?: HeadingLevel;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalcitePickListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description"?: string;
-        /**
-          * When `false`, the component cannot be deselected by user interaction.
-         */
-        "deselectDisabled"?: boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon"?: ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl"?: boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides"?: Partial<PickListItemMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages"?: PickListItemMessages;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata"?: Record<string, unknown>;
-        "nonInteractive"?: boolean;
-        /**
-          * Emits when the component's label, description, value, or metadata properties are modified.
-         */
-        "onCalciteInternalListItemPropsChange"?: (event: CalcitePickListItemCustomEvent<void>) => void;
-        /**
-          * Emits when the component's value property is modified.
-         */
-        "onCalciteInternalListItemValueChange"?: (event: CalcitePickListItemCustomEvent<{
-    oldValue: any;
-    newValue: any;
-  }>) => void;
-        /**
-          * Fires when the component is selected or unselected.
-         */
-        "onCalciteListItemChange"?: (event: CalcitePickListItemCustomEvent<{
-    item: HTMLCalcitePickListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  }>) => void;
-        /**
-          * Fires when the remove button is pressed.
-         */
-        "onCalciteListItemRemove"?: (event: CalcitePickListItemCustomEvent<void>) => void;
-        /**
-          * When `true`, displays a remove action that removes the item from the list.
-         */
-        "removable"?: boolean;
-        /**
-          * When `true`, selects an item. Toggles when an item is checked/unchecked.
-         */
-        "selected"?: boolean;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
     interface CalcitePopover {
         /**
           * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
@@ -14542,147 +13988,6 @@ declare namespace LocalJSX {
         "selected"?: boolean;
         "selectionMode"?: SelectionMode;
     }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueList {
-        /**
-          * When provided, the method will be called to determine whether the element can move from the list.
-         */
-        "canPull"?: (detail: DragDetail) => boolean;
-        /**
-          * When provided, the method will be called to determine whether the element can be added from another list.
-         */
-        "canPut"?: (detail: DragDetail) => boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        /**
-          * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
-         */
-        "dragEnabled"?: boolean;
-        /**
-          * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
-         */
-        "filterEnabled"?: boolean;
-        /**
-          * Placeholder text for the filter's input field.
-         */
-        "filterPlaceholder"?: string;
-        /**
-          * Text for the filter input field.
-         */
-        "filterText"?: string;
-        /**
-          * The currently filtered data.
-          * @readonly
-         */
-        "filteredData"?: ItemData1;
-        /**
-          * The currently filtered items.
-          * @readonly
-         */
-        "filteredItems"?: HTMLCalciteValueListItemElement[];
-        /**
-          * The component's group identifier.  To drag elements from one list into another, both lists must have the same group value.
-         */
-        "group"?: string;
-        /**
-          * When `true`, a busy indicator is displayed.
-         */
-        "loading"?: boolean;
-        /**
-          * Use this property to override individual strings used by the component.
-         */
-        "messageOverrides"?: Partial<ValueListMessages>;
-        /**
-          * Made into a prop for testing purposes only
-         */
-        "messages"?: ValueListMessages;
-        /**
-          * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-value-list-item`s at a time. When `false`, only a single `calcite-value-list-item` can be selected at a time, and a new selection will deselect previous selections.
-         */
-        "multiple"?: boolean;
-        /**
-          * Emits when any of the list item selections have changed.
-         */
-        "onCalciteListChange"?: (event: CalciteValueListCustomEvent<Map<string, HTMLCalciteValueListItemElement>>) => void;
-        /**
-          * Emits when a filter has changed.
-         */
-        "onCalciteListFilter"?: (event: CalciteValueListCustomEvent<void>) => void;
-        /**
-          * Emits when the order of the list has changed.
-         */
-        "onCalciteListOrderChange"?: (event: CalciteValueListCustomEvent<any[]>) => void;
-        /**
-          * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
-         */
-        "selectionFollowsFocus"?: boolean;
-    }
-    /**
-     * @deprecated Use the `calcite-list` component instead.
-     */
-    interface CalciteValueListItem {
-        /**
-          * A description for the component that displays below the label text.
-         */
-        "description"?: string;
-        "deselectDisabled"?: boolean;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
-        "handleActivated"?: boolean;
-        /**
-          * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
-         */
-        "icon"?: ICON_TYPES | null;
-        /**
-          * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "iconFlipRtl"?: boolean;
-        /**
-          * Label and accessible name for the component. Appears next to the icon.
-         */
-        "label": string;
-        /**
-          * Provides additional metadata to the component. Primary use is for a filter on the parent list.
-         */
-        "metadata"?: Record<string, unknown>;
-        /**
-          * When `true`, prevents the content of the component from user interaction.
-         */
-        "nonInteractive"?: boolean;
-        /**
-          * Fires when the component is selected or unselected.
-         */
-        "onCalciteListItemChange"?: (event: CalciteValueListItemCustomEvent<{
-    item: HTMLCalciteValueListItemElement;
-    value: any;
-    selected: boolean;
-    shiftPressed: boolean;
-  }>) => void;
-        /**
-          * Fires when the remove button is pressed.
-         */
-        "onCalciteListItemRemove"?: (event: CalciteValueListItemCustomEvent<void>) => void;
-        "onCalciteValueListItemDragHandleBlur"?: (event: CalciteValueListItemCustomEvent<ListItemAndHandle>) => void;
-        /**
-          * When `true`, adds an action to remove the component.
-         */
-        "removable"?: boolean;
-        /**
-          * When `true`, the component is selected.
-         */
-        "selected"?: boolean;
-        /**
-          * The component's value.
-         */
-        "value": any;
-    }
     interface IntrinsicElements {
         "calcite-accordion": CalciteAccordion;
         "calcite-accordion-item": CalciteAccordionItem;
@@ -14750,9 +14055,6 @@ declare namespace LocalJSX {
         "calcite-option-group": CalciteOptionGroup;
         "calcite-pagination": CalcitePagination;
         "calcite-panel": CalcitePanel;
-        "calcite-pick-list": CalcitePickList;
-        "calcite-pick-list-group": CalcitePickListGroup;
-        "calcite-pick-list-item": CalcitePickListItem;
         "calcite-popover": CalcitePopover;
         "calcite-progress": CalciteProgress;
         "calcite-radio-button": CalciteRadioButton;
@@ -14794,8 +14096,6 @@ declare namespace LocalJSX {
         "calcite-tooltip": CalciteTooltip;
         "calcite-tree": CalciteTree;
         "calcite-tree-item": CalciteTreeItem;
-        "calcite-value-list": CalciteValueList;
-        "calcite-value-list-item": CalciteValueListItem;
     }
 }
 export { LocalJSX as JSX };
@@ -14893,18 +14193,6 @@ declare module "@stencil/core" {
             "calcite-option-group": LocalJSX.CalciteOptionGroup & JSXBase.HTMLAttributes<HTMLCalciteOptionGroupElement>;
             "calcite-pagination": LocalJSX.CalcitePagination & JSXBase.HTMLAttributes<HTMLCalcitePaginationElement>;
             "calcite-panel": LocalJSX.CalcitePanel & JSXBase.HTMLAttributes<HTMLCalcitePanelElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-pick-list": LocalJSX.CalcitePickList & JSXBase.HTMLAttributes<HTMLCalcitePickListElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-pick-list-group": LocalJSX.CalcitePickListGroup & JSXBase.HTMLAttributes<HTMLCalcitePickListGroupElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-pick-list-item": LocalJSX.CalcitePickListItem & JSXBase.HTMLAttributes<HTMLCalcitePickListItemElement>;
             "calcite-popover": LocalJSX.CalcitePopover & JSXBase.HTMLAttributes<HTMLCalcitePopoverElement>;
             "calcite-progress": LocalJSX.CalciteProgress & JSXBase.HTMLAttributes<HTMLCalciteProgressElement>;
             "calcite-radio-button": LocalJSX.CalciteRadioButton & JSXBase.HTMLAttributes<HTMLCalciteRadioButtonElement>;
@@ -14967,14 +14255,6 @@ declare module "@stencil/core" {
             "calcite-tooltip": LocalJSX.CalciteTooltip & JSXBase.HTMLAttributes<HTMLCalciteTooltipElement>;
             "calcite-tree": LocalJSX.CalciteTree & JSXBase.HTMLAttributes<HTMLCalciteTreeElement>;
             "calcite-tree-item": LocalJSX.CalciteTreeItem & JSXBase.HTMLAttributes<HTMLCalciteTreeItemElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-value-list": LocalJSX.CalciteValueList & JSXBase.HTMLAttributes<HTMLCalciteValueListElement>;
-            /**
-             * @deprecated Use the `calcite-list` component instead.
-             */
-            "calcite-value-list-item": LocalJSX.CalciteValueListItem & JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
         }
     }
 }

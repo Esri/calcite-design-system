@@ -777,7 +777,7 @@ describe("calcite-panel", () => {
           targetProp: "padding",
         },
         /*
-        "--calcite-panel-header-space": {
+        "--calcite-panel-header-content-space": {
           shadowSelector: `.${CSS.header}`,
           targetProp: "padding",
         },
