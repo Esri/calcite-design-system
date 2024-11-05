@@ -25,6 +25,11 @@
         "readme.md",
         {
           "type": "json",
+          "path": "/examples/components/angular/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        },
+        {
+          "type": "json",
           "path": "/examples/components/preact/package.json",
           "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
