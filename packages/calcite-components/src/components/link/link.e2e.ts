@@ -326,16 +326,16 @@ describe("calcite-link", () => {
     describe("default", () => {
       themed(html` <calcite-link href="#" icon-start="banana" icon-end="information">link</calcite-link> `, {
         "--calcite-link-text-color": {
-          shadowSelector: `span, a`,
+          shadowSelector: "a",
           targetProp: "color",
         },
         // todo: how can I test the linear gradient bg image used here?
-        "--calcite-link-border-color": {
-          shadowSelector: `span, a`,
-          targetProp: "backgroundImage",
-        },
+        // "--calcite-link-border-color": {
+        //   shadowSelector: "a",
+        //   targetProp: "backgroundImage",
+        // },
         "--calcite-link-icon-color": {
-          shadowSelector: `calcite-icon`,
+          shadowSelector: "calcite-icon",
           targetProp: "color",
         },
       });

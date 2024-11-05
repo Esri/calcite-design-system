@@ -504,15 +504,15 @@ describe("calcite-tile", () => {
               state: "hover",
             },
             "--calcite-tile-link-text-color": {
-              shadowSelector: `calcite-link`,
+              shadowSelector: "calcite-link",
               targetProp: "--calcite-link-text-color",
             },
             "--calcite-tile-link-border-color": {
-              shadowSelector: `calcite-link`,
+              shadowSelector: "calcite-link",
               targetProp: "--calcite-link-border-color",
             },
             "--calcite-tile-link-icon-color": {
-              shadowSelector: `calcite-link`,
+              shadowSelector: "calcite-link",
               targetProp: "--calcite-link-icon-color",
             },
           },
