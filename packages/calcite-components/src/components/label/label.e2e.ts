@@ -217,7 +217,7 @@ describe("calcite-label", () => {
         {
           "--calcite-label-margin-bottom": {
             shadowSelector: `.${CSS.container}`,
-            targetProp: "marginBottom",
+            targetProp: "marginBlockEnd",
           },
           "--calcite-label-text-color": {
             shadowSelector: `.${CSS.container}`,
