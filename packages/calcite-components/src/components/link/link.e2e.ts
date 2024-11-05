@@ -1,5 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-link", () => {
   describe("renders", () => {
@@ -318,6 +319,26 @@ describe("calcite-link", () => {
       expect(linkUnderlineStyle).toEqual(
         `linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(${overrideStyle}, ${overrideStyle})`,
       );
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html` <calcite-link href="#" icon-start="banana" icon-end="information">link</calcite-link> `, {
+        "--calcite-link-text-color": {
+          shadowSelector: `span, a`,
+          targetProp: "color",
+        },
+        // todo: how can I test the linear gradient bg image used here?
+        "--calcite-link-border-color": {
+          shadowSelector: `span, a`,
+          targetProp: "backgroundImage",
+        },
+        "--calcite-link-icon-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      });
     });
   });
 });

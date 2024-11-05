@@ -238,6 +238,21 @@
           eum fugiat quo voluptas nulla pariatur
         </div>
       </div>
+
+      <!-- themed -->
+      <div class="parent">
+        <div class="trigger-external-wrap-paragraph right-aligned-text">themed</div>
+        <style>
+          .link-themed {
+            --calcite-link-text-color: orange;
+            --calcite-link-border-color: purple;
+            --calcite-link-icon-color: red;
+          }
+        </style>
+        <div class="trigger-external-wrap-paragraph font-size-1">
+          <calcite-link class="link-themed" href="#" icon-start="banana" icon-end="information">link</calcite-link>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>
