@@ -17,11 +17,16 @@
       flex-col
       items-stretch
       p-0;
+    animation-name: none;
+    animation-duration: var(--calcite-animation-timing);
   }
 
-  ::slotted(calcite-flow-item),
-  ::slotted(calcite-panel) {
-    @apply h-full;
+  ::slotted(*) {
+    @apply h-full hidden;
+  }
+
+  ::slotted(*[selected]) {
+    @apply flex;
   }
 
   ::slotted(.calcite-match-height:last-child) {
@@ -31,11 +36,11 @@
   }
 
   .frame--advancing {
-    animation: calcite-frame-advance var(--calcite-animation-timing);
+    animation-name: calcite-frame-advance;
   }
 
   .frame--retreating {
-    animation: calcite-frame-retreat var(--calcite-animation-timing);
+    animation-name: calcite-frame-retreat;
   }
 
   @keyframes calcite-frame-advance {
