@@ -181,7 +181,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /** Specifies the size of the component's trigger `calcite-action`. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 

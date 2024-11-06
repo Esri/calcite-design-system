@@ -91,7 +91,7 @@ export class ActionGroup extends LitElement implements LoadableComponent {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the `calcite-action-menu`. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 

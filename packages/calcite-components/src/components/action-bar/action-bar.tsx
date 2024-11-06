@@ -165,7 +165,7 @@ export class ActionBar extends LitElement implements LoadableComponent {
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 
