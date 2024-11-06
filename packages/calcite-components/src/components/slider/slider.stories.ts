@@ -495,56 +495,128 @@ export const fillPlacements = (): string => html`
   <calcite-slider min="0" max="100" value="50" fill-placement="start"></calcite-slider>
   <calcite-slider min="0" max="100" value="100" fill-placement="start"></calcite-slider>
   <br />
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="0" fill-placement="start"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="50" fill-placement="start"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="100" fill-placement="start"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="0" fill-placement="start"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="50" fill-placement="start"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="100" fill-placement="start"></calcite-slider>
   <br />
   <h2>none</h2>
   <calcite-slider min="0" max="100" value="0" fill-placement="none"></calcite-slider>
   <calcite-slider min="0" max="100" value="50" fill-placement="none"></calcite-slider>
   <calcite-slider min="0" max="100" value="100" fill-placement="none"></calcite-slider>
   <br />
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="0" fill-placement="none"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="50" fill-placement="none"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="100" fill-placement="none"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="0" fill-placement="none"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="50" fill-placement="none"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="100" fill-placement="none"></calcite-slider>
   <br />
   <h2>end</h2>
   <calcite-slider min="0" max="100" value="0" fill-placement="end"></calcite-slider>
   <calcite-slider min="0" max="100" value="50" fill-placement="end"></calcite-slider>
   <calcite-slider min="0" max="100" value="100" fill-placement="end"></calcite-slider>
   <br />
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="0" fill-placement="end"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="50" fill-placement="end"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="100" fill-placement="end"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="0" fill-placement="end"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="50" fill-placement="end"></calcite-slider>
+  <calcite-slider ticks="10" label-ticks min="0" max="100" value="100" fill-placement="end"></calcite-slider>
 
   <h1>range</h1>
 
   <h2>start (default)</h2>
   <calcite-slider min="0" max="100" min-value="0" max-value="25" fill-placement="start"></calcite-slider>
-  <calcite-slider min="0" max="100" min-value=25" max-value="75" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" min-value="25" max-value="75" fill-placement="start"></calcite-slider>
   <calcite-slider min="0" max="100" min-value="75" max-value="100" fill-placement="start"></calcite-slider>
   <br />
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value="0" max-value="25" fill-placement="start"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value=25" max-value="75"  fill-placement="start"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value="75" max-value="100" fill-placement="start"></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="0"
+    max-value="25"
+    fill-placement="start"
+  ></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="25"
+    max-value="75"
+    fill-placement="start"
+  ></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="75"
+    max-value="100"
+    fill-placement="start"
+  ></calcite-slider>
   <br />
   <h2>none</h2>
   <calcite-slider min="0" max="100" min-value="0" max-value="25" fill-placement="none"></calcite-slider>
-  <calcite-slider min="0" max="100" min-value=25" max-value="75"  fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" min-value="25" max-value="75" fill-placement="none"></calcite-slider>
   <calcite-slider min="0" max="100" min-value="75" max-value="100" fill-placement="none"></calcite-slider>
   <br />
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value="0" max-value="25" fill-placement="none"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value=25" max-value="75"  fill-placement="none"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value="75" max-value="100" fill-placement="none"></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="0"
+    max-value="25"
+    fill-placement="none"
+  ></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="25"
+    max-value="75"
+    fill-placement="none"
+  ></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="75"
+    max-value="100"
+    fill-placement="none"
+  ></calcite-slider>
   <br />
   <h2>end</h2>
   <calcite-slider min="0" max="100" min-value="0" max-value="25" fill-placement="end"></calcite-slider>
-  <calcite-slider min="0" max="100" min-value=25" max-value="75"  fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" min-value="25" max-value="75" fill-placement="end"></calcite-slider>
   <calcite-slider min="0" max="100" min-value="75" max-value="100" fill-placement="end"></calcite-slider>
   <br />
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value="0" max-value="25" fill-placement="end"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value=25" max-value="75"  fill-placement="end"></calcite-slider>
-  <calcite-slider ticks="10" handle-ticks min="0" max="100" min-value="75" max-value="100" fill-placement="end"></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="0"
+    max-value="25"
+    fill-placement="end"
+  ></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="25"
+    max-value="75"
+    fill-placement="end"
+  ></calcite-slider>
+  <calcite-slider
+    ticks="10"
+    label-ticks
+    min="0"
+    max="100"
+    min-value="75"
+    max-value="100"
+    fill-placement="end"
+  ></calcite-slider>
 `;
 
 export const customLabelsAndTicks = (): string => html`
