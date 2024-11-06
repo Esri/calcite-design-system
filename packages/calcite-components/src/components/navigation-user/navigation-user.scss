@@ -27,12 +27,12 @@
     border: none;
     background-color: var(
       --calcite-navigation-background-color,
-      var(--calcite-internal-navigation-user-background-color, transparent)
+      var(--calcite-internal-navigation-user-background-color, var(--calcite-color-transparent))
     );
     border-block-end: 2px solid
       var(
         --calcite-navigation-user-selection-border-color,
-        var(--calcite-internal-navigation-selection-border-color, transparent)
+        var(--calcite-internal-navigation-selection-border-color, var(--calcite-color-transparent))
       );
   }
 }
