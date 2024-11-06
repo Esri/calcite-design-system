@@ -45,7 +45,7 @@ Then, import the global Calcite components stylesheet (only do this once):
 @import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 
-To use Calcite components in Angular, you must add CUSTOM_ELEMENTS_SCHEMA to the `schemas` property:
+To use Calcite components in Angular, you **must** add CUSTOM_ELEMENTS_SCHEMA to the `schemas` property:
 
 ```ts
 // src/app/app.component.ts
