@@ -215,7 +215,7 @@ export class InlineEditable
 
     inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
-    this.scale = this.scale || this.inputElement?.scale;
+    this.scale = this.inputElement?.scale || this.scale || "m";
   }
 
   onLabelClick(): void {
