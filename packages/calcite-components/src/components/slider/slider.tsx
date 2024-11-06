@@ -1110,18 +1110,18 @@ export class Slider
     });
 
     const minThumbTypes = this.buildThumbType("min");
-    const minThumb =
-      valueIsRange &&
-      this.renderThumb({
-        type: minThumbTypes,
-        thumbPlacement:
-          minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
-            ? "below"
-            : "above",
-        maxInterval,
-        minInterval,
-        mirror,
-      });
+    const minThumb = valueIsRange
+      ? this.renderThumb({
+          type: minThumbTypes,
+          thumbPlacement:
+            minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
+              ? "below"
+              : "above",
+          maxInterval,
+          minInterval,
+          mirror,
+        })
+      : null;
 
     const fillPlacement = valueIsRange ? "start" : this.fillPlacement;
     const trackRangePlacementStyles =
