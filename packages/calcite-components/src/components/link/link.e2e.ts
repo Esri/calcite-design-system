@@ -329,11 +329,6 @@ describe("calcite-link", () => {
           shadowSelector: "a",
           targetProp: "color",
         },
-        // todo: how can I test the linear gradient bg image used here?
-        // "--calcite-link-border-color": {
-        //   shadowSelector: "a",
-        //   targetProp: "backgroundImage",
-        // },
       });
     });
   });

@@ -12,8 +12,6 @@
  * @prop --calcite-tile-shadow: Specifies the shadow around the component.
  * @prop --calcite-tile-text-color: Specifies the component's `description` and `icon` text color, but not the `heading` text color.
  * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
- * @prop --calcite-tile-link-border-color: Specifies the component's link border color.
- * @prop --calcite-tile-link-icon-color: Specifies the component's link icon color.
  */
 
 :host {
@@ -24,7 +22,6 @@
 
 calcite-link {
   --calcite-link-text-color: var(--calcite-tile-link-text-color);
-  --calcite-link-border-color: var(--calcite-tile-border-color);
 }
 
 .container {

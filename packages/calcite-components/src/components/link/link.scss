@@ -4,7 +4,6 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
- * @prop --calcite-link-border-color: Specifies the component's border color.
  */
 
 :host {
@@ -75,10 +74,7 @@ calcite-icon {
     line-height: inherit;
     white-space: initial;
     background-image: linear-gradient(currentColor, currentColor),
-      linear-gradient(
-        var(--calcite-link-border-color, var(--calcite-color-brand-underline)),
-        var(--calcite-link-border-color, var(--calcite-color-brand-underline))
-      );
+      linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
     background-position-x: 0%, 100%;
     background-position-y: min(1.5em, 100%);
     background-repeat: no-repeat, no-repeat;
