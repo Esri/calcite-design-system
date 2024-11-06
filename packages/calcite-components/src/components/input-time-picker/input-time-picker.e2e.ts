@@ -23,6 +23,7 @@ import { getFocusedElementProp, selectText, skipAnimations, waitForAnimationFram
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
+import { CSS as PopoverCSS } from "../../components/popover/resources";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(
@@ -764,7 +765,9 @@ describe("calcite-input-time-picker", () => {
           <div id="next-sibling" tabindex="0">next sibling</div>`,
       );
       await skipAnimations(page);
-      const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      const popoverPositionContainer = await page.find(
+        `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
+      );
 
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
@@ -781,7 +784,7 @@ describe("calcite-input-time-picker", () => {
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await popover.isVisible()).toBe(true);
+      expect(await popoverPositionContainer.isVisible()).toBe(true);
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
 
       await page.keyboard.down("Shift");
@@ -795,7 +798,7 @@ describe("calcite-input-time-picker", () => {
       await page.keyboard.press("Escape");
       await page.waitForChanges();
 
-      expect(await popover.isVisible()).toBe(false);
+      expect(await popoverPositionContainer.isVisible()).toBe(false);
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
@@ -832,41 +835,41 @@ describe("calcite-input-time-picker", () => {
     });
 
     it("toggles the time picker when clicked", async () => {
-      let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      const popoverPositionContainer = await page.find(
+        `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
+      );
 
-      expect(await popover.isVisible()).toBe(false);
-
-      await inputTimePicker.click();
-      await page.waitForChanges();
-      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
-
-      expect(await popover.isVisible()).toBe(true);
+      expect(await popoverPositionContainer.isVisible()).toBe(false);
 
       await inputTimePicker.click();
       await page.waitForChanges();
-      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
-      expect(await popover.isVisible()).toBe(false);
+      expect(await popoverPositionContainer.isVisible()).toBe(true);
+
+      await inputTimePicker.click();
+      await page.waitForChanges();
+
+      expect(await popoverPositionContainer.isVisible()).toBe(false);
     });
 
     it("toggles the time picker when using arrow down/escape key", async () => {
-      let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      const popoverPositionContainer = await page.find(
+        `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
+      );
 
-      expect(await popover.isVisible()).toBe(false);
+      expect(await popoverPositionContainer.isVisible()).toBe(false);
 
       await inputTimePicker.callMethod("setFocus");
       await page.waitForChanges();
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
-      expect(await popover.isVisible()).toBe(true);
+      expect(await popoverPositionContainer.isVisible()).toBe(true);
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
-      expect(await popover.isVisible()).toBe(false);
+      expect(await popoverPositionContainer.isVisible()).toBe(false);
     });
   });
 });

@@ -254,14 +254,14 @@
                         ></calcite-action>
                       </calcite-input>
                     </calcite-label>
-                    <calcite-value-list drag-enabled>
-                      <calcite-value-list-item label="Example of Trend Progress..." description="Image">
+                    <calcite-list drag-enabled>
+                      <calcite-list-item label="Example of Trend Progress..." description="Image">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                      <calcite-value-list-item label="Aggregation of things" description="Bar chart">
+                      </calcite-list-item>
+                      <calcite-list-item label="Aggregation of things" description="Bar chart">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                    </calcite-value-list>
+                      </calcite-list-item>
+                    </calcite-list>
                   </calcite-block>
 
                   <calcite-block drag-handle heading="Fields list" summary="12/13 fields" collapsible>
@@ -290,26 +290,26 @@
                       </calcite-input>
                     </calcite-label>
                     <h4>Field items</h4>
-                    <calcite-value-list drag-enabled>
-                      <calcite-value-list-item label="# of Trend Changes">
+                    <calcite-list drag-enabled>
+                      <calcite-list-item label="# of Trend Changes">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                      <calcite-value-list-item label="# of Trend Changes">
+                      </calcite-list-item>
+                      <calcite-list-item label="# of Trend Changes">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                      <calcite-value-list-item label="# of Trend Changes">
+                      </calcite-list-item>
+                      <calcite-list-item label="# of Trend Changes">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                      <calcite-value-list-item label="# of Trend Changes">
+                      </calcite-list-item>
+                      <calcite-list-item label="# of Trend Changes">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                      <calcite-value-list-item label="# of Trend Changes">
+                      </calcite-list-item>
+                      <calcite-list-item label="# of Trend Changes">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                      <calcite-value-list-item label="# of Trend Changes">
+                      </calcite-list-item>
+                      <calcite-list-item label="# of Trend Changes">
                         <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
-                      </calcite-value-list-item>
-                    </calcite-value-list>
+                      </calcite-list-item>
+                    </calcite-list>
                   </calcite-block>
                   <calcite-block drag-handle heading="Text" summary="The trending population in this..." collapsible>
                     <calcite-icon icon="text" scale="m" slot="icon"></calcite-icon>
@@ -405,58 +405,26 @@
         </div>
         <calcite-popover label="right start popover" placement="right" reference-element="popover-trigger">
           <calcite-panel heading="Cool cool" height-scale="m">
-            <calcite-pick-list filter-enabled filter-sticky>
+            <calcite-list filter-enabled>
               <calcite-action slot="menu-actions" text="options">
                 <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
               </calcite-action>
-              <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
-              </calcite-pick-list-item>
-              <calcite-pick-list-item label="about the NASA shuttle falling in the sea" value="2">
-              </calcite-pick-list-item>
-              <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
-              </calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item label="END" value="4"></calcite-pick-list-item>
-            </calcite-pick-list>
+              <calcite-list-item label="about disasters, fires, floods and killer bees" value="1"> </calcite-list-item>
+              <calcite-list-item label="about the NASA shuttle falling in the sea" value="2"> </calcite-list-item>
+              <calcite-list-item label="about starvation and the food that Live Aid bought" value="3">
+              </calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+              <calcite-list-item label="END" value="4"></calcite-list-item>
+            </calcite-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
             <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
           </calcite-panel>
