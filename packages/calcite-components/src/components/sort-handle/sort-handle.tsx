@@ -71,7 +71,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
    * @readonly
    */
   /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  @property() messages = useT9n<typeof T9nStrings>();
+  @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Defines the "Move to" items. */
   @property() moveToItems: MoveTo[];
