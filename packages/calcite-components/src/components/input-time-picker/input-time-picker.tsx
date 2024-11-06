@@ -829,11 +829,11 @@ export class InputTimePicker
     }
   }
 
-  private getLocalizedTimeString = (params: GetLocalizedTimeStringParameters): string => {
-    const hour12 = params.hourFormat === "12" || (this.hourFormat && this.hourFormat === "12");
-    const locale = params.locale ?? this.effectiveLocale;
-    const numberingSystem = params.numberingSystem ?? this.numberingSystem;
-    const value = params.isoTimeString ?? this.value;
+  private getLocalizedTimeString = (params?: GetLocalizedTimeStringParameters): string => {
+    const hour12 = params?.hourFormat === "12" || (this.hourFormat && this.hourFormat === "12");
+    const locale = params?.locale ?? this.effectiveLocale;
+    const numberingSystem = params?.numberingSystem ?? this.numberingSystem;
+    const value = params?.isoTimeString ?? this.value;
     return (
       localizeTimeString({
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
@@ -933,9 +933,7 @@ export class InputTimePicker
     if (!this.calciteInputEl) {
       return;
     }
-    this.calciteInputEl.value = this.getLocalizedTimeString(
-      params ?? { isoTimeString: this.value },
-    );
+    this.calciteInputEl.value = this.getLocalizedTimeString(params);
   };
 
   private setInputValue = (newInputValue: string): void => {
