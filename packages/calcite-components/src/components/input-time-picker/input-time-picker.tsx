@@ -375,7 +375,7 @@ export class InputTimePicker
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+    if (this.hasUpdated && changes.has("open") && this.open !== false) {
       this.openHandler();
     }
 
