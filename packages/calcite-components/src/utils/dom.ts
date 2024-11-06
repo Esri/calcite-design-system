@@ -393,6 +393,21 @@ export function slotChangeGetTextContent(event: Event): string {
 }
 
 /**
+ * This helper checks if an element has visible content.
+ *
+ * @param {HTMLElement} element The element to check.
+ * @returns {boolean} True if the element has visible content, otherwise false.
+ */
+export function hasVisibleContent(element: HTMLElement): boolean {
+  for (const node of element.childNodes) {
+    if ((node.nodeType === Node.TEXT_NODE && node.textContent?.trim() !== "") || node.nodeType === Node.ELEMENT_NODE) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any text content.
  *
  * ```
