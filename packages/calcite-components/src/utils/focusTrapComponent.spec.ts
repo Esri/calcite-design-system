@@ -1,6 +1,3 @@
-// TODO: [MIGRATION] manually migrate this jsdom import to happy-dom
-// TODO: [MIGRATION] manually migrate this jsdom import to happy-dom
-import { JSDOM } from "jsdom";
 import { describe, expect, it, beforeEach, vi } from "vitest";
 import { GlobalTestProps } from "../tests/utils";
 import {
@@ -68,13 +65,6 @@ describe("focusTrapComponent", () => {
     it("supports custom global trap stack", async () => {
       const customFocusTrapStack = [];
 
-      // we clobber Stencil's custom Mock document implementation
-      const { window: win } = new JSDOM();
-
-      // eslint-disable-next-line no-global-assign -- overriding to make window references use JSDOM (which is a subset, hence the type cast)
-      window = win as any as Window & typeof globalThis;
-      globalThis.MutationObserver = window.MutationObserver; // needed for focus-trap
-
       type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "focusTrapStack"> }>;
 
       (globalThis as TestGlobal).calciteConfig = {
@@ -86,7 +76,7 @@ describe("focusTrapComponent", () => {
 
       const focusTrapComponent = await import("./focusTrapComponent");
       const fakeComponent = {} as FocusTrapComponent;
-      fakeComponent.el = win.document.createElement("div");
+      fakeComponent.el = document.createElement("div");
 
       focusTrapComponent.connectFocusTrap(fakeComponent);
       expect(createFocusTrapSpy).toHaveBeenLastCalledWith(

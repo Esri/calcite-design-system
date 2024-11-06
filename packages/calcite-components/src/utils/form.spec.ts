@@ -48,7 +48,7 @@ describe("form", () => {
       formEl.append(el);
       const formOwner: FormOwner = { formEl, form, el };
 
-      expect(findAssociatedForm(formOwner)).toBe(formEl);
+      expect(findAssociatedForm(formOwner)).toStrictEqual(formEl);
     });
 
     it("finds form via ID", async () => {

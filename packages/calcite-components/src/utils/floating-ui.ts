@@ -443,11 +443,15 @@ export async function reposition(
 
   const trackedState = autoUpdatingComponentMap.get(component);
 
+  console.log("BEFORE", delayed);
+
   if (!trackedState) {
     return runAutoUpdate(component);
   }
 
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
+
+  console.log(positionFunction, "RUNNING", delayed);
 
   await positionFunction(component, options);
 }
