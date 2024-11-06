@@ -499,9 +499,10 @@ export class Dropdown
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    this.resizeObserver.observe(el);
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
     this.scrollerEl = el;
-
     this.transitionEl = el;
   }
 
@@ -525,7 +526,9 @@ export class Dropdown
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
     connectFloatingUI(this);
-    this.resizeObserver.observe(el);
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   }
 
   private setFloatingEl(el: HTMLDivElement): void {

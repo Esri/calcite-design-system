@@ -1100,13 +1100,17 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    this.resizeObserver.observe(el);
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
     this.listContainerEl = el;
     this.transitionEl = el;
   }
 
   private setChipContainerEl(el: HTMLDivElement): void {
-    this.resizeObserver.observe(el);
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
     this.chipContainerEl = el;
   }
 

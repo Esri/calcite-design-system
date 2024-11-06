@@ -396,7 +396,7 @@ export class TextArea
       return;
     }
     this.textAreaEl = el;
-    this.resizeObserver.observe(el);
+    this.resizeObserver?.observe(el);
   }
 
   private setTextAreaHeight(): void {
