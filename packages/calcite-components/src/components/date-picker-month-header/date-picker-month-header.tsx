@@ -139,11 +139,11 @@ export class DatePickerMonthHeader extends LitElement {
    * @param changes
    */
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("activeDate") || changes.has("localeData")) {
+    if (this.hasUpdated && (changes.has("activeDate") || changes.has("localeData"))) {
       this.updateSelectMenuWidth();
     }
 
-    if (changes.has("scale")) {
+    if (this.hasUpdated && changes.has("scale")) {
       this.updateScale();
     }
 
