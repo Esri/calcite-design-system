@@ -5,7 +5,6 @@
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
  * @prop --calcite-link-border-color: Specifies the component's border color.
- * @prop --calcite-link-icon-color: Specifies the icon color.
  */
 
 :host {
@@ -47,7 +46,6 @@ calcite-icon {
   block-size: 1em;
   min-inline-size: unset;
   min-block-size: unset;
-  --calcite-icon-color: var(--calcite-link-icon-color);
 }
 
 .calcite-link--icon {

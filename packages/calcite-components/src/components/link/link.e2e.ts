@@ -334,10 +334,6 @@ describe("calcite-link", () => {
         //   shadowSelector: "a",
         //   targetProp: "backgroundImage",
         // },
-        "--calcite-link-icon-color": {
-          shadowSelector: "calcite-icon",
-          targetProp: "color",
-        },
       });
     });
   });

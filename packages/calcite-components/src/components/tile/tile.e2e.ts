@@ -511,10 +511,6 @@ describe("calcite-tile", () => {
               shadowSelector: "calcite-link",
               targetProp: "--calcite-link-border-color",
             },
-            "--calcite-tile-link-icon-color": {
-              shadowSelector: "calcite-link",
-              targetProp: "--calcite-link-icon-color",
-            },
           },
         );
       });
