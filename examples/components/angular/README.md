@@ -21,7 +21,7 @@ npm install @esri/calcite-components
 
 Import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
 
-```js
+```ts
 // src/main.ts
 import { setAssetPath } from "@esri/calcite-components/dist/components";
 
@@ -30,7 +30,7 @@ setAssetPath(location.href);
 
 Next, import the components used in your application:
 
-```js
+```ts
 // src/app/app.component.ts
 import "@esri/calcite-components/dist/components/calcite-button.js";
 import "@esri/calcite-components/dist/components/calcite-icon.js";
