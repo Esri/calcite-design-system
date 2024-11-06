@@ -751,23 +751,23 @@ describe("calcite-panel", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "boxShadow",
         },
-        "--calcite-panel-header-border-color": {
+        "--calcite-panel-border-color: {
           shadowSelector: `.${CSS.header}`,
           targetProp: "borderColor",
         },
-        "--calcite-panel-footer-border-color": {
+        "--calcite-panel-border-color": {
           shadowSelector: `.${CSS.footer}`,
           targetProp: "borderColor",
         },
-        "--calcite-panel-content-top-border-color": {
+        "--calcite-panel-border-color": {
           shadowSelector: `.${CSS.contentTop}`,
           targetProp: "borderColor",
         },
-        "--calcite-panel-content-bottom-border-color": {
+        "--calcite-panel-border-color": {
           shadowSelector: `.${CSS.contentBottom}`,
           targetProp: "borderColor",
         },
-        "--calcite-panel-action-bar-border-color": {
+        "--calcite-panel-border-color": {
           shadowSelector: ``,
           targetProp: "borderColor",
         },

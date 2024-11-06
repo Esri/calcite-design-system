@@ -15,11 +15,6 @@
  * @prop --calcite-panel-content-bottom-background-color: Specifies the border color of the `"content-bottom"` slot.
 
  * @prop --calcite-panel-border-color: Specifies the border color of the component.
- * @prop --calcite-panel-header-border-color: Specifies the border color of the component's header.
- * @prop --calcite-panel-footer-border-color: Specifies the border color of the component's footer.
- * @prop --calcite-panel-content-top-border-color: Specifies the border color of the `"content-top"` slot.
- * @prop --calcite-panel-content-bottom-border-color: Specifies the border color of the `"content-bottom"` slot.
- * @prop --calcite-panel-action-bar-border-color: Specifies the border color of the `"action-bar"` slot.
 
  * @prop --calcite-panel-space: Specifies the padding of the component's `"unnamed (default)"` slot.
  * @prop --calcite-panel-header-content-space: Specifies the padding of the `"header-content"` slot.
@@ -100,13 +95,21 @@
 .content-top {
   background-color: var(--calcite-panel-content-top-background-color, var(--calcite-color-foreground-1));
   padding: var(--calcite-panel-content-top-space, var(--calcite-internal-panel-default-space));
-  border-block: 1px solid var(--calcite-panel-content-top-border-color, var(--calcite-color-border-3));
+  border-block: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .content-bottom {
   background-color: var(--calcite-panel-content-bottom-background-color, var(--calcite-color-foreground-1));
   padding: var(--calcite-panel-content-bottom-space, var(--calcite-internal-panel-default-space));
-  border-block-start: 1px solid var(--calcite-panel-content-bottom-border-color, var(--calcite-color-border-3));
+  border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
+}
+
+.content-wrapper + .footer {
+  border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
+}
+
+:host([collapsed]) .content-top {
+  border-block-end: 0;
 }
 
 .container {
@@ -138,12 +141,12 @@
   items-stretch
   justify-start;
   flex: 0 0 auto;
-  border-block-end: 1px solid var(--calcite-panel-header-border-color, var(--calcite-color-border-3));
+  border-block-end: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container {
   @apply w-full;
-  border-block-end: 1px solid var(--calcite-panel-action-bar-border-color, var(--calcite-color-border-3));
+  border-block-end: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container ~ .content-top,
@@ -259,7 +262,7 @@ calcite-action-menu {
 }
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center text-n2-wrap;
-  border-block-start: 1px solid var(--calcite-panel-footer-border-color, var(--calcite-color-border-3));
+  border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
   padding: var(
     --calcite-panel-footer-space,
     var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-space))
