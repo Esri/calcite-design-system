@@ -35,8 +35,8 @@ describe("dom", () => {
     assignedNodes = [],
     onSlotChange = () => {},
   }: {
-    assignedElements?: HTMLElement[];
-    assignedNodes?: HTMLElement[];
+    assignedElements?: Element[];
+    assignedNodes?: Node[];
     onSlotChange?: (event: Event) => void;
   }): Promise<void> {
     return new Promise<void>((resolve) => {
