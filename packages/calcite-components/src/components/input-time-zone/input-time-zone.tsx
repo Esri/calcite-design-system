@@ -227,11 +227,7 @@ export class InputTimeZone
   }
 
   set value(value: string) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
-      this._value = value;
-      this.handleValueChange(value, oldValue);
-    }
+    this._value = value;
   }
 
   // #endregion
@@ -307,6 +303,10 @@ export class InputTimeZone
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openChanged();
+    }
+
+    if (changes.has("value") && this.value !== changes.get("value")) {
+      this.handleValueChange(this.value, changes.get("value"));
     }
   }
 
