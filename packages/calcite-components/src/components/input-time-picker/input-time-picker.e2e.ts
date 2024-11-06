@@ -688,18 +688,18 @@ describe("calcite-input-time-picker", () => {
           const inputTimePicker = await page.find("calcite-input-time-picker");
           const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
           const initialDelocalizedValue = await inputTimePicker.getProperty("value");
+          const initialLocalizedInputValue = await getInputValue(page);
+          const expectedInitialLocalizedInputValue = localizeTimeString({
+            fractionalSecondDigits: 3,
+            hour12: false,
+            includeSeconds: true,
+            locale,
+            value: initialDelocalizedValue,
+          });
 
           expect(changeEvent).toHaveReceivedEventTimes(0);
           expect(initialDelocalizedValue).toBe("14:02:30.001");
-          expect(await getInputValue(page)).toBe(
-            localizeTimeString({
-              fractionalSecondDigits: 3,
-              hour12: false,
-              includeSeconds: true,
-              locale,
-              value: initialDelocalizedValue,
-            }),
-          );
+          expect(initialLocalizedInputValue).toBe(expectedInitialLocalizedInputValue);
 
           let localizedValueToType = `14${localizedHourSuffix}30${localizedMinuteSuffix}45${localizedDecimalSeparator}002`;
           if (localizedSecondSuffix) {
