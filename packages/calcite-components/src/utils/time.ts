@@ -221,18 +221,17 @@ export function getMeridiemFormatToken(locale: SupportedLocale): "a" | "A" | "a 
   const localizedAM = getLocalizedMeridiem(locale, "AM");
   const localizedPM = getLocalizedMeridiem(locale, "PM");
   const meridiemOrder = getMeridiemOrder(locale);
-  let separator: "" | " ";
   const timeParts = getTimeParts({
     hour12: true,
     value: "00:00:00",
     locale,
     numberingSystem: "latn",
   });
-  if (meridiemOrder === 0) {
-    separator = timeParts[1].type === "hour" ? "" : " ";
-  } else {
-    separator = timeParts[meridiemOrder - 1].type === "second" ? "" : " ";
-  }
+  const separator =
+    timeParts[meridiemOrder === 0 ? 1 : meridiemOrder - 1].type === "hour" ||
+    timeParts[meridiemOrder - 1]?.type === "second"
+      ? ""
+      : " ";
   if (
     // Unknown dayjs parsing bug with norwegian.  Dayjs only accepts uppercase meridiems for some reason, despite the LT/LTS config
     locale !== "no" &&
