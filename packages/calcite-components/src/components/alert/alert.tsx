@@ -52,9 +52,7 @@ const manager = new AlertManager();
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
- */
-
-/**
+ *
  * @slot title - A slot for adding a title to the component.
  * @slot message - A slot for adding main text to the component.
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.

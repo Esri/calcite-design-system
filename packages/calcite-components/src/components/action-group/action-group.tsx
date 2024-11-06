@@ -17,7 +17,7 @@ import {
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Columns } from "./interfaces";
 import { ActionGroupMessages } from "./assets/action-group/t9n";
 import { ICONS, SLOTS, CSS } from "./resources";
@@ -145,7 +145,7 @@ export class ActionGroup implements LoadableComponent, LocalizedComponent, T9nCo
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
   // --------------------------------------------------------------------------
   //
