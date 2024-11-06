@@ -28,9 +28,9 @@ import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { slotChangeHasContent } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/button.t9n.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -76,9 +76,6 @@ export class Button
   formEl: HTMLFormElement;
 
   labelEl: Label["el"];
-
-  /** watches for changing text content */
-  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
 
@@ -208,16 +205,12 @@ export class Button
   // #region Lifecycle
 
   override connectedCallback(): void {
-    this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
   }
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    if (isBrowser()) {
-      this.updateHasContent();
-    }
   }
 
   override updated(): void {
@@ -230,7 +223,6 @@ export class Button
   }
 
   override disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     disconnectLabel(this);
     this.resizeObserver?.disconnect();
     this.formEl = null;
@@ -242,18 +234,6 @@ export class Button
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
-  }
-
-  private updateHasContent() {
-    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
-    this.hasContent =
-      this.el.childNodes.length === 1 && this.el.childNodes[0]?.nodeName === "#text"
-        ? this.el.textContent?.trim().length > 0
-        : slottedContent;
-  }
-
-  private setupTextContentObserver() {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   onLabelClick(): void {
@@ -274,6 +254,10 @@ export class Button
     } else if (type === "reset") {
       resetForm(this);
     }
+  }
+
+  private handleSlotChange(event: Event): void {
+    this.hasContent = slotChangeHasContent(event);
   }
 
   private setTooltipText(): void {
@@ -335,7 +319,7 @@ export class Button
 
     const contentEl = (
       <span class={CSS.content} ref={this.contentEl}>
-        <slot />
+        <slot onSlotChange={this.handleSlotChange} />
       </span>
     );
 
