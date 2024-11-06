@@ -114,7 +114,6 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
    *
    * @private
    */
-  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   messages = useT9n<typeof T9nStrings>();
 
   /**

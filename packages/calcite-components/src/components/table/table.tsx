@@ -108,7 +108,6 @@ export class Table extends LitElement implements LoadableComponent {
    *
    * @private
    */
-  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** When `true`, displays the position of the row in numeric form. */

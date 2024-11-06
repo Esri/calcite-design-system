@@ -153,7 +153,6 @@ export class Slider
 
   private maxHandle: HTMLDivElement;
 
-  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   messages = useT9n<Record<string, never>>({ name: null });
 
   private minHandle: HTMLDivElement;

@@ -60,7 +60,6 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
 
   private maxPercent = 100;
 
-  /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
   messages = useT9n<Record<string, never>>({ name: null });
 
   private meterContainerEl = createRef<HTMLDivElement>();

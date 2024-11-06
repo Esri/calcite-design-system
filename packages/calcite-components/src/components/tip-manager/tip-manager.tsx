@@ -35,8 +35,7 @@ export class TipManager extends LitElement {
    * Made into a prop for testing purposes only
    *
    * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>();
+   */ messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver = createObserver("mutation", () => this.setUpTips());
 
