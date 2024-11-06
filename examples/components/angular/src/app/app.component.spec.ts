@@ -4,6 +4,7 @@ import {
   ComponentFixtureAutoDetect,
   TestBed,
 } from '@angular/core/testing';
+import { setAssetPath } from '@esri/calcite-components/dist/components';
 import { AppComponent } from './app.component';
 
 let app: AppComponent;
@@ -19,6 +20,8 @@ describe('AppComponent', () => {
 
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
+
+    setAssetPath(window.location.href);
   });
 
   it('should create the app', () => {

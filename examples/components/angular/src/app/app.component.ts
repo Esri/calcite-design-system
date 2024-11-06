@@ -6,7 +6,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { setAssetPath } from '@esri/calcite-components/dist/components';
 import '@esri/calcite-components/dist/components/calcite-button.js';
 import '@esri/calcite-components/dist/components/calcite-icon.js';
 import '@esri/calcite-components/dist/components/calcite-loader.js';
@@ -28,7 +27,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetch();
-    setAssetPath(window.location.href);
   }
 
   ngOnDestroy(): void {
