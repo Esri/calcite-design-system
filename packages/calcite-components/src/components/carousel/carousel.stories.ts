@@ -32,10 +32,10 @@ export default {
 export const simple = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
-      control-overlay="${args.controlOverlay}"
+      ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
       autoplay-duration="${args.autoplayDuration}"
-      ${args.autoplay ? "autoplay" : ""}
+      ${boolean("autoplay", args.autoplay)}
       label="${args.label}"
       arrow-type="${args.arrowType}"
     >
