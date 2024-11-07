@@ -179,7 +179,7 @@ export class TextArea
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * Specifies the minimum number of characters allowed.
@@ -384,7 +384,7 @@ export class TextArea
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.isCharacterLimitExceeded()) {
-      input.setCustomValidity(this.replacePlaceHoldersInMessages());
+      input.setCustomValidity(this.replacePlaceholdersInMessages());
     }
 
     syncHiddenFormInput("textarea", this, input);
@@ -416,8 +416,9 @@ export class TextArea
     const { height: textAreaHeight, width: textAreaWidth } =
       this.textAreaEl.getBoundingClientRect();
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } =
-      this.footerEl.value.getBoundingClientRect();
+    const { height: footerHeight, width: footerWidth } = this.footerEl.value
+      ? this.footerEl.value.getBoundingClientRect()
+      : { height: 0, width: 0 };
 
     return {
       textAreaHeight,
@@ -429,7 +430,7 @@ export class TextArea
     };
   }
 
-  private replacePlaceHoldersInMessages(): string {
+  private replacePlaceholdersInMessages(): string {
     return this.messages.tooLong
       .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength)
       .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength);
@@ -509,7 +510,7 @@ export class TextArea
         <HiddenFormInputSlot component={this} />
         {this.isCharacterLimitExceeded() && (
           <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
-            {this.replacePlaceHoldersInMessages()}
+            {this.replacePlaceholdersInMessages()}
           </span>
         )}
         {this.validationMessage && this.status === "invalid" ? (

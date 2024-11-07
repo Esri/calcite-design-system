@@ -112,6 +112,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
       await page.evaluate(async (tag: ComponentTag) => {
         const component = document.createElement(tag) as CalciteComponentsWithMessageOverrides;
         document.body.append(component);
+        await customElements.whenDefined(tag);
         await component.componentOnReady();
         component.messageOverrides = { ...component.messageOverrides };
         component.remove();
