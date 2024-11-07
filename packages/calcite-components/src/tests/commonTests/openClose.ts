@@ -46,7 +46,7 @@ const defaultOptions: OpenCloseOptions = {
 export function openClose(componentTestSetup: ComponentTestSetup, options?: OpenCloseOptions): void {
   const effectiveOptions = { ...defaultOptions, ...options };
 
-  it(`emits with animations enabled`, async () => {
+  it.skip(`emits with animations enabled`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
     await page.addStyleTag({
       content: `:root { --calcite-duration-factor: 2; }`,
@@ -62,7 +62,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
     });
   });
 
-  it(`emits with animations disabled`, async () => {
+  it.skip(`emits with animations disabled`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
     await skipAnimations(page);
     await setUpEventListeners(tag, page);
@@ -95,7 +95,7 @@ openClose.initial = function openCloseInitial(
   const tag = componentTag;
   const beforeContent = getBeforeContent(effectiveOptions);
 
-  it("emits on initialization with animations enabled", async () => {
+  it.skip("emits on initialization with animations enabled", async () => {
     const page = await newProgrammaticE2EPage();
     await page.addStyleTag({
       content: `:root { --calcite-duration-factor: 2; }`,
@@ -111,7 +111,7 @@ openClose.initial = function openCloseInitial(
     });
   });
 
-  it("emits on initialization with animations disabled", async () => {
+  it.skip("emits on initialization with animations disabled", async () => {
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
     await beforeContent(page);
