@@ -794,7 +794,7 @@ describe("calcite-stepper", () => {
           <calcite-stepper-item heading="Step 2" id="step-2">
             <calcite-button id="button2">Click</calcite-button>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 3" id="step-2">
+          <calcite-stepper-item heading="Step 3" id="step-3">
             <calcite-button id="button3">Click</calcite-button>
           </calcite-stepper-item>
         </calcite-stepper>`,
