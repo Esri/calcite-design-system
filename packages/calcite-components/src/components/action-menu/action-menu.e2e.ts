@@ -76,7 +76,7 @@ describe("calcite-action-menu", () => {
       },
       {
         propertyName: "scale",
-        defaultValue: undefined,
+        defaultValue: "m",
       },
     ]);
   });

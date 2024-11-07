@@ -1,6 +1,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { focusFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -104,8 +104,7 @@ export class ActionPad extends LitElement implements LoadableComponent {
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-
-    this.el?.focus();
+    focusFirstTabbable(this.el);
   }
 
   // #endregion

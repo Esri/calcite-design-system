@@ -44,7 +44,7 @@ describe("calcite-action-pad", () => {
       },
       {
         propertyName: "scale",
-        defaultValue: undefined,
+        defaultValue: "m",
       },
     ]);
   });

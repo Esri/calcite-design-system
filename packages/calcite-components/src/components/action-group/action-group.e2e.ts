@@ -39,6 +39,10 @@ describe("calcite-action-group", () => {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ]);
   });
 

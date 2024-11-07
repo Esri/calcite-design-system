@@ -40,7 +40,7 @@ describe("calcite-action-bar", () => {
       },
       {
         propertyName: "scale",
-        defaultValue: undefined,
+        defaultValue: "m",
       },
       {
         propertyName: "layout",
