@@ -1,7 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, themed, t9n } from "../../tests/commonTests";
-import T9nStrings from "./assets/t9n/handle.t9n.en.json";
 import { CSS, SUBSTITUTIONS } from "./resources";
 import type { HandleNudge } from "./interfaces";
 import type { Handle } from "./handle";
@@ -32,7 +31,7 @@ describe("calcite-handle", () => {
     const handle = await page.find("calcite-handle");
     await handle.callMethod("setFocus");
     const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
-    const messages: typeof T9nStrings = await handle.getProperty("messages");
+    const messages = await import("./assets/t9n/messages.json");
 
     expect(await button.getProperty("title")).toBe(messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label));
   });
