@@ -229,7 +229,7 @@ export class ActionBar extends LitElement implements LoadableComponent {
       this.expandDisabledHandler();
     }
 
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
+    if (changes.has("expanded") && this.hasUpdated) {
       this.expandedHandler();
     }
 

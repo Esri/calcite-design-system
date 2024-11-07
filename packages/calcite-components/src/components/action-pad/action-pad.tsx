@@ -141,7 +141,7 @@ export class ActionPad extends LitElement implements LoadableComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
+    if (changes.has("expanded") && this.hasUpdated) {
       this.expandedHandler(this.expanded);
     }
 
