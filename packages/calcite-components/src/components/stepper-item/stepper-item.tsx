@@ -325,6 +325,10 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
     this.el.ariaCurrent = this.selected ? "step" : "false";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "tabIndex", this.disabled ? -1 : 0);
+
+    // use local var to bypass logic-changing compiler transformation
+    const innerDisplayContextTabIndex = this.layout === "horizontal" && !this.disabled ? 0 : null;
+
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
@@ -336,10 +340,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
           <div
             class={CSS.stepperItemHeader}
             ref={this.headerEl}
-            tabIndex={
-              /* additional tab index logic needed because of display: contents */
-              this.layout === "horizontal" && !this.disabled ? 0 : null
-            }
+            tabIndex={innerDisplayContextTabIndex}
           >
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (
