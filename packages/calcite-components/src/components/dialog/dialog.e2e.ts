@@ -211,8 +211,19 @@ describe("calcite-dialog", () => {
     ]);
   });
 
-  describe("accessible", () => {
-    accessible(`<calcite-dialog heading="My Dialog" description="My Description" open>Hello world!</calcite-dialog>`);
+  describe("accessible", async () => {
+    accessible(async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        `<calcite-dialog heading="My Dialog" description="My Description" open>Hello world!</calcite-dialog>`,
+      );
+      const openEvent = page.waitForEvent("calciteDialogOpen");
+      await skipAnimations(page);
+      await openEvent;
+
+      return { page, tag: "calcite-dialog" };
+    });
   });
 
   it("should set internal panel properties", async () => {
@@ -599,7 +610,6 @@ describe("calcite-dialog", () => {
         </calcite-dialog>
       `);
       await skipAnimations(page);
-
       await page.waitForChanges();
 
       await page.evaluate(() => {
@@ -615,12 +625,11 @@ describe("calcite-dialog", () => {
           dialog2.open = true;
         });
       });
-
+      await page.waitForChanges();
       await page.waitForEvent("calciteDialogOpen");
+
       await page.click("#openButton");
       await page.waitForEvent("calciteDialogOpen");
-
-      await page.waitForChanges();
 
       expect(await isElementFocused(page, "#dialog2")).toBe(true);
     });
