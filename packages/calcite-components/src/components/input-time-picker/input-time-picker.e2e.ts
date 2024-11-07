@@ -27,11 +27,7 @@ import { CSS as PopoverCSS } from "../../components/popover/resources";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(
-    () =>
-      document
-        .querySelector("calcite-input-time-picker")
-        .shadowRoot.querySelector("calcite-input-text")
-        .shadowRoot.querySelector("input").value,
+    () => document.querySelector("calcite-input-time-picker").shadowRoot.querySelector("calcite-input-text").value,
   );
 }
 
