@@ -15,6 +15,7 @@ import {
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
+import { focusFirstTabbable } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./split-button.scss";
 
@@ -127,7 +128,7 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   // #endregion
