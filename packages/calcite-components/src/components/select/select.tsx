@@ -328,8 +328,12 @@ export class Select
     this.componentToNativeEl.clear();
   }
 
-  private storeSelectRef(node: HTMLSelectElement): void {
-    this.selectEl = node;
+  private storeSelectRef(el: HTMLSelectElement): void {
+    if (!el) {
+      return;
+    }
+
+    this.selectEl = el;
     this.populateInternalSelect();
 
     const selected = this.selectEl.selectedOptions[0];

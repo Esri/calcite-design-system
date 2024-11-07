@@ -128,15 +128,15 @@ describe("calcite-select", () => {
     });
 
     it("selects the last selected option when multiple are selected", async () => {
-      const page = await newE2EPage({
-        html: html`
-          <calcite-select>
-            <calcite-option selected>uno</calcite-option>
-            <calcite-option selected>dos</calcite-option>
-            <calcite-option selected>tres</calcite-option>
-          </calcite-select>
-        `,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-select>
+          <calcite-option selected>uno</calcite-option>
+          <calcite-option selected>dos</calcite-option>
+          <calcite-option selected>tres</calcite-option>
+        </calcite-select>
+      `);
+      await page.waitForChanges();
       const selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
@@ -243,22 +243,22 @@ describe("calcite-select", () => {
     });
 
     it("selects the last selected option when multiple are selected", async () => {
-      const page = await newE2EPage({
-        html: html`
-          <calcite-select>
-            <calcite-option-group label="letters">
-              <calcite-option selected>a</calcite-option>
-              <calcite-option selected>b</calcite-option>
-              <calcite-option selected>c</calcite-option>
-            </calcite-option-group>
-            <calcite-option-group label="numbers">
-              <calcite-option selected>1</calcite-option>
-              <calcite-option selected>2</calcite-option>
-              <calcite-option selected>3</calcite-option>
-            </calcite-option-group>
-          </calcite-select>
-        `,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-select>
+          <calcite-option-group label="letters">
+            <calcite-option selected>a</calcite-option>
+            <calcite-option selected>b</calcite-option>
+            <calcite-option selected>c</calcite-option>
+          </calcite-option-group>
+          <calcite-option-group label="numbers">
+            <calcite-option selected>1</calcite-option>
+            <calcite-option selected>2</calcite-option>
+            <calcite-option selected>3</calcite-option>
+          </calcite-option-group>
+        </calcite-select>
+      `);
+      await page.waitForChanges();
       const selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
