@@ -433,8 +433,10 @@ export class InputTimePicker
       return;
     }
 
-    // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
-    this.popoverEl.open = this.open;
+    if (this.popoverEl) {
+      // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
+      this.popoverEl.open = this.open;
+    }
   }
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
