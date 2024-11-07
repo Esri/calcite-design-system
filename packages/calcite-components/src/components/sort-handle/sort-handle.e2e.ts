@@ -52,7 +52,7 @@ describe("calcite-sort-handle", () => {
 
     const sortHandle = await page.find("calcite-sort-handle");
 
-    const calciteSortHandleReorderSpy = await page.spyOnEvent<ReorderEventDetail>("calciteHandleNudge");
+    const calciteSortHandleReorderSpy = await page.spyOnEvent<ReorderEventDetail>("calciteSortHandleReorder");
 
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
@@ -81,7 +81,7 @@ describe("calcite-sort-handle", () => {
     sortHandle.setProperty("moveToItems", moveToItems);
     await page.waitForChanges();
 
-    const calciteSortHandleMoveSpy = await page.spyOnEvent<MoveEventDetail>("calciteHandleNudge");
+    const calciteSortHandleMoveSpy = await page.spyOnEvent<MoveEventDetail>("calciteSortHandleMove");
 
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
