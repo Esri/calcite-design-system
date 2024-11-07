@@ -387,6 +387,10 @@ export class TabNav extends LitElement {
   }
 
   private storeTabTitleWrapperRef(el: HTMLDivElement) {
+    if (!el) {
+      return;
+    }
+
     this.tabTitleContainerEl = el;
     this.intersectionObserver = createObserver("intersection", () => this.updateScrollingState(), {
       root: el,
