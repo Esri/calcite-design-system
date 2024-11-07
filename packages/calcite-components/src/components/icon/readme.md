@@ -51,7 +51,6 @@ For comprehensive guidance on using and implementing `calcite-icon`, refer to th
 - [calcite-navigation-logo](../navigation-logo)
 - [calcite-notice](../notice)
 - [calcite-pagination](../pagination)
-- [calcite-pick-list-item](../pick-list-item)
 - [calcite-popover](../popover)
 - [calcite-rating](../rating)
 - [calcite-segmented-control-item](../segmented-control-item)
@@ -65,7 +64,6 @@ For comprehensive guidance on using and implementing `calcite-icon`, refer to th
 - [calcite-time-picker](../time-picker)
 - [calcite-tip-manager](../tip-manager)
 - [calcite-tree-item](../tree-item)
-- [calcite-value-list-item](../value-list-item)
 
 ### Graph
 
@@ -98,7 +96,6 @@ graph TD;
   calcite-navigation-logo --> calcite-icon
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon
-  calcite-pick-list-item --> calcite-icon
   calcite-popover --> calcite-icon
   calcite-rating --> calcite-icon
   calcite-segmented-control-item --> calcite-icon
@@ -112,7 +109,6 @@ graph TD;
   calcite-time-picker --> calcite-icon
   calcite-tip-manager --> calcite-icon
   calcite-tree-item --> calcite-icon
-  calcite-value-list-item --> calcite-icon
   style calcite-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

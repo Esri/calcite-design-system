@@ -32,9 +32,7 @@ For comprehensive guidance on using and implementing `calcite-scrim`, refer to t
 - [calcite-list](../list)
 - [calcite-modal](../modal)
 - [calcite-panel](../panel)
-- [calcite-pick-list](../pick-list)
 - [calcite-sheet](../sheet)
-- [calcite-value-list](../value-list)
 
 ### Depends on
 
@@ -50,9 +48,7 @@ graph TD;
   calcite-list --> calcite-scrim
   calcite-modal --> calcite-scrim
   calcite-panel --> calcite-scrim
-  calcite-pick-list --> calcite-scrim
   calcite-sheet --> calcite-scrim
-  calcite-value-list --> calcite-scrim
   style calcite-scrim fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -42,6 +42,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+- [calcite-sort-handle](../sort-handle)
+
 ### Depends on
 
 - [calcite-icon](../icon)
@@ -51,6 +55,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-dropdown-item --> calcite-icon
+  calcite-sort-handle --> calcite-dropdown-item
   style calcite-dropdown-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

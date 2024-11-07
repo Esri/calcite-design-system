@@ -43,11 +43,12 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                | Description                                          |
-| ----------------------------------- | ---------------------------------------------------- |
-| `--calcite-navigation-background`   | Specifies the background color of the component.     |
-| `--calcite-navigation-border-color` | Specifies the border color of the component.         |
-| `--calcite-navigation-width`        | Specifies the width of the component's content area. |
+| Name                                    | Description                                                                                                |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `--calcite-navigation-background`       | [Deprecated] Use `--calcite-navigation-background-color`. Specifies the background color of the component. |
+| `--calcite-navigation-background-color` | Specifies component's background color.                                                                    |
+| `--calcite-navigation-border-color`     | Specifies the border color of the component.                                                               |
+| `--calcite-navigation-width`            | Specifies the width of the component's content area.                                                       |
 
 ## Dependencies
 

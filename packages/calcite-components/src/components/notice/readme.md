@@ -4,6 +4,13 @@ For comprehensive guidance on using and implementing `calcite-notice`, refer to 
 
 <!-- Auto Generated Below -->
 
+## Overview
+
+Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
+They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+
 ## Properties
 
 | Property           | Attribute           | Description                                                                                                           | Type                                                      | Default     |

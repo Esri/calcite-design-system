@@ -44,7 +44,6 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-block](../block)
-- [calcite-list-item](../list-item)
 
 ### Depends on
 
@@ -56,7 +55,6 @@ Type: `Promise<void>`
 graph TD;
   calcite-handle --> calcite-icon
   calcite-block --> calcite-handle
-  calcite-list-item --> calcite-handle
   style calcite-handle fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

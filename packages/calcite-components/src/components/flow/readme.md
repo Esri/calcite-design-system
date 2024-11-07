@@ -14,6 +14,8 @@ Removes the currently active `calcite-flow-item`.
 
 Type: `Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>`
 
+Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
+
 ### `setFocus() => Promise<void>`
 
 Sets focus on the component.
@@ -21,6 +23,8 @@ Sets focus on the component.
 #### Returns
 
 Type: `Promise<void>`
+
+Promise<void>
 
 ## Slots
 

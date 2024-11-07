@@ -54,8 +54,6 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-list](../list)
-- [calcite-pick-list](../pick-list)
-- [calcite-value-list](../value-list)
 
 ### Depends on
 
@@ -71,8 +69,6 @@ graph TD;
   calcite-input --> calcite-input-message
   calcite-input-message --> calcite-icon
   calcite-list --> calcite-filter
-  calcite-pick-list --> calcite-filter
-  calcite-value-list --> calcite-filter
   style calcite-filter fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

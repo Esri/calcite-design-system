@@ -36,8 +36,10 @@ For comprehensive guidance on using and implementing `calcite-input-message`, re
 - [calcite-input-text](../input-text)
 - [calcite-input-time-picker](../input-time-picker)
 - [calcite-radio-button-group](../radio-button-group)
+- [calcite-rating](../rating)
 - [calcite-segmented-control](../segmented-control)
 - [calcite-select](../select)
+- [calcite-slider](../slider)
 - [calcite-text-area](../text-area)
 
 ### Depends on
@@ -56,8 +58,10 @@ graph TD;
   calcite-input-text --> calcite-input-message
   calcite-input-time-picker --> calcite-input-message
   calcite-radio-button-group --> calcite-input-message
+  calcite-rating --> calcite-input-message
   calcite-segmented-control --> calcite-input-message
   calcite-select --> calcite-input-message
+  calcite-slider --> calcite-input-message
   calcite-text-area --> calcite-input-message
   style calcite-input-message fill:#f9f,stroke:#333,stroke-width:4px
 ```

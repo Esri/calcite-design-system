@@ -71,12 +71,14 @@ Type: `Promise<void>`
 
 ### Used by
 
+- [calcite-sort-handle](../sort-handle)
 - [calcite-split-button](../split-button)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-sort-handle --> calcite-dropdown
   calcite-split-button --> calcite-dropdown
   style calcite-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```

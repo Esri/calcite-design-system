@@ -4,6 +4,11 @@ For comprehensive guidance on using and implementing `calcite-alert`, refer to t
 
 <!-- Auto Generated Below -->
 
+## Overview
+
+Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                           | Type                                                                              | Default     |

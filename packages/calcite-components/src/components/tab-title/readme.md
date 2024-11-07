@@ -4,6 +4,10 @@ For comprehensive guidance on using and implementing `calcite-tab-title`, refer 
 
 <!-- Auto Generated Below -->
 
+## Overview
+
+Tab-titles are optionally individually closable.
+
 ## Properties
 
 | Property           | Attribute           | Description                                                                                                                                       | Type                         | Default     |

@@ -34,14 +34,13 @@ A general purpose list that enables users to construct list items that conform t
 
 ## Events
 
-| Event                                  | Description                                                              | Type                          |
-| -------------------------------------- | ------------------------------------------------------------------------ | ----------------------------- |
-| `calciteInternalListDefaultSlotChange` | Fires when the default slot has changes in order to notify parent lists. | `CustomEvent<void>`           |
-| `calciteListChange`                    | Fires when the component's selected items have changed.                  | `CustomEvent<void>`           |
-| `calciteListDragEnd`                   | Fires when the component's dragging has ended.                           | `CustomEvent<ListDragDetail>` |
-| `calciteListDragStart`                 | Fires when the component's dragging has started.                         | `CustomEvent<ListDragDetail>` |
-| `calciteListFilter`                    | Fires when the component's filter has changed.                           | `CustomEvent<void>`           |
-| `calciteListOrderChange`               | Fires when the component's item order changes.                           | `CustomEvent<ListDragDetail>` |
+| Event                    | Description                                             | Type                          |
+| ------------------------ | ------------------------------------------------------- | ----------------------------- |
+| `calciteListChange`      | Fires when the component's selected items have changed. | `CustomEvent<void>`           |
+| `calciteListDragEnd`     | Fires when the component's dragging has ended.          | `CustomEvent<ListDragDetail>` |
+| `calciteListDragStart`   | Fires when the component's dragging has started.        | `CustomEvent<ListDragDetail>` |
+| `calciteListFilter`      | Fires when the component's filter has changed.          | `CustomEvent<void>`           |
+| `calciteListOrderChange` | Fires when the component's item order changes.          | `CustomEvent<ListDragDetail>` |
 
 ## Methods
 

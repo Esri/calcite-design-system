@@ -70,8 +70,8 @@ Type: `Promise<void>`
 - [calcite-menu-item](../menu-item)
 - [calcite-navigation](../navigation)
 - [calcite-panel](../panel)
-- [calcite-pick-list-item](../pick-list-item)
 - [calcite-popover](../popover)
+- [calcite-sort-handle](../sort-handle)
 - [calcite-stepper](../stepper)
 - [calcite-tip](../tip)
 - [calcite-tip-manager](../tip-manager)
@@ -97,8 +97,8 @@ graph TD;
   calcite-menu-item --> calcite-action
   calcite-navigation --> calcite-action
   calcite-panel --> calcite-action
-  calcite-pick-list-item --> calcite-action
   calcite-popover --> calcite-action
+  calcite-sort-handle --> calcite-action
   calcite-stepper --> calcite-action
   calcite-tip --> calcite-action
   calcite-tip-manager --> calcite-action

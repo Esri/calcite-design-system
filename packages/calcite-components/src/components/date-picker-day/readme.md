@@ -19,12 +19,6 @@
 | `startOfRange`     | `start-of-range` | Date is the start of date range.                                                         | `boolean`           | `false`     |
 | `value`            | --               | The component's value.                                                                   | `Date`              | `undefined` |
 
-## Events
-
-| Event                      | Description                  | Type                |
-| -------------------------- | ---------------------------- | ------------------- |
-| `calciteInternalDaySelect` | Fires when user selects day. | `CustomEvent<void>` |
-
 ## Methods
 
 ### `setFocus() => Promise<void>`

@@ -48,12 +48,16 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                    | Description                                            |
-| --------------------------------------- | ------------------------------------------------------ |
-| `--calcite-tile-background-color`       | Specifies the background color of the component.       |
-| `--calcite-tile-border-color`           | Specifies the border color of the component.           |
-| `--calcite-tile-description-text-color` | Specifies the description text color of the component. |
-| `--calcite-tile-heading-text-color`     | Specifies the heading text color of the component.     |
+| Name                                | Description                                                                                                                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--calcite-tile-accent-color-press` | When the parent `calcite-tile-group` has a `selectionMode` that is not `"none"`, specifies the color of the component's selection elements, such as the radio, checkbox, and border. |
+| `--calcite-tile-background-color`   | Specifies the component's background color.                                                                                                                                          |
+| `--calcite-tile-border-color`       | Specifies the component's border color.                                                                                                                                              |
+| `--calcite-tile-corner-radius`      | Specifies the component's corner radius.                                                                                                                                             |
+| `--calcite-tile-heading-text-color` | Specifies the component's `heading` text color.                                                                                                                                      |
+| `--calcite-tile-link-color`         | When `href` is present, specifies the component's link color.                                                                                                                        |
+| `--calcite-tile-shadow`             | Specifies the shadow around the component.                                                                                                                                           |
+| `--calcite-tile-text-color`         | Specifies the component's `description` and `icon` text color, but not the `heading` text color.                                                                                     |
 
 ## Dependencies
 

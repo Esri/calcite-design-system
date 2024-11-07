@@ -11,12 +11,6 @@ For comprehensive guidance on using and implementing `calcite-list-item-group`, 
 | `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
 | `heading`  | `heading`  | The header text for all nested `calcite-list-item` rows.                                 | `string`  | `undefined` |
 
-## Events
-
-| Event                                           | Description                                                                          | Type                |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------- |
-| `calciteInternalListItemGroupDefaultSlotChange` | Fires when changes occur in the default slot, notifying parent lists of the changes. | `CustomEvent<void>` |
-
 ## Slots
 
 | Slot | Description                                                                   |
