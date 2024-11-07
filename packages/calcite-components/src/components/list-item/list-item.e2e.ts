@@ -54,10 +54,6 @@ describe("calcite-list-item", () => {
         defaultValue: false,
       },
       {
-        propertyName: "interactionMode",
-        defaultValue: null,
-      },
-      {
         propertyName: "unavailable",
         defaultValue: false,
       },
