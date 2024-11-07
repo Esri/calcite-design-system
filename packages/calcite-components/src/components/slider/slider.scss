@@ -40,7 +40,7 @@
   &:host([layout="vertical"]) {
     transform: rotate(-90deg);
   }
-  
+
   // remove top padding applied by validation component.
   .validation-container {
     padding-block-start: 0 !important;
@@ -121,7 +121,7 @@
       content: "\2014";
       display: inline-block;
       inline-size: 1em;
-      margin-inline: 0.25rem;
+      margin-inline-start: 0.1875rem;
     }
     &.hyphen--wrap {
       display: flex;
