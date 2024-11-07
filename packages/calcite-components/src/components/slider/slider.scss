@@ -1,3 +1,23 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-slider-track-color: Specifies the component's track color.
+ * @prop --calcite-slider-track-fill-color: Specifies the component's fill track color.
+ * @prop --calcite-slider-handle-fill-color: Specifies the component's handle fill color.
+ * @prop --calcite-slider-handle-fill-color-active: Specifies the component's handle fill color when active.
+ * @prop --calcite-slider-handle-outline-color: Specifies the component's handle outline color.
+ * @prop --calcite-slider-handle-outline-color-hover: Specifies the component's handle outline color when hovered.
+ * @prop --calcite-slider-handle-extension-color: Specifies the component's handle extension color.
+ * @prop --calcite-slider-handle-extension-color-hover: Specifies the component's handle extension color when hovered.
+ * @prop --calcite-slider-handle-extension-color-focus: Specifies the component's handle extension color when focused.
+ * @prop --calcite-slider-tick-color: Specifies the component's tick color.
+ * @prop --calcite-slider-tick-color-active: Specifies the component's tick color when active.
+ * @prop --calcite-slider-text-color: Specifies the component's text color.
+ *
+ */
+
 .scale--s {
   --calcite-slider-handle-size: theme("spacing[2.5]");
   --calcite-slider-handle-extension-height: 0.4rem;
@@ -30,7 +50,8 @@
 
 .handle__label,
 .tick__label {
-  @apply text-color-2 font-medium;
+  @apply font-medium;
+  color: var(--calcite-slider-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-slider-container-font-size);
 }
 
@@ -125,12 +146,12 @@
 
   .handle {
     @apply focus-base
-      bg-foreground-1
       box-border
       rounded-full;
+    background-color: var(--calcite-slider-handle-fill-color, var(--calcite-color-foreground-1));
     block-size: var(--calcite-slider-handle-size);
     inline-size: var(--calcite-slider-handle-size);
-    box-shadow: 0 0 0 2px var(--calcite-color-text-3) inset;
+    box-shadow: 0 0 0 2px var(--calcite-slider-handle-outline-color, var(--calcite-color-text-3)) inset;
     transition:
       border var(--calcite-internal-animation-timing-medium) ease,
       background-color var(--calcite-internal-animation-timing-medium) ease,
@@ -140,24 +161,28 @@
   .handle-extension {
     @apply w-0.5;
     block-size: var(--calcite-slider-handle-extension-height);
-    background-color: var(--calcite-color-text-3);
+    background-color: var(--calcite-slider-handle-extension-color, var(--calcite-color-text-3));
   }
 
   &:hover {
     .handle {
-      box-shadow: 0 0 0 3px var(--calcite-color-brand) inset;
+      box-shadow: 0 0 0 3px var(--calcite-slider-handle-outline-color-hover, var(--calcite-color-brand)) inset;
     }
     .handle-extension {
-      @apply bg-brand;
+      background-color: var(--calcite-slider-handle-extension-color-hover, var(--calcite-color-brand));
     }
   }
 
   &:focus {
     .handle {
       @apply focus-outset;
+      outline-color: var(
+        --calcite-slider-handle-outline-color-focus,
+        var(--calcite-ui-focus-color, var(--calcite-color-brand))
+      );
     }
     .handle-extension {
-      @apply bg-brand;
+      background-color: var(--calcite-slider-handle-extension-color-focus, var(--calcite-color-brand));
     }
   }
 
@@ -221,7 +246,7 @@
 .thumb:focus,
 .thumb--active {
   .handle {
-    @apply bg-brand;
+    background-color: var(--calcite-slider-handle-fill-color-active, var(--calcite-color-brand));
     box-shadow: 0 0 8px 0 rgb(0 0 0 / 16%); // shadow 1 press
   }
 }
@@ -229,21 +254,22 @@
 .thumb:hover.thumb--precise::after,
 .thumb:focus.thumb--precise::after,
 .thumb--active.thumb--precise::after {
-  @apply bg-brand;
+  background-color: var(--calcite-slider-handle-fill-color-active, var(--calcite-color-brand));
 }
 
 .track {
   @apply relative h-0.5 rounded-none;
-  background-color: var(--calcite-color-border-2);
+  background-color: var(--calcite-slider-track-color, var(--calcite-color-border-2));
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
 }
 
 .track__range {
-  @apply bg-brand
-  absolute
+  @apply absolute
   top-0
   h-0.5;
+  background-color: var(--calcite-slider-track-fill-color, var(--calcite-color-brand));
 }
+
 .container--range {
   .track__range {
     &:hover {
@@ -287,7 +313,7 @@
     w-0.5
     border
     border-solid;
-  background-color: var(--calcite-color-border-input);
+  background-color: var(--calcite-slider-tick-color, var(--calcite-color-border-input));
   border-color: var(--calcite-color-foreground-1);
   inset-block-start: -2px;
   pointer-events: none;
@@ -295,7 +321,7 @@
 }
 
 .tick--active {
-  @apply bg-brand;
+  background-color: var(--calcite-slider-tick-color-active, var(--calcite-color-brand));
 }
 
 .tick__label {

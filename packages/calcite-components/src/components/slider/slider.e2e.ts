@@ -1,6 +1,15 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { defaults, disabled, formAssociated, hidden, labelable, renders, reflects } from "../../tests/commonTests";
+import {
+  defaults,
+  disabled,
+  formAssociated,
+  hidden,
+  labelable,
+  renders,
+  reflects,
+  themed,
+} from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -1184,6 +1193,29 @@ describe("calcite-slider", () => {
 
         expect(minValueLabel.innerText).toBe(`2${frGroupSeparator}500`);
         expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
+      });
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`<calcite-slider value="30"></calcite-slider>`, {
+        "--calcite-slider-track-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-slider-track-fill-color": {
+          shadowSelector: `.${CSS.trackRange}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-slider-handle-fill-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-slider-handle-outline-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+        },
       });
     });
   });
