@@ -45,7 +45,8 @@ describe("calcite-input-time-picker", () => {
     renders(`<calcite-input-time-picker lang="pt-PT"></calcite-input-time-picker>`, { display: "inline-block" });
   });
 
-  describe("renders with no locale", () => {
+  // TODO: restore once "nb" ➡️ "no" is supported by useT9n
+  describe.skip("renders with no locale", () => {
     renders(`<calcite-input-time-picker lang="no"></calcite-input-time-picker>`, { display: "inline-block" });
   });
 

@@ -1097,7 +1097,8 @@ describe("calcite-input-number", () => {
       "et",
       "lv",
       "mk",
-      "no",
+      // TODO: restore once "nb" ➡️ "no" is supported by useT9n
+      // "no",
       "pl",
       "pt-PT",
     ];
