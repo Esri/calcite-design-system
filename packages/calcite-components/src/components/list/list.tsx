@@ -13,16 +13,16 @@ import {
 } from "@stencil/core";
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
-import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import { getRootNode, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode, InteractionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+import { openAncestors, updateListItemChildren } from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -35,7 +35,6 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { HandleNudge } from "../handle/interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -50,9 +49,11 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
+import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
+import { guid } from "../../utils/guid";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import { ListMessages } from "./assets/list/t9n";
-import { ListDragDetail } from "./interfaces";
+import { ListDragDetail, ListMoveDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
 const parentSelector = "calcite-list-item-group, calcite-list-item" as const;
@@ -221,6 +222,17 @@ export class List
   > = "none";
 
   /**
+   * Specifies the interaction mode of the component.
+   *
+   * `"interactive"` allows interaction styling and pointer changes on hover
+   *
+   * `"static"` does not allow interaction styling and pointer changes on hover
+   *
+   * The `"static"` value should only be used when `selectionMode` is `"none"`.
+   */
+  @Prop({ reflect: true }) interactionMode: InteractionMode = "interactive";
+
+  /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
@@ -267,6 +279,8 @@ export class List
 
   /**
    * Fires when the default slot has changes in order to notify parent lists.
+   *
+   * @internal
    */
   @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
@@ -328,13 +342,22 @@ export class List
     event.stopPropagation();
   }
 
-  @Listen("calciteHandleNudge")
-  handleCalciteHandleNudge(event: CustomEvent<HandleNudge>): void {
+  @Listen("calciteSortHandleReorder")
+  handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
     if (this.parentListEl) {
       return;
     }
 
-    this.handleNudgeEvent(event);
+    this.handleReorder(event);
+  }
+
+  @Listen("calciteSortHandleMove")
+  handleSortMove(event: CustomEvent<MoveEventDetail>): void {
+    if (this.parentListEl) {
+      return;
+    }
+
+    this.handleMove(event);
   }
 
   @Listen("calciteInternalListItemSelect")
@@ -415,6 +438,7 @@ export class List
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.handleInteractionModeWarning();
     await setUpMessages(this);
   }
 
@@ -454,13 +478,15 @@ export class List
 
   @State() dataForFilter: ItemData = [];
 
+  @State() moveToItems: MoveTo[] = [];
+
   dragSelector = listItemSelector;
 
   filterEl: HTMLCalciteFilterElement;
 
   focusableItems: HTMLCalciteListItemElement[] = [];
 
-  handleSelector = "calcite-handle";
+  handleSelector = "calcite-sort-handle";
 
   @State() hasFilterActionsEnd = false;
 
@@ -666,7 +692,12 @@ export class List
     this.calciteListDragEnd.emit(detail);
   }
 
+  onDragMove({ relatedEl }: ListMoveDetail): void {
+    relatedEl.open = true;
+  }
+
   onDragStart(detail: ListDragDetail): void {
+    detail.dragEl.sortHandleOpen = false;
     this.calciteListDragStart.emit(detail);
   }
 
@@ -682,7 +713,7 @@ export class List
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
-    updateListItemChildren(getListItemChildren(event.target as HTMLSlotElement));
+    updateListItemChildren(event.target as HTMLSlotElement);
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
@@ -849,19 +880,52 @@ export class List
     }));
   };
 
+  private updateGroupItems(): void {
+    const { el, group } = this;
+
+    const rootNode = getRootNode(el);
+
+    const lists = group
+      ? Array.from(
+          rootNode.querySelectorAll<HTMLCalciteListElement>(`calcite-list[group="${group}"]`),
+        ).filter((list) => !list.disabled && list.dragEnabled)
+      : [];
+
+    this.moveToItems = lists.map((element) => ({
+      element,
+      label: element.label ?? element.id,
+      id: el.id || guid(),
+    }));
+  }
+
   private updateListItems = debounce(
     (options?: { emitFilterChange?: boolean; performFilter?: boolean }): void => {
       const emitFilterChange = options?.emitFilterChange ?? false;
       const performFilter = options?.performFilter ?? false;
 
-      const { selectionAppearance, selectionMode, dragEnabled, el, filterEl, filterEnabled } = this;
+      this.updateGroupItems();
+
+      const {
+        selectionAppearance,
+        selectionMode,
+        interactionMode,
+        dragEnabled,
+        el,
+        filterEl,
+        filterEnabled,
+        moveToItems,
+      } = this;
 
       const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
       items.forEach((item) => {
         item.selectionAppearance = selectionAppearance;
         item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
         if (item.closest("calcite-list") === el) {
+          item.moveToItems = moveToItems.filter(
+            (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+          );
           item.dragHandle = dragEnabled;
         }
       });
@@ -959,47 +1023,85 @@ export class List
     }
   };
 
-  handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
-    const { handleSelector, dragSelector } = this;
-    const { direction } = event.detail;
+  private handleInteractionModeWarning(): void {
+    if (
+      this.interactionMode === "static" &&
+      this.selectionMode !== "none" &&
+      this.selectionAppearance === "border"
+    ) {
+      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+    }
+  }
 
-    const composedPath = event.composedPath();
+  private handleMove(event: CustomEvent<MoveEventDetail>): void {
+    const { moveTo } = event.detail;
 
-    const handle = composedPath.find(
-      (el: HTMLElement): el is HTMLCalciteHandleElement =>
-        el?.tagName && el.matches(handleSelector),
-    );
+    const dragEl = event.target as HTMLCalciteListItemElement;
+    const fromEl = dragEl?.parentElement as HTMLCalciteListElement;
+    const oldIndex = Array.from(fromEl.children).indexOf(dragEl);
+    const toEl = moveTo.element as HTMLCalciteListElement;
 
-    const dragEl = composedPath.find(
-      (el: HTMLElement): el is HTMLCalciteListItemElement =>
-        el?.tagName && el.matches(dragSelector),
-    );
+    if (!fromEl) {
+      return;
+    }
 
+    dragEl.sortHandleOpen = false;
+
+    this.disconnectObserver();
+
+    toEl.prepend(dragEl);
+    openAncestors(dragEl);
+    const newIndex = Array.from(toEl.children).indexOf(dragEl);
+
+    this.updateListItems();
+    this.connectObserver();
+
+    this.calciteListOrderChange.emit({
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    });
+  }
+
+  private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
+    const { reorder } = event.detail;
+
+    const dragEl = event.target as HTMLCalciteListItemElement;
     const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;
     }
 
-    const { filteredItems } = this;
+    dragEl.sortHandleOpen = false;
 
-    const sameParentItems = filteredItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = this.filteredItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
-    let newIndex: number;
+    let newIndex: number = oldIndex;
 
-    if (direction === "up") {
-      newIndex = oldIndex === 0 ? lastIndex : oldIndex - 1;
-    } else {
-      newIndex = oldIndex === lastIndex ? 0 : oldIndex + 1;
+    switch (reorder) {
+      case "top":
+        newIndex = 0;
+        break;
+      case "bottom":
+        newIndex = lastIndex;
+        break;
+      case "up":
+        newIndex = oldIndex === 0 ? 0 : oldIndex - 1;
+        break;
+      case "down":
+        newIndex = oldIndex === lastIndex ? lastIndex : oldIndex + 1;
+        break;
     }
 
     this.disconnectObserver();
-    handle.blurUnselectDisabled = true;
 
     const referenceEl =
-      (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
+      reorder === "up" || reorder === "top"
         ? sameParentItems[newIndex]
         : sameParentItems[newIndex].nextSibling;
 
@@ -1015,7 +1117,5 @@ export class List
       newIndex,
       oldIndex,
     });
-
-    handle.setFocus().then(() => (handle.blurUnselectDisabled = false));
   }
 }
