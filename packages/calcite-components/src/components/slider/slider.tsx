@@ -1082,7 +1082,7 @@ export class Slider
     );
 
     let verticalLabelStaticOffset = 0;
-    if (this.layout === "vertical") {
+    if (this.layout === "vertical" && !this.precise) {
       const trackBoundingBox = this.trackEl.getBoundingClientRect();
       verticalLabelStaticOffset = Math.max(labelStaticBounds.right - trackBoundingBox.left + 8, 0);
     }
