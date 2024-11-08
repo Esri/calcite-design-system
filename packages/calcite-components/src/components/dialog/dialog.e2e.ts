@@ -357,7 +357,7 @@ describe("calcite-dialog", () => {
 
     const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
     const style = await internalDialog.getComputedStyle();
-    expect(style.width).toEqual("752px");
+    expect(style.width).toEqual("800px");
     expect(style.height).toEqual("800px");
   });
 
