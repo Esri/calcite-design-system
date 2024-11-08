@@ -1078,11 +1078,21 @@ export class Slider
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(
       this.layout === "horizontal" ? labelStaticBounds.left : labelStaticBounds.top,
-      this.layout === "horizontal" ? labelStaticBounds.right : labelStaticBounds.top,
+      this.layout === "horizontal" ? labelStaticBounds.right : labelStaticBounds.bottom,
     );
-    const verticalRotate = this.layout === "vertical" ? `rotate(90deg)` : ``;
-    label.style.transform = `translateX(${labelStaticOffset}px) ${verticalRotate}`;
-    labelTransformed.style.transform = `translateX(${labelStaticOffset}px) ${verticalRotate}`;
+
+    let verticalLabelStaticOffset = 0;
+    if (this.layout === "vertical") {
+      const trackBoundingBox = this.trackEl.getBoundingClientRect();
+      verticalLabelStaticOffset = Math.max(labelStaticBounds.right - trackBoundingBox.left + 8, 0);
+    }
+
+    const transform =
+      this.layout === "vertical"
+        ? `translateX(${labelStaticOffset}px) translateY(-${verticalLabelStaticOffset}px) rotate(90deg)`
+        : `translateX(${labelStaticOffset}px)`;
+    label.style.transform = transform;
+    labelTransformed.style.transform = transform;
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
@@ -1244,12 +1254,26 @@ export class Slider
     if (intersects(minHandleBounds, maxHandleBounds)) {
       leftValueLabel.textContent = `${leftValueLabelStatic.textContent} \u2014 ${rightValueLabelStatic.textContent}`;
       rightValueLabel.style.visibility = "hidden";
-      const rightBoundingBox = rightValueLabelStatic.getBoundingClientRect();
-      leftValueLabel.style.transform = `translateY(-${rightBoundingBox.width / 2}px) rotate(90deg)`;
-    } else {
+      const width = this.getStringWidth(
+        leftValueLabel.textContent,
+        window.getComputedStyle(leftValueLabel)["font"],
+      );
+      leftValueLabel.style.transform = `translateY(-${width / 2}px) rotate(90deg)`;
+      leftValueLabel.style.width = `${width}px`;
+    } else if (rightValueLabel.style.visibility === "hidden") {
       leftValueLabel.textContent = leftValueLabelStatic.textContent;
+      leftValueLabel.style.transform = leftValueLabelStatic.style.transform;
+      leftValueLabel.style.width = leftValueLabelStatic.style.width;
       rightValueLabel.style.visibility = "visible";
     }
+  }
+
+  private getStringWidth(text: string, font: string): number {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
   }
 
   /**
