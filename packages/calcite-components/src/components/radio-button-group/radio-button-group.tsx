@@ -197,7 +197,9 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   private passPropsToRadioButtons(): void {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
-      Array.from(this.radioButtons).findLast((radioButton) => radioButton.checked) || null;
+      Array.from(this.radioButtons)
+        .reverse()
+        .find((radioButton) => radioButton.checked) || null;
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
         if (this.hasUpdated) {
