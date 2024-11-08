@@ -321,6 +321,10 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private setYearSelectMenuWidth(): void {
+    if (!this.monthPickerEl.value) {
+      return;
+    }
+
     const fontStyle = getComputedStyle(this.monthPickerEl.value).font;
     const localeMonths = this.localeData.months[this.monthStyle];
     const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
