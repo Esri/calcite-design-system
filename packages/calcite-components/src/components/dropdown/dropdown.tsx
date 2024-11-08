@@ -174,7 +174,7 @@ export class Dropdown
    *
    * @deprecated Use the `width` property instead.
    */
-  @Prop({ reflect: true }) widthScale: Scale = "m";
+  @Prop({ reflect: true }) widthScale: Scale;
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;

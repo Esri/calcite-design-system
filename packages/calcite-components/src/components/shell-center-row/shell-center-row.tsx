@@ -35,7 +35,7 @@ export class ShellCenterRow {
   @Prop({ reflect: true }) heightScale: Scale = "s";
 
   /** Specifies the height of the component. */
-  @Prop({ reflect: true }) height: Height = "s";
+  @Prop({ reflect: true }) height: Height;
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).

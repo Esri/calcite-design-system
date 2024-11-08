@@ -107,7 +107,7 @@ export class ShellPanel implements LocalizedComponent, T9nComponent {
    *
    * @deprecated Use the `height` property instead.
    */
-  @Prop({ reflect: true }) heightScale: Scale = "m";
+  @Prop({ reflect: true }) heightScale: Scale;
 
   @Watch("heightScale")
   handleHeightScale(value: Scale): void {
