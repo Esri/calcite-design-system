@@ -38,10 +38,6 @@ describe("calcite-dropdown", () => {
         defaultValue: "m",
       },
       {
-        propertyName: "widthScale",
-        defaultValue: "m",
-      },
-      {
         propertyName: "placement",
         defaultValue: "bottom-start",
       },
