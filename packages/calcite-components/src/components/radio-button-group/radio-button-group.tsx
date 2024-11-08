@@ -22,6 +22,7 @@ import {
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
+import { focusFirstTabbable } from "../../utils/dom";
 import { CSS, IDS } from "./resources";
 import { styles } from "./radio-button-group.scss";
 
@@ -107,11 +108,12 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
+
     if (this.selectedItem && !this.selectedItem.disabled) {
-      return this.selectedItem.setFocus();
+      focusFirstTabbable(this.selectedItem);
     }
     if (this.radioButtons.length > 0) {
-      return this.getFocusableRadioButton()?.setFocus();
+      focusFirstTabbable(this.getFocusableRadioButton());
     }
   }
 
@@ -195,10 +197,12 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   private passPropsToRadioButtons(): void {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
-      Array.from(this.radioButtons).find((radioButton) => radioButton.checked) || null;
+      Array.from(this.radioButtons).findLast((radioButton) => radioButton.checked) || null;
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
-        radioButton.disabled = this.disabled || radioButton.disabled;
+        if (this.hasUpdated) {
+          radioButton.disabled = this.disabled || radioButton.disabled;
+        }
         radioButton.hidden = this.el.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
