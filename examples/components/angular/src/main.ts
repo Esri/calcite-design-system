@@ -1,11 +1,9 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { defineCustomElements } from '@esri/calcite-components/dist/loader';
+import { appConfig } from './app/app.config';
+import { setAssetPath } from '@esri/calcite-components/dist/components';
 
-defineCustomElements(window, {
-  resourcesUrl: './assets',
-});
+setAssetPath(window.location.href);
 
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
   console.error(err),
