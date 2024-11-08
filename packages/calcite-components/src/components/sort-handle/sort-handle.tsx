@@ -185,6 +185,9 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   }
 
   private setDropdownEl(el: Dropdown["el"]): void {
+    if (!el) {
+      return;
+    }
     this.dropdownEl = el;
     this.openHandler();
   }
