@@ -104,7 +104,6 @@ export class Loader implements LocalizedComponent {
                 [CSS.loaderPart]: true,
                 [CSS.loaderPartId(index)]: true,
               }}
-              key={index}
               style={isDeterminate && index === 3 ? determinateStyle : undefined}
               viewBox={viewbox}
             >

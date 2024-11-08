@@ -279,6 +279,8 @@ export class List
 
   /**
    * Fires when the default slot has changes in order to notify parent lists.
+   *
+   * @internal
    */
   @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
