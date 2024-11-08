@@ -236,6 +236,10 @@ export class Select
 
   loaded(): void {
     setComponentLoaded(this);
+    this.populateInternalSelect();
+
+    const selected = this.selectEl.selectedOptions[0];
+    this.selectFromNativeOption(selected);
     afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
 
@@ -334,10 +338,6 @@ export class Select
     }
 
     this.selectEl = el;
-    this.populateInternalSelect();
-
-    const selected = this.selectEl.selectedOptions[0];
-    this.selectFromNativeOption(selected);
   }
 
   private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
