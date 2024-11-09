@@ -1220,7 +1220,7 @@ describe("calcite-slider", () => {
     });
 
     describe("text color", () => {
-      describe("applies to handle label", () => {
+      describe("should apply handle label", () => {
         themed(html`<calcite-slider value="30" label-handles max-label="100" min-label="0"></calcite-slider>`, {
           "--calcite-slider-text-color": {
             shadowSelector: `.${CSS.handleLabel}`,
@@ -1228,7 +1228,7 @@ describe("calcite-slider", () => {
           },
         });
       });
-      describe("applies to tick labels", () => {
+      describe("should apply tick labels", () => {
         themed(
           html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
           {
@@ -1242,7 +1242,7 @@ describe("calcite-slider", () => {
     });
 
     describe("handle extension", () => {
-      describe("applies to handle extension", () => {
+      describe("should apply handle extension", () => {
         themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
           "--calcite-slider-handle-extension-color": {
             shadowSelector: `.${CSS.handleExtension}`,
@@ -1250,7 +1250,7 @@ describe("calcite-slider", () => {
           },
         });
       });
-      describe("applies to handle extension when hovered", () => {
+      describe("should apply handle extension when hovered", () => {
         themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
           "--calcite-slider-handle-extension-color-hover": {
             shadowSelector: `.${CSS.handleExtension}`,
@@ -1259,7 +1259,7 @@ describe("calcite-slider", () => {
           },
         });
       });
-      describe("applies to handle extension when focused", () => {
+      describe("should apply handle extension when focused", () => {
         themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
           "--calcite-slider-handle-extension-color-focus": {
             shadowSelector: `.${CSS.handleExtension}`,
@@ -1271,7 +1271,7 @@ describe("calcite-slider", () => {
     });
 
     describe("ticks", () => {
-      describe("applies to ticks", () => {
+      describe("should apply ticks", () => {
         themed(
           html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
           {
@@ -1282,7 +1282,7 @@ describe("calcite-slider", () => {
           },
         );
       });
-      describe("applies to ticks border", () => {
+      describe("should apply ticks border", () => {
         themed(
           html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
           {
@@ -1293,7 +1293,7 @@ describe("calcite-slider", () => {
           },
         );
       });
-      describe("applies to ticks in selected range", () => {
+      describe("should apply ticks in selected range", () => {
         themed(
           html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
           {
@@ -1307,7 +1307,7 @@ describe("calcite-slider", () => {
     });
 
     describe("--calcite-slider-handle-fill-color-focus", () => {
-      describe("applies to handle fill when thumb is focused", () => {
+      describe("should apply handle fill when thumb is focused", () => {
         themed(html`<calcite-slider value="30"></calcite-slider>`, {
           "--calcite-slider-handle-fill-color-focus": {
             shadowSelector: `.${CSS.handle}`,
@@ -1319,7 +1319,7 @@ describe("calcite-slider", () => {
     });
 
     describe("--calcite-slider-handle-outline-color-hover", () => {
-      describe("applies to handle outline when hovered", () => {
+      describe("should apply handle outline when hovered", () => {
         themed(html`<calcite-slider value="30"></calcite-slider>`, {
           "--calcite-slider-handle-outline-color-hover": {
             shadowSelector: `.${CSS.handle}`,
@@ -1331,7 +1331,7 @@ describe("calcite-slider", () => {
     });
 
     describe("--calcite-slider-graph-color", () => {
-      describe("applies to graph", () => {
+      describe("should apply graph", () => {
         themed(
           html`<calcite-slider
               min="0"
