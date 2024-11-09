@@ -53,7 +53,7 @@
         border-top: 1px solid var(--calcite-color-border-2);
       }
 
-      calcite-slider {
+      .themed {
         --calcite-slider-track-color: darkblue;
         --calcite-slider-track-fill-color: green;
         --calcite-slider-handle-fill-color: cyan;
@@ -1614,6 +1614,55 @@
             label-handles
             label-ticks
           ></calcite-slider>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">themed</div>
+
+        <div class="child">
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="s"
+            class="themed"
+          >
+          </calcite-slider>
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="m"
+            class="themed"
+          >
+          </calcite-slider>
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="l"
+            class="themed"
+          >
+          </calcite-slider>
         </div>
       </div>
 
