@@ -1218,5 +1218,153 @@ describe("calcite-slider", () => {
         },
       });
     });
+
+    describe("text color", () => {
+      describe("applies to handle label", () => {
+        themed(html`<calcite-slider value="30" label-handles max-label="100" min-label="0"></calcite-slider>`, {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.handleLabel}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("applies to tick labels", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-text-color": {
+              shadowSelector: `.${CSS.tickLabel}`,
+              targetProp: "color",
+            },
+          },
+        );
+      });
+    });
+
+    describe("handle extension", () => {
+      describe("applies to handle extension", () => {
+        themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
+          "--calcite-slider-handle-extension-color": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+          },
+        });
+      });
+      describe("applies to handle extension when hovered", () => {
+        themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
+          "--calcite-slider-handle-extension-color-hover": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+        });
+      });
+      describe("applies to handle extension when focused", () => {
+        themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
+          "--calcite-slider-handle-extension-color-focus": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: "focus",
+          },
+        });
+      });
+    });
+
+    describe("ticks", () => {
+      describe("applies to ticks", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-tick-color": {
+              shadowSelector: `.${CSS.tick}`,
+              targetProp: "backgroundColor",
+            },
+          },
+        );
+      });
+      describe("applies to ticks border", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-tick-border-color": {
+              shadowSelector: `.${CSS.tick}`,
+              targetProp: "borderColor",
+            },
+          },
+        );
+      });
+      describe("applies to ticks in selected range", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-tick-selected-color": {
+              shadowSelector: `.${CSS.tickActive}`,
+              targetProp: "backgroundColor",
+            },
+          },
+        );
+      });
+    });
+
+    describe("--calcite-slider-handle-fill-color-focus", () => {
+      describe("applies to handle fill when thumb is focused", () => {
+        themed(html`<calcite-slider value="30"></calcite-slider>`, {
+          "--calcite-slider-handle-fill-color-focus": {
+            shadowSelector: `.${CSS.handle}`,
+            targetProp: "backgroundColor",
+            state: "focus",
+          },
+        });
+      });
+    });
+
+    describe("--calcite-slider-handle-outline-color-hover", () => {
+      describe("applies to handle outline when hovered", () => {
+        themed(html`<calcite-slider value="30"></calcite-slider>`, {
+          "--calcite-slider-handle-outline-color-hover": {
+            shadowSelector: `.${CSS.handle}`,
+            targetProp: "boxShadow",
+            state: "hover",
+          },
+        });
+      });
+    });
+
+    describe("--calcite-slider-graph-color", () => {
+      describe("applies to graph", () => {
+        themed(
+          html`<calcite-slider
+              min="0"
+              max="100"
+              value="60"
+              step="1"
+              label-handles
+              id="basicHistogram"
+              scale="m"
+            ></calcite-slider>
+            <script>
+              const basicHistogram = document.getElementById("basicHistogram");
+
+              const histogram = [
+                [0, 0],
+                [20, 12],
+                [40, 35],
+                [60, 65],
+                [80, 25],
+                [90, 10],
+                [100, 0],
+              ];
+
+              basicHistogram.histogram = histogram;
+            </script>`,
+          {
+            "--calcite-slider-graph-color": {
+              shadowSelector: `.${CSS.graph}`,
+              targetProp: "color",
+            },
+          },
+        );
+      });
+    });
   });
 });

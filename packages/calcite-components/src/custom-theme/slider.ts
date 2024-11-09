@@ -1,5 +1,22 @@
 import { html } from "../../support/formatting";
 
+export const sliderTokens = {
+  calciteSliderTextColor: "",
+  calciteSliderTrackColor: "",
+  calciteSliderTrackFillColor: "",
+  calciteSliderHandleFillColor: "",
+  calciteSliderHandleFillColorFocus: "",
+  calciteSliderHandleOutlineColor: "",
+  calciteSliderHandleOutlineColorHover: "",
+  calciteSliderHandleExtensionColor: "",
+  calciteSliderHandleExtensionColorHover: "",
+  calciteSliderHandleExtensionColorFocus: "",
+  calciteSliderTickColor: "",
+  calciteSliderTickBorderColor: "",
+  calciteSliderTickSelectedColor: "",
+  calciteSliderGraphColor: "",
+};
+
 export const slider = html`<calcite-slider
   min="0"
   max="100"
@@ -8,4 +25,5 @@ export const slider = html`<calcite-slider
   step="1"
   min-label="Temperature range (lower)"
   max-label="Temperature range (upper)"
+  precise
 ></calcite-slider>`;

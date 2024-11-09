@@ -31,7 +31,7 @@ import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
-import { slider } from "./custom-theme/slider";
+import { slider, sliderTokens } from "./custom-theme/slider";
 import { tabs } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
@@ -146,6 +146,7 @@ const componentTokens = {
   ...textAreaTokens,
   ...tileTokens,
   ...navigationTokens,
+  ...sliderTokens,
 };
 
 export default {
