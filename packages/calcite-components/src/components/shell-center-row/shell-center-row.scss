@@ -49,7 +49,7 @@
 }
 
 .height-l {
-  @apply 100vh;
+  block-size: 100vh;
 }
 
 :host([detached]) .height-l {
