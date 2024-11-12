@@ -912,18 +912,16 @@ describe("calcite-color-picker", () => {
     });
 
     it("value as property", async () => {
-      // initialize page with calcite-color-picker to make it available in the evaluate callback below
       const page = await newE2EPage({
-        html: "<calcite-color-picker></calcite-color-picker>",
+        html: "",
       });
-      await page.setContent("");
 
       await page.evaluate(async (color) => {
         const picker = document.createElement("calcite-color-picker");
         picker.value = color;
         document.body.append(picker);
 
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await picker.componentOnReady();
       }, initialColor);
 
       expect(await getInternalColorAsHex(page)).toBe(initialColor);

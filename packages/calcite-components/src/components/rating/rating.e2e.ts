@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
+  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   labelable,
+  reflects,
   renders,
   t9n,
 } from "../../tests/commonTests";
@@ -57,6 +59,32 @@ describe("calcite-rating", () => {
 
     describe("is form-associated", () => {
       formAssociated("calcite-rating", { testValue: 3 });
+    });
+
+    describe("defaults", () => {
+      defaults("calcite-rating", [
+        { propertyName: "scale", defaultValue: "m" },
+        { propertyName: "status", defaultValue: "idle" },
+        { propertyName: "validationIcon", defaultValue: undefined },
+        { propertyName: "validationMessage", defaultValue: undefined },
+      ]);
+    });
+
+    describe("reflects", () => {
+      reflects("calcite-rating", [
+        {
+          propertyName: "scale",
+          value: "m",
+        },
+        {
+          propertyName: "status",
+          value: "invalid",
+        },
+        {
+          propertyName: "validationIcon",
+          value: true,
+        },
+      ]);
     });
   });
 
@@ -399,7 +427,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("partial");
     });
 
-    it("should update the ui of the rating when a hover event triggers on a rating label", async () => {
+    it("should update the UI of the rating when a hover event triggers on a rating label", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3.5></calcite-rating>");
       const element = await page.find("calcite-rating");

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.33.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.7...@esri/calcite-ui-icons@3.33.0-next.8) (2024-11-03)
+
+### Bug Fixes
+
+- updated offset and properties ([#10671](https://github.com/Esri/calcite-design-system/issues/10671)) ([7adb6a6](https://github.com/Esri/calcite-design-system/commit/7adb6a67dae5e86e9945b759b599bfb2d84a73fc))
+
+## [3.33.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.6...@esri/calcite-ui-icons@3.33.0-next.7) (2024-10-30)
+
+### Bug Fixes
+
+- update collaboration user, properties, text-button ([#10640](https://github.com/Esri/calcite-design-system/issues/10640)) ([963baec](https://github.com/Esri/calcite-design-system/commit/963baecb07fd2627d6f8a23ab1fc3e30141bde1f))
+
 ## [3.33.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.5...@esri/calcite-ui-icons@3.33.0-next.6) (2024-10-26)
 
 ### Features

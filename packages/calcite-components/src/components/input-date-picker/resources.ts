@@ -14,7 +14,6 @@ export const CSS = {
   inputWrapper: "input-wrapper",
   input: "input",
   menu: "menu-container",
-  menuActive: "menu-container--active",
   toggleIcon: "toggle-icon",
   verticalChevronContainer: "vertical-chevron-container",
   chevronIcon: "chevron-icon",

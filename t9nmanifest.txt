@@ -31,7 +31,6 @@ packages\calcite-components\src\components\modal\assets\modal\t9n
 packages\calcite-components\src\components\notice\assets\notice\t9n
 packages\calcite-components\src\components\pagination\assets\pagination\t9n
 packages\calcite-components\src\components\panel\assets\panel\t9n
-packages\calcite-components\src\components\pick-list-item\assets\pick-list-item\t9n
 packages\calcite-components\src\components\popover\assets\popover\t9n
 packages\calcite-components\src\components\rating\assets\rating\t9n
 packages\calcite-components\src\components\scrim\assets\scrim\t9n
@@ -48,4 +47,3 @@ packages\calcite-components\src\components\text-area\assets\text-area\t9n
 packages\calcite-components\src\components\time-picker\assets\time-picker\t9n
 packages\calcite-components\src\components\tip\assets\tip\t9n
 packages\calcite-components\src\components\tip-manager\assets\tip-manager\t9n
-packages\calcite-components\src\components\value-list\assets\value-list\t9n
