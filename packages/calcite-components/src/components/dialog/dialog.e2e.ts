@@ -612,6 +612,7 @@ describe("calcite-dialog", () => {
       await skipAnimations(page);
       await page.waitForChanges();
 
+      let openEvent = page.waitForEvent("calciteDialogOpen");
       await page.evaluate(() => {
         const btn = document.getElementById("openButton");
         btn.addEventListener("click", () => {
@@ -626,10 +627,11 @@ describe("calcite-dialog", () => {
         });
       });
       await page.waitForChanges();
-      await page.waitForEvent("calciteDialogOpen");
+      await openEvent;
 
+      openEvent = page.waitForEvent("calciteDialogOpen");
       await page.click("#openButton");
-      await page.waitForEvent("calciteDialogOpen");
+      await openEvent;
 
       expect(await isElementFocused(page, "#dialog2")).toBe(true);
     });
