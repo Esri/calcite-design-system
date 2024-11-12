@@ -41,15 +41,15 @@
 }
 
 .height-s {
-  block-size: theme("width[1/3]");
+  block-size: 33.333vh;
 }
 
 .height-m {
-  block-size: 70%;
+  block-size: 70vh;
 }
 
 .height-l {
-  @apply h-full;
+  @apply 100vh;
 }
 
 :host([detached]) .height-l {
