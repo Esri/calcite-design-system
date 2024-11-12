@@ -483,10 +483,9 @@ describe("calcite-input-time-zone", () => {
       );
 
       const input = await page.find("calcite-input-time-zone");
-      await input.callMethod("setFocus");
-
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
 
+      await input.callMethod("setFocus");
       await input.press("Escape");
       await page.waitForChanges();
 
@@ -532,7 +531,10 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(initialTimeZoneItem.name);
         await page.setContent(
-          html`<calcite-input-time-zone value="${initialTimeZoneItem.offset}"></calcite-input-time-zone> `,
+          html`<calcite-input-time-zone
+            value="${initialTimeZoneItem.offset}"
+            reference-date="2024-10-01"
+          ></calcite-input-time-zone>`,
         );
 
         const input = await page.find("calcite-input-time-zone");

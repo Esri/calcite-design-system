@@ -1,11 +1,11 @@
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
   JsxNode,
+  LitElement,
+  method,
+  property,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -269,15 +269,16 @@ export class InputTimeZone
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    const normalizer = await getNormalizer(this.mode);
 
-    this.normalizer = normalizer;
+    this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
-    this.value = this.normalizeValue(this.value);
+    const initialValue = this.value;
+    const normalized = this.normalizeValue(initialValue);
+    this.value = normalized || (initialValue === "" ? normalized : undefined);
 
     await this.updateTimeZoneSelection();
 
-    const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : null;
+    const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
     afterConnectDefaultValueSet(this, selectedValue);
     this.value = selectedValue;
   }
@@ -304,18 +305,18 @@ export class InputTimeZone
       this.openChanged();
     }
 
-    if (changes.has("value") && this.value !== changes.get("value")) {
+    if (changes.has("value") && this.hasUpdated && this.value !== changes.get("value")) {
       this.handleValueChange(this.value, changes.get("value"));
     }
   }
 
   override updated(): void {
     updateHostInteraction(this);
-    this.overrideSelectedLabelForRegion(this.open);
   }
 
   loaded(): void {
     setComponentLoaded(this);
+    this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
 
@@ -329,7 +330,7 @@ export class InputTimeZone
   // #region Private Methods
 
   private handleTimeZoneItemPropsChange(): void {
-    if (!this.timeZoneItems) {
+    if (!this.timeZoneItems || !this.hasUpdated) {
       return;
     }
 
@@ -414,7 +415,7 @@ export class InputTimeZone
     const selectedItem = combobox.selectedItems[0];
 
     if (!selectedItem) {
-      this.value = null;
+      this._value = "";
       this.selectedTimeZoneItem = null;
       this.calciteInputTimeZoneChange.emit();
       return;
@@ -427,7 +428,7 @@ export class InputTimeZone
       return;
     }
 
-    this.value = selectedValue;
+    this._value = selectedValue;
     this.selectedTimeZoneItem = selected;
     this.calciteInputTimeZoneChange.emit();
   }
@@ -463,7 +464,7 @@ export class InputTimeZone
     }
 
     const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
-    const valueToMatch = this.value ?? fallbackValue;
+    const valueToMatch = this.value === "" || !this.value ? fallbackValue : this.value;
 
     this.selectedTimeZoneItem =
       this.findTimeZoneItem(valueToMatch) || this.findTimeZoneItem(fallbackValue);
