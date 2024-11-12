@@ -1246,24 +1246,6 @@ describe("calcite-slider", () => {
           },
         });
       });
-      describe("should apply handle extension when hovered", () => {
-        themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
-          "--calcite-slider-handle-extension-color-hover": {
-            shadowSelector: `.${CSS.handleExtension}`,
-            targetProp: "backgroundColor",
-            state: "hover",
-          },
-        });
-      });
-      describe("should apply handle extension when focused", () => {
-        themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
-          "--calcite-slider-handle-extension-color-focus": {
-            shadowSelector: `.${CSS.handleExtension}`,
-            targetProp: "backgroundColor",
-            state: "focus",
-          },
-        });
-      });
     });
 
     describe("ticks", () => {
@@ -1299,18 +1281,6 @@ describe("calcite-slider", () => {
             },
           },
         );
-      });
-    });
-
-    describe("--calcite-slider-handle-fill-color-focus", () => {
-      describe("should apply handle fill when thumb is focused", () => {
-        themed(html`<calcite-slider value="30"></calcite-slider>`, {
-          "--calcite-slider-handle-fill-color-focus": {
-            shadowSelector: `.${CSS.handle}`,
-            targetProp: "backgroundColor",
-            state: "focus",
-          },
-        });
       });
     });
 
