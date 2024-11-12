@@ -77,7 +77,6 @@ import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
-import { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 import { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
@@ -170,7 +169,6 @@ export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
-export { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 export { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
@@ -4737,7 +4735,7 @@ export namespace Components {
         /**
           * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
-        "flipPlacements": FlipPlacement1[];
+        "flipPlacements": FlipPlacement[];
         /**
           * Specifies the label of the component.
          */
@@ -4766,12 +4764,12 @@ export namespace Components {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning": OverlayPositioning1;
+        "overlayPositioning": OverlayPositioning;
         /**
           * Determines where the component will be positioned relative to the container element.
           * @default "bottom-start"
          */
-        "placement": MenuPlacement1;
+        "placement": MenuPlacement;
         /**
           * Specifies the size of the component.
          */
@@ -12790,7 +12788,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
-        "flipPlacements"?: FlipPlacement1[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * Specifies the label of the component.
          */
@@ -12843,12 +12841,12 @@ declare namespace LocalJSX {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning"?: OverlayPositioning1;
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Determines where the component will be positioned relative to the container element.
           * @default "bottom-start"
          */
-        "placement"?: MenuPlacement1;
+        "placement"?: MenuPlacement;
         /**
           * Specifies the size of the component.
          */
