@@ -1212,10 +1212,6 @@ describe("calcite-slider", () => {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-slider-handle-outline-color": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "boxShadow",
-        },
       });
     });
 
@@ -1313,18 +1309,6 @@ describe("calcite-slider", () => {
             shadowSelector: `.${CSS.handle}`,
             targetProp: "backgroundColor",
             state: "focus",
-          },
-        });
-      });
-    });
-
-    describe("--calcite-slider-handle-outline-color-hover", () => {
-      describe("should apply handle outline when hovered", () => {
-        themed(html`<calcite-slider value="30"></calcite-slider>`, {
-          "--calcite-slider-handle-outline-color-hover": {
-            shadowSelector: `.${CSS.handle}`,
-            targetProp: "boxShadow",
-            state: "hover",
           },
         });
       });

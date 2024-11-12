@@ -6,8 +6,6 @@ export const sliderTokens = {
   calciteSliderTrackFillColor: "",
   calciteSliderHandleFillColor: "",
   calciteSliderHandleFillColorFocus: "",
-  calciteSliderHandleOutlineColor: "",
-  calciteSliderHandleOutlineColorHover: "",
   calciteSliderHandleExtensionColor: "",
   calciteSliderHandleExtensionColorHover: "",
   calciteSliderHandleExtensionColorFocus: "",

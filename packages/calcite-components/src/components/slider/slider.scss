@@ -8,8 +8,6 @@
  * @prop --calcite-slider-track-fill-color: Specifies the component's fill track color. 
  * @prop --calcite-slider-handle-fill-color: Specifies the component's handle fill color. 
  * @prop --calcite-slider-handle-fill-color-focus: Specifies the component's handle fill color when focused.
- * @prop --calcite-slider-handle-outline-color: Specifies the component's handle outline color. 
- * @prop --calcite-slider-handle-outline-color-hover: Specifies the component's handle outline color when hovered. 
  * @prop --calcite-slider-handle-extension-color: Specifies the component's handle extension color.
  * @prop --calcite-slider-handle-extension-color-hover: Specifies the component's handle extension color when hovered. 
  * @prop --calcite-slider-handle-extension-color-focus: Specifies the component's handle extension color when focused.
@@ -153,7 +151,7 @@
     background-color: var(--calcite-slider-handle-fill-color, var(--calcite-color-foreground-1));
     block-size: var(--calcite-slider-handle-size);
     inline-size: var(--calcite-slider-handle-size);
-    box-shadow: 0 0 0 2px var(--calcite-slider-handle-outline-color, var(--calcite-color-text-3)) inset;
+    box-shadow: 0 0 0 2px var(--calcite-color-text-3) inset;
     transition:
       border var(--calcite-internal-animation-timing-medium) ease,
       background-color var(--calcite-internal-animation-timing-medium) ease,
@@ -168,7 +166,7 @@
 
   &:hover {
     .handle {
-      box-shadow: 0 0 0 3px var(--calcite-slider-handle-outline-color-hover, var(--calcite-color-brand)) inset;
+      box-shadow: 0 0 0 3px var(--calcite-color-brand) inset;
     }
     .handle-extension {
       background-color: var(--calcite-slider-handle-extension-color-hover, var(--calcite-color-brand));
@@ -178,10 +176,6 @@
   &:focus {
     .handle {
       @apply focus-outset;
-      outline-color: var(
-        --calcite-slider-handle-outline-color-focus,
-        var(--calcite-ui-focus-color, var(--calcite-color-brand))
-      );
     }
     .handle-extension {
       background-color: var(--calcite-slider-handle-extension-color-focus, var(--calcite-color-brand));
