@@ -175,8 +175,10 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
       return;
     }
 
-    // we set the property instead of the attribute to ensure dropdown's open/close events are emitted properly
-    this.dropdownEl.open = this.open;
+    if (this.dropdownEl) {
+      // we set the property instead of the attribute to ensure dropdown's open/close events are emitted properly
+      this.dropdownEl.open = this.open;
+    }
   }
 
   private setDropdownEl(el: Dropdown["el"]): void {
