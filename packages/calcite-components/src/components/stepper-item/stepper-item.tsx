@@ -96,6 +96,9 @@ export class StepperItem
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
+  /** When `true`, the item will be hidden */
+  @Prop({ reflect: true }) hideItem = false;
+
   /**
    * @internal
    */
@@ -217,9 +220,6 @@ export class StepperItem
   }
 
   async componentWillLoad(): Promise<void> {
-    if (this.el.hidden) {
-      return;
-    }
     setUpLoadableComponent(this);
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
     this.itemPosition = this.getItemPosition();
@@ -258,7 +258,7 @@ export class StepperItem
           <div class={CSS.container}>
             {this.complete && (
               <span aria-live="polite" class={CSS.visuallyHidden}>
-                {this.messages?.complete}
+                {this.messages.complete}
               </span>
             )}
             <div
@@ -391,7 +391,6 @@ export class StepperItem
   private handleItemClick = (event: MouseEvent): void => {
     if (
       this.disabled ||
-      event.composedPath().some((el) => (el as HTMLElement).hidden) ||
       (this.layout === "horizontal" &&
         event
           .composedPath()
@@ -422,7 +421,7 @@ export class StepperItem
 
   private getItemPosition(): number {
     return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item"))
-      .filter((s) => !s.hidden)
+      .filter((s) => !s.hidden && !s.hideItem)
       .indexOf(this.el);
   }
 

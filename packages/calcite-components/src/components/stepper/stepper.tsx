@@ -435,7 +435,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   }
 
   private filterItems(): HTMLCalciteStepperItemElement[] {
-    return this.items.filter((item) => !item.disabled);
+    return this.items.filter((item) => !item.disabled && !item.hideItem);
   }
 
   private setStepperItemNumberingSystem(): void {
@@ -508,7 +508,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   handleDefaultSlotChange = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event).filter(
       (el): el is HTMLCalciteStepperItemElement =>
-        el?.tagName === "CALCITE-STEPPER-ITEM" && !(el as HTMLCalciteStepperItemElement)?.hidden,
+        el?.tagName === "CALCITE-STEPPER-ITEM" && !(el as HTMLCalciteStepperItemElement)?.hideItem,
     );
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");

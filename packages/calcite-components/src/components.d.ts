@@ -35,13 +35,8 @@ import { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-<<<<<<< HEAD
-import { DateLocaleData } from "./components/date-picker/utils";
-import { HoverRange } from "./utils/date";
-=======
 import { HoverRange } from "./utils/date";
 import { DateLocaleData } from "./components/date-picker/utils";
->>>>>>> dev
 import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -66,10 +61,7 @@ import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
-<<<<<<< HEAD
-=======
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
->>>>>>> dev
 import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 import { MenuMessages } from "./components/menu/assets/menu/t9n";
 import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
@@ -79,23 +71,13 @@ import { ModalMessages } from "./components/modal/assets/modal/t9n";
 import { NoticeMessages } from "./components/notice/assets/notice/t9n";
 import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 import { PanelMessages } from "./components/panel/assets/panel/t9n";
-<<<<<<< HEAD
-import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
-import { ICON_TYPES } from "./components/pick-list/resources";
-import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
-=======
->>>>>>> dev
 import { PopoverMessages } from "./components/popover/assets/popover/t9n";
 import { RatingMessages } from "./components/rating/assets/rating/t9n";
 import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
-<<<<<<< HEAD
-=======
-import { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 import { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
->>>>>>> dev
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -115,13 +97,7 @@ import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces
 import { TipMessages } from "./components/tip/assets/tip/t9n";
 import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
-<<<<<<< HEAD
-import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
-import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
-=======
 export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, InteractionMode, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
->>>>>>> dev
 export { RequestedItem } from "./components/accordion/interfaces";
 export { IconNameOrString } from "./components/icon/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
@@ -151,13 +127,8 @@ export { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-<<<<<<< HEAD
-export { DateLocaleData } from "./components/date-picker/utils";
-export { HoverRange } from "./utils/date";
-=======
 export { HoverRange } from "./utils/date";
 export { DateLocaleData } from "./components/date-picker/utils";
->>>>>>> dev
 export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
@@ -182,10 +153,7 @@ export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
-<<<<<<< HEAD
-=======
 export { MoveEventDetail, MoveTo, ReorderEventDetail } from "./components/sort-handle/interfaces";
->>>>>>> dev
 export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 export { MenuMessages } from "./components/menu/assets/menu/t9n";
 export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
@@ -195,23 +163,13 @@ export { ModalMessages } from "./components/modal/assets/modal/t9n";
 export { NoticeMessages } from "./components/notice/assets/notice/t9n";
 export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 export { PanelMessages } from "./components/panel/assets/panel/t9n";
-<<<<<<< HEAD
-export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
-export { ICON_TYPES } from "./components/pick-list/resources";
-export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
-=======
->>>>>>> dev
 export { PopoverMessages } from "./components/popover/assets/popover/t9n";
 export { RatingMessages } from "./components/rating/assets/rating/t9n";
 export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
-<<<<<<< HEAD
-=======
-export { FlipPlacement as FlipPlacement1, MenuPlacement as MenuPlacement1, OverlayPositioning as OverlayPositioning1 } from "./components";
 export { SortHandleMessages } from "./components/sort-handle/assets/sort-handle/t9n";
->>>>>>> dev
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
@@ -231,11 +189,6 @@ export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces
 export { TipMessages } from "./components/tip/assets/tip/t9n";
 export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
-<<<<<<< HEAD
-export { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
-export { ListItemAndHandle } from "./components/value-list-item/interfaces";
-=======
->>>>>>> dev
 export namespace Components {
     interface CalciteAccordion {
         /**
@@ -4785,7 +4738,7 @@ export namespace Components {
         /**
           * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
-        "flipPlacements": FlipPlacement1[];
+        "flipPlacements": FlipPlacement[];
         /**
           * Specifies the label of the component.
          */
@@ -4814,12 +4767,12 @@ export namespace Components {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning": OverlayPositioning1;
+        "overlayPositioning": OverlayPositioning;
         /**
           * Determines where the component will be positioned relative to the container element.
           * @default "bottom-start"
          */
-        "placement": MenuPlacement1;
+        "placement": MenuPlacement;
         /**
           * Specifies the size of the component.
          */
@@ -5036,6 +4989,10 @@ export namespace Components {
           * The component header text.
          */
         "heading": string;
+        /**
+          * When `true`, the item will be hidden
+         */
+        "hideItem": boolean;
         /**
           * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
@@ -12843,7 +12800,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available.
          */
-        "flipPlacements"?: FlipPlacement1[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * Specifies the label of the component.
          */
@@ -12896,12 +12853,12 @@ declare namespace LocalJSX {
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
-        "overlayPositioning"?: OverlayPositioning1;
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Determines where the component will be positioned relative to the container element.
           * @default "bottom-start"
          */
-        "placement"?: MenuPlacement1;
+        "placement"?: MenuPlacement;
         /**
           * Specifies the size of the component.
          */
@@ -13114,6 +13071,10 @@ declare namespace LocalJSX {
           * The component header text.
          */
         "heading"?: string;
+        /**
+          * When `true`, the item will be hidden
+         */
+        "hideItem"?: boolean;
         /**
           * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
