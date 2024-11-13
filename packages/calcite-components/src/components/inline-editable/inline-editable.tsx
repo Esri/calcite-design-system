@@ -48,8 +48,6 @@ export class InlineEditable
 
   private confirmEditingButton = createRef<Button["el"]>();
 
-  private _editingEnabled = false;
-
   private enableEditingButton = createRef<Button["el"]>();
 
   private inputElement: Input["el"];
@@ -78,18 +76,7 @@ export class InlineEditable
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, inline editing is enabled on the component. */
-  @property({ reflect: true })
-  get editingEnabled(): boolean {
-    return this._editingEnabled;
-  }
-
-  set editingEnabled(editingEnabled: boolean) {
-    const oldEditingEnabled = this._editingEnabled;
-    if (editingEnabled !== oldEditingEnabled) {
-      this._editingEnabled = editingEnabled;
-      this.editingEnabledWatcher(editingEnabled, oldEditingEnabled);
-    }
-  }
+  @property({ reflect: true }) editingEnabled = false;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -156,6 +143,10 @@ export class InlineEditable
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.disabledWatcher(this.disabled);
+    }
+
+    if (changes.has("editingEnabled") && (this.hasUpdated || this.editingEnabled !== false)) {
+      this.editingEnabledWatcher(this.editingEnabled, changes.get("editingEnabled"));
     }
   }
 
