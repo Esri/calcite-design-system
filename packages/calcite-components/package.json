@@ -36,7 +36,7 @@
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
     "postbuild": "npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
-    "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
+    "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --stats-json --quiet",
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
     "build:watch-dev": "npm run util:prep-build-reqs && vite",
