@@ -41,8 +41,6 @@ export class Loader extends LitElement {
 
   /**
    * Accessible name for the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
