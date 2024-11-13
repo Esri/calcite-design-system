@@ -1173,55 +1173,46 @@ export class Input
       ) : null;
 
     const childEl =
-      this.type !== "number"
-        ? [
-            <this.childElType
-              accept={this.accept}
-              aria-errormessage={IDS.validationMessage}
-              aria-invalid={toAriaBoolean(this.status === "invalid")}
-              aria-label={getLabelText(this)}
-              autocomplete={this.autocomplete}
-              autofocus={autofocus}
-              class={{
-                [CSS.editingEnabled]: this.editingEnabled,
-                [CSS.inlineChild]: !!this.inlineEditableEl,
-              }}
-              defaultValue={this.defaultValue}
-              disabled={this.disabled ? true : null}
-              enterKeyHint={enterKeyHint}
-              inputMode={inputMode}
-              max={this.maxString}
-              maxLength={this.maxLength}
-              min={this.minString}
-              minLength={this.minLength}
-              multiple={this.multiple}
-              name={this.name}
-              onBlur={this.inputBlurHandler}
-              onChange={this.inputChangeHandler}
-              onFocus={this.inputFocusHandler}
-              onInput={this.inputInputHandler}
-              onKeyDown={this.inputKeyDownHandler}
-              onKeyUp={this.inputKeyUpHandler}
-              pattern={this.pattern}
-              placeholder={this.placeholder || ""}
-              readOnly={this.readOnly}
-              ref={this.setChildElRef}
-              required={this.required ? true : null}
-              spellcheck={this.el.spellcheck}
-              step={this.step}
-              tabIndex={
-                this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null
-              }
-              type={this.type}
-              value={this.value}
-            />,
-            this.isTextarea ? (
-              <div class={CSS.resizeIconWrapper}>
-                <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
-              </div>
-            ) : null,
-          ]
-        : null;
+      this.type !== "number" ? (
+        <this.childElType
+          accept={this.accept}
+          aria-errormessage={IDS.validationMessage}
+          aria-invalid={toAriaBoolean(this.status === "invalid")}
+          aria-label={getLabelText(this)}
+          autocomplete={this.autocomplete}
+          autofocus={autofocus}
+          class={{
+            [CSS.editingEnabled]: this.editingEnabled,
+            [CSS.inlineChild]: !!this.inlineEditableEl,
+          }}
+          defaultValue={this.defaultValue}
+          disabled={this.disabled ? true : null}
+          enterKeyHint={enterKeyHint}
+          inputMode={inputMode}
+          max={this.maxString}
+          maxLength={this.maxLength}
+          min={this.minString}
+          minLength={this.minLength}
+          multiple={this.multiple}
+          name={this.name}
+          onBlur={this.inputBlurHandler}
+          onChange={this.inputChangeHandler}
+          onFocus={this.inputFocusHandler}
+          onInput={this.inputInputHandler}
+          onKeyDown={this.inputKeyDownHandler}
+          onKeyUp={this.inputKeyUpHandler}
+          pattern={this.pattern}
+          placeholder={this.placeholder || ""}
+          readOnly={this.readOnly}
+          ref={this.setChildElRef}
+          required={this.required ? true : null}
+          spellcheck={this.el.spellcheck}
+          step={this.step}
+          tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
+          type={this.type}
+          value={this.value}
+        />
+      ) : null;
 
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
