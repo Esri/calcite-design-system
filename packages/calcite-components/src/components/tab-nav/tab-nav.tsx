@@ -327,6 +327,8 @@ export class TabNav extends LitElement {
   }
 
   private async selectedTabIdChanged(): Promise<void> {
+    await this.componentOnReady();
+
     if (
       localStorage &&
       this.storageId &&
