@@ -3,8 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-prefix-size: Specifies the component's prefix width.
- * @prop --calcite-input-suffix-size: Specifies the component's suffix width.
+ * @prop --calcite-input-prefix-size: Specifies the component's prefix width, when present.
+ * @prop --calcite-input-suffix-size: Specifies the component's suffix width, when present.
  * 
  * @prop --calcite-input-background-color: Specifies the background color of the component.
  * @prop --calcite-input-border-color: Specifies the border color of the component.
@@ -18,18 +18,18 @@
  * @prop --calcite-input-actions-background-color: Specifies the background color of Input's `clearable` and `number-button-type` elements.
  * @prop --calcite-input-actions-background-color-hover: Specifies the background color of Input's `clearable` and `number-button-type` elements when hovered.
  * @prop --calcite-input-actions-background-color-press: Specifies the background color of Input's `clearable` and `number-button-type` elements when pressed.
- * @prop --calcite-input-actions-icon-color: Specifies the text color of Input's `clearable` and `number-button-type` elements.
- * @prop --calcite-input-actions-icon-color-hover: Specifies the text color of Input's `clearable` and `number-button-type` elements when hovered.
- * @prop --calcite-input-actions-icon-color-press: Specifies the text color of Input's `clearable` and `number-button-type` elements when pressed.
+ * @prop --calcite-input-actions-icon-color: Specifies the icon color of Input's `clearable` and `number-button-type` elements.
+ * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of Input's `clearable` and `number-button-type` elements when hovered.
+ * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of Input's `clearable` and `number-button-type` elements when pressed.
  
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element, when present.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element, when present.
  
- * @prop --calcite-input-prefix-background-color:  Specifies the background color of the prefix sub-component.
- * @prop --calcite-input-prefix-text-color:  Specifies the text color of the prefix sub-component.
+ * @prop --calcite-input-prefix-background-color:  Specifies the background color of the component's prefix, when present.
+ * @prop --calcite-input-prefix-text-color:  Specifies the text color of the component's prefix, when present.
 
- * @prop --calcite-input-suffix-background-color:  Specifies the background color of the suffix sub-component.
- * @prop --calcite-input-suffix-text-color:  Specifies the text color of the suffix sub-component.
+ * @prop --calcite-input-suffix-background-color:  Specifies the background color of the component's suffix, when present.
+ * @prop --calcite-input-suffix-text-color:  Specifies the text color of the component's suffix, when present.
  *
  */
 
@@ -147,7 +147,7 @@ input {
     border
     border-solid
     text-ellipsis;
-  border-color: var(--calcite-input-border-color, var(--calcite-border-color-input));
+  border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-color, var(--calcite-text-color-1));
   transition:
@@ -348,7 +348,7 @@ input[type="time"]::-webkit-clear-button {
     border
     border-solid
     transition-default;
-  border-color: var(--calcite-input-border-color, var(--calcite-border-color-input));
+  border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-actions-background-color, var(--calcite-color-foreground-1));
   border-inline-start-width: theme("borderWidth.0");
 
@@ -408,7 +408,7 @@ input[type="time"]::-webkit-clear-button {
     border-solid
     font-medium
     leading-none;
-  border-color: var(--calcite-input-border-color, var(--calcite-border-color-input));
+  border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
 }
 
 .prefix {
@@ -485,7 +485,7 @@ input[type="number"] {
 }
 
 .number-button-item.number-button-item--horizontal {
-  border-color: var(--calcite-input-border-color, var(--calcite-border-color-input));
+  border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   @apply order-1
       max-h-full
       min-h-full
@@ -526,7 +526,7 @@ input[type="number"] {
     border-solid
     py-0
     px-2;
-  border-color: var(--calcite-input-border-color, var(--calcite-border-color-input));
+  border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-actions-background-color, var(--calcite-color-foreground-1));
 
   border-inline-start-width: theme("borderWidth.0");
@@ -581,7 +581,7 @@ input[type="date"]::-webkit-input-placeholder {
     border
     border-dashed
     text-center;
-  border-color: var(--calcite-input-border-color, var(--calcite-border-color-input));
+  border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
 }
 
 :host([type="file"][scale="s"]) input {
