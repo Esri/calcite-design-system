@@ -26,8 +26,8 @@
         }
       },
       "xxxs": {
-        "value": "{core.size.default.2}",
-        "type": "spacing",
+        "value": "{core.size.default.12}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -36,7 +36,7 @@
             "component": "",
             "pattern": "",
             "element": "",
-            "category": "sizing",
+            "category": "dimension",
             "group": "",
             "kind": "",
             "appearance": "",
@@ -50,8 +50,8 @@
         }
       },
       "xxs": {
-        "value": "{core.size.default.4}",
-        "type": "spacing",
+        "value": "{core.size.default.14}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -74,8 +74,8 @@
         }
       },
       "xs": {
-        "value": "{core.size.default.6}",
-        "type": "spacing",
+        "value": "{core.size.default.16}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -98,8 +98,8 @@
         }
       },
       "sm": {
-        "value": "{core.size.default.8}",
-        "type": "spacing",
+        "value": "{core.size.default.24}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -124,6 +124,7 @@
       "sm+": {
         "value": "{core.size.default.10}",
         "type": "spacing",
+        "description": "deprecated",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -146,8 +147,8 @@
         }
       },
       "md": {
-        "value": "{core.size.default.12}",
-        "type": "spacing",
+        "value": "{core.size.default.32}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -172,6 +173,7 @@
       "md+": {
         "value": "{core.size.default.14}",
         "type": "spacing",
+        "description": "deprecated",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -194,8 +196,8 @@
         }
       },
       "lg": {
-        "value": "{core.size.default.16}",
-        "type": "spacing",
+        "value": "{core.size.default.44}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -218,8 +220,8 @@
         }
       },
       "xl": {
-        "value": "{core.size.default.20}",
-        "type": "spacing",
+        "value": "{core.size.default.48}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -242,8 +244,8 @@
         }
       },
       "xxl": {
-        "value": "{core.size.default.24}",
-        "type": "spacing",
+        "value": "{core.size.default.64}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -252,12 +254,10 @@
             "component": "",
             "pattern": "",
             "element": "",
-            "category": "sizing",
+            "category": "size",
             "group": "",
             "kind": "",
             "appearance": "",
-            "property": "",
-            "variant": "",
             "state": "",
             "scale": "xxl",
             "context": "",
@@ -266,8 +266,8 @@
         }
       },
       "xxxl": {
-        "value": "{core.size.default.32}",
-        "type": "spacing",
+        "value": "{core.size.default.96}",
+        "type": "dimension",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -276,12 +276,10 @@
             "component": "",
             "pattern": "",
             "element": "",
-            "category": "sizing",
+            "category": "size",
             "group": "",
             "kind": "",
             "appearance": "",
-            "property": "",
-            "variant": "",
             "state": "",
             "scale": "xxxl",
             "context": "",
