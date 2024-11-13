@@ -609,10 +609,10 @@ describe("calcite-dialog", () => {
           <calcite-button id="openButton">open second dialog</calcite-button>
         </calcite-dialog>
       `);
+      let openEvent = page.waitForEvent("calciteDialogOpen");
       await skipAnimations(page);
       await page.waitForChanges();
 
-      let openEvent = page.waitForEvent("calciteDialogOpen");
       await page.evaluate(() => {
         const btn = document.getElementById("openButton");
         btn.addEventListener("click", () => {
