@@ -205,10 +205,6 @@ export class Select
 
   load(): void {
     setUpLoadableComponent(this);
-
-    if (typeof this.value === "string") {
-      this.updateItemsFromValue(this.value);
-    }
   }
 
   /**
@@ -236,6 +232,11 @@ export class Select
 
   loaded(): void {
     setComponentLoaded(this);
+
+    if (typeof this.value === "string") {
+      this.updateItemsFromValue(this.value);
+    }
+
     this.populateInternalSelect();
 
     const selected = this.selectEl.selectedOptions[0];
