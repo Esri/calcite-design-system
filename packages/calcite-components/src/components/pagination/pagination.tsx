@@ -167,6 +167,9 @@ export class Pagination extends LitElement implements LoadableComponent {
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
+    this.handleTotalPages();
+    this.handleLastStartItemChange();
+    this.handleIsXXSmall();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
