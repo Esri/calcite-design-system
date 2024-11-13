@@ -56,7 +56,7 @@
         flex: 0 0 20%;
       }
 
-      calcite-input {
+      .themed {
         --calcite-input-background-color: lightyellow;
         --calcite-input-border-color: green;
         --calcite-input-corner-radius: 8px;
@@ -157,6 +157,15 @@
         <div class="child-flex font">Large</div>
       </div>
 
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Enable theming</div>
+        <div class="child-flex">
+          <calcite-segmented-control id="theming-toggle">
+            <calcite-segmented-control-item value="Unthemed" checked>Unthemed</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="Themed">Themed</calcite-segmented-control-item>
+          </calcite-segmented-control>
+        </div>
+      </div>
       <!-- Standard -->
       <div class="parent-flex">
         <div class="child-flex font right-aligned-text">Standard</div>
@@ -1795,6 +1804,20 @@
     </demo-dom-swapper>
   </body>
   <script>
+    const themingToggle = document.getElementById("theming-toggle");
+    const allInputs = document.querySelectorAll("calcite-input");
+
     document.addEventListener("calciteInputInput", ({ target }) => console.log(`input: ${target.value}`));
+
+    themingToggle.addEventListener("calciteSegmentedControlChange", ({ target }) => {
+      const val = target.value;
+      allInputs.forEach((input) => {
+        if (val === "Themed") {
+          input.classList.add("themed");
+        } else {
+          input.classList.remove("themed");
+        }
+      });
+    });
   </script>
 </html>
