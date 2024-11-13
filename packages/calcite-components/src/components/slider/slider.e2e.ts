@@ -1254,7 +1254,7 @@ describe("calcite-slider", () => {
           html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
           {
             "--calcite-slider-tick-color": {
-              shadowSelector: `.${CSS.tick}`,
+              shadowSelector: `.${CSS.tick}:not(.${CSS.tickActive})`,
               targetProp: "backgroundColor",
             },
           },
