@@ -77,7 +77,7 @@ export class Tab extends LitElement {
    * @private
    */
   @method()
-  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
+  _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {
     this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
   }
 

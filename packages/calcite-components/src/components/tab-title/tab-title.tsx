@@ -187,7 +187,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
    * @private
    */
   @method()
-  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
+  _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
   }
 

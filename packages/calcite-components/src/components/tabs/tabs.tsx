@@ -88,8 +88,10 @@ export class Tabs extends LitElement {
     }
 
     if (
-      (changes.has("titles") && (this.hasUpdated || this.titles?.length > 0)) ||
-      (changes.has("tabs") && (this.hasUpdated || this.tabs?.length > 0))
+      (changes.has("titles") || changes.has("tabs")) &&
+      this.hasUpdated &&
+      this.titles?.length > 0 &&
+      this.tabs?.length > 0
     ) {
       this.updateAriaSettings();
       this.updateItems();
@@ -106,7 +108,7 @@ export class Tabs extends LitElement {
     }
   }
 
-  private defaultSlotChangeHandler(event): void {
+  private defaultSlotChangeHandler(event: Event): void {
     this.tabs = slotChangeGetAssignedElements<Tab["el"]>(event, "calcite-tab");
   }
 
@@ -116,6 +118,8 @@ export class Tabs extends LitElement {
    * `<calcite-tab-title>` components.
    */
   private async updateAriaSettings(): Promise<void> {
+    await this.componentOnReady();
+
     let tabIds;
     let titleIds;
     const tabs = getSlotAssignedElements<Tab["el"]>(this.slotEl, "calcite-tab");
@@ -151,8 +155,8 @@ export class Tabs extends LitElement {
     // pass all our new aria information to each `<calcite-tab>` and
     // `<calcite-tab-title>` which will check if they can update their internal
     // `controlled` or `labeledBy` states and re-render if necessary
-    tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
-    this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
+    tabs.forEach((el) => el._updateAriaInfo(tabIds, titleIds));
+    this.titles.forEach((el) => el._updateAriaInfo(tabIds, titleIds));
   }
 
   private updateItems(): void {

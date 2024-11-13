@@ -197,7 +197,9 @@ export class TabNav extends LitElement {
     this.effectiveDir = getElementDir(this.el);
   }
 
-  override updated(): void {
+  loaded(): void {
+    this.scrollTabTitleIntoView(this.selectedTitle, "instant");
+
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
@@ -210,10 +212,6 @@ export class TabNav extends LitElement {
         });
       });
     }
-  }
-
-  loaded(): void {
-    this.scrollTabTitleIntoView(this.selectedTitle, "instant");
   }
 
   override disconnectedCallback(): void {
