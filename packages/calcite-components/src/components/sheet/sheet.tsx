@@ -27,6 +27,7 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { componentOnReady } from "../../utils/component";
 import { CSS } from "./resources";
 import { DisplayMode } from "./interfaces";
 import { styles } from "./sheet.scss";
@@ -211,7 +212,7 @@ export class Sheet
     setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      requestAnimationFrame(() => this.openSheet());
+      this.openSheet();
     }
   }
 
@@ -290,7 +291,8 @@ export class Sheet
     this.transitionEl = el;
   }
 
-  private openSheet(): void {
+  private async openSheet(): Promise<void> {
+    await componentOnReady(this.el);
     this.el.addEventListener(
       "calciteSheetOpen",
       this.openEnd,
