@@ -149,7 +149,7 @@ input {
     text-ellipsis;
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-text-color, var(--calcite-text-color-1));
+  color: var(--calcite-input-text-color, var(--calcite-color-text-1));
   transition:
     var(--calcite-animation-timing),
     block-size 0,
@@ -159,7 +159,7 @@ input {
   &:-ms-input-placeholder,
   &::-ms-input-placeholder {
     @apply font-normal;
-    color: var(--calcite-input-placeholder-text-color, var(--calcite-text-color-3));
+    color: var(--calcite-input-placeholder-text-color, var(--calcite-color-text-3));
   }
   &:placeholder-shown {
     @apply text-ellipsis;
@@ -234,7 +234,7 @@ input[type="search"]::-webkit-search-decoration {
 input:focus,
 textarea:focus {
   @apply border-color-brand;
-  color: var(--calcite-input-text-color, var(--calcite-text-color-1));
+  color: var(--calcite-input-text-color, var(--calcite-color-text-1));
 }
 input[readonly],
 textarea[readonly] {
@@ -243,7 +243,7 @@ textarea[readonly] {
 }
 input[readonly]:focus,
 textarea[readonly]:focus {
-  color: var(--calcite-input-text-color, var(--calcite-text-color-1));
+  color: var(--calcite-input-text-color, var(--calcite-color-text-1));
 }
 
 //focus
@@ -313,7 +313,7 @@ input:focus {
     absolute
     block
     z-default;
-  color: var(--calcite-input-icon-color, var(--calcite-text-color-3));
+  color: var(--calcite-input-icon-color, var(--calcite-color-text-3));
 }
 
 // hide browser default clear
@@ -354,19 +354,19 @@ input[type="time"]::-webkit-clear-button {
 
   calcite-icon {
     @apply transition-default;
-    color: var(--calcite-input-actions-icon-color, var(--calcite-text-color-3));
+    color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
   }
 
   &:hover {
     background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-text-color-1));
+      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
     }
   }
   &:active {
     background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-press, var(--calcite-text-color-1));
+      color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
     }
   }
   &:focus {
@@ -416,7 +416,7 @@ input[type="time"]::-webkit-clear-button {
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size, auto);
   background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-prefix-text-color, var(--calcite-text-color-2));
+  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
 
 .suffix {
@@ -424,7 +424,7 @@ input[type="time"]::-webkit-clear-button {
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size, auto);
   background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-suffix-text-color, var(--calcite-text-color-2));
+  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }
 
 // alignment type
@@ -532,19 +532,19 @@ input[type="number"] {
   border-inline-start-width: theme("borderWidth.0");
   & calcite-icon {
     @apply transition-default pointer-events-none;
-    color: var(--calcite-input-actions-icon-color, var(--calcite-text-color-3));
+    color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
   }
 
   &:hover {
     background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-text-color-1));
+      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
     }
   }
   &:active {
     background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-press, var(--calcite-text-color-1));
+      color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
     }
   }
   &:disabled {
