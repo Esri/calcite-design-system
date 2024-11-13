@@ -853,10 +853,16 @@ export class InputTimePicker
   }
 
   private setInputEl(el: InputText["el"]): void {
+    if (!el) {
+      return;
+    }
     this.calciteInputEl = el;
   }
 
   private setCalciteTimePickerEl(el: TimePicker["el"]): void {
+    if (!el) {
+      return;
+    }
     this.calciteTimePickerEl = el;
   }
 
