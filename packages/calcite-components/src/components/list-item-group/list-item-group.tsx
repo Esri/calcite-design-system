@@ -47,6 +47,8 @@ export class ListItemGroup implements InteractiveComponent {
 
   /**
    * Fires when changes occur in the default slot, notifying parent lists of the changes.
+   *
+   * @internal
    */
   @Event({ cancelable: false })
   calciteInternalListItemGroupDefaultSlotChange: EventEmitter<void>;

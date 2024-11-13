@@ -4,7 +4,6 @@ import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
-import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import stylelint from "stylelint";
 import replace from "@rollup/plugin-replace";
@@ -63,7 +62,6 @@ export const create: () => Config = () => ({
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
     { components: ["calcite-panel"] },
-    { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
     { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-button"] },
@@ -88,16 +86,8 @@ export const create: () => Config = () => ({
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-value-list", "calcite-value-list-item"] },
   ],
   outputTargets: [
-    angularOutputTarget({
-      componentCorePackage: "@esri/calcite-components",
-      directivesProxyFile:
-        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/components.ts",
-      directivesArrayFile:
-        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/index.ts",
-    }),
     reactOutputTarget({
       componentCorePackage: "@esri/calcite-components",
       proxiesFile: "../calcite-components-react/src/components.ts",

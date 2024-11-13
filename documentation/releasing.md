@@ -95,10 +95,8 @@ git add packages/*/CHANGELOG.md
 git commit amend --no-edit
 git tag -d "@esri/calcite-components@1.2.3"
 git tag -d "@esri/calcite-components-react@1.2.3"
-git tag -d "@esri/calcite-components-angular@1.2.3"
 git tag -a "@esri/calcite-components@1.2.3" -m "@esri/calcite-components@1.2.3" HEAD
 git tag -a "@esri/calcite-components-react@1.2.3" -m "@esri/calcite-components-react@1.2.3" HEAD
-git tag -a "@esri/calcite-components-angular@1.2.3" -m "@esri/calcite-components-angular@1.2.3" HEAD
 # now you can publish and push tags
 ```
 

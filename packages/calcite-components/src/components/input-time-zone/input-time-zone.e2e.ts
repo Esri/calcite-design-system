@@ -124,7 +124,7 @@ describe("calcite-input-time-zone", () => {
     });
   });
 
-  describe("t9n", () => {
+  describe("translation support", () => {
     t9n(simpleTestProvider);
   });
 

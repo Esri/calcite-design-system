@@ -11,7 +11,7 @@ describe("calcite-table", () => {
   describe("renders", () => {
     renders(
       html`<calcite-table caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHeader}>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -129,7 +129,7 @@ describe("calcite-table", () => {
     describe("is accessible simple", () => {
       accessible(
         html`<calcite-table caption="Simple table">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -152,7 +152,7 @@ describe("calcite-table", () => {
     describe("is accessible with selection mode multiple", () => {
       accessible(
         html`<calcite-table caption="Simple table" selection-mode="multiple">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -175,7 +175,7 @@ describe("calcite-table", () => {
     describe("is accessible with selection mode multiple selected at load", () => {
       accessible(
         html`<calcite-table caption="Simple table" selection-mode="multiple">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -198,7 +198,7 @@ describe("calcite-table", () => {
     describe("is accessible with selection mode single", () => {
       accessible(
         html`<calcite-table caption="Simple table" selection-mode="single">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -221,7 +221,7 @@ describe("calcite-table", () => {
     describe("is accessible with numbered", () => {
       accessible(
         html`<calcite-table caption="Simple table" numbered>
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -244,7 +244,7 @@ describe("calcite-table", () => {
     describe("is accessible with numbered and selection", () => {
       accessible(
         html`<calcite-table caption="Simple table" numbered selection-mode="multiple">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -267,7 +267,7 @@ describe("calcite-table", () => {
     describe("is accessible with pagination", () => {
       accessible(
         html`<calcite-table page-size="4" caption="Simple table">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -306,7 +306,7 @@ describe("calcite-table", () => {
     describe("is accessible with pagination and interaction mode static", () => {
       accessible(
         html`<calcite-table page-size="4" caption="Simple table" interaction-mode="static">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -345,7 +345,7 @@ describe("calcite-table", () => {
     describe("is accessible with pagination and selection mode", () => {
       accessible(
         html`<calcite-table page-size="4" selection-mode="multiple" caption="Simple table">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -388,7 +388,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="single" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHeader}>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -503,7 +503,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHeader}>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -618,7 +618,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="single" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHeader}>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -728,7 +728,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHeader}>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -837,7 +837,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHeader}>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -889,7 +889,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -941,7 +941,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -993,7 +993,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1048,7 +1048,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1103,7 +1103,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:800px">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1169,7 +1169,7 @@ describe("pagination event", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1" style="width:800px">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1243,7 +1243,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table" style="width:800px">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1292,20 +1292,24 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
   });
@@ -1314,7 +1318,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1371,12 +1375,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
   });
@@ -1385,7 +1391,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1442,12 +1448,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
@@ -1493,12 +1501,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
 
@@ -1545,12 +1555,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
   });
@@ -1676,11 +1688,11 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Multiple headers using col-span table">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header id="head-2a" heading="First"></calcite-table-header>
             <calcite-table-header id="head-2b" heading="Last"></calcite-table-header>
             <calcite-table-header id="head-2c" heading="Education level"></calcite-table-header>
@@ -1702,13 +1714,13 @@ describe("keyboard navigation", () => {
             <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
             <calcite-table-cell id="cell-4b" col-span="3">cell</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFooter}>
+          <calcite-table-row slot="${SLOTS.tableFooter}">
             <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFooter}>
+          <calcite-table-row slot="${SLOTS.tableFooter}">
             <calcite-table-cell id="foot-2a" col-span="2">foot</calcite-table-cell>
             <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
           </calcite-table-row>
@@ -1749,8 +1761,9 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-2d");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("PageUp");
@@ -1765,8 +1778,9 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
   });
@@ -1775,11 +1789,11 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Multiple headers using col-span table" page-size="2" style="width:800px">
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableHeader}>
+          <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header id="head-2a" heading="First"></calcite-table-header>
             <calcite-table-header id="head-2b" heading="Last"></calcite-table-header>
             <calcite-table-header id="head-2c" heading="Education level"></calcite-table-header>
@@ -1801,13 +1815,13 @@ describe("keyboard navigation", () => {
             <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
             <calcite-table-cell id="cell-4b" col-span="3">cell</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFooter}>
+          <calcite-table-row slot="${SLOTS.tableFooter}">
             <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFooter}>
+          <calcite-table-row slot="${SLOTS.tableFooter}">
             <calcite-table-cell id="foot-2a" col-span="2">foot</calcite-table-cell>
             <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
           </calcite-table-row>
@@ -1854,8 +1868,9 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-2d");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("Home");
@@ -1876,12 +1891,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
 
@@ -1931,8 +1948,9 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-2d");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("Home");
@@ -1956,8 +1974,9 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("End");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
@@ -1972,7 +1991,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1988,7 +2007,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
+        <calcite-table-row slot="${SLOTS.tableFooter}" id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2003,10 +2022,9 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     expect(
-      await page.$eval(
-        `#${rowHead.id}`,
-        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
-      ),
+      await page.$eval(`#${rowHead.id}`, async (el) => {
+        return el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList;
+      }),
     ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2045,13 +2063,15 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
 
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(
@@ -2065,7 +2085,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2081,7 +2101,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
+        <calcite-table-row slot="${SLOTS.tableFooter}" id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2138,13 +2158,15 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
 
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(
@@ -2158,7 +2180,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="single" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2174,7 +2196,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
+        <calcite-table-row slot="${SLOTS.tableFooter}" id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2245,8 +2267,9 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
 
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(
       await page.$eval(
@@ -2260,7 +2283,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="multiple" page-size="2" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2280,7 +2303,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
+        <calcite-table-row slot="${SLOTS.tableFooter}" id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2343,8 +2366,9 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
 
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
@@ -2357,8 +2381,9 @@ describe("keyboard navigation", () => {
       ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
 
-    page.keyboard.press("ControlLeft");
+    await page.keyboard.down("ControlLeft");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(
@@ -2372,7 +2397,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table" style="width:800px">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2392,7 +2417,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
+        <calcite-table-row slot="${SLOTS.tableFooter}" id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2410,10 +2435,9 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     expect(
-      await page.$eval(
-        `#${rowHead.id}`,
-        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
-      ),
+      await page.$eval(`#${rowHead.id}`, (el) => {
+        return el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList;
+      }),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2472,8 +2496,9 @@ describe("keyboard navigation", () => {
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
@@ -2486,9 +2511,9 @@ describe("keyboard navigation", () => {
       ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
 
-    page.keyboard.press("ControlRight");
-
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(
       await page.$eval(
@@ -2558,8 +2583,9 @@ describe("keyboard navigation", () => {
       await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.numberCell });
 
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
@@ -2577,7 +2603,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="multiple" caption="Simple table" interaction-mode="static">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2593,7 +2619,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
+        <calcite-table-row slot="${SLOTS.tableFooter}" id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>

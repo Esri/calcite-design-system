@@ -24,6 +24,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   reposition,
@@ -68,7 +69,7 @@ import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
+import { ComboboxChildElement, SelectionDisplay, GroupData, ItemData } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
@@ -77,14 +78,6 @@ import {
   hasActiveChildren,
   isSingleLike,
 } from "./utils";
-
-interface ItemData {
-  description: string;
-  label: string;
-  metadata: Record<string, unknown>;
-  shortHeading: string;
-  value: string;
-}
 
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
@@ -499,7 +492,7 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -511,7 +504,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
     setComponentLoaded(this);
   }
 
@@ -533,7 +526,7 @@ export class Combobox
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
-    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectFloatingUI(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -591,7 +584,13 @@ export class Combobox
 
   textInput: HTMLInputElement = null;
 
+  floatingEl: HTMLDivElement;
+
+  referenceEl: HTMLDivElement;
+
   private data: ItemData[];
+
+  private groupData: GroupData[];
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -603,10 +602,6 @@ export class Combobox
   private guid = guid();
 
   private inputHeight = 0;
-
-  private floatingEl: HTMLDivElement;
-
-  private referenceEl: HTMLDivElement;
 
   private chipContainerEl: HTMLDivElement;
 
@@ -826,6 +821,7 @@ export class Combobox
 
   onClose(): void {
     this.calciteComboboxClose.emit();
+    hideFloatingUI(this);
   }
 
   setMaxScrollerHeight = async (): Promise<void> => {
@@ -972,7 +968,7 @@ export class Combobox
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   private setCompactSelectionDisplay({
@@ -1003,7 +999,7 @@ export class Combobox
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   };
 
   setAllSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {
@@ -1085,7 +1081,7 @@ export class Combobox
       );
 
     return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
-      const filteredData = filter(this.data, text);
+      const filteredData = filter([...this.data, ...this.groupData], text);
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
@@ -1220,6 +1216,7 @@ export class Combobox
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
     this.data = this.getData();
+    this.groupData = this.getGroupData();
     this.selectedItems = this.getSelectedItems();
     this.filteredItems = this.getFilteredItems();
     this.needsIcon = this.getNeedsIcon();
@@ -1254,6 +1251,12 @@ export class Combobox
       metadata: item.metadata,
       shortHeading: item.shortHeading,
       value: item.value,
+    }));
+  }
+
+  getGroupData(): GroupData[] {
+    return this.groupItems.map((groupItem: HTMLCalciteComboboxItemGroupElement) => ({
+      label: groupItem.label,
     }));
   }
 
@@ -1676,14 +1679,7 @@ export class Combobox
     };
 
     return (
-      <div
-        aria-hidden="true"
-        class={{
-          "floating-ui-container": true,
-          "floating-ui-container--active": open,
-        }}
-        ref={setFloatingEl}
-      >
+      <div aria-hidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />

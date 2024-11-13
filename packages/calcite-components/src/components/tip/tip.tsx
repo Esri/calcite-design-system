@@ -24,12 +24,6 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { TipMessages } from "./assets/tip/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
-logger.deprecated("component", {
-  name: "tip",
-  removalVersion: 4,
-  suggested: ["card", "notice", "panel", "tile"],
-});
-
 /**
  * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
  * @slot - A slot for adding text and a hyperlink.
@@ -128,6 +122,12 @@ export class Tip implements LocalizedComponent, T9nComponent {
   }
 
   async componentWillLoad(): Promise<void> {
+    logger.deprecated("component", {
+      name: "tip",
+      removalVersion: 4,
+      suggested: ["card", "notice", "panel", "tile"],
+    });
+
     await setUpMessages(this);
   }
 

@@ -8901,7 +8901,7 @@
     "category": "Lists",
     "release": "3.29.6"
   },
-  "web-adaptor": {
+  "web-adapter": {
     "alias": ["3.32.0", "gis", "web", "diagram", "nodes", "storage", "servers", "transfer"],
     "category": "GIS",
     "release": "3.32.0"
@@ -9066,6 +9066,109 @@
       "vertically"
     ],
     "category": "Generic",
+    "release": "3.33.0"
+  },
+  "buffer-point": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "point",
+      "dot",
+      "circles",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "sphere",
+      "round"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "buffer-polygon": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "selection",
+      "shape",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "offset"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "contour": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "contour map",
+      "topographic",
+      "relief map",
+      "lines",
+      "height",
+      "curve",
+      "deliniation",
+      "outline",
+      "profile"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "offset": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "dashed",
+      "expand",
+      "line",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "intersection",
+      "outline"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "buffer-polyline": {
+    "alias": [
+      "3.33.0",
+      "gis",
+      "line",
+      "area",
+      "location",
+      "cushion",
+      "shield",
+      "shock",
+      "range",
+      "space",
+      "expanse",
+      "intersection",
+      "offset",
+      "outline"
+    ],
+    "category": "GIS",
+    "release": "3.33.0"
+  },
+  "user-risk": {
+    "alias": ["3.33.0", "people", "risk", "population", "caution", "danger", "user"],
+    "category": "People",
     "release": "3.33.0"
   }
 }
