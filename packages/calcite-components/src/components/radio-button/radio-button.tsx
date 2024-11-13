@@ -205,11 +205,6 @@ export class RadioButton
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -220,11 +215,11 @@ export class RadioButton
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.disabledChanged();
+      this.updateTabIndexOfOtherRadioButtonsInGroup();
     }
 
     if (changes.has("name")) {
-      this.nameChanged();
+      this.checkLastRadioButton();
     }
   }
 
@@ -256,14 +251,6 @@ export class RadioButton
     }
 
     this.calciteInternalRadioButtonCheckedChange.emit();
-  }
-
-  private disabledChanged(): void {
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
-
-  private nameChanged(): void {
-    this.checkLastRadioButton();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {

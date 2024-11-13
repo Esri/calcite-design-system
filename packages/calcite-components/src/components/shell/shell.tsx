@@ -80,11 +80,6 @@ export class Shell extends LitElement {
     );
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -94,7 +89,7 @@ export class Shell extends LitElement {
       (changes.has("hasPanelTop") && (this.hasUpdated || this.hasPanelTop !== false)) ||
       (changes.has("hasPanelBottom") && (this.hasUpdated || this.hasPanelBottom !== false))
     ) {
-      this.updateHasOnlyPanelBottom();
+      this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
     }
   }
 
@@ -110,10 +105,6 @@ export class Shell extends LitElement {
   private handleCalciteInternalShellPanelResizeEnd(event: CustomEvent<void>): void {
     this.panelIsResizing = false;
     event.stopPropagation();
-  }
-
-  private updateHasOnlyPanelBottom(): void {
-    this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
   }
 
   private handleHeaderSlotChange(event: Event): void {

@@ -357,14 +357,9 @@ export class InputText
     this.setPreviousValue(this.value);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("icon")) {
-      this.updateRequestedIcon();
+      this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     }
   }
 
@@ -402,10 +397,6 @@ export class InputText
       });
     }
     this.userChangedValue = false;
-  }
-
-  private updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon({}, this.icon, "text");
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

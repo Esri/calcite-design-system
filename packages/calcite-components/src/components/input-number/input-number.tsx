@@ -429,26 +429,25 @@ export class InputNumber
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("max")) {
-      this.maxWatcher();
+      this.maxString = this.max?.toString() || null;
     }
 
     if (changes.has("min")) {
-      this.minWatcher();
+      this.minString = this.min?.toString() || null;
     }
 
     if (changes.has("icon")) {
-      this.updateRequestedIcon();
+      this.requestedIcon = setRequestedIcon({}, this.icon, "number");
     }
 
     if (changes.has("messages")) {
-      this.effectiveLocaleWatcher(this.messages._lang);
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.messages._lang,
+        numberingSystem: this.numberingSystem,
+        useGrouping: false,
+      };
     }
   }
 
@@ -477,18 +476,6 @@ export class InputNumber
     this.requestUpdate();
   }
 
-  /** watcher to update number-to-string for max */
-
-  private maxWatcher(): void {
-    this.maxString = this.max?.toString() || null;
-  }
-
-  /** watcher to update number-to-string for min */
-
-  private minWatcher(): void {
-    this.minString = this.min?.toString() || null;
-  }
-
   private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       if (newValue === "Infinity" || newValue === "-Infinity") {
@@ -510,18 +497,6 @@ export class InputNumber
       this.warnAboutInvalidNumberValue(newValue);
     }
     this.userChangedValue = false;
-  }
-
-  private updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon({}, this.icon, "number");
-  }
-
-  private effectiveLocaleWatcher(locale: string): void {
-    numberStringFormatter.numberFormatOptions = {
-      locale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: false,
-    };
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

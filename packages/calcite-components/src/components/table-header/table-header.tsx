@@ -128,14 +128,9 @@ export class TableHeader extends LitElement implements LoadableComponent {
     this.updateScreenReaderText();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("selectedRowCount") || changes.has("selectedRowCountLocalized")) {
-      this.onSelectedChange();
+      this.updateScreenReaderText();
     }
   }
 
@@ -146,11 +141,6 @@ export class TableHeader extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Methods
-
-  private onSelectedChange(): void {
-    this.updateScreenReaderText();
-  }
-
   private updateScreenReaderText(): void {
     let text = "";
     const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selected}`;

@@ -21,12 +21,12 @@ import {
   StepperItemKeyEventDetail,
   StepperLayout,
 } from "../stepper/interfaces";
-import { numberStringFormatter, NumberingSystem } from "../../utils/locale";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
   componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -184,11 +184,6 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -199,7 +194,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.disabledWatcher();
+      this.registerStepperItem();
     }
 
     if (changes.has("messages")) {
@@ -226,10 +221,6 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   }
 
   // watch for removal of disabled to register step
-  private disabledWatcher(): void {
-    this.registerStepperItem();
-  }
-
   private effectiveLocaleWatcher(locale: string): void {
     numberStringFormatter.numberFormatOptions = {
       locale,

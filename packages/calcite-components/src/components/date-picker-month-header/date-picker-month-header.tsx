@@ -133,18 +133,13 @@ export class DatePickerMonthHeader extends LitElement {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (this.hasUpdated && (changes.has("activeDate") || changes.has("localeData"))) {
-      this.updateSelectMenuWidth();
+      this.setYearSelectMenuWidth();
     }
 
     if (this.hasUpdated && changes.has("scale")) {
-      this.updateScale();
+      this.setYearSelectWidthOffset();
     }
 
     if (changes.has("min") || changes.has("max") || changes.has("activeDate")) {
@@ -159,15 +154,6 @@ export class DatePickerMonthHeader extends LitElement {
   // #endregion
 
   // #region Private Methods
-
-  private updateSelectMenuWidth(): void {
-    this.setYearSelectMenuWidth();
-  }
-
-  private updateScale(): void {
-    this.setYearSelectWidthOffset();
-  }
-
   private setNextPrevMonthDates(): void {
     if (!this.activeDate) {
       return;

@@ -214,11 +214,6 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -232,7 +227,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
       changes.has("activeMenuItemIndex") &&
       (this.hasUpdated || this.activeMenuItemIndex !== -1)
     ) {
-      this.activeMenuItemIndexHandler();
+      this.updateActions(this.actionElements);
     }
   }
 
@@ -261,10 +256,6 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     this.calciteActionMenuOpen.emit();
 
     this.setTooltipReferenceElement();
-  }
-
-  private activeMenuItemIndexHandler(): void {
-    this.updateActions(this.actionElements);
   }
 
   private connectMenuButtonEl(): void {

@@ -129,14 +129,9 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
     this.updateScreenReaderSelectionText();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("parentRowIsSelected")) {
-      this.onSelectedChange();
+      this.updateScreenReaderSelectionText();
     }
   }
 
@@ -151,11 +146,6 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
   // #endregion
 
   // #region Private Methods
-
-  private onSelectedChange(): void {
-    this.updateScreenReaderSelectionText();
-  }
-
   private updateScreenReaderSelectionText(): void {
     const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
     const unselectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;

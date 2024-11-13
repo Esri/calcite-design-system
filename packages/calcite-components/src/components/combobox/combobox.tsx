@@ -64,7 +64,7 @@ import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from ".
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/combobox.t9n.en.json";
-import { ComboboxChildElement, SelectionDisplay, GroupData, ItemData } from "./interfaces";
+import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
@@ -564,11 +564,6 @@ export class Combobox
     this.filterItems(this.filterText, false, false);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -583,21 +578,21 @@ export class Combobox
     }
 
     if (changes.has("maxItems") && (this.hasUpdated || this.maxItems !== 0)) {
-      this.maxItemsHandler();
+      this.setMaxScrollerHeight();
     }
 
     if (
       changes.has("overlayPositioning") &&
       (this.hasUpdated || this.overlayPositioning !== "absolute")
     ) {
-      this.overlayPositioningHandler();
+      this.reposition(true);
     }
 
     if (
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "multiple")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
-      this.handlePropsChange();
+      this.updateItems();
     }
 
     if (changes.has("flipPlacements")) {
@@ -660,18 +655,6 @@ export class Combobox
     if (!value) {
       this.open = false;
     }
-  }
-
-  private maxItemsHandler(): void {
-    this.setMaxScrollerHeight();
-  }
-
-  private overlayPositioningHandler(): void {
-    this.reposition(true);
-  }
-
-  private handlePropsChange(): void {
-    this.updateItems();
   }
 
   private valueHandler(value: string | string[]): void {

@@ -135,26 +135,17 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.onDisabledChange();
-    }
-
-    if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
-      this.onLayoutChange();
-    }
-
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
-      this.onScaleChange();
+    if (
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+    ) {
+      this.passPropsToRadioButtons();
     }
   }
 
@@ -170,19 +161,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Methods
-
-  private onDisabledChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  private onLayoutChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  private onScaleChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
   private passPropsToRadioButtons(): void {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =

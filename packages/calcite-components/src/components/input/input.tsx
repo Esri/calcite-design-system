@@ -19,7 +19,7 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon,
 } from "../../utils/dom";
-import { Scale, Status, Alignment } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 import {
   connectForm,
   disconnectForm,
@@ -494,26 +494,21 @@ export class Input
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("max")) {
-      this.maxWatcher();
+      this.maxString = this.max?.toString() || null;
     }
 
     if (changes.has("min")) {
-      this.minWatcher();
+      this.minString = this.min?.toString() || null;
     }
 
     if (changes.has("icon") || (changes.has("type") && (this.hasUpdated || this.type !== "text"))) {
-      this.updateRequestedIcon();
+      this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
     }
   }
 
@@ -542,18 +537,6 @@ export class Input
     this.requestUpdate();
   }
 
-  /** watcher to update number-to-string for max */
-
-  private maxWatcher(): void {
-    this.maxString = this.max?.toString() || null;
-  }
-
-  /** watcher to update number-to-string for min */
-
-  private minWatcher(): void {
-    this.minString = this.min?.toString() || null;
-  }
-
   private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       if (this.type === "number" && (newValue === "Infinity" || newValue === "-Infinity")) {
@@ -577,10 +560,6 @@ export class Input
       this.warnAboutInvalidNumberValue(newValue);
     }
     this.userChangedValue = false;
-  }
-
-  private updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

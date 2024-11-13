@@ -75,11 +75,6 @@ export class Tabs extends LitElement {
     this.updateItems();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -89,26 +84,21 @@ export class Tabs extends LitElement {
       (changes.has("position") && (this.hasUpdated || this.position !== "top")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
-      this.handleInheritableProps();
+      this.updateItems();
     }
 
-    if (changes.has("titles") && (this.hasUpdated || this.titles?.length > 0)) {
-      this.titlesWatcher();
-    }
-
-    if (changes.has("tabs") && (this.hasUpdated || this.tabs?.length > 0)) {
-      this.tabsWatcher();
+    if (
+      (changes.has("titles") && (this.hasUpdated || this.titles?.length > 0)) ||
+      (changes.has("tabs") && (this.hasUpdated || this.tabs?.length > 0))
+    ) {
+      this.updateAriaSettings();
+      this.updateItems();
     }
   }
 
   // #endregion
 
   // #region Private Methods
-
-  private handleInheritableProps(): void {
-    this.updateItems();
-  }
-
   private calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     if (event.detail.length !== this.titles.length) {
@@ -118,16 +108,6 @@ export class Tabs extends LitElement {
 
   private defaultSlotChangeHandler(event): void {
     this.tabs = slotChangeGetAssignedElements<Tab["el"]>(event, "calcite-tab");
-  }
-
-  private titlesWatcher(): void {
-    this.updateAriaSettings();
-    this.updateItems();
-  }
-
-  private tabsWatcher(): void {
-    this.updateAriaSettings();
-    this.updateItems();
   }
 
   /**

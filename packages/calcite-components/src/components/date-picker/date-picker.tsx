@@ -205,11 +205,6 @@ export class DatePicker extends LitElement implements LoadableComponent {
     this.onMaxChanged(this.max);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("activeDate")) {
       this.activeDateWatcher(this.activeDate);
@@ -230,6 +225,7 @@ export class DatePicker extends LitElement implements LoadableComponent {
     if (changes.has("max")) {
       this.onMaxChanged(this.max);
     }
+
     if (changes.has("messages") && this.hasUpdated) {
       this.loadLocaleData().catch(console.error);
     }
