@@ -10,7 +10,6 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
 import {
@@ -41,12 +40,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Properties
-
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: hidden.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
-  attributeWatch = useWatchAttributes(["hidden"], this.handleHiddenChange);
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
@@ -178,10 +171,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
 
   // #region Private Methods
 
-  private handleHiddenChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
   private onDisabledChange(): void {
     this.passPropsToRadioButtons();
   }
@@ -205,7 +194,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
         if (this.hasUpdated) {
           radioButton.disabled = this.disabled || radioButton.disabled;
         }
-        radioButton.hidden = this.el.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;

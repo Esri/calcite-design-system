@@ -90,10 +90,6 @@ export class Input
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: enterkeyhint, inputmode, spellcheck.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
   attributeWatch = useWatchAttributes(
     ["enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
@@ -188,16 +184,6 @@ export class Input
    */
   @property() autocomplete: string;
 
-  /**
-   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
-   *
-   * @private
-   */
-  @property()
-  autofocus: boolean /* TODO: [MIGRATION] The name of this class member (autofocus) clashes 
-  with the name of an HTMLElement.autofocus property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
-
   /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type. */
   @property({ reflect: true }) clearable = false;
 
@@ -210,17 +196,6 @@ export class Input
 
   /** @private */
   @property({ reflect: true }) editingEnabled = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @private
-   */
-  @property()
-  enterKeyHint: string /* TODO: [MIGRATION] The name of this class member (enterKeyHint) clashes 
-  with the name of an HTMLElement.enterKeyHint property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
 
   /**
    * When `type` is `"file"`, specifies the component's selected files.
@@ -244,17 +219,6 @@ export class Input
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @private
-   */
-  @property()
-  inputMode: string /* TODO: [MIGRATION] The name of this class member (inputMode) clashes 
-  with the name of an HTMLElement.inputMode property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
 
   /** Accessible name for the component. */
   @property() label: string;
@@ -540,10 +504,6 @@ export class Input
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("autofocus")) {
-      this.handleGlobalAttributesChanged();
-    }
-
     if (changes.has("max")) {
       this.maxWatcher();
     }

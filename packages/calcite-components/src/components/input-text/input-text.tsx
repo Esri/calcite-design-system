@@ -74,10 +74,6 @@ export class InputText
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: enterkeyhint, inputmode, spellcheck.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
   attributeWatch = useWatchAttributes(
     ["enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
@@ -145,16 +141,6 @@ export class InputText
    */
   @property() autocomplete: string;
 
-  /**
-   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
-   *
-   * @private
-   */
-  @property()
-  autofocus: boolean /* TODO: [MIGRATION] The name of this class member (autofocus) clashes 
-  with the name of an HTMLElement.autofocus property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
-
   /** When `true`, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
 
@@ -167,17 +153,6 @@ export class InputText
 
   /** @private */
   @property({ reflect: true }) editingEnabled = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @private
-   */
-  @property()
-  enterKeyHint: string /* TODO: [MIGRATION] The name of this class member (enterKeyHint) clashes 
-  with the name of an HTMLElement.enterKeyHint property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
 
   /**
    * The `id` of the form that will be associated with the component.
@@ -195,17 +170,6 @@ export class InputText
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @private
-   */
-  @property()
-  inputMode: string /* TODO: [MIGRATION] The name of this class member (inputMode) clashes 
-  with the name of an HTMLElement.inputMode property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
 
   /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
@@ -399,10 +363,6 @@ export class InputText
    * @param changes
    */
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("autofocus")) {
-      this.handleGlobalAttributesChanged();
-    }
-
     if (changes.has("icon")) {
       this.updateRequestedIcon();
     }

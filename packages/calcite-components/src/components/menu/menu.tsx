@@ -37,10 +37,6 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
 
   // #region Private Properties
 
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: role.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
   attributeWatch = useWatchAttributes(["role"], this.handleGlobalAttributesChanged);
 
   private menuItems: CalciteMenuItem["el"][] = [];

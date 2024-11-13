@@ -1,6 +1,5 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
@@ -44,12 +43,6 @@ export class RadioButton
   // #endregion
 
   // #region Private Properties
-
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: hidden.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
-  attributeWatch = useWatchAttributes(["hidden"], this.handleHiddenChange);
 
   private containerEl: HTMLDivElement;
 
@@ -256,10 +249,6 @@ export class RadioButton
   // #endregion
 
   // #region Private Methods
-
-  private handleHiddenChange(): void {
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
 
   private checkedChanged(newChecked: boolean): void {
     if (newChecked) {
