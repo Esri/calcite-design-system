@@ -3,7 +3,7 @@ import { boolean } from "../../.storybook/utils";
 
 export const navigationLogoTokens = {
   calciteNavigationBackgroundColor: "",
-  calciteNavigationLogoBorderColor: "",
+  calciteNavigationSelectionBorderColor: "",
   calciteNavigationLogoHeadingTextColor: "",
   calciteNavigationLogoTextColor: "",
 };

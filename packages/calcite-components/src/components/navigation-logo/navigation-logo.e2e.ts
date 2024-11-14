@@ -100,12 +100,6 @@ describe("calcite-navigation-logo", () => {
             state: { press: { attribute: "class", value: CSS.anchor } },
           },
         ],
-        "--calcite-navigation-logo-border-color": [
-          {
-            shadowSelector: `.${CSS.anchor}`,
-            targetProp: "borderBlockEndColor",
-          },
-        ],
         "--calcite-navigation-logo-text-color": [
           {
             shadowSelector: `.${CSS.description}`,
@@ -131,7 +125,7 @@ describe("calcite-navigation-logo", () => {
 
     describe("active", () => {
       const tokens: ComponentTestTokens = {
-        "--calcite-navigation-logo-border-color": {
+        "--calcite-navigation-selection-border-color": {
           shadowSelector: `.${CSS.anchor}`,
           targetProp: "borderBlockEndColor",
         },
