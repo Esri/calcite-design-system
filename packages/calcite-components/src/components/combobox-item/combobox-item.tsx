@@ -149,9 +149,8 @@ export class ComboboxItem implements InteractiveComponent {
   /**
    * Specifies whether the user set the hidden attribute in the HTML
    *
-   * @internal
    */
-  @Prop() userHidden = false;
+  @Prop() hideItem = false;
 
   // --------------------------------------------------------------------------
   //
@@ -171,7 +170,6 @@ export class ComboboxItem implements InteractiveComponent {
 
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
-    this.userHidden = this.el.hidden;
   }
 
   componentDidRender(): void {

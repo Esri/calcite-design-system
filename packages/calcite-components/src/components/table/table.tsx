@@ -312,7 +312,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return el
       ?.assignedElements({ flatten: true })
       ?.filter(
-        (el) => el?.matches("calcite-table-row") && !(el as HTMLCalciteTableRowElement)?.userHidden,
+        (el) => el?.matches("calcite-table-row") && !(el as HTMLCalciteTableRowElement)?.hideItem,
       ) as HTMLCalciteTableRowElement[];
   };
 
