@@ -63,10 +63,6 @@ describe("calcite-navigation-user", () => {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-navigation-user-selection-border-color": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "borderBlockEndColor",
-        },
         "--calcite-navigation-user-full-name-text-color": {
           shadowSelector: `.${CSS.fullName}`,
           targetProp: "color",
@@ -81,7 +77,7 @@ describe("calcite-navigation-user", () => {
 
     describe("active", () => {
       const tokens: ComponentTestTokens = {
-        "--calcite-navigation-user-selection-border-color": {
+        "--calcite-navigation-selection-border-color": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "borderBlockEndColor",
         },

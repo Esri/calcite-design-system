@@ -6,7 +6,7 @@
  * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the corner radius of avatar.
  * @prop --calcite-navigation-user-avatar-color: Specifies the icon color of avatar.
  * @prop --calcite-navigation-background-color: Specifies the component's background color.
- * @prop --calcite-navigation-user-selection-border-color: Specifies the components's border color.
+ * @prop --calcite-navigation-selection-border-color: Specifies the components's border color when `active`.
  * @prop --calcite-navigation-user-full-name-text-color: Specifies the component's full name text color.
  * @prop --calcite-navigation-user-name-text-color: Specifies the component's username text color.
  *
@@ -29,11 +29,7 @@
       --calcite-navigation-background-color,
       var(--calcite-internal-navigation-user-background-color, var(--calcite-color-transparent))
     );
-    border-block-end: 2px solid
-      var(
-        --calcite-navigation-user-selection-border-color,
-        var(--calcite-internal-navigation-selection-border-color, var(--calcite-color-transparent))
-      );
+    border-block-end: 2px solid var(--calcite-color-transparent);
   }
 }
 
@@ -79,7 +75,7 @@ calcite-avatar ~ .text-container {
 }
 
 :host([active]) .button {
-  --calcite-internal-navigation-user-selection-border-color: var(--calcite-color-brand);
+  border-block-end-color: var(--calcite-navigation-selection-border-color, var(--calcite-color-brand));
 }
 
 @include base-component();
