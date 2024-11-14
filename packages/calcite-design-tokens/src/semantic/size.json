@@ -2,31 +2,6 @@
   "semantic": {
     "size": {
       "fixed": {
-        "px": {
-          "value": "{core.size.default.1}",
-          "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "px",
-              "context": "",
-              "mode": ""
-            }
-          }
-        },
         "xxxs": {
           "value": "{core.size.default.2}",
           "type": "spacing",
