@@ -10,6 +10,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
+import { FocusTargetOrFalse } from "focus-trap";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -144,6 +145,9 @@ export class Popover
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** Specifies whether the first tabbable child element will be focused when the popover is opened. */
+  @property({ reflect: true }) initialFocus: FocusTargetOrFalse;
 
   /**
    * Accessible name for the component.
@@ -293,6 +297,7 @@ export class Popover
       focusTrapOptions: {
         allowOutsideClick: true,
         clickOutsideDeactivates: this.clickOutsideDeactivates,
+        initialFocus: this.initialFocus,
         onDeactivate: this.focusTrapDeactivates,
       },
     });

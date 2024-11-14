@@ -888,6 +888,7 @@ describe("calcite-input-time-picker", () => {
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
       await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Tab");
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
