@@ -2,56 +2,6 @@
   "semantic": {
     "space": {
       "fixed": {
-        "px": {
-          "value": "{core.size.default.1}",
-          "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "px",
-              "context": "",
-              "mode": ""
-            }
-          }
-        },
-        "base": {
-          "value": "{core.size.default.2}",
-          "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "base",
-              "context": "",
-              "mode": ""
-            }
-          }
-        },
         "xxs": {
           "value": "{core.size.default.4}",
           "type": "space",
