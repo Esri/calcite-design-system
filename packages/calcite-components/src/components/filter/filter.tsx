@@ -121,7 +121,8 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   async filter(value: string = this.value): Promise<void> {
     return new Promise((resolve) => {
       this.value = value;
-      this.filterDebounced(value, false, resolve);
+      /** TODO: [MIGRATION] we bypass the debounced function to work around an issue with debounce using the last args passed when invoking the debounced fn, causing the promise to not resolve */
+      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), false, resolve);
     });
   }
 

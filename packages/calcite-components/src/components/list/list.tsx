@@ -85,64 +85,63 @@ export class List
 
   sortable: Sortable;
 
-  private updateListItems = debounce(
-    (options?: { emitFilterChange?: boolean; performFilter?: boolean }): void => {
-      const emitFilterChange = options?.emitFilterChange ?? false;
-      const performFilter = options?.performFilter ?? false;
+  private updateListItems = debounce((options?: { performFilter?: boolean }): void => {
+    const performFilter = options?.performFilter ?? false;
 
-      this.updateGroupItems();
+    this.updateGroupItems();
 
-      const {
-        selectionAppearance,
-        selectionMode,
-        interactionMode,
-        dragEnabled,
-        el,
-        filterEl,
-        filterEnabled,
-        moveToItems,
-      } = this;
+    const {
+      selectionAppearance,
+      selectionMode,
+      interactionMode,
+      dragEnabled,
+      el,
+      filterEl,
+      filterEnabled,
+      moveToItems,
+    } = this;
 
-      const items = Array.from(this.el.querySelectorAll(listItemSelector));
+    const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
-      items.forEach((item) => {
-        item.selectionAppearance = selectionAppearance;
-        item.selectionMode = selectionMode;
-        item.interactionMode = interactionMode;
-        if (item.closest("calcite-list") === el) {
-          item.moveToItems = moveToItems.filter(
-            (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
-          );
-          item.dragHandle = dragEnabled;
-        }
-      });
-
-      if (this.parentListEl) {
-        this.setUpSorting();
-        return;
+    items.forEach((item) => {
+      item.selectionAppearance = selectionAppearance;
+      item.selectionMode = selectionMode;
+      item.interactionMode = interactionMode;
+      if (item.closest("calcite-list") === el) {
+        item.moveToItems = moveToItems.filter(
+          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+        );
+        item.dragHandle = dragEnabled;
       }
+    });
 
-      this.listItems = items;
-      if (filterEnabled && performFilter) {
-        this.dataForFilter = this.getItemData();
-
-        if (filterEl) {
-          filterEl.items = this.dataForFilter;
-          this.filterAndUpdateData();
-        }
-      }
-      this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-      this.updateFilteredItems(emitFilterChange);
-      this.borderItems();
-      this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
-      this.setActiveListItem();
-      this.updateSelectedItems();
+    if (this.parentListEl) {
       this.setUpSorting();
-    },
-    debounceTimeout,
-  );
+      return;
+    }
+
+    this.listItems = items;
+    if (filterEnabled && performFilter) {
+      this.dataForFilter = this.getItemData();
+
+      if (filterEl) {
+        filterEl.items = this.dataForFilter;
+        this.filterAndUpdateData();
+      }
+    }
+    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
+    this.updateFilteredItems();
+    this.borderItems();
+    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
+    this.setActiveListItem();
+    this.updateSelectedItems();
+    this.setUpSorting();
+  }, debounceTimeout);
 
   private visibleItems: ListItem["el"][] = [];
+
+  /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
+  private willFilterEmit: boolean = false;
 
   // #endregion
 
@@ -683,7 +682,7 @@ export class List
     );
   }
 
-  private updateFilteredItems(emit = false): void {
+  private updateFilteredItems(): void {
     const { visibleItems, filteredData, filterText } = this;
 
     const values = filteredData.map((item) => item.value);
@@ -703,12 +702,13 @@ export class List
 
     this.filteredItems = filteredItems;
 
-    if (emit) {
+    if (this.willFilterEmit) {
+      this.willFilterEmit = false;
       this.calciteListFilter.emit();
     }
   }
 
-  private updateFilteredData(emit = false): void {
+  private updateFilteredData(): void {
     const { filterEl } = this;
 
     if (!filterEl) {
@@ -719,7 +719,7 @@ export class List
       this.filteredData = filterEl.filteredItems as ItemData;
     }
 
-    this.updateListItems({ emitFilterChange: emit });
+    this.updateListItems();
   }
 
   private async filterAndUpdateData(): Promise<void> {
@@ -748,7 +748,8 @@ export class List
     event.stopPropagation();
     const { value } = event.currentTarget as Filter["el"];
     this.filterText = value;
-    this.updateFilteredData(true);
+    this.willFilterEmit = true;
+    this.updateFilteredData();
   }
 
   private getItemData(): ItemData {
