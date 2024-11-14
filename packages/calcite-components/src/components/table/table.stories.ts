@@ -1712,27 +1712,3 @@ export const darkModeRTLWithSelection_TestOnly = (): string =>
   </calcite-table>`;
 
 darkModeRTLWithSelection_TestOnly.parameters = { themes: modesDarkDefault };
-
-export const hidden_TestOnly = (): string =>
-  html`<calcite-table caption="Simple">
-    <calcite-table-row slot="table-header">
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    </calcite-table-row>
-    <calcite-table-row hidden>
-      <calcite-table-cell>cell content hidden</calcite-table-cell>
-      <calcite-table-cell>cell content</calcite-table-cell>
-      <calcite-table-cell>cell content</calcite-table-cell>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell content</calcite-table-cell>
-      <calcite-table-cell>cell content</calcite-table-cell>
-      <calcite-table-cell>cell content</calcite-table-cell>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell content</calcite-table-cell>
-      <calcite-table-cell>cell content</calcite-table-cell>
-      <calcite-table-cell>cell content</calcite-table-cell>
-    </calcite-table-row>
-  </calcite-table>`;

@@ -934,17 +934,3 @@ withDescriptionShortLabelAndContentEndSlot.decorators = [allScaleComboboxBuilder
 withDescriptionShortLabelAndContentEndSlot.args = {
   selectionMode: ["single", "multiple"],
 };
-
-export const hidden_TestOnly = (): string =>
-  html`<calcite-combobox open>
-    <calcite-combobox-item value="Trees" text-label="Trees">
-      <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-      <calcite-combobox-item value="Sequoia" hidden text-label="Sequoia"></calcite-combobox-item>
-      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-    </calcite-combobox-item>
-    <calcite-combobox-item value="Flowers" text-label="Flowers">
-      <calcite-combobox-item value="Daffodil" text-label="Daffodil" hidden></calcite-combobox-item>
-      <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-      <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-    </calcite-combobox-item>
-  </calcite-combobox>`;
