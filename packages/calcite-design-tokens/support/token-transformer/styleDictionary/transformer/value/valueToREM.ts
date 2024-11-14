@@ -3,24 +3,18 @@ import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 import { Matcher } from "style-dictionary/types/Matcher.js";
 
 export const matcher: Matcher = (token) => {
-  const matchingRegex = /dimension/g;
+  if (!["lineHeights"].includes(token.type)) {
+    return false;
+  }
 
-  return matchingRegex.test(token.type);
+  return true;
 };
 
 export const transformToREM: CalledTransformerFunction<string> = (token) => {
-  const basePxFontSize = 16;
-  const regex = /[px%]/g;
-
   if (typeof token.value === "string") {
-    let returnValue = Number(token.value.replace(regex, ""));
-
-    if (!isNaN(returnValue)) {
-      if (token.value.includes("%")) {
-        returnValue = returnValue * 0.01;
-      }
-
-      return `${returnValue / basePxFontSize / 10}rem`;
+    const val = Number(token.value.replace("%", ""));
+    if (!isNaN(val)) {
+      return `${val * 0.01}`;
     }
   }
 

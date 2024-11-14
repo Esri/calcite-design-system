@@ -31,7 +31,6 @@ export const globalTransformations = [
   "ts/opacity",
   "ts/size/px",
   "ts/color/modifiers",
-  CalciteValueToREM,
   valueAlignFontWeightAndStyles,
   transitiveValueColorCSS,
   transitiveValueEvaluateMath,
@@ -46,6 +45,7 @@ export const styles = [
   "ts/shadow/css/shorthand",
   valueAssetToken,
   valueStringWrapper,
+  CalciteValueToREM,
   valueFontFamilyFallbacks,
   nameKebabCase,
 ];
