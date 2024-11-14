@@ -8,6 +8,7 @@
  * @prop --calcite-slider-track-fill-color: Specifies the component's fill track color. 
  * @prop --calcite-slider-handle-fill-color: Specifies the component's handle fill color. 
  * @prop --calcite-slider-handle-extension-color: Specifies the component's handle extension color.
+ * @prop --calcite-slider-accent-color: Specifies the component's accent color.
  * @prop --calcite-slider-tick-color: Specifies the component's tick color.
  * @prop --calcite-slider-tick-border-color: Specifies the component's tick border color.
  * @prop --calcite-slider-tick-selected-color: Specifies the component's tick color when in selected range.
@@ -166,7 +167,7 @@
       box-shadow: 0 0 0 3px var(--calcite-color-brand) inset;
     }
     .handle-extension {
-      background-color: var(--calcite-color-brand);
+      background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
     }
   }
 
@@ -175,7 +176,7 @@
       @apply focus-outset;
     }
     .handle-extension {
-      background-color: var(--calcite-color-brand);
+      background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
     }
   }
 
@@ -239,7 +240,7 @@
 .thumb:focus,
 .thumb--active {
   .handle {
-    background-color: var(--calcite-color-brand);
+    background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
     box-shadow: 0 0 8px 0 rgb(0 0 0 / 16%); // shadow 1 press
   }
 }
@@ -247,7 +248,7 @@
 .thumb:hover.thumb--precise::after,
 .thumb:focus.thumb--precise::after,
 .thumb--active.thumb--precise::after {
-  background-color: var(--calcite-color-brand);
+  background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
 }
 
 .track {
