@@ -39,7 +39,7 @@
     "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --stats-json --quiet",
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
-    "build:watch-dev": "npm run util:prep-build-reqs && vite",
+    "build:watch-dev": "npm run util:prep-build-reqs && vite --mode development",
     "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist hydrate docs .turbo",
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --write \"**/*.html\" >/dev/null",
