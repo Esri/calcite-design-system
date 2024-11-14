@@ -59,14 +59,9 @@ export class Label extends LitElement {
     document.dispatchEvent(new CustomEvent(labelConnectedEvent));
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("for")) {
-      this.handleForChange();
+      associateExplicitLabelToUnlabeledComponent(this.el);
     }
   }
 
@@ -77,11 +72,6 @@ export class Label extends LitElement {
   // #endregion
 
   // #region Private Methods
-
-  private handleForChange(): void {
-    associateExplicitLabelToUnlabeledComponent(this.el);
-  }
-
   private labelClickHandler(event: MouseEvent): void {
     if (window.getSelection()?.type === "Range") {
       return;

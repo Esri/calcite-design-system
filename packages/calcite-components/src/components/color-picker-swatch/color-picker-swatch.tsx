@@ -55,11 +55,6 @@ export class ColorPickerSwatch extends LitElement {
     this.handleColorChange(this.color);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("color")) {
       this.handleColorChange(this.color);

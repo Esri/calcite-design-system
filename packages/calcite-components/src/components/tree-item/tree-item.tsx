@@ -138,11 +138,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     requestAnimationFrame(() => (this.updateAfterInitialRender = true));
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     this.preWillUpdate();
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -150,7 +145,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.expandedHandler();
+      this.updateChildTree();
     }
 
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
@@ -173,11 +168,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
-
-  private expandedHandler(): void {
-    this.updateChildTree();
-  }
-
   private handleSelectedChange(value: boolean): void {
     if (this.selectionMode === "ancestors" && !this.userChangedValue) {
       if (value) {

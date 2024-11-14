@@ -131,22 +131,17 @@ export class ActionPad extends LitElement implements LoadableComponent {
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && this.hasUpdated) {
-      this.expandedHandler(this.expanded);
+      toggleChildActionText({ el: this.el, expanded: this.expanded });
     }
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
-      this.layoutHandler();
+      this.updateGroups();
     }
   }
 
@@ -161,15 +156,6 @@ export class ActionPad extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Methods
-
-  private expandedHandler(expanded: boolean): void {
-    toggleChildActionText({ el: this.el, expanded });
-  }
-
-  private layoutHandler(): void {
-    this.updateGroups();
-  }
-
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();

@@ -1,6 +1,5 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
@@ -44,12 +43,6 @@ export class RadioButton
   // #endregion
 
   // #region Private Properties
-
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: hidden.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
-  attributeWatch = useWatchAttributes(["hidden"], this.handleHiddenChange);
 
   private containerEl: HTMLDivElement;
 
@@ -123,8 +116,6 @@ export class RadioButton
 
   /**
    * The component's value.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -212,11 +203,6 @@ export class RadioButton
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -227,11 +213,11 @@ export class RadioButton
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.disabledChanged();
+      this.updateTabIndexOfOtherRadioButtonsInGroup();
     }
 
     if (changes.has("name")) {
-      this.nameChanged();
+      this.checkLastRadioButton();
     }
   }
 
@@ -257,24 +243,12 @@ export class RadioButton
 
   // #region Private Methods
 
-  private handleHiddenChange(): void {
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
-
   private checkedChanged(newChecked: boolean): void {
     if (newChecked) {
       this.uncheckOtherRadioButtonsInGroup();
     }
 
     this.calciteInternalRadioButtonCheckedChange.emit();
-  }
-
-  private disabledChanged(): void {
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
-
-  private nameChanged(): void {
-    this.checkLastRadioButton();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {

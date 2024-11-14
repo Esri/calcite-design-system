@@ -10,7 +10,6 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
 import {
@@ -42,12 +41,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
 
   // #region Private Properties
 
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: hidden.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
-  attributeWatch = useWatchAttributes(["hidden"], this.handleHiddenChange);
-
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
   // #endregion
@@ -69,8 +62,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
 
   /**
    * Specifies the name of the component on form submission. Must be unique to other component instances.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -142,26 +133,17 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.onDisabledChange();
-    }
-
-    if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
-      this.onLayoutChange();
-    }
-
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
-      this.onScaleChange();
+    if (
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+    ) {
+      this.passPropsToRadioButtons();
     }
   }
 
@@ -177,23 +159,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Methods
-
-  private handleHiddenChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  private onDisabledChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  private onLayoutChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  private onScaleChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
   private passPropsToRadioButtons(): void {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
@@ -205,7 +170,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
         if (this.hasUpdated) {
           radioButton.disabled = this.disabled || radioButton.disabled;
         }
-        radioButton.hidden = this.el.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;

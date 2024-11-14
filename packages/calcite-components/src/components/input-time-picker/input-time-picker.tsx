@@ -37,7 +37,12 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { NumberingSystem, numberStringFormatter, SupportedLocale } from "../../utils/locale";
+import {
+  getSupportedLocale,
+  NumberingSystem,
+  numberStringFormatter,
+  SupportedLocale,
+} from "../../utils/locale";
 import {
   formatTimePart,
   formatTimeString,
@@ -48,7 +53,6 @@ import {
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import TimePickerMessages from "../time-picker/assets/t9n/time-picker.t9n.en.json";
-import { getSupportedLocale } from "../../utils/locale";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
@@ -364,26 +368,25 @@ export class InputTimePicker
     await this.loadDateTimeLocaleData();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (this.hasUpdated && changes.has("open") && this.open !== false) {
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.handleDisabledAndReadOnlyChange(this.disabled);
+      if (!this.disabled) {
+        this.open = false;
+      }
     }
 
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
-      this.handleDisabledAndReadOnlyChange(this.readOnly);
+      if (!this.readOnly) {
+        this.open = false;
+      }
     }
 
     if (changes.has("numberingSystem")) {
@@ -436,12 +439,6 @@ export class InputTimePicker
     if (this.popoverEl) {
       // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
       this.popoverEl.open = this.open;
-    }
-  }
-
-  private handleDisabledAndReadOnlyChange(value: boolean): void {
-    if (!value) {
-      this.open = false;
     }
   }
 
@@ -856,10 +853,16 @@ export class InputTimePicker
   }
 
   private setInputEl(el: InputText["el"]): void {
+    if (!el) {
+      return;
+    }
     this.calciteInputEl = el;
   }
 
   private setCalciteTimePickerEl(el: TimePicker["el"]): void {
+    if (!el) {
+      return;
+    }
     this.calciteTimePickerEl = el;
   }
 

@@ -329,7 +329,9 @@ describe("calcite-modal", () => {
           </div>
         </calcite-modal>
       `);
+      let openEvent = page.waitForEvent("calciteModalOpen");
       await skipAnimations(page);
+      await page.waitForChanges();
 
       await page.evaluate(() => {
         const btn = document.getElementById("openButton");
@@ -345,10 +347,12 @@ describe("calcite-modal", () => {
           modal2.open = true;
         });
       });
+      await page.waitForChanges();
+      await openEvent;
 
-      await page.waitForEvent("calciteModalOpen");
+      openEvent = page.waitForEvent("calciteModalOpen");
       await page.click("#openButton");
-      await page.waitForEvent("calciteModalOpen");
+      await openEvent;
 
       expect(await isElementFocused(page, "#modal2")).toBe(true);
     });

@@ -7,7 +7,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { Status, Position } from "../interfaces";
+import { FlipContext, Position, Status } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
@@ -21,7 +21,6 @@ import {
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -90,8 +89,6 @@ export class Block
 
   /**
    * The component header text.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -197,18 +194,13 @@ export class Block
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.openHandler();
+      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -223,11 +215,6 @@ export class Block
   // #endregion
 
   // #region Private Methods
-
-  private openHandler(): void {
-    onToggleOpenCloseComponent(this);
-  }
-
   onBeforeOpen(): void {
     this.calciteBlockBeforeOpen.emit();
   }

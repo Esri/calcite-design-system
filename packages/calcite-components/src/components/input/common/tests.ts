@@ -122,19 +122,6 @@ export function testWorkaroundForGlobalPropRemoval(
   const testInputMode = "tel";
   const testEnterKeyHint = "done";
 
-  it("supports global attribute kebab-casing (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-        <${inputTag} autofocus input-mode="${testInputMode}" enter-key-hint="${testEnterKeyHint}"></${inputTag}>
-    `);
-
-    const input = await page.find(`${inputTag} >>> input`);
-
-    expect(input.getAttribute("autofocus")).toBe("");
-    expect(input.getAttribute("inputmode")).toBe(testInputMode);
-    expect(input.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
-  });
-
   it("supports global attribute casing", async () => {
     const page = await newE2EPage();
     await page.setContent(html`

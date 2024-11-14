@@ -75,11 +75,6 @@ export class Tabs extends LitElement {
     this.updateItems();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -89,26 +84,23 @@ export class Tabs extends LitElement {
       (changes.has("position") && (this.hasUpdated || this.position !== "top")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
-      this.handleInheritableProps();
+      this.updateItems();
     }
 
-    if (changes.has("titles") && (this.hasUpdated || this.titles?.length > 0)) {
-      this.titlesWatcher();
-    }
-
-    if (changes.has("tabs") && (this.hasUpdated || this.tabs?.length > 0)) {
-      this.tabsWatcher();
+    if (
+      (changes.has("titles") || changes.has("tabs")) &&
+      this.hasUpdated &&
+      this.titles?.length > 0 &&
+      this.tabs?.length > 0
+    ) {
+      this.updateAriaSettings();
+      this.updateItems();
     }
   }
 
   // #endregion
 
   // #region Private Methods
-
-  private handleInheritableProps(): void {
-    this.updateItems();
-  }
-
   private calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     if (event.detail.length !== this.titles.length) {
@@ -116,18 +108,8 @@ export class Tabs extends LitElement {
     }
   }
 
-  private defaultSlotChangeHandler(event): void {
+  private defaultSlotChangeHandler(event: Event): void {
     this.tabs = slotChangeGetAssignedElements<Tab["el"]>(event, "calcite-tab");
-  }
-
-  private titlesWatcher(): void {
-    this.updateAriaSettings();
-    this.updateItems();
-  }
-
-  private tabsWatcher(): void {
-    this.updateAriaSettings();
-    this.updateItems();
   }
 
   /**
@@ -136,6 +118,8 @@ export class Tabs extends LitElement {
    * `<calcite-tab-title>` components.
    */
   private async updateAriaSettings(): Promise<void> {
+    await this.componentOnReady();
+
     let tabIds;
     let titleIds;
     const tabs = getSlotAssignedElements<Tab["el"]>(this.slotEl, "calcite-tab");
@@ -171,8 +155,8 @@ export class Tabs extends LitElement {
     // pass all our new aria information to each `<calcite-tab>` and
     // `<calcite-tab-title>` which will check if they can update their internal
     // `controlled` or `labeledBy` states and re-render if necessary
-    tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
-    this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
+    tabs.forEach((el) => el._updateAriaInfo(tabIds, titleIds));
+    this.titles.forEach((el) => el._updateAriaInfo(tabIds, titleIds));
   }
 
   private updateItems(): void {

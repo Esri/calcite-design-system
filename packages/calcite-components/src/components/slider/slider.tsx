@@ -376,35 +376,28 @@ export class Slider
     if (!isRange(this.value)) {
       this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
     }
-    this.ticksWatcher();
-    this.histogramWatcher(this.histogram);
     afterConnectDefaultValueSet(this, this.value);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("histogram")) {
-      this.histogramWatcher(this.histogram);
+      this.hasHistogram = !!this.histogram;
     }
 
     if (changes.has("ticks")) {
-      this.ticksWatcher();
+      this.tickValues = this.generateTickValues();
     }
 
     if (changes.has("value") && (this.hasUpdated || this.value !== 0)) {
-      this.valueHandler();
+      this.setMinMaxFromValue();
     }
 
     if (changes.has("minValue") || changes.has("maxValue")) {
-      this.minMaxValueHandler();
+      this.setValueFromMinMax();
     }
   }
 
@@ -435,23 +428,6 @@ export class Slider
   // #endregion
 
   // #region Private Methods
-
-  private histogramWatcher(newHistogram: DataSeries): void {
-    this.hasHistogram = !!newHistogram;
-  }
-
-  private ticksWatcher(): void {
-    this.tickValues = this.generateTickValues();
-  }
-
-  private valueHandler(): void {
-    this.setMinMaxFromValue();
-  }
-
-  private minMaxValueHandler(): void {
-    this.setValueFromMinMax();
-  }
-
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;

@@ -69,11 +69,7 @@ export default {
   parameters: {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold:
-        Number(
-          /* TODO: [MIGRATION] Unknown env variable. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-publishing--docs#bundling-code-conditionally for docs on what env variables are available and how to define additional */ import.meta
-            .env.CHROMATIC_DIFF_THRESHOLD,
-        ) || 0.3,
+      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
       delay: 500,
     },
   },

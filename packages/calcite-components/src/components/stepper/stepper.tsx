@@ -197,11 +197,6 @@ export class Stepper extends LitElement {
     this.updateItems();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -213,15 +208,18 @@ export class Stepper extends LitElement {
       (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
-      this.handleItemPropChange();
+      this.updateItems();
+      this.determineActiveStepper();
     }
 
     if (changes.has("numberingSystem")) {
-      this.numberingSystemChange();
+      this.setStepperItemNumberingSystem();
     }
 
     if (changes.has("currentActivePosition")) {
-      this.handlePositionChange();
+      requestAnimationFrame((): void => {
+        this.determineActiveStepper();
+      });
     }
   }
 
@@ -247,16 +245,6 @@ export class Stepper extends LitElement {
   // #endregion
 
   // #region Private Methods
-
-  private handleItemPropChange(): void {
-    this.updateItems();
-    this.determineActiveStepper();
-  }
-
-  private numberingSystemChange(): void {
-    this.setStepperItemNumberingSystem();
-  }
-
   private calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = event.detail.item;
     const itemToFocus = event.target as StepperItem["el"];
@@ -303,12 +291,6 @@ export class Stepper extends LitElement {
 
   private handleItemSelect(): void {
     this.emitItemSelect();
-  }
-
-  private handlePositionChange(): void {
-    requestAnimationFrame((): void => {
-      this.determineActiveStepper();
-    });
   }
 
   private emitItemSelect(): void {

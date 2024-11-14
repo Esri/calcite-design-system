@@ -88,10 +88,6 @@ export class InputNumber
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: enterkeyhint, inputmode.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
   attributeWatch = useWatchAttributes(
     ["enterkeyhint", "inputmode"],
     this.handleGlobalAttributesChanged,
@@ -167,16 +163,6 @@ export class InputNumber
    */
   @property() autocomplete: string;
 
-  /**
-   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
-   *
-   * @private
-   */
-  @property()
-  autofocus: boolean /* TODO: [MIGRATION] The name of this class member (autofocus) clashes 
-  with the name of an HTMLElement.autofocus property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
-
   /** When `true`, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
 
@@ -189,17 +175,6 @@ export class InputNumber
 
   /** @private */
   @property({ reflect: true }) editingEnabled = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @private
-   */
-  @property()
-  enterKeyHint: string /* TODO: [MIGRATION] The name of this class member (enterKeyHint) clashes 
-  with the name of an HTMLElement.enterKeyHint property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
 
   /**
    * The `id` of the form that will be associated with the component.
@@ -220,17 +195,6 @@ export class InputNumber
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @private
-   */
-  @property()
-  inputMode: string /* TODO: [MIGRATION] The name of this class member (inputMode) clashes 
-  with the name of an HTMLElement.inputMode property. If this is not intentional, please rename it to avoid issues.
-  If you mean to listen to native DOM property/attribute, see documentation for that: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-controllers-usewatchattributes--docs */;
 
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
   @property() integer = false;
@@ -465,30 +429,25 @@ export class InputNumber
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("autofocus")) {
-      this.handleGlobalAttributesChanged();
-    }
-
     if (changes.has("max")) {
-      this.maxWatcher();
+      this.maxString = this.max?.toString() || null;
     }
 
     if (changes.has("min")) {
-      this.minWatcher();
+      this.minString = this.min?.toString() || null;
     }
 
     if (changes.has("icon")) {
-      this.updateRequestedIcon();
+      this.requestedIcon = setRequestedIcon({}, this.icon, "number");
     }
 
     if (changes.has("messages")) {
-      this.effectiveLocaleWatcher(this.messages._lang);
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.messages._lang,
+        numberingSystem: this.numberingSystem,
+        useGrouping: false,
+      };
     }
   }
 
@@ -517,18 +476,6 @@ export class InputNumber
     this.requestUpdate();
   }
 
-  /** watcher to update number-to-string for max */
-
-  private maxWatcher(): void {
-    this.maxString = this.max?.toString() || null;
-  }
-
-  /** watcher to update number-to-string for min */
-
-  private minWatcher(): void {
-    this.minString = this.min?.toString() || null;
-  }
-
   private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       if (newValue === "Infinity" || newValue === "-Infinity") {
@@ -550,18 +497,6 @@ export class InputNumber
       this.warnAboutInvalidNumberValue(newValue);
     }
     this.userChangedValue = false;
-  }
-
-  private updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon({}, this.icon, "number");
-  }
-
-  private effectiveLocaleWatcher(locale: string): void {
-    numberStringFormatter.numberFormatOptions = {
-      locale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: false,
-    };
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

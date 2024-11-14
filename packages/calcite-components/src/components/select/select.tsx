@@ -98,8 +98,6 @@ export class Select
 
   /**
    * Accessible name for the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -205,28 +203,19 @@ export class Select
 
   load(): void {
     setUpLoadableComponent(this);
-
-    if (typeof this.value === "string") {
-      this.updateItemsFromValue(this.value);
-    }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
-      this.valueHandler(this.value);
+      this.updateItemsFromValue(this.value);
     }
 
     if (changes.has("selectedOption")) {
-      this.selectedOptionHandler(this.selectedOption);
+      this.value = this.selectedOption?.value;
     }
   }
 
@@ -236,6 +225,11 @@ export class Select
 
   loaded(): void {
     setComponentLoaded(this);
+
+    if (typeof this.value === "string") {
+      this.updateItemsFromValue(this.value);
+    }
+
     this.populateInternalSelect();
 
     const selected = this.selectEl.selectedOptions[0];
@@ -252,15 +246,6 @@ export class Select
   // #endregion
 
   // #region Private Methods
-
-  private valueHandler(value: string): void {
-    this.updateItemsFromValue(value);
-  }
-
-  private selectedOptionHandler(selectedOption: Option["el"]): void {
-    this.value = selectedOption?.value;
-  }
-
   private handleInternalSelectChange(): void {
     const selected = this.selectEl.selectedOptions[0];
     this.selectFromNativeOption(selected);

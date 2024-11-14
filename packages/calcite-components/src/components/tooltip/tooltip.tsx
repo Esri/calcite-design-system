@@ -185,44 +185,28 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      changes.has("offsetDistance") &&
-      (this.hasUpdated || this.offsetDistance !== defaultOffsetDistance)
+      (changes.has("offsetDistance") &&
+        (this.hasUpdated || this.offsetDistance !== defaultOffsetDistance)) ||
+      (changes.has("offsetSkidding") && (this.hasUpdated || this.offsetSkidding !== 0)) ||
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== "auto"))
     ) {
-      this.offsetDistanceOffsetHandler();
-    }
-
-    if (changes.has("offsetSkidding") && (this.hasUpdated || this.offsetSkidding !== 0)) {
-      this.offsetSkiddingHandler();
+      this.reposition(true);
     }
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
 
-    if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
-    ) {
-      this.overlayPositioningHandler();
-    }
-
-    if (changes.has("placement") && (this.hasUpdated || this.placement !== "auto")) {
-      this.placementHandler();
-    }
-
     if (changes.has("referenceElement")) {
-      this.referenceElementHandler();
+      this.setUpReferenceElement();
     }
   }
 
@@ -240,30 +224,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   // #endregion
 
   // #region Private Methods
-
-  private offsetDistanceOffsetHandler(): void {
-    this.reposition(true);
-  }
-
-  private offsetSkiddingHandler(): void {
-    this.reposition(true);
-  }
-
   private openHandler(): void {
     onToggleOpenCloseComponent(this);
     this.reposition(true);
-  }
-
-  private overlayPositioningHandler(): void {
-    this.reposition(true);
-  }
-
-  private placementHandler(): void {
-    this.reposition(true);
-  }
-
-  private referenceElementHandler(): void {
-    this.setUpReferenceElement();
   }
 
   onBeforeOpen(): void {

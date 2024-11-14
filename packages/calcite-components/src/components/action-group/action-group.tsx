@@ -14,7 +14,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { Columns } from "./interfaces";
 import T9nStrings from "./assets/t9n/action-group.t9n.en.json";
-import { ICONS, SLOTS, CSS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-group.scss";
 
 declare global {
@@ -111,18 +111,13 @@ export class ActionGroup extends LitElement implements LoadableComponent {
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.expandedHandler();
+      this.menuOpen = false;
     }
   }
 
@@ -133,11 +128,6 @@ export class ActionGroup extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Private Methods
-
-  private expandedHandler(): void {
-    this.menuOpen = false;
-  }
-
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
     this.menuOpen = !!event.currentTarget.open;
   }

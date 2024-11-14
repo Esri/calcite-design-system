@@ -226,11 +226,6 @@ export class ShellPanel extends LitElement {
 
   // #region Lifecycle
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -241,19 +236,19 @@ export class ShellPanel extends LitElement {
     }
 
     if (changes.has("displayMode") && (this.hasUpdated || this.displayMode !== "dock")) {
-      this.handleDisplayMode(this.displayMode);
+      this.detached = this.displayMode === "float-content" || this.displayMode === "float";
     }
 
     if (changes.has("detachedHeightScale")) {
-      this.handleDetachedHeightScale(this.detachedHeightScale);
+      this.heightScale = this.detachedHeightScale;
     }
 
     if (changes.has("heightScale")) {
-      this.handleHeightScale(this.heightScale);
+      this.detachedHeightScale = this.heightScale;
     }
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
-      this.layoutHandler();
+      this.setActionBarsLayout(this.actionBars);
     }
   }
 
@@ -275,22 +270,6 @@ export class ShellPanel extends LitElement {
     } else if (this.displayMode === "float-content" || this.displayMode === "float") {
       this.displayMode = "dock";
     }
-  }
-
-  private handleDisplayMode(value: DisplayMode): void {
-    this.detached = value === "float-content" || value === "float";
-  }
-
-  private handleDetachedHeightScale(value: Scale): void {
-    this.heightScale = value;
-  }
-
-  private handleHeightScale(value: Scale): void {
-    this.detachedHeightScale = value;
-  }
-
-  private layoutHandler(): void {
-    this.setActionBarsLayout(this.actionBars);
   }
 
   private setContentWidth(width: number): void {

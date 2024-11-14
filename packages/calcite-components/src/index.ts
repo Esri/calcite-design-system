@@ -4,4 +4,15 @@
  * Place in this file any utility functions you wish to expose for the consumers
  * of your package
  */
-export { getAssetPath, setAssetPath } from "./runtime";
+import { Runtime } from "@arcgis/lumina";
+import { setAssetPath as runtimeSetAssetPath } from "./runtime";
+
+/** @internal */
+export let assetPathChanged = false;
+
+export const setAssetPath: Runtime["setAssetPath"] = (path) => {
+  assetPathChanged = true;
+  runtimeSetAssetPath(path);
+};
+
+export { getAssetPath } from "./runtime";

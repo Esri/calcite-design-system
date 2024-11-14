@@ -8,13 +8,13 @@ import {
 } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  updateHostInteraction,
   InteractiveComponent,
   InteractiveContainer,
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
-  LoadableComponent,
   componentFocusable,
+  LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
@@ -24,7 +24,7 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
-import { CSS, DURATION, ICONS, centerItemsByBreakpoint } from "./resources";
+import { centerItemsByBreakpoint, CSS, DURATION, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/carousel.t9n.en.json";
 import { ArrowType, AutoplayType } from "./interfaces";
 import { styles } from "./carousel.scss";
@@ -132,8 +132,6 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   /**
    * Accessible name for the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -230,11 +228,6 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -249,7 +242,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     }
 
     if (changes.has("playing") && (this.hasUpdated || this.playing !== false)) {
-      this.playingWatcher();
+      this.paused = !this.playing;
     }
 
     if (
@@ -295,10 +288,6 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
       direction === "forward" ? "item-forward" : "item-backward",
     );
     this.direction = "standby";
-  }
-
-  private playingWatcher(): void {
-    this.paused = !this.playing;
   }
 
   private suspendWatcher(): void {

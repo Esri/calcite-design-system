@@ -25,8 +25,6 @@ export class OptionGroup extends LitElement {
 
   /**
    * Accessible name for the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -44,11 +42,6 @@ export class OptionGroup extends LitElement {
 
   // #region Lifecycle
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -58,18 +51,12 @@ export class OptionGroup extends LitElement {
       (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       changes.has("label")
     ) {
-      this.handlePropChange();
+      this.calciteInternalOptionGroupChange.emit();
     }
   }
 
   // #endregion
-
   // #region Private Methods
-
-  protected handlePropChange(): void {
-    this.calciteInternalOptionGroupChange.emit();
-  }
-
   // #endregion
 
   // #region Rendering

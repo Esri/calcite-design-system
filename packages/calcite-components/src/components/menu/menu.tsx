@@ -37,10 +37,6 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
 
   // #region Private Properties
 
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: role.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
   attributeWatch = useWatchAttributes(["role"], this.handleGlobalAttributesChanged);
 
   private menuItems: CalciteMenuItem["el"][] = [];
@@ -51,8 +47,6 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
 
   /**
    * Accessible name for the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -95,18 +89,13 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
-      this.handleLayoutChange(this.layout);
+      this.setMenuItemLayout(this.menuItems, this.layout);
     }
   }
 
@@ -121,10 +110,6 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
     this.setMenuItemLayout(this.menuItems, this.layout);
-  }
-
-  private handleLayoutChange(value: Layout): void {
-    this.setMenuItemLayout(this.menuItems, value);
   }
 
   private calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {

@@ -50,8 +50,6 @@ export class TileGroup
 
   /**
    * Accessible name for the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -117,26 +115,18 @@ export class TileGroup
     this.updateTiles();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
-      this.scaleWatcher();
-    }
-
     if (
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon"))
     ) {
-      this.handleSelectionModeOrAppearanceChange();
+      this.updateTiles();
     }
   }
 
@@ -155,15 +145,6 @@ export class TileGroup
   // #endregion
 
   // #region Private Methods
-
-  private scaleWatcher(): void {
-    this.updateTiles();
-  }
-
-  private handleSelectionModeOrAppearanceChange(): void {
-    this.updateTiles();
-  }
-
   private getSlottedTiles(): Tile["el"][] {
     return this.slotEl
       ?.assignedElements({ flatten: true })

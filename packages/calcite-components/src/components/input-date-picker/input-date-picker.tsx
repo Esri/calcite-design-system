@@ -25,13 +25,13 @@ import {
   defaultMenuPlacement,
   disconnectFloatingUI,
   filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
-  FlipPlacement,
+  hideFloatingUI,
   MenuPlacement,
   OverlayPositioning,
   reposition,
-  hideFloatingUI,
 } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -55,10 +55,10 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
+  getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
-  getDateFormatSupportedLocale,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import DatePickerMessages from "../date-picker/assets/t9n/date-picker.t9n.en.json";
@@ -85,7 +85,7 @@ import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/input-date-picker.t9n.en.json";
-import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
 declare global {
   interface DeclareElements {
@@ -448,11 +448,6 @@ export class InputDatePicker
     this.onMaxChanged(this.max);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -494,7 +489,7 @@ export class InputDatePicker
       changes.has("overlayPositioning") &&
       (this.hasUpdated || this.overlayPositioning !== "absolute")
     ) {
-      this.overlayPositioningHandler();
+      this.reposition(true);
     }
 
     if (changes.has("numberingSystem") || changes.has("messages")) {
@@ -506,7 +501,7 @@ export class InputDatePicker
     }
 
     if (changes.has("messages")) {
-      this.effectiveLocaleChange();
+      this.loadLocaleData();
     }
   }
 
@@ -603,10 +598,6 @@ export class InputDatePicker
     this.reposition(true);
   }
 
-  private overlayPositioningHandler(): void {
-    this.reposition(true);
-  }
-
   private calciteInternalInputInputHandler(event: CustomEvent<any>): void {
     const target = event.target as Input["el"];
     const value = target.value;
@@ -630,10 +621,6 @@ export class InputDatePicker
 
   private calciteInternalInputBlurHandler(): void {
     this.commitValue();
-  }
-
-  private effectiveLocaleChange(): void {
-    this.loadLocaleData();
   }
 
   private handleDateTimeFormatChange(): void {
