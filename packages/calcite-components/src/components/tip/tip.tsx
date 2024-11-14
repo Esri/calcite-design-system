@@ -87,9 +87,6 @@ export class Tip implements LocalizedComponent, T9nComponent {
     /* wired up by t9n util */
   }
 
-  /** @internal */
-  @Prop() userHidden = false;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -118,7 +115,6 @@ export class Tip implements LocalizedComponent, T9nComponent {
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    this.userHidden = this.el.hidden;
   }
 
   async componentWillLoad(): Promise<void> {
