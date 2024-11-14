@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.6...@esri/calcite-components@3.0.0-next.7) (2024-11-04)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.5...@esri/calcite-components@3.0.0-next.6) (2024-11-04)
+
+### Bug Fixes
+
+- **action-group, input, menu:** fix `setFocus` issues in Chrome 128+ ([#10676](https://github.com/Esri/calcite-design-system/issues/10676)) ([a35b484](https://github.com/Esri/calcite-design-system/commit/a35b4842c3e1d62ca3a37ad7b23e66cb55fbf2e5)), closes [#10394](https://github.com/Esri/calcite-design-system/issues/10394)
+
+## [3.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.4...@esri/calcite-components@3.0.0-next.5) (2024-11-03)
+
+### ⚠ BREAKING CHANGES
+
+- Components remain directly consumable, with no wrapper
+  needed.
+
+### Code Refactoring
+
+- drop Angular wrapper ([#10675](https://github.com/Esri/calcite-design-system/issues/10675)) ([a2e7490](https://github.com/Esri/calcite-design-system/commit/a2e74905af2f68c803affa942dfac756857079ba)), closes [#10465](https://github.com/Esri/calcite-design-system/issues/10465)
+
 ## [3.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.3...@esri/calcite-components@3.0.0-next.4) (2024-10-31)
 
 ### Bug Fixes

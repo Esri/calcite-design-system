@@ -30,8 +30,12 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Scale } from "../interfaces";
-import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../components";
-import { defaultMenuPlacement } from "../../utils/floating-ui";
+import {
+  FlipPlacement,
+  MenuPlacement,
+  OverlayPositioning,
+  defaultMenuPlacement,
+} from "../../utils/floating-ui";
 import { SortHandleMessages } from "./assets/sort-handle/t9n";
 import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";

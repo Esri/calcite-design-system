@@ -16,7 +16,7 @@
     const LINKED_VERSIONS_HEAD_PACKAGE = "@esri/calcite-components";
 
     // next releases will be blocked if HEAD's version is less than a TRACKING package's version
-    const LINKED_VERSIONS_TRACKING_PACKAGES = ["@esri/calcite-components-angular", "@esri/calcite-components-react"];
+    const LINKED_VERSIONS_TRACKING_PACKAGES = ["@esri/calcite-components-react"];
 
     interface PackageData {
       name: string;
@@ -84,7 +84,7 @@
 
     console.log("Deployable packages:", changedPackagesData);
 
-    await exec("markdownlint packages/{*,calcite-components-angular/projects/component-library}/CHANGELOG.md --fix");
+    await exec("markdownlint packages/{*}/CHANGELOG.md --fix");
 
     // add/commit changed files
     await exec(
