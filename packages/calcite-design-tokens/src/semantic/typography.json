@@ -8,7 +8,11 @@
             "fontFamily": "{semantic.font.family.default}",
             "fontSize": "{semantic.font.size.default}",
             "fontWeight": "{semantic.font.weight.regular}",
-            "lineHeight": "{semantic.font.line-height.fixed.base}"
+            "letterSpacing": "{semantic.font.letter-spacing.normal}",
+            "lineHeight": "{semantic.font.line-height.fixed.base}",
+            "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+            "textCase": "{semantic.font.text-case.none}",
+            "textDecoration": "{semantic.font.text-decoration.none}"
           },
           "attributes": {
             "calcite-schema": {
@@ -1610,6 +1614,7 @@
         "overline": {
           "value": {
             "lineHeight": "{semantic.font.line-height.fixed.sm}",
+            "textCase": "{semantic.font.text-case.uppercase}",
             "fontWeight": "{semantic.font.weight.bold}"
           },
           "type": "typography",
