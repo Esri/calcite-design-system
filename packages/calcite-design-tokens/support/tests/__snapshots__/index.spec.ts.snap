@@ -406,8 +406,6 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-space-fixed-sm: 8px; /* deprecated */
   --calcite-space-fixed-xs: 6px; /* deprecated */
   --calcite-space-fixed-xxs: 4px; /* deprecated */
-  --calcite-space-fixed-base: 2px; /* deprecated */
-  --calcite-space-fixed-px: 1px; /* deprecated */
   --calcite-size-xxl: 2.75rem;
   --calcite-size-xl: 2rem;
   --calcite-size-lg: 1.5rem;
@@ -426,7 +424,6 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-size-fixed-xs: 6px; /* deprecated */
   --calcite-size-fixed-xxs: 4px; /* deprecated */
   --calcite-size-fixed-xxxs: 2px; /* deprecated */
-  --calcite-size-fixed-px: 1px; /* deprecated */
   --calcite-opacity-disabled: 0.5;
   --calcite-opacity-full: 1;
   --calcite-opacity-dark: 0.85;
@@ -969,7 +966,6 @@ export const calciteOpacityDisabled = "0.5";
 export const calciteShadowNone = {"x":"0","y":"0","blur":"0","spread":"0","color":"rgba(#000000, 0)"};
 export const calciteShadowSm = [{"x":"0","y":"2","blur":"8","spread":"0","color":"rgba(#000000, 0.04)"},{"x":"0","y":"4","blur":"16","spread":"0","color":"rgba(#000000, 0.08)"}];
 export const calciteShadowMd = [{"x":"0","y":"4","blur":"20","spread":"0","color":"rgba(#000000, 0.08)"},{"x":"0","y":"12","blur":"32","spread":"-2","color":"rgba(#000000, 0.1)"}];
-export const calciteSizeFixedPx = "1px"; // deprecated
 export const calciteSizeFixedXxxs = "2px"; // deprecated
 export const calciteSizeFixedXxs = "4px"; // deprecated
 export const calciteSizeFixedXs = "6px"; // deprecated
@@ -988,8 +984,6 @@ export const calciteSizeMdPlus = "1.25rem";
 export const calciteSizeLg = "1.5rem";
 export const calciteSizeXl = "2rem";
 export const calciteSizeXxl = "2.75rem";
-export const calciteSpaceFixedPx = "1px"; // deprecated
-export const calciteSpaceFixedBase = "2px"; // deprecated
 export const calciteSpaceFixedXxs = "4px"; // deprecated
 export const calciteSpaceFixedXs = "6px"; // deprecated
 export const calciteSpaceFixedSm = "8px"; // deprecated
@@ -1218,8 +1212,6 @@ export const calciteShadowNone : { x: string, y: string, blur: string, spread: s
 export const calciteShadowSm : { x: string, y: string, blur: string, spread: string, color: string }[];
 export const calciteShadowMd : { x: string, y: string, blur: string, spread: string, color: string }[];
 /** deprecated */
-export const calciteSizeFixedPx : string;
-/** deprecated */
 export const calciteSizeFixedXxxs : string;
 /** deprecated */
 export const calciteSizeFixedXxs : string;
@@ -1248,10 +1240,6 @@ export const calciteSizeMdPlus : string;
 export const calciteSizeLg : string;
 export const calciteSizeXl : string;
 export const calciteSizeXxl : string;
-/** deprecated */
-export const calciteSpaceFixedPx : string;
-/** deprecated */
-export const calciteSpaceFixedBase : string;
 /** deprecated */
 export const calciteSpaceFixedXxs : string;
 /** deprecated */
@@ -2079,8 +2067,6 @@ $calcite-space-fixed-md: 12px; // deprecated
 $calcite-space-fixed-sm: 8px; // deprecated
 $calcite-space-fixed-xs: 6px; // deprecated
 $calcite-space-fixed-xxs: 4px; // deprecated
-$calcite-space-fixed-base: 2px; // deprecated
-$calcite-space-fixed-px: 1px; // deprecated
 $calcite-size-xxl: 2.75rem;
 $calcite-size-xl: 2rem;
 $calcite-size-lg: 1.5rem;
@@ -2099,7 +2085,6 @@ $calcite-size-fixed-sm: 8px; // deprecated
 $calcite-size-fixed-xs: 6px; // deprecated
 $calcite-size-fixed-xxs: 4px; // deprecated
 $calcite-size-fixed-xxxs: 2px; // deprecated
-$calcite-size-fixed-px: 1px; // deprecated
 $calcite-opacity-disabled: 0.5;
 $calcite-opacity-full: 1;
 $calcite-opacity-dark: 0.85;
