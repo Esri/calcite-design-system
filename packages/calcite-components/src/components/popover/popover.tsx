@@ -146,7 +146,7 @@ export class Popover
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** Specifies whether the first tabbable child element will be focused when the popover is opened. */
+  /** `@internal` */
   @property() initialFocus: FocusTargetOrFalse;
 
   /**
