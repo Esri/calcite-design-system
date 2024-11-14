@@ -147,7 +147,7 @@ export class Popover
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies whether the first tabbable child element will be focused when the popover is opened. */
-  @property({ reflect: true }) initialFocus: FocusTargetOrFalse;
+  @property() initialFocus: FocusTargetOrFalse;
 
   /**
    * Accessible name for the component.
