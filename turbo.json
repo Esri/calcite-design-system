@@ -3,7 +3,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["**/dist/**", "www/**", "hydrate/**", "docs/**", "src/components.d.ts"]
+      "outputs": ["**/dist/**", "hydrate/**", "docs/**", "src/components.d.ts"]
     },
     "start": {
       "dependsOn": ["^build"],

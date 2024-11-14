@@ -2,7 +2,6 @@ import { execSync } from "child_process";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import stylelint from "stylelint";
-// TODO: [MIGRATION] Lumina will output everything into the dist/ directory. If any of your configs or scripts are mentioning www/ or .docs/ directories, you should update them
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
