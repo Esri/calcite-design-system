@@ -132,46 +132,6 @@ describe("calcite-tip-manager", () => {
       expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 1/2`);
     });
 
-    it("skips hidden tips when the previous or next buttons are clicked", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tip-manager>
-          <calcite-tip id="one"><p>first tip default selected</p></calcite-tip>
-          <calcite-tip id="two" hidden><p>second tip</p></calcite-tip>
-          <calcite-tip id="three"><p>third tip</p></calcite-tip>
-        </calcite-tip-manager>`,
-      });
-
-      await page.waitForChanges();
-
-      const tipManager = await page.find("calcite-tip-manager");
-
-      let selectedTip = await tipManager.find(`calcite-tip[selected]`);
-      expect(selectedTip.id).toEqual("one"); // default selected tip is index 0
-
-      let paginationText = await page.find(`calcite-tip-manager >>> .${CSS.pagePosition}`);
-      expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 1/2`);
-
-      const nextButton = await page.find(`calcite-tip-manager >>> .${CSS.pageNext}`);
-      await nextButton.click();
-      await page.waitForChanges();
-
-      selectedTip = await tipManager.find(`calcite-tip[selected]`);
-      expect(selectedTip.id).toEqual("three");
-
-      paginationText = await page.find(`calcite-tip-manager >>> .${CSS.pagePosition}`);
-      expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 2/2`);
-
-      const previousButton = await page.find(`calcite-tip-manager >>> .${CSS.pagePrevious}`);
-      await previousButton.click();
-      await page.waitForChanges();
-
-      selectedTip = await tipManager.find(`calcite-tip[selected]`);
-      expect(selectedTip.id).toEqual("one");
-
-      paginationText = await page.find(`calcite-tip-manager >>> .${CSS.pagePosition}`);
-      expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 1/2`);
-    });
-
     //Ø TODO: split the group-title test into one for first render, and another for pagination
     it("should update the group title to match the selected tips attribute", async () => {
       const sharedTitle = "group1";

@@ -1429,6 +1429,10 @@ export namespace Components {
          */
         "heading": string;
         /**
+          * Specifies whether the user set the hidden attribute in the HTML
+         */
+        "hideItem": boolean;
+        /**
           * Specifies an icon to display.
          */
         "icon": IconNameOrString;
@@ -1468,10 +1472,6 @@ export namespace Components {
           * @deprecated Use `heading` instead.
          */
         "textLabel": string;
-        /**
-          * Specifies whether the user set the hidden attribute in the HTML
-         */
-        "userHidden": boolean;
         /**
           * The component's value.
          */
@@ -5358,6 +5358,7 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        "hideItem": boolean;
         "interactionMode": TableInteractionMode;
         "lastVisibleRow": boolean;
         "numbered": boolean;
@@ -5374,7 +5375,6 @@ export namespace Components {
         "selectedRowCount": number;
         "selectedRowCountLocalized": string;
         "selectionMode": Extract<"multiple" | "single" | "none", SelectionMode>;
-        "userHidden": boolean;
     }
     interface CalciteTabs {
         /**
@@ -5754,7 +5754,6 @@ export namespace Components {
           * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
          */
         "selected": boolean;
-        "userHidden": boolean;
     }
     /**
      * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
@@ -9310,6 +9309,10 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
+          * Specifies whether the user set the hidden attribute in the HTML
+         */
+        "hideItem"?: boolean;
+        /**
           * Specifies an icon to display.
          */
         "icon"?: IconNameOrString;
@@ -9357,10 +9360,6 @@ declare namespace LocalJSX {
           * @deprecated Use `heading` instead.
          */
         "textLabel": string;
-        /**
-          * Specifies whether the user set the hidden attribute in the HTML
-         */
-        "userHidden"?: boolean;
         /**
           * The component's value.
          */
@@ -13450,6 +13449,7 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        "hideItem"?: boolean;
         "interactionMode"?: TableInteractionMode;
         "lastVisibleRow"?: boolean;
         "numbered"?: boolean;
@@ -13471,7 +13471,6 @@ declare namespace LocalJSX {
         "selectedRowCount"?: number;
         "selectedRowCountLocalized"?: string;
         "selectionMode"?: Extract<"multiple" | "single" | "none", SelectionMode>;
-        "userHidden"?: boolean;
     }
     interface CalciteTabs {
         /**
@@ -13857,7 +13856,6 @@ declare namespace LocalJSX {
           * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
          */
         "selected"?: boolean;
-        "userHidden"?: boolean;
     }
     /**
      * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
