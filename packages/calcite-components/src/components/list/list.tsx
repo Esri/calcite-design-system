@@ -219,8 +219,12 @@ export class List
    */
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
-  /** Specifies an accessible name for the component. */
-  @property() label: string;
+  /**
+   * Specifies an accessible name for the component.
+   *
+   * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   */
+  @property() label!: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
