@@ -285,7 +285,7 @@ export default {
       addUtilities(newUtilities);
     }),
     plugin(({ addUtilities, theme }) => {
-      const colors = flattenColorPalette(theme("borderColor"));
+      const colors = flattenColorPalette.default(theme("borderColor"));
       delete colors["default"];
 
       const colorMap = Object.keys(colors).map((color) => ({

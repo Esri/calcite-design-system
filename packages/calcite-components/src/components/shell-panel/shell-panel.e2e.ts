@@ -1,8 +1,10 @@
-import { E2EElement, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
+import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {
   describe("renders", () => {
@@ -44,7 +46,7 @@ describe("calcite-shell-panel", () => {
 
     const contentBodyHasSlot = await page.$eval(
       "calcite-shell-panel",
-      (panel: HTMLCalciteShellPanelElement, contentBodyClass: string) => {
+      (panel: ShellPanel["el"], contentBodyClass: string) => {
         const contentBody = panel.shadowRoot.querySelector(contentBodyClass);
         return contentBody.firstElementChild.tagName == "SLOT";
       },
@@ -94,7 +96,7 @@ describe("calcite-shell-panel", () => {
 
     const actionSlotIsFirst = await page.$eval(
       "calcite-shell-panel",
-      (panel: HTMLCalciteShellPanelElement, containerClass: string, slotName: string) => {
+      (panel: ShellPanel["el"], containerClass: string, slotName: string) => {
         const container = panel.shadowRoot.querySelector(containerClass);
         return (
           container.firstElementChild.tagName == "SLOT" &&
@@ -116,7 +118,7 @@ describe("calcite-shell-panel", () => {
 
     const divElementIsFirst = await page.$eval(
       "calcite-shell-panel",
-      (panel: HTMLCalciteShellPanelElement, containerClass: string, contentClass: string) => {
+      (panel: ShellPanel["el"], containerClass: string, contentClass: string) => {
         const container = panel.shadowRoot.querySelector(containerClass);
         return container.firstElementChild.classList.contains(contentClass);
       },

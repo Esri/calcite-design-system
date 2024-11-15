@@ -1,13 +1,13 @@
 /* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
-
-import { newE2EPage } from "@stencil/core/testing";
-import { isElementFocused } from "../../../tests/utils";
+import { LuminaJsx } from "@arcgis/lumina";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect, it } from "vitest";
 import { hiddenFormInputSlotName } from "../../../utils/form";
+import { isElementFocused } from "../../../tests/utils";
 import { html } from "../../../../support/formatting";
-import { JSX } from "../../../components";
 
 export function testPostValidationFocusing(
-  inputTag: Extract<keyof JSX.IntrinsicElements, "calcite-input" | "calcite-input-text" | "calcite-input-number">,
+  inputTag: Extract<keyof LuminaJsx.IntrinsicElements, "calcite-input" | "calcite-input-text" | "calcite-input-number">,
 ): void {
   it("restores focus on invalid input if user continues typing", async () => {
     const page = await newE2EPage();
@@ -51,7 +51,7 @@ export function testPostValidationFocusing(
 
 export function testHiddenInputSyncing(
   inputTag: Extract<
-    keyof JSX.IntrinsicElements,
+    keyof LuminaJsx.IntrinsicElements,
     "calcite-input" | "calcite-input-text" | "calcite-input-number" | "calcite-text-area"
   >,
 ): void {
@@ -117,23 +117,10 @@ export function testHiddenInputSyncing(
 }
 
 export function testWorkaroundForGlobalPropRemoval(
-  inputTag: Extract<keyof JSX.IntrinsicElements, "calcite-input" | "calcite-input-text" | "calcite-input-number">,
+  inputTag: Extract<keyof LuminaJsx.IntrinsicElements, "calcite-input" | "calcite-input-text" | "calcite-input-number">,
 ): void {
   const testInputMode = "tel";
   const testEnterKeyHint = "done";
-
-  it("supports global attribute kebab-casing (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-        <${inputTag} autofocus input-mode="${testInputMode}" enter-key-hint="${testEnterKeyHint}"></${inputTag}>
-    `);
-
-    const input = await page.find(`${inputTag} >>> input`);
-
-    expect(input.getAttribute("autofocus")).toBe("");
-    expect(input.getAttribute("inputmode")).toBe(testInputMode);
-    expect(input.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
-  });
 
   it("supports global attribute casing", async () => {
     const page = await newE2EPage();

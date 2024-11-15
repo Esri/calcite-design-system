@@ -4,6 +4,7 @@ import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputTimePicker } from "./input-time-picker";
+
 const { scale, status } = ATTRIBUTES;
 
 interface InputTimePickerStoryArgs

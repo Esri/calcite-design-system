@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -222,7 +223,7 @@ describe("calcite-action", () => {
         "--calcite-action-background-color-pressed": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: CSS.button } },
+          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
         },
       });
     });

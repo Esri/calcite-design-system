@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.9...@esri/calcite-components@3.0.0-next.10) (2024-11-15)
+
+### Features
+
+- **label:** add component tokens ([#10688](https://github.com/Esri/calcite-design-system/issues/10688)) ([b2e694c](https://github.com/Esri/calcite-design-system/commit/b2e694cd2e16c63da46b7fa22d47acb78dff1e5d)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **switch:** add component tokens ([#10647](https://github.com/Esri/calcite-design-system/issues/10647)) ([69b2977](https://github.com/Esri/calcite-design-system/commit/69b2977d53dfa847e25be13834c947fa0953aae6)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **tooltip:** add component tokens ([#10687](https://github.com/Esri/calcite-design-system/issues/10687)) ([facfbe8](https://github.com/Esri/calcite-design-system/commit/facfbe875c041f54d9937e613105eb6acd89578d)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **utils/dom:** fix getModeName function to support auto mode ([#10683](https://github.com/Esri/calcite-design-system/issues/10683)) ([3a5e939](https://github.com/Esri/calcite-design-system/commit/3a5e939d2338c26b4ebeedf1d1b2080b3db152d9)), closes [#10472](https://github.com/Esri/calcite-design-system/issues/10472)
+
+## [3.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.8...@esri/calcite-components@3.0.0-next.9) (2024-11-15)
+
+### ⚠ BREAKING CHANGES
+
+- **list:** The component's `label` property is required to provide
+  context between lists when dragging.
+
+### Features
+
+- **list:** require label for context when dragging between lists ([#10702](https://github.com/Esri/calcite-design-system/issues/10702)) ([5b84856](https://github.com/Esri/calcite-design-system/commit/5b848564426ad2940fecbb8e20c63d6444aef8fc)), closes [#7537](https://github.com/Esri/calcite-design-system/issues/7537) [/github.com/Esri/calcite-design-system/issues/7537#issuecomment-2460544077](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/7537/issues/issuecomment-2460544077)
+
+## [3.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.7...@esri/calcite-components@3.0.0-next.8) (2024-11-15)
+
+### ⚠ BREAKING CHANGES
+
+- - for a consistent development experience, components now convert `null`
+    to `undefined`, so developers will need to update code with strict null
+    checks
+- removed the following `@esri/eslint-plugin-calcite-components` rules
+  as they are no longer valid:
+  _`ban-props-on-host`
+  _ `enforce-ref-last-prop` \* `require-event-emitter-type`
+
+### Code Refactoring
+
+- migrate to Lumina ([#10482](https://github.com/Esri/calcite-design-system/issues/10482)) ([b2c9762](https://github.com/Esri/calcite-design-system/commit/b2c976214774490b5a313e1fafc67415fe212b37)), closes [#10310](https://github.com/Esri/calcite-design-system/issues/10310) [#10481](https://github.com/Esri/calcite-design-system/issues/10481) [#10399](https://github.com/Esri/calcite-design-system/issues/10399) [#10405](https://github.com/Esri/calcite-design-system/issues/10405) [#10491](https://github.com/Esri/calcite-design-system/issues/10491) [#10434](https://github.com/Esri/calcite-design-system/issues/10434) [#10495](https://github.com/Esri/calcite-design-system/issues/10495) [#9260](https://github.com/Esri/calcite-design-system/issues/9260)
+
 ## [3.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.6...@esri/calcite-components@3.0.0-next.7) (2024-11-04)
 
 **Note:** Version bump only for package @esri/calcite-components

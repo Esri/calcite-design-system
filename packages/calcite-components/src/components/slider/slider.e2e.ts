@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -12,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
 import { CSS } from "./resources";
+import type { Slider } from "./slider";
 
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
@@ -856,7 +858,7 @@ describe("calcite-slider", () => {
 
     it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
       const page = await newE2EPage({ html: nonMirroredSlider });
-      await page.$eval("calcite-slider", (slider: HTMLCalciteSliderElement) => {
+      await page.$eval("calcite-slider", (slider: Slider["el"]) => {
         slider.histogram = [
           [0, 0],
           [20, 12],
@@ -1055,7 +1057,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type) => {
               if (type === "value") {
                 return `${value}%`;
@@ -1096,7 +1098,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type, defaultFormatter) => {
               if (type === "value") {
                 return defaultFormatter(value);
@@ -1130,7 +1132,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type) => {
               if (type === "min") {
                 return `-${value}%`;
@@ -1178,7 +1180,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type, defaultFormatter) =>
               type === "min"
                 ? // default formatting
