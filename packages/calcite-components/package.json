@@ -54,7 +54,7 @@
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "vitest run",
     "posttest": "npm run test:prerender",
-    "test:prerender": "npm run build -- --ssr",
+    "test:prerender": "vite build --ssr",
     "test:watch": "vitest",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**.js",
     "util:clean-readmes": "git restore src/components/*/readme.md",
