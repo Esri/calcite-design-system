@@ -2,23 +2,15 @@ import { createFocusTrap, FocusTrap as _FocusTrap, Options as FocusTrapOptions }
 import { FocusableElement, focusElement, tabbableOptions } from "./dom";
 import { focusTrapStack } from "./config";
 
-/**
- * Defines interface for components with a focus trap. Focusable content is required for components implementing focus trapping with this interface.
- */
+/** Defines interface for components with a focus trap. Focusable content is required for components implementing focus trapping with this interface. */
 export interface FocusTrapComponent {
-  /**
-   * The focus trap element.
-   */
+  /** The focus trap element. */
   el: HTMLElement;
 
-  /**
-   * When `true`, prevents focus trapping.
-   */
+  /** When `true`, prevents focus trapping. */
   focusTrapDisabled?: boolean;
 
-  /**
-   * The focus trap instance.
-   */
+  /** The focus trap instance. */
   focusTrap: FocusTrap;
 
   /**
@@ -32,14 +24,10 @@ export interface FocusTrapComponent {
 export type FocusTrap = _FocusTrap;
 
 interface ConnectFocusTrapOptions {
-  /**
-   * This option allows the focus trap to be created on a different element that's not the host (e.g., a supporting popup component).
-   */
+  /** This option allows the focus trap to be created on a different element that's not the host (e.g., a supporting popup component). */
   focusTrapEl?: HTMLElement;
 
-  /**
-   * This allows specifying overrides to ConnectFocusTrap options.
-   */
+  /** This allows specifying overrides to ConnectFocusTrap options. */
   focusTrapOptions?: Omit<FocusTrapOptions, "document" | "tabbableOptions" | "trapStack">;
 }
 
@@ -106,6 +94,7 @@ export function deactivateFocusTrap(
  * Helper to update the element(s) that are used within the FocusTrap component.
  *
  * @param {FocusTrapComponent} component The FocusTrap component.
+ *
  * @example
  * const modal = document.querySelector("calcite-modal");
  * const input = document.createElement("calcite-input");

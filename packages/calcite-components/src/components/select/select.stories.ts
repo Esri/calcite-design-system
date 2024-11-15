@@ -4,6 +4,7 @@ import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Select } from "./select";
+
 const { status, width, scale } = ATTRIBUTES;
 
 interface SelectStoryArgs

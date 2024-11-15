@@ -1,9 +1,9 @@
-import { FunctionalComponent, h, VNode } from "@stencil/core";
-import { JSXBase } from "@stencil/core/internal";
+import { TemplateResult } from "lit-html";
+import { h, LuminaJsx } from "@arcgis/lumina";
 import { Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 
-interface ValidationProps extends JSXBase.HTMLAttributes {
+interface ValidationProps extends LuminaJsx.HTMLAttributes {
   scale: Scale;
   status: Status;
   icon?: IconNameOrString | boolean;
@@ -15,15 +15,15 @@ export const CSS = {
   validationContainer: "validation-container",
 };
 
-export const Validation: FunctionalComponent<ValidationProps> = ({
+export const Validation = ({
   scale,
   status,
   id,
   icon,
   message,
-}): VNode => (
+}: ValidationProps): TemplateResult => (
   <div class={CSS.validationContainer}>
-    <calcite-input-message aria-live="polite" icon={icon} id={id} scale={scale} status={status}>
+    <calcite-input-message ariaLive="polite" icon={icon} id={id} scale={scale} status={status}>
       {message}
     </calcite-input-message>
   </div>

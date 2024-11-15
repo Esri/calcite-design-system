@@ -1,16 +1,5 @@
-import {
-  Component,
-  Element,
-  forceUpdate,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -23,201 +12,164 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { Alignment, Appearance, Scale } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
-import { ActionMessages } from "./assets/action/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Tooltip } from "../tooltip/tooltip";
+import T9nStrings from "./assets/t9n/action.t9n.en.json";
 import { CSS, SLOTS } from "./resources";
+import { styles } from "./action.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-action": Action;
+  }
+}
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
-@Component({
-  tag: "calcite-action",
-  styleUrl: "action.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class Action
-  implements InteractiveComponent, LocalizedComponent, T9nComponent, LoadableComponent
-{
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class Action extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
 
-  /**
-   * When `true`, the component is highlighted.
-   */
-  @Prop({ reflect: true }) active = false;
+  static override styles = styles;
 
-  /**
-   * Specifies the horizontal alignment of button elements with text content.
-   */
-  @Prop({ reflect: true }) alignment: Alignment;
+  // #endregion
+
+  // #region Private Properties
+
+  private guid = `calcite-action-${guid()}`;
+
+  private buttonEl = createRef<HTMLButtonElement>();
+
+  private buttonId = `${this.guid}-button`;
+
+  private indicatorId = `${this.guid}-indicator`;
+
+  private mutationObserver = createObserver("mutation", () => this.requestUpdate());
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, the component is highlighted. */
+  @property({ reflect: true }) active = false;
+
+  /** Specifies the horizontal alignment of button elements with text content. */
+  @property({ reflect: true }) alignment: Alignment;
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
    * When `true`, the side padding of the component is reduced.
    *
    * @deprecated No longer necessary.
    */
-  @Prop({ reflect: true }) compact = false;
+  @property({ reflect: true }) compact = false;
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @Prop() icon: IconNameOrString;
+  @property() icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
-  /**
-   * When `true`, displays a visual indicator.
-   */
-  @Prop({ reflect: true }) indicator = false;
+  /** When `true`, displays a visual indicator. */
+  @property({ reflect: true }) indicator = false;
 
-  /**
-   * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
-   */
-  @Prop() label: string;
+  /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  @property() label: string;
 
-  /**
-   * When `true`, a busy indicator is displayed.
-   */
-  @Prop({ reflect: true }) loading = false;
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
 
-  /**
-   * Specifies the size of the component.
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /**
-   * Specifies text that accompanies the icon.
-   */
-  @Prop() text!: string;
-
-  /**
-   * Indicates whether the text is displayed.
-   */
-  @Prop({ reflect: true }) textEnabled = false;
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ActionMessages;
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Use this property to override individual strings used by the component.
+   * Specifies text that accompanies the icon.
+   *
+   * @required
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ActionMessages>;
+  @property() text: string;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** Indicates whether the text is displayed. */
+  @property({ reflect: true }) textEnabled = false;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.buttonEl.value?.focus();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteActionElement;
+  // #region Lifecycle
 
-  buttonEl: HTMLButtonElement;
-
-  mutationObserver = createObserver("mutation", () => forceUpdate(this));
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: ActionMessages;
-
-  guid = `calcite-action-${guid()}`;
-
-  indicatorId = `${this.guid}-indicator`;
-
-  buttonId = `${this.guid}-button`;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
+  override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  async componentWillLoad(): Promise<void> {
+  async load(): Promise<void> {
     setUpLoadableComponent(this);
-    if (isBrowser()) {
-      await setUpMessages(this);
-    }
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.mutationObserver?.disconnect();
-  }
-
-  componentDidRender(): void {
+  override updated(): void {
     updateHostInteraction(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.buttonEl?.focus();
+  loaded(): void {
+    setComponentLoaded(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
 
-  renderTextContainer(): VNode {
+  // #endregion
+
+  // #region Private Methods
+
+  private handleTooltipSlotChange(event: Event): void {
+    const tooltips = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true,
+      })
+      .filter((el): el is Tooltip["el"] => el?.matches("calcite-tooltip"));
+
+    const tooltip = tooltips[0];
+
+    if (tooltip) {
+      tooltip.referenceElement = this.buttonEl.value;
+    }
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  private renderTextContainer(): JsxNode {
     const { text, textEnabled } = this;
 
     const textContainerClasses = {
@@ -232,12 +184,12 @@ export class Action
     ) : null;
   }
 
-  renderIndicatorText(): VNode {
+  private renderIndicatorText(): JsxNode {
     const { indicator, messages, indicatorId, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
-        aria-live="polite"
+        ariaLive="polite"
         class={CSS.indicatorText}
         id={indicatorId}
         role="region"
@@ -247,7 +199,7 @@ export class Action
     );
   }
 
-  renderIconContainer(): VNode {
+  private renderIconContainer(): JsxNode {
     const { loading, icon, scale, el, iconFlipRtl, indicator } = this;
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
@@ -276,14 +228,14 @@ export class Action
     );
 
     return hasIconToDisplay ? (
-      <div aria-hidden="true" class={CSS.iconContainer} key="icon-container">
+      <div ariaHidden="true" class={CSS.iconContainer} key="icon-container">
         {iconNode}
         {slotContainerNode}
       </div>
     ) : null;
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const {
       active,
       compact,
@@ -310,46 +262,26 @@ export class Action
     };
 
     return (
-      <Host>
-        <InteractiveContainer disabled={disabled}>
-          <button
-            aria-busy={toAriaBoolean(loading)}
-            aria-controls={indicator ? indicatorId : null}
-            aria-label={ariaLabel}
-            aria-pressed={toAriaBoolean(active)}
-            class={buttonClasses}
-            disabled={disabled}
-            id={buttonId}
-            ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
-          >
-            {this.renderIconContainer()}
-            {this.renderTextContainer()}
-            {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
-          </button>
-          <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
-          {this.renderIndicatorText()}
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={disabled}>
+        <button
+          aria-controls={indicator ? indicatorId : null}
+          ariaBusy={loading}
+          ariaLabel={ariaLabel}
+          ariaPressed={active}
+          class={buttonClasses}
+          disabled={disabled}
+          id={buttonId}
+          ref={this.buttonEl}
+        >
+          {this.renderIconContainer()}
+          {this.renderTextContainer()}
+          {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+        </button>
+        <slot name={SLOTS.tooltip} onSlotChange={this.handleTooltipSlotChange} />
+        {this.renderIndicatorText()}
+      </InteractiveContainer>
     );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .filter((el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"));
-
-    const tooltip = tooltips[0];
-
-    if (tooltip) {
-      tooltip.referenceElement = this.buttonEl;
-    }
-  };
+  // #endregion
 }

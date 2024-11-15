@@ -239,9 +239,7 @@ export function containsCrossShadowBoundary(element: Element, maybeDescendant: E
   return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
 }
 
-/**
- * An element which may contain a `setFocus` method.
- */
+/** An element which may contain a `setFocus` method. */
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
@@ -392,6 +390,21 @@ export function slotChangeGetTextContent(event: Event): string {
     .map((node) => node.textContent)
     .join("")
     .trim();
+}
+
+/**
+ * This helper checks if an element has visible content.
+ *
+ * @param {HTMLElement} element The element to check.
+ * @returns {boolean} True if the element has visible content, otherwise false.
+ */
+export function hasVisibleContent(element: HTMLElement): boolean {
+  for (const node of element.childNodes) {
+    if ((node.nodeType === Node.TEXT_NODE && node.textContent?.trim() !== "") || node.nodeType === Node.ELEMENT_NODE) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -551,7 +564,6 @@ export const focusElementInGroup = <T extends Element = Element>(
  *
  * @param a the reference element to compare
  * @param b the element to compare against
- *
  * @returns true when a is before b in the DOM
  */
 export function isBefore(a: HTMLElement, b: HTMLElement): boolean {

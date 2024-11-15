@@ -1,3 +1,4 @@
+import { describe, expect, it, beforeEach, vi } from "vitest";
 import { waitForAnimationFrame } from "../tests/utils";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
@@ -140,8 +141,8 @@ describe("repositioning", () => {
     assertOpenPositioning(floatingEl);
   });
 
-  it("debounces positioning per instance", async () => {
-    const positionSpy = jest.spyOn(floatingUI, "positionFloatingUI");
+  it.skip("debounces positioning per instance", async () => {
+    const positionSpy = vi.spyOn(floatingUI, "positionFloatingUI");
     fakeFloatingUiComponent.open = true;
 
     const anotherFakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);

@@ -4,5 +4,3 @@ hydrate/
 *.js
 src/components/icon/assets
 node_modules
-www/
-.stencil/

@@ -1,11 +1,9 @@
 import rule from "../../../../src/rules/ban-events";
-import { ruleTester } from "stencil-eslint-core";
 import * as path from "path";
 import * as fs from "fs";
+import { ruleTester } from "../../../../src/utils/rule-tester";
 
-const projectPath = path.resolve(__dirname, "../../../tsconfig.json");
-
-describe("stencil rules", () => {
+describe("ban-events", () => {
   const files = {
     good: path.resolve(__dirname, "ban-events.good.tsx"),
     wrong: path.resolve(__dirname, "ban-events.wrong.tsx"),
@@ -13,7 +11,7 @@ describe("stencil rules", () => {
 
   const options = ["some-unsupported-event", { event: "keypress", message: "use keyup or keydown instead" }];
 
-  ruleTester(projectPath).run("ban-events", rule, {
+  ruleTester().run("ban-events", rule, {
     valid: [
       {
         code: fs.readFileSync(files.good, "utf8"),
@@ -27,7 +25,20 @@ describe("stencil rules", () => {
         code: fs.readFileSync(files.wrong, "utf8"),
         options,
         filename: files.wrong,
-        errors: 3,
+        errors: [
+          {
+            messageId: "default",
+          },
+          {
+            messageId: "default",
+          },
+          {
+            messageId: "default",
+          },
+          {
+            messageId: "default",
+          },
+        ],
       },
     ],
   });
