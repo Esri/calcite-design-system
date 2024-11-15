@@ -391,6 +391,7 @@ export class StepperItem
   private handleItemClick = (event: MouseEvent): void => {
     if (
       this.disabled ||
+      this.hideItem ||
       (this.layout === "horizontal" &&
         event
           .composedPath()
