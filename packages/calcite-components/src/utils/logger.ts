@@ -1,4 +1,4 @@
-import type { JSX } from "../components";
+import { LuminaJsx } from "@arcgis/lumina";
 import { logLevel } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
@@ -18,12 +18,10 @@ type DeprecatedParams = {
 type SimpleComponentName<T> = T extends `calcite-${infer Name}` ? Name : T;
 
 type ComponentDeprecatedParams = Omit<DeprecatedParams, "name"> & {
-  name: SimpleComponentName<keyof JSX.IntrinsicElements>;
+  name: SimpleComponentName<keyof LuminaJsx.IntrinsicElements>;
 };
 
-/**
- * Exported for testing purposes only
- */
+/** Exported for testing purposes only */
 export const loggedDeprecations = new Set<string>();
 
 const logLevels = {

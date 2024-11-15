@@ -1,32 +1,9 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-} from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
+import { NumberingSystem } from "../../utils/locale";
 import {
   formatTimePart,
   getLocaleHourCycle,
@@ -52,81 +29,31 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { decimalPlaces, getDecimals } from "../../utils/math";
+import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
-import { TimePickerMessages } from "./assets/time-picker/t9n";
+import T9nStrings from "./assets/t9n/time-picker.t9n.en.json";
+import { styles } from "./time-picker.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-time-picker": TimePicker;
+  }
+}
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-@Component({
-  tag: "calcite-time-picker",
-  styleUrl: "time-picker.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-  assetsDirs: ["assets"],
-})
-export class TimePicker
-  implements LocalizedComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+export class TimePicker extends LitElement implements LoadableComponent {
+  // #region Static Members
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  /** Specifies the granularity the `value` must adhere to (in seconds). */
-  @Prop({ reflect: true }) step = 60;
+  static override styles = styles;
 
-  @Watch("step")
-  stepChange(): void {
-    this.toggleSecond();
-  }
+  // #endregion
 
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   *
-   */
-  @Prop() numberingSystem: NumberingSystem;
-
-  /** The component's value in UTC (always 24-hour format). */
-  @Prop({ mutable: true }) value: string = null;
-
-  @Watch("value")
-  valueWatcher(newValue: string): void {
-    this.setValue(newValue);
-  }
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TimePickerMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTimePickerElement;
+  // #region Private Properties
 
   private fractionalSecondEl: HTMLSpanElement;
 
@@ -142,82 +69,142 @@ export class TimePicker
 
   private secondEl: HTMLSpanElement;
 
-  // --------------------------------------------------------------------------
-  //
-  //  State
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @State() activeEl: HTMLSpanElement;
+  // #region State Properties
 
-  @State() effectiveLocale = "";
+  @state() activeEl: HTMLSpanElement;
 
-  @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
-    this.updateLocale();
-  }
+  @state() fractionalSecond: string;
 
-  @State() fractionalSecond: string;
+  @state() hour: string;
 
-  @State() hour: string;
+  @state() hourCycle: HourCycle;
 
-  @State() hourCycle: HourCycle;
+  @state() localizedDecimalSeparator = ".";
 
-  @State() localizedDecimalSeparator = ".";
+  @state() localizedFractionalSecond: string;
 
-  @State() localizedHour: string;
+  @state() localizedHour: string;
 
-  @State() localizedHourSuffix: string;
+  @state() localizedHourSuffix: string;
 
-  @State() localizedMeridiem: string;
+  @state() localizedMeridiem: string;
 
-  @State() localizedFractionalSecond: string;
+  @state() localizedMinute: string;
 
-  @State() localizedMinute: string;
+  @state() localizedMinuteSuffix: string;
 
-  @State() localizedMinuteSuffix: string;
+  @state() localizedSecond: string;
 
-  @State() localizedSecond: string;
+  @state() localizedSecondSuffix: string;
 
-  @State() localizedSecondSuffix: string;
+  @state() meridiem: Meridiem;
 
-  @State() meridiem: Meridiem;
+  @state() minute: string;
 
-  @State() minute: string;
+  @state() second: string;
 
-  @State() second: string;
+  @state() showFractionalSecond: boolean;
 
-  @State() showFractionalSecond: boolean;
+  @state() showSecond: boolean;
 
-  @State() showSecond: boolean;
+  // #endregion
 
-  @State() defaultMessages: TimePickerMessages;
+  // #region Public Properties
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * @internal
+   * Made into a prop for testing purposes only
+   *
+   * @private
    */
-  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<void>;
+  messages = useT9n<typeof T9nStrings>();
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @property() numberingSystem: NumberingSystem;
 
-  @Listen("blur")
-  blurHandler(): void {
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the granularity the `value` must adhere to (in seconds). */
+  @property({ reflect: true }) step = 60;
+
+  /** The component's value in UTC (always 24-hour format). */
+  @property() value: string = null;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component's first focusable element. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    this.el?.focus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** @private */
+  calciteInternalTimePickerChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("blur", this.blurHandler);
+    this.listen("keydown", this.keyDownHandler);
+    this.listen("pointerdown", this.pointerDownHandler);
+  }
+
+  override connectedCallback(): void {
+    this.updateLocale();
+    this.toggleSecond();
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
+      this.toggleSecond();
+    }
+
+    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+      this.setValue(this.value);
+    }
+
+    if (changes.has("messages")) {
+      this.updateLocale();
+    }
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+  private blurHandler(): void {
     this.activeEl = undefined;
     this.pointerActivated = false;
   }
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  private keyDownHandler(event: KeyboardEvent): void {
     this.pointerActivated = false;
     const { defaultPrevented, key } = event;
 
@@ -297,32 +284,9 @@ export class TimePicker
     }
   }
 
-  @Listen("pointerdown")
-  pointerDownHandler(): void {
+  private pointerDownHandler(): void {
     this.pointerActivated = true;
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Sets focus on the component's first focusable element.
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   private async focusPart(target: TimePart): Promise<void> {
     await componentFocusable(this);
@@ -330,17 +294,17 @@ export class TimePicker
     this[`${target || "hour"}El`]?.focus();
   }
 
-  private decrementHour = (): void => {
+  private decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
-  };
+  }
 
-  private decrementMeridiem = (): void => {
+  private decrementMeridiem(): void {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
     this.setValuePart("meridiem", newMeridiem);
-  };
+  }
 
-  private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
+  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
     let newValue;
     if (isValidNumber(this[key])) {
       const valueAsNumber = parseInt(this[key]);
@@ -349,24 +313,24 @@ export class TimePicker
       newValue = 59;
     }
     this.setValuePart(key, newValue);
-  };
+  }
 
-  private decrementMinute = (): void => {
+  private decrementMinute(): void {
     this.decrementMinuteOrSecond("minute");
-  };
+  }
 
-  private decrementSecond = (): void => {
+  private decrementSecond(): void {
     this.decrementMinuteOrSecond("second");
-  };
+  }
 
-  private focusHandler = (event: FocusEvent): void => {
+  private focusHandler(event: FocusEvent): void {
     if (this.pointerActivated) {
       return;
     }
     this.activeEl = event.currentTarget as HTMLSpanElement;
-  };
+  }
 
-  private fractionalSecondKeyDownHandler = (event: KeyboardEvent): void => {
+  private fractionalSecondKeyDownHandler(event: KeyboardEvent): void {
     const { key } = event;
     if (numberKeys.includes(key)) {
       const stepPrecision = decimalPlaces(this.step);
@@ -404,27 +368,27 @@ export class TimePicker
           break;
       }
     }
-  };
+  }
 
-  private fractionalSecondDownClickHandler = (): void => {
+  private fractionalSecondDownClickHandler(): void {
     this.activeEl = this.fractionalSecondEl;
     this.fractionalSecondEl.focus();
     this.nudgeFractionalSecond("down");
-  };
+  }
 
-  private fractionalSecondUpClickHandler = (): void => {
+  private fractionalSecondUpClickHandler(): void {
     this.activeEl = this.fractionalSecondEl;
     this.fractionalSecondEl.focus();
     this.nudgeFractionalSecond("up");
-  };
+  }
 
-  private hourDownClickHandler = (): void => {
+  private hourDownClickHandler(): void {
     this.activeEl = this.hourEl;
     this.hourEl.focus();
     this.decrementHour();
-  };
+  }
 
-  private hourKeyDownHandler = (event: KeyboardEvent): void => {
+  private hourKeyDownHandler(event: KeyboardEvent): void {
     const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
@@ -470,56 +434,56 @@ export class TimePicker
           break;
       }
     }
-  };
+  }
 
-  private hourUpClickHandler = (): void => {
+  private hourUpClickHandler(): void {
     this.activeEl = this.hourEl;
     this.hourEl.focus();
     this.incrementHour();
-  };
+  }
 
-  private incrementMeridiem = (): void => {
+  private incrementMeridiem(): void {
     const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
     this.setValuePart("meridiem", newMeridiem);
-  };
+  }
 
-  private incrementHour = (): void => {
+  private incrementHour(): void {
     const newHour = isValidNumber(this.hour)
       ? this.hour === "23"
         ? 0
         : parseInt(this.hour) + 1
       : 1;
     this.setValuePart("hour", newHour);
-  };
+  }
 
-  private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
+  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
     const newValue = isValidNumber(this[key])
       ? this[key] === "59"
         ? 0
         : parseInt(this[key]) + 1
       : 0;
     this.setValuePart(key, newValue);
-  };
+  }
 
-  private incrementMinute = (): void => {
+  private incrementMinute(): void {
     this.incrementMinuteOrSecond("minute");
-  };
+  }
 
-  private incrementSecond = (): void => {
+  private incrementSecond(): void {
     this.incrementMinuteOrSecond("second");
-  };
+  }
 
-  private inputClickHandler = (event: MouseEvent): void => {
+  private inputClickHandler(event: MouseEvent): void {
     this.activeEl = event.target as HTMLSpanElement;
-  };
+  }
 
-  private meridiemUpClickHandler = (): void => {
+  private meridiemUpClickHandler(): void {
     this.activeEl = this.meridiemEl;
     this.meridiemEl.focus();
     this.incrementMeridiem();
-  };
+  }
 
-  private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
+  private meridiemKeyDownHandler(event: KeyboardEvent): void {
     switch (event.key) {
       case "a":
         this.setValuePart("meridiem", "AM");
@@ -543,27 +507,27 @@ export class TimePicker
         event.preventDefault();
         break;
     }
-  };
+  }
 
-  private meridiemDownClickHandler = (): void => {
+  private meridiemDownClickHandler(): void {
     this.activeEl = this.meridiemEl;
     this.meridiemEl.focus();
     this.decrementMeridiem();
-  };
+  }
 
-  private minuteDownClickHandler = (): void => {
+  private minuteDownClickHandler(): void {
     this.activeEl = this.minuteEl;
     this.minuteEl.focus();
     this.decrementMinute();
-  };
+  }
 
-  private minuteUpClickHandler = (): void => {
+  private minuteUpClickHandler(): void {
     this.activeEl = this.minuteEl;
     this.minuteEl.focus();
     this.incrementMinute();
-  };
+  }
 
-  private minuteKeyDownHandler = (event: KeyboardEvent): void => {
+  private minuteKeyDownHandler(event: KeyboardEvent): void {
     const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
@@ -597,9 +561,9 @@ export class TimePicker
           break;
       }
     }
-  };
+  }
 
-  private nudgeFractionalSecond = (direction: "up" | "down"): void => {
+  private nudgeFractionalSecond(direction: "up" | "down"): void {
     const stepDecimal = getDecimals(this.step);
     const stepPrecision = decimalPlaces(this.step);
     const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
@@ -632,23 +596,24 @@ export class TimePicker
           : "".padStart(stepPrecision, "0");
     }
     this.setValuePart("fractionalSecond", newFractionalSecond);
-  };
+  }
 
-  private sanitizeValue = (value: string): string => {
+  private sanitizeValue(value: string): string {
     const { hour, minute, second, fractionalSecond } = parseTimeString(value);
     if (fractionalSecond) {
       const sanitizedFractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
       return `${hour}:${minute}:${second}.${sanitizedFractionalSecond}`;
     }
     return isValidTime(value) && value;
-  };
+  }
 
-  private sanitizeFractionalSecond = (fractionalSecond: string): string =>
-    fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
+  private sanitizeFractionalSecond(fractionalSecond: string): string {
+    return fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
       ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
       : fractionalSecond;
+  }
 
-  private secondKeyDownHandler = (event: KeyboardEvent): void => {
+  private secondKeyDownHandler(event: KeyboardEvent): void {
     const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
@@ -682,34 +647,47 @@ export class TimePicker
           break;
       }
     }
-  };
+  }
 
-  private secondDownClickHandler = (): void => {
+  private secondDownClickHandler(): void {
     this.activeEl = this.secondEl;
     this.secondEl.focus();
     this.decrementSecond();
-  };
+  }
 
-  private secondUpClickHandler = (): void => {
+  private secondUpClickHandler(): void {
     this.activeEl = this.secondEl;
     this.secondEl.focus();
     this.incrementSecond();
-  };
+  }
 
-  private setHourEl = (el: HTMLSpanElement) => (this.hourEl = el);
+  private setHourEl(el: HTMLSpanElement): void {
+    this.hourEl = el;
+  }
 
-  private setMeridiemEl = (el: HTMLSpanElement) => (this.meridiemEl = el);
+  private setMeridiemEl(el: HTMLSpanElement): void {
+    this.meridiemEl = el;
+  }
 
-  private setMinuteEl = (el: HTMLSpanElement) => (this.minuteEl = el);
+  private setMinuteEl(el: HTMLSpanElement): void {
+    this.minuteEl = el;
+  }
 
-  private setSecondEl = (el: HTMLSpanElement) => (this.secondEl = el);
+  private setSecondEl(el: HTMLSpanElement): void {
+    this.secondEl = el;
+  }
 
-  private setFractionalSecondEl = (el: HTMLSpanElement) => (this.fractionalSecondEl = el);
+  private setFractionalSecondEl(el: HTMLSpanElement): void {
+    this.fractionalSecondEl = el;
+  }
 
-  private setValue = (value: string): void => {
+  private setValue(value: string): void {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-      const { effectiveLocale: locale, numberingSystem } = this;
+      const {
+        messages: { _lang: locale },
+        numberingSystem,
+      } = this;
       const {
         localizedHour,
         localizedHourSuffix,
@@ -743,25 +721,25 @@ export class TimePicker
       this.localizedHour = null;
       this.localizedHourSuffix = getLocalizedTimePartSuffix(
         "hour",
-        this.effectiveLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.localizedMeridiem = null;
       this.localizedMinute = null;
       this.localizedMinuteSuffix = getLocalizedTimePartSuffix(
         "minute",
-        this.effectiveLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.localizedSecond = null;
       this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-        this.effectiveLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.localizedFractionalSecond = null;
       this.localizedSecondSuffix = getLocalizedTimePartSuffix(
         "second",
-        this.effectiveLocale,
+        this.messages._lang,
         this.numberingSystem,
       );
       this.meridiem = null;
@@ -769,13 +747,16 @@ export class TimePicker
       this.second = null;
       this.value = null;
     }
-  };
+  }
 
-  private setValuePart = (
+  private setValuePart(
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value: number | string | Meridiem,
-  ): void => {
-    const { effectiveLocale: locale, numberingSystem } = this;
+  ): void {
+    const {
+      messages: { _lang: locale },
+      numberingSystem,
+    } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -846,7 +827,7 @@ export class TimePicker
     if (emit) {
       this.calciteInternalTimePickerChange.emit();
     }
-  };
+  }
 
   private toggleSecond(): void {
     this.showSecond = this.step < 60;
@@ -854,50 +835,20 @@ export class TimePicker
   }
 
   private updateLocale() {
-    updateMessages(this, this.effectiveLocale);
-    this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
+    this.hourCycle = getLocaleHourCycle(this.messages._lang, this.numberingSystem);
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-      this.effectiveLocale,
+      this.messages._lang,
       this.numberingSystem,
     );
-    this.meridiemOrder = getMeridiemOrder(this.effectiveLocale);
+    this.meridiemOrder = getMeridiemOrder(this.messages._lang);
     this.setValue(this.sanitizeValue(this.value));
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  connectedCallback() {
-    connectLocalized(this);
-    this.updateLocale();
-    connectMessages(this);
-    this.toggleSecond();
-  }
+  // #region Rendering
 
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  render(): VNode {
+  override render(): JsxNode {
     const hourIsNumber = isValidNumber(this.hour);
     const iconScale = getIconScale(this.scale);
     const minuteIsNumber = isValidNumber(this.minute);
@@ -916,7 +867,7 @@ export class TimePicker
       >
         <div class={CSS.column} role="group">
           <span
-            aria-label={this.messages.hourUp}
+            ariaLabel={this.messages.hourUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourUp]: true,
@@ -928,11 +879,11 @@ export class TimePicker
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            aria-label={this.messages.hour}
-            aria-valuemax="23"
-            aria-valuemin="1"
-            aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
-            aria-valuetext={this.hour}
+            ariaLabel={this.messages.hour}
+            ariaValueMax="23"
+            ariaValueMin="1"
+            ariaValueNow={(hourIsNumber && parseInt(this.hour)) || "0"}
+            ariaValueText={this.hour}
             class={{
               [CSS.input]: true,
               [CSS.hour]: true,
@@ -948,7 +899,7 @@ export class TimePicker
             {this.localizedHour || "--"}
           </span>
           <span
-            aria-label={this.messages.hourDown}
+            ariaLabel={this.messages.hourDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourDown]: true,
@@ -963,7 +914,7 @@ export class TimePicker
         <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
         <div class={CSS.column} role="group">
           <span
-            aria-label={this.messages.minuteUp}
+            ariaLabel={this.messages.minuteUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteUp]: true,
@@ -974,11 +925,11 @@ export class TimePicker
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            aria-label={this.messages.minute}
-            aria-valuemax="12"
-            aria-valuemin="1"
-            aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
-            aria-valuetext={this.minute}
+            ariaLabel={this.messages.minute}
+            ariaValueMax="12"
+            ariaValueMin="1"
+            ariaValueNow={(minuteIsNumber && parseInt(this.minute)) || "0"}
+            ariaValueText={this.minute}
             class={{
               [CSS.input]: true,
               [CSS.minute]: true,
@@ -994,7 +945,7 @@ export class TimePicker
             {this.localizedMinute || "--"}
           </span>
           <span
-            aria-label={this.messages.minuteDown}
+            ariaLabel={this.messages.minuteDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteDown]: true,
@@ -1009,7 +960,7 @@ export class TimePicker
         {this.showSecond && (
           <div class={CSS.column} role="group">
             <span
-              aria-label={this.messages.secondUp}
+              ariaLabel={this.messages.secondUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondUp]: true,
@@ -1020,11 +971,11 @@ export class TimePicker
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.messages.second}
-              aria-valuemax="59"
-              aria-valuemin="0"
-              aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
-              aria-valuetext={this.second}
+              ariaLabel={this.messages.second}
+              ariaValueMax="59"
+              ariaValueMin="0"
+              ariaValueNow={(secondIsNumber && parseInt(this.second)) || "0"}
+              ariaValueText={this.second}
               class={{
                 [CSS.input]: true,
                 [CSS.second]: true,
@@ -1040,7 +991,7 @@ export class TimePicker
               {this.localizedSecond || "--"}
             </span>
             <span
-              aria-label={this.messages.secondDown}
+              ariaLabel={this.messages.secondDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondDown]: true,
@@ -1058,7 +1009,7 @@ export class TimePicker
         {this.showFractionalSecond && (
           <div class={CSS.column} role="group">
             <span
-              aria-label={this.messages.fractionalSecondUp}
+              ariaLabel={this.messages.fractionalSecondUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondUp]: true,
@@ -1069,11 +1020,11 @@ export class TimePicker
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.messages.fractionalSecond}
-              aria-valuemax="999"
-              aria-valuemin="1"
-              aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
-              aria-valuetext={this.localizedFractionalSecond}
+              ariaLabel={this.messages.fractionalSecond}
+              ariaValueMax="999"
+              ariaValueMin="1"
+              ariaValueNow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
+              ariaValueText={this.localizedFractionalSecond}
               class={{
                 [CSS.input]: true,
                 [CSS.fractionalSecond]: true,
@@ -1089,7 +1040,7 @@ export class TimePicker
               {this.localizedFractionalSecond || "--"}
             </span>
             <span
-              aria-label={this.messages.fractionalSecondDown}
+              ariaLabel={this.messages.fractionalSecondDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondDown]: true,
@@ -1113,7 +1064,7 @@ export class TimePicker
             role="group"
           >
             <span
-              aria-label={this.messages.meridiemUp}
+              ariaLabel={this.messages.meridiemUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemUp]: true,
@@ -1125,11 +1076,11 @@ export class TimePicker
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.messages.meridiem}
-              aria-valuemax="2"
-              aria-valuemin="1"
-              aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
-              aria-valuetext={this.meridiem}
+              ariaLabel={this.messages.meridiem}
+              ariaValueMax="2"
+              ariaValueMin="1"
+              ariaValueNow={(this.meridiem === "PM" && "2") || "1"}
+              ariaValueText={this.meridiem}
               class={{
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
@@ -1145,7 +1096,7 @@ export class TimePicker
               {this.localizedMeridiem || "--"}
             </span>
             <span
-              aria-label={this.messages.meridiemDown}
+              ariaLabel={this.messages.meridiemDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemDown]: true,
@@ -1161,4 +1112,6 @@ export class TimePicker
       </div>
     );
   }
+
+  // #endregion
 }

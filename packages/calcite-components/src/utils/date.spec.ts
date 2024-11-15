@@ -1,8 +1,9 @@
+import { describe, expect, it } from "vitest";
 import { DateLocaleData } from "../components/date-picker/utils";
-import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
-import english from "../components/date-picker/assets/date-picker/nls/en.json";
-import french from "../components/date-picker/assets/date-picker/nls/fr.json";
-import korean from "../components/date-picker/assets/date-picker/nls/ko.json";
+import arabic from "../components/date-picker/assets/nls/ar.json";
+import english from "../components/date-picker/assets/nls/en.json";
+import french from "../components/date-picker/assets/nls/fr.json";
+import korean from "../components/date-picker/assets/nls/ko.json";
 import {
   getDateInMonth,
   dateFromISO,

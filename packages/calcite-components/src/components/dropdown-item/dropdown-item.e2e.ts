@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
 
 describe("calcite-dropdown-item", () => {

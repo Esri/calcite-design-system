@@ -1,4 +1,5 @@
 import { toHaveNoViolations } from "jest-axe";
+import { expect, it } from "vitest";
 import { getTagAndPage, HYDRATED_ATTR } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
@@ -12,7 +13,6 @@ expect.extend(toHaveNoViolations);
  *    renders(`<calcite-tree></calcite-tree>`);
  * });
  * @param componentTestSetup
- *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
  * @param {string} options.visible - is the component visible

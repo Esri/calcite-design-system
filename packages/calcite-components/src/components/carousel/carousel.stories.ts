@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Carousel } from "./carousel";
+
 const { arrowType } = ATTRIBUTES;
 
 type CarouselStoryArgs = Pick<
@@ -31,7 +32,7 @@ export default {
 export const simple = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
-      control-overlay="${args.controlOverlay}"
+      ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}
@@ -79,7 +80,7 @@ export const simple = (args: CarouselStoryArgs): string =>
 export const simpleManyItems = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
-      control-overlay="${args.controlOverlay}"
+      ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}
@@ -155,7 +156,7 @@ export const simpleManyItems = (args: CarouselStoryArgs): string =>
 export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
   html` <div style="width:400px;height:400px;">
     <calcite-carousel
-      control-overlay="${args.controlOverlay}"
+      ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}
@@ -231,7 +232,7 @@ export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
 export const simpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
   html` <div style="width:200px;height:400px;">
     <calcite-carousel
-      control-overlay="${args.controlOverlay}"
+      ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}

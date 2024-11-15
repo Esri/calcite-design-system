@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Card } from "./card";
+
 const { logicalFlowPosition } = ATTRIBUTES;
 
 type CardStoryArgs = Pick<Card, "loading" | "selected" | "thumbnailPosition">;

@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -15,7 +16,9 @@ import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
+import type { Action } from "../action/action";
 import { CSS, SLOTS } from "./resources";
+import type { FlowItem } from "./flow-item";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -243,7 +246,7 @@ describe("calcite-flow-item", () => {
 
     await page.$eval(
       "calcite-flow-item",
-      (el: HTMLCalciteFlowItemElement) => (el.beforeClose = (window as TestWindow).beforeClose),
+      (el: FlowItem["el"]) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
 
     await page.waitForChanges();
@@ -265,9 +268,7 @@ describe("calcite-flow-item", () => {
     expect(await panel.getProperty("collapsed")).toBe(true);
     expect(await panel.getProperty("collapsible")).toBe(true);
 
-    await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el: HTMLCalciteActionElement) =>
-      el.click(),
-    );
+    await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el: Action["el"]) => el.click());
     await page.waitForChanges();
 
     expect(await flowItem.getProperty("collapsed")).toBe(false);
@@ -307,7 +308,7 @@ describe("calcite-flow-item", () => {
 
     expect(await top.isIntersectingViewport()).toBe(false);
 
-    await page.$eval("calcite-flow-item", (panel: HTMLCalciteFlowItemElement) =>
+    await page.$eval("calcite-flow-item", (panel: FlowItem["el"]) =>
       panel.scrollContentTo({
         top: 0,
         behavior: "auto",
@@ -383,7 +384,7 @@ describe("calcite-flow-item", () => {
     );
     await page.waitForChanges();
 
-    await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el: HTMLCalciteActionElement) => el.click());
+    await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el: Action["el"]) => el.click());
     await page.waitForChanges();
 
     const flowItem = await page.find("calcite-flow-item");

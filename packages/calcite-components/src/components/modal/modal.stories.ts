@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Modal } from "./modal";
+
 const { kind, scale } = ATTRIBUTES;
 
 type ModalStoryArgs = Pick<

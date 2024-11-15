@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Action } from "./action";
+
 const { alignment, appearance, scale } = ATTRIBUTES;
 
 type ActionStoryArgs = Pick<
