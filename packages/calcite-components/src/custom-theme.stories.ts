@@ -34,6 +34,7 @@ import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
 import { tabs } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
+import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
@@ -119,7 +120,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column">
         ${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress}
-        ${handle} ${textArea} ${popover} ${tile}
+        ${handle} ${textArea} ${popover} ${tile} ${tooltip}
       </div>
       ${alert} ${navigation}
     </div>
@@ -144,6 +145,7 @@ const componentTokens = {
   ...progressTokens,
   ...inputTokens,
   ...textAreaTokens,
+  ...tooltipTokens,
   ...tileTokens,
   ...navigationTokens,
 };
