@@ -117,12 +117,12 @@ describe("dom", () => {
     });
 
     it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", () => {
-      window.matchMedia = jest.fn().mockImplementation((query) => ({
+      window.matchMedia = vi.fn().mockImplementation((query) => ({
         matches: query === "(prefers-color-scheme: dark)",
         media: query,
         onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
       }));
 
       document.body.innerHTML = html`
