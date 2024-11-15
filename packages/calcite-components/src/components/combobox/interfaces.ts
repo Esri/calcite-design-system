@@ -1,4 +1,7 @@
-export type ComboboxChildElement = HTMLCalciteComboboxItemElement | HTMLCalciteComboboxItemGroupElement;
+import type { ComboboxItemGroup } from "../combobox-item-group/combobox-item-group";
+import type { ComboboxItem } from "../combobox-item/combobox-item";
+
+export type ComboboxChildElement = ComboboxItem["el"] | ComboboxItemGroup["el"];
 export type SelectionDisplay = "all" | "fit" | "single";
 
 export interface ItemData {

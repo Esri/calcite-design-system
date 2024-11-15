@@ -1,3 +1,4 @@
+import { describe, expect, it, afterAll, beforeAll, vi, Mock } from "vitest";
 import { fetchIcon, FetchIconProps, iconCache, normalizeIconName, requestCache, scaleToPx } from "./utils";
 
 describe("utils", () => {
@@ -12,7 +13,7 @@ describe("utils", () => {
   describe("fetchIcon", () => {
     beforeAll(() => {
       // we mock fetch since we are not testing the icon data itself
-      (global.fetch as jest.Mock) = jest.fn(async () =>
+      (global.fetch as Mock) = vi.fn(async () =>
         Promise.resolve({
           json: () =>
             Promise.resolve({
@@ -23,7 +24,7 @@ describe("utils", () => {
     });
 
     afterAll(() => {
-      (global.fetch as jest.Mock).mockReset();
+      (global.fetch as Mock).mockReset();
     });
 
     it("avoids fetching if icon data is available", async () => {
