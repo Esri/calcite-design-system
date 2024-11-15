@@ -90,7 +90,10 @@ export class Sheet
 
   private openEnd = (): void => {
     this.setFocus();
-    this.el.removeEventListener("calciteSheetOpen", this.openEnd);
+    this.el.removeEventListener(
+      "calciteSheetOpen",
+      this.openEnd,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
   openTransitionProp = "opacity";
@@ -243,17 +246,21 @@ export class Sheet
     setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      requestAnimationFrame(() => this.openSheet());
+      this.openSheet();
     }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
       this.handleFocusTrapDisabled(this.focusTrapDisabled);
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      this.handleOpenedChange();
+      onToggleOpenCloseComponent(this);
     }
 
     if (
@@ -261,7 +268,7 @@ export class Sheet
       (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
     ) {
-      this.handleInteractionChange();
+      this.setupInteractions();
     }
   }
 
@@ -299,14 +306,6 @@ export class Sheet
     } else {
       this.closeSheet();
     }
-  }
-
-  private handleOpenedChange(): void {
-    onToggleOpenCloseComponent(this);
-  }
-
-  private handleInteractionChange(): void {
-    this.setupInteractions();
   }
 
   private getResizeIcon(): string {
@@ -520,7 +519,10 @@ export class Sheet
 
   private async openSheet(): Promise<void> {
     await componentOnReady(this.el);
-    this.el.addEventListener("calciteSheetOpen", this.openEnd);
+    this.el.addEventListener(
+      "calciteSheetOpen",
+      this.openEnd,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
     if (!this.embedded) {
       this.initialOverflowCSS = document.documentElement.style.overflow;
@@ -572,9 +574,13 @@ export class Sheet
     const { resizable, position, resizeValues } = this;
     const dir = getElementDir(this.el);
     const isBlockPosition = position === "block-start" || position === "block-end";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "aria-describedby", this.contentId);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = this.label;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaModal = "true";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 
     return (
