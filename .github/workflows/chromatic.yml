@@ -29,7 +29,6 @@ jobs:
           (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots') || github.event_name == 'push'
         uses: chromaui/action@v11
         with:
-          onlyChanged: true
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           zip: true
           exitOnceUploaded: true
