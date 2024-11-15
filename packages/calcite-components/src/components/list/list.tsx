@@ -209,13 +209,6 @@ export class List
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies an accessible name for the component.
-   *
-   * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
-   */
-  @Prop() label!: string;
-
-  /**
    * Specifies the interaction mode of the component.
    *
    * `"interactive"` allows interaction styling and pointer changes on hover
@@ -225,6 +218,13 @@ export class List
    * The `"static"` value should only be used when `selectionMode` is `"none"`.
    */
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
+
+  /**
+   * Specifies an accessible name for the component.
+   *
+   * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   */
+  @Prop() label!: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
