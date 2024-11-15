@@ -1,7 +1,7 @@
-import { E2EPage } from "@stencil/core/testing";
-import type { JSX } from "../../components";
+import { LuminaJsx } from "@arcgis/lumina";
+import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 
-export type ComponentTag = keyof JSX.IntrinsicElements;
+export type ComponentTag = keyof LuminaJsx.IntrinsicElements;
 export type ComponentHTML = string;
 export type TagOrHTML = ComponentTag | ComponentHTML;
 export type BeforeContent = (page: E2EPage) => Promise<void>;
@@ -28,9 +28,7 @@ export type ComponentTestContent = TagOrHTML | TagAndPage;
 export type ComponentTestSetupProvider = (() => ComponentTestContent) | (() => Promise<ComponentTestContent>);
 export type ComponentTestSetup = ComponentTestContent | ComponentTestSetupProvider;
 
-/**
- * This interface is used to specify focus targets for different interactions.
- */
+/** This interface is used to specify focus targets for different interactions. */
 export interface TabAndClickFocusTargets {
   tab: string;
   click:
@@ -44,13 +42,11 @@ export interface TabAndClickFocusTargets {
 export type FocusTarget = "host" | "child" | "none";
 
 export interface DisabledOptions {
-  /**
-   *  Use this to specify whether the test should cover focusing.
-   */
+  /** Use this to specify whether the test should cover focusing. */
   focusTarget?: FocusTarget | TabAndClickFocusTargets;
 
   /**
-   *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
+   * Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
    *
    *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
    */

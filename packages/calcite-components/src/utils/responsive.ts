@@ -16,9 +16,7 @@ export interface Breakpoints {
   };
 }
 
-/**
- * A breakpoints lookup object.
- */
+/** A breakpoints lookup object. */
 export const breakpoints: Breakpoints = {
   width: {
     large: cssLengthToNumber(calciteContainerSizeWidthLg.max),

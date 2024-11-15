@@ -1,9 +1,16 @@
 // @ts-nocheck
-@Component({ tag: "sample-tag" })
-export class SampleTag {
-  @Prop() aBoolean = true;
+import { LitElement, h, property } from "@arcgis/lumina";
 
-  render() {
-    return <div>test</div>;
+declare global {
+  interface DeclareElements {
+    "calcite-test-component": TestComponent;
   }
+}
+
+export class TestComponent extends LitElement {
+  //#region Public Properties
+
+  @property() aBoolean: boolean = true;
+
+  //#endregion
 }

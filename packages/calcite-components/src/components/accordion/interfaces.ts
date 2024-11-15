@@ -1,3 +1,5 @@
+import type { AccordionItem } from "../accordion-item/accordion-item";
+
 export interface RequestedItem {
-  requestedAccordionItem: HTMLCalciteAccordionItemElement;
+  requestedAccordionItem: AccordionItem["el"];
 }

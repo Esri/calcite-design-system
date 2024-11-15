@@ -1,184 +1,146 @@
-import { Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
-import { CalciteActionMenuCustomEvent } from "../../components";
+import { PropertyValues } from "lit";
+import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { useT9n } from "../../controllers/useT9n";
+import type { ActionMenu } from "../action-menu/action-menu";
 import { Columns } from "./interfaces";
-import { ActionGroupMessages } from "./assets/action-group/t9n";
-import { ICONS, SLOTS, CSS } from "./resources";
+import T9nStrings from "./assets/t9n/action-group.t9n.en.json";
+import { CSS, ICONS, SLOTS } from "./resources";
+import { styles } from "./action-group.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-action-group": ActionGroup;
+  }
+}
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
  * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
-@Component({
-  tag: "calcite-action-group",
-  styleUrl: "action-group.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-  assetsDirs: ["assets"],
-})
-export class ActionGroup implements LoadableComponent, LocalizedComponent, T9nComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class ActionGroup extends LitElement implements LoadableComponent {
+  // #region Static Members
 
-  /**
-   * When `true`, the component is expanded.
-   */
-  @Prop({ reflect: true }) expanded = false;
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  @Watch("expanded")
-  expandedHandler(): void {
-    this.menuOpen = false;
-  }
+  static override styles = styles;
 
-  /**
-   *  Accessible name for the component.
-   */
-  @Prop() label: string;
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasMenuActions = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** Indicates number of columns. */
+  @property({ type: Number, reflect: true }) columns: Columns;
+
+  /** When `true`, the component is expanded. */
+  @property({ reflect: true }) expanded = false;
+
+  /** Accessible name for the component. */
+  @property() label: string;
 
   /**
    * Indicates the layout of the component.
    *
    * @deprecated Use the `layout` property on the component's parent instead.
    */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
+
+  /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
+  @property() menuFlipPlacements: FlipPlacement[];
+
+  /** When `true`, the `calcite-action-menu` is open. */
+  @property({ reflect: true }) menuOpen = false;
+
+  /** Determines where the action menu will be positioned. */
+  @property({ reflect: true }) menuPlacement: LogicalPlacement;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Indicates number of columns.
+   * Made into a prop for testing purposes only
+   *
+   * @private
    */
-  @Prop({ reflect: true }) columns: Columns;
-
-  /**
-   * When `true`, the `calcite-action-menu` is open.
-   */
-  @Prop({ reflect: true, mutable: true }) menuOpen = false;
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
    */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /**
-   * Specifies the size of the `calcite-action-menu`.
-   */
-  @Prop({ reflect: true }) scale: Scale;
+  /** Specifies the size of the `calcite-action-menu`. */
+  @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() menuFlipPlacements: FlipPlacement[];
+  // #endregion
 
-  /**
-   * Determines where the action menu will be positioned.
-   */
-  @Prop({ reflect: true }) menuPlacement: LogicalPlacement;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ActionGroupMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ActionGroupMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-  @Element() el: HTMLCalciteActionGroupElement;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: ActionGroupMessages;
-
-  @State() hasMenuActions = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Sets focus on the component's first focusable element. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     focusFirstTabbable(this.el);
   }
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-  }
+  // #endregion
 
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
+  // #region Lifecycle
 
-  async componentWillLoad(): Promise<void> {
+  async load(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
   }
 
-  componentDidLoad(): void {
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
+      this.menuOpen = false;
+    }
+  }
+
+  loaded(): void {
     setComponentLoaded(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Component Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderMenu(): VNode {
+  // #region Private Methods
+  private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
+    this.menuOpen = !!event.currentTarget.open;
+  }
+
+  private handleMenuActionsSlotChange(event: Event): void {
+    this.hasMenuActions = slotChangeHasAssignedElement(event);
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  private renderMenu(): JsxNode {
     const {
       expanded,
       menuOpen,
@@ -199,7 +161,7 @@ export class ActionGroup implements LoadableComponent, LocalizedComponent, T9nCo
         }
         hidden={!hasMenuActions}
         label={messages.more}
-        onCalciteActionMenuOpen={this.setMenuOpen}
+        oncalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
         overlayPositioning={overlayPositioning}
         placement={menuPlacement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
@@ -212,32 +174,20 @@ export class ActionGroup implements LoadableComponent, LocalizedComponent, T9nCo
           text={messages.more}
           textEnabled={expanded}
         />
-        <slot name={SLOTS.menuActions} onSlotchange={this.handleMenuActionsSlotChange} />
+        <slot name={SLOTS.menuActions} onSlotChange={this.handleMenuActionsSlotChange} />
         <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} />
       </calcite-action-menu>
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <div aria-label={this.label} class={CSS.container} role="group">
+      <div ariaLabel={this.label} class={CSS.container} role="group">
         <slot />
         {this.renderMenu()}
       </div>
     );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  setMenuOpen = (event: CalciteActionMenuCustomEvent<void>): void => {
-    this.menuOpen = !!event.target.open;
-  };
-
-  handleMenuActionsSlotChange = (event: Event): void => {
-    this.hasMenuActions = slotChangeHasAssignedElement(event);
-  };
+  // #endregion
 }
