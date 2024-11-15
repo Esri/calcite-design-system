@@ -1,36 +1,44 @@
-import { Component, h, VNode, Prop, State } from "@stencil/core";
 import hljs from "highlight.js";
+import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { styles } from "./code.scss";
 
-@Component({
-  tag: "calcite-code",
-  styleUrl: "code.scss",
-  shadow: true,
-})
-export class Code {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-code": Code;
+  }
+}
 
-  @Prop() language: string;
+export class Code extends LitElement {
+  // #region Static Members
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  static override styles = styles;
 
-  @State() source: string;
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region State Properties
 
-  render(): VNode {
+  @state() source: string;
+
+  // #endregion
+
+  // #region Public Properties
+
+  @property() language: string;
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleDefaultSlotChange(event: Event) {
+    this.source = slotChangeGetAssignedElements(event)[0]?.textContent;
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     const { source, language } = this;
     return (
       <pre>
@@ -44,19 +52,11 @@ export class Code {
           }
         />
         <div hidden>
-          <slot onSlotchange={this.handleDefaultSlotChange} />
+          <slot onSlotChange={this.handleDefaultSlotChange} />
         </div>
       </pre>
     );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private handleDefaultSlotChange = (event: Event) => {
-    this.source = slotChangeGetAssignedElements(event)[0]?.textContent;
-  };
+  // #endregion
 }
