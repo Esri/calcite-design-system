@@ -60,8 +60,6 @@ export class Sheet
 
   private contentId: string;
 
-  private ignoreOpenChange = false;
-
   private escapeDeactivates = (event: KeyboardEvent) => {
     if (event.defaultPrevented || this.escapeDisabled) {
       return false;
@@ -75,6 +73,8 @@ export class Sheet
   private focusTrapDeactivates = (): void => {
     this.open = false;
   };
+
+  private ignoreOpenChange = false;
 
   private initialOverflowCSS: string;
 
@@ -119,26 +119,6 @@ export class Sheet
     maxInlineSize: 0,
     maxBlockSize: 0,
   };
-
-  // #endregion
-
-  // #region Public Properties
-
-  /**
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
-   
-  private _open = false;
-   
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteSheetOpen",
-      this.openEnd,
-    );
-  };
-   */
 
   // #endregion
 
@@ -223,6 +203,19 @@ export class Sheet
 
   // #region Public Methods
 
+  /** Sets focus on the component's "close" button - the first focusable item. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
+  }
+
+  /** Updates the element(s) that are used within the focus-trap of the component. */
+  @method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
+  }
+
   // #endregion
 
   // #region Events
@@ -256,7 +249,7 @@ export class Sheet
     this.setupInteractions();
   }
 
-  async load(): Promise<void> {
+  load(): void {
     setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
@@ -511,35 +504,6 @@ export class Sheet
       },
     });
   }
-
-  // #endregion
-
-  // #region Public Methods
-
-  /** Sets focus on the component's "close" button - the first focusable item. */
-  @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
-  }
-
-  /** Updates the element(s) that are used within the focus-trap of the component. */
-  @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
-  }
-
-  // #endregion
-
-  // #region Events
-
-  // #endregion
-
-  // #region Lifecycle
-
-  // #endregion
-
-  // #region Private Methods
 
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
