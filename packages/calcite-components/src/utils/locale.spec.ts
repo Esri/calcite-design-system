@@ -1,7 +1,9 @@
+import { describe, expect, it, beforeEach } from "vitest";
 import {
   dateTimeFormatCache,
   defaultLocale,
   defaultNumberingSystem,
+  getDateFormatSupportedLocale,
   getDateTimeFormat,
   getSupportedLocale,
   locales,
@@ -227,6 +229,26 @@ describe("getSupportedLocale", () => {
     it("maps `pt` to `pt-BR` with t9n context", () => {
       expect(getSupportedLocale("pt", "t9n")).toBe("pt-BR");
       expect(getSupportedLocale("pt", "cldr")).toBe("pt");
+    });
+  });
+});
+
+describe("getDateFormatSupportedLocale", () => {
+  function assertLocaleMapping(locale: string, expectedLocale: string): void {
+    expect(getDateFormatSupportedLocale(locale)).toBe(expectedLocale);
+  }
+
+  describe("locale mappings", () => {
+    it("maps `it-CH` to `de-CH`", () => {
+      assertLocaleMapping("it-CH", "de-CH");
+    });
+
+    it("maps `bs` to `bs-Cyrl`", () => {
+      assertLocaleMapping("bs", "bs-Cyrl");
+    });
+
+    it("maps `en` to `en`", () => {
+      expect(getDateFormatSupportedLocale("en")).toBe("en");
     });
   });
 });

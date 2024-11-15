@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
 
 describe("calcite-combobox-item", () => {
@@ -7,8 +8,10 @@ describe("calcite-combobox-item", () => {
       { propertyName: "description", defaultValue: undefined },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "filterDisabled", defaultValue: undefined },
+      { propertyName: "heading", defaultValue: undefined },
       { propertyName: "icon", defaultValue: undefined },
       { propertyName: "iconFlipRtl", defaultValue: false },
+      { propertyName: "label", defaultValue: undefined },
       { propertyName: "selected", defaultValue: false },
       { propertyName: "shortHeading", defaultValue: undefined },
       { propertyName: "textLabel", defaultValue: undefined },

@@ -1,7 +1,9 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, DURATION } from "./resources";
+import { breakpoints } from "../../utils/responsive";
+import { CSS, DURATION, centerItemsByBreakpoint } from "./resources";
 
 const slideDurationWaitTimer = DURATION + 250;
 
@@ -1053,5 +1055,88 @@ describe("calcite-carousel", () => {
 
     expect(animationStartSpy).toHaveReceivedEventTimes(8);
     expect(animationEndSpy).toHaveReceivedEventTimes(8);
+  });
+});
+describe("renders the expected number of pagination items when overflowing", () => {
+  it("correctly limits the number of slide pagination items shown when overflowing xxsmall first selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-carousel label="carousel" style="width:200px")">
+        <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 4"><p>fourth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 5"><p>fifth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 6"><p>sixth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 7"><p>seventh</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 8"><p>eighth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 9"><p>ninth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 10"><p>tenth</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    expect(items).toHaveLength(centerItemsByBreakpoint["xxsmall"] + 2);
+  });
+
+  it("correctly limits the number of slide pagination items shown when overflowing xsmall first selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-carousel label="carousel" style="width:${breakpoints.width["xxsmall"]}px">
+        <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 4"><p>fourth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 5"><p>fifth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 6"><p>sixth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 7"><p>seventh</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 8"><p>eighth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 9"><p>ninth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 10"><p>tenth</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    expect(items).toHaveLength(centerItemsByBreakpoint["xsmall"] + 2);
+  });
+  it("correctly limits the number of slide pagination items shown when overflowing xsmall middle selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-carousel label="carousel" style="width:${breakpoints.width["xsmall"]}px">
+        <calcite-carousel-item label="item 1"><p>first</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 4" selected><p>fourth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 5"><p>fifth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 6"><p>sixth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 7"><p>seventh</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 8"><p>eighth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 9"><p>ninth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 10"><p>tenth</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    expect(items).toHaveLength(centerItemsByBreakpoint["small"] + 2);
+  });
+  it("correctly limits the number of slide pagination items shown when overflowing small last selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-carousel label="carousel" style="width:${breakpoints.width["small"]}px">
+        <calcite-carousel-item label="item 1"><p>first</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 4"><p>fourth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 5"><p>fifth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 6"><p>sixth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 7"><p>seventh</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 8"><p>eighth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 9"><p>ninth</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 10" selected><p>tenth</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    expect(items).toHaveLength(centerItemsByBreakpoint["medium"] + 2);
   });
 });

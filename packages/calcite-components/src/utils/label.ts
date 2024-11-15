@@ -1,60 +1,50 @@
+import type { Label } from "../components/label/label";
 import { closestElementCrossShadowBoundary, isBefore, queryElementRoots } from "./dom";
 import { componentOnReady } from "./component";
 
 export interface LabelableComponent {
-  /**
-   * When true, disabled prevents interaction.
-   */
+  /** When true, disabled prevents interaction. */
   disabled: boolean;
 
-  /**
-   * The host element.
-   */
+  /** The host element. */
   readonly el: HTMLElement;
 
-  /**
-   * Text label.
-   */
+  /** Text label. */
   label?: string;
 
-  /**
-   * The label this component is associated with.
-   */
-  labelEl: HTMLCalciteLabelElement;
+  /** The label this component is associated with. */
+  labelEl: Label["el"];
 
-  /**
-   * Hook for components to provide custom label click behavior.
-   */
+  /** Hook for components to provide custom label click behavior. */
   onLabelClick: (event: CustomEvent<any>) => void;
 }
 
 /**
  * Exported for testing purposes only
  *
- * @internal
+ * @private
  */
 export const labelClickEvent = "calciteInternalLabelClick";
 export const labelConnectedEvent = "calciteInternalLabelConnected";
 export const labelDisconnectedEvent = "calciteInternalLabelDisconnected";
 
 const labelTagName = "calcite-label";
-const labelToLabelables = new WeakMap<HTMLCalciteLabelElement, LabelableComponent[]>();
-const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
+const labelToLabelables = new WeakMap<Label["el"], LabelableComponent[]>();
+const onLabelClickMap = new WeakMap<Label["el"], typeof onLabelClick>();
 const onLabelConnectedMap = new WeakMap<LabelableComponent, typeof onLabelConnected>();
 const onLabelDisconnectedMap = new WeakMap<LabelableComponent, typeof onLabelDisconnected>();
 const unlabeledComponents = new Set<LabelableComponent>();
 
-const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
+const findLabelForComponent = (componentEl: HTMLElement): Label["el"] | null => {
   const { id } = componentEl;
 
-  const forLabel =
-    id && (queryElementRoots(componentEl, { selector: `${labelTagName}[for="${id}"]` }) as HTMLCalciteLabelElement);
+  const forLabel = id && queryElementRoots<Label["el"]>(componentEl, { selector: `${labelTagName}[for="${id}"]` });
 
   if (forLabel) {
     return forLabel;
   }
 
-  const parentLabel = closestElementCrossShadowBoundary<HTMLCalciteLabelElement>(componentEl, labelTagName);
+  const parentLabel = closestElementCrossShadowBoundary<Label["el"]>(componentEl, labelTagName);
 
   if (
     !parentLabel ||
@@ -67,7 +57,7 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
   return parentLabel;
 };
 
-function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: HTMLElement): boolean {
+function hasAncestorCustomElements(label: Label["el"], componentEl: HTMLElement): boolean {
   let traversedElements: HTMLElement[];
   const customElementAncestorCheckEventType = "custom-element-ancestor-check";
 
@@ -179,7 +169,7 @@ export function getLabelText(component: LabelableComponent): string {
   return component.label || component.labelEl?.textContent?.trim() || "";
 }
 
-function onLabelClick(this: HTMLCalciteLabelElement, event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
+function onLabelClick(this: Label["el"], event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
   const labelClickTarget = event.detail.sourceEvent.target as HTMLElement;
   const labelables = labelToLabelables.get(this);
   const clickedLabelable = labelables.find((labelable) => labelable.el === labelClickTarget);
@@ -217,7 +207,7 @@ function onLabelDisconnected(this: LabelableComponent): void {
  *
  * @param label - the label element
  */
-export async function associateExplicitLabelToUnlabeledComponent(label: HTMLCalciteLabelElement): Promise<void> {
+export async function associateExplicitLabelToUnlabeledComponent(label: Label["el"]): Promise<void> {
   await componentOnReady(label);
 
   const alreadyLabeled = labelToLabelables.has(label);

@@ -1,5 +1,6 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { KeyInput } from "puppeteer";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -11,8 +12,9 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import {
@@ -21,6 +23,9 @@ import {
   testPostValidationFocusing,
 } from "../input/common/tests";
 import { assertCaretPosition } from "../../tests/utils";
+import type { InputMessage } from "../input-message/input-message";
+import { CSS } from "./resources";
+import type { InputNumber } from "./input-number";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -1527,12 +1532,6 @@ describe("calcite-input-number", () => {
     for (const input of inputs) {
       expect(await input.getProperty("readOnly")).toBe(true);
     }
-
-    const buttons = await page.findAll("calcite-input-number button");
-
-    for (const button of buttons) {
-      expect(await button.getProperty("disabled")).toBe(true);
-    }
   });
 
   it("sets internals to autocomplete when the attribute is used", async () => {
@@ -1646,7 +1645,7 @@ describe("calcite-input-number", () => {
       await page.keyboard.down("ArrowUp");
       await page.$eval(
         "calcite-input-number",
-        (element: HTMLCalciteInputNumberElement) => {
+        (element: InputNumber["el"]) => {
           document.addEventListener("calciteInputNumberInput", async () => {
             const input = element.shadowRoot.querySelector("input");
             if (input.selectionStart === 0) {
@@ -1665,61 +1664,27 @@ describe("calcite-input-number", () => {
     });
   });
 
-  it("allows disabling slotted action", async () => {
+  it("should not focus when clicking validation message", async () => {
     const page = await newE2EPage();
+    const componentTag = "calcite-input-number";
     await page.setContent(
-      `<calcite-input-number><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-number>`,
+      html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
     );
+    await page.waitForChanges();
 
-    const input = await page.find("calcite-input-number");
-    const button = await page.find("calcite-button");
+    expect(await isElementFocused(page, componentTag)).toBe(false);
 
-    await input.callMethod("setFocus");
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: InputMessage["el"]) => {
+      element.click();
+    });
     await page.waitForChanges();
-    await typeNumberValue(page, "1");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("1");
-    expect(await button.getProperty("disabled")).toBe(true);
-    expect(await input.getProperty("disabled")).toBe(false);
 
-    input.setProperty("disabled", true);
-    await input.callMethod("setFocus");
-    await page.waitForChanges();
-    await typeNumberValue(page, "2");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("1");
-    expect(await button.getProperty("disabled")).toBe(true);
-    expect(await input.getProperty("disabled")).toBe(true);
+    expect(await isElementFocused(page, componentTag)).toBe(false);
 
-    input.setProperty("disabled", false);
+    await page.keyboard.press("Tab");
     await page.waitForChanges();
-    await input.callMethod("setFocus");
-    await page.waitForChanges();
-    await typeNumberValue(page, "3");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("13");
-    expect(await button.getProperty("disabled")).toBe(true);
-    expect(await input.getProperty("disabled")).toBe(false);
 
-    button.setProperty("disabled", false);
-    await page.waitForChanges();
-    await input.callMethod("setFocus");
-    await page.waitForChanges();
-    await typeNumberValue(page, "4");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("134");
-    expect(await button.getProperty("disabled")).toBe(false);
-    expect(await input.getProperty("disabled")).toBe(false);
-
-    input.setProperty("disabled", true);
-    await page.waitForChanges();
-    await input.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.type("5");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("134");
-    expect(await button.getProperty("disabled")).toBe(true);
-    expect(await input.getProperty("disabled")).toBe(true);
+    expect(await isElementFocused(page, componentTag)).toBe(true);
   });
 
   it("integer property prevents decimals and exponential notation", async () => {
@@ -1847,5 +1812,27 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
 
     expect(internalInput.getAttribute("inputmode")).toBe("decimal");
+  });
+
+  describe("theme", () => {
+    themed(
+      html`
+        <calcite-input-number
+          placeholder="Placeholder text"
+          prefix-text="prefix"
+          suffix-text="suffix"
+        ></calcite-input-number>
+      `,
+      {
+        "--calcite-input-prefix-size": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-input-suffix-size": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "inlineSize",
+        },
+      },
+    );
   });
 });

@@ -1,8 +1,9 @@
-import { Stepper } from "../stepper/stepper";
 import { StepperItem } from "../stepper-item/stepper-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Stepper } from "./stepper";
+
 const { layout, scale } = ATTRIBUTES;
 
 type StepperArgs = Pick<Stepper, "layout" | "scale" | "numbered" | "icon">;
@@ -296,3 +297,22 @@ export const horizontalSingleLayout_TestOnly = (): string => html`
     </calcite-stepper>
   </div>
 `;
+
+export const verticalLayoutFullWidth = (): string =>
+  html`<calcite-stepper layout="vertical" scale="s" style="width: 1000px;">
+      <calcite-stepper-item heading="Scale s" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper layout="vertical">
+      <calcite-stepper-item heading="Scale m" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper layout="vertical" scale="l">
+      <calcite-stepper-item heading="Scale l" description="Add members without sending invitations"
+        >Step 1 Content Goes Here</calcite-stepper-item
+      >
+    </calcite-stepper>`;

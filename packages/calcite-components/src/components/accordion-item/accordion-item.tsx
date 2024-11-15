@@ -1,25 +1,8 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  VNode,
-} from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   closestElementCrossShadowBoundary,
   getElementDir,
-  getSlotted,
-  toAriaBoolean,
+  slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
@@ -30,216 +13,145 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import type { Accordion } from "../accordion/accordion";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
+import { styles } from "./accordion-item.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-accordion-item": AccordionItem;
+  }
+}
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  */
-@Component({
-  tag: "calcite-accordion-item",
-  styleUrl: "accordion-item.scss",
-  shadow: true,
-})
-export class AccordionItem implements ConditionalSlotComponent, LoadableComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+export class AccordionItem extends LitElement implements LoadableComponent {
+  // #region Static Members
 
-  /** When `true`, the component is expanded. */
-  @Prop({ reflect: true, mutable: true }) expanded = false;
+  static override styles = styles;
 
-  /** Specifies heading text for the component. */
-  @Prop() heading: string;
+  // #endregion
 
-  /** Specifies a description for the component. */
-  @Prop() description: string;
+  // #region Private Properties
 
-  /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  private headerEl: HTMLDivElement;
 
-  /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  // #endregion
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+  // #region State Properties
 
-  /**
-   * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
-   *
-   * @internal
-   */
-  @Prop() iconPosition: Extract<"start" | "end", Position>;
+  @state() hasActionsEnd = false;
 
-  /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
-   *
-   * @internal
-   */
-  @Prop() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
+  @state() hasActionsStart = false;
+
+  // #endregion
+
+  // #region Public Properties
 
   /**
    * The containing `accordion` element.
    *
-   * @internal
+   * @private
    */
-  @Prop() accordionParent: HTMLCalciteAccordionElement;
+  @property() accordionParent: Accordion["el"];
+
+  /** Specifies a description for the component. */
+  @property() description: string;
+
+  /** When `true`, the component is expanded. */
+  @property({ reflect: true }) expanded = false;
+
+  /** Specifies heading text for the component. */
+  @property() heading: string;
+
+  /** Specifies an icon to display at the end of the component. */
+  @property({ reflect: true }) iconEnd: IconNameOrString;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /**
+   * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
+   *
+   * @private
+   */
+  @property() iconPosition: Extract<"start" | "end", Position>;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /**
+   * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
+   *
+   * @private
+   */
+  @property() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
    *
-   * @internal
+   * @private
    */
-  @Prop() scale: Scale;
+  @property() scale: Scale;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
+  // #region Public Methods
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAccordionItemClose: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.headerEl.focus();
   }
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
+  // #endregion
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
+  // #region Events
 
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-  }
+  /** @private */
+  calciteInternalAccordionItemClose = createEvent({ cancelable: false });
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  /** @private */
+  calciteInternalAccordionItemSelect = createEvent<RequestedItem>({ cancelable: false });
 
-  renderActionsStart(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsStart) ? (
-      <div class={CSS.actionsStart}>
-        <slot name={SLOTS.actionsStart} />
-      </div>
-    ) : null;
-  }
+  // #endregion
 
-  renderActionsEnd(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsEnd) ? (
-      <div class={CSS.actionsEnd}>
-        <slot name={SLOTS.actionsEnd} />
-      </div>
-    ) : null;
-  }
+  // #region Lifecycle
 
-  render(): VNode {
-    const { iconFlipRtl } = this;
-    const dir = getElementDir(this.el);
-    const iconStartEl = this.iconStart ? (
-      <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
-        icon={this.iconStart}
-        key="icon-start"
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
-    const iconEndEl = this.iconEnd ? (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
-        icon={this.iconEnd}
-        key="icon-end"
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
-    const { description } = this;
-    return (
-      <Host>
-        <div
-          class={{
-            [`icon-position--${this.iconPosition}`]: true,
-            [`icon-type--${this.iconType}`]: true,
-          }}
-        >
-          <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-            {this.renderActionsStart()}
-            <div
-              aria-controls={IDS.section}
-              aria-expanded={toAriaBoolean(this.expanded)}
-              class={CSS.headerContent}
-              id={IDS.sectionToggle}
-              onClick={this.itemHeaderClickHandler}
-              ref={this.storeHeaderEl}
-              role="button"
-              tabindex="0"
-            >
-              <div class={CSS.headerContainer}>
-                {iconStartEl}
-                <div class={CSS.headerText}>
-                  <span class={CSS.heading}>{this.heading}</span>
-                  {description ? <span class={CSS.description}>{description}</span> : null}
-                </div>
-                {iconEndEl}
-              </div>
-              <calcite-icon
-                class={CSS.expandIcon}
-                icon={
-                  this.iconType === "chevron"
-                    ? "chevronDown"
-                    : this.iconType === "caret"
-                      ? "caretDown"
-                      : this.expanded
-                        ? "minus"
-                        : "plus"
-                }
-                scale={getIconScale(this.scale)}
-              />
-            </div>
-            {this.renderActionsEnd()}
-          </div>
-          <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>
-            <slot />
-          </section>
-        </div>
-      </Host>
+  constructor() {
+    super();
+    this.listen("keydown", this.keyDownHandler);
+    this.listenOn<CustomEvent>(
+      document.body,
+      "calciteInternalAccordionChange",
+      this.updateActiveItemOnChange,
+    );
+    this.listenOn<CustomEvent>(
+      document,
+      "calciteInternalAccordionItemsSync",
+      this.accordionItemSyncHandler,
     );
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  load(): void {
+    setUpLoadableComponent(this);
+  }
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private keyDownHandler(event: KeyboardEvent): void {
     if (event.target === this.el) {
       switch (event.key) {
         case " ":
@@ -251,13 +163,9 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
     }
   }
 
-  @Listen("calciteInternalAccordionChange", { target: "body" })
-  updateActiveItemOnChange(event: CustomEvent): void {
+  private updateActiveItemOnChange(event: CustomEvent): void {
     const [accordion] = event.composedPath();
-    const parent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
-      this.el,
-      "calcite-accordion",
-    );
+    const parent = closestElementCrossShadowBoundary(this.el, "calcite-accordion");
 
     if (accordion !== parent) {
       return;
@@ -267,8 +175,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalAccordionItemsSync", { target: "document" })
-  accordionItemSyncHandler(event: CustomEvent): void {
+  private accordionItemSyncHandler(event: CustomEvent): void {
     const [accordion] = event.composedPath();
     const accordionItem = this.el;
 
@@ -280,7 +187,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
+    const closestAccordionParent = closestElementCrossShadowBoundary(
       accordionItem,
       "calcite-accordion",
     );
@@ -289,51 +196,32 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    accordionItem.iconPosition = closestAccordionParent.iconPosition;
-    accordionItem.iconType = closestAccordionParent.iconType;
-    accordionItem.scale = closestAccordionParent.scale;
+    this.iconPosition = closestAccordionParent.iconPosition;
+    this.iconType = closestAccordionParent.iconType;
+    this.scale = closestAccordionParent.scale;
     event.stopPropagation();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAccordionItemElement;
-
-  private headerEl: HTMLDivElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.headerEl.focus();
+  private handleActionsStartSlotChange(event: Event): void {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  private handleActionsEndSlotChange(event: Event): void {
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+  }
 
-  private storeHeaderEl = (el: HTMLDivElement): void => {
+  private storeHeaderEl(el: HTMLDivElement): void {
     this.headerEl = el;
-  };
+  }
 
   /** handle clicks on item header */
-  private itemHeaderClickHandler = (): void => this.emitRequestedItem();
+  private itemHeaderClickHandler(): void {
+    this.emitRequestedItem();
+  }
 
   private determineActiveItem(
     selectionMode: SelectionMode,
-    requestedItem: HTMLCalciteAccordionItemElement,
+    requestedItem: AccordionItem["el"],
   ): void {
     switch (selectionMode) {
       case "multiple":
@@ -354,7 +242,101 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   private emitRequestedItem(): void {
     this.calciteInternalAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement,
+      requestedAccordionItem: this.el,
     });
   }
+
+  // #endregion
+
+  // #region Rendering
+
+  private renderActionsStart(): JsxNode {
+    return (
+      <div class={CSS.actionsStart} hidden={!this.hasActionsStart}>
+        <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
+      </div>
+    );
+  }
+
+  private renderActionsEnd(): JsxNode {
+    return (
+      <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
+      </div>
+    );
+  }
+
+  override render(): JsxNode {
+    const { iconFlipRtl } = this;
+    const dir = getElementDir(this.el);
+    const iconStartEl = this.iconStart ? (
+      <calcite-icon
+        class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={this.iconStart}
+        key="icon-start"
+        scale={getIconScale(this.scale)}
+      />
+    ) : null;
+    const iconEndEl = this.iconEnd ? (
+      <calcite-icon
+        class={{ [CSS.iconEnd]: true, [CSS.icon]: true }}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={this.iconEnd}
+        key="icon-end"
+        scale={getIconScale(this.scale)}
+      />
+    ) : null;
+    const { description } = this;
+    return (
+      <div
+        class={{
+          [`icon-position--${this.iconPosition}`]: true,
+          [`icon-type--${this.iconType}`]: true,
+        }}
+      >
+        <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          {this.renderActionsStart()}
+          <div
+            aria-controls={IDS.section}
+            ariaExpanded={this.expanded}
+            class={CSS.headerContent}
+            id={IDS.sectionToggle}
+            onClick={this.itemHeaderClickHandler}
+            ref={this.storeHeaderEl}
+            role="button"
+            tabIndex="0"
+          >
+            <div class={CSS.headerContainer}>
+              {iconStartEl}
+              <div class={CSS.headerText}>
+                <span class={CSS.heading}>{this.heading}</span>
+                {description ? <span class={CSS.description}>{description}</span> : null}
+              </div>
+              {iconEndEl}
+            </div>
+            <calcite-icon
+              class={CSS.expandIcon}
+              icon={
+                this.iconType === "chevron"
+                  ? "chevronDown"
+                  : this.iconType === "caret"
+                    ? "caretDown"
+                    : this.expanded
+                      ? "minus"
+                      : "plus"
+              }
+              scale={getIconScale(this.scale)}
+            />
+          </div>
+          {this.renderActionsEnd()}
+        </div>
+        <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>
+          <slot />
+        </section>
+      </div>
+    );
+  }
+
+  // #endregion
 }

@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -9,6 +10,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -42,7 +44,7 @@ describe("calcite-action-pad", () => {
       },
       {
         propertyName: "scale",
-        defaultValue: undefined,
+        defaultValue: "m",
       },
     ]);
   });
@@ -207,7 +209,7 @@ describe("calcite-action-pad", () => {
     expect(buttonGroup).toBeNull();
   });
 
-  it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
+  it("should not modify textEnabled on actions or expanded on group", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -226,8 +228,8 @@ describe("calcite-action-pad", () => {
     expect(await actionPad.getProperty("expanded")).toBe(true);
     expect(expandAction).toBeNull();
     expect(action).not.toBeNull();
-    expect(await group.getProperty("expanded")).toBe(true);
-    expect(await action.getProperty("textEnabled")).toBe(true);
+    expect(await group.getProperty("expanded")).toBe(false);
+    expect(await action.getProperty("textEnabled")).toBe(false);
   });
 
   describe("accessible", () => {
@@ -346,5 +348,44 @@ describe("calcite-action-pad", () => {
     await page.waitForChanges();
 
     expect(await group.getProperty("layout")).toBe("vertical");
+
+    actionPad.innerHTML = html`
+      <calcite-action-group></calcite-action-group>
+      <calcite-action-group></calcite-action-group>
+    `;
+    await page.waitForChanges();
+
+    const groups = await page.findAll("calcite-action-group");
+
+    groups.forEach(async (group) => {
+      expect(await group.getProperty("layout")).toBe("vertical");
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-action-pad", {
+        "--calcite-action-pad-corner-radius": {
+          targetProp: "borderRadius",
+        },
+        "--calcite-action-pad-items-space": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
+      });
+    });
+    describe("grid", () => {
+      themed(
+        html`<calcite-action-pad layout="vertical" expanded>
+          <calcite-action-group></calcite-action-group>
+        </calcite-action-pad>`,
+        {
+          "--calcite-action-pad-expanded-max-width": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "maxInlineSize",
+          },
+        },
+      );
+    });
   });
 });

@@ -1,5 +1,5 @@
-import { h } from "@stencil/core";
-import { newSpecPage } from "@stencil/core/testing";
+import { h } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { constrainHeadingLevel, Heading } from "./Heading";
 
 describe("constrainHeadingLevel", () => {
@@ -12,27 +12,38 @@ describe("constrainHeadingLevel", () => {
     expect(constrainHeadingLevel(3.14)).toEqual(4);
   });
 });
-
 describe("Heading", () => {
   it("should render", async () => {
-    const page = await newSpecPage({
-      components: [],
-      template: () => (
-        <Heading class="test" level={1}>
-          My Heading
-        </Heading>
-      ),
-    });
-
-    expect(page.root).toEqualHtml(`<h1 class="test">My Heading</h1>`);
+    expect(
+      <Heading class="test" level={1}>
+        My Heading
+      </Heading>,
+    ).toEqual(
+      expect.objectContaining({
+        values: [
+          undefined,
+          {
+            _$litType$: 1,
+            strings: expect.arrayContaining(["<h1 class=", ">", "</h1>"]),
+            values: ["test", "My Heading"],
+          },
+        ],
+      }),
+    );
   });
 
   it("should render a div", async () => {
-    const page = await newSpecPage({
-      components: [],
-      template: () => <Heading class="test">My Heading</Heading>,
-    });
-
-    expect(page.root).toEqualHtml(`<div class="test">My Heading</div>`);
+    expect(<Heading class="test">My Heading</Heading>).toEqual(
+      expect.objectContaining({
+        values: [
+          undefined,
+          {
+            _$litType$: 1,
+            strings: expect.arrayContaining(["<div class=", ">", "</div>"]),
+            values: ["test", "My Heading"],
+          },
+        ],
+      }),
+    );
   });
 });

@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
@@ -45,7 +46,15 @@ describe("calcite-tile-select", () => {
       "calcite-tile-select",
 
       /* focusing on child since tile appends to light DOM */
-      { focusTarget: "child" },
+      {
+        focusTarget: {
+          tab: "calcite-radio-button",
+          click: {
+            pointer: "calcite-radio-button",
+            method: "calcite-radio-button",
+          },
+        },
+      },
     );
   });
 
@@ -157,12 +166,11 @@ describe("calcite-tile-select", () => {
   });
 
   it("emits change event on radio check and suppresses internal radio change event", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-tile-select name="change" type="radio" input-enabled value="one"></calcite-tile-select>
-        <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>
-      `,
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tile-select name="change" type="radio" input-enabled value="one"></calcite-tile-select>
+      <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>
+    `);
 
     const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
     const radioButtonSpy = await page.spyOnEvent("calciteRadioButtonChange");
@@ -173,6 +181,7 @@ describe("calcite-tile-select", () => {
     expect(await two.getProperty("checked")).toBe(false);
 
     await one.click();
+    await page.waitForChanges();
 
     expect(await one.getProperty("checked")).toBe(true);
     expect(await two.getProperty("checked")).toBe(false);
@@ -180,6 +189,7 @@ describe("calcite-tile-select", () => {
     expect(radioButtonSpy).not.toHaveReceivedEvent();
 
     await two.click();
+    await page.waitForChanges();
 
     expect(await one.getProperty("checked")).toBe(false);
     expect(await two.getProperty("checked")).toBe(true);

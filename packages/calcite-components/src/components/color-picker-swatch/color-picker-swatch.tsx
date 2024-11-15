@@ -1,26 +1,35 @@
-import { Component, Element, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
+import { PropertyValues } from "lit";
+import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hexify } from "../color-picker/utils";
 import { CHECKER_DIMENSIONS, COLORS, CSS } from "./resources";
+import { styles } from "./color-picker-swatch.scss";
 
-@Component({
-  tag: "calcite-color-picker-swatch",
-  styleUrl: "color-picker-swatch.scss",
-  shadow: true,
-})
-export class ColorPickerSwatch {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-color-picker-swatch": ColorPickerSwatch;
+  }
+}
 
-  /**
-   * When `true`, the component is active.
-   */
-  @Prop({
+export class ColorPickerSwatch extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private internalColor: Color;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, the component is active. */
+  @property({
     reflect: true,
   })
   active = false;
@@ -30,43 +39,41 @@ export class ColorPickerSwatch {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
-  @Prop()
-  color: string | null;
+  @property() color: string | null;
 
-  @Watch("color")
-  handleColorChange(color: string | null): void {
-    this.internalColor = color ? Color(color) : null;
-  }
-
-  /**
-   * Specifies the size of the component.
-   */
-  @Prop({
+  /** Specifies the size of the component. */
+  @property({
     reflect: true,
   })
   scale: Scale = "m";
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteColorPickerSwatchElement;
+  // #region Lifecycle
 
-  private internalColor: Color;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
+  load(): void {
     this.handleColorChange(this.color);
   }
 
-  render(): VNode {
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("color")) {
+      this.handleColorChange(this.color);
+    }
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleColorChange(color: string | null): void {
+    this.internalColor = color ? Color(color) : null;
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     const isEmpty = !this.internalColor;
     const classes = {
       [CSS.swatch]: true,
@@ -80,39 +87,32 @@ export class ColorPickerSwatch {
     );
   }
 
-  renderSwatch(): VNode {
+  private renderSwatch(): JsxNode {
     const { active, el, internalColor } = this;
     const borderRadius = active ? "100%" : "0";
     const theme = getModeName(el);
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
+    const isEmpty = !internalColor;
     const commonSwatchProps = {
       height: "100%",
       rx: borderRadius,
       stroke: borderColor,
-
-      // stroke-width and clip-path are needed to hide overflowing portion of stroke
-      // see https://stackoverflow.com/a/7273346/194216
-
-      // using attribute to work around Stencil using the prop name vs the attribute when rendering
-      ["stroke-width"]: "2",
+      strokeWidth: "2",
       width: "100%",
     };
 
-    const isEmpty = !internalColor;
-
     if (isEmpty) {
       return (
-        <Fragment>
+        <>
           <clipPath id="shape">
             <rect height="100%" rx={borderRadius} width="100%" />
           </clipPath>
-          <rect
-            clip-path={`inset(0 round ${borderRadius})`}
-            rx={borderRadius}
-            {...commonSwatchProps}
-          />
+          {this.renderSwatchRect({
+            clipPath: `inset(0 round ${borderRadius})`,
+            ...commonSwatchProps,
+          })}
           <line clip-path="url(#shape)" stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
-        </Fragment>
+        </>
       );
     }
 
@@ -121,7 +121,7 @@ export class ColorPickerSwatch {
     const hexa = hexify(internalColor, alpha < 1);
 
     return (
-      <Fragment>
+      <>
         <title>{hexa}</title>
         <defs>
           <pattern
@@ -148,24 +148,65 @@ export class ColorPickerSwatch {
             />
           </pattern>
         </defs>
-        <rect fill="url(#checker)" height="100%" rx={borderRadius} width="100%" />
-        <rect
-          fill={hex}
-          style={{
-            "clip-path":
-              alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round ${borderRadius})`,
-          }}
-          {...commonSwatchProps}
-        />
-        {alpha < 1 ? (
-          <rect
-            fill={hexa}
-            key="opacity-fill"
-            style={{ "clip-path": "polygon(100% 0, 100% 100%, 0 100%)" }}
-            {...commonSwatchProps}
-          />
-        ) : null}
-      </Fragment>
+        {this.renderSwatchRect({
+          fill: "url(#checker)",
+          rx: commonSwatchProps.rx,
+          height: commonSwatchProps.height,
+          width: commonSwatchProps.width,
+        })}
+        {this.renderSwatchRect({
+          clipPath: alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round ${borderRadius})`,
+          fill: hex,
+          ...commonSwatchProps,
+        })}
+        {alpha < 1
+          ? this.renderSwatchRect({
+              clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
+              fill: hexa,
+              key: "opacity-fill",
+              ...commonSwatchProps,
+            })
+          : null}
+      </>
     );
   }
+
+  private renderSwatchRect({
+    clipPath,
+    fill,
+    height,
+    key,
+    rx,
+    stroke,
+    strokeWidth,
+    width,
+  }: {
+    clipPath?: string;
+    fill?: string;
+    height: string;
+    key?: string;
+    rx: string;
+
+    // note: stroke-width and clip-path are needed to hide overflowing portion of stroke
+    // see https://stackoverflow.com/a/7273346/194216
+    stroke?: string;
+    strokeWidth?: string;
+
+    width: string;
+  }): JsxNode {
+    return (
+      <rect
+        clip-path={clipPath}
+        fill={fill}
+        height={height}
+        key={key}
+        rx={rx}
+        stroke={stroke}
+        stroke-width={strokeWidth}
+        width={width}
+      />
+    );
+  }
+
+  // #endregion
 }

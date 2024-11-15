@@ -11,7 +11,7 @@ For comprehensive guidance on using and implementing `calcite-checkbox`, refer t
 | `checked`       | `checked`       | When `true`, the component is checked.                                                                                                                                  | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `disabled`      | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `form`          | `form`          | The `id` of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                 | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
-| `guid`          | `guid`          | The `id` attribute of the component. When omitted, a globally unique identifier is used.                                                                                | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
+| `guid`          | `guid`          | <span style="color:red">**[DEPRECATED]**</span> No longer necessary.<br/><br/>The `id` attribute of the component. When omitted, a globally unique identifier is used.  | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `indeterminate` | `indeterminate` | When `true`, the component is initially indeterminate, which is independent from its `checked` value. The state is visual only, and can look different across browsers. | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `label`         | `label`         | Accessible name for the component.                                                                                                                                      | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `name`          | `name`          | Specifies the name of the component. Required to pass the component's `value` on form submission.                                                                       | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
@@ -39,9 +39,12 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                      | Description                                 |
-| ------------------------- | ------------------------------------------- |
-| `--calcite-checkbox-size` | Specifies the component's height and width. |
+| Name                                    | Description                                   |
+| --------------------------------------- | --------------------------------------------- |
+| `--calcite-checkbox-border-color`       | Specifies the component's color.              |
+| `--calcite-checkbox-border-color-hover` | Specifies the component's color when hovered. |
+| `--calcite-checkbox-icon-color`         | Specifies the component's font color.         |
+| `--calcite-checkbox-size`               | Specifies the component's height and width.   |
 
 ## Dependencies
 
@@ -49,7 +52,6 @@ Type: `Promise<void>`
 
 - [calcite-card](../card)
 - [calcite-tile-select](../tile-select)
-- [calcite-tree-item](../tree-item)
 
 ### Graph
 
@@ -57,7 +59,6 @@ Type: `Promise<void>`
 graph TD;
   calcite-card --> calcite-checkbox
   calcite-tile-select --> calcite-checkbox
-  calcite-tree-item --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

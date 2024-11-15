@@ -1,13 +1,15 @@
+// @ts-check
 const { createLabelIfMissing } = require("./support/utils");
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
+  const { repo, owner } = context.repo;
+
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
-    repo: { owner, repo },
-    payload: {
-      action,
-      issue: { body, number: issue_number },
-    },
-  } = context;
+    action,
+    issue: { body, number: issue_number },
+  } = payload;
 
   if (!body) {
     console.log("could not determine the issue body");
@@ -26,22 +28,27 @@ module.exports = async ({ github, context }) => {
 
   const productRegexMatch = body.match(productRegex);
 
-  const product = (productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : "").trim();
+  // If issue includes "Esri team" line then create label, otherwise log message.
+  if (productRegexMatch) {
+    const product = (productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : "").trim();
 
-  if (product && product !== "N/A") {
-    await createLabelIfMissing({
-      github,
-      context,
-      label: product,
-      color: "006B75",
-      description: `Issues logged by ${product} team members.`,
-    });
+    if (product !== "N/A") {
+      await createLabelIfMissing({
+        github,
+        context,
+        label: product,
+        color: "006B75",
+        description: `Issues logged by ${product} team members.`,
+      });
 
-    await github.rest.issues.addLabels({
-      issue_number,
-      owner,
-      repo,
-      labels: [product],
-    });
+      await github.rest.issues.addLabels({
+        issue_number,
+        owner,
+        repo,
+        labels: [product],
+      });
+    }
+  } else {
+    console.log(`No Esri team listed on issue #${issue_number}`);
   }
 };

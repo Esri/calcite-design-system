@@ -5,7 +5,8 @@
   "command": {
     "version": {
       "conventionalCommits": true,
-      "allowBranch": ["main", "rc", "dev"]
+      "allowBranch": ["main", "rc", "dev"],
+      "exact": true
     }
   }
 }

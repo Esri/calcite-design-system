@@ -1,6 +1,8 @@
 import { toHaveNoViolations } from "jest-axe";
+import { expect, it } from "vitest";
 import { getTag, simplePageSetup } from "./utils";
 import { ComponentTag, TagOrHTML } from "./interfaces";
+
 expect.extend(toHaveNoViolations);
 
 /**
@@ -17,7 +19,6 @@ expect.extend(toHaveNoViolations);
  *      { shadowSelector: ".menu-container" }
  *  )
  * });
- *
  * @param {TagOrHTML} componentTagOrHTML - The component tag or HTML markup to test against.
  * @param {string} togglePropName - The component property that toggles the floating-ui.
  * @param [options] - additional options for asserting focus
@@ -27,9 +28,7 @@ export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
   togglePropName: string,
   options?: {
-    /**
-     * Use this to specify the selector in the shadow DOM for the floating-ui element.
-     */
+    /** Use this to specify the selector in the shadow DOM for the floating-ui element. */
     shadowSelector?: string;
   },
 ): void {
@@ -108,7 +107,6 @@ export function floatingUIOwner(
  * describe("delegates to floating-ui-owner component", () => {
  *   delegatesToFloatingUiOwningComponent("calcite-pad", "calcite-action-group");
  * });
- *
  * @param componentTagOrHTML
  * @param floatingUiOwnerComponentTag
  */
@@ -130,5 +128,39 @@ export async function delegatesToFloatingUiOwningComponent(
     await page.waitForChanges();
 
     expect(await floatingUiOwningComponent.getProperty("overlayPositioning")).toBe("fixed");
+  });
+}
+
+/**
+ * Helper to test if a component has a calcite-action-menu wired up correctly with placement and flipPlacements.
+ *
+ * @example
+ * describe("handles action-menu placement and flipPlacements", () => {
+ *   handlesActionMenuPlacements(html`
+ *    <calcite-panel placement="top">
+ *      <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+ *     </calcite-panel>
+ *   `);
+ * });
+ * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ */
+export async function handlesActionMenuPlacements(componentTagOrHTML: TagOrHTML): Promise<void> {
+  it("handles placement and flipPlacements", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const tag = getTag(componentTagOrHTML);
+
+    await page.waitForChanges();
+
+    const flipPlacements = ["top", "bottom"];
+
+    const component = await page.find(tag);
+    component.setProperty("menuFlipPlacements", flipPlacements);
+    component.setProperty("menuPlacement", "top");
+    await page.waitForChanges();
+
+    const actionMenu = await page.find(`${tag} >>> calcite-action-menu`);
+
+    expect(await actionMenu.getProperty("placement")).toBe("top");
+    expect(await actionMenu.getProperty("flipPlacements")).toEqual(flipPlacements);
   });
 }

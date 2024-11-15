@@ -16,7 +16,7 @@ For comprehensive guidance on using and implementing `calcite-select`, refer to 
 | `scale`              | `scale`              | Specifies the size of the component.                                                                                                                    | `"l" \| "m" \| "s"`                                                                                                                                                                                                                                 | `"m"`                                                                                                                                                                                                                                                                       |
 | `selectedOption`     | --                   | The component's selected option `HTMLElement`.                                                                                                          | `HTMLCalciteOptionElement`                                                                                                                                                                                                                          | `undefined`                                                                                                                                                                                                                                                                 |
 | `status`             | `status`             | Specifies the status of the input field, which determines message and icons.                                                                            | `"idle" \| "invalid" \| "valid"`                                                                                                                                                                                                                    | `"idle"`                                                                                                                                                                                                                                                                    |
-| `validationIcon`     | `validation-icon`    | Specifies the validation icon to display under the component.                                                                                           | `boolean \| IconName`                                                                                                                                                                                                                               | `undefined`                                                                                                                                                                                                                                                                 |
+| `validationIcon`     | `validation-icon`    | Specifies the validation icon to display under the component.                                                                                           | `boolean \| string`                                                                                                                                                                                                                                 | `undefined`                                                                                                                                                                                                                                                                 |
 | `validationMessage`  | `validation-message` | Specifies the validation message to display under the component.                                                                                        | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `validity`           | --                   | The current validation state of the component.                                                                                                          | `{ valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; }` | `{     valid: false,     badInput: false,     customError: false,     patternMismatch: false,     rangeOverflow: false,     rangeUnderflow: false,     stepMismatch: false,     tooLong: false,     tooShort: false,     typeMismatch: false,     valueMissing: false,   }` |
 | `value`              | `value`              | The component's `selectedOption` value.                                                                                                                 | `string`                                                                                                                                                                                                                                            | `null`                                                                                                                                                                                                                                                                      |
@@ -46,12 +46,17 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                         | Description                                          |
-| ---------------------------- | ---------------------------------------------------- |
-| `--calcite-select-font-size` | The font size of `calcite-option`s in the component. |
-| `--calcite-select-spacing`   | The padding around the selected option text.         |
+| Name                          | Description                                          |
+| ----------------------------- | ---------------------------------------------------- |
+| `--calcite-select-font-size`  | The font size of `calcite-option`s in the component. |
+| `--calcite-select-spacing`    | The padding around the selected option text.         |
+| `--calcite-select-text-color` | The text color of the component.                     |
 
 ## Dependencies
+
+### Used by
+
+- [calcite-date-picker-month-header](../date-picker-month-header)
 
 ### Depends on
 
@@ -65,6 +70,7 @@ graph TD;
   calcite-select --> calcite-icon
   calcite-select --> calcite-input-message
   calcite-input-message --> calcite-icon
+  calcite-date-picker-month-header --> calcite-select
   style calcite-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

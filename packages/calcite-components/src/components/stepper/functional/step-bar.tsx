@@ -1,11 +1,11 @@
-import { FunctionalComponent, h } from "@stencil/core";
+import { TemplateResult } from "lit-html";
+import { h } from "@arcgis/lumina";
 
 interface StepBarProps {
   active: boolean;
   complete: boolean;
   error: boolean;
   disabled: boolean;
-  key: number;
 }
 
 export const CSS = {
@@ -17,18 +17,11 @@ export const CSS = {
   stepBarInActive: "step-bar--inactive",
 };
 
-export const StepBar: FunctionalComponent<StepBarProps> = ({
-  disabled,
-  active,
-  complete,
-  error,
-  key,
-}) => (
+export const StepBar = ({ disabled, active, complete, error }: StepBarProps): TemplateResult => (
   <svg
     class={{
       [CSS.stepBar]: true,
     }}
-    key={key}
   >
     <rect
       class={{

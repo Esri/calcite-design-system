@@ -1,7 +1,6 @@
 ((): void => {
-  const DEMO_ROOT = "demos";
-  const ASSETS_PATH = "demos/_assets";
-  const CSS = [`${ASSETS_PATH}/demos.css`, "build/calcite.css"];
+  const ASSETS_PATH = "/src/demos/_assets";
+  const CSS = [`${ASSETS_PATH}/demos.css`];
   const urlParams = new URLSearchParams(window.location.search);
   const DISABLE_HEADER_URL_PARAM = "header-disabled";
 
@@ -12,11 +11,11 @@
 
   const SCRIPTS: Script[] = [
     {
-      src: "build/calcite.esm.js",
-      type: "module",
+      src: "/src/demos/_assets/demo-dom-swapper.ts",
     },
     {
-      src: "demos/_assets/demo-dom-swapper.js",
+      src: "/src/demos/_assets/demo-theme.ts",
+      type: "module",
     },
   ];
 
@@ -27,8 +26,7 @@
   };
 
   const loadHeader = async (): Promise<void> => {
-    const root = window.location.pathname.split(DEMO_ROOT).shift();
-    const response = await window.fetch(`${root}${ASSETS_PATH}/demo-template.html`);
+    const response = await window.fetch(`${ROOT}${ASSETS_PATH}/demo-template.html`);
     const text = await response.text();
     const template = parseTemplate(text);
     if (template) {
@@ -37,11 +35,11 @@
     }
   };
 
-  if (window.location.pathname.includes("/demos/") && !urlParams.has(DISABLE_HEADER_URL_PARAM)) {
+  if (window.location.pathname.includes("/src/demos/") && !urlParams.has(DISABLE_HEADER_URL_PARAM)) {
     document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", loadHeader) : loadHeader();
   }
 
-  const ROOT = window.location.pathname.split(DEMO_ROOT).shift();
+  const ROOT = "";
 
   function loadCss(url: string): void {
     const link = document.createElement("link");

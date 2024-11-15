@@ -1,5 +1,6 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
@@ -104,6 +105,23 @@ describe("calcite-icon", () => {
           expect(svg.getAttribute("viewBox")).toBe(`0 0 ${sizeInPx} ${sizeInPx}`);
         }),
       );
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-icon", {
+        "--calcite-icon-color": {
+          targetProp: "color",
+        },
+      });
+    });
+    describe("deprecated", () => {
+      themed("calcite-icon", {
+        "--calcite-ui-icon-color": {
+          targetProp: "color",
+        },
+      });
     });
   });
 });

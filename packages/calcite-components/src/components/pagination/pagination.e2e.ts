@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
@@ -342,6 +343,26 @@ describe("calcite-pagination", () => {
       await page.waitForChanges();
       const item = await element.getProperty("startItem");
       expect(item).toEqual(1);
+    });
+  });
+
+  describe("chevrons", () => {
+    it("hides first and last chevrons when width is not xxsmall", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-pagination total-items="123456789" page-size="10" scale="l"></calcite-pagination>`,
+      );
+      const hiddenChevrons = await page.findAll(`calcite-pagination >>> .${CSS.hiddenItem}`);
+      expect(hiddenChevrons.length).toBe(2);
+    });
+
+    it("does not hide first and last chevrons when width is xxsmall", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<div style="width: 100px;"><calcite-pagination total-items="123456789" page-size="10" scale="l"></calcite-pagination></div>`,
+      );
+      const hiddenChevrons = await page.findAll(`calcite-pagination >>> .${CSS.hiddenItem}`);
+      expect(hiddenChevrons.length).toBe(0);
     });
   });
 });

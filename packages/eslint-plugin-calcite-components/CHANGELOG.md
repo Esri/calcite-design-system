@@ -3,9 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.2.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.1-next.2...@esri/eslint-plugin-calcite-components@1.2.1-next.3) (2024-06-27)
+## [2.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.0-next.0...@esri/eslint-plugin-calcite-components@2.0.0-next.1) (2024-11-15)
+
+### ⚠ BREAKING CHANGES
+
+- - for a consistent development experience, components now convert `null`
+    to `undefined`, so developers will need to update code with strict null
+    checks
+- removed the following `@esri/eslint-plugin-calcite-components` rules
+  as they are no longer valid:
+  _`ban-props-on-host`
+  _ `enforce-ref-last-prop` \* `require-event-emitter-type`
+
+### Code Refactoring
+
+- migrate to Lumina ([#10482](https://github.com/Esri/calcite-design-system/issues/10482)) ([b2c9762](https://github.com/Esri/calcite-design-system/commit/b2c976214774490b5a313e1fafc67415fe212b37)), closes [#10310](https://github.com/Esri/calcite-design-system/issues/10310) [#10481](https://github.com/Esri/calcite-design-system/issues/10481) [#10399](https://github.com/Esri/calcite-design-system/issues/10399) [#10405](https://github.com/Esri/calcite-design-system/issues/10405) [#10491](https://github.com/Esri/calcite-design-system/issues/10491) [#10434](https://github.com/Esri/calcite-design-system/issues/10434) [#10495](https://github.com/Esri/calcite-design-system/issues/10495) [#9260](https://github.com/Esri/calcite-design-system/issues/9260)
+
+## [2.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.2-next.2...@esri/eslint-plugin-calcite-components@2.0.0-next.0) (2024-11-04)
+
+### ⚠ BREAKING CHANGES
+
+- The following deprecated rules from
+  `@esri/eslint-plugin-calcite-components` have been removed due to
+
+### Code Refactoring
+
+- remove deprecated `ban-props-on-host`, `enforce-ref-last-prop`, `require-event-emitter-type` rules ([#10679](https://github.com/Esri/calcite-design-system/issues/10679)) ([c399c10](https://github.com/Esri/calcite-design-system/commit/c399c10a96ebcea662d8eae68dadd7eed8609099)), closes [#10398](https://github.com/Esri/calcite-design-system/issues/10398) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+
+## [1.2.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.2-next.1...@esri/eslint-plugin-calcite-components@1.2.2-next.2) (2024-10-30)
 
 **Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+
+## [1.2.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.2-next.0...@esri/eslint-plugin-calcite-components@1.2.2-next.1) (2024-10-29)
+
+**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+
+## [1.2.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.1-next.4...@esri/eslint-plugin-calcite-components@1.2.2-next.0) (2024-10-01)
+
+**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+
+## [1.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.0...@esri/eslint-plugin-calcite-components@1.2.1) (2024-09-30)
+
+### Deprecations
+
+- Deprecate `enforce-ref-last-prop` rule ([#10421](https://github.com/Esri/calcite-design-system/issues/10421)) ([5fde52d](https://github.com/Esri/calcite-design-system/commit/5fde52da05ec10db713e5ae119a6d77499d39ff7))
 
 ## [1.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.1.0...@esri/eslint-plugin-calcite-components@1.2.0) (2024-04-30)
 

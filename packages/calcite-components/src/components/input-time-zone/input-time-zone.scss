@@ -2,6 +2,10 @@
   display: block;
 }
 
+.offset {
+  white-space: nowrap;
+}
+
 @include base-component();
 @include disabled();
 @include hidden-form-input();

@@ -29,17 +29,13 @@
     overflow-hidden;
 }
 
-.content,
-.content--non-interactive {
+.content {
   @apply flex
     h-full
     w-full
     flex-col
-    flex-nowrap;
-}
-
-.content {
-  @apply overflow-auto;
+    flex-nowrap
+    overflow-auto;
   justify-content: space-between;
 }
 
@@ -59,7 +55,12 @@
 }
 
 .content--non-interactive {
-  @apply pointer-events-none;
+  @apply flex
+    h-full
+    w-full
+    flex-col
+    flex-nowrap
+    pointer-events-none;
 }
 
 ::slotted(calcite-shell-center-row) {
@@ -68,6 +69,12 @@
 
 ::slotted(.header .heading) {
   @apply text-n2-wrap font-normal;
+}
+
+slot[name="panel-start"]::slotted(calcite-shell-panel),
+slot[name="panel-end"]::slotted(calcite-shell-panel) {
+  @apply relative;
+  z-index: calc(var(--calcite-z-index) + 1);
 }
 
 slot[name="panel-end"]::slotted(calcite-shell-panel) {

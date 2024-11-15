@@ -36,6 +36,11 @@
 
 :host {
   @apply block;
+
+  // remove top padding applied by validation component.
+  .validation-container {
+    padding-block-start: 0 !important;
+  }
 }
 
 .container {
@@ -49,6 +54,7 @@
   );
   touch-action: none;
   // disable browser swipe navigation to prevent interference with the slide thumb following a touch gesture
+  user-select: none;
 }
 
 @include disabled() {
@@ -372,5 +378,6 @@
   }
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();

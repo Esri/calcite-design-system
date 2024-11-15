@@ -1,26 +1,19 @@
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
+  method,
+  state,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import {
   ensureId,
   focusFirstTabbable,
-  getSlotted,
+  slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import {
@@ -40,22 +33,24 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { componentOnReady, getIconScale } from "../../utils/component";
-import { ModalMessages } from "./assets/modal/t9n";
+import { logger } from "../../utils/logger";
+import { useT9n } from "../../controllers/useT9n";
+import T9nStrings from "./assets/t9n/modal.t9n.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { styles } from "./modal.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-modal": Modal;
+  }
+}
 
 let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
 /**
+ * @deprecated Use the `calcite-dialog` component instead.
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
  * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
@@ -64,114 +59,239 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-
-@Component({
-  tag: "calcite-modal",
-  styleUrl: "modal.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
 export class Modal
-  implements
-    ConditionalSlotComponent,
-    OpenCloseComponent,
-    FocusTrapComponent,
-    LoadableComponent,
-    LocalizedComponent,
-    T9nComponent
+  extends LitElement
+  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
 
-  /** When `true`, displays and positions the component.  */
-  @Prop({ mutable: true, reflect: true }) open = false;
+  static override styles = styles;
 
-  /**
-   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
-   *
-   * @internal
-   */
-  @Prop({ mutable: true, reflect: true }) opened = false;
+  // #endregion
+
+  // #region Private Properties
+
+  private closeButtonEl = createRef<HTMLButtonElement>();
+
+  private contentId: string;
+
+  private cssVarObserver: MutationObserver = createObserver("mutation", () => {
+    this.updateSizeCssVars();
+  });
+
+  private escapeDeactivates = (event: KeyboardEvent) => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  };
+
+  focusTrap: FocusTrap;
+
+  private focusTrapDeactivates = () => {
+    this.open = false;
+  };
+
+  private ignoreOpenChange = false;
+
+  private modalContent = createRef<HTMLDivElement>();
+
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFocusTrapElements(),
+  );
+
+  private _open = false;
+
+  private openEnd = (): void => {
+    this.setFocus();
+    this.el.removeEventListener(
+      "calciteModalOpen",
+      this.openEnd,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  };
+
+  openTransitionProp = "opacity";
+
+  private titleId: string;
+
+  transitionEl: HTMLDivElement;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() contentEl: HTMLElement;
+
+  @state() cssHeight: string | number;
+
+  @state() cssWidth: string | number;
+
+  @state() hasBack = false;
+
+  @state() hasContentBottom = false;
+
+  @state() hasContentTop = false;
+
+  @state() hasFooter = false;
+
+  @state() hasPrimary = false;
+
+  @state() hasSecondary = false;
+
+  @state() titleEl: HTMLElement;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Passes a function to run before the component closes. */
-  @Prop() beforeClose: (el: HTMLCalciteModalElement) => Promise<void>;
+  @property() beforeClose: (el: Modal["el"]) => Promise<void>;
 
   /** When `true`, disables the component's close button. */
-  @Prop({ reflect: true }) closeButtonDisabled = false;
-
-  /**
-   * When `true`, prevents focus trapping.
-   */
-  @Prop({ reflect: true }) focusTrapDisabled = false;
-
-  @Watch("focusTrapDisabled")
-  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
-  }
-
-  /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) outsideCloseDisabled = false;
+  @property({ reflect: true }) closeButtonDisabled = false;
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
-  @Prop({ reflect: true }) docked: boolean;
+  @property({ reflect: true }) docked: boolean;
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
    *
-   * @internal
+   * @private
    */
-  @Prop({ mutable: true }) embedded = false;
+  @property() embedded = false;
 
   /** When `true`, disables the default close on escape behavior. */
-  @Prop({ reflect: true }) escapeDisabled = false;
+  @property({ reflect: true }) escapeDisabled = false;
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Specifies the width of the component. */
-  @Prop({ reflect: true }) widthScale: Scale = "m";
+  /** When `true`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
-  @Prop({ reflect: true }) fullscreen: boolean;
+  @property({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component, which will apply to top border. */
-  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
+  @property({ reflect: true }) kind: Extract<
+    "brand" | "danger" | "info" | "success" | "warning",
+    Kind
+  >;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ModalMessages;
+  messages = useT9n<typeof T9nStrings>();
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** When `true`, displays and positions the component. */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this._open;
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  set open(open: boolean) {
+    const oldOpen = this._open;
+    if (open !== oldOpen) {
+      this._open = open;
+      this.toggleModal(open);
+    }
+  }
 
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
+  /**
+   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
+   *
+   * @private
+   */
+  @property({ reflect: true }) opened = false;
+
+  /** When `true`, disables the closing of the component when clicked outside. */
+  @property({ reflect: true }) outsideCloseDisabled = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) widthScale: Scale = "m";
+
+  // #endregion
+
+  // #region Public Methods
+
+  /**
+   * Sets the scroll top of the component's content.
+   *
+   * @param top
+   * @param left
+   */
+  @method()
+  async scrollContent(top = 0, left = 0): Promise<void> {
+    if (this.modalContent.value) {
+      if (this.modalContent.value.scrollTo) {
+        this.modalContent.value.scrollTo({ top, left, behavior: "smooth" });
+      } else {
+        this.modalContent.value.scrollTop = top;
+        this.modalContent.value.scrollLeft = left;
+      }
+    }
+  }
+
+  /** Sets focus on the component's "close" button (the first focusable item). */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
+  }
+
+  /** Updates the element(s) that are used within the focus-trap of the component. */
+  @method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteModalBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteModalBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteModalClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is open and animation is complete. */
+  calciteModalOpen = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
+    this.updateSizeCssVars();
+    connectFocusTrap(this, {
+      focusTrapOptions: {
+        // Scrim has it's own close handler, allow it to take over.
+        clickOutsideDeactivates: false,
+        escapeDeactivates: this.escapeDeactivates,
+        onDeactivate: this.focusTrapDeactivates,
+      },
+    });
+  }
+
+  async load(): Promise<void> {
+    logger.deprecated("component", {
+      name: "modal",
+      removalVersion: 4,
+      suggested: "dialog",
+    });
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
@@ -179,119 +299,279 @@ export class Modal
     }
   }
 
-  componentDidLoad(): void {
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
+      this.handleFocusTrapDisabled(this.focusTrapDisabled);
+    }
+
+    if (
+      (changes.has("hasBack") && (this.hasUpdated || this.hasBack !== false)) ||
+      (changes.has("hasPrimary") && (this.hasUpdated || this.hasPrimary !== false)) ||
+      (changes.has("hasSecondary") && (this.hasUpdated || this.hasSecondary !== false))
+    ) {
+      this.hasFooter = this.hasBack || this.hasPrimary || this.hasSecondary;
+    }
+
+    if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
+      this.handleOpenedChange(this.opened);
+    }
+  }
+
+  loaded(): void {
     setComponentLoaded(this);
   }
 
-  connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
-    this.updateSizeCssVars();
-    this.updateFooterVisibility();
-    connectConditionalSlotComponent(this);
-    connectLocalized(this);
-    connectMessages(this);
-    connectFocusTrap(this);
-  }
-
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
-    disconnectConditionalSlotComponent(this);
     deactivateFocusTrap(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
     this.embedded = false;
   }
 
-  render(): VNode {
+  // #endregion
+
+  // #region Private Methods
+
+  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
+
+  private handleHeaderSlotChange(event: Event): void {
+    this.titleEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
+  }
+
+  private handleContentSlotChange(event: Event): void {
+    this.contentEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
+  }
+
+  private handleBackSlotChange(event: Event): void {
+    this.hasBack = slotChangeHasAssignedElement(event);
+  }
+
+  private handlePrimarySlotChange(event: Event): void {
+    this.hasPrimary = slotChangeHasAssignedElement(event);
+  }
+
+  private handleSecondarySlotChange(event: Event): void {
+    this.hasSecondary = slotChangeHasAssignedElement(event);
+  }
+
+  private setTransitionEl(el: HTMLDivElement): void {
+    this.transitionEl = el;
+  }
+
+  onBeforeOpen(): void {
+    this.transitionEl.classList.add(CSS.openingActive);
+    this.calciteModalBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
+    this.calciteModalOpen.emit();
+    activateFocusTrap(this);
+  }
+
+  onBeforeClose(): void {
+    this.transitionEl.classList.add(CSS.closingActive);
+    this.calciteModalBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
+    this.calciteModalClose.emit();
+    deactivateFocusTrap(this);
+  }
+
+  private toggleModal(value: boolean): void {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
+    if (value) {
+      this.openModal();
+    } else {
+      this.closeModal();
+    }
+  }
+
+  private handleOpenedChange(value: boolean): void {
+    const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
+    this.transitionEl.classList.add(idleClass);
+    onToggleOpenCloseComponent(this);
+  }
+
+  private handleCloseClick() {
+    this.open = false;
+  }
+
+  private async openModal(): Promise<void> {
+    await componentOnReady(this.el);
+    this.el.addEventListener(
+      "calciteModalOpen",
+      this.openEnd,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    this.opened = true;
+
+    this.titleId = ensureId(this.titleEl);
+    this.contentId = ensureId(this.contentEl);
+
+    if (!this.embedded) {
+      if (totalOpenModals === 0) {
+        initialDocumentOverflowStyle = document.documentElement.style.overflow;
+      }
+
+      totalOpenModals++;
+      // use an inline style instead of a utility class to avoid global class declarations.
+      document.documentElement.style.setProperty("overflow", "hidden");
+    }
+  }
+
+  private handleOutsideClose(): void {
+    if (this.outsideCloseDisabled) {
+      return;
+    }
+
+    this.open = false;
+  }
+
+  private async closeModal(): Promise<void> {
+    if (this.beforeClose) {
+      try {
+        await this.beforeClose(this.el);
+      } catch (_error) {
+        // close prevented
+        requestAnimationFrame(() => {
+          this.ignoreOpenChange = true;
+          this.open = true;
+          this.ignoreOpenChange = false;
+        });
+        return;
+      }
+    }
+
+    totalOpenModals--;
+    this.opened = false;
+    this.removeOverflowHiddenClass();
+  }
+
+  private removeOverflowHiddenClass(): void {
+    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
+  }
+
+  private updateSizeCssVars(): void {
+    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
+    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
+  }
+
+  private contentTopSlotChangeHandler(event: Event): void {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
+  }
+
+  private contentBottomSlotChangeHandler(event: Event): void {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "aria-describedby", this.contentId);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "aria-labelledby", this.titleId);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaModal = "true";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "dialog";
     return (
-      <Host
-        aria-describedby={this.contentId}
-        aria-labelledby={this.titleId}
-        aria-modal="true"
-        role="dialog"
+      <div
+        class={{
+          [CSS.container]: true,
+          [CSS.containerOpen]: this.opened,
+          [CSS.containerEmbedded]: this.embedded,
+        }}
       >
+        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+        {this.renderStyle()}
         <div
           class={{
-            [CSS.container]: true,
-            [CSS.containerOpen]: this.opened,
-            [CSS.containerEmbedded]: this.embedded,
+            [CSS.modal]: true,
           }}
+          ref={this.setTransitionEl}
         >
-          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-          {this.renderStyle()}
+          <div class={CSS.header}>
+            {this.renderCloseButton()}
+            <header class={CSS.title}>
+              <slot name={CSS.header} onSlotChange={this.handleHeaderSlotChange} />
+            </header>
+          </div>
+          {this.renderContentTop()}
           <div
             class={{
-              [CSS.modal]: true,
+              [CSS.content]: true,
+              [CSS.contentNoFooter]: !this.hasFooter,
             }}
-            ref={this.setTransitionEl}
+            ref={this.modalContent}
           >
-            <div class={CSS.header}>
-              {this.renderCloseButton()}
-              <header class={CSS.title}>
-                <slot name={CSS.header} />
-              </header>
-            </div>
-            {this.renderContentTop()}
-            <div
-              class={{
-                [CSS.content]: true,
-                [CSS.contentNoFooter]: !this.hasFooter,
-              }}
-              ref={(el) => (this.modalContent = el)}
-            >
-              <slot name={SLOTS.content} />
-            </div>
-            {this.renderContentBottom()}
-            {this.renderFooter()}
+            <slot name={SLOTS.content} onSlotChange={this.handleContentSlotChange} />
           </div>
+          {this.renderContentBottom()}
+          {this.renderFooter()}
         </div>
-      </Host>
+      </div>
     );
   }
 
-  renderFooter(): VNode {
-    return this.hasFooter ? (
-      <div class={CSS.footer} key="footer">
+  private renderFooter(): JsxNode {
+    return (
+      <div class={CSS.footer} hidden={!this.hasFooter} key="footer">
         <span class={CSS.back}>
-          <slot name={SLOTS.back} />
+          <slot name={SLOTS.back} onSlotChange={this.handleBackSlotChange} />
         </span>
         <span class={CSS.secondary}>
-          <slot name={SLOTS.secondary} />
+          <slot name={SLOTS.secondary} onSlotChange={this.handleSecondarySlotChange} />
         </span>
         <span class={CSS.primary}>
-          <slot name={SLOTS.primary} />
+          <slot name={SLOTS.primary} onSlotChange={this.handlePrimarySlotChange} />
         </span>
       </div>
-    ) : null;
+    );
   }
 
-  renderContentTop(): VNode {
+  private renderContentTop(): JsxNode {
     return (
       <div class={CSS.contentTop} hidden={!this.hasContentTop}>
-        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
+        <slot name={SLOTS.contentTop} onSlotChange={this.contentTopSlotChangeHandler} />
       </div>
     );
   }
 
-  renderContentBottom(): VNode {
+  private renderContentBottom(): JsxNode {
     return (
       <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
-        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
+        <slot name={SLOTS.contentBottom} onSlotChange={this.contentBottomSlotChangeHandler} />
       </div>
     );
   }
 
-  renderCloseButton(): VNode {
+  private renderCloseButton(): JsxNode {
     return !this.closeButtonDisabled ? (
       <button
-        aria-label={this.messages.close}
+        ariaLabel={this.messages.close}
         class={CSS.close}
         key="button"
         onClick={this.handleCloseClick}
-        ref={(el) => (this.closeButtonEl = el)}
+        ref={this.closeButtonEl}
         title={this.messages.close}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
@@ -299,7 +579,7 @@ export class Modal
     ) : null;
   }
 
-  renderStyle(): VNode {
+  private renderStyle(): JsxNode {
     if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
       return (
         <style>
@@ -337,265 +617,5 @@ export class Modal
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties/ State
-  //
-  //--------------------------------------------------------------------------
-
-  ignoreOpenChange = false;
-
-  @Element() el: HTMLCalciteModalElement;
-
-  modalContent: HTMLDivElement;
-
-  initialOverflowCSS: string;
-
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
-
-  private cssVarObserver: MutationObserver = createObserver("mutation", () => {
-    this.updateSizeCssVars();
-  });
-
-  titleId: string;
-
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLDivElement;
-
-  focusTrap: FocusTrap;
-
-  closeButtonEl: HTMLButtonElement;
-
-  contentId: string;
-
-  @State() cssWidth: string | number;
-
-  @State() cssHeight: string | number;
-
-  @State() hasFooter = true;
-
-  @State() hasContentTop = false;
-
-  @State() hasContentBottom = false;
-
-  @State() effectiveLocale: string;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: ModalMessages;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteModalBeforeClose: EventEmitter<void>;
-
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteModalClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteModalBeforeOpen: EventEmitter<void>;
-
-  /** Fires when the component is open and animation is complete. */
-  @Event({ cancelable: false }) calciteModalOpen: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Sets focus on the component's "close" button (the first focusable item).
-   *
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
-  }
-
-  /**
-   * Updates the element(s) that are used within the focus-trap of the component.
-   */
-  @Method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
-  }
-
-  /**
-   * Sets the scroll top of the component's content.
-   *
-   * @param top
-   * @param left
-   */
-  @Method()
-  async scrollContent(top = 0, left = 0): Promise<void> {
-    if (this.modalContent) {
-      if (this.modalContent.scrollTo) {
-        this.modalContent.scrollTo({ top, left, behavior: "smooth" });
-      } else {
-        this.modalContent.scrollTop = top;
-        this.modalContent.scrollLeft = left;
-      }
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private setTransitionEl = (el: HTMLDivElement): void => {
-    this.transitionEl = el;
-  };
-
-  onBeforeOpen(): void {
-    this.transitionEl.classList.add(CSS.openingActive);
-    this.calciteModalBeforeOpen.emit();
-  }
-
-  onOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
-    this.calciteModalOpen.emit();
-    activateFocusTrap(this);
-  }
-
-  onBeforeClose(): void {
-    this.transitionEl.classList.add(CSS.closingActive);
-    this.calciteModalBeforeClose.emit();
-  }
-
-  onClose(): void {
-    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
-    this.calciteModalClose.emit();
-    deactivateFocusTrap(this);
-  }
-
-  @Watch("open")
-  toggleModal(value: boolean): void {
-    if (this.ignoreOpenChange) {
-      return;
-    }
-
-    if (value) {
-      this.openModal();
-    } else {
-      this.closeModal();
-    }
-  }
-
-  @Watch("opened")
-  handleOpenedChange(value: boolean): void {
-    const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
-    this.transitionEl.classList.add(idleClass);
-    onToggleOpenCloseComponent(this);
-  }
-
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener("calciteModalOpen", this.openEnd);
-  };
-
-  private handleCloseClick = () => {
-    this.open = false;
-  };
-
-  private async openModal(): Promise<void> {
-    await componentOnReady(this.el);
-    this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.opened = true;
-    const titleEl = getSlotted(this.el, SLOTS.header);
-    const contentEl = getSlotted(this.el, SLOTS.content);
-
-    this.titleId = ensureId(titleEl);
-    this.contentId = ensureId(contentEl);
-
-    if (!this.embedded) {
-      if (totalOpenModals === 0) {
-        initialDocumentOverflowStyle = document.documentElement.style.overflow;
-      }
-
-      totalOpenModals++;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
-  }
-
-  private handleOutsideClose = (): void => {
-    if (this.outsideCloseDisabled) {
-      return;
-    }
-
-    this.open = false;
-  };
-
-  closeModal = async (): Promise<void> => {
-    if (this.beforeClose) {
-      try {
-        await this.beforeClose(this.el);
-      } catch (_error) {
-        // close prevented
-        requestAnimationFrame(() => {
-          this.ignoreOpenChange = true;
-          this.open = true;
-          this.ignoreOpenChange = false;
-        });
-        return;
-      }
-    }
-
-    totalOpenModals--;
-    this.opened = false;
-    this.removeOverflowHiddenClass();
-  };
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
-  }
-
-  private handleMutationObserver = (): void => {
-    this.updateFooterVisibility();
-    this.updateFocusTrapElements();
-  };
-
-  private updateFooterVisibility = (): void => {
-    this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
-  };
-
-  private updateSizeCssVars = (): void => {
-    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
-    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
-  };
-
-  private contentTopSlotChangeHandler = (event: Event): void => {
-    this.hasContentTop = slotChangeHasAssignedElement(event);
-  };
-
-  private contentBottomSlotChangeHandler = (event: Event): void => {
-    this.hasContentBottom = slotChangeHasAssignedElement(event);
-  };
+  // #endregion
 }

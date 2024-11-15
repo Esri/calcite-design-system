@@ -1,23 +1,18 @@
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
 import {
-  Build,
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+  method,
+  state,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -26,137 +21,274 @@ import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
-import { TabTitleMessages } from "./assets/tab-title/t9n";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
+import { useT9n } from "../../controllers/useT9n";
+import type { Tabs } from "../tabs/tabs";
+import T9nStrings from "./assets/t9n/tab-title.t9n.en.json";
 import { CSS, ICONS } from "./resources";
+import { styles } from "./tab-title.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-tab-title": TabTitle;
+  }
+}
 
 /**
  * Tab-titles are optionally individually closable.
- */
-
-/**
+ *
  * @slot - A slot for adding text.
  */
-@Component({
-  tag: "calcite-tab-title",
-  styleUrl: "tab-title.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+export class TabTitle extends LitElement implements InteractiveComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private closeButtonEl = createRef<HTMLButtonElement>();
+
+  private guid = `calcite-tab-title-${guid()}`;
+
+  /** watches for changing text content */
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateHasText(),
+  );
+
+  private parentTabsEl: Tabs["el"];
+
+  private resizeObserver = createObserver("resize", () => {
+    this.calciteInternalTabIconChanged.emit();
+  });
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() controls: string;
+
+  /** determine if there is slotted text for styling purposes */
+  @state() hasText = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** @private */
+  @property({ reflect: true }) bordered = false;
+
+  /** When `true`, a close button is added to the component. */
+  @property({ reflect: true }) closable = false;
+
+  /** When `true`, does not display or position the component. */
+  @property({ reflect: true }) closed = false;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** Specifies an icon to display at the end of the component. */
+  @property({ reflect: true }) iconEnd: IconNameOrString;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /** @private */
+  @property({ reflect: true }) layout: TabLayout;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   *
+   *  `@internal`
+   */
+  @property() position: TabPosition = "top";
+
+  /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
+   * @private
+   */
+  @property() scale: Scale = "m";
 
   /**
    * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
-  @Prop({ reflect: true, mutable: true }) selected = false;
-
-  @Watch("selected")
-  selectedHandler(): void {
-    if (this.selected) {
-      this.activateTab(false);
-    }
-  }
-
-  /** When `true`, a close button is added to the component. */
-  @Prop({ reflect: true }) closable = false;
-
-  /** When `true`, does not display or position the component. */
-  @Prop({ reflect: true, mutable: true }) closed = false;
-
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
-  @Prop({ reflect: true }) disabled = false;
-
-  /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
-
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
-
-  /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) layout: TabLayout;
-
-  /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
-   *
-   *  @internal
-   */
-  @Prop() position: TabPosition = "top";
-
-  /**
-   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
-   *
-   * @internal
-   */
-  @Prop() scale: Scale = "m";
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) bordered = false;
+  @property({ reflect: true }) selected = false;
 
   /**
    * Specifies a unique name for the component.
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @Prop({ reflect: true }) tab: string;
+  @property({ reflect: true }) tab: string;
+
+  // #endregion
+
+  // #region Public Methods
 
   /**
-   * Made into a prop for testing purposes only
+   * This activates a tab in order for it and its associated tab-title be selected.
    *
-   * @internal
+   * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TabTitleMessages;
+  @method()
+  async activateTab(userTriggered = true): Promise<void> {
+    if (this.disabled || this.closed) {
+      return;
+    }
+    const payload = { tab: this.tab };
+    this.calciteInternalTabsActivate.emit(payload);
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TabTitleMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+    if (userTriggered) {
+      // emit in the next frame to let internal events sync up
+      requestAnimationFrame(() => this.calciteTabsActivate.emit());
+    }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  /** @private */
+  @method()
+  async getTabIdentifier(): Promise<TabID> {
+    return this.tab ? this.tab : this.getTabIndex();
+  }
 
-  connectedCallback(): void {
-    connectInteractive(this);
-    connectLocalized(this);
-    connectMessages(this);
+  /** Returns the index of the title within the `calcite-tab-nav`. */
+  @method()
+  async getTabIndex(): Promise<number> {
+    return Array.prototype.indexOf.call(
+      nodeListToArray(this.el.parentElement.children).filter((el) =>
+        el.matches("calcite-tab-title"),
+      ),
+      this.el,
+    );
+  }
+
+  /**
+   * @param tabIds
+   * @param titleIds
+   * @private
+   */
+  @method()
+  _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {
+    this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** @private */
+  calciteInternalTabIconChanged = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
+
+  /**
+   * Fires when a `calcite-tab` is selected (`event.details`).
+   *
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
+   * @private
+   */
+  calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
+
+  /**
+   * Fires when `calcite-tab` is closed (`event.details`).
+   *
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
+   * @private
+   */
+  calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });
+
+  /** @private */
+  calciteInternalTabsFocusFirst = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalTabsFocusLast = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalTabsFocusNext = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalTabsFocusPrevious = createEvent({ cancelable: false });
+
+  /** Fires when a `calcite-tab` is selected. */
+  calciteTabsActivate = createEvent({ cancelable: false });
+
+  /** Fires when a `calcite-tab` is closed. */
+  calciteTabsClose = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listenOn<CustomEvent<TabChangeEventDetail>>(
+      document.body,
+      "calciteInternalTabChange",
+      this.internalTabChangeHandler,
+    );
+    this.listen("click", this.onClick);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
     this.setupTextContentObserver();
-    this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
-  disconnectedCallback(): void {
+  async load(): Promise<void> {
+    if (isBrowser()) {
+      this.updateHasText();
+    }
+    if (this.tab && this.selected) {
+      this.activateTab(false);
+    }
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
+      this.selectedHandler();
+    }
+
+    if (this.parentTabsEl) {
+      this.layout = this.parentTabsEl.layout;
+      this.bordered = this.parentTabsEl.bordered;
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  /** This lifecycle method is not expected to return a promise. The returned promise will be ignored by Lit rather than awaited. */
+  async loaded(): Promise<void> {
+    this.calciteInternalTabTitleRegister.emit(await this.getTabIdentifier());
+  }
+
+  override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
@@ -165,115 +297,19 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       }),
     );
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
   }
 
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-    if (Build.isBrowser) {
-      this.updateHasText();
-    }
-    if (this.tab && this.selected) {
+  // #endregion
+
+  // #region Private Methods
+
+  private selectedHandler(): void {
+    if (this.selected) {
       this.activateTab(false);
     }
   }
 
-  componentWillRender(): void {
-    if (this.parentTabsEl) {
-      this.layout = this.parentTabsEl.layout;
-      this.bordered = this.parentTabsEl.bordered;
-    }
-  }
-
-  render(): VNode {
-    const { el, closed } = this;
-    const id = el.id || this.guid;
-
-    const iconStartEl = (
-      <calcite-icon
-        class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
-        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
-        icon={this.iconStart}
-        scale={getIconScale(this.scale)}
-      />
-    );
-
-    const iconEndEl = (
-      <calcite-icon
-        class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
-        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
-        icon={this.iconEnd}
-        scale={getIconScale(this.scale)}
-      />
-    );
-
-    return (
-      <Host
-        aria-controls={this.controls}
-        aria-selected={toAriaBoolean(this.selected)}
-        id={id}
-        role="tab"
-        tabIndex={this.selected && !this.disabled ? 0 : -1}
-      >
-        <InteractiveContainer disabled={this.disabled}>
-          <div
-            class={{
-              container: true,
-              [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
-              [`scale-${this.scale}`]: true,
-            }}
-            hidden={closed}
-            ref={(el) => this.resizeObserver?.observe(el)}
-          >
-            <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
-              {this.iconStart ? iconStartEl : null}
-              <slot />
-              {this.iconEnd ? iconEndEl : null}
-            </div>
-            {this.renderCloseButton()}
-          </div>
-        </InteractiveContainer>
-      </Host>
-    );
-  }
-
-  renderCloseButton(): VNode {
-    const { closable, messages } = this;
-
-    return closable ? (
-      <button
-        aria-label={messages.close}
-        class={CSS.closeButton}
-        disabled={false}
-        key={CSS.closeButton}
-        onClick={this.closeClickHandler}
-        ref={(el) => (this.closeButtonEl = el)}
-        title={messages.close}
-        type="button"
-      >
-        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
-      </button>
-    ) : null;
-  }
-
-  async componentDidLoad(): Promise<void> {
-    this.calciteInternalTabTitleRegister.emit(await this.getTabIdentifier());
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteInternalTabChange", { target: "body" })
-  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
+  private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const targetTabsEl = event
       .composedPath()
       .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
@@ -293,17 +329,15 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     event.stopPropagation();
   }
 
-  @Listen("click")
-  onClick(): void {
+  private onClick(): void {
     this.activateTab();
   }
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  private keyDownHandler(event: KeyboardEvent): void {
     switch (event.key) {
       case " ":
       case "Enter":
-        if (!event.composedPath().includes(this.closeButtonEl)) {
+        if (!event.composedPath().includes(this.closeButtonEl.value)) {
           this.activateTab();
           event.preventDefault();
         }
@@ -335,185 +369,102 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when a `calcite-tab` is selected.
-   */
-  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<void>;
-
-  /**
-   * Fires when a `calcite-tab` is selected (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
-
-  /**
-   * Fires when a `calcite-tab` is closed.
-   */
-  @Event({ cancelable: false }) calciteTabsClose: EventEmitter<void>;
-
-  /**
-   * Fires when `calcite-tab` is closed (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabCloseEventDetail>;
-  /**
-   * @internal
-   */
-
-  @Event({ cancelable: false }) calciteInternalTabsFocusNext: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabsFocusPrevious: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabsFocusFirst: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabsFocusLast: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabTitleRegister: EventEmitter<TabID>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabIconChanged: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Returns the index of the title within the `calcite-tab-nav`.
-   */
-  @Method()
-  async getTabIndex(): Promise<number> {
-    return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((el) =>
-        el.matches("calcite-tab-title"),
-      ),
-      this.el,
-    );
-  }
-
-  /**
-   * @internal
-   */
-  @Method()
-  async getTabIdentifier(): Promise<TabID> {
-    return this.tab ? this.tab : this.getTabIndex();
-  }
-
-  /**
-   * @param tabIds
-   * @param titleIds
-   * @internal
-   */
-  @Method()
-  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
-    this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
-  }
-
-  /**
-   * This activates a tab in order for it and its associated tab-title be selected.
-   *
-   * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
-   * @internal
-   */
-  @Method()
-  async activateTab(userTriggered = true): Promise<void> {
-    if (this.disabled || this.closed) {
-      return;
-    }
-    const payload = { tab: this.tab };
-    this.calciteInternalTabsActivate.emit(payload);
-
-    if (userTriggered) {
-      // emit in the next frame to let internal events sync up
-      requestAnimationFrame(() => this.calciteTabsActivate.emit());
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private closeClickHandler = (): void => {
+  private closeClickHandler(): void {
     this.closeTabTitleAndNotify();
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTabTitleElement;
-
-  /** watches for changing text content */
-  mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
-
-  @State() controls: string;
-
-  @State() defaultMessages: TabTitleMessages;
-
-  @State() effectiveLocale: "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
   }
 
-  /** determine if there is slotted text for styling purposes */
-  @State() hasText = false;
-
-  closeButtonEl: HTMLButtonElement;
-
-  containerEl: HTMLDivElement;
-
-  parentTabNavEl: HTMLCalciteTabNavElement;
-
-  parentTabsEl: HTMLCalciteTabsElement;
-
-  resizeObserver = createObserver("resize", () => {
-    this.calciteInternalTabIconChanged.emit();
-  });
-
-  updateHasText(): void {
+  private updateHasText(): void {
     this.hasText = this.el.textContent.trim().length > 0;
   }
 
-  setupTextContentObserver(): void {
+  private setupTextContentObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  closeTabTitleAndNotify(): void {
+  private closeTabTitleAndNotify(): void {
     this.closed = true;
     this.calciteInternalTabsClose.emit({ tab: this.tab });
     this.calciteTabsClose.emit();
   }
 
-  guid = `calcite-tab-title-${guid()}`;
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const { el, closed } = this;
+    const id = el.id || this.guid;
+
+    const iconStartEl = (
+      <calcite-icon
+        class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale={getIconScale(this.scale)}
+      />
+    );
+
+    const iconEndEl = (
+      <calcite-icon
+        class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale={getIconScale(this.scale)}
+      />
+    );
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "aria-controls", this.controls);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaSelected = toAriaBoolean(this.selected);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "id", id);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "tab";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "tabIndex", this.selected && !this.disabled ? 0 : -1);
+
+    return (
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.containerBottom]: this.position === "bottom",
+            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
+            [CSS.scale(this.scale)]: true,
+          }}
+          hidden={closed}
+          ref={(el) => (el ? this.resizeObserver?.observe(el) : null)}
+        >
+          <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
+            {this.iconStart ? iconStartEl : null}
+            <slot />
+            {this.iconEnd ? iconEndEl : null}
+          </div>
+          {this.renderCloseButton()}
+          <div class={CSS.selectedIndicator} />
+        </div>
+      </InteractiveContainer>
+    );
+  }
+
+  private renderCloseButton(): JsxNode {
+    const { closable, messages } = this;
+
+    return closable ? (
+      <button
+        ariaLabel={messages.close}
+        class={CSS.closeButton}
+        disabled={false}
+        key={CSS.closeButton}
+        onClick={this.closeClickHandler}
+        ref={this.closeButtonEl}
+        title={messages.close}
+        type="button"
+      >
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
+      </button>
+    ) : null;
+  }
+
+  // #endregion
 }

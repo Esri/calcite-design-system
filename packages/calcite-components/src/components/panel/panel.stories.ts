@@ -1,14 +1,24 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
 import { Panel } from "./panel";
 import { SLOTS } from "./resources";
+
 const { collapseDirection, scale } = ATTRIBUTES;
 
 interface PanelStoryArgs
   extends Pick<
     Panel,
-    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading" | "scale"
+    | "closed"
+    | "disabled"
+    | "closable"
+    | "collapsed"
+    | "collapsible"
+    | "collapseDirection"
+    | "loading"
+    | "scale"
+    | "menuPlacement"
   > {
   heightScale: string;
 }
@@ -16,6 +26,7 @@ interface PanelStoryArgs
 export default {
   title: "Components/Panel",
   args: {
+    menuPlacement: defaultEndMenuPlacement,
     closed: false,
     disabled: false,
     closable: false,
@@ -27,6 +38,10 @@ export default {
     loading: false,
   },
   argTypes: {
+    menuPlacement: {
+      options: placements,
+      control: { type: "select" },
+    },
     collapseDirection: {
       options: collapseDirection.values,
       control: { type: "select" },
@@ -91,6 +106,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     heightScale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    menu-placement="${args.menuPlacement}"
     heading="Heading"
     description="A great panel description"
   >
@@ -242,9 +258,96 @@ export const footerPadding_TestOnly = (): string =>
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
-      <div slot="footer">Footer!</div>
+      <calcite-button type="button" slot="footer">1</calcite-button>
+      <calcite-button type="button" slot="footer">2</calcite-button>
+      <calcite-button type="button" slot="footer-start">3</calcite-button>
+      <calcite-button type="button" slot="footer-start">4</calcite-button>
+      <calcite-button type="button" slot="footer-end">5</calcite-button>
+      <calcite-button type="button" slot="footer-end">6</calcite-button>
+      <calcite-button type="button" slot="footer-actions">7</calcite-button>
+      <calcite-button type="button" slot="footer-actions">8</calcite-button>
     </calcite-panel>
   </div>`;
+
+export const footerActions = (): string =>
+  html`<h2>footer-actions (Deprecated): Auto width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-actions">1</calcite-button>
+        <calcite-button type="button" slot="footer-actions">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-actions (Deprecated): Full width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-actions">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-actions">2</calcite-button>
+      </calcite-panel>
+    </div>`;
+
+export const footerVariations = (): string =>
+  html`<h2>footer</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start only</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-start">1</calcite-button>
+        <calcite-button type="button" slot="footer-start">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-end only</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-end">1</calcite-button>
+        <calcite-button type="button" slot="footer-end">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end auto width</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button type="button" slot="footer-start">1</calcite-button>
+        <calcite-button type="button" slot="footer-start">2</calcite-button>
+        <calcite-button type="button" slot="footer-end">3</calcite-button>
+        <calcite-button type="button" slot="footer-end">4</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end full width single</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-start">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">2</calcite-button>
+      </calcite-panel>
+    </div>
+    <h2>footer-start and footer-end full width multiple</h2>
+    <div style="width: 300px;">
+      <calcite-panel height-scale="s">
+        <div slot="header-content">Header!</div>
+        <p>Slotted content!</p>
+        <calcite-button width="full" type="button" slot="footer-start">1</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-start">2</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">3</calcite-button>
+        <calcite-button width="full" type="button" slot="footer-end">4</calcite-button>
+      </calcite-panel>
+    </div>`;
 
 export const actionBarBackgroundColor_TestOnly = (): string =>
   html`<calcite-panel height-scale="s" style="width: 300px;">

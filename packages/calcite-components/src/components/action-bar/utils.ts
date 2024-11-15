@@ -1,16 +1,14 @@
-import { forceUpdate } from "@stencil/core";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout } from "../interfaces";
+import type { ActionGroup } from "../action-group/action-group";
+import type { Action } from "../action/action";
 
-export const overflowActionsDebounceInMs = 150;
 const groupBufferPx = 2;
 
 const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.length;
 
-export const geActionDimensions = (
-  actions: HTMLCalciteActionElement[],
-): { actionWidth: number; actionHeight: number } => {
+export const geActionDimensions = (actions: Action["el"][]): { actionWidth: number; actionHeight: number } => {
   const actionsNotSlotted = actions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions);
   const actionLen = actionsNotSlotted?.length;
   return {
@@ -59,7 +57,7 @@ export const getOverflowCount = ({
   return Math.max(actionCount - getMaxActionCount({ width, actionWidth, layout, height, actionHeight, groupCount }), 0);
 };
 
-export const queryActions = (el: HTMLElement): HTMLCalciteActionElement[] => {
+export const queryActions = (el: HTMLElement): Action["el"][] => {
   return Array.from(el.querySelectorAll("calcite-action")).filter((action) =>
     action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true,
   );
@@ -70,7 +68,7 @@ export const overflowActions = ({
   expanded,
   overflowCount,
 }: {
-  actionGroups: HTMLCalciteActionGroupElement[];
+  actionGroups: ActionGroup["el"][];
   expanded: boolean;
   overflowCount: number;
 }): void => {
@@ -105,6 +103,6 @@ export const overflowActions = ({
       });
     }
 
-    forceUpdate(group);
+    group.manager.component.requestUpdate();
   });
 };

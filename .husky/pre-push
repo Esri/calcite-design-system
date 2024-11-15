@@ -1,14 +1,20 @@
-#!/usr/bin/env bash
-# from https://riptutorial.com/git/example/16164/pre-push
+#!/usr/bin/env sh
 
-protected_branch="main"
-current_branch=$(git rev-parse --abbrev-ref HEAD)
-
-if [ "$protected_branch" = "$current_branch" ] && bash -c ': >/dev/tty'; then
-    read -p "You're about to push main, is that what you intended? [y|n] " -n 1 -r </dev/tty
-    echo
-    if echo "$REPLY" | grep -E "^[Yy]$" >/dev/null; then
-        exit 0
-    fi
-    exit 1
+if ! bash -c ': >/dev/tty'; then
+    exit 0
 fi
+
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+
+case "$current_branch" in
+    dev | main | rc)
+        printf "You're about to push a protected branch, is that what you intended? [y|n] "
+        read -r response </dev/tty >/dev/tty 2>&1
+
+        case "$response" in
+            y | Y) exit 0 ;;
+            *) exit 1 ;;
+        esac
+        ;;
+    *) exit 0 ;;
+esac

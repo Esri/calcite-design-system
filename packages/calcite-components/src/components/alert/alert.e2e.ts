@@ -1,9 +1,12 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
-import { openClose } from "../../tests/commonTests";
+import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
+import { getElementXY, skipAnimations } from "../../tests/utils";
+import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
+import { alertQueueTimeoutMs } from "./AlertManager";
+import type { Alert } from "./alert";
 
 describe("defaults", () => {
   defaults("calcite-alert", [
@@ -14,6 +17,19 @@ describe("defaults", () => {
     {
       propertyName: "embedded",
       defaultValue: false,
+    },
+    {
+      propertyName: "queue",
+      defaultValue: "last",
+    },
+  ]);
+});
+
+describe("reflects", () => {
+  reflects("calcite-alert", [
+    {
+      propertyName: "queue",
+      value: "last",
     },
   ]);
 });
@@ -33,14 +49,26 @@ describe("calcite-alert", () => {
     hidden("<calcite-alert open></calcite-alert>");
   });
 
-  describe.skip("accessible", () => {
-    accessible(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
+  describe("accessible", () => {
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
+      await skipAnimations(page);
+      await page.waitForTimeout(alertQueueTimeoutMs);
+      return { page, tag: "calcite-alert" };
+    });
   });
 
-  describe.skip("accessible with auto-close", () => {
-    accessible(html`
-      <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
-    `);
+  describe("accessible with auto-close", () => {
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
+      `);
+      await skipAnimations(page);
+      await page.waitForTimeout(alertQueueTimeoutMs);
+      return { page, tag: "calcite-alert" };
+    });
   });
 
   describe("openClose", () => {
@@ -105,6 +133,7 @@ describe("calcite-alert", () => {
         </calcite-alert>
       </div>
     `);
+    await skipAnimations(page);
 
     const alert2 = await page.find("#alert-2");
     const button2 = await page.find("#button-2");
@@ -116,10 +145,9 @@ describe("calcite-alert", () => {
     expect(await alert2.isVisible()).toBe(true);
 
     await page.waitForTimeout(alertSpeedFastMs);
+    await page.waitForTimeout(alertQueueTimeoutMs);
     expect(await alert2.isVisible()).not.toBe(true);
   });
-
-  const animationDurationInMs = 400;
 
   it("opens and then closes a single alert", async () => {
     const page = await newE2EPage();
@@ -130,6 +158,7 @@ describe("calcite-alert", () => {
     ${alertContent}
     </calcite-alert>
     </div>`);
+    await skipAnimations(page);
 
     const alert1 = await page.find("#alert-1");
     const button1 = await page.find("#button-1");
@@ -138,11 +167,11 @@ describe("calcite-alert", () => {
     expect(await alert1.isVisible()).not.toBe(true);
 
     await button1.click();
-    await page.waitForTimeout(animationDurationInMs);
+    await page.waitForTimeout(alertQueueTimeoutMs);
     expect(await alert1.isVisible()).toBe(true);
 
     await alertClose1.click();
-    await page.waitForTimeout(animationDurationInMs);
+    await page.waitForTimeout(alertQueueTimeoutMs);
     expect(await alert1.isVisible()).not.toBe(true);
   });
 
@@ -163,6 +192,7 @@ describe("calcite-alert", () => {
     ${alertContent}
     </calcite-alert>
     </div>`);
+    await skipAnimations(page);
 
     const alert1 = await page.find("#alert-1");
     const alert2 = await page.find("#alert-2");
@@ -174,19 +204,98 @@ describe("calcite-alert", () => {
     const alertClose2 = await page.find(`#alert-2 >>> .${CSS.close}`);
 
     await button1.click();
-    await page.waitForTimeout(animationDurationInMs);
+    await page.waitForTimeout(alertQueueTimeoutMs);
     await alertClose1.click();
 
     await button2.click();
-    await page.waitForTimeout(animationDurationInMs);
+    await page.waitForTimeout(alertQueueTimeoutMs);
     await alertClose2.click();
 
     await button3.click();
-    await page.waitForTimeout(animationDurationInMs);
+    await page.waitForTimeout(alertQueueTimeoutMs);
 
     expect(await alert1.isVisible()).not.toBe(true);
     expect(await alert2.isVisible()).not.toBe(true);
     expect(await alert3.isVisible()).toBe(true);
+  });
+
+  it("should queue alerts", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-alert id="alert-1"> ${alertContent} </calcite-alert>
+      <calcite-alert id="alert-2"> ${alertContent} </calcite-alert>
+      <calcite-alert id="alert-3"> ${alertContent} </calcite-alert>
+    `);
+    await skipAnimations(page);
+
+    const alert1 = await page.find("#alert-1");
+    const alert2 = await page.find("#alert-2");
+    const alert3 = await page.find("#alert-3");
+
+    expect(await alert1.isVisible()).toBe(false);
+    expect(await alert2.isVisible()).toBe(false);
+    expect(await alert3.isVisible()).toBe(false);
+
+    alert1.setProperty("open", true);
+    await page.waitForChanges();
+    alert2.setProperty("open", true);
+    await page.waitForChanges();
+    alert3.setProperty("queue", "immediate");
+    await page.waitForChanges();
+    alert3.setProperty("open", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(alertQueueTimeoutMs);
+
+    expect(await alert1.isVisible()).toBe(true);
+    expect(await alert2.isVisible()).toBe(true);
+    expect(await alert3.isVisible()).toBe(true);
+
+    const alert1Container = await page.find(`#alert-1 >>> .${CSS.container}`);
+    const alert2Container = await page.find(`#alert-2 >>> .${CSS.container}`);
+    const alert3Container = await page.find(`#alert-3 >>> .${CSS.container}`);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(true);
+
+    alert3.setProperty("queue", "immediate");
+    await page.waitForChanges();
+    alert2.setProperty("queue", "immediate");
+    await page.waitForChanges();
+    await page.waitForTimeout(alertQueueTimeoutMs);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(true);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert1.setProperty("queue", "next");
+    await page.waitForChanges();
+    await page.waitForTimeout(alertQueueTimeoutMs);
+
+    alert2.setProperty("open", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(alertQueueTimeoutMs);
+
+    expect(await alert1Container.isVisible()).toBe(true);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert2.setProperty("queue", "next");
+    alert2.setProperty("open", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(alertQueueTimeoutMs);
+
+    expect(await alert1Container.isVisible()).toBe(true);
+    expect(await alert2Container.isVisible()).toBe(false);
+    expect(await alert3Container.isVisible()).toBe(false);
+
+    alert1.setProperty("open", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(alertQueueTimeoutMs);
+
+    expect(await alert1Container.isVisible()).toBe(false);
+    expect(await alert2Container.isVisible()).toBe(true);
+    expect(await alert3Container.isVisible()).toBe(false);
   });
 
   it("correctly assigns a default placement class", async () => {
@@ -239,52 +348,45 @@ describe("calcite-alert", () => {
     let alertDismissProgressBar;
     let progressBarStyles;
 
-    it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: alertSnippet });
-      progressBarStyles = await page.evaluate(() => {
-        const alert = document.querySelector("calcite-alert");
-        alert.style.setProperty("--calcite-alert-dismiss-progress-background", "white");
-        return window.getComputedStyle(alert).getPropertyValue("--calcite-alert-dismiss-progress-background");
-      });
-      expect(progressBarStyles).toEqual("white");
-    });
-
     describe("when mode attribute is not provided", () => {
       it("should render alert dismiss progress bar with default value tied to light mode", async () => {
-        page = await newE2EPage({ html: alertSnippet });
-        await page.waitForTimeout(animationDurationInMs);
+        page = await newE2EPage();
+        await page.setContent(alertSnippet);
+        await skipAnimations(page);
+        await page.waitForTimeout(alertQueueTimeoutMs);
         alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
-        progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+        progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
         expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.8)");
       });
     });
 
     describe("when mode attribute is dark", () => {
       it("should render alert dismiss progress bar with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${alertSnippet}</div>`,
-        });
-        await page.waitForTimeout(animationDurationInMs);
+        page = await newE2EPage();
+        await page.setContent(html`<div class="calcite-mode-dark">${alertSnippet}</div>`);
+        await skipAnimations(page);
+        await page.waitForTimeout(alertQueueTimeoutMs);
         alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
-        progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+        progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
         expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(43, 43, 43, 0.8)");
       });
     });
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 0, 0, 0.5)";
-      page = await newE2EPage({
-        html: `
-        <style>
-          :root {
-            --calcite-color-transparent-tint: ${overrideStyle};
-          }
-        </style>
-        <div>${alertSnippet}</div>`,
-      });
-      await page.waitForTimeout(animationDurationInMs);
+      page = await newE2EPage();
+      await page.setContent(
+        html` <style>
+            :root {
+              --calcite-color-transparent-tint: ${overrideStyle};
+            }
+          </style>
+          <div>${alertSnippet}</div>`,
+      );
+      await skipAnimations(page);
+      await page.waitForTimeout(alertQueueTimeoutMs);
       alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
-      progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+      progressBarStyles = await alertDismissProgressBar.getComputedStyle("::after");
       expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });
@@ -321,6 +423,7 @@ describe("calcite-alert", () => {
         <a slot="link" href="#">Retry</a>
       </calcite-alert>
     `);
+    await skipAnimations(page);
     const buttonOne = await page.find("#buttonOne");
     const buttonTwo = await page.find("#buttonTwo");
     const buttonThree = await page.find("#buttonThree");
@@ -329,7 +432,7 @@ describe("calcite-alert", () => {
     const alertThree = await page.find("#third-open");
 
     await buttonOne.click();
-    await page.waitForTimeout(animationDurationInMs);
+    await page.waitForTimeout(alertQueueTimeoutMs);
     expect(await alertOne.isVisible()).toBe(true);
 
     await buttonTwo.click();
@@ -343,7 +446,7 @@ describe("calcite-alert", () => {
     expect(await chip.getProperty("value")).toEqual(chipQueueCount2);
     expect(chip.textContent).toEqual(chipQueueCount2);
 
-    await page.$eval("#third-open", (alert: HTMLCalciteAlertElement) => {
+    await page.$eval("#third-open", (alert: Alert["el"]) => {
       alert.remove();
     });
     await page.waitForChanges();
@@ -352,7 +455,7 @@ describe("calcite-alert", () => {
     expect(await chip.getProperty("value")).toEqual(chipQueueCount1);
     expect(chip.textContent).toEqual(chipQueueCount1);
 
-    await page.$eval("#second-open", (alert: HTMLCalciteAlertElement) => {
+    await page.$eval("#second-open", (alert: Alert["el"]) => {
       alert.remove();
     });
     await page.waitForChanges();
@@ -383,13 +486,14 @@ describe("calcite-alert", () => {
           <a slot="link" href="#">Retry</a>
         </calcite-alert>
       `);
+      await skipAnimations(page);
       const buttonOne = await page.find("#buttonOne");
       const buttonTwo = await page.find("#buttonTwo");
       const alertOne = await page.find("#first-open");
       const alertTwo = await page.find("#alert-to-be-queued");
 
       await buttonOne.click();
-      await page.waitForTimeout(animationDurationInMs);
+      await page.waitForTimeout(alertQueueTimeoutMs);
       expect(await alertOne.isVisible()).toBe(true);
 
       await buttonTwo.click();
@@ -400,7 +504,7 @@ describe("calcite-alert", () => {
       expect(await chip.getProperty("value")).toEqual(chipQueueCount);
       expect(chip.textContent).toEqual(chipQueueCount);
 
-      await page.waitForTimeout(DURATIONS.medium * 2 + animationDurationInMs * 5);
+      await page.waitForTimeout(DURATIONS.medium * 2 + alertQueueTimeoutMs * 5);
       await page.waitForSelector("#first-open", { visible: false });
       await page.waitForSelector("#alert-to-be-queued", { visible: false });
     });
@@ -425,6 +529,7 @@ describe("calcite-alert", () => {
           >
         </div>
       `);
+      await skipAnimations(page);
       alert = await page.find("#alert");
       button = await page.find("#button");
       buttonClose = await page.find(`#alert >>> .${CSS.close}`);
@@ -437,7 +542,7 @@ describe("calcite-alert", () => {
 
     it("should render close button", async () => {
       await button.click();
-      await page.waitForTimeout(animationDurationInMs);
+      await page.waitForTimeout(alertQueueTimeoutMs);
 
       expect(await alert.isVisible()).toBe(true);
       expect(buttonClose).toBeTruthy();
@@ -458,7 +563,7 @@ describe("calcite-alert", () => {
 
       await page.mouse.move(0, 0);
 
-      await page.waitForTimeout(DURATIONS.medium + animationDurationInMs);
+      await page.waitForTimeout(DURATIONS.medium + alertQueueTimeoutMs);
       await page.waitForSelector("#alert", { visible: false });
     });
 
@@ -472,12 +577,43 @@ describe("calcite-alert", () => {
       await page.waitForTimeout(DURATIONS.medium);
       expect(await alert.isVisible()).toBe(true);
       await button.focus();
-      await page.waitForTimeout(DURATIONS.medium + animationDurationInMs);
+      await page.waitForTimeout(DURATIONS.medium + alertQueueTimeoutMs);
       await page.waitForSelector("#alert", { visible: false });
     });
   });
 
   describe("translation support", () => {
     t9n("calcite-alert");
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-alert label="this is a default alert"> </calcite-alert>`, {
+      "--calcite-alert-width": {
+        selector: `calcite-alert`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-alert-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-alert-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
+      "--calcite-alert-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
+    });
   });
 });

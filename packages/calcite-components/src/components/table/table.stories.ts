@@ -2,6 +2,7 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Table } from "./table";
+
 const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
 
 type TableStoryArgs = Pick<
@@ -769,6 +770,38 @@ export const singleSelection_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
+export const singleSelectionSelected_TestOnly = (): string =>
+  html` <calcite-table selection-mode="single" caption="selection-mode single table">
+    <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+    <calcite-action slot="selection-actions" icon="send"></calcite-action>
+    <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+    <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
 export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string =>
   html` <calcite-table
     page-size="4"
@@ -817,6 +850,105 @@ export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string =>
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
     <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const selectionModeMultipleAndAllSelectedSinglePageOnLoad_TestOnly = (): string =>
+  html` <calcite-table selection-mode="multiple" numbered caption="selection-mode multiple with selected at load">
+    <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+    <calcite-action slot="selection-actions" icon="send"></calcite-action>
+    <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+    <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const selectionModeMultipleAndAllSelectedMultiplePagesOnLoad_TestOnly = (): string =>
+  html` <calcite-table
+    page-size="4"
+    selection-mode="multiple"
+    numbered
+    caption="selection-mode multiple with selected at load"
+  >
+    <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+    <calcite-action slot="selection-actions" icon="send"></calcite-action>
+    <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+    <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>

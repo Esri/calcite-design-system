@@ -1,8 +1,7 @@
-import { Component, Element, h, Method, Prop, VNode } from "@stencil/core";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElement } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -14,129 +13,100 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Kind, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import type { Button } from "../button/button";
 import { CSS, ICONS } from "./resources";
+import { styles } from "./fab.scss";
 
-@Component({
-  tag: "calcite-fab",
-  styleUrl: "fab.scss",
-  shadow: true,
-})
-export class Fab implements InteractiveComponent, LoadableComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-fab": Fab;
+  }
+}
 
-  /**
-   * Specifies the appearance style of the component.
-   */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
+export class Fab extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
 
-  /**
-   * Specifies the kind of the component, which will apply to border and background.
-   */
-  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
-    "brand";
+  static override styles = styles;
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  // #endregion
+
+  // #region Private Properties
+
+  private buttonEl = createRef<Button["el"]>();
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** Specifies the appearance style of the component. */
+  @property({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /**
    * Specifies an icon to display.
    *
    * @default "plus"
    */
-  @Prop({ reflect: true }) icon: IconName = ICONS.plus;
+  @property({ reflect: true }) icon: IconNameOrString = ICONS.plus;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
-  /**
-   * Accessible name for the component.
-   */
-  @Prop() label: string;
+  /** Specifies the kind of the component, which will apply to border and background. */
+  @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
+    "brand";
 
-  /**
-   * When `true`, a busy indicator is displayed.
-   */
-  @Prop({ reflect: true }) loading = false;
+  /** Accessible name for the component. */
+  @property() label: string;
 
-  /**
-   * Specifies the size of the component.
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
 
-  /**
-   * Specifies text to accompany the component's icon.
-   */
-  @Prop() text: string;
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * When `true`, displays the `text` value in the component.
-   */
-  @Prop({ reflect: true }) textEnabled = false;
+  /** Specifies text to accompany the component's icon. */
+  @property() text: string;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  /** When `true`, displays the `text` value in the component. */
+  @property({ reflect: true }) textEnabled = false;
 
-  @Element() el: HTMLCalciteFabElement;
+  // #endregion
 
-  private buttonEl: HTMLElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    focusElement(this.buttonEl);
+    focusElement(this.buttonEl.value);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Lifecycle
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     const {
       appearance,
       kind,
@@ -163,9 +133,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
           kind={kind}
           label={label}
           loading={loading}
-          ref={(buttonEl): void => {
-            this.buttonEl = buttonEl;
-          }}
+          ref={this.buttonEl}
           round={true}
           scale={scale}
           title={title}
@@ -177,4 +145,6 @@ export class Fab implements InteractiveComponent, LoadableComponent {
       </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

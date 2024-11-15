@@ -1,3 +1,4 @@
+import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
 import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
 import * as openCloseComponent from "./openCloseComponent";
@@ -9,12 +10,15 @@ describe("openCloseComponent", () => {
     let dispatchTransitionEvent: TransitionEventDispatcher;
 
     beforeEach(() => {
-      jest.spyOn(openCloseComponent, "internalReadTask").mockImplementation((task) => task(1337));
+      vi.spyOn(global, "requestAnimationFrame").mockImplementation((cb) => {
+        cb(0);
+        return 0;
+      });
       dispatchTransitionEvent = createTransitionEventDispatcher();
     });
 
     afterEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
 
     it("emits beforeOpen/beforeClose events when the transition starts and open/close events when the transition is done", async () => {
@@ -37,10 +41,10 @@ describe("openCloseComponent", () => {
         open: true,
         openTransitionProp: "opacity",
         transitionEl,
-        onBeforeOpen: jest.fn(() => emittedEvents.push("beforeOpen")),
-        onOpen: jest.fn(() => emittedEvents.push("open")),
-        onBeforeClose: jest.fn(() => emittedEvents.push("beforeClose")),
-        onClose: jest.fn(() => emittedEvents.push("close")),
+        onBeforeOpen: vi.fn(() => emittedEvents.push("beforeOpen")),
+        onOpen: vi.fn(() => emittedEvents.push("open")),
+        onBeforeClose: vi.fn(() => emittedEvents.push("beforeClose")),
+        onClose: vi.fn(() => emittedEvents.push("close")),
       };
 
       onToggleOpenCloseComponent(fakeOpenCloseComponent);

@@ -1,65 +1,53 @@
-import { Component, Element, h, Prop, State } from "@stencil/core";
+import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { hexToHue, stringToHex } from "./utils";
+import { styles } from "./avatar.scss";
 
-@Component({
-  tag: "calcite-avatar",
-  styleUrl: "avatar.scss",
-  shadow: true,
-})
-export class Avatar {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-avatar": Avatar;
+  }
+}
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+export class Avatar extends LitElement {
+  // #region Static Members
 
-  /** Specifies the `src` to an image (remember to add a token if the user is private). */
-  @Prop({ reflect: true }) thumbnail: string;
+  static override styles = styles;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() thumbnailFailedToLoad = false;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component. */
-  @Prop({ reflect: true }) fullName: string;
+  @property({ reflect: true }) fullName: string;
 
-  /** Specifies the username of the user. */
-  @Prop({ reflect: true }) username: string;
+  /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label. */
+  @property() label: string;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the `src` to an image (remember to add a token if the user is private). */
+  @property({ reflect: true }) thumbnail: string;
 
   /** Specifies the unique id of the user. */
-  @Prop({ reflect: true }) userId: string;
+  @property({ reflect: true }) userId: string;
 
-  /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label.*/
-  @Prop() label: string;
+  /** Specifies the username of the user. */
+  @property({ reflect: true }) username: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  render() {
-    return this.determineContent();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAvatarElement;
-
-  @State() thumbnailFailedToLoad = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  // #region Private Methods
 
   private determineContent() {
     if (this.thumbnail && !this.thumbnailFailedToLoad) {
@@ -76,13 +64,13 @@ export class Avatar {
     const backgroundColor = this.generateFillColor();
     return (
       <span
-        aria-label={this.label || this.fullName}
+        ariaLabel={this.label || this.fullName}
         class={CSS.background}
         role="figure"
         style={{ backgroundColor }}
       >
         {initials ? (
-          <span aria-hidden="true" class={CSS.initials}>
+          <span ariaHidden="true" class={CSS.initials}>
             {initials}
           </span>
         ) : (
@@ -92,9 +80,7 @@ export class Avatar {
     );
   }
 
-  /**
-   * Generate a valid background color that is consistent and unique to this user
-   */
+  /** Generate a valid background color that is consistent and unique to this user */
   private generateFillColor() {
     const { userId, username, fullName, el } = this;
     const theme = getModeName(el);
@@ -103,16 +89,14 @@ export class Avatar {
     const hex = id && isValidHex(id) ? id : stringToHex(name);
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
-      return `var(--calcite-color-foreground-2)`;
+      return `var(--calcite-avatar-background-color, var(--calcite-color-foreground-2))`;
     }
     const hue = hexToHue(hex);
     const l = theme === "dark" ? 20 : 90;
-    return `hsl(${hue}, 60%, ${l}%)`;
+    return `var(--calcite-avatar-background-color, hsl(${hue}, 60%, ${l}%))`;
   }
 
-  /**
-   * Use fullName or username to generate initials
-   */
+  /** Use fullName or username to generate initials */
   private generateInitials(): string | boolean {
     const { fullName, username } = this;
     if (fullName) {
@@ -126,4 +110,14 @@ export class Avatar {
     }
     return false;
   }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    return this.determineContent();
+  }
+
+  // #endregion
 }

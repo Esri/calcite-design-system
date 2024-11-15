@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -9,12 +10,19 @@ import {
   openClose,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
+import { skipAnimations } from "../../tests/utils";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
+import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
-  describe("renders", () => {
-    renders("calcite-popover", { visible: false, display: "block" });
+  describe("renders when closed", () => {
+    renders("calcite-popover", { display: "block" });
+  });
+
+  describe("renders when open", () => {
     renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
       display: "block",
     });
@@ -33,11 +41,11 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
     await page.waitForChanges();
 
-    const style = await popover.getComputedStyle();
+    const style = await positionContainer.getComputedStyle();
 
     expect(style.zIndex).toBe("900");
   });
@@ -114,19 +122,19 @@ describe("calcite-popover", () => {
       html`<calcite-popover open placement="auto"></calcite-popover>
         <div id="ref">referenceElement</div>`,
     );
-    const element = await page.find("calcite-popover");
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
+    let computedStyle: CSSStyleDeclaration = await positionContainer.getComputedStyle();
 
     expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-popover", (el: HTMLCalcitePopoverElement): void => {
+    await page.$eval("calcite-popover", (el: Popover["el"]): void => {
       const referenceElement = document.getElementById("ref");
       el.referenceElement = referenceElement;
     });
     await page.waitForChanges();
 
-    computedStyle = await element.getComputedStyle();
+    computedStyle = await positionContainer.getComputedStyle();
 
     expect(computedStyle.transform).not.toBe("none");
   });
@@ -146,15 +154,15 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     element.setProperty("open", true);
 
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should accept referenceElement as string id", async () => {
@@ -184,7 +192,7 @@ describe("calcite-popover", () => {
 
     await page.setContent(`<calcite-popover placement="auto" open>content</calcite-popover>`);
 
-    await page.$eval("calcite-popover", (popover: HTMLCalcitePopoverElement) => {
+    await page.$eval("calcite-popover", (popover: Popover["el"]) => {
       const virtualElement = {
         getBoundingClientRect: () =>
           ({
@@ -242,15 +250,15 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     const ref = await page.find("#ref");
 
     await ref.click();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should honor Enter key interaction", async () => {
@@ -261,24 +269,26 @@ describe("calcite-popover", () => {
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
 
+    await skipAnimations(page);
+
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
   });
 
   it("should honor Space key interaction", async () => {
@@ -289,24 +299,26 @@ describe("calcite-popover", () => {
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
 
+    await skipAnimations(page);
+
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
 
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
   });
 
   it("should open popovers", async () => {
@@ -372,10 +384,10 @@ describe("calcite-popover", () => {
 
     expect(await scrollEl.getProperty("scrollTop")).toBe(0);
 
-    const popover = await page.find("calcite-popover");
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(true);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+    expect(await positionContainer.isVisible()).toBe(true);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("auto");
 
     await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
       scrollEl.scrollTo({ top: 300 });
@@ -383,8 +395,8 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+    expect(await positionContainer.isVisible()).toBe(false);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("none");
   });
 
   it("do not autoClose popovers when clicked outside", async () => {
@@ -499,10 +511,10 @@ describe("calcite-popover", () => {
 
     expect(await scrollEl.getProperty("scrollTop")).toBe(0);
 
-    const popover = await page.find("calcite-popover");
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    expect(await popover.isVisible()).toBe(true);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+    expect(await positionContainer.isVisible()).toBe(true);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("auto");
 
     await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
       scrollEl.scrollTo({ top: 300 });
@@ -510,8 +522,8 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+    expect(await positionContainer.isVisible()).toBe(false);
+    expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("none");
   });
 
   it("should not toggle popovers with triggerDisabled", async () => {
@@ -522,35 +534,26 @@ describe("calcite-popover", () => {
         <calcite-popover trigger-disabled reference-element="ref" open> Hello World </calcite-popover>
         <div id="ref">Button</div>`,
     );
+    await skipAnimations(page);
 
     const popover = await page.find("calcite-popover");
-
     expect(await popover.getProperty("open")).toBe(true);
 
     const ref = await page.find("#ref");
-
     await ref.click();
-
     await page.waitForChanges();
-
     expect(await popover.getProperty("open")).toBe(true);
+    await page.waitForChanges();
 
     const outsideNode = await page.find("#outsideNode");
-
     await outsideNode.click();
-
     await page.waitForChanges();
-
     expect(await popover.getProperty("open")).toBe(true);
 
     popover.setProperty("triggerDisabled", false);
-
     await page.waitForChanges();
-
     await ref.click();
-
     await page.waitForChanges();
-
     expect(await popover.getProperty("open")).toBe(false);
   });
 
@@ -574,6 +577,7 @@ describe("calcite-popover", () => {
     floatingUIOwner(
       `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
       "open",
+      { shadowSelector: `.${CSS.positionContainer}` },
     );
   });
 
@@ -629,17 +633,17 @@ describe("calcite-popover", () => {
       <div id="transfer"></div>
       <div id="ref">referenceElement</div>`,
     );
+    await skipAnimations(page);
 
-    await page.waitForChanges();
-
-    const popover = await page.find(`calcite-popover`);
+    const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
 
     await ref.click();
-    expect(await popover.isVisible()).toBe(false);
+    await page.waitForChanges();
+    expect(await positionContainer.isVisible()).toBe(false);
 
-    await page.$eval("calcite-popover", (popoverEl: HTMLCalcitePopoverElement) => {
+    await page.$eval("calcite-popover", (popoverEl: Popover["el"]) => {
       const transferEl = document.getElementById("transfer");
       transferEl.appendChild(popoverEl);
     });
@@ -647,7 +651,7 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
     await ref.click();
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
   });
 
   it("should close popovers with ESC key", async () => {
@@ -693,10 +697,83 @@ describe("calcite-popover", () => {
       });
     });
 
-    describe.skip("should focus close button", () => {
+    describe("should focus close button", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`,
       });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!">
+            Lorem Ipsum
+          </calcite-popover>
+        `,
+        {
+          "--calcite-popover-background-color": [
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${FloatingCSS.arrow}`,
+              targetProp: "fill",
+            },
+          ],
+          "--calcite-popover-border-color": [
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.header}`,
+              targetProp: "borderBlockEndColor",
+            },
+            {
+              shadowSelector: `.${FloatingCSS.arrowStroke}`,
+              targetProp: "stroke",
+            },
+          ],
+          "--calcite-popover-corner-radius": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          "--calcite-popover-text-color": [
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.headerContainer}`,
+              targetProp: "color",
+            },
+          ],
+        },
+      );
+    });
+    describe("closable", () => {
+      themed(
+        html`
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
+            Lorem Ipsum
+          </calcite-popover>
+        `,
+        {
+          "--calcite-popover-corner-radius": [
+            {
+              shadowSelector: `.${CSS.closeButtonContainer}`,
+              targetProp: "borderStartEndRadius",
+            },
+            {
+              shadowSelector: `.${CSS.closeButtonContainer}`,
+              targetProp: "borderEndEndRadius",
+            },
+          ],
+        },
+      );
     });
   });
 });

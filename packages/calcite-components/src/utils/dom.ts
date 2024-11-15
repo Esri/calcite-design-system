@@ -1,5 +1,5 @@
 import { tabbable } from "tabbable";
-import { IconName } from "../components/icon/interfaces";
+import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
@@ -49,9 +49,13 @@ export type Direction = "ltr" | "rtl";
 export function getModeName(el: HTMLElement): "light" | "dark" {
   const closestElWithMode = closestElementCrossShadowBoundary(
     el,
-    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`,
+    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}, .${CSS_UTILITY.autoMode}`,
   );
-  return closestElWithMode?.classList.contains("calcite-mode-dark") ? "dark" : "light";
+  return closestElWithMode?.classList.contains("calcite-mode-dark") ||
+    (closestElWithMode?.classList.contains("calcite-mode-auto") &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ? "dark"
+    : "light";
 }
 
 /**
@@ -65,21 +69,6 @@ export function getElementDir(el: HTMLElement): Direction {
   const selector = `[${prop}]`;
   const closest = closestElementCrossShadowBoundary(el, selector);
   return closest ? (closest.getAttribute(prop) as Direction) : "ltr";
-}
-
-/**
- * This helper returns the value of an attribute on an element.
- *
- * @param {HTMLElement} el An element.
- * @param {string} attribute An attribute name.
- * @param {any} fallbackValue A fallback value.
- * @returns {any} The value.
- * @deprecated
- */
-export function getElementProp(el: Element, attribute: string, fallbackValue: any): any {
-  const selector = `[${attribute}]`;
-  const closest = el.closest(selector);
-  return closest ? closest.getAttribute(attribute) : fallbackValue;
 }
 
 /**
@@ -148,14 +137,14 @@ export function getHost(root: Document | ShadowRoot): Element | null {
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  *
- * @param {Element} element An element.
+ * @param {Element} el An element.
  * @param root0
  * @param root0.selector
  * @param root0.id
  * @returns {Element} An element.
  */
 export function queryElementRoots<T extends Element = Element>(
-  element: Element,
+  el: Element,
   {
     selector,
     id,
@@ -164,56 +153,55 @@ export function queryElementRoots<T extends Element = Element>(
     id?: string;
   },
 ): T | null {
-  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
-  // Based on: https://stackoverflow.com/q/54520554/194216
-  function queryFrom<T extends Element = Element>(el: Element): T | null {
-    if (!el) {
-      return null;
-    }
+  if (!el) {
+    return null;
+  }
 
-    if ((el as Slottable).assignedSlot) {
-      el = (el as Slottable).assignedSlot;
-    }
+  if ((el as Slottable).assignedSlot) {
+    el = (el as Slottable).assignedSlot;
+  }
 
-    const rootNode = getRootNode(el);
+  const rootNode = getRootNode(el);
 
-    const found = id
-      ? "getElementById" in rootNode
-        ? /*
+  const found = id
+    ? "getElementById" in rootNode
+      ? /*
           Check to make sure 'getElementById' exists in cases where element is no longer connected to the DOM and getRootNode() returns the element.
           https://github.com/Esri/calcite-design-system/pull/4280
            */
-          (rootNode.getElementById(id) as Element as T)
-        : null
-      : selector
-        ? (rootNode.querySelector(selector) as T)
-        : null;
+        (rootNode.getElementById(id) as Element as T)
+      : null
+    : selector
+      ? rootNode.querySelector<T>(selector)
+      : null;
 
-    const host = getHost(rootNode);
-
-    return found ? found : host ? queryFrom(host) : null;
-  }
-
-  return queryFrom(element);
+  return found || queryElementRoots<T>(getHost(rootNode), { selector, id });
 }
 
 /**
  * This helper returns the closest element matching the selector by crossing he shadow boundary if necessary.
  *
+ * Based on https://stackoverflow.com/q/54520554/194216
+ *
  * @param {Element} element The starting element.
  * @param {string} selector The selector.
  * @returns {Element} The targeted element.
  */
+export function closestElementCrossShadowBoundary<TagName extends keyof HTMLElementTagNameMap>(
+  element: Element,
+  selector: TagName,
+): HTMLElementTagNameMap[TagName] | null;
+export function closestElementCrossShadowBoundary<T extends Element = Element>(
+  element: Element,
+  selector: string,
+): T | null;
 export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string,
 ): T | null {
-  // based on https://stackoverflow.com/q/54520554/194216
-  function closestFrom<T extends Element = Element>(el: Element): T | null {
-    return el ? el.closest(selector) || closestFrom(getHost(getRootNode(el))) : null;
-  }
-
-  return closestFrom(element);
+  return element
+    ? element.closest(selector) || closestElementCrossShadowBoundary(getHost(getRootNode(element)), selector)
+    : null;
 }
 
 /**
@@ -255,9 +243,7 @@ export function containsCrossShadowBoundary(element: Element, maybeDescendant: E
   return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
 }
 
-/**
- * An element which may contain a `setFocus` method.
- */
+/** An element which may contain a `setFocus` method. */
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
@@ -308,106 +294,6 @@ export function focusFirstTabbable(element: HTMLElement): void {
   getFirstTabbable(element)?.focus();
 }
 
-interface GetSlottedOptions {
-  all?: boolean;
-  direct?: boolean;
-  matches?: string;
-  selector?: string;
-}
-
-const defaultSlotSelector = ":not([slot])";
-
-/**
- * Gets slotted elements for a named slot.
- *
- * @param {Element} element An element.
- * @param {string} slotName The slot name.
- * @param {GetSlottedOptions & { all: true }} options The options.
- * @returns {Element | Element[] | null} returns element(s) or null.
- * @deprecated Use `onSlotchange` event instead.
- *
- * ```
- * <slot onSlotchange={(event) => this.myElements = slotChangeGetAssignedElements(event)} />}
- * ```
- */
-export function getSlotted<T extends Element = Element>(
-  element: Element,
-  slotName: string | string[] | (GetSlottedOptions & { all: true }),
-  options: GetSlottedOptions & { all: true },
-): T[];
-export function getSlotted<T extends Element = Element>(
-  element: Element,
-  slotName?: string | string[] | GetSlottedOptions,
-  options?: GetSlottedOptions,
-): T | null;
-export function getSlotted<T extends Element = Element>(
-  element: Element,
-  slotName?: string | string[] | GetSlottedOptions,
-  options?: GetSlottedOptions,
-): (T | null) | T[] {
-  if (slotName && !Array.isArray(slotName) && typeof slotName !== "string") {
-    options = slotName;
-    slotName = null;
-  }
-
-  const slotSelector = slotName
-    ? Array.isArray(slotName)
-      ? slotName.map((name) => `[slot="${name}"]`).join(",")
-      : `[slot="${slotName}"]`
-    : defaultSlotSelector;
-
-  if (options?.all) {
-    return queryMultiple<T>(element, slotSelector, options);
-  }
-
-  return querySingle<T>(element, slotSelector, options);
-}
-
-function getDirectChildren<T extends Element = Element>(el: Element, selector: string): T[] {
-  return el ? (Array.from(el.children || []) as T[]).filter((child) => child?.matches(selector)) : [];
-}
-
-function queryMultiple<T extends Element = Element>(
-  element: Element,
-  slotSelector: string,
-  options?: GetSlottedOptions,
-): T[] {
-  let matches =
-    slotSelector === defaultSlotSelector
-      ? getDirectChildren<T>(element, defaultSlotSelector)
-      : Array.from(element.querySelectorAll<T>(slotSelector));
-
-  matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
-
-  matches = options?.matches ? matches.filter((el) => el?.matches(options.matches)) : matches;
-
-  const selector = options?.selector;
-  return selector
-    ? matches
-        .map((item) => Array.from(item.querySelectorAll<T>(selector)))
-        .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], [])
-        .filter((match) => !!match)
-    : matches;
-}
-
-function querySingle<T extends Element = Element>(
-  element: Element,
-  slotSelector: string,
-  options?: GetSlottedOptions,
-): T | null {
-  let match =
-    slotSelector === defaultSlotSelector
-      ? getDirectChildren<T>(element, defaultSlotSelector)[0] || null
-      : element.querySelector<T>(slotSelector);
-
-  match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
-
-  match = options?.matches ? (match?.matches(options.matches) ? match : null) : match;
-
-  const selector = options?.selector;
-  return selector ? match?.querySelector<T>(selector) : match;
-}
-
 /**
  * Filters direct children.
  *
@@ -439,13 +325,13 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  * @returns {string|undefined} The resulting icon value.
  */
 export function setRequestedIcon(
-  iconObject: Record<string, IconName>,
-  iconValue: IconName | boolean | "",
+  iconObject: Record<string, IconNameOrString>,
+  iconValue: IconNameOrString | boolean | "",
   matchedValue: string,
-): IconName | undefined {
+): IconNameOrString | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
-  } else if (iconValue === "") {
+  } else if (iconValue === "" || iconValue === true) {
     return iconObject[matchedValue];
   }
 }
@@ -508,6 +394,21 @@ export function slotChangeGetTextContent(event: Event): string {
     .map((node) => node.textContent)
     .join("")
     .trim();
+}
+
+/**
+ * This helper checks if an element has visible content.
+ *
+ * @param {HTMLElement} element The element to check.
+ * @returns {boolean} True if the element has visible content, otherwise false.
+ */
+export function hasVisibleContent(element: HTMLElement): boolean {
+  for (const node of element.childNodes) {
+    if ((node.nodeType === Node.TEXT_NODE && node.textContent?.trim() !== "") || node.nodeType === Node.ELEMENT_NODE) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -667,7 +568,6 @@ export const focusElementInGroup = <T extends Element = Element>(
  *
  * @param a the reference element to compare
  * @param b the element to compare against
- *
  * @returns true when a is before b in the DOM
  */
 export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
@@ -737,7 +637,7 @@ export async function whenTransitionOrAnimationDone(
   const allProps = type === "transition" ? style.transitionProperty : style.animationName;
 
   const allDurationsArray = allDurations.split(",");
-  const allPropsArray = allProps.split(",");
+  const allPropsArray = allProps.split(",").map((prop) => prop.trim());
   const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
   const duration =
     allDurationsArray[propIndex] ??
@@ -745,13 +645,17 @@ export async function whenTransitionOrAnimationDone(
             so we fall back to it if there's no matching prop duration */
     allDurationsArray[0];
 
-  function startEndImmediately(): void {
-    onStart?.();
-    onEnd?.();
+  function triggerFallbackStartEnd(): void {
+    // offset callbacks by a frame to simulate event counterparts
+    requestAnimationFrame(() => {
+      onStart?.();
+
+      requestAnimationFrame(() => onEnd?.());
+    });
   }
 
   if (duration === "0s") {
-    startEndImmediately();
+    triggerFallbackStartEnd();
     return;
   }
 
@@ -765,7 +669,7 @@ export async function whenTransitionOrAnimationDone(
         targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
         targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
         targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-        startEndImmediately();
+        triggerFallbackStartEnd();
         resolve();
       },
       parseFloat(duration) * 1000,

@@ -1,64 +1,155 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
-import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { HandleMessages } from "./assets/handle/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import T9nStrings from "./assets/t9n/handle.t9n.en.json";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
+import { styles } from "./handle.scss";
 
-@Component({
-  tag: "calcite-handle",
-  styleUrl: "handle.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class Handle implements LoadableComponent, T9nComponent, InteractiveComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-handle": Handle;
+  }
+}
+
+export class Handle extends LitElement implements LoadableComponent, InteractiveComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private handleButton = createRef<HTMLSpanElement>();
+
+  // #endregion
+
+  // #region Public Properties
 
   /**
-   * When `true`, the component is selected.
+   * When `true`, disables unselecting the component when blurred.
+   *
+   * @private
    */
-  @Prop({ mutable: true, reflect: true }) selected = false;
+  @property() blurUnselectDisabled = false;
 
-  @Watch("messages")
-  @Watch("label")
-  @Watch("selected")
-  @Watch("setPosition")
-  @Watch("setSize")
-  handleAriaTextChange(): void {
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** Value for the button title attribute. */
+  @property({ reflect: true }) dragHandle: string;
+
+  /**
+   *
+   * @private
+   */
+  @property() label: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   * @readonly
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  /** When `true`, the component is selected. */
+  @property({ reflect: true }) selected = false;
+
+  /**
+   *
+   * @private
+   */
+  @property() setPosition: number;
+
+  /**
+   *
+   * @private
+   */
+  @property() setSize: number;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    this.handleButton.value?.focus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires whenever the component is selected or unselected. */
+  calciteHandleChange = createEvent({ cancelable: false });
+
+  /** Fires when the handle is selected and the up or down arrow key is pressed. */
+  calciteHandleNudge = createEvent<HandleNudge>({ cancelable: false });
+
+  /**
+   * Fires when the assistive text has changed.
+   *
+   * @private
+   */
+  calciteInternalAssistiveTextChange = createEvent<HandleChange>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      changes.has("messages") ||
+      changes.has("label") ||
+      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
+      changes.has("setPosition") ||
+      changes.has("setSize")
+    ) {
+      this.handleAriaTextChange();
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleAriaTextChange(): void {
     const message = this.getAriaText("live");
 
     if (message) {
@@ -67,157 +158,6 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
       });
     }
   }
-
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * Value for the button title attribute.
-   */
-  @Prop({ reflect: true }) dragHandle: string;
-
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @internal
-   * @readonly
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: HandleMessages;
-
-  /**
-   *
-   *
-   * @internal
-   */
-  @Prop() setPosition: number;
-
-  /**
-   *
-   *
-   * @internal
-   */
-  @Prop() setSize: number;
-
-  /**
-   *
-   *
-   * @internal
-   */
-  @Prop() label: string;
-
-  /**
-   * When `true`, disables unselecting the component when blurred.
-   *
-   * @internal
-   */
-  @Prop() blurUnselectDisabled = false;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<HandleMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectInteractive(this);
-    connectMessages(this);
-    connectLocalized(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
-    disconnectMessages(this);
-    disconnectLocalized(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteHandleElement;
-
-  handleButton: HTMLElement;
-
-  @State() effectiveLocale: string;
-
-  @State() defaultMessages: HandleMessages;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires whenever the component is selected or unselected.
-   *
-   */
-  @Event({ cancelable: false }) calciteHandleChange: EventEmitter<void>;
-
-  /**
-   * Fires when the handle is selected and the up or down arrow key is pressed.
-   */
-  @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
-
-  /**
-   * Fires when the assistive text has changed.
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAssistiveTextChange: EventEmitter<HandleChange>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.handleButton?.focus();
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   private getTooltip(): string {
     const { label, messages } = this;
@@ -233,7 +173,7 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
     return messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label);
   }
 
-  getAriaText(type: "label" | "live"): string {
+  private getAriaText(type: "label" | "live"): string {
     const { setPosition, setSize, label, messages, selected } = this;
 
     if (!messages || !label || typeof setSize !== "number" || typeof setPosition !== "number") {
@@ -254,7 +194,7 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
     return replaceLabel.replace(SUBSTITUTIONS.total, setSize.toString());
   }
 
-  handleKeyDown = (event: KeyboardEvent): void => {
+  private handleKeyDown(event: KeyboardEvent): void {
     if (this.disabled) {
       return;
     }
@@ -280,9 +220,9 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
         this.calciteHandleNudge.emit({ direction: "down" });
         break;
     }
-  };
+  }
 
-  handleBlur = (): void => {
+  private handleBlur(): void {
     if (this.blurUnselectDisabled || this.disabled) {
       return;
     }
@@ -291,34 +231,34 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
       this.selected = false;
       this.calciteHandleChange.emit();
     }
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     return (
-      // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
-      <span
-        aria-checked={this.disabled ? null : toAriaBoolean(this.selected)}
-        aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
-        aria-label={this.disabled ? null : this.getAriaText("label")}
-        class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
-        onBlur={this.handleBlur}
-        onKeyDown={this.handleKeyDown}
-        ref={(el): void => {
-          this.handleButton = el;
-        }}
-        // role of radio is being applied to allow space key to select in screen readers
-        role="radio"
-        tabIndex={this.disabled ? null : 0}
-        title={this.getTooltip()}
-      >
-        <calcite-icon icon={ICONS.drag} scale="s" />
-      </span>
+      <InteractiveContainer disabled={this.disabled}>
+        <span
+          // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
+          ariaChecked={this.disabled ? null : this.selected}
+          ariaDisabled={this.disabled ? this.disabled : null}
+          ariaLabel={this.disabled ? null : this.getAriaText("label")}
+          class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
+          onBlur={this.handleBlur}
+          onKeyDown={this.handleKeyDown}
+          ref={this.handleButton}
+          // role of radio is being applied to allow space key to select in screen readers
+          role="radio"
+          tabIndex={this.disabled ? null : 0}
+          title={this.getTooltip()}
+        >
+          <calcite-icon icon={ICONS.drag} scale="s" />
+        </span>
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

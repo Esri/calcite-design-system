@@ -1,8 +1,6 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import Sortable from "sortablejs";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -18,71 +16,25 @@ import {
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 import { CSS } from "./resources";
+import { styles } from "./sortable-list.scss";
 
-/**
- * @slot - A slot for adding sortable items.
- */
-@Component({
-  tag: "calcite-sortable-list",
-  styleUrl: "sortable-list.scss",
-  shadow: true,
-})
-export class SortableList implements InteractiveComponent, SortableComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-sortable-list": SortableList;
+  }
+}
 
-  /**
-   * When provided, the method will be called to determine whether the element can  move from the list.
-   */
-  @Prop() canPull: (detail: DragDetail) => boolean;
+/** @slot - A slot for adding sortable items. */
+export class SortableList extends LitElement implements InteractiveComponent, SortableComponent {
+  // #region Static Members
 
-  /**
-   * When provided, the method will be called to determine whether the element can be added from another list.
-   */
-  @Prop() canPut: (detail: DragDetail) => boolean;
+  static override styles = styles;
 
-  /**
-   * Specifies which items inside the element should be draggable.
-   */
-  @Prop({ reflect: true }) dragSelector?: string;
+  // #endregion
 
-  /**
-   * The list's group identifier.
-   *
-   * To drag elements from one list into another, both lists must have the same group value.
-   */
-  @Prop({ reflect: true }) group?: string;
+  // #region Private Properties
 
-  /**
-   * The selector for the handle elements.
-   */
-  @Prop({ reflect: true }) handleSelector = "calcite-handle";
-
-  /**
-   * Indicates the horizontal or vertical orientation of the component.
-   */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
-
-  /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
-   */
-  @Prop({ reflect: true }) loading = false;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteSortableListElement;
+  dragEnabled = true;
 
   items: Element[] = [];
 
@@ -92,51 +44,76 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   sortable: Sortable;
 
-  dragEnabled = true;
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Properties
 
-  connectedCallback(): void {
-    this.setUpSorting();
-    this.beginObserving();
-    connectInteractive(this);
+  /** When provided, the method will be called to determine whether the element can  move from the list. */
+  @property() canPull: (detail: DragDetail) => boolean;
+
+  /** When provided, the method will be called to determine whether the element can be added from another list. */
+  @property() canPut: (detail: DragDetail) => boolean;
+
+  /** When true, disabled prevents interaction. This state shows items with lower opacity/grayed. */
+  @property({ reflect: true }) disabled = false;
+
+  /** Specifies which items inside the element should be draggable. */
+  @property({ reflect: true }) dragSelector?: string;
+
+  /**
+   * The list's group identifier.
+   *
+   * To drag elements from one list into another, both lists must have the same group value.
+   */
+  @property({ reflect: true }) group?: string;
+
+  /** The selector for the handle elements. */
+  @property({ reflect: true }) handleSelector = "calcite-handle";
+
+  /** Indicates the horizontal or vertical orientation of the component. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
+
+  /** When true, content is waiting to be loaded. This state shows a busy indicator. */
+  @property({ reflect: true }) loading = false;
+
+  // #endregion
+
+  // #region Events
+
+  /** Emitted when the order of the list has changed. */
+  calciteListOrderChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteHandleNudge", this.calciteHandleNudgeNextHandler);
   }
 
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
+  override connectedCallback(): void {
+    this.setUpSorting();
+    this.beginObserving();
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  override disconnectedCallback(): void {
     disconnectSortableComponent(this);
     this.endObserving();
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  // #region Private Methods
 
-  /**
-   * Emitted when the order of the list has changed.
-   */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<void>;
-
-  @Listen("calciteHandleNudge")
-  calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
+  private calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
     this.handleNudgeEvent(event);
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   onGlobalDragStart(): void {
     this.endObserving();
@@ -155,7 +132,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
     this.calciteListOrderChange.emit();
   }
 
-  handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
+  private handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { direction } = event.detail;
 
     const handle = event
@@ -205,26 +182,24 @@ export class SortableList implements InteractiveComponent, SortableComponent {
     }
   }
 
-  setUpSorting(): void {
+  private setUpSorting(): void {
     this.items = Array.from(this.el.children);
     connectSortableComponent(this);
   }
 
-  beginObserving(): void {
+  private beginObserving(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  endObserving(): void {
+  private endObserving(): void {
     this.mutationObserver?.disconnect();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const { disabled, layout } = this;
     const horizontal = layout === "horizontal" || false;
 
@@ -242,4 +217,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

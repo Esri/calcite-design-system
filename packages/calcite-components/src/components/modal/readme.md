@@ -9,6 +9,8 @@ For comprehensive guidance on using and implementing `calcite-modal`, refer to t
 </style>
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `calcite-dialog` component instead.
+
 ## Properties
 
 | Property               | Attribute                | Description                                                                                                                | Type                                                      | Default     |

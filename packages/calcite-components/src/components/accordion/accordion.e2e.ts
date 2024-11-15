@@ -1,7 +1,9 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS } from "../accordion-item/resources";
+import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
+import { CSS } from "./resources";
 
 describe("calcite-accordion", () => {
   const accordionContent = html`
@@ -87,7 +89,7 @@ describe("calcite-accordion", () => {
   it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion icon-position="start", icon-type="plus-minus", selection-mode="single-persist" scale="l">
+    <calcite-accordion icon-position="start" icon-type="plus-minus" selection-mode="single-persist" scale="l">
     ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
     const accordionItems = await page.findAll("calcite-accordion-items");
@@ -125,9 +127,9 @@ describe("calcite-accordion", () => {
     <calcite-accordion-item heading="Accordion Title 3" icon-start="car" id="3">Accordion Item Content
     </calcite-accordion-item>
     </calcite-accordion>`);
-    const icon1 = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.iconStart}`);
-    const icon2 = await page.find(`calcite-accordion-item[id='2'] >>> .${CSS.iconStart}`);
-    const icon3 = await page.find(`calcite-accordion-item[id='3'] >>> .${CSS.iconStart}`);
+    const icon1 = await page.find(`calcite-accordion-item[id='1'] >>> .${ACCORDION_ITEM_CSS.iconStart}`);
+    const icon2 = await page.find(`calcite-accordion-item[id='2'] >>> .${ACCORDION_ITEM_CSS.iconStart}`);
+    const icon3 = await page.find(`calcite-accordion-item[id='3'] >>> .${ACCORDION_ITEM_CSS.iconStart}`);
     expect(icon1).not.toBe(null);
     expect(icon2).toBe(null);
     expect(icon3).not.toBe(null);
@@ -142,7 +144,7 @@ describe("calcite-accordion", () => {
     const element = await page.find("calcite-accordion");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
 
     expect(item1).not.toHaveAttribute("expanded");
@@ -166,7 +168,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("selection-mode", "multiple");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item1.click();
     await item3.click();
@@ -191,7 +193,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("selection-mode", "single");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item1.click();
     await item3.click();
@@ -240,7 +242,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("selection-mode", "single-persist");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item2.click();
 
@@ -267,7 +269,7 @@ describe("calcite-accordion", () => {
     await page.waitForChanges();
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item1.click();
     await item3.click();
@@ -280,5 +282,18 @@ describe("calcite-accordion", () => {
     expect(await item1Content.isVisible()).toBe(true);
     expect(await item2Content.isVisible()).toBe(true);
     expect(await item3Content.isVisible()).toBe(true);
+  });
+
+  describe("theme", () => {
+    themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, {
+      "--calcite-accordion-background-color": {
+        shadowSelector: `.${CSS.accordion}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-accordion-border-color": {
+        shadowSelector: `.${CSS.accordion}`,
+        targetProp: "borderColor",
+      },
+    });
   });
 });

@@ -1,6 +1,6 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { config } from "../../../stencil.config";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect } from "vitest";
 import type {
   ComponentTag,
   TagOrHTML,
@@ -8,10 +8,12 @@ import type {
   TagAndPage,
   TagOrHTMLWithBeforeContent,
   BeforeContent,
+  WithBeforeContent,
+  ComponentTestContent,
 } from "./interfaces";
 expect.extend(toHaveNoViolations);
 
-export const HYDRATED_ATTR = config.hydratedFlag?.name;
+export const HYDRATED_ATTR = "calcite-hydrated";
 
 export function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
@@ -35,7 +37,6 @@ export async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2
   const componentTag = getTag(componentTagOrHTML);
   const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
-    failOnConsoleError: true,
   });
   await page.waitForChanges();
 
@@ -55,6 +56,18 @@ export async function getTagAndPage(componentTestSetup: ComponentTestSetup): Pro
   }
 
   return componentTestSetup;
+}
+
+export async function noopBeforeContent(): Promise<void> {
+  /* noop */
+}
+
+export function getBeforeContent<TestContent = ComponentTestContent>(
+  componentTestSetup: WithBeforeContent<TestContent>,
+): BeforeContent {
+  return typeof componentTestSetup === "string"
+    ? noopBeforeContent
+    : componentTestSetup?.beforeContent || noopBeforeContent;
 }
 
 export function getTagOrHTMLWithBeforeContent(componentTestSetup: TagOrHTML | TagOrHTMLWithBeforeContent): {

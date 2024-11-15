@@ -1,18 +1,14 @@
+import { createRef } from "lit-html/directives/ref.js";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
   Fragment,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+  method,
+  state,
+  JsxNode,
+} from "@arcgis/lumina";
 import { FlipContext } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
@@ -22,170 +18,160 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS_UTILITY } from "../../utils/resources";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
-import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import { useT9n } from "../../controllers/useT9n";
+import type { Action } from "../action/action";
 import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
-import { MenuItemMessages } from "./assets/menu-item/t9n";
+import T9nStrings from "./assets/t9n/menu-item.t9n.en.json";
+import { styles } from "./menu-item.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-menu-item": CalciteMenuItem;
+  }
+}
 
 type Layout = "horizontal" | "vertical";
 
-/**
- * @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu.
- */
-@Component({
-  tag: "calcite-menu-item",
-  styleUrl: "menu-item.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+/** @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu. */
+export class CalciteMenuItem extends LitElement implements LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private anchorEl = createRef<HTMLAnchorElement>();
+
+  private dropdownActionEl = createRef<Action["el"]>();
+
+  private isFocused: boolean;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasSubmenu = false;
+
+  @state() submenuItems: CalciteMenuItem["el"][];
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, the component is highlighted. */
-  @Prop({ reflect: true }) active: boolean;
+  @property({ reflect: true }) active: boolean;
 
   /** When `true`, the component displays a breadcrumb trail for use as a navigational aid. */
-  @Prop({ reflect: true }) breadcrumb: boolean;
+  @property({ reflect: true }) breadcrumb: boolean;
 
-  /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
-  @Prop() href: string;
+  /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
+  @property() href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @property({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /** @private */
+  @property() isTopLevelItem = false;
 
   /**
-   * @internal
+   * Accessible name for the component.
+   *
+   * @required
    */
-  @Prop() isTopLevelItem = false;
+  @property() label: string;
 
-  /** Accessible name for the component.*/
-  @Prop() label!: string;
+  /** @private */
+  @property({ reflect: true }) layout: Layout;
 
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true }) layout: Layout;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<MenuItemMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only.
    *
-   * @internal
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: MenuItemMessages;
+  messages = useT9n<typeof T9nStrings>();
 
-  /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.*/
-  @Prop({ mutable: true, reflect: true }) open = false;
+  /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
+  @property({ reflect: true }) open = false;
 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
    * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @Prop({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
    * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @Prop({ reflect: true }) target: string;
+  @property({ reflect: true }) target: string;
 
-  /** Specifies the text to display.*/
-  @Prop() text: string;
+  /** Specifies the text to display. */
+  @property() text: string;
 
-  /**
-   * @internal
-   */
-  @Prop() topLevelMenuLayout: Layout;
+  /** @private */
+  @property() topLevelMenuLayout: Layout;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteMenuItemElement;
-
-  @State() defaultMessages: MenuItemMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() hasSubmenu = false;
-
-  @State() submenuItems: HTMLCalciteMenuItemElement[];
-
-  anchorEl: HTMLAnchorElement;
-
-  dropdownActionEl: HTMLCalciteActionElement;
-
-  isFocused: boolean;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.anchorEl.focus();
+    this.anchorEl.value.focus();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-  /** @internal */
-  @Event({ cancelable: true }) calciteInternalMenuItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
+  // #endregion
 
-  /** Emits when the component is selected.*/
-  @Event() calciteMenuItemSelect: EventEmitter<void>;
+  // #region Events
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-  @Listen("click", { target: "window" })
-  handleClickOut(event: Event): void {
+  /** @private */
+  calciteInternalMenuItemKeyEvent = createEvent<MenuItemCustomEvent>();
+
+  /** Emits when the component is selected. */
+  calciteMenuItemSelect = createEvent();
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listenOn(window, "click", this.handleClickOut);
+    this.listen("focusout", this.handleFocusOut);
+    this.listen("blur", this.blurHandler);
+    this.listen("focus", this.focusHandler);
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleClickOut(event: Event): void {
     if (
       this.topLevelMenuLayout !== "vertical" &&
       this.hasSubmenu &&
@@ -196,8 +182,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     }
   }
 
-  @Listen("focusout")
-  handleFocusOut(event: FocusEvent): void {
+  private handleFocusOut(event: FocusEvent): void {
     if (
       this.topLevelMenuLayout !== "vertical" &&
       !this.el.contains(event.relatedTarget as Element)
@@ -206,70 +191,42 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
   private blurHandler(): void {
     this.isFocused = false;
   }
 
-  private clickHandler = (event: MouseEvent): void => {
-    if ((this.href && event.target === this.dropdownActionEl) || (!this.href && this.hasSubmenu)) {
+  private clickHandler(event: MouseEvent): void {
+    if (
+      (this.href && event.target === this.dropdownActionEl.value) ||
+      (!this.href && this.hasSubmenu)
+    ) {
       this.open = !this.open;
     }
     this.selectMenuItem(event);
-  };
+  }
 
   private focusHandler(event: FocusEvent): void {
-    const target = event.target as HTMLCalciteMenuItemElement;
+    const target = event.target as CalciteMenuItem["el"];
     this.isFocused = true;
     if (target.open && !this.open) {
       target.open = false;
     }
   }
 
-  private handleMenuItemSlotChange = (event: Event): void => {
-    this.submenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+  private handleMenuItemSlotChange(event: Event): void {
+    this.submenuItems = slotChangeGetAssignedElements<CalciteMenuItem["el"]>(event);
     this.submenuItems.forEach((item) => {
       if (!item.topLevelMenuLayout) {
         item.topLevelMenuLayout = this.topLevelMenuLayout;
       }
     });
     this.hasSubmenu = this.submenuItems.length > 0;
-  };
+  }
 
-  private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
+  private async keyDownHandler(event: KeyboardEvent): Promise<void> {
     const { hasSubmenu, href, layout, open, submenuItems } = this;
     const key = event.key;
-    const targetIsDropdown = event.target === this.dropdownActionEl;
+    const targetIsDropdown = event.target === this.dropdownActionEl.value;
 
     if (event.defaultPrevented) {
       return;
@@ -322,21 +279,19 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         isSubmenuOpen: open && hasSubmenu,
       });
     }
-  };
+  }
 
   private selectMenuItem(event: MouseEvent | KeyboardEvent): void {
-    if (event.target !== this.dropdownActionEl) {
+    if (event.target !== this.dropdownActionEl.value) {
       this.calciteMenuItemSelect.emit();
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  renderIconStart(): VNode {
+  // #region Rendering
+
+  private renderIconStart(): JsxNode {
     return (
       <calcite-icon
         class={`${CSS.icon} ${CSS.iconStart}`}
@@ -348,7 +303,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
-  renderIconEnd(): VNode {
+  private renderIconEnd(): JsxNode {
     return (
       <calcite-icon
         class={`${CSS.icon} ${CSS.iconEnd}`}
@@ -360,7 +315,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
-  renderBreadcrumbIcon(dir: Direction): VNode {
+  private renderBreadcrumbIcon(dir: Direction): JsxNode {
     return (
       <calcite-icon
         class={`${CSS.icon} ${CSS.iconBreadcrumb}`}
@@ -371,7 +326,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
-  renderDropdownIcon(dir: Direction): VNode {
+  private renderDropdownIcon(dir: Direction): JsxNode {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-icon
@@ -389,7 +344,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
-  renderDropdownAction(dir: Direction): VNode {
+  private renderDropdownAction(dir: Direction): JsxNode {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-action
@@ -404,13 +359,13 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         key={CSS.dropdownAction}
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
-        ref={(el) => (this.dropdownActionEl = el)}
+        ref={this.dropdownActionEl}
         text={this.messages.open}
       />
     );
   }
 
-  renderSubmenuItems(dir: Direction): VNode {
+  private renderSubmenuItems(dir: Direction): JsxNode {
     return (
       <calcite-menu
         class={{
@@ -424,12 +379,12 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         layout="vertical"
         role="menu"
       >
-        <slot name="submenu-item" onSlotchange={this.handleMenuItemSlotChange} />
+        <slot name="submenu-item" onSlotChange={this.handleMenuItemSlotChange} />
       </calcite-menu>
     );
   }
 
-  renderHrefIcon(dir: Direction): VNode {
+  private renderHrefIcon(dir: Direction): JsxNode {
     return (
       <calcite-icon
         class={CSS.hoverHrefIcon}
@@ -440,10 +395,10 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
-  renderItemContent(dir: Direction): VNode {
+  private renderItemContent(dir: Direction): JsxNode {
     const hasHref = this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem);
     return (
-      <Fragment>
+      <>
         {this.iconStart && this.renderIconStart()}
         <div class={CSS.textContainer}>
           <span>{this.text}</span>
@@ -452,44 +407,44 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         {this.iconEnd && this.renderIconEnd()}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
-      </Fragment>
+      </>
     );
   }
 
-  render() {
+  override render(): JsxNode {
     const dir = getElementDir(this.el);
     return (
-      <Host onBlur={this.blurHandler} onFocus={this.focusHandler}>
-        <li
-          class={{
-            [CSS.container]: true,
-            [CSS.isParentVertical]: this.topLevelMenuLayout === "vertical",
-          }}
-          role="none"
-        >
-          <div class={CSS.itemContent}>
-            <a
-              aria-current={this.isFocused ? "page" : false}
-              aria-expanded={this.open}
-              aria-haspopup={this.hasSubmenu}
-              aria-label={this.label}
-              class={{ [CSS.layoutVertical]: this.layout === "vertical", [CSS.content]: true }}
-              href={this.href}
-              onClick={this.clickHandler}
-              onKeyDown={this.keyDownHandler}
-              ref={(el) => (this.anchorEl = el)}
-              rel={this.rel}
-              role="menuitem"
-              tabIndex={this.isTopLevelItem ? 0 : -1}
-              target={this.target}
-            >
-              {this.renderItemContent(dir)}
-            </a>
-            {this.href && this.hasSubmenu ? this.renderDropdownAction(dir) : null}
-          </div>
-          {this.renderSubmenuItems(dir)}
-        </li>
-      </Host>
+      <li
+        class={{
+          [CSS.container]: true,
+          [CSS.isParentVertical]: this.topLevelMenuLayout === "vertical",
+        }}
+        role="none"
+      >
+        <div class={CSS.itemContent}>
+          <a
+            ariaCurrent={this.isFocused ? "page" : false}
+            ariaExpanded={this.open}
+            ariaHasPopup={this.hasSubmenu}
+            ariaLabel={this.label}
+            class={{ [CSS.layoutVertical]: this.layout === "vertical", [CSS.content]: true }}
+            href={this.href}
+            onClick={this.clickHandler}
+            onKeyDown={this.keyDownHandler}
+            ref={this.anchorEl}
+            rel={this.rel}
+            role="menuitem"
+            tabIndex={this.isTopLevelItem ? 0 : -1}
+            target={this.target}
+          >
+            {this.renderItemContent(dir)}
+          </a>
+          {this.href && this.hasSubmenu ? this.renderDropdownAction(dir) : null}
+        </div>
+        {this.renderSubmenuItems(dir)}
+      </li>
     );
   }
+
+  // #endregion
 }

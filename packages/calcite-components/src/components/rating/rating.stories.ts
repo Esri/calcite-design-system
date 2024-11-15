@@ -1,10 +1,24 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Rating } from "./rating";
-const { scale } = ATTRIBUTES;
 
-type RatingStoryArgs = Pick<Rating, "scale" | "value" | "showChip" | "average" | "count" | "readOnly" | "disabled">;
+const { scale, status } = ATTRIBUTES;
+
+type RatingStoryArgs = Pick<
+  Rating,
+  | "scale"
+  | "value"
+  | "showChip"
+  | "average"
+  | "count"
+  | "readOnly"
+  | "disabled"
+  | "status"
+  | "validationMessage"
+  | "validationIcon"
+>;
 
 export default {
   title: "Components/Controls/Rating",
@@ -16,10 +30,21 @@ export default {
     count: 10,
     readOnly: false,
     disabled: false,
+    status: status.defaultValue,
+    validationMessage: "",
+    validationIcon: "",
   },
   argTypes: {
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
       control: { type: "select" },
     },
   },
@@ -34,6 +59,9 @@ export const simple = (args: RatingStoryArgs): string => html`
     count="${args.count}"
     ${boolean("read-only", args.readOnly)}
     ${boolean("disabled", args.disabled)}
+    status="${args.status}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
   ></calcite-rating>
 `;
 
@@ -65,3 +93,35 @@ export const Focus_TestOnly = (): string =>
 Focus_TestOnly.parameters = {
   chromatic: { delay: 500 },
 };
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 40px;
+    }
+  </style>
+  <div class="container">
+    <calcite-rating
+      scale="s"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-rating>
+    <calcite-rating
+      scale="m"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-rating>
+    <calcite-rating
+      scale="l"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-rating>
+  </div>
+`;

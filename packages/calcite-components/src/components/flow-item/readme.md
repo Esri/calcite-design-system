@@ -63,22 +63,22 @@ promise.
 
 ## Slots
 
-| Slot                     | Description                                                                                                  |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------ |
-|                          | A slot for adding custom content.                                                                            |
-| `"action-bar"`           | A slot for adding a `calcite-action-bar` to the component.                                                   |
-| `"alerts"`               | A slot for adding `calcite-alert`s to the component.                                                         |
-| `"content-bottom"`       | A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)          |
-| `"content-top"`          | A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).     |
-| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action.                             |
-| `"footer"`               | A slot for adding custom content to the component's footer.                                                  |
-| `"footer-actions"`       | [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer. |
-| `"footer-end"`           | A slot for adding a trailing footer custom content.                                                          |
-| `"footer-start"`         | A slot for adding a leading footer custom content.                                                           |
-| `"header-actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component's header.                    |
-| `"header-actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component's header.                  |
-| `"header-content"`       | A slot for adding custom content to the component's header.                                                  |
-| `"header-menu-actions"`  | A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.                       |
+| Slot                     | Description                                                                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+|                          | A slot for adding custom content.                                                                                                 |
+| `"action-bar"`           | A slot for adding a `calcite-action-bar` to the component.                                                                        |
+| `"alerts"`               | A slot for adding `calcite-alert`s to the component.                                                                              |
+| `"content-bottom"`       | A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)                               |
+| `"content-top"`          | A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).                          |
+| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action.                                                  |
+| `"footer"`               | A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots. |
+| `"footer-actions"`       | [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.                      |
+| `"footer-end"`           | A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.                                  |
+| `"footer-start"`         | A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.                                   |
+| `"header-actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component's header.                                         |
+| `"header-actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component's header.                                       |
+| `"header-content"`       | A slot for adding custom content to the component's header.                                                                       |
+| `"header-menu-actions"`  | A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.                                            |
 
 ## CSS Custom Properties
 

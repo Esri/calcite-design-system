@@ -1,7 +1,7 @@
-@import "~@esri/calcite-colors/dist/colors";
-@import "~@esri/calcite-base/dist/_index";
-@import "~@esri/calcite-design-tokens/dist/scss/index";
-@import "~@esri/calcite-design-tokens/dist/scss/core";
+@import "@esri/calcite-colors/dist/colors";
+@import "@esri/calcite-base/dist/index";
+@import "@esri/calcite-design-tokens/dist/scss/index";
+@import "@esri/calcite-design-tokens/dist/scss/core";
 
 /* mixins & extensions */
 @import "animation";
@@ -90,7 +90,7 @@
 }
 
 // mixin to provide default invisibility and disabling of pointer events for components.
-@mixin calciteHydratedHidden() {
+@mixin calcite-hydrated-hidden() {
   :host([calcite-hydrated-hidden]) {
     visibility: hidden !important; // 'important' is being used here to temporarily handle precendence of visibility set with calcite-hydrated. Do not follow this pattern. See #991.
     pointer-events: none;
@@ -107,7 +107,7 @@
   }
 }
 
-@mixin xButton() {
+@mixin x-button() {
   :host([scale="s"]) {
     .x-button {
       inline-size: theme("spacing.4");
@@ -148,6 +148,47 @@
     }
 
     & calcite-icon {
+      color: inherit;
+    }
+  }
+}
+
+@mixin close-button(
+  $size: "var(--calcite-internal-close-size, 1.5rem /* 24px */)",
+  $padding: "0",
+  $color: "var(--calcite-close-icon-color, var(--calcite-color-text-1))"
+) {
+  .close {
+    @apply border-none
+      cursor-pointer
+      focus-base
+      items-center
+      m-0
+      rounded-half 
+      transition-default;
+
+    background-color: var(--calcite-close-background-color, var(--calcite-color-transparent));
+    -webkit-appearance: none;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    color: #{$color};
+    block-size: #{$size};
+    inline-size: #{$size};
+    padding: #{$padding};
+
+    &:hover,
+    &:focus {
+      background-color: var(--calcite-close-background-color-hover, var(--calcite-color-transparent-hover));
+    }
+    &:focus {
+      @apply focus-inset;
+    }
+    &:active {
+      background-color: var(--calcite-close-background-color-press, var(--calcite-color-transparent-press));
+    }
+
+    calcite-icon {
       color: inherit;
     }
   }

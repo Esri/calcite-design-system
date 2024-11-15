@@ -1,18 +1,15 @@
+import { PropertyValues } from "lit";
 import {
-  Build,
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
+  Fragment,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+  method,
+  JsxNode,
+  stringOrBoolean,
+} from "@arcgis/lumina";
+import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -22,8 +19,6 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -36,108 +31,94 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
+import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
+import type { Label } from "../label/label";
+import { CSS, IDS } from "./resources";
+import { styles } from "./segmented-control.scss";
 
-/**
- * @slot - A slot for adding `calcite-segmented-control-item`s.
- */
-@Component({
-  tag: "calcite-segmented-control",
-  styleUrl: "segmented-control.scss",
-  shadow: true,
-})
+declare global {
+  interface DeclareElements {
+    "calcite-segmented-control": SegmentedControl;
+  }
+}
+
+/** @slot - A slot for adding `calcite-segmented-control-item`s. */
 export class SegmentedControl
+  extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  defaultValue: SegmentedControl["value"];
+
+  formEl: HTMLFormElement;
+
+  private items: SegmentedControlItem["el"][] = [];
+
+  labelEl: Label["el"];
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
-    "solid";
+  @property({ reflect: true }) appearance: Extract<
+    "outline" | "outline-fill" | "solid",
+    Appearance
+  > = "solid";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
   /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true }) form: string;
+  @property({ reflect: true }) form: string;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
+  /** Defines the layout of the component. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
    */
-  @Prop({ reflect: true }) name: string;
+  @property({ reflect: true }) name: string;
 
-  /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
+  /** When `true`, the component must have a value in order for the form to submit. */
+  @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  @Watch("appearance")
-  @Watch("layout")
-  @Watch("scale")
-  handlePropsChange(): void {
-    this.handleItemPropChange();
-  }
-
-  /** The component's `selectedItem` value. */
-  @Prop({ mutable: true }) value: string = null;
-
-  @Watch("value")
-  valueHandler(value: string): void {
-    const items = this.getItems();
-    items.forEach((item) => (item.checked = item.value === value));
-  }
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The component's selected item `HTMLElement`.
    *
    * @readonly
    */
-  @Prop({ mutable: true }) selectedItem: HTMLCalciteSegmentedControlItemElement;
-
-  @Watch("selectedItem")
-  protected handleSelectedItemChange<T extends HTMLCalciteSegmentedControlItemElement>(
-    newItem: T,
-    oldItem: T,
-  ): void {
-    this.value = newItem?.value;
-    if (newItem === oldItem) {
-      return;
-    }
-    const items = this.getItems();
-    const match = items.filter((item) => item === newItem).pop();
-
-    if (match) {
-      this.selectItem(match);
-    } else if (items[0]) {
-      items[0].tabIndex = 0;
-    }
-  }
+  @property() selectedItem: SegmentedControlItem["el"];
 
   /** Specifies the status of the validation message. */
-  @Prop({ reflect: true }) status: Status = "idle";
-
-  /** Specifies the validation message to display under the component. */
-  @Prop() validationMessage: string;
+  @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
+    | IconNameOrString
+    | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage: string;
 
   /**
    * The current validation state of the component.
@@ -145,8 +126,7 @@ export class SegmentedControl
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity: MutableValidityState = {
+  @property() validity: MutableValidityState = {
     valid: false,
     badInput: false,
     customError: false,
@@ -160,93 +140,132 @@ export class SegmentedControl
     valueMissing: false,
   };
 
+  /** The component's `selectedItem` value. */
+  @property() value: string = null;
+
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-    this.setUpItems();
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    (this.selectedItem || this.items[0])?.focus();
   }
 
-  componentDidLoad(): void {
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the `calcite-segmented-control-item` selection changes. */
+  calciteSegmentedControlChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalSegmentedControlItemChange", this.handleSelected);
+    this.listen("keydown", this.handleKeyDown);
+    this.listen("click", this.handleClick);
+  }
+
+  override connectedCallback(): void {
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+    ) {
+      this.handleItemPropChange();
+    }
+
+    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+      this.valueHandler(this.value);
+    }
+
+    if (changes.has("selectedItem")) {
+      this.handleSelectedItemChange(this.selectedItem, changes.get("selectedItem"));
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
     afterConnectDefaultValueSet(this, this.value);
     setComponentLoaded(this);
   }
 
-  connectedCallback(): void {
-    connectInteractive(this);
-    connectLabel(this);
-    connectForm(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-
-    this.handleItemPropChange();
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
+  override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    this.mutationObserver?.unobserve(this.el);
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
+  // #endregion
+
+  // #region Private Methods
+  private valueHandler(value: string): void {
+    const { items } = this;
+    items.forEach((item) => (item.checked = item.value === value));
   }
 
-  render(): VNode {
-    return (
-      <Host onClick={this.handleClick} role="radiogroup">
-        <div class={CSS.itemWrapper}>
-          <InteractiveContainer disabled={this.disabled}>
-            <slot />
-            <HiddenFormInputSlot component={this} />
-          </InteractiveContainer>
-        </div>
-        {this.validationMessage && this.status === "invalid" ? (
-          <Validation
-            icon={this.validationIcon}
-            message={this.validationMessage}
-            scale={this.scale}
-            status={this.status}
-          />
-        ) : null}
-      </Host>
-    );
+  private handleSelectedItemChange<T extends SegmentedControlItem["el"]>(
+    newItem: T,
+    oldItem?: T,
+  ): void {
+    this.value = newItem?.value;
+    if (newItem === oldItem) {
+      return;
+    }
+    const { items } = this;
+    const match = items.filter((item) => item === newItem).pop();
+
+    if (match) {
+      this.selectItem(match);
+    } else if (items[0]) {
+      items[0].tabIndex = 0;
+    }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  protected handleClick = (event: MouseEvent): void => {
+  private handleClick(event: MouseEvent): void {
     if (this.disabled) {
       return;
     }
 
     if ((event.target as HTMLElement).localName === "calcite-segmented-control-item") {
-      this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
+      this.selectItem(event.target as SegmentedControlItem["el"], true);
     }
-  };
+  }
 
-  @Listen("calciteInternalSegmentedControlItemChange")
-  protected handleSelected(event: Event): void {
+  private handleSelected(event: Event): void {
     event.preventDefault();
-    const el = event.target as HTMLCalciteSegmentedControlItemElement;
+    const el = event.target as SegmentedControlItem["el"];
     if (el.checked) {
       this.selectItem(el);
     }
     event.stopPropagation();
   }
 
-  @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
@@ -267,7 +286,7 @@ export class SegmentedControl
       }
     }
 
-    const items = this.getItems();
+    const { items } = this;
     let selectedIndex = -1;
 
     items.forEach((item, index) => {
@@ -293,54 +312,15 @@ export class SegmentedControl
       }
       case " ":
         event.preventDefault();
-        this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
+        this.selectItem(event.target as SegmentedControlItem["el"], true);
         return;
       default:
         return;
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fires when the `calcite-segmented-control-item` selection changes. */
-  @Event({ cancelable: false }) calciteSegmentedControlChange: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.selectedItem || this.getItems()[0])?.focus();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteSegmentedControlElement;
-
-  labelEl: HTMLCalciteLabelElement;
-
-  formEl: HTMLFormElement;
-
-  defaultValue: SegmentedControl["value"];
-
-  private mutationObserver = createObserver("mutation", () => this.setUpItems());
-
   private handleItemPropChange(): void {
-    const items = this.getItems();
+    const { items } = this;
 
     items.forEach((item) => {
       item.appearance = this.appearance;
@@ -349,27 +329,40 @@ export class SegmentedControl
     });
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  private handleSelectedItem(): void {
+    const { items } = this;
+
+    const lastChecked = items.filter((item) => item.checked).pop();
+
+    if (lastChecked) {
+      this.selectItem(lastChecked);
+    } else if (items[0]) {
+      items[0].tabIndex = 0;
+    }
+  }
+
+  private handleDefaultSlotChange(event: Event): void {
+    const items = slotChangeGetAssignedElements(event).filter(
+      (el): el is SegmentedControlItem["el"] => el.matches("calcite-segmented-control-item"),
+    );
+
+    this.items = items;
+
+    this.handleSelectedItem();
+    this.handleItemPropChange();
+  }
 
   onLabelClick(): void {
     this.setFocus();
   }
 
-  private getItems(): HTMLCalciteSegmentedControlItemElement[] {
-    return Array.from(this.el.querySelectorAll("calcite-segmented-control-item"));
-  }
-
-  private selectItem(selected: HTMLCalciteSegmentedControlItemElement, emit = false): void {
+  private selectItem(selected: SegmentedControlItem["el"], emit = false): void {
     if (selected === this.selectedItem) {
       return;
     }
 
-    const items = this.getItems();
-    let match: HTMLCalciteSegmentedControlItemElement = null;
+    const { items } = this;
+    let match: SegmentedControlItem["el"] = null;
 
     items.forEach((item) => {
       const matches = item === selected;
@@ -390,19 +383,42 @@ export class SegmentedControl
     });
 
     this.selectedItem = match;
-    if (Build.isBrowser && match) {
+    if (isBrowser() && match) {
       match.focus();
     }
   }
 
-  private setUpItems(): void {
-    const items = this.getItems();
-    const lastChecked = items.filter((item) => item.checked).pop();
+  // #endregion
 
-    if (lastChecked) {
-      this.selectItem(lastChecked);
-    } else if (items[0]) {
-      items[0].tabIndex = 0;
-    }
+  // #region Rendering
+
+  override render(): JsxNode {
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "radiogroup";
+    return (
+      <>
+        <div
+          aria-errormessage={IDS.validationMessage}
+          ariaInvalid={this.status === "invalid"}
+          class={CSS.itemWrapper}
+        >
+          <InteractiveContainer disabled={this.disabled}>
+            <slot onSlotChange={this.handleDefaultSlotChange} />
+            <HiddenFormInputSlot component={this} />
+          </InteractiveContainer>
+        </div>
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </>
+    );
   }
+
+  // #endregion
 }

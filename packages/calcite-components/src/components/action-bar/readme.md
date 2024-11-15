@@ -47,9 +47,10 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                      | Description                                                                       |
-| ----------------------------------------- | --------------------------------------------------------------------------------- |
-| `--calcite-action-bar-expanded-max-width` | When `layout` is `"vertical"`, specifies the expanded max width of the component. |
+| Name                                      | Description                                                             |
+| ----------------------------------------- | ----------------------------------------------------------------------- |
+| `--calcite-action-bar-expanded-max-width` | When `layout` is `"vertical"`, specifies the component's maximum width. |
+| `--calcite-action-bar-items-space`        | Specifies the space between slotted components in the component.        |
 
 ## Dependencies
 

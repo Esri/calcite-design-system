@@ -14,6 +14,14 @@ For comprehensive guidance on using and implementing `calcite-progress`, refer t
 | `type`     | `type`     | Specifies the component type. Use `"indeterminate"` if finding actual progress value is impossible. | `"determinate" \| "indeterminate"` | `"determinate"` |
 | `value`    | `value`    | When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0.           | `number`                           | `0`             |
 
+## CSS Custom Properties
+
+| Name                                  | Description                                 |
+| ------------------------------------- | ------------------------------------------- |
+| `--calcite-progress-background-color` | Specifies the component's background color. |
+| `--calcite-progress-fill-color`       | Specifies the component's fill color.       |
+| `--calcite-progress-text-color`       | Specifies the component's text color.       |
+
 ## Dependencies
 
 ### Used by

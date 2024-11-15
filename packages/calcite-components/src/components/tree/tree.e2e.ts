@@ -1,11 +1,12 @@
-import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, afterAll, beforeAll, vi, MockInstance } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import { getFocusedElementProp } from "../../tests/utils";
 import { SelectionMode } from "../interfaces";
 
-type SpyInstance = jest.SpyInstance;
+type SpyInstance = MockInstance;
 
 /**
  * Helper to ensure an item is clicked and avoids clicking on any of its children
@@ -434,9 +435,7 @@ describe("calcite-tree", () => {
           </calcite-tree>
           `,
         });
-        const checkbox = await page.find(
-          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`,
-        );
+        const checkbox = await page.find(`calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxContainer}`);
         expect(checkbox).not.toBeNull();
       });
     });
@@ -583,6 +582,7 @@ describe("calcite-tree", () => {
       const keyDownSpy = await page.spyOnEvent("keydown");
       const item = await page.find("#middle-item");
       await item.focus();
+      await page.waitForChanges();
 
       expect(keyDownSpy).toHaveReceivedEventTimes(0);
 
@@ -593,6 +593,7 @@ describe("calcite-tree", () => {
       await page.keyboard.press("Home");
       await page.keyboard.press("End");
       await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       expect(keyDownSpy).toHaveReceivedEventTimes(7);
     });
@@ -1033,11 +1034,13 @@ describe("calcite-tree", () => {
 
       await button.focus();
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(1);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
 
       await page.keyboard.press("Space");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(2);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
@@ -1063,11 +1066,13 @@ describe("calcite-tree", () => {
 
       await button.focus();
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(1);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
 
       await page.keyboard.press("Space");
+      await page.waitForChanges();
 
       expect(keydownSpy).toHaveReceivedEventTimes(2);
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
@@ -1077,7 +1082,7 @@ describe("calcite-tree", () => {
   describe("not throwing if tree doesn't have a parent element on initial render (#5333)", () => {
     let consoleSpy: SpyInstance;
 
-    beforeAll(() => (consoleSpy = jest.spyOn(console, "error")));
+    beforeAll(() => (consoleSpy = vi.spyOn(console, "error")));
 
     afterAll(() => consoleSpy.mockRestore());
 

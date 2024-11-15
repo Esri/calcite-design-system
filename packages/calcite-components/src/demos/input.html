@@ -57,9 +57,9 @@
       }
     </style>
 
-    <script src="./_assets/head.js"></script>
-    <script type="module" src="./_assets/demo-form.js"></script>
-    <script type="module" src="./_assets/demo-spacer.js"></script>
+    <script src="./_assets/head.ts"></script>
+    <script type="module" src="./_assets/demo-form.ts"></script>
+    <script type="module" src="./_assets/demo-spacer.ts"></script>
     <script>
       const locales = [
         "ar",
@@ -1598,6 +1598,6 @@
     </demo-dom-swapper>
   </body>
   <script>
-    document.addEventListener("calciteInputInput", ({ detail }) => console.log(`input: ${detail.value}`));
+    document.addEventListener("calciteInputInput", ({ target }) => console.log(`input: ${target.value}`));
   </script>
 </html>

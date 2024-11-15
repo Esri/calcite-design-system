@@ -20,6 +20,13 @@ For comprehensive guidance on using and implementing `calcite-accordion`, refer 
 | ---- | ------------------------------------------------------------------------------------------------------------------------- |
 |      | A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. |
 
+## CSS Custom Properties
+
+| Name                                   | Description                                 |
+| -------------------------------------- | ------------------------------------------- |
+| `--calcite-accordion-background-color` | Specifies the component's background color. |
+| `--calcite-accordion-border-color`     | Specifies the component's border color.     |
+
 ---
 
 *Built with [StencilJS](https://stenciljs.com/)*

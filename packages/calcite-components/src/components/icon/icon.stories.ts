@@ -2,7 +2,9 @@ import { iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { Icon } from "./icon";
+
 const { scale } = ATTRIBUTES;
 
 const sampleIcon = iconNames.find((item) => item === "arrowRight");
@@ -45,3 +47,13 @@ export const darkModeRTL_TestOnly = (): string => html`
   <calcite-icon class="calcite-mode-dark" dir="rtl" icon="${sampleIcon}" flip-rtl></calcite-icon>
 `;
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+
+export const theming_TestOnly = (): string => html`
+  <style>
+    .container {
+        ${setCSSVariables(["--calcite-icon-color"])}
+  </style>
+  <div class="container">
+    <calcite-icon icon="banana" scale="s"></calcite-icon>
+  </div>
+`;

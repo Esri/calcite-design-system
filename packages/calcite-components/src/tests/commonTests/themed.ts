@@ -1,7 +1,9 @@
-import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { ElementHandle } from "puppeteer";
 import type { RequireExactlyOne } from "type-fest";
+import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect, it } from "vitest";
+import { getTokenValue } from "../utils/cssTokenValues";
+import { toElementHandle } from "../utils";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -17,13 +19,10 @@ interface TargetInfo {
 const pseudoElementPattern =
   /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
 
-/**
- * This object that represents component tokens and their respective test options.
- */
+/** This object that represents component tokens and their respective test options. */
 export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken | TestSelectToken[]>;
 
 /**
- *
  * Helper to test custom theming of a component's associated tokens.
  *
  * @example
@@ -69,7 +68,6 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  *   };
  *   themed(`calcite-action-bar`, tokens);
  * });
- *
  * @param componentTestSetup - A component tag, html, tag + e2e page or provider for setting up a test.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
  */
@@ -101,7 +99,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
       // Set test values for each token
       if (!setTokens[token]) {
-        setTokens[token] = assignTestTokenThemeValues(token);
+        setTokens[token] = getTokenValue(token);
       }
 
       // Set up styleTargets and testTargets
@@ -173,50 +171,34 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
   });
 }
 
-export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
+type ContextSelectByAttr = { attribute: string; value: string };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
 type State = "press" | "hover" | "focus";
 
-/**
- * Describes a test target for themed components.
- */
-export type TestTarget = {
-  /**
-   * An object with target element and selector info.
-   */
+/** Describes a test target for themed components. */
+type TestTarget = {
+  /** An object with target element and selector info. */
   target: TargetInfo;
 
-  /**
-   * @todo doc
-   */
+  /** @todo doc */
   contextSelector?: ContextSelectByAttr;
 
-  /**
-   * The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on.
-   */
+  /** The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on. */
   targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
-  /**
-   * The state to apply to the target element.
-   */
+  /** The state to apply to the target element. */
   state?: State;
 
-  /**
-   * The expected value of the targetProp.
-   */
+  /** The expected value of the targetProp. */
   expectedValue: string;
 
-  /**
-   * The associated component token.
-   */
+  /** The associated component token. */
   token: CalciteCSSCustomProp;
 };
 
-/**
- * Represents a Calcite CSS custom prop
- */
+/** Represents a Calcite CSS custom prop */
 type CalciteCSSCustomProp = `--calcite-${string}`;
 
 /**
@@ -226,28 +208,18 @@ type CalciteCSSCustomProp = `--calcite-${string}`;
  */
 type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
 
-/**
- * Describes a test selector for themed components.
- */
-export type TestSelectToken = {
-  /**
-   * The selector of the target element. When not provided, the component tag is used.
-   */
+/** Describes a test selector for themed components. */
+type TestSelectToken = {
+  /** The selector of the target element. When not provided, the component tag is used. */
   selector?: string;
 
-  /**
-   * This selector will be used to find the target element within the shadow DOM of the component.
-   */
+  /** This selector will be used to find the target element within the shadow DOM of the component. */
   shadowSelector?: string;
 
-  /**
-   * The CSSStyleDeclaration property to assert on.
-   */
+  /** The CSSStyleDeclaration property to assert on. */
   targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
-  /**
-   * The state to apply to the target element.
-   */
+  /** The state to apply to the target element. */
   state?: State | RequireExactlyOne<Record<State, ContextSelectByAttr>, "focus" | "hover" | "press">;
 };
 
@@ -265,11 +237,9 @@ async function getComputedStylePropertyValue(
   property: string,
   pseudoElement?: string,
 ): Promise<string> {
-  type E2EElementInternal = E2EElement & {
-    _elmHandle: ElementHandle;
-  };
+  const elementHandle = await toElementHandle(element);
 
-  return await (element as E2EElementInternal)._elmHandle.evaluate(
+  return await elementHandle.evaluate(
     (el, targetProp, pseudoElement): string => window.getComputedStyle(el, pseudoElement).getPropertyValue(targetProp),
     property,
     pseudoElement,
@@ -302,15 +272,12 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
         const { attribute, value } = context as {
           attribute: string;
-          value: string | RegExp;
+          value: string;
         };
         if (node.nodeType === 1) {
           const attr = (node as Element).getAttribute(attribute);
           if (typeof value === "string" && attr === value) {
             return node;
-          }
-          if (value instanceof RegExp && attr && value.test(attr)) {
-            return node ?? undefined;
           }
           if (attr === value) {
             return node;
@@ -322,7 +289,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
         }
 
         if (node.nodeType === 1 && (node as Element).shadowRoot) {
-          for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
+          for (const child of (node as Element).shadowRoot.children) {
             const result = searchInShadowDom(child);
             if (result) {
               return result;
@@ -425,22 +392,4 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
  */
 function getStyleString(token: string, prop: string, value: string): string {
   return `[${token}:${prop}] ${value}`;
-}
-
-/**
- *
- * Sets the value of a CSS variable to a test value.
- * This is useful for testing themed components.
- *
- * @param token - the token as a CSS variable
- * @returns string - the new value for the token
- */
-function assignTestTokenThemeValues(token: string): string {
-  const legacyBackgroundColorToken = token.endsWith("-background");
-
-  return token.includes("color") || legacyBackgroundColorToken
-    ? "rgb(0, 191, 255)"
-    : token.includes("shadow")
-      ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
-      : `42${token.includes("z-index") ? "" : "px"}`;
 }

@@ -1,4 +1,5 @@
-import { E2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { disabled } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
 import { DATE_PICKER_FORMAT_OPTIONS } from "../date-picker/resources";
@@ -10,7 +11,7 @@ describe("calcite-date-picker-day", () => {
     beforeEach(async () => {
       page = await newProgrammaticE2EPage();
       await page.evaluate(() => {
-        const dateEl = document.createElement("calcite-date-picker-day") as HTMLCalciteDatePickerDayElement;
+        const dateEl = document.createElement("calcite-date-picker-day");
         dateEl.active = true;
         dateEl.dateTimeFormat = new Intl.DateTimeFormat("en"); // options not needed as this is only needed for rendering
         dateEl.day = 3;
@@ -26,7 +27,7 @@ describe("calcite-date-picker-day", () => {
     it("labels its associated day", async () => {
       const page = await newProgrammaticE2EPage();
       await page.evaluate((dateTimeFormatOptions: Intl.DateTimeFormatOptions) => {
-        const dateEl = document.createElement("calcite-date-picker-day") as HTMLCalciteDatePickerDayElement;
+        const dateEl = document.createElement("calcite-date-picker-day");
         dateEl.dateTimeFormat = new Intl.DateTimeFormat("en", dateTimeFormatOptions);
         dateEl.day = 20;
         dateEl.value = new Date("2020-02-20T08:00:00.000Z");

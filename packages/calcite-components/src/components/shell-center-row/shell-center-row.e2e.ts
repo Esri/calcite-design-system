@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
@@ -39,7 +40,7 @@ describe("calcite-shell-center-row", () => {
 
     const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
 
-    expect(actionBarContainer).toBeNull();
+    expect(await actionBarContainer.isVisible()).toBe(false);
   });
 
   it("should render action bar container first when action bar has start position", async () => {
@@ -59,6 +60,10 @@ describe("calcite-shell-center-row", () => {
 
     await page.waitForChanges();
     expect(element).toHaveClass(CSS.actionBarContainer);
+
+    const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
+
+    expect(await actionBarContainer.isVisible()).toBe(true);
   });
 
   it("should render action bar container last when action bar has end position", async () => {

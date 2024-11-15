@@ -1,24 +1,21 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { BoundingBox } from "puppeteer";
-import type { JSX } from "../components";
+import { BoundingBox, ElementHandle } from "puppeteer";
+import { LuminaJsx } from "@arcgis/lumina";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect } from "vitest";
 import { ComponentTag } from "./commonTests/interfaces";
 
-/**
- * Util to help type global props for testing.
- */
+/** Util to help type global props for testing. */
 export type GlobalTestProps<T> = T & Window & typeof globalThis;
 
 type FilterPropsByPropertyName<T, PropName extends string> = {
   [K in keyof T]: PropName extends keyof T[K] ? T[K] : never;
 };
 
-/**
- * Helper to extract a type by filtering the type by the property name.
- */
+/** Helper to extract a type by filtering the type by the property name. */
 export type IntrinsicElementsWithProp<T extends string> = FilterPropsByPropertyName<
-  JSX.IntrinsicElements,
+  LuminaJsx.IntrinsicElements,
   T
->[keyof FilterPropsByPropertyName<JSX.IntrinsicElements, T>];
+>[keyof FilterPropsByPropertyName<LuminaJsx.IntrinsicElements, T>];
 
 type DragAndDropSelector = string | SelectorOptions;
 
@@ -201,7 +198,6 @@ export async function getElementRect(
  *
  * await visualizeMouseCursor(page);
  * await page.waitForChanges();
- *
  * @param {E2EPage} page - the e2e page
  */
 export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
@@ -301,10 +297,7 @@ export async function waitForAnimationFrame(): Promise<void> {
  */
 export async function newProgrammaticE2EPage(): Promise<E2EPage> {
   const page = await newE2EPage();
-  // we need to initialize the page with any component to ensure they are available in the browser context
-  await page.setContent("<calcite-icon></calcite-icon>");
-  await page.evaluate(() => document.querySelector("calcite-icon").remove());
-
+  await page.setContent("");
   return page;
 }
 
@@ -319,21 +312,16 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
  *
  * await skipAnimations(page);
  * await page.waitForChanges();
- *
  * @param page
  */
 export async function skipAnimations(page: E2EPage): Promise<void> {
   await page.addStyleTag({
-    // using 0.01 to ensure `openCloseComponent` utils work consistently
-    // this should be removed once https://github.com/Esri/calcite-design-system/issues/6604 is addressed
-    content: `:root { --calcite-duration-factor: 0.01; }`,
+    content: `:root { --calcite-duration-factor: 0; }`,
   });
 }
 
 interface MatchesFocusedElementOptions {
-  /**
-   * Set this to true when the focused element is expected to reside in the shadow DOM
-   */
+  /** Set this to true when the focused element is expected to reside in the shadow DOM */
   shadowed: boolean;
 }
 
@@ -363,9 +351,7 @@ export async function isElementFocused(
 }
 
 type GetFocusedElementProp = {
-  /**
-   * Set to true to use the shadow root's active element instead of the light DOM's.
-   */
+  /** Set to true to use the shadow root's active element instead of the light DOM's. */
   shadow: boolean;
 };
 
@@ -430,9 +416,7 @@ export function toBeNumber(): any {
 type HTMLSelectableElement = HTMLElement & { selectedItems: HTMLElement[] };
 
 interface SelectedItemsAssertionOptions {
-  /**
-   * IDs from items to assert selection
-   */
+  /** IDs from items to assert selection */
   expectedItemIds: string[];
 }
 
@@ -462,7 +446,6 @@ interface SelectedItemsAsserter {
  * const assertSelectedItems = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
  * await page.click("#item-2");
  * await assertSelectedItems({ expectedItemIds: ["item-2"] });
- *
  * @param page - the e2e page
  * @param selectableComponentTagName - the tag name of the selectable group element
  * @param selectionEventName - the name of the selection event
@@ -517,7 +500,7 @@ export async function assertCaretPosition({
   expect(
     await page.evaluate(
       (position, componentTag, shadowInputTypeSelector) => {
-        const element = document.querySelector(componentTag) as HTMLElement;
+        const element = document.querySelector(componentTag);
         const el = element.shadowRoot.querySelector(shadowInputTypeSelector);
         return el.selectionStart === (position !== undefined ? position : el.value.length);
       },
@@ -526,4 +509,14 @@ export async function assertCaretPosition({
       shadowInputTypeSelector,
     ),
   ).toBeTruthy();
+}
+
+/**
+ * This utils helps to get the element handle from an E2EElement.
+ *
+ * @param element - the E2E element
+ * @returns {Promise<ElementHandle>} - the element handle
+ */
+export async function toElementHandle(element: E2EElement): Promise<ElementHandle> {
+  return element.handle;
 }

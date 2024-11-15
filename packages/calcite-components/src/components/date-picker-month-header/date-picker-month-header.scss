@@ -1,36 +1,54 @@
 :host {
   @apply block;
+  --calcite-select-internal-border-width: 0;
+  --calcite-select-internal-icon-border-inline-end-width: 0;
+  --calcite-internal-select-font-weight: var(--calcite-font-weight-medium);
+  --calcite-select-text-color: var(--calcite-color-text-1);
 }
 
 .header {
-  @apply flex justify-between;
-  @apply py-0 px-1;
+  @apply flex justify-between items-center h-full;
+}
+
+.chevron-container {
+  @apply flex items-center;
 }
 
 :host([scale="s"]) {
-  .text {
-    @apply text-n1h my-2;
-  }
+  block-size: #{$calcite-size-24};
+  margin: var(--calcite-size-xs);
+  margin-inline-start: var(--calcite-size-sm);
+
+  .chevron-container,
   .chevron {
-    @apply h-9;
+    min-inline-size: #{$calcite-size-24};
+    block-size: #{$calcite-size-24};
   }
 }
 
 :host([scale="m"]) {
-  .text {
-    @apply text-0h my-3;
-  }
+  block-size: #{$calcite-size-32};
+  margin: var(--calcite-size-sm);
+  margin-inline-start: var(--calcite-size-sm-plus);
+
+  .chevron-container,
   .chevron {
-    @apply h-12;
+    min-inline-size: #{$calcite-size-32};
+    block-size: #{$calcite-size-32};
+    --calcite-internal-action-padding-block: var(--calcite-size-xxs);
   }
 }
 
 :host([scale="l"]) {
-  .text {
-    @apply text-1h my-4;
-  }
+  block-size: #{$calcite-size-44};
+  margin: var(--calcite-size-xs);
+  margin-inline-start: var(--calcite-size-sm);
+
+  .chevron-container,
   .chevron {
-    block-size: 3.5rem;
+    min-inline-size: #{$calcite-size-44};
+    block-size: #{$calcite-size-44};
+    --calcite-internal-action-padding-block: var(--calcite-size-sm-plus);
   }
 }
 
@@ -38,7 +56,6 @@
   @apply text-color-3
     bg-foreground-1
     focus-base
-    -mx-1
     box-content
     flex
     flex-grow-0
@@ -46,11 +63,11 @@
     items-center
     justify-center
     border-none
-    px-1
     outline-none
-    transition-default;
-  inline-size: calc(100% / 7);
-
+    transition-default 
+    w-full 
+    h-full;
+  --calcite-internal-action-padding-block: 0;
   &:focus {
     @apply focus-inset;
   }
@@ -63,72 +80,109 @@
   &:active {
     @apply bg-foreground-3;
   }
-
   &[aria-disabled="true"] {
-    @apply pointer-events-none opacity-0;
+    @apply pointer-events-none;
   }
 }
 
-.text {
-  @apply my-auto
-    w-full
+.month-year-container {
+  @apply w-full h-full
     flex
     flex-auto
     items-center
-    justify-center
+    justify-start
     text-center
     leading-none;
+  gap: var(--calcite-size-xxs);
+  &.range-calendar {
+    @apply justify-center;
+  }
 }
 
-.text--reverse {
-  @apply flex-row-reverse;
+.year-container {
+  @apply relative flex h-full;
 }
 
-.month,
+.suffix {
+  @apply flex items-center;
+}
+
 .year,
 .suffix {
-  @apply text-color-1
-    bg-foreground-1
-    mx-1
-    my-auto
-    inline-block
-    font-medium
-    leading-tight;
-  font-size: inherit;
+  @apply bg-foreground-1;
+  margin-inline: var(--calcite-size-xxs);
+  font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-color-text-1);
+  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-fixed-lg);
 }
 
 .year {
   @apply font-inherit
-    focus-base
-    relative
-    w-10
-    border-none
-    bg-transparent
-    text-center;
+  relative
+  focus-base
+  border-none
+  inline-block
+  bg-transparent
+  text-center;
+  inline-size: #{$calcite-size-44};
   &:hover {
     @apply duration-100 ease-in-out;
     transition-property: outline-color;
     outline: 2px solid var(--calcite-color-border-2);
-    outline-offset: 2px;
+    outline-offset: -2px;
   }
   &:focus {
-    @apply focus-outset;
+    @apply focus-inset;
   }
 }
 
-.year--suffix {
-  @apply text-left;
+.month-select {
+  --calcite-select-spacing-inline: var(--calcite-size-xxs);
+  --calcite-internal-select-spacing-block: var(--calcite-size-xxs);
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-xxs);
+  --calcite-select-font-size: var(--calcite-font-size-md);
+  --calcite-select-line-height: var(--calcite-font-line-height-fixed-lg);
 }
 
-.year-wrap {
-  @apply relative;
+:host([scale="s"]) .month-year-container {
+  .month-select {
+    --calcite-select-spacing-inline: var(--calcite-size-xxxs);
+    --calcite-internal-select-spacing-block: var(--calcite-size-xxxs);
+    --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-xxxs);
+    --calcite-internal-select-block-size: #{$calcite-size-24};
+    --calcite-select-font-size: var(--calcite-font-size);
+    --calcite-select-line-height: var(--calcite-font-line-height-fixed-base);
+  }
+
+  .year {
+    inline-size: #{$calcite-size-40};
+  }
+
+  .year,
+  .suffix {
+    font-size: var(--calcite-font-size);
+    line-height: var(--calcite-font-line-height-fixed-base);
+  }
 }
 
-.suffix {
-  @apply top-0
-    whitespace-nowrap
-    text-start;
-  inset-inline-start: 0;
+:host([scale="l"]) .month-year-container {
+  .month-select {
+    --calcite-select-spacing-inline: var(--calcite-size-sm);
+    --calcite-internal-select-spacing-block: var(--calcite-size-sm);
+    --calcite-internal-select-icon-container-padding-inline: var(--calcite-size-sm);
+    --calcite-internal-select-block-size: #{$calcite-size-44};
+    --calcite-select-font-size: var(--calcite-font-size-lg);
+    --calcite-select-line-height: var(--calcite-font-line-height-fixed-xl);
+  }
+  .year {
+    inline-size: #{$calcite-size-48};
+  }
+  .year,
+  .suffix {
+    font-size: var(--calcite-font-size-lg);
+    line-height: var(--calcite-font-line-height-fixed-xl);
+  }
 }
 
 @include base-component();

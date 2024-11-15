@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
 import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
@@ -54,10 +55,10 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent("<calcite-color-picker-hex-input allow-empty></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
-    input.setProperty("value", null);
+    input.setProperty("value", undefined);
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe(null);
+    expect(await input.getProperty("value")).toBe(undefined);
     expect(input.getAttribute("value")).toBe(null);
 
     const internalInput = await page.find(`calcite-color-picker-hex-input >>> .${CSS.hexInput}`);
@@ -344,7 +345,7 @@ describe("calcite-color-picker-hex-input", () => {
 
     async function assertTabAndEnterBehavior(
       hexInputChars: string,
-      expectedValue: string | null,
+      expectedValue: string | undefined,
       alphaChannel = false,
     ): Promise<void> {
       const normalizedInputHex = normalizeHex(hexInputChars);
@@ -355,7 +356,7 @@ describe("calcite-color-picker-hex-input", () => {
       }
 
       expectedValue =
-        expectedValue === null ||
+        expectedValue === undefined ||
         (alphaChannel
           ? isValidHex(normalizedInputHex, true) || canConvertToHexa(normalizedInputHex)
           : isValidHex(normalizedInputHex))
@@ -463,7 +464,7 @@ describe("calcite-color-picker-hex-input", () => {
           it("commits hex chars on Tab and Enter", async () => {
             await assertTabAndEnterBehavior("b00", "#bb0000");
             await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
-            await assertTabAndEnterBehavior("", null);
+            await assertTabAndEnterBehavior("", undefined);
           });
 
           it("prevents committing invalid hex values", async () => {
@@ -471,7 +472,7 @@ describe("calcite-color-picker-hex-input", () => {
             await assertTabAndEnterBehavior("aabb", startingHex);
             await assertTabAndEnterBehavior("aa", startingHex);
             await assertTabAndEnterBehavior("a", startingHex);
-            await assertTabAndEnterBehavior("", null);
+            await assertTabAndEnterBehavior("", undefined);
           });
 
           it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {

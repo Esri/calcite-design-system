@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -10,10 +11,13 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
+import { DEBOUNCE } from "../../utils/resources";
+import type { ActionGroup } from "../action-group/action-group";
 import { CSS, SLOTS } from "./resources";
-import { overflowActionsDebounceInMs } from "./utils";
+import type { ActionBar } from "./action-bar";
 
 describe("calcite-action-bar", () => {
   describe("renders", () => {
@@ -36,7 +40,7 @@ describe("calcite-action-bar", () => {
       },
       {
         propertyName: "scale",
-        defaultValue: undefined,
+        defaultValue: "m",
       },
       {
         propertyName: "layout",
@@ -111,7 +115,7 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage({
         html: html`<calcite-action-bar expanded>
           <calcite-action-group>
-            <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+            <calcite-action text-enabled id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
           </calcite-action-group>
           <calcite-action-group>
             <calcite-action-menu label="Save and open">
@@ -229,7 +233,7 @@ describe("calcite-action-bar", () => {
       expect(await buttonGroup.isVisible()).toBe(false);
     });
 
-    it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
+    it("should not modify textEnabled on actions or expanded on group", async () => {
       const page = await newE2EPage();
 
       await page.setContent(
@@ -248,11 +252,11 @@ describe("calcite-action-bar", () => {
       expect(await actionBar.getProperty("expanded")).toBe(true);
       expect(expandAction).toBeNull();
       expect(action).not.toBeNull();
-      expect(await group.getProperty("expanded")).toBe(true);
-      expect(await action.getProperty("textEnabled")).toBe(true);
+      expect(await group.getProperty("expanded")).toBe(false);
+      expect(await action.getProperty("textEnabled")).toBe(false);
     });
 
-    it("should modify textEnabled on actions when expanded is true and new children are added", async () => {
+    it("should not modify textEnabled on actions and new children are added", async () => {
       const page = await newE2EPage();
 
       await page.setContent(
@@ -271,7 +275,7 @@ describe("calcite-action-bar", () => {
 
       const textEnabled = await action.getProperty("textEnabled");
 
-      expect(textEnabled).toBe(true);
+      expect(textEnabled).toBe(false);
     });
   });
 
@@ -361,7 +365,7 @@ describe("calcite-action-bar", () => {
 
     const calciteActionMenuOpenEvent = page.waitForEvent("calciteActionMenuOpen");
 
-    await page.$eval("calcite-action-group", (firstActionGroup: HTMLCalciteActionGroupElement) => {
+    await page.$eval("calcite-action-group", (firstActionGroup: ActionGroup["el"]) => {
       firstActionGroup.menuOpen = true;
       const event = new CustomEvent("calciteActionMenuOpen", { bubbles: true });
       firstActionGroup.dispatchEvent(event);
@@ -406,12 +410,12 @@ describe("calcite-action-bar", () => {
           </calcite-action-bar>
         </div>`,
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs);
+      await page.waitForTimeout(DEBOUNCE.resize);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(2);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
 
-      await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
+      await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
         element.ownerDocument.getElementById("second-action").insertAdjacentHTML(
           "afterend",
           `
@@ -423,7 +427,7 @@ describe("calcite-action-bar", () => {
           <calcite-action text="Table" icon="table"></calcite-action>`,
         );
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
       await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
@@ -454,7 +458,7 @@ describe("calcite-action-bar", () => {
         </div>`,
       );
       await page.waitForChanges();
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
@@ -462,7 +466,7 @@ describe("calcite-action-bar", () => {
       const actionBar = await page.find("calcite-action-bar");
       actionBar.setProperty("overflowActionsDisabled", false);
       await page.waitForChanges();
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -490,16 +494,16 @@ describe("calcite-action-bar", () => {
           </calcite-action-bar>
         </div>`,
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
 
-      await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
+      await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
         element.style.height = "550px";
       });
 
-      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForTimeout(DEBOUNCE.resize + 10);
       await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
@@ -531,5 +535,40 @@ describe("calcite-action-bar", () => {
     await page.waitForChanges();
 
     expect(await group.getProperty("layout")).toBe("vertical");
+
+    actionBar.innerHTML = html`
+      <calcite-action-group></calcite-action-group>
+      <calcite-action-group></calcite-action-group>
+    `;
+    await page.waitForChanges();
+
+    const groups = await page.findAll("calcite-action-group");
+
+    groups.forEach(async (group) => {
+      expect(await group.getProperty("layout")).toBe("vertical");
+    });
+  });
+
+  describe("theme", () => {
+    themed(
+      html`<calcite-action-bar expanded layout="vertical">
+        <calcite-action-group>
+          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action-menu label="Save and open">
+            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
+          </calcite-action-menu>
+        </calcite-action-group>
+      </calcite-action-bar>`,
+      {
+        "--calcite-action-bar-expanded-max-width": {
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-action-bar-items-space": {
+          targetProp: "gap",
+        },
+      },
+    );
   });
 });

@@ -1,5 +1,7 @@
-import { newE2EPage, E2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import type { Graph } from "./graph";
 
 describe("calcite-graph", () => {
   describe("renders", () => {
@@ -20,7 +22,7 @@ describe("calcite-graph", () => {
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent("<calcite-graph></calcite-graph>");
-      await page.$eval("calcite-graph", (el: HTMLCalciteGraphElement) => {
+      await page.$eval("calcite-graph", (el: Graph["el"]) => {
         el.data = [
           [0, 4],
           [1, 7],
@@ -45,9 +47,8 @@ describe("calcite-graph", () => {
   });
 
   it("draws an area graph", async () => {
-    const dimensionsStyle = `style="height:100px; width:300px;"`;
     const page = await newE2EPage();
-    await page.setContent(`<calcite-graph ${dimensionsStyle}></calcite-graph>`);
+    await page.setContent(`<calcite-graph style="height:100px; width:300px;"></calcite-graph>`);
     await page.$eval("calcite-graph", (elm: any) => {
       elm.data = [
         [0, 4],

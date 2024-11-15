@@ -6,7 +6,7 @@
 
     <title>Calcite Components: calcite-shell</title>
 
-    <script src="../_assets/head.js"></script>
+    <script src="../_assets/head.ts"></script>
 
     <link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/next/"></script>
@@ -129,8 +129,8 @@
                   <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
                   <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
                     <calcite-block-content>
-                      <calcite-value-list id="one" multiple filter-enabled>
-                        <calcite-value-list-item
+                      <calcite-list id="one" selection-mode="multiple" filter-enabled>
+                        <calcite-list-item
                           label="2018 Population Density (Esri)"
                           description="{POPDENS_CY}"
                           value="POPDENS_CY"
@@ -144,8 +144,8 @@
                             icon="x"
                           >
                           </calcite-action>
-                        </calcite-value-list-item>
-                        <calcite-value-list-item
+                        </calcite-list-item>
+                        <calcite-list-item
                           label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
                           description="{POPDENS_CY}"
                           value="POPDENS_CY2"
@@ -159,8 +159,8 @@
                             icon="x"
                           >
                           </calcite-action>
-                        </calcite-value-list-item>
-                        <calcite-value-list-item
+                        </calcite-list-item>
+                        <calcite-list-item
                           label="2018 Total Households (Esri)"
                           description="{TOTHH_CY}"
                           value="TOTHH_CY"
@@ -174,8 +174,8 @@
                             icon="x"
                           >
                           </calcite-action>
-                        </calcite-value-list-item>
-                      </calcite-value-list>
+                        </calcite-list-item>
+                      </calcite-list>
                       <calcite-block-section text="Cool things">
                         <calcite-action text-enabled text="cool thing"></calcite-action>
                         <calcite-action text-enabled text="cool thing"></calcite-action>
@@ -199,8 +199,8 @@
                 >
                   <calcite-action slot="header-actions-end" icon="banana" label="this is bananas" text-enabled>
                   </calcite-action>
-                  <calcite-value-list id="one" multiple>
-                    <calcite-value-list-item
+                  <calcite-list id="one" selection-mode="multiple">
+                    <calcite-list-item
                       label="2018PopulationDensityEsriAndEvenLonger"
                       description="{POPDENS_CY}"
                       value="POPDENS_CY"
@@ -213,8 +213,8 @@
                         icon="x"
                       >
                       </calcite-action>
-                    </calcite-value-list-item>
-                    <calcite-value-list-item
+                    </calcite-list-item>
+                    <calcite-list-item
                       label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
                       description="{POPDENS_CY}"
                       value="POPDENS_CY2"
@@ -227,12 +227,8 @@
                         icon="x"
                       >
                       </calcite-action>
-                    </calcite-value-list-item>
-                    <calcite-value-list-item
-                      label="2018 Total Households (Esri)"
-                      description="{TOTHH_CY}"
-                      value="TOTHH_CY"
-                    >
+                    </calcite-list-item>
+                    <calcite-list-item label="2018 Total Households (Esri)" description="{TOTHH_CY}" value="TOTHH_CY">
                       <calcite-action
                         slot="actions-end"
                         id="action-test"
@@ -241,8 +237,8 @@
                         icon="x"
                       >
                       </calcite-action>
-                    </calcite-value-list-item>
-                  </calcite-value-list>
+                    </calcite-list-item>
+                  </calcite-list>
                   <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
                     <calcite-block-content>
                       <calcite-block-section text="Cool things" toggle-display="switch">
@@ -250,8 +246,8 @@
                         <calcite-action text-enabled text="cool thing"></calcite-action>
                         <calcite-action text-enabled text="cool thing"></calcite-action>
                       </calcite-block-section>
-                      <calcite-value-list id="one" multiple>
-                        <calcite-value-list-item
+                      <calcite-list id="one" selection-mode="multiple">
+                        <calcite-list-item
                           label="2018 Population Density (Esri)"
                           description="{POPDENS_CY}"
                           value="POPDENS_CY"
@@ -265,8 +261,8 @@
                             icon="x"
                           >
                           </calcite-action>
-                        </calcite-value-list-item>
-                        <calcite-value-list-item
+                        </calcite-list-item>
+                        <calcite-list-item
                           label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
                           description="{POPDENS_CY}"
                           value="POPDENS_CY2"
@@ -280,8 +276,8 @@
                             icon="x"
                           >
                           </calcite-action>
-                        </calcite-value-list-item>
-                        <calcite-value-list-item
+                        </calcite-list-item>
+                        <calcite-list-item
                           label="2018 Total Households (Esri)"
                           description="{TOTHH_CY}"
                           value="TOTHH_CY"
@@ -295,8 +291,8 @@
                             icon="x"
                           >
                           </calcite-action>
-                        </calcite-value-list-item>
-                      </calcite-value-list>
+                        </calcite-list-item>
+                      </calcite-list>
                       <calcite-block-section text="Cool things">
                         <calcite-action text-enabled text="cool thing"></calcite-action>
                         <calcite-action text-enabled text="cool thing"></calcite-action>

@@ -1,38 +1,42 @@
-import { Rule } from "eslint";
-// @ts-ignore
-import { getDecorator, stencilComponentContext } from "stencil-eslint-core";
+import { ESLintUtils, TSESTree } from "@typescript-eslint/utils";
 
-const rule: Rule.RuleModule = {
+const createRule = ESLintUtils.RuleCreator((name) => name);
+
+export default createRule({
+  name: "strict-boolean-attributes",
   meta: {
     docs: {
-      description:
-        "This rule catches Stencil boolean Props that would not be able to be set to false with HTML5-compliant attributes.",
-      category: "Possible Errors",
-      recommended: false,
+      description: "This rule catches boolean properties decorated with @Prop() that are initialized to true.",
+    },
+    messages: {
+      default: "Boolean properties decorated with @property() should not be initialized to true",
     },
     schema: [],
     type: "problem",
   },
-
-  create(context): Rule.RuleListener {
-    const stencil = stencilComponentContext();
-
+  defaultOptions: [],
+  create(context) {
     return {
-      ...stencil.rules,
-      PropertyDefinition: (node: any) => {
-        const propDecorator = getDecorator(node, "Prop");
-        if (stencil.isComponent() && propDecorator) {
-          const initializer = node.value?.value;
-          if (initializer === true) {
+      PropertyDefinition: (node: TSESTree.PropertyDefinition) => {
+        const decorators = node.decorators || [];
+        const hasPropDecorator = decorators.some(
+          (decorator) =>
+            decorator.expression.type === "CallExpression" &&
+            decorator.expression.callee.type === "Identifier" &&
+            decorator.expression.callee.name === "property",
+        );
+
+        if (hasPropDecorator) {
+          const initializer = node.value;
+
+          if (initializer && initializer.type === "Literal" && initializer.value === true) {
             context.report({
               node: node.key,
-              message: `Boolean properties decorated with @Prop() should not be initialized to true`,
+              messageId: "default",
             });
           }
         }
       },
     };
   },
-};
-
-export default rule;
+});

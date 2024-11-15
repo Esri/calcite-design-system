@@ -1,17 +1,15 @@
+import { PropertyValues } from "lit";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
+  Fragment,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+  method,
+  state,
+  JsxNode,
+  stringOrBoolean,
+} from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
 import {
@@ -21,204 +19,201 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import type { RadioButton } from "../radio-button/radio-button";
+import { focusFirstTabbable } from "../../utils/dom";
+import { CSS, IDS } from "./resources";
+import { styles } from "./radio-button-group.scss";
 
-/**
- * @slot - A slot for adding `calcite-radio-button`s.
- */
-@Component({
-  tag: "calcite-radio-button-group",
-  styleUrl: "radio-button-group.scss",
-  shadow: true,
-})
-export class RadioButtonGroup implements LoadableComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Global attributes
-  //
-  //--------------------------------------------------------------------------
-
-  @Watch("hidden")
-  handleHiddenChange(): void {
-    this.passPropsToRadioButtons();
+declare global {
+  interface DeclareElements {
+    "calcite-radio-button-group": RadioButtonGroup;
   }
+}
 
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+/** @slot - A slot for adding `calcite-radio-button`s. */
+export class RadioButtonGroup extends LitElement implements LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() radioButtons: RadioButton["el"][] = [];
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  onDisabledChange(): void {
-    this.passPropsToRadioButtons();
-  }
+  @property({ reflect: true }) disabled = false;
 
   /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "horizontal";
 
-  @Watch("layout")
-  onLayoutChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  /** Specifies the name of the component on form submission. Must be unique to other component instances. */
-  @Prop({ reflect: true }) name!: string;
+  /**
+   * Specifies the name of the component on form submission. Must be unique to other component instances.
+   *
+   * @required
+   */
+  @property({ reflect: true }) name: string;
 
   /** When `true`, the component must have a value in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
+  @property({ reflect: true }) required = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected item.
    *
    * @readonly
    */
-  @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioButtonElement = null;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property() selectedItem: RadioButton["el"] = null;
 
   /** Specifies the status of the validation message. */
-  @Prop({ reflect: true }) status: Status = "idle";
-
-  /** Specifies the validation message to display under the component. */
-  @Prop() validationMessage: string;
+  @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
+    | IconNameOrString
+    | boolean;
 
-  @Watch("scale")
-  onScaleChange(): void {
-    this.passPropsToRadioButtons();
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage: string;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    if (this.selectedItem && !this.selectedItem.disabled) {
+      focusFirstTabbable(this.selectedItem);
+    }
+    if (this.radioButtons.length > 0) {
+      focusFirstTabbable(this.getFocusableRadioButton());
+    }
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el!: HTMLCalciteRadioButtonGroupElement;
+  // #region Events
 
-  mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
+  /** Fires when the component has changed. */
+  calciteRadioButtonGroupChange = createEvent({ cancelable: false });
 
-  @State() radioButtons: HTMLCalciteRadioButtonElement[] = [];
+  // #endregion
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #region Lifecycle
 
-  connectedCallback(): void {
+  constructor() {
+    super();
+    this.listen("calciteRadioButtonChange", this.radioButtonChangeHandler);
+  }
+
+  override connectedCallback(): void {
     this.passPropsToRadioButtons();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  componentWillLoad(): void {
+  load(): void {
     setUpLoadableComponent(this);
   }
 
-  componentDidLoad(): void {
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+    ) {
+      this.passPropsToRadioButtons();
+    }
+  }
+
+  loaded(): void {
+    this.passPropsToRadioButtons();
     setComponentLoaded(this);
   }
 
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  private passPropsToRadioButtons = (): void => {
+  // #region Private Methods
+  private passPropsToRadioButtons(): void {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
-      Array.from(this.radioButtons).find((radioButton) => radioButton.checked) || null;
+      Array.from(this.radioButtons)
+        .reverse()
+        .find((radioButton) => radioButton.checked) || null;
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
-        radioButton.disabled = this.disabled || radioButton.disabled;
-        radioButton.hidden = this.el.hidden;
+        if (this.hasUpdated) {
+          radioButton.disabled = this.disabled || radioButton.disabled;
+        }
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;
       });
     }
-  };
+  }
 
-  private getFocusableRadioButton(): HTMLCalciteRadioButtonElement | null {
+  private getFocusableRadioButton(): RadioButton["el"] | null {
     return this.radioButtons.find((radiobutton) => !radiobutton.disabled) ?? null;
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when the component has changed.
-   */
-  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Method
-  //
-  //--------------------------------------------------------------------------
-
-  /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (this.selectedItem && !this.selectedItem.disabled) {
-      return this.selectedItem.setFocus();
-    }
-    if (this.radioButtons.length > 0) {
-      return this.getFocusableRadioButton()?.setFocus();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteRadioButtonChange")
-  radioButtonChangeHandler(event: CustomEvent): void {
-    this.selectedItem = event.target as HTMLCalciteRadioButtonElement;
+  private radioButtonChangeHandler(event: CustomEvent): void {
+    this.selectedItem = event.target as RadioButton["el"];
     this.calciteRadioButtonGroupChange.emit();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "radiogroup";
     return (
-      <Host role="radiogroup">
-        <div class={CSS.itemWrapper}>
+      <>
+        <div
+          aria-errormessage={IDS.validationMessage}
+          ariaInvalid={this.status === "invalid"}
+          class={CSS.itemWrapper}
+        >
           <slot />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
+            id={IDS.validationMessage}
             message={this.validationMessage}
             scale={this.scale}
             status={this.status}
           />
         ) : null}
-      </Host>
+      </>
     );
   }
+
+  // #endregion
 }

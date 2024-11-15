@@ -1,172 +1,105 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Fragment,
-  h,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
+import { LitElement, property, createEvent, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
 import { logger } from "../../utils/logger";
-import { TipMessages } from "./assets/tip/t9n";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { useT9n } from "../../controllers/useT9n";
+import T9nStrings from "./assets/t9n/tip.t9n.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { styles } from "./tip.scss";
 
-logger.deprecated("component", {
-  name: "tip",
-  removalVersion: 4,
-  suggested: ["card", "notice", "panel", "tile"],
-});
+declare global {
+  interface DeclareElements {
+    "calcite-tip": Tip;
+  }
+}
 
 /**
  * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
  * @slot - A slot for adding text and a hyperlink.
  * @slot thumbnail - A slot for adding an HTML image element.
  */
-@Component({
-  tag: "calcite-tip",
-  styleUrl: "tip.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
-  /**
-   * When `true`, the component does not display.
-   */
-  @Prop({ reflect: true, mutable: true }) closed = false;
+export class Tip extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasThumbnail = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, the close button is not present on the component. */
+  @property({ reflect: true }) closeDisabled = false;
+
+  /** When `true`, the component does not display. */
+  @property({ reflect: true }) closed = false;
+
+  /** The component header text. */
+  @property() heading: string;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, the close button is not present on the component.
+   * Made into a prop for testing purposes only
+   *
+   * @private
    */
-  @Prop({ reflect: true }) closeDisabled = false;
-
-  /**
-   * The component header text.
-   */
-  @Prop() heading: string;
-
-  /**
-   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When `true`, the component is selected if it has a parent `calcite-tip-manager`.
    *
    * Only one tip can be selected within the `calcite-tip-manager` parent.
    */
-  @Prop({ reflect: true }) selected = false;
+  @property({ reflect: true }) selected = false;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TipMessages;
+  // #endregion
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TipMessages>;
+  // #region Events
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** Emits when the component has been closed. */
+  calciteTipDismiss = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  async load(): Promise<void> {
+    logger.deprecated("component", {
+      name: "tip",
+      removalVersion: 4,
+      suggested: ["card", "notice", "panel", "tile"],
+    });
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteTipElement;
+  // #region Private Methods
 
-  @State() defaultMessages: TipMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-    connectLocalized(this);
-    connectMessages(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Emits when the component has been closed.
-   */
-  @Event({ cancelable: false }) calciteTipDismiss: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  hideTip = (): void => {
+  private hideTip(): void {
     this.closed = true;
 
     this.calciteTipDismiss.emit();
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  private handleThumbnailSlotChange(event: Event): void {
+    this.hasThumbnail = slotChangeHasAssignedElement(event);
+  }
 
-  renderHeader(): VNode {
+  // #endregion
+
+  // #region Rendering
+
+  private renderHeader(): JsxNode {
     const { heading, headingLevel, el } = this;
     const parentLevel = el.closest("calcite-tip-manager")?.headingLevel;
     const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
@@ -181,7 +114,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
     ) : null;
   }
 
-  renderDismissButton(): VNode {
+  private renderDismissButton(): JsxNode {
     const { closeDisabled, hideTip } = this;
     return !closeDisabled ? (
       <calcite-action
@@ -194,25 +127,23 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
     ) : null;
   }
 
-  renderImageFrame(): VNode {
-    const { el } = this;
-
-    return getSlotted(el, SLOTS.thumbnail) ? (
-      <div class={CSS.imageFrame} key="thumbnail">
-        <slot name={SLOTS.thumbnail} />
+  private renderImageFrame(): JsxNode {
+    return (
+      <div class={CSS.imageFrame} hidden={!this.hasThumbnail} key="thumbnail">
+        <slot name={SLOTS.thumbnail} onSlotChange={this.handleThumbnailSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
-  renderInfoNode(): VNode {
+  private renderInfoNode(): JsxNode {
     return (
-      <div class={CSS.info}>
+      <div class={{ [CSS.info]: true, [CSS.infoNoThumbnail]: !this.hasThumbnail }}>
         <slot />
       </div>
     );
   }
 
-  renderContent(): VNode {
+  private renderContent(): JsxNode {
     return (
       <div class={CSS.content}>
         {this.renderImageFrame()}
@@ -221,15 +152,17 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Fragment>
+      <>
         <article class={CSS.container}>
           {this.renderHeader()}
           {this.renderContent()}
         </article>
         {this.renderDismissButton()}
-      </Fragment>
+      </>
     );
   }
+
+  // #endregion
 }

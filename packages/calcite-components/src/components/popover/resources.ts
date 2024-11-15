@@ -1,4 +1,5 @@
 export const CSS = {
+  positionContainer: "position-container",
   container: "container",
   imageContainer: "image-container",
   closeButtonContainer: "close-button-container",
@@ -6,6 +7,7 @@ export const CSS = {
   content: "content",
   hasHeader: "has-header",
   header: "header",
+  headerContainer: "headerContainer",
   headerContent: "header-content",
   heading: "heading",
 };

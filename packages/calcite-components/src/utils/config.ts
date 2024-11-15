@@ -1,7 +1,4 @@
-/**
- * This module allows custom configuration for components.
- */
-
+import { isServer } from "lit-html/is-server.js";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";
 
@@ -15,9 +12,7 @@ export interface CalciteConfig {
    */
   focusTrapStack: FocusTrap[];
 
-  /**
-   * Defines the global log level to use when logging messages.
-   */
+  /** Defines the global log level to use when logging messages. */
   logLevel: LogLevel;
 
   /**
@@ -32,16 +27,15 @@ const existingConfig: CalciteConfig = globalThis["calciteConfig"];
 
 export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
 
-export const logLevel: LogLevel = existingConfig?.logLevel || "info";
+const runningInE2ETest = import.meta.env.MODE === "test" && !isServer;
+export const logLevel: LogLevel = existingConfig?.logLevel || (runningInE2ETest ? "error" : "info");
 
 // the following placeholders are replaced by the build
 const version = "__CALCITE_VERSION__";
 const buildDate = "__CALCITE_BUILD_DATE__";
 const revision = "__CALCITE_REVISION__";
 
-/**
- * Stamp the version onto the global config.
- */
+/** Stamp the version onto the global config. */
 export function stampVersion(): void {
   if (existingConfig && existingConfig.version) {
     return;

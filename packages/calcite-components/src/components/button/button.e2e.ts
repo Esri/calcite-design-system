@@ -1,5 +1,6 @@
-import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
+import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -94,7 +95,7 @@ describe("calcite-button", () => {
     hidden("calcite-button");
   });
 
-  it("renders child element as disabled or aria-disabled", async () => {
+  it("renders child element as disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button disabled>Continue</calcite-button>`);
 
@@ -105,7 +106,6 @@ describe("calcite-button", () => {
     expect(elementAsLink).toBeNull();
 
     expect(await elementAsButton.getProperty("disabled")).toBe(true);
-    expect(await elementAsButton.getProperty("ariaDisabled")).toBe(null);
 
     const element = await page.find("calcite-button");
     element.setProperty("href", "#anchor");
@@ -117,8 +117,7 @@ describe("calcite-button", () => {
     expect(elementAsButton).toBeNull();
     expect(elementAsLink).not.toBeNull();
 
-    expect(await elementAsLink.getProperty("disabled")).toBe(undefined);
-    expect(await elementAsLink.getProperty("ariaDisabled")).toBe("true");
+    expect(await elementAsLink.getProperty("disabled")).toBe(null);
   });
 
   it("renders as a button with default props", async () => {
@@ -535,12 +534,12 @@ describe("calcite-button", () => {
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+        buttonFocusStyle = await buttonEl.getComputedStyle();
         expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+        buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
@@ -553,12 +552,12 @@ describe("calcite-button", () => {
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
         await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+        buttonFocusStyle = await buttonEl.getComputedStyle();
         expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+        buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
@@ -577,73 +576,28 @@ describe("calcite-button", () => {
       buttonEl = await page.find("calcite-button >>> button");
       await buttonEl.focus();
       await page.waitForChanges();
-      buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+      buttonFocusStyle = await buttonEl.getComputedStyle();
       expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
 
       await buttonEl.hover();
       await page.waitForChanges();
-      buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+      buttonHoverStyle = await buttonEl.getComputedStyle();
       expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });
 
-  describe("when loading changes", () => {
-    it("should render loader with loading-in class when new value is true", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-button id="one-icon" icon-start='plus'></calcite-button>
-        <calcite-button id="two-icons" icon-start='arrow-right' icon-end='download'></calcite-button>
-        <calcite-button id="icons-and-text" icon-start='arrow-right' icon-end='download'>Go!</calcite-button>
-      `);
-      const button1 = await page.find("calcite-button[id='one-icon']");
-      const button2 = await page.find("calcite-button[id='two-icons']");
-      const button3 = await page.find("calcite-button[id='icons-and-text']");
-      await button1.setProperty("loading", true);
-      await button2.setProperty("loading", true);
-      await button3.setProperty("loading", true);
-      await page.waitForChanges();
-      const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
-      expect(loader1).toHaveClass(CSS.loadingIn);
-      expect(loader2).toHaveClass(CSS.loadingIn);
-      expect(loader3).toHaveClass(CSS.loadingIn);
-    });
+  it("should remove calcite-loader from dom when `loading` is false", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
+    const element = await page.find("calcite-button");
+    const loaderSelector = `calcite-button >>> .${CSS.buttonLoader}`;
 
-    it("should render loader with loading-out class when new value is false", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-button loading id="one-icon" icon-start='plus'></calcite-button>
-        <calcite-button loading id="two-icons" icon-start='arrow-right' icon-end='download'></calcite-button>
-        <calcite-button loading id="icons-and-text" icon-start='arrow-right' icon-end='download'>Go!</calcite-button>
-      `);
-      await page.waitForChanges();
-      const button1 = await page.find("calcite-button[id='one-icon']");
-      const button2 = await page.find("calcite-button[id='two-icons']");
-      const button3 = await page.find("calcite-button[id='icons-and-text']");
-      const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
-      await button1.setProperty("loading", false);
-      await button2.setProperty("loading", false);
-      await button3.setProperty("loading", false);
-      await page.waitForChanges();
-      expect(loader1).toHaveClass(CSS.loadingOut);
-      expect(loader2).toHaveClass(CSS.loadingOut);
-      expect(loader3).toHaveClass(CSS.loadingOut);
-    });
+    expect(await page.find(loaderSelector)).toBeTruthy();
 
-    it("should remove calcite-loader from dom when new value is false", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
-      const animationDurationInMs = 300;
-      const element = await page.find("calcite-button");
-      await element.setProperty("loading", false);
-      await page.waitForChanges();
-      await page.waitForTimeout(animationDurationInMs);
-      const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-      expect(loader).toBeNull();
-    });
+    await element.setProperty("loading", false);
+    await page.waitForChanges();
+
+    expect(await page.find(loaderSelector)).toBeNull();
   });
 
   describe("form integration", () => {

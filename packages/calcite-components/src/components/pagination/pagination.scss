@@ -5,10 +5,15 @@
 
 .list {
   @apply flex list-none m-0 p-0;
+  column-gap: var(--calcite-spacing-base);
 }
 
 .list-item {
   @apply flex m-0 p-0;
+}
+
+.hidden-item {
+  display: none;
 }
 
 :host([scale="s"]) {
@@ -87,18 +92,25 @@
   &:hover {
     @apply border-b-color-2;
   }
+  &:active {
+    @apply bg-foreground-3 text-color-1;
+  }
   &.selected {
     @apply text-color-1 border-b-color-brand font-medium;
+
+    &:focus {
+      border-block-end-width: var(--calcite-spacing-xxs);
+      padding-block-start: var(--calcite-spacing-base);
+    }
   }
 }
 
 .chevron {
   &:hover {
-    @apply bg-foreground-2;
-    color: theme("backgroundColor.brand");
+    @apply bg-foreground-2 text-color-1;
   }
   &:active {
-    @apply bg-foreground-3;
+    @apply bg-foreground-3 text-color-1;
   }
   &.disabled {
     @apply pointer-events-none bg-transparent;

@@ -7,5 +7,3 @@ export const ICONS = {
   search: "search",
   close: "x",
 } as const;
-
-export const DEBOUNCE_TIMEOUT = 250;

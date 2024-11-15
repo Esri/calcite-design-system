@@ -13,3 +13,4 @@ type CamelCaseIcons = ExtractBaseIcon<keyof typeof icons>;
 type KebabCaseIcons = KebabCase<CamelCaseIcons>;
 
 export type IconName = KebabCaseIcons | CamelCaseIcons;
+export type IconNameOrString = IconName | string;

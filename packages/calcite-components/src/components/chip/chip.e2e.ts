@@ -1,5 +1,7 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
@@ -151,33 +153,18 @@ describe("calcite-chip", () => {
     let chipCloseButtonFocusStyle;
     let chipCloseButtonHoverStyle;
 
-    it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: chipSnippet });
-      const chipStyles = await page.evaluate(() => {
-        const chip = document.querySelector("calcite-chip");
-        chip.style.setProperty("--calcite-chip-transparent-hover", "rgba(3, 2, 20, 0.14)");
-        chip.style.setProperty("--calcite-chip-transparent-press", "rgba(4, 10, 4, 0.31");
-        return {
-          hoverFocus: window.getComputedStyle(chip).getPropertyValue("--calcite-chip-transparent-hover"),
-          active: window.getComputedStyle(chip).getPropertyValue("--calcite-chip-transparent-press"),
-        };
-      });
-      expect(chipStyles.hoverFocus).toEqual("rgba(3, 2, 20, 0.14)");
-      expect(chipStyles.active).toEqual("rgba(4, 10, 4, 0.31");
-    });
-
     describe("when mode attribute is not provided", () => {
       it("should render chip pseudo classes with default values tied to mode", async () => {
         page = await newE2EPage({ html: chipSnippet });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
         await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
+        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await chipCloseButton.hover();
         await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
+        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
@@ -190,12 +177,12 @@ describe("calcite-chip", () => {
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
         await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
+        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await chipCloseButton.hover();
         await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
+        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
         expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
@@ -214,12 +201,12 @@ describe("calcite-chip", () => {
       chipCloseButton = await page.find("calcite-chip >>> button");
       await chipCloseButton.focus();
       await page.waitForChanges();
-      chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
+      chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
       expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
 
       await chipCloseButton.hover();
       await page.waitForChanges();
-      chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
+      chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
       expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
 
@@ -228,7 +215,7 @@ describe("calcite-chip", () => {
       await page.setContent(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
 
       const chipEl = await page.find(`calcite-chip`);
-      chipEl.setAttribute("closed", true);
+      chipEl.toggleAttribute("closed", true);
       await page.waitForChanges();
 
       expect(await chipEl.isVisible()).toBe(false);
@@ -237,5 +224,70 @@ describe("calcite-chip", () => {
 
   describe("translation support", () => {
     t9n("calcite-chip");
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-chip`, {
+        "--calcite-chip-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-chip-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-chip-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+      });
+    });
+
+    describe("appearance='outline'", () => {
+      themed(html`<calcite-chip appearance="outline">Layers</calcite-chip>`, {
+        "--calcite-chip-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+      });
+    });
+
+    describe("closable", () => {
+      themed(html`<calcite-chip closable>Layers</calcite-chip>`, {
+        "--calcite-chip-close-icon-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("selectable", () => {
+      describe("default", () => {
+        themed(html`<calcite-chip selection-mode="single">Layers</calcite-chip>`, {
+          "--calcite-chip-select-icon-color": {
+            shadowSelector: `.${CSS.selectIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("selected", () => {
+        themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
+          "--calcite-chip-select-icon-color-pressed": {
+            shadowSelector: `.${CSS.selectIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+    });
+
+    describe("icon", () => {
+      themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
+        "--calcite-chip-icon-color": {
+          shadowSelector: `.${CSS.chipIcon}`,
+          targetProp: "color",
+        },
+      });
+    });
   });
 });

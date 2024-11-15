@@ -1,7 +1,8 @@
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Avatar } from "./avatar";
+
 const { scale } = ATTRIBUTES;
 
 type AvatarStoryArgs = Pick<Avatar, "scale" | "fullName" | "label" | "username" | "userId" | "thumbnail">;

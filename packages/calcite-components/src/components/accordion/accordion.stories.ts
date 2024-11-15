@@ -1,6 +1,7 @@
+// import { getVariableTestValue } from "../../tests/utils";
 import { AccordionItem } from "../accordion-item/accordion-item";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -215,4 +216,15 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
 
 export const longHeading_MediumIconForLargeAccordionItem_TestOnly = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
+`;
+export const slottedItemsStretched = (): string => html`
+  <calcite-accordion scale="l">
+    <calcite-accordion-item description="Yachts, boats, and dinghies" heading="Watercraft" icon-start="embark">
+      <calcite-action slot="actions-start" icon="smile"> </calcite-action>
+      <calcite-notice open>
+        <div slot="message">Recommended for coastal use</div>
+      </calcite-notice>
+      <calcite-action slot="actions-end" icon="smile"></calcite-action>
+    </calcite-accordion-item>
+  </calcite-accordion>
 `;

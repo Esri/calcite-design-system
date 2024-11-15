@@ -1,6 +1,7 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Loader } from "./loader";
+
 const { determinateType, scale } = ATTRIBUTES;
 
 type LoaderStoryArgs = Pick<Loader, "type" | "scale" | "value">;
@@ -37,6 +38,44 @@ export const inline_TestOnly = (): string => html`
     scale="m"
     inline
   /></calcite-loader><span style="margin:0 10px">Next to some text</span>
+  </div>
+`;
+
+export const determinate = (): string => html`
+  <style>
+    .scales {
+      display: flex;
+      flex-direction: row;
+      gap: 50px;
+    }
+    
+    calcite-loader {
+      /* provide dimensions for consistent screenshots */
+      height: 100px;
+      width: 100px;
+    }
+  </style>
+  <h1>determinate</h1>
+  <div class="scales">
+    <h2>s</h2>
+    <calcite-loader scale="s" type="determinate" value="50"></calcite-loader>
+    <h2>m</h2>
+    <calcite-loader scale="m" type="determinate" value="50"></calcite-loader>
+    <h2>l</h2>
+    <calcite-loader scale="l" type="determinate" value="50"></calcite-loader>
+  </div>
+  <br>
+  <h1>determinate-value</h1>
+  <div class="scales">
+    <h2>s</h2>
+    <calcite-loader scale="s" type="determinate-value" value="50" />
+    </calcite-loader>
+    <h2>m</h2>
+    <calcite-loader scale="m" type="determinate-value" value="50" />
+    </calcite-loader>
+    <h2>l</h2>
+    <calcite-loader scale="l" type="determinate-value" value="50" />
+    </calcite-loader>
   </div>
 `;
 

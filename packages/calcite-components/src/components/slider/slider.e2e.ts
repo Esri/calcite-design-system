@@ -1,8 +1,10 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
+import { defaults, disabled, formAssociated, hidden, labelable, renders, reflects } from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
 import { CSS } from "./resources";
+import type { Slider } from "./slider";
 
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
@@ -64,6 +66,26 @@ describe("calcite-slider", () => {
       {
         propertyName: "value",
         defaultValue: 0,
+      },
+      { propertyName: "status", defaultValue: "idle" },
+      { propertyName: "validationIcon", defaultValue: undefined },
+      { propertyName: "validationMessage", defaultValue: undefined },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-slider", [
+      {
+        propertyName: "scale",
+        value: "m",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
       },
     ]);
   });
@@ -202,6 +224,19 @@ describe("calcite-slider", () => {
 
       expect(await slider.getProperty("value")).toBe(4.48);
     });
+  });
+
+  // skipped due to a bug where value is rounded down instead of up:
+  // https://github.com/Esri/calcite-design-system/issues/9684
+  it.skip("step floating point precision", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-slider value="1.4" label-handles max="10" min="0.1" snap step="0.1"></calcite-slider>`,
+    );
+    const slider = await page.find("calcite-slider");
+
+    await page.waitForChanges();
+    expect((await slider.getProperty("value")).toString()).toBe("1.4");
   });
 
   it("only selects values on step interval when snap prop is passed", async () => {
@@ -610,6 +645,34 @@ describe("calcite-slider", () => {
       expect(inputEvent).toHaveReceivedEventTimes(6);
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
+
+    it("does not allow text selection when slider is used", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-slider 
+          value="30" 
+          label-handles 
+          label-ticks 
+          max-label="100" 
+          ticks="10" 
+          min="0" 
+          max="100" 
+          value="50" 
+          step="1"
+        >
+        </calcite-slider>`,
+      });
+      await page.waitForChanges();
+
+      const thumbRect = await getElementRect(page, "calcite-slider", ".thumb");
+
+      await page.mouse.move(thumbRect.x, thumbRect.y);
+      await page.mouse.down();
+      await page.mouse.move(thumbRect.x + 500, thumbRect.y + 200);
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
+    });
   });
 
   describe("histogram", () => {
@@ -786,7 +849,7 @@ describe("calcite-slider", () => {
 
     it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
       const page = await newE2EPage({ html: nonMirroredSlider });
-      await page.$eval("calcite-slider", (slider: HTMLCalciteSliderElement) => {
+      await page.$eval("calcite-slider", (slider: Slider["el"]) => {
         slider.histogram = [
           [0, 0],
           [20, 12],
@@ -985,7 +1048,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type) => {
               if (type === "value") {
                 return `${value}%`;
@@ -1026,7 +1089,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type, defaultFormatter) => {
               if (type === "value") {
                 return defaultFormatter(value);
@@ -1060,7 +1123,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type) => {
               if (type === "min") {
                 return `-${value}%`;
@@ -1108,7 +1171,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type, defaultFormatter) =>
               type === "min"
                 ? // default formatting

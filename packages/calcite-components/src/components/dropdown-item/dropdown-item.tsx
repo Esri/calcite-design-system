@@ -1,15 +1,13 @@
+import { createRef } from "lit-html/directives/ref.js";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  VNode,
-} from "@stencil/core";
+  method,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
@@ -26,90 +24,77 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { CSS } from "./resources";
+import { styles } from "./dropdown-item.scss";
 
-/**
- * @slot - A slot for adding text.
- */
-@Component({
-  tag: "calcite-dropdown-item",
-  styleUrl: "dropdown-item.scss",
-  shadow: true,
-})
-export class DropdownItem implements InteractiveComponent, LoadableComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-dropdown-item": DropdownItem;
+  }
+}
+
+/** @slot - A slot for adding text. */
+export class DropdownItem extends LitElement implements InteractiveComponent, LoadableComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  /** if href is requested, track the rendered child link */
+  private childLink = createRef<HTMLAnchorElement>();
+
+  /** id of containing group */
+  private parentDropdownGroupEl: DropdownGroup["el"];
+
+  /** requested group */
+  private requestedDropdownGroup: DropdownGroup["el"];
+
+  /** requested item */
+  private requestedDropdownItem: DropdownItem["el"];
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    *
    * Determines if the component will render as an anchor.
    */
-  @Prop({ reflect: true }) href: string;
-
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
-
-  /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconName;
+  @property({ reflect: true }) iconEnd: IconNameOrString;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true }) iconStart: IconNameOrString;
 
   /** Accessible name for the component. */
-  @Prop() label: string;
+  @property() label: string;
 
   /** Specifies the relationship to the linked document defined in `href`. */
-  @Prop({ reflect: true }) rel: string;
-
-  /** When `true`, the component is selected. */
-  @Prop({ reflect: true, mutable: true }) selected = false;
-
-  /** Specifies the frame or window to open the linked document. */
-  @Prop({ reflect: true }) target: string;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fires when the component is selected. */
-  @Event({ cancelable: false }) calciteDropdownItemSelect: EventEmitter<void>;
+  @property({ reflect: true }) rel: string;
 
   /**
-   * @internal
+   * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
+   *
+   * @private
    */
-  @Event({ cancelable: false }) calciteInternalDropdownItemSelect: EventEmitter<RequestedItem>;
+  @property({ reflect: true }) scale: Scale = "m";
 
-  /** @internal */
-  @Event({ cancelable: false })
-  calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
-
-  /** @internal */
-  @Event({ cancelable: false }) calciteInternalDropdownCloseRequest: EventEmitter<void>;
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
-  }
+  /** When `true`, the component is selected. */
+  @property({ reflect: true }) selected = false;
 
   /**
    * Specifies the selection mode inherited from `calcite-dropdown-group`, defaults to `single`:
@@ -117,147 +102,88 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
    * - `single` allows only one selection (default),
    * - `none` doesn't allow for any selection.
    *
-   * @internal
+   * @private
    */
-  @Prop() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
+  @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
-  /**
-   * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  /** Specifies the frame or window to open the linked document. */
+  @property({ reflect: true }) target: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  componentWillLoad(): void {
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    this.el?.focus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component is selected. */
+  calciteDropdownItemSelect = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalDropdownCloseRequest = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalDropdownItemKeyEvent = createEvent<ItemKeyboardEvent>({ cancelable: false });
+
+  /** @private */
+  calciteInternalDropdownItemSelect = createEvent<RequestedItem>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("click", this.onClick);
+    this.listen("keydown", this.keyDownHandler);
+    this.listenOn<CustomEvent>(
+      document.body,
+      "calciteInternalDropdownItemChange",
+      this.updateActiveItemOnChange,
+    );
+  }
+
+  override connectedCallback(): void {
+    this.initialize();
+  }
+
+  load(): void {
     setUpLoadableComponent(this);
     this.initialize();
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  connectedCallback(): void {
-    this.initialize();
-  }
-
-  componentDidRender(): void {
+  override updated(): void {
     updateHostInteraction(this);
   }
 
-  render(): VNode {
-    const { href, selectionMode, label, iconFlipRtl } = this;
-
-    const iconStartEl = (
-      <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
-        icon={this.iconStart}
-        scale={getIconScale(this.scale)}
-      />
-    );
-    const contentNode = (
-      <span class={CSS.itemContent}>
-        <slot />
-      </span>
-    );
-    const iconEndEl = (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
-        icon={this.iconEnd}
-        scale={getIconScale(this.scale)}
-      />
-    );
-
-    const slottedContent =
-      this.iconStart && this.iconEnd
-        ? [iconStartEl, contentNode, iconEndEl]
-        : this.iconStart
-          ? [iconStartEl, contentNode]
-          : this.iconEnd
-            ? [contentNode, iconEndEl]
-            : contentNode;
-
-    const contentEl = !href ? (
-      slottedContent
-    ) : (
-      <a
-        aria-label={label}
-        class={CSS.link}
-        href={href}
-        ref={(el) => (this.childLink = el)}
-        rel={this.rel}
-        tabIndex={-1}
-        target={this.target}
-      >
-        {slottedContent}
-      </a>
-    );
-
-    const itemRole = href
-      ? null
-      : selectionMode === "single"
-        ? "menuitemradio"
-        : selectionMode === "multiple"
-          ? "menuitemcheckbox"
-          : "menuitem";
-
-    const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
-    const { disabled } = this;
-
-    return (
-      <Host
-        aria-checked={itemAria}
-        aria-label={!href ? label : ""}
-        role={itemRole}
-        tabIndex={disabled ? -1 : 0}
-      >
-        <InteractiveContainer disabled={disabled}>
-          <div
-            class={{
-              [CSS.container]: true,
-              [CSS.containerNone]: selectionMode === "none",
-            }}
-          >
-            {selectionMode !== "none" ? (
-              <calcite-icon
-                class={CSS.icon}
-                icon={selectionMode === "multiple" ? "check" : "bullet-point"}
-                scale={getIconScale(this.scale)}
-              />
-            ) : null}
-            {contentEl}
-          </div>
-        </InteractiveContainer>
-      </Host>
-    );
+  loaded(): void {
+    setComponentLoaded(this);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Listen("click") onClick(): void {
+  // #region Private Methods
+
+  private onClick(): void {
     this.emitRequestedItem();
   }
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  private keyDownHandler(event: KeyboardEvent): void {
     switch (event.key) {
       case " ":
       case "Enter":
         this.emitRequestedItem();
         if (this.href) {
-          this.childLink.click();
+          this.childLink.value.click();
         }
         event.preventDefault();
         break;
@@ -278,8 +204,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
     }
   }
 
-  @Listen("calciteInternalDropdownItemChange", { target: "body" })
-  updateActiveItemOnChange(event: CustomEvent): void {
+  private updateActiveItemOnChange(event: CustomEvent): void {
     const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
 
     if (parentEmittedChange) {
@@ -289,32 +214,6 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
     }
     event.stopPropagation();
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDropdownItemElement;
-
-  /** id of containing group */
-  private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
-
-  /** requested group */
-  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
-
-  /** requested item */
-  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
-
-  /** if href is requested, track the rendered child link*/
-  private childLink: HTMLAnchorElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 
   private initialize(): void {
     this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
@@ -352,4 +251,100 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
       requestedDropdownGroup: this.parentDropdownGroupEl,
     });
   }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const { href, selectionMode, label, iconFlipRtl } = this;
+
+    const iconStartEl = (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale={getIconScale(this.scale)}
+      />
+    );
+    const contentNode = (
+      <span class={CSS.itemContent}>
+        <slot />
+      </span>
+    );
+    const iconEndEl = (
+      <calcite-icon
+        class={CSS.iconEnd}
+        flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale={getIconScale(this.scale)}
+      />
+    );
+
+    const slottedContent =
+      this.iconStart && this.iconEnd
+        ? [iconStartEl, contentNode, iconEndEl]
+        : this.iconStart
+          ? [iconStartEl, contentNode]
+          : this.iconEnd
+            ? [contentNode, iconEndEl]
+            : contentNode;
+
+    const contentEl = !href ? (
+      slottedContent
+    ) : (
+      <a
+        ariaLabel={label}
+        class={CSS.link}
+        href={href}
+        ref={this.childLink}
+        rel={this.rel}
+        tabIndex={-1}
+        target={this.target}
+      >
+        {slottedContent}
+      </a>
+    );
+
+    const itemRole = href
+      ? null
+      : selectionMode === "single"
+        ? "menuitemradio"
+        : selectionMode === "multiple"
+          ? "menuitemcheckbox"
+          : "menuitem";
+
+    const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
+    const { disabled } = this;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaChecked = itemAria;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLabel = !href ? label : "";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = itemRole;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "tabIndex", disabled ? -1 : 0);
+
+    return (
+      <InteractiveContainer disabled={disabled}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.containerNone]: selectionMode === "none",
+          }}
+        >
+          {selectionMode !== "none" ? (
+            <calcite-icon
+              class={CSS.icon}
+              icon={selectionMode === "multiple" ? "check" : "bullet-point"}
+              scale={getIconScale(this.scale)}
+            />
+          ) : null}
+          {contentEl}
+        </div>
+      </InteractiveContainer>
+    );
+  }
+
+  // #endregion
 }

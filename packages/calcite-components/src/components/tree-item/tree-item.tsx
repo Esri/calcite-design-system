@@ -1,31 +1,14 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, state, JsxNode, setAttribute } from "@arcgis/lumina";
 import {
   filterDirectChildren,
   getElementDir,
-  getSlotted,
+  slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -33,51 +16,159 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import type { Tree } from "../tree/tree";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { styles } from "./tree-item.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-tree-item": TreeItem;
+  }
+}
 
 /**
  * @slot - A slot for adding text.
  * @slot children - A slot for adding nested `calcite-tree` elements.
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
-@Component({
-  tag: "calcite-tree-item",
-  styleUrl: "tree-item.scss",
-  shadow: true,
-})
-export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+export class TreeItem extends LitElement implements InteractiveComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private actionSlotWrapper = createRef<HTMLDivElement>();
+
+  private childTree: Tree["el"];
+
+  private isSelectionMultiLike: boolean;
+
+  private parentTreeItem?: TreeItem["el"];
+
+  private userChangedValue = false;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasEndActions = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * Used to make sure initially expanded tree-item can properly
+   * transition and emit events from closed state when rendered.
+   *
+   * @private
    */
-  @Prop({ reflect: true }) disabled = false;
+  @state() updateAfterInitialRender = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** @private */
+  @property({ reflect: true }) depth = -1;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component is expanded. */
-  @Prop({ mutable: true, reflect: true }) expanded = false;
+  @property({ reflect: true }) expanded = false;
 
-  @Watch("expanded")
-  expandedHandler(newValue: boolean): void {
-    this.updateParentIsExpanded(this.el, newValue);
-  }
+  /** @private */
+  @property({ reflect: true }) hasChildren: boolean = null;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconName;
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /**
+   * In ancestor selection mode, show as indeterminate when only some children are selected.
+   *
+   * @private
+   */
+  @property({ reflect: true }) indeterminate = false;
+
+  /** Accessible name for the component. */
+  @property() label: string;
+
+  /** @private */
+  @property({ reflect: true }) lines: boolean;
+
+  /** @private */
+  @property() parentExpanded = false;
+
+  /** @private */
+  @property({ reflect: true }) scale: Scale;
 
   /** When `true`, the component is selected. */
-  @Prop({ mutable: true, reflect: true }) selected = false;
+  @property({ reflect: true }) selected = false;
 
-  @Watch("selected")
-  handleSelectedChange(value: boolean): void {
+  /** @private */
+  @property({ reflect: true }) selectionMode: SelectionMode;
+
+  // #endregion
+
+  // #region Events
+
+  /** @private */
+  calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("click", this.onClick);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
+    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
+  }
+
+  load(): void {
+    requestAnimationFrame(() => (this.updateAfterInitialRender = true));
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    this.preWillUpdate();
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
+      this.updateChildTree();
+    }
+
+    if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
+      this.handleSelectedChange(this.selected);
+    }
+
+    if (changes.has("selectionMode")) {
+      this.getSelectionMode();
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    this.updateAncestorTree();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+  private handleSelectedChange(value: boolean): void {
     if (this.selectionMode === "ancestors" && !this.userChangedValue) {
       if (value) {
         this.indeterminate = false;
@@ -89,254 +180,12 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     }
   }
 
-  /**
-   * @internal
-   */
-  @Prop() parentExpanded = false;
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) depth = -1;
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) hasChildren: boolean = null;
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) lines: boolean;
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) scale: Scale;
-
-  /**
-   * In ancestor selection mode, show as indeterminate when only some children are selected.
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- ignoring until https://github.com/stencil-community/stencil-eslint/issues/111 is fixed
-  @Prop({ reflect: true, mutable: true }) indeterminate = false;
-
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
-
-  @Watch("selectionMode")
-  getSelectionMode(): void {
+  private getSelectionMode(): void {
     this.isSelectionMultiLike =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
-    if (this.parentTreeItem) {
-      const { expanded } = this.parentTreeItem;
-      this.updateParentIsExpanded(this.parentTreeItem, expanded);
-    }
-    connectConditionalSlotComponent(this);
-    connectInteractive(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
-  }
-
-  componentWillRender(): void {
-    this.hasChildren = !!this.el.querySelector("calcite-tree");
-    this.depth = 0;
-    let parentTree = this.el.closest("calcite-tree");
-
-    if (!parentTree) {
-      return;
-    }
-
-    this.selectionMode = parentTree.selectionMode;
-    this.scale = parentTree.scale || "m";
-    this.lines = parentTree.lines;
-
-    let nextParentTree;
-    while (parentTree) {
-      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
-      if (nextParentTree === parentTree) {
-        break;
-      } else {
-        parentTree = nextParentTree;
-        this.depth = this.depth + 1;
-      }
-    }
-  }
-
-  componentWillLoad(): void {
-    requestAnimationFrame(() => (this.updateAfterInitialRender = true));
-  }
-
-  componentDidLoad(): void {
-    this.updateAncestorTree();
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTreeItemElement;
-
-  private isSelectionMultiLike: boolean;
-
-  render(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint =
-      this.selectionMode === "single" ||
-      this.selectionMode === "children" ||
-      this.selectionMode === "single-persist";
-    const showCheckmark =
-      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
-    const showBlank = this.selectionMode === "none" && !this.hasChildren;
-
-    const chevron = this.hasChildren ? (
-      <calcite-icon
-        class={{
-          [CSS.chevron]: true,
-          [CSS_UTILITY.rtl]: rtl,
-        }}
-        data-test-id="icon"
-        icon={ICONS.chevronRight}
-        onClick={this.iconClickHandler}
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
-    const defaultSlotNode: VNode = <slot key="default-slot" />;
-
-    const checkbox =
-      this.selectionMode === "ancestors" ? (
-        <label class={CSS.checkboxLabel} key="checkbox-label">
-          <calcite-checkbox
-            checked={this.selected}
-            class={CSS.checkbox}
-            data-test-id="checkbox"
-            indeterminate={this.hasChildren && this.indeterminate}
-            scale={this.scale}
-            tabIndex={-1}
-          />
-          {defaultSlotNode}
-        </label>
-      ) : null;
-    const selectedIcon = showBulletPoint
-      ? ICONS.bulletPoint
-      : showCheckmark
-        ? ICONS.checkmark
-        : showBlank
-          ? ICONS.blank
-          : null;
-    const itemIndicator = selectedIcon ? (
-      <calcite-icon
-        class={{
-          [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
-          [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
-          [CSS_UTILITY.rtl]: rtl,
-        }}
-        icon={selectedIcon}
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
-
-    const hidden = !(this.parentExpanded || this.depth === 1);
-    const isExpanded = this.updateAfterInitialRender && this.expanded;
-    const { hasEndActions } = this;
-    const slotNode = (
-      <slot
-        key="actionsEndSlot"
-        name={SLOTS.actionsEnd}
-        onSlotchange={this.actionsEndSlotChangeHandler}
-      />
-    );
-
-    const iconStartEl = (
-      <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
-        icon={this.iconStart}
-        scale={getIconScale(this.scale)}
-      />
-    );
-
-    return (
-      <Host
-        aria-expanded={this.hasChildren ? toAriaBoolean(isExpanded) : undefined}
-        aria-hidden={toAriaBoolean(hidden)}
-        aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
-        calcite-hydrated-hidden={hidden}
-        role="treeitem"
-        tabIndex={this.disabled ? -1 : 0}
-      >
-        <InteractiveContainer disabled={this.disabled}>
-          <div class={{ [CSS.itemExpanded]: isExpanded }}>
-            <div class={CSS.nodeAndActionsContainer}>
-              <div
-                class={{
-                  [CSS.nodeContainer]: true,
-                  [CSS_UTILITY.rtl]: rtl,
-                }}
-                data-selection-mode={this.selectionMode}
-                ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
-              >
-                {chevron}
-                {itemIndicator}
-                {this.iconStart ? iconStartEl : null}
-                {checkbox ? checkbox : defaultSlotNode}
-              </div>
-              <div
-                class={CSS.actionsEnd}
-                hidden={!hasEndActions}
-                ref={(el) => (this.actionSlotWrapper = el as HTMLElement)}
-              >
-                {slotNode}
-              </div>
-            </div>
-
-            <div
-              class={{
-                [CSS.childrenContainer]: true,
-                [CSS_UTILITY.rtl]: rtl,
-              }}
-              data-test-id="calcite-tree-children"
-              onClick={this.childrenClickHandler}
-              role={this.hasChildren ? "group" : undefined}
-            >
-              <slot name={SLOTS.children} />
-            </div>
-          </div>
-        </InteractiveContainer>
-      </Host>
-    );
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("click")
-  onClick(event: Event): void {
+  private onClick(event: Event): void {
     if (this.disabled || this.isActionEndEvent(event)) {
       return;
     }
@@ -355,15 +204,16 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.userChangedValue = true;
   }
 
-  private iconClickHandler = (event: MouseEvent): void => {
+  private iconClickHandler(event: MouseEvent): void {
     event.stopPropagation();
     this.expanded = !this.expanded;
-  };
+  }
 
-  private childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
+  private childrenClickHandler(event: MouseEvent): void {
+    event.stopPropagation();
+  }
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (this.isActionEndEvent(event) || event.defaultPrevented) {
       return;
     }
@@ -399,67 +249,30 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  private updateChildTree(): void {
+    const { childTree } = this;
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
+    if (!childTree) {
+      return;
+    }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+    childTree.parentExpanded = this.expanded;
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
+  private handleChildrenSlotChange(event: Event): void {
+    const childTree = slotChangeGetAssignedElements(event).filter((el): el is Tree["el"] =>
+      el.matches("calcite-tree"),
+    )[0];
 
-  @State() hasEndActions = false;
+    this.childTree = childTree;
 
-  /**
-   * Used to make sure initially expanded tree-item can properly
-   * transition and emit events from closed state when rendered.
-   *
-   * @private
-   */
-  @State() updateAfterInitialRender = false;
-
-  actionSlotWrapper!: HTMLElement;
-
-  childrenSlotWrapper!: HTMLElement;
-
-  defaultSlotWrapper!: HTMLElement;
-
-  private parentTreeItem?: HTMLCalciteTreeItemElement;
-
-  private userChangedValue = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+    this.updateChildTree();
+  }
 
   private isActionEndEvent(event: Event): boolean {
     const composedPath = event.composedPath();
-    return composedPath.includes(this.actionSlotWrapper);
+    return composedPath.includes(this.actionSlotWrapper.value);
   }
-
-  private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
-    const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
-      all: true,
-      selector: "calcite-tree-item",
-    });
-    items.forEach((item) => (item.parentExpanded = expanded));
-  };
 
   /**
    * This is meant to be called in `componentDidLoad` in order to take advantage of the hierarchical component lifecycle
@@ -476,9 +289,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     if (this.selected) {
       const parentTree = this.el.parentElement;
       const siblings = Array.from(parentTree?.children);
-      const selectedSiblings = siblings.filter(
-        (child: HTMLCalciteTreeItemElement) => child.selected,
-      );
+      const selectedSiblings = siblings.filter((child: TreeItem["el"]) => child.selected);
 
       if (siblings.length === selectedSiblings.length) {
         parentItem.selected = true;
@@ -488,10 +299,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       }
 
       const childItems = Array.from(
-        this.el.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])"),
+        this.el.querySelectorAll<TreeItem["el"]>("calcite-tree-item:not([disabled])"),
       );
 
-      childItems.forEach((item: HTMLCalciteTreeItemElement) => {
+      childItems.forEach((item: TreeItem["el"]) => {
         item.selected = true;
         item.indeterminate = false;
       });
@@ -501,7 +312,179 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     }
   }
 
-  private actionsEndSlotChangeHandler = (event: Event): void => {
+  private actionsEndSlotChangeHandler(event: Event): void {
     this.hasEndActions = slotChangeHasAssignedElement(event);
-  };
+  }
+
+  preWillUpdate(): void {
+    this.hasChildren = !!this.el.querySelector("calcite-tree");
+    this.depth = 0;
+    let parentTree = this.el.closest("calcite-tree");
+    if (!parentTree) {
+      return;
+    }
+
+    this.selectionMode = parentTree.selectionMode;
+    this.scale = parentTree.scale || "m";
+    this.lines = parentTree.lines;
+    let nextParentTree;
+    while (parentTree) {
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
+      if (nextParentTree === parentTree) {
+        break;
+      } else {
+        parentTree = nextParentTree;
+        this.depth = this.depth + 1;
+      }
+    }
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const rtl = getElementDir(this.el) === "rtl";
+    const showBulletPoint =
+      this.selectionMode === "single" ||
+      this.selectionMode === "children" ||
+      this.selectionMode === "single-persist";
+    const showCheckmark =
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
+    const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
+
+    const chevron = this.hasChildren ? (
+      <calcite-icon
+        class={{
+          [CSS.chevron]: true,
+          [CSS_UTILITY.rtl]: rtl,
+        }}
+        data-test-id="icon"
+        icon={ICONS.chevronRight}
+        onClick={this.iconClickHandler}
+        scale={getIconScale(this.scale)}
+      />
+    ) : null;
+    const defaultSlotNode: JsxNode = <slot key="default-slot" />;
+
+    const checkbox =
+      this.selectionMode === "ancestors" ? (
+        <div class={CSS.checkboxContainer}>
+          <calcite-icon
+            class={CSS.checkbox}
+            icon={
+              this.selected
+                ? ICONS.checkSquareF
+                : checkboxIsIndeterminate
+                  ? ICONS.minusSquareF
+                  : ICONS.square
+            }
+            scale={getIconScale(this.scale)}
+          />
+          <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
+        </div>
+      ) : null;
+    const selectedIcon = showBulletPoint
+      ? ICONS.bulletPoint
+      : showCheckmark
+        ? ICONS.checkmark
+        : showBlank
+          ? ICONS.blank
+          : null;
+    const itemIndicator = selectedIcon ? (
+      <calcite-icon
+        class={{
+          [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
+          [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
+          [CSS_UTILITY.rtl]: rtl,
+        }}
+        icon={selectedIcon}
+        scale={getIconScale(this.scale)}
+      />
+    ) : null;
+
+    const hidden = !(this.parentExpanded || this.depth === 1);
+    const isExpanded = this.updateAfterInitialRender && this.expanded;
+    const { hasEndActions } = this;
+    const slotNode = (
+      <slot
+        key="actionsEndSlot"
+        name={SLOTS.actionsEnd}
+        onSlotChange={this.actionsEndSlotChangeHandler}
+      />
+    );
+
+    const iconStartEl = (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale={getIconScale(this.scale)}
+      />
+    );
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaChecked =
+      this.selectionMode === "multiple" ||
+      this.selectionMode === "multichildren" ||
+      this.selectionMode === "ancestors"
+        ? toAriaBoolean(this.selected)
+        : undefined;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : undefined;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaHidden = toAriaBoolean(hidden);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLive = "polite";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaSelected =
+      this.selectionMode === "single" ||
+      this.selectionMode === "children" ||
+      this.selectionMode === "single-persist"
+        ? toAriaBoolean(this.selected)
+        : undefined;
+    this.el.toggleAttribute("calcite-hydrated-hidden", hidden);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "treeitem";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "tabIndex", this.disabled ? -1 : 0);
+
+    return (
+      <InteractiveContainer disabled={this.disabled}>
+        <div class={{ [CSS.itemExpanded]: isExpanded }}>
+          <div class={CSS.nodeAndActionsContainer}>
+            <div
+              class={{
+                [CSS.nodeContainer]: true,
+                [CSS_UTILITY.rtl]: rtl,
+              }}
+              data-selection-mode={this.selectionMode}
+            >
+              {chevron}
+              {itemIndicator}
+              {this.iconStart ? iconStartEl : null}
+              {checkbox ? checkbox : defaultSlotNode}
+            </div>
+            <div class={CSS.actionsEnd} hidden={!hasEndActions} ref={this.actionSlotWrapper}>
+              {slotNode}
+            </div>
+          </div>
+
+          <div
+            class={{
+              [CSS.childrenContainer]: true,
+              [CSS_UTILITY.rtl]: rtl,
+            }}
+            data-test-id="calcite-tree-children"
+            onClick={this.childrenClickHandler}
+            role={this.hasChildren ? "group" : undefined}
+          >
+            <slot name={SLOTS.children} onSlotChange={this.handleChildrenSlotChange} />
+          </div>
+        </div>
+      </InteractiveContainer>
+    );
+  }
+
+  // #endregion
 }

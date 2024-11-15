@@ -28,6 +28,7 @@ For comprehensive guidance on using and implementing `calcite-scrim`, refer to t
 ### Used by
 
 - [calcite-block](../block)
+- [calcite-dialog](../dialog)
 - [calcite-list](../list)
 - [calcite-modal](../modal)
 - [calcite-panel](../panel)
@@ -45,6 +46,7 @@ For comprehensive guidance on using and implementing `calcite-scrim`, refer to t
 graph TD;
   calcite-scrim --> calcite-loader
   calcite-block --> calcite-scrim
+  calcite-dialog --> calcite-scrim
   calcite-list --> calcite-scrim
   calcite-modal --> calcite-scrim
   calcite-panel --> calcite-scrim

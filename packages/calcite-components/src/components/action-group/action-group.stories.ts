@@ -40,7 +40,7 @@ export const withoutDefinedGridGap_TestOnly = (): string =>
   </calcite-action-group>`;
 
 export const withDefinedGridGap_TestOnly = (): string => html`
-  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0; --calcite-action-group-padding:0;">
+  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0;">
     <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
     <calcite-action text="Save" icon="chevron-up"></calcite-action>
     <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>
