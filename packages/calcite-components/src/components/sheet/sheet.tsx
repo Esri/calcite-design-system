@@ -1,26 +1,16 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { PropertyValues } from "lit";
 import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -41,178 +31,219 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
+import { useT9n } from "../../controllers/useT9n";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
-import { SheetMessages } from "./assets/sheet/t9n";
+import T9nStrings from "./assets/t9n/sheet.t9n.en.json";
+import { styles } from "./sheet.scss";
 
-@Component({
-  tag: "calcite-sheet",
-  styleUrl: "sheet.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
+declare global {
+  interface DeclareElements {
+    "calcite-sheet": Sheet;
+  }
+}
+
+/**
+ * TODO: [MIGRATION] This component had a
+ *
+ * @Component () decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs
+ */
 export class Sheet
-  implements
-    T9nComponent,
-    LocalizedComponent,
-    OpenCloseComponent,
-    FocusTrapComponent,
-    LoadableComponent
+  extends LitElement
+  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private contentEl: HTMLDivElement;
+
+  private contentId: string;
+
+  private escapeDeactivates = (event: KeyboardEvent) => {
+    if (event.defaultPrevented || this.escapeDisabled) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  };
+
+  focusTrap: FocusTrap;
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
+
+  private ignoreOpenChange = false;
+
+  private initialOverflowCSS: string;
+
+  private interaction: Interactable;
 
   /**
-   *  Passes a function to run before the component closes.
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  messages = useT9n<typeof T9nStrings>();
+
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserver(),
+  );
+
+  private _open = false;
+
+  private openEnd = (): void => {
+    this.setFocus();
+    this.el.removeEventListener(
+      "calciteSheetOpen",
+      this.openEnd,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  };
+
+  openTransitionProp = "opacity";
+
+  private resizeHandleEl: HTMLDivElement;
+
+  transitionEl: HTMLDivElement;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() resizeValues: ResizeValues = {
+    inlineSize: 0,
+    blockSize: 0,
+    minInlineSize: 0,
+    minBlockSize: 0,
+    maxInlineSize: 0,
+    maxBlockSize: 0,
+  };
+
+  // #endregion
+
+  // #region Public Properties
+
+  /**
+   * Passes a function to run before the component closes.
    *
    * @returns {Promise<void>}
    */
-  @Prop() beforeClose: (el: HTMLCalciteSheetElement) => Promise<void>;
+  @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
 
   /**
    * Specifies the display mode - `"float"` (content is separated detached),
    * or `"overlay"` (displays on top of center content).
    */
-  @Prop({ reflect: true }) displayMode: DisplayMode = "overlay";
-
-  @State() effectiveLocale: string;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
+  @property({ reflect: true }) displayMode: DisplayMode = "overlay";
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
    *
-   * @internal
+   * @private
    */
-  @Prop() embedded = false;
+  @property() embedded = false;
 
   /** When `true`, disables the default close on escape behavior. */
-  @Prop({ reflect: true }) escapeDisabled = false;
+  @property({ reflect: true }) escapeDisabled = false;
 
-  /**
-   * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
-   */
-  @Prop({ reflect: true }) heightScale: Scale = "m";
+  /** When `true`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
-  /**
-   * When `true`, prevents focus trapping.
-   */
-  @Prop({ reflect: true }) focusTrapDisabled = false;
-
-  @Watch("focusTrapDisabled")
-  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
-  }
+  /** When `position` is `"block-start"` or `"block-end"`, specifies the height of the component. */
+  @property({ reflect: true }) heightScale: Scale = "m";
 
   /**
    * Specifies the label of the component.
-   */
-  @Prop() label!: string;
-
-  /**
-   * Made into a prop for testing purposes only
+   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
+   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
-   * @internal
+   * @required
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: SheetMessages;
+  @property() label: string;
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
+  /** Use this property to override individual strings used by the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<SheetMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** When `true`, displays and positions the component. */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this._open;
   }
 
-  /** When `true`, displays and positions the component.  */
-  @Prop({ mutable: true, reflect: true }) open = false;
-
-  @Watch("open")
-  toggleSheet(value: boolean): void {
-    if (this.ignoreOpenChange) {
-      return;
+  set open(open: boolean) {
+    const oldOpen = this._open;
+    if (open !== oldOpen) {
+      this._open = open;
+      this.toggleSheet(open);
     }
-
-    if (value) {
-      this.openSheet();
-    } else {
-      this.closeSheet();
-    }
-  }
-
-  @Watch("opened")
-  handleOpenedChange(): void {
-    onToggleOpenCloseComponent(this);
   }
 
   /**
    * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
    *
-   * @internal.
+   * @private
    */
-  @Prop({ mutable: true, reflect: true }) opened = false;
+  @property({ reflect: true }) opened = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) outsideCloseDisabled = false;
+  @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
-  @Prop({ reflect: true }) position: LogicalFlowPosition = "inline-start";
+  @property({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
-  /**
-   * When `true`, the component is resizable.
-   */
-  @Prop({ reflect: true }) resizable = false;
+  /** When `true`, the component is resizable. */
+  @property({ reflect: true }) resizable = false;
 
-  @Watch("open")
-  @Watch("position")
-  @Watch("resizable")
-  handleInteractionChange(): void {
-    this.setupInteractions();
+  /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
+  @property({ reflect: true }) widthScale: Scale = "m";
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component's "close" button - the first focusable item. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
   }
 
-  /**
-   * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale: Scale = "m";
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-    setUpLoadableComponent(this);
-    // when sheet initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
-      requestAnimationFrame(() => this.openSheet());
-    }
+  /** Updates the element(s) that are used within the focus-trap of the component. */
+  @method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
+  // #endregion
 
-  connectedCallback(): void {
+  // #region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteSheetBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteSheetBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteSheetClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is open and animation is complete. */
+  calciteSheetOpen = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectLocalized(this);
-    connectMessages(this);
     connectFocusTrap(this, {
       focusTrapOptions: {
         // Scrim has it's own close handler, allow it to take over.
@@ -224,161 +255,84 @@ export class Sheet
     this.setupInteractions();
   }
 
-  disconnectedCallback(): void {
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+    // when sheet initially renders, if active was set we need to open as watcher doesn't fire
+    if (this.open) {
+      requestAnimationFrame(() => this.openSheet());
+    }
+  }
+
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
+      this.handleFocusTrapDisabled(this.focusTrapDisabled);
+    }
+
+    if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
+      this.handleOpenedChange();
+    }
+
+    if (
+      (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
+      (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+    ) {
+      this.handleInteractionChange();
+    }
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
-    disconnectLocalized(this);
-    disconnectMessages(this);
     deactivateFocusTrap(this);
     this.embedded = false;
     this.cleanupInteractions();
   }
 
-  render(): VNode {
-    const { resizable, position, resizeValues } = this;
-    const dir = getElementDir(this.el);
-    const isBlockPosition = position === "block-start" || position === "block-end";
+  // #endregion
 
-    return (
-      <Host
-        aria-describedby={this.contentId}
-        aria-label={this.label}
-        aria-modal="true"
-        role="dialog"
-      >
-        <div
-          class={{
-            [CSS.container]: true,
-            [CSS.containerOpen]: this.opened,
-            [CSS.containerEmbedded]: this.embedded,
-            [CSS_UTILITY.rtl]: dir === "rtl",
-          }}
-          ref={this.setTransitionEl}
-        >
-          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-          <div
-            class={{
-              [CSS.content]: true,
-            }}
-            ref={this.setContentEl}
-          >
-            <slot />
-            {resizable ? (
-              <div
-                aria-label={this.messages.resizeEnabled}
-                aria-orientation={isBlockPosition ? "vertical" : "horizontal"}
-                aria-valuemax={
-                  isBlockPosition ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
-                }
-                aria-valuemin={
-                  isBlockPosition ? resizeValues.minBlockSize : resizeValues.minInlineSize
-                }
-                aria-valuenow={isBlockPosition ? resizeValues.blockSize : resizeValues.inlineSize}
-                class={CSS.resizeHandle}
-                key="resize-handle"
-                onKeyDown={this.handleKeyDown}
-                ref={this.setResizeHandleEl}
-                role="separator"
-                tabIndex={0}
-                touch-action="none"
-              >
-                <calcite-icon icon={this.getResizeIcon()} scale="s" />
-              </div>
-            ) : null}
-          </div>
-        </div>
-      </Host>
-    );
+  // #region Private Methods
+
+  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties / State
-  //
-  //--------------------------------------------------------------------------
+  private toggleSheet(value: boolean): void {
+    if (this.ignoreOpenChange) {
+      return;
+    }
 
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLDivElement;
-
-  focusTrap: FocusTrap;
-
-  @Element() el: HTMLCalciteSheetElement;
-
-  @State() defaultMessages: SheetMessages;
-
-  @State() resizeValues: ResizeValues = {
-    inlineSize: 0,
-    blockSize: 0,
-    minInlineSize: 0,
-    minBlockSize: 0,
-    maxInlineSize: 0,
-    maxBlockSize: 0,
-  };
-
-  private contentEl: HTMLDivElement;
-
-  private resizeHandleEl: HTMLDivElement;
-
-  private interaction: Interactable;
-
-  private contentId: string;
-
-  private initialOverflowCSS: string;
-
-  private ignoreOpenChange = false;
-
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteSheetBeforeClose: EventEmitter<void>;
-
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteSheetClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteSheetBeforeOpen: EventEmitter<void>;
-
-  /** Fires when the component is open and animation is complete. */
-  @Event({ cancelable: false }) calciteSheetOpen: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Sets focus on the component's "close" button - the first focusable item.
-   *
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    if (value) {
+      this.openSheet();
+    } else {
+      this.closeSheet();
+    }
   }
 
-  /**
-   * Updates the element(s) that are used within the focus-trap of the component.
-   */
-  @Method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+  private handleOpenedChange(): void {
+    onToggleOpenCloseComponent(this);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  private handleInteractionChange(): void {
+    this.setupInteractions();
+  }
 
   private getResizeIcon(): string {
     const { position } = this;
@@ -392,7 +346,7 @@ export class Sheet
     return this.contentEl.getBoundingClientRect();
   }
 
-  private handleKeyDown = (event: KeyboardEvent): void => {
+  private handleKeyDown(event: KeyboardEvent): void {
     const { key, defaultPrevented, shiftKey } = event;
     const {
       position,
@@ -461,7 +415,7 @@ export class Sheet
         });
         break;
     }
-  };
+  }
 
   private updateSize({
     type,
@@ -575,27 +529,25 @@ export class Sheet
     deactivateFocusTrap(this);
   }
 
-  private setResizeHandleEl = (el: HTMLDivElement): void => {
+  private setResizeHandleEl(el: HTMLDivElement): void {
     this.resizeHandleEl = el;
     this.setupInteractions();
-  };
+  }
 
-  private setContentEl = (el: HTMLDivElement): void => {
+  private setContentEl(el: HTMLDivElement): void {
     this.contentEl = el;
     this.contentId = ensureId(el);
-  };
+  }
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
+  private setTransitionEl(el: HTMLDivElement): void {
     this.transitionEl = el;
-  };
-
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener("calciteSheetOpen", this.openEnd);
-  };
+  }
 
   private openSheet(): void {
-    this.el.addEventListener("calciteSheetOpen", this.openEnd);
+    this.el.addEventListener(
+      "calciteSheetOpen",
+      this.openEnd,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
     if (!this.embedded) {
       this.initialOverflowCSS = document.documentElement.style.overflow;
@@ -604,15 +556,15 @@ export class Sheet
     }
   }
 
-  private handleOutsideClose = (): void => {
+  private handleOutsideClose(): void {
     if (this.outsideCloseDisabled) {
       return;
     }
 
     this.open = false;
-  };
+  }
 
-  private closeSheet = async (): Promise<void> => {
+  private async closeSheet(): Promise<void> {
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
@@ -629,7 +581,7 @@ export class Sheet
 
     this.opened = false;
     this.removeOverflowHiddenClass();
-  };
+  }
 
   private removeOverflowHiddenClass(): void {
     document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
@@ -639,15 +591,67 @@ export class Sheet
     this.updateFocusTrapElements();
   }
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
+  // #endregion
 
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
+  // #region Rendering
+
+  override render(): JsxNode {
+    const { resizable, position, resizeValues } = this;
+    const dir = getElementDir(this.el);
+    const isBlockPosition = position === "block-start" || position === "block-end";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "aria-describedby", this.contentId);
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLabel = this.label;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaModal = "true";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "dialog";
+
+    return (
+      <div
+        class={{
+          [CSS.container]: true,
+          [CSS.containerOpen]: this.opened,
+          [CSS.containerEmbedded]: this.embedded,
+          [CSS_UTILITY.rtl]: dir === "rtl",
+        }}
+        ref={this.setTransitionEl}
+      >
+        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+        <div
+          class={{
+            [CSS.content]: true,
+          }}
+          ref={this.setContentEl}
+        >
+          <slot />
+          {resizable ? (
+            <div
+              ariaLabel={this.messages.resizeEnabled}
+              ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
+              ariaValueMax={
+                isBlockPosition ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
+              }
+              ariaValueMin={
+                isBlockPosition ? resizeValues.minBlockSize : resizeValues.minInlineSize
+              }
+              ariaValueNow={isBlockPosition ? resizeValues.blockSize : resizeValues.inlineSize}
+              class={CSS.resizeHandle}
+              key="resize-handle"
+              onKeyDown={this.handleKeyDown}
+              ref={this.setResizeHandleEl}
+              role="separator"
+              tabIndex={0}
+              touch-action="none"
+            >
+              <calcite-icon icon={this.getResizeIcon()} scale="s" />
+            </div>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
+
+  // #endregion
 }

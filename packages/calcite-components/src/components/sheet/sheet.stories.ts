@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
+
 const { logicalFlowPosition, displayMode } = ATTRIBUTES;
 
 type SheetStoryArgs = Pick<Sheet, "open" | "position" | "displayMode" | "resizable">;

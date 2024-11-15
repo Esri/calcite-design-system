@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -10,6 +11,7 @@ import {
   reflects,
   renders,
 } from "../../tests/commonTests";
+import type { SegmentedControl } from "./segmented-control";
 
 describe("calcite-segmented-control", () => {
   describe("defaults", () => {
@@ -160,7 +162,7 @@ describe("calcite-segmented-control", () => {
   async function getSelectedItemValue(page: E2EPage): Promise<string> {
     return page.$eval(
       "calcite-segmented-control",
-      (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
+      (segmentedControl: SegmentedControl["el"]) => segmentedControl.selectedItem.value,
     );
   }
 
@@ -345,7 +347,7 @@ describe("calcite-segmented-control", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-segmented-control></calcite-segmented-control>`);
 
-      await page.$eval("calcite-segmented-control", (segmentedControl: HTMLCalciteSegmentedControlElement) => {
+      await page.$eval("calcite-segmented-control", (segmentedControl: SegmentedControl["el"]) => {
         segmentedControl.innerHTML = `
         <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>

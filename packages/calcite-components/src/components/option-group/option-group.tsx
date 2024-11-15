@@ -1,64 +1,74 @@
-import { Component, Event, EventEmitter, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, Fragment, h, JsxNode } from "@arcgis/lumina";
+import { styles } from "./option-group.scss";
 
-/**
- * @slot - A slot for adding `calcite-option`s.
- */
-@Component({
-  tag: "calcite-option-group",
-  styleUrl: "option-group.scss",
-  shadow: true,
-})
-export class OptionGroup {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-option-group": OptionGroup;
+  }
+}
+/** @slot - A slot for adding `calcite-option`s. */
+export class OptionGroup extends LitElement {
+  // #region Static Members
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({
     reflect: true,
   })
   disabled = false;
 
   /**
    * Accessible name for the component.
+   *
+   * @required
    */
-  @Prop()
-  label!: string;
+  @property() label: string;
 
-  @Watch("disabled")
-  @Watch("label")
-  protected handlePropChange(): void {
-    this.calciteInternalOptionGroupChange.emit();
+  // #endregion
+
+  // #region Events
+
+  /** @private */
+
+  private calciteInternalOptionGroupChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      changes.has("label")
+    ) {
+      this.calciteInternalOptionGroupChange.emit();
+    }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
+  // #region Private Methods
+  // #endregion
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false })
-  private calciteInternalOptionGroupChange: EventEmitter<void>;
+  // #region Rendering
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
-
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Fragment>
+      <>
         <div>{this.label}</div>
         <slot />
-      </Fragment>
+      </>
     );
   }
+
+  // #endregion
 }

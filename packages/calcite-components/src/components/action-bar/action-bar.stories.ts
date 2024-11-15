@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ActionBar } from "./action-bar";
+
 const { position } = ATTRIBUTES;
 
 type ActionBarStoryArgs = Pick<ActionBar, "expandDisabled" | "expanded" | "position">;

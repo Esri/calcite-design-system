@@ -1,4 +1,5 @@
-import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import {
   accessible,
   defaults,
@@ -534,6 +535,62 @@ describe("calcite-combobox", () => {
       expect(await visibleItems[0].getProperty("value")).toBe("1");
     });
 
+    it("should display group and its items when filter matches group label", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-combobox placeholder="typing 'group1' or 'group2' should show group with all items">
+          <calcite-combobox-item-group id="group1" label="group1">
+            <calcite-combobox-item id="value1" value="value1" text-label="value1"></calcite-combobox-item>
+            <calcite-combobox-item id="value2" value="value2" text-label="value2"></calcite-combobox-item>
+            <calcite-combobox-item id="value3" value="value3" text-label="value3"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+          <calcite-combobox-item-group id="group2" label="group2">
+            <calcite-combobox-item id="value4" value="value4" text-label="value4"></calcite-combobox-item>
+            <calcite-combobox-item id="value5" value="value5" text-label="value5"></calcite-combobox-item>
+            <calcite-combobox-item id="value6" value="value6" text-label="value6"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox>`,
+      );
+
+      const combobox = await page.find("calcite-combobox");
+      await combobox.click();
+      await page.waitForChanges();
+      await combobox.type("group");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      const one = await page.find("#value1");
+      const two = await page.find("#value2");
+      const three = await page.find("#value3");
+      const four = await page.find("#value4");
+      const five = await page.find("#value5");
+      const six = await page.find("#value6");
+      const group1 = await page.find("#group1");
+      const group2 = await page.find("#group2");
+
+      expect(await group1.isVisible()).toBeTruthy();
+      expect(await one.isVisible()).toBeTruthy();
+      expect(await two.isVisible()).toBeTruthy();
+      expect(await three.isVisible()).toBeTruthy();
+      expect(await group2.isVisible()).toBeTruthy();
+      expect(await four.isVisible()).toBeTruthy();
+      expect(await five.isVisible()).toBeTruthy();
+      expect(await six.isVisible()).toBeTruthy();
+
+      await combobox.type("1");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      expect(await group1.isVisible()).toBeTruthy();
+      expect(await one.isVisible()).toBeTruthy();
+      expect(await two.isVisible()).toBeTruthy();
+      expect(await three.isVisible()).toBeTruthy();
+      expect(await group2.isVisible()).toBeFalsy();
+      expect(await four.isVisible()).toBeFalsy();
+      expect(await five.isVisible()).toBeFalsy();
+      expect(await six.isVisible()).toBeFalsy();
+    });
+
     it("should restore filter text when no items are filtered", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
@@ -555,17 +612,17 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await combobox.type("an");
       await page.waitForChanges();
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
+
       const one = await page.find("#one");
       const two = await page.find("#two");
       const three = await page.find("#three");
-
       expect(await one.isVisible()).toBeFalsy();
       expect(await two.isVisible()).toBeFalsy();
       expect(await three.isVisible()).toBeTruthy();
 
       await combobox.type("m");
-      await new Promise((res) => setTimeout(() => res(true), DEBOUNCE.filter));
+      await page.waitForTimeout(DEBOUNCE.filter);
       await page.waitForChanges();
       expect(await one.isVisible()).toBeFalsy();
       expect(await two.isVisible()).toBeFalsy();
