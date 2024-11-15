@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.8...@esri/calcite-components@3.0.0-next.9) (2024-11-15)
+
+### ⚠ BREAKING CHANGES
+
+- **list:** The component's `label` property is required to provide
+  context between lists when dragging.
+
+### Features
+
+- **list:** require label for context when dragging between lists ([#10702](https://github.com/Esri/calcite-design-system/issues/10702)) ([5b84856](https://github.com/Esri/calcite-design-system/commit/5b848564426ad2940fecbb8e20c63d6444aef8fc)), closes [#7537](https://github.com/Esri/calcite-design-system/issues/7537) [/github.com/Esri/calcite-design-system/issues/7537#issuecomment-2460544077](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/7537/issues/issuecomment-2460544077)
+
 ## [3.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.7...@esri/calcite-components@3.0.0-next.8) (2024-11-15)
 
 ### ⚠ BREAKING CHANGES
