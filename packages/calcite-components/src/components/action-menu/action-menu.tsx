@@ -99,6 +99,8 @@ export class ActionMenu extends LitElement implements LoadableComponent {
 
   private _open = false;
 
+  private popoverEl: Popover["el"];
+
   private slottedMenuButtonEl: Action["el"];
 
   private tooltipEl: Tooltip["el"];
