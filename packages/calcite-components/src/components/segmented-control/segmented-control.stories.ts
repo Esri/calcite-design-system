@@ -3,6 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SegmentedControl } from "./segmented-control";
+
 const { layout, appearance, scale, width, status } = ATTRIBUTES;
 
 type SegmentedControlStoryArgs = Pick<

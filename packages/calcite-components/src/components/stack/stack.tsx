@@ -1,6 +1,13 @@
-import { Component, h, Host, Prop, State, VNode } from "@stencil/core";
+import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
+import { styles } from "./stack.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-stack": Stack;
+  }
+}
 
 /**
  * @slot - A slot for adding content.
@@ -9,69 +16,82 @@ import { CSS, SLOTS } from "./resources";
  * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  */
-@Component({
-  tag: "calcite-stack",
-  styleUrl: "stack.scss",
-  shadow: true,
-})
-export class Stack {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+export class Stack extends LitElement {
+  // #region Static Members
 
-  /**  When `true`, content interaction is prevented and displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  static override styles = styles;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @State() hasActionsStart = false;
+  // #region State Properties
 
-  @State() hasActionsEnd = false;
+  @state() hasActionsEnd = false;
 
-  @State() hasContentStart = false;
+  @state() hasActionsStart = false;
 
-  @State() hasContentEnd = false;
+  @state() hasContentEnd = false;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  @state() hasContentStart = false;
 
-  renderActionsStart(): VNode {
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, content interaction is prevented and displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleActionsStartSlotChange(event: Event): void {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
+  }
+
+  private handleActionsEndSlotChange(event: Event): void {
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+  }
+
+  private handleContentStartSlotChange(event: Event): void {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
+  }
+
+  private handleContentEndSlotChange(event: Event): void {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  private renderActionsStart(): JsxNode {
     const { hasActionsStart } = this;
     return (
       <div class={CSS.actionsStart} hidden={!hasActionsStart} key="actions-start-container">
-        <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
+        <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
       </div>
     );
   }
 
-  renderActionsEnd(): VNode {
+  private renderActionsEnd(): JsxNode {
     const { hasActionsEnd } = this;
     return (
       <div class={CSS.actionsEnd} hidden={!hasActionsEnd} key="actions-end-container">
-        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
       </div>
     );
   }
 
-  renderContentStart(): VNode {
+  private renderContentStart(): JsxNode {
     const { hasContentStart } = this;
     return (
       <div class={CSS.contentStart} hidden={!hasContentStart}>
-        <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
+        <slot name={SLOTS.contentStart} onSlotChange={this.handleContentStartSlotChange} />
       </div>
     );
   }
 
-  renderDefaultContent(): VNode {
+  private renderDefaultContent(): JsxNode {
     return (
       <div class={CSS.content}>
         <slot />
@@ -79,48 +99,26 @@ export class Stack {
     );
   }
 
-  renderContentEnd(): VNode {
+  private renderContentEnd(): JsxNode {
     const { hasContentEnd } = this;
     return (
       <div class={CSS.contentEnd} hidden={!hasContentEnd}>
-        <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
+        <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
       </div>
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Host>
-        <div class={CSS.container}>
-          {this.renderActionsStart()}
-          {this.renderContentStart()}
-          {this.renderDefaultContent()}
-          {this.renderContentEnd()}
-          {this.renderActionsEnd()}
-        </div>
-      </Host>
+      <div class={CSS.container}>
+        {this.renderActionsStart()}
+        {this.renderContentStart()}
+        {this.renderDefaultContent()}
+        {this.renderContentEnd()}
+        {this.renderActionsEnd()}
+      </div>
     );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  handleActionsStartSlotChange = (event: Event): void => {
-    this.hasActionsStart = slotChangeHasAssignedElement(event);
-  };
-
-  handleActionsEndSlotChange = (event: Event): void => {
-    this.hasActionsEnd = slotChangeHasAssignedElement(event);
-  };
-
-  handleContentStartSlotChange = (event: Event): void => {
-    this.hasContentStart = slotChangeHasAssignedElement(event);
-  };
-
-  handleContentEndSlotChange = (event: Event): void => {
-    this.hasContentEnd = slotChangeHasAssignedElement(event);
-  };
+  // #endregion
 }

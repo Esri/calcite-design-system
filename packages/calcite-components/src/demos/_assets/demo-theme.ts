@@ -1,5 +1,4 @@
 /**
- *
  * Sets the value of a CSS variable to a test value.
  * This is useful for testing themed components.
  *

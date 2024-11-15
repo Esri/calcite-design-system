@@ -1,60 +1,82 @@
-import { Component, Element, forceUpdate, h, Prop, VNode } from "@stencil/core";
+import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { ColorStop, DataSeries, Point } from "./interfaces";
 import { area, range, translate } from "./util";
+import { styles } from "./graph.scss";
 
-@Component({
-  tag: "calcite-graph",
-  styleUrl: "graph.scss",
-  shadow: true,
-})
-export class Graph {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-graph": Graph;
+  }
+}
 
-  /**
-   * Array of tuples describing a single data point ([x, y])
-   * These data points should be sorted by x-axis value.
-   */
-  @Prop() data: DataSeries = [];
+export class Graph extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private graphId = `calcite-graph-${guid()}`;
+
+  private resizeObserver = createObserver("resize", () => this.requestUpdate());
+
+  // #endregion
+
+  // #region Public Properties
 
   /**
    * Array of values describing a single color stop ([offset, color, opacity])
    * These color stops should be sorted by offset value.
    */
-  @Prop() colorStops: ColorStop[];
+  @property() colorStops: ColorStop[];
 
-  /** Start of highlight color if highlighting range. */
-  @Prop() highlightMin: number;
+  /**
+   * Array of tuples describing a single data point ([x, y])
+   * These data points should be sorted by x-axis value.
+   */
+  @property() data: DataSeries = [];
 
   /** End of highlight color if highlighting range. */
-  @Prop() highlightMax: number;
+  @property() highlightMax: number;
 
-  /** Lowest point of the range. */
-  @Prop({ reflect: true }) min!: number;
+  /** Start of highlight color if highlighting range. */
+  @property() highlightMin: number;
 
-  /** Highest point of the range. */
-  @Prop({ reflect: true }) max!: number;
+  /**
+   * Highest point of the range.
+   *
+   * @required
+   */
+  @property({ reflect: true }) max: number;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  /**
+   * Lowest point of the range.
+   *
+   * @required
+   */
+  @property({ reflect: true }) min: number;
 
-  connectedCallback(): void {
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
   }
 
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
 
-  render(): VNode {
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     const { data, colorStops, el, highlightMax, highlightMin, min, max } = this;
     const id = this.graphId;
     const { clientHeight: height, clientWidth: width } = el;
@@ -63,7 +85,7 @@ export class Graph {
     if (!data || data.length === 0) {
       return (
         <svg
-          aria-hidden="true"
+          ariaHidden="true"
           class="svg"
           height={height}
           preserveAspectRatio="none"
@@ -93,7 +115,7 @@ export class Graph {
     const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
     return (
       <svg
-        aria-hidden="true"
+        ariaHidden="true"
         class="svg"
         height={height}
         preserveAspectRatio="none"
@@ -162,15 +184,5 @@ export class Graph {
     );
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteGraphElement;
-
-  private graphId = `calcite-graph-${guid()}`;
-
-  private resizeObserver = createObserver("resize", () => forceUpdate(this));
+  // #endregion
 }

@@ -1,23 +1,7 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import {
-  getElementDir,
-  getFirstTabbable,
-  slotChangeHasAssignedElement,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { getElementDir, getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -25,14 +9,6 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import {
   componentFocusable,
   LoadableComponent,
@@ -41,11 +17,21 @@ import {
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
-import { ListItemMessages } from "./assets/list-item/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { SortHandle } from "../sort-handle/sort-handle";
+import type { List } from "../list/list";
+import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
 import { getDepth, hasListItemChildren } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
+import { styles } from "./list-item.scss";
 
-const focusMap = new Map<HTMLCalciteListElement, number>();
+declare global {
+  interface DeclareElements {
+    "calcite-list-item": ListItem;
+  }
+}
+
+const focusMap = new Map<List["el"], number>();
 const listSelector = "calcite-list";
 
 /**
@@ -57,382 +43,189 @@ const listSelector = "calcite-list";
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
-@Component({
-  tag: "calcite-list-item",
-  styleUrl: "list-item.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
 export class ListItem
-  implements
-    InteractiveComponent,
-    LoadableComponent,
-    LocalizedComponent,
-    T9nComponent,
-    SortableComponentItem
+  extends LitElement
+  implements InteractiveComponent, LoadableComponent, SortableComponentItem
 {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private actionsEndEl = createRef<HTMLDivElement>();
+
+  private actionsStartEl = createRef<HTMLDivElement>();
+
+  private containerEl = createRef<HTMLDivElement>();
+
+  private contentEl = createRef<HTMLDivElement>();
+
+  private defaultSlotEl = createRef<HTMLSlotElement>();
+
+  private handleGridEl = createRef<HTMLDivElement>();
+
+  private sortHandleEl: SortHandle["el"];
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasActionsEnd = false;
+
+  @state() hasActionsStart = false;
+
+  @state() hasContentBottom = false;
+
+  @state() hasContentEnd = false;
+
+  @state() hasContentStart = false;
+
+  @state() hasCustomContent = false;
+
+  @state() level: number = null;
+
+  @state() openable = false;
+
+  @state() parentListEl: List["el"];
+
+  // #endregion
+
+  // #region Public Properties
 
   /**
    * Sets the item as focusable. Only one item should be focusable within a list.
    *
-   * @internal
+   * @private
    */
-  @Prop() active = false;
-
-  @Watch("active")
-  activeHandler(active: boolean): void {
-    if (!active) {
-      this.focusCell(null, false);
-    }
-  }
+  @property() active = false;
 
   /**
    * Sets the item to display a border.
    *
-   * @internal
+   * @private
    */
-  @Prop() bordered = false;
+  @property() bordered = false;
 
   /** When `true`, a close button is added to the component. */
-  @Prop({ reflect: true }) closable = false;
+  @property({ reflect: true }) closable = false;
 
   /** When `true`, hides the component. */
-  @Prop({ reflect: true, mutable: true }) closed = false;
+  @property({ reflect: true }) closed = false;
 
-  @Watch("closed")
-  handleClosedChange(): void {
-    this.emitCalciteInternalListItemChange();
-  }
+  /** A description for the component. Displays below the label text. */
+  @property() description: string;
 
-  /**
-   * A description for the component. Displays below the label text.
-   */
-  @Prop() description: string;
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  handleDisabledChange(): void {
-    this.emitCalciteInternalListItemChange();
-  }
-
-  /**
-   * When `true`, the item is not draggable.
-   */
-  @Prop({ reflect: true }) dragDisabled = false;
+  /** When `true`, the item is not draggable. */
+  @property({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
    *
-   * @internal
+   * @private
    */
-  @Prop() dragHandle = false;
+  @property() dragHandle = false;
 
   /**
    * Hides the component when filtered.
    *
-   * @internal
+   * @private
    */
-  @Prop({ reflect: true }) filterHidden = false;
+  @property({ reflect: true }) filterHidden = false;
 
   /**
-   * The label text of the component. Displays above the description text.
+   * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
+   *
+   * @private
    */
-  @Prop() label: string;
+  @property() interactionMode: InteractionMode = null;
+
+  /** The label text of the component. Displays above the description text. */
+  @property() label: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
+   * Made into a prop for testing purposes only
+   *
+   * @private
    */
-  @Prop() metadata: Record<string, unknown>;
+  messages = useT9n<typeof T9nStrings>();
+
+  /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
+  @property() metadata: Record<string, unknown>;
 
   /**
    * Sets the item to display a border.
    *
-   * @internal
+   * @private
    */
-  @Prop() moveToItems: MoveTo[] = [];
+  @property() moveToItems: MoveTo[] = [];
+
+  /** When `true`, the item is open to show child components. */
+  @property({ reflect: true }) open = false;
+
+  /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
+  @property({ reflect: true }) selected = false;
 
   /**
-   * When `true`, the item is open to show child components.
-   */
-  @Prop({ mutable: true, reflect: true }) open = false;
-
-  @Watch("open")
-  handleOpenChange(): void {
-    this.emitCalciteInternalListItemToggle();
-  }
-
-  /**
-   * Used to determine what menu options are available in the sort-handle
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    *
-   * @internal
+   * @private
    */
-  @Prop() setSize: number = null;
-
-  /**
-   * Used to determine what menu options are available in the sort-handle
-   *
-   * @internal
-   */
-  @Prop() setPosition: number = null;
-
-  /**
-   * When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
-   */
-  @Prop({ reflect: true, mutable: true }) selected = false;
-
-  @Watch("selected")
-  handleSelectedChange(): void {
-    this.calciteInternalListItemSelect.emit();
-  }
-
-  /**
-   * When `true`, the component's content appears inactive.
-   */
-  @Prop({ reflect: true }) unavailable = false;
-
-  /**
-   * The component's value.
-   */
-  @Prop() value: any;
+  @property() selectionAppearance: SelectionAppearance = null;
 
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
    *
-   * @internal
+   * @private
    */
-  @Prop({ mutable: true }) selectionMode: Extract<
+  @property() selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = null;
 
   /**
-   * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
-   * @internal
-   */
-  @Prop() interactionMode: InteractionMode = null;
-
-  /**
-   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+   * Used to determine what menu options are available in the sort-handle
    *
-   * @internal
+   * @private
    */
-  @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
+  @property() setPosition: number = null;
 
   /**
-   * When `true`, displays and positions the sort handle.
-   */
-  @Prop({ mutable: true }) sortHandleOpen = false;
-
-  @Watch("sortHandleOpen")
-  sortHandleOpenHandler(): void {
-    if (!this.sortHandleEl) {
-      return;
-    }
-
-    // we set the property instead of the attribute to ensure open/close events are emitted properly
-    this.sortHandleEl.open = this.sortHandleOpen;
-  }
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ListItemMessages>;
-
-  /**
-   * Made into a prop for testing purposes only
+   * Used to determine what menu options are available in the sort-handle
    *
-   * @internal
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ListItemMessages;
+  @property() setSize: number = null;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  /** When `true`, displays and positions the sort handle. */
+  @property() sortHandleOpen = false;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  /** When `true`, the component's content appears inactive. */
+  @property({ reflect: true }) unavailable = false;
 
-  /**
-   * Fires when the component is selected.
-   */
-  @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
+  /** The component's value. */
+  @property() value: any;
 
-  /**
-   * Fires when the close button is clicked.
-   */
-  @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
+  // #endregion
 
-  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteListItemSortHandleBeforeClose: EventEmitter<void>;
-
-  /** Fires when the sort handle is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteListItemSortHandleClose: EventEmitter<void>;
-
-  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteListItemSortHandleBeforeOpen: EventEmitter<void>;
-
-  /** Fires when the sort handle is open and animation is complete. */
-  @Event({ cancelable: false }) calciteListItemSortHandleOpen: EventEmitter<void>;
-
-  /**
-   * Fires when the open button is clicked.
-   */
-  @Event({ cancelable: false }) calciteListItemToggle: EventEmitter<void>;
-
-  /**
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalListItemSelect: EventEmitter<void>;
-
-  /**
-   *
-   * @internal
-   */
-  @Event({ cancelable: false })
-  calciteInternalListItemSelectMultiple: EventEmitter<{
-    selectMultiple: boolean;
-  }>;
-
-  /**
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalListItemActive: EventEmitter<void>;
-
-  /**
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalFocusPreviousItem: EventEmitter<void>;
-
-  /**
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
-
-  /**
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalListItemToggle: EventEmitter<void>;
-
-  @Listen("calciteInternalListItemGroupDefaultSlotChange")
-  @Listen("calciteInternalListDefaultSlotChange")
-  handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
-    event.stopPropagation();
-    this.handleOpenableChange(this.defaultSlotEl);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteListItemElement;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: ListItemMessages;
-
-  @State() level: number = null;
-
-  @State() parentListEl: HTMLCalciteListElement;
-
-  @State() openable = false;
-
-  @State() hasActionsStart = false;
-
-  @State() hasActionsEnd = false;
-
-  @State() hasCustomContent = false;
-
-  @State() hasContentStart = false;
-
-  @State() hasContentEnd = false;
-
-  @State() hasContentBottom = false;
-
-  containerEl: HTMLDivElement;
-
-  contentEl: HTMLDivElement;
-
-  actionsStartEl: HTMLDivElement;
-
-  actionsEndEl: HTMLDivElement;
-
-  handleGridEl: HTMLDivElement;
-
-  defaultSlotEl: HTMLSlotElement;
-
-  private sortHandleEl: HTMLCalciteSortHandleElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-    const { el } = this;
-    this.parentListEl = el.closest(listSelector);
-    this.level = getDepth(el) + 1;
-    this.setSelectionDefaults();
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    const { containerEl, parentListEl } = this;
+    const {
+      containerEl: { value: containerEl },
+      parentListEl,
+    } = this;
     const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
@@ -448,358 +241,225 @@ export class ListItem
     containerEl?.focus();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderSelected(): VNode {
-    const { selected, selectionMode, selectionAppearance } = this;
+  // #region Events
 
-    if (selectionMode === "none" || selectionAppearance === "border") {
-      return null;
+  /**
+   *
+   * @private
+   */
+  calciteInternalFocusPreviousItem = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalListItemActive = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalListItemChange = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalListItemSelect = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalListItemSelectMultiple = createEvent<{
+    selectMultiple: boolean;
+  }>({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalListItemToggle = createEvent({ cancelable: false });
+
+  /** Fires when the close button is clicked. */
+  calciteListItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is selected. */
+  calciteListItemSelect = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  calciteListItemSortHandleBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteListItemSortHandleBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is closed and animation is complete. */
+  calciteListItemSortHandleClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is open and animation is complete. */
+  calciteListItemSortHandleOpen = createEvent({ cancelable: false });
+
+  /** Fires when the open button is clicked. */
+  calciteListItemToggle = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen(
+      "calciteInternalListItemGroupDefaultSlotChange",
+      this.handleCalciteInternalListDefaultSlotChanges,
+    );
+    this.listen(
+      "calciteInternalListDefaultSlotChange",
+      this.handleCalciteInternalListDefaultSlotChanges,
+    );
+  }
+
+  override connectedCallback(): void {
+    const { el } = this;
+    this.parentListEl = el.closest(listSelector);
+    this.level = getDepth(el) + 1;
+    this.setSelectionDefaults();
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
+      this.activeHandler(this.active);
     }
 
-    return (
-      <div
-        class={{
-          [CSS.selectionContainer]: true,
-          [CSS.selectionContainerSingle]:
-            selectionMode === "single" || selectionMode === "single-persist",
-        }}
-        key="selection-container"
-        onClick={this.handleItemClick}
-      >
-        <calcite-icon
-          icon={
-            selected
-              ? selectionMode === "multiple"
-                ? ICONS.selectedMultiple
-                : ICONS.selectedSingle
-              : selectionMode === "multiple"
-                ? ICONS.unselectedMultiple
-                : ICONS.unselectedSingle
-          }
-          scale="s"
-        />
-      </div>
-    );
+    if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
+      this.handleClosedChange();
+    }
+
+    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+      this.handleDisabledChange();
+    }
+
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      this.handleOpenChange();
+    }
+
+    if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
+      this.handleSelectedChange();
+    }
+
+    if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
+      this.sortHandleOpenHandler();
+    }
   }
 
-  renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
-
-    return dragHandle ? (
-      <div
-        aria-label={label}
-        class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
-        key="drag-handle-container"
-        onFocusin={this.focusCellHandle}
-        ref={(el) => (this.handleGridEl = el)}
-        role="gridcell"
-      >
-        <calcite-sort-handle
-          disabled={dragDisabled}
-          label={label}
-          moveToItems={moveToItems}
-          onCalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
-          onCalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
-          onCalciteSortHandleClose={this.handleSortHandleClose}
-          onCalciteSortHandleOpen={this.handleSortHandleOpen}
-          overlayPositioning="fixed"
-          ref={this.setSortHandleEl}
-          setPosition={setPosition}
-          setSize={setSize}
-        />
-      </div>
-    ) : null;
+  override updated(): void {
+    updateHostInteraction(this);
   }
 
-  renderOpen(): VNode {
-    const { el, open, openable, messages } = this;
-    const dir = getElementDir(el);
-    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
-    const tooltip = open ? messages.collapse : messages.expand;
-
-    return openable ? (
-      <div
-        class={CSS.openContainer}
-        key="open-container"
-        onClick={this.handleToggleClick}
-        title={tooltip}
-      >
-        <calcite-icon icon={icon} key={icon} scale="s" />
-      </div>
-    ) : null;
+  loaded(): void {
+    setComponentLoaded(this);
   }
 
-  renderActionsStart(): VNode {
-    const { label, hasActionsStart } = this;
-    return (
-      <div
-        aria-label={label}
-        class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
-        hidden={!hasActionsStart}
-        key="actions-start-container"
-        onFocusin={this.focusCellActionsStart}
-        ref={(el) => (this.actionsStartEl = el)}
-        role="gridcell"
-      >
-        <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
-      </div>
-    );
+  // #endregion
+
+  // #region Private Methods
+
+  private activeHandler(active: boolean): void {
+    if (!active) {
+      this.focusCell(null, false);
+    }
   }
 
-  renderActionsEnd(): VNode {
-    const { label, hasActionsEnd, closable, messages } = this;
-    return (
-      <div
-        aria-label={label}
-        class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
-        hidden={!(hasActionsEnd || closable)}
-        key="actions-end-container"
-        onFocusin={this.focusCellActionsEnd}
-        ref={(el) => (this.actionsEndEl = el)}
-        role="gridcell"
-      >
-        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
-        {closable ? (
-          <calcite-action
-            appearance="transparent"
-            class={CSS.close}
-            icon={ICONS.close}
-            key="close-action"
-            label={messages.close}
-            onClick={this.handleCloseClick}
-            text={messages.close}
-          />
-        ) : null}
-      </div>
-    );
+  private handleClosedChange(): void {
+    this.emitCalciteInternalListItemChange();
   }
 
-  renderContentStart(): VNode {
-    const { hasContentStart } = this;
-    return (
-      <div class={CSS.contentStart} hidden={!hasContentStart}>
-        <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
-      </div>
-    );
+  private handleDisabledChange(): void {
+    this.emitCalciteInternalListItemChange();
   }
 
-  renderCustomContent(): VNode {
-    const { hasCustomContent } = this;
-    return (
-      <div class={CSS.customContent} hidden={!hasCustomContent}>
-        <slot name={SLOTS.content} onSlotchange={this.handleContentSlotChange} />
-      </div>
-    );
+  private handleOpenChange(): void {
+    this.emitCalciteInternalListItemToggle();
   }
 
-  renderContentEnd(): VNode {
-    const { hasContentEnd } = this;
-    return (
-      <div class={CSS.contentEnd} hidden={!hasContentEnd}>
-        <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
-      </div>
-    );
+  private handleSelectedChange(): void {
+    this.calciteInternalListItemSelect.emit();
   }
 
-  renderContentBottom(): VNode {
-    const { hasContentBottom } = this;
-    return (
-      <div class={CSS.contentBottom} hidden={!hasContentBottom}>
-        <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
-      </div>
-    );
+  private sortHandleOpenHandler(): void {
+    if (!this.sortHandleEl) {
+      return;
+    }
+
+    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    this.sortHandleEl.open = this.sortHandleOpen;
   }
 
-  renderDefaultContainer(): VNode {
-    return (
-      <div
-        class={{
-          [CSS.nestedContainer]: true,
-          [CSS.nestedContainerOpen]: this.openable && this.open,
-        }}
-      >
-        <slot
-          onSlotchange={this.handleDefaultSlotChange}
-          ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
-        />
-      </div>
-    );
+  private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.handleOpenableChange(this.defaultSlotEl.value);
   }
 
-  renderContentProperties(): VNode {
-    const { label, description, hasCustomContent } = this;
-
-    return !hasCustomContent && (!!label || !!description) ? (
-      <div class={CSS.content} key="content">
-        {label ? (
-          <div class={CSS.label} key="label">
-            {label}
-          </div>
-        ) : null}
-        {description ? (
-          <div class={CSS.description} key="description">
-            {description}
-          </div>
-        ) : null}
-      </div>
-    ) : null;
-  }
-
-  renderContentContainer(): VNode {
-    const { description, label, selectionMode, hasCustomContent, unavailable } = this;
-    const hasCenterContent = hasCustomContent || !!label || !!description;
-    const content = [
-      this.renderContentStart(),
-      this.renderCustomContent(),
-      this.renderContentProperties(),
-      this.renderContentEnd(),
-    ];
-
-    return (
-      <div
-        aria-label={label}
-        class={{
-          [CSS.gridCell]: true,
-          [CSS.contentContainer]: true,
-          [CSS.contentContainerUnavailable]: unavailable,
-          [CSS.contentContainerSelectable]: selectionMode !== "none",
-          [CSS.contentContainerHasCenterContent]: hasCenterContent,
-        }}
-        key="content-container"
-        onClick={this.handleItemClick}
-        onFocusin={this.focusCellContent}
-        ref={(el) => (this.contentEl = el)}
-        role="gridcell"
-      >
-        {content}
-      </div>
-    );
-  }
-
-  render(): VNode {
-    const {
-      openable,
-      open,
-      level,
-      active,
-      label,
-      selected,
-      selectionAppearance,
-      selectionMode,
-      interactionMode,
-      closed,
-      filterHidden,
-      bordered,
-      disabled,
-    } = this;
-
-    const showBorder = selectionMode !== "none" && selectionAppearance === "border";
-    const borderSelected = showBorder && selected;
-    const borderUnselected = showBorder && !selected;
-
-    const containerInteractive =
-      interactionMode === "interactive" ||
-      (interactionMode === "static" &&
-        selectionMode !== "none" &&
-        selectionAppearance === "border");
-
-    return (
-      <Host>
-        <InteractiveContainer disabled={disabled}>
-          <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
-            <div
-              aria-expanded={openable ? toAriaBoolean(open) : null}
-              aria-label={label}
-              aria-level={level}
-              aria-selected={toAriaBoolean(selected)}
-              class={{
-                [CSS.row]: true,
-                [CSS.container]: true,
-                [CSS.containerHover]: containerInteractive,
-                [CSS.containerBorder]: showBorder,
-                [CSS.containerBorderSelected]: borderSelected,
-                [CSS.containerBorderUnselected]: borderUnselected,
-              }}
-              hidden={closed || filterHidden}
-              onFocus={this.focusCellNull}
-              onFocusin={this.emitInternalListItemActive}
-              onKeyDown={this.handleItemKeyDown}
-              ref={(el) => (this.containerEl = el)}
-              role="row"
-              tabIndex={active ? 0 : -1}
-            >
-              {this.renderDragHandle()}
-              {this.renderSelected()}
-              {this.renderOpen()}
-              {this.renderActionsStart()}
-              {this.renderContentContainer()}
-              {this.renderActionsEnd()}
-            </div>
-            {this.renderContentBottom()}
-          </div>
-          {this.renderDefaultContainer()}
-        </InteractiveContainer>
-      </Host>
-    );
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private setSortHandleEl = (el: HTMLCalciteSortHandleElement): void => {
+  private setSortHandleEl(el: SortHandle["el"]): void {
     this.sortHandleEl = el;
     this.sortHandleOpenHandler();
-  };
+  }
 
-  private handleSortHandleBeforeOpen = (event: CustomEvent<void>): void => {
+  private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteListItemSortHandleBeforeOpen.emit();
-  };
+  }
 
-  private handleSortHandleBeforeClose = (event: CustomEvent<void>): void => {
+  private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteListItemSortHandleBeforeClose.emit();
-  };
+  }
 
-  private handleSortHandleClose = (event: CustomEvent<void>): void => {
+  private handleSortHandleClose(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.sortHandleOpen = false;
     this.calciteListItemSortHandleClose.emit();
-  };
+  }
 
-  private handleSortHandleOpen = (event: CustomEvent<void>): void => {
+  private handleSortHandleOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.sortHandleOpen = true;
     this.calciteListItemSortHandleOpen.emit();
-  };
+  }
 
-  private emitInternalListItemActive = (): void => {
+  private emitInternalListItemActive(): void {
     this.calciteInternalListItemActive.emit();
-  };
+  }
 
-  private focusCellHandle = (): void => {
-    this.handleCellFocusIn(this.handleGridEl);
-  };
+  private focusCellHandle(): void {
+    this.handleCellFocusIn(this.handleGridEl.value);
+  }
 
-  private focusCellActionsStart = (): void => {
-    this.handleCellFocusIn(this.actionsStartEl);
-  };
+  private focusCellActionsStart(): void {
+    this.handleCellFocusIn(this.actionsStartEl.value);
+  }
 
-  private focusCellContent = (): void => {
-    this.handleCellFocusIn(this.contentEl);
-  };
+  private focusCellContent(): void {
+    this.handleCellFocusIn(this.contentEl.value);
+  }
 
-  private focusCellActionsEnd = (): void => {
-    this.handleCellFocusIn(this.actionsEndEl);
-  };
+  private focusCellActionsEnd(): void {
+    this.handleCellFocusIn(this.actionsEndEl.value);
+  }
 
   private emitCalciteInternalListItemToggle(): void {
     this.calciteInternalListItemToggle.emit();
@@ -809,34 +469,34 @@ export class ListItem
     this.calciteInternalListItemChange.emit();
   }
 
-  private handleCloseClick = (): void => {
+  private handleCloseClick(): void {
     this.closed = true;
     this.calciteListItemClose.emit();
-  };
+  }
 
-  private handleContentSlotChange = (event: Event): void => {
+  private handleContentSlotChange(event: Event): void {
     this.hasCustomContent = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private handleActionsStartSlotChange = (event: Event): void => {
+  private handleActionsStartSlotChange(event: Event): void {
     this.hasActionsStart = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private handleActionsEndSlotChange = (event: Event): void => {
+  private handleActionsEndSlotChange(event: Event): void {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private handleContentStartSlotChange = (event: Event): void => {
+  private handleContentStartSlotChange(event: Event): void {
     this.hasContentStart = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private handleContentEndSlotChange = (event: Event): void => {
+  private handleContentEndSlotChange(event: Event): void {
     this.hasContentEnd = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private handleContentBottomSlotChange = (event: Event): void => {
+  private handleContentBottomSlotChange(event: Event): void {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
-  };
+  }
 
   private setSelectionDefaults(): void {
     const { parentListEl, selectionMode, selectionAppearance } = this;
@@ -862,28 +522,28 @@ export class ListItem
     this.openable = hasListItemChildren(slotEl);
   }
 
-  private handleDefaultSlotChange = (event: Event): void => {
+  private handleDefaultSlotChange(event: Event): void {
     this.handleOpenableChange(event.target as HTMLSlotElement);
-  };
+  }
 
-  private handleToggleClick = (): void => {
+  private handleToggleClick(): void {
     this.toggle();
-  };
+  }
 
-  private toggle = (value = !this.open): void => {
+  private toggle(value = !this.open): void {
     this.open = value;
     this.calciteListItemToggle.emit();
-  };
+  }
 
-  private handleItemClick = (event: PointerEvent): void => {
+  private handleItemClick(event: PointerEvent): void {
     if (event.defaultPrevented) {
       return;
     }
 
     this.toggleSelected(event.shiftKey);
-  };
+  }
 
-  private toggleSelected = (shiftKey: boolean): void => {
+  private toggleSelected(shiftKey: boolean): void {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -900,22 +560,31 @@ export class ListItem
       selectMultiple: shiftKey && selectionMode === "multiple",
     });
     this.calciteListItemSelect.emit();
-  };
-
-  private getGridCells(): HTMLDivElement[] {
-    return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
-      (el) => el && !el.hidden,
-    );
   }
 
-  private handleItemKeyDown = (event: KeyboardEvent): void => {
+  private getGridCells(): HTMLDivElement[] {
+    return [
+      this.handleGridEl.value,
+      this.actionsStartEl.value,
+      this.contentEl.value,
+      this.actionsEndEl.value,
+    ].filter((el) => el && !el.hidden);
+  }
+
+  private handleItemKeyDown(event: KeyboardEvent): void {
     if (event.defaultPrevented) {
       return;
     }
 
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, actionsStartEl, actionsEndEl, open, openable } = this;
+    const {
+      containerEl: { value: containerEl },
+      actionsStartEl: { value: actionsStartEl },
+      actionsEndEl: { value: actionsEndEl },
+      open,
+      openable,
+    } = this;
 
     const cells = this.getGridCells();
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
@@ -957,22 +626,21 @@ export class ListItem
         this.focusCell(cells[prevIndex]);
       }
     }
-  };
+  }
 
-  private focusCellNull = (): void => {
+  private focusCellNull(): void {
     this.focusCell(null);
-  };
+  }
 
-  private handleCellFocusIn = (focusEl: HTMLDivElement): void => {
+  private handleCellFocusIn(focusEl: HTMLDivElement): void {
     this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
-  };
+  }
 
-  // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
-  private setFocusCell = (
+  private setFocusCell(
     focusEl: HTMLDivElement | null,
     focusedEl: HTMLElement,
     saveFocusIndex: boolean,
-  ): void => {
+  ): void {
     const { parentListEl } = this;
 
     if (saveFocusIndex) {
@@ -996,11 +664,306 @@ export class ListItem
     if (saveFocusIndex) {
       focusMap.set(parentListEl, gridCells.indexOf(focusEl));
     }
-  };
+  }
 
-  private focusCell = (focusEl: HTMLDivElement | null, saveFocusIndex = true): void => {
+  private focusCell(focusEl: HTMLDivElement | null, saveFocusIndex = true): void {
     const focusedEl = getFirstTabbable(focusEl);
     this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();
-  };
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  private renderSelected(): JsxNode {
+    const { selected, selectionMode, selectionAppearance } = this;
+
+    if (selectionMode === "none" || selectionAppearance === "border") {
+      return null;
+    }
+
+    return (
+      <div
+        class={{
+          [CSS.selectionContainer]: true,
+          [CSS.selectionContainerSingle]:
+            selectionMode === "single" || selectionMode === "single-persist",
+        }}
+        key="selection-container"
+        onClick={this.handleItemClick}
+      >
+        <calcite-icon
+          icon={
+            selected
+              ? selectionMode === "multiple"
+                ? ICONS.selectedMultiple
+                : ICONS.selectedSingle
+              : selectionMode === "multiple"
+                ? ICONS.unselectedMultiple
+                : ICONS.unselectedSingle
+          }
+          scale="s"
+        />
+      </div>
+    );
+  }
+
+  private renderDragHandle(): JsxNode {
+    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
+
+    return dragHandle ? (
+      <div
+        ariaLabel={label}
+        class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
+        key="drag-handle-container"
+        onFocusIn={this.focusCellHandle}
+        ref={this.handleGridEl}
+        role="gridcell"
+      >
+        <calcite-sort-handle
+          disabled={dragDisabled}
+          label={label}
+          moveToItems={moveToItems}
+          oncalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
+          oncalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
+          oncalciteSortHandleClose={this.handleSortHandleClose}
+          oncalciteSortHandleOpen={this.handleSortHandleOpen}
+          overlayPositioning="fixed"
+          ref={this.setSortHandleEl}
+          setPosition={setPosition}
+          setSize={setSize}
+        />
+      </div>
+    ) : null;
+  }
+
+  private renderOpen(): JsxNode {
+    const { el, open, openable, messages } = this;
+    const dir = getElementDir(el);
+    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
+    const tooltip = open ? messages.collapse : messages.expand;
+
+    return openable ? (
+      <div
+        class={CSS.openContainer}
+        key="open-container"
+        onClick={this.handleToggleClick}
+        title={tooltip}
+      >
+        <calcite-icon icon={icon} key={icon} scale="s" />
+      </div>
+    ) : null;
+  }
+
+  private renderActionsStart(): JsxNode {
+    const { label, hasActionsStart } = this;
+    return (
+      <div
+        ariaLabel={label}
+        class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
+        hidden={!hasActionsStart}
+        key="actions-start-container"
+        onFocusIn={this.focusCellActionsStart}
+        ref={this.actionsStartEl}
+        role="gridcell"
+      >
+        <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
+      </div>
+    );
+  }
+
+  private renderActionsEnd(): JsxNode {
+    const { label, hasActionsEnd, closable, messages } = this;
+    return (
+      <div
+        ariaLabel={label}
+        class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
+        hidden={!(hasActionsEnd || closable)}
+        key="actions-end-container"
+        onFocusIn={this.focusCellActionsEnd}
+        ref={this.actionsEndEl}
+        role="gridcell"
+      >
+        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
+        {closable ? (
+          <calcite-action
+            appearance="transparent"
+            class={CSS.close}
+            icon={ICONS.close}
+            key="close-action"
+            label={messages.close}
+            onClick={this.handleCloseClick}
+            text={messages.close}
+          />
+        ) : null}
+      </div>
+    );
+  }
+
+  private renderContentStart(): JsxNode {
+    const { hasContentStart } = this;
+    return (
+      <div class={CSS.contentStart} hidden={!hasContentStart}>
+        <slot name={SLOTS.contentStart} onSlotChange={this.handleContentStartSlotChange} />
+      </div>
+    );
+  }
+
+  private renderCustomContent(): JsxNode {
+    const { hasCustomContent } = this;
+    return (
+      <div class={CSS.customContent} hidden={!hasCustomContent}>
+        <slot name={SLOTS.content} onSlotChange={this.handleContentSlotChange} />
+      </div>
+    );
+  }
+
+  private renderContentEnd(): JsxNode {
+    const { hasContentEnd } = this;
+    return (
+      <div class={CSS.contentEnd} hidden={!hasContentEnd}>
+        <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
+      </div>
+    );
+  }
+
+  private renderContentBottom(): JsxNode {
+    const { hasContentBottom } = this;
+    return (
+      <div class={CSS.contentBottom} hidden={!hasContentBottom}>
+        <slot name={SLOTS.contentBottom} onSlotChange={this.handleContentBottomSlotChange} />
+      </div>
+    );
+  }
+
+  private renderDefaultContainer(): JsxNode {
+    return (
+      <div
+        class={{
+          [CSS.nestedContainer]: true,
+          [CSS.nestedContainerOpen]: this.openable && this.open,
+        }}
+      >
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
+      </div>
+    );
+  }
+
+  private renderContentProperties(): JsxNode {
+    const { label, description, hasCustomContent } = this;
+
+    return !hasCustomContent && (!!label || !!description) ? (
+      <div class={CSS.content} key="content">
+        {label ? (
+          <div class={CSS.label} key="label">
+            {label}
+          </div>
+        ) : null}
+        {description ? (
+          <div class={CSS.description} key="description">
+            {description}
+          </div>
+        ) : null}
+      </div>
+    ) : null;
+  }
+
+  private renderContentContainer(): JsxNode {
+    const { description, label, selectionMode, hasCustomContent, unavailable } = this;
+    const hasCenterContent = hasCustomContent || !!label || !!description;
+    const content = [
+      this.renderContentStart(),
+      this.renderCustomContent(),
+      this.renderContentProperties(),
+      this.renderContentEnd(),
+    ];
+
+    return (
+      <div
+        ariaLabel={label}
+        class={{
+          [CSS.gridCell]: true,
+          [CSS.contentContainer]: true,
+          [CSS.contentContainerUnavailable]: unavailable,
+          [CSS.contentContainerSelectable]: selectionMode !== "none",
+          [CSS.contentContainerHasCenterContent]: hasCenterContent,
+        }}
+        key="content-container"
+        onClick={this.handleItemClick}
+        onFocusIn={this.focusCellContent}
+        ref={this.contentEl}
+        role="gridcell"
+      >
+        {content}
+      </div>
+    );
+  }
+
+  override render(): JsxNode {
+    const {
+      openable,
+      open,
+      level,
+      active,
+      label,
+      selected,
+      selectionAppearance,
+      selectionMode,
+      interactionMode,
+      closed,
+      filterHidden,
+      bordered,
+      disabled,
+    } = this;
+
+    const showBorder = selectionMode !== "none" && selectionAppearance === "border";
+    const borderSelected = showBorder && selected;
+    const borderUnselected = showBorder && !selected;
+
+    const containerInteractive =
+      interactionMode === "interactive" ||
+      (interactionMode === "static" &&
+        selectionMode !== "none" &&
+        selectionAppearance === "border");
+
+    return (
+      <InteractiveContainer disabled={disabled}>
+        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
+          <div
+            ariaExpanded={openable ? open : null}
+            ariaLabel={label}
+            ariaLevel={level}
+            ariaSelected={selected}
+            class={{
+              [CSS.row]: true,
+              [CSS.container]: true,
+              [CSS.containerHover]: containerInteractive,
+              [CSS.containerBorder]: showBorder,
+              [CSS.containerBorderSelected]: borderSelected,
+              [CSS.containerBorderUnselected]: borderUnselected,
+            }}
+            hidden={closed || filterHidden}
+            onFocus={this.focusCellNull}
+            onFocusIn={this.emitInternalListItemActive}
+            onKeyDown={this.handleItemKeyDown}
+            ref={this.containerEl}
+            role="row"
+            tabIndex={active ? 0 : -1}
+          >
+            {this.renderDragHandle()}
+            {this.renderSelected()}
+            {this.renderOpen()}
+            {this.renderActionsStart()}
+            {this.renderContentContainer()}
+            {this.renderActionsEnd()}
+          </div>
+          {this.renderContentBottom()}
+        </div>
+        {this.renderDefaultContainer()}
+      </InteractiveContainer>
+    );
+  }
+
+  // #endregion
 }

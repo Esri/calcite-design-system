@@ -1,6 +1,7 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   getClearValidationEventName,
@@ -10,16 +11,14 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { GlobalTestProps } from "./../utils";
+import { GlobalTestProps } from "../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
 interface FormAssociatedOptions {
-  /**
-   * This value will be set on the component and submitted by the form.
-   */
+  /** This value will be set on the component and submitted by the form. */
   testValue: any;
 
   /**
@@ -46,24 +45,16 @@ interface FormAssociatedOptions {
    */
   changeValueKeys?: KeyInput[];
 
-  /**
-   * Specifies the input type that will be used to capture the value.
-   */
+  /** Specifies the input type that will be used to capture the value. */
   inputType?: HTMLInputElement["type"];
 
-  /**
-   * Specifies if the component supports submitting the form on Enter key press.
-   */
+  /** Specifies if the component supports submitting the form on Enter key press. */
   submitsOnEnter?: boolean;
 
-  /**
-   * Specifies if the component supports clearing its value (i.e., setting to null).
-   */
+  /** Specifies if the component supports clearing its value (i.e., setting to null). */
   clearable?: boolean;
 
-  /**
-   * Specifies if the component supports preventing submission and displaying validation messages.
-   */
+  /** Specifies if the component supports preventing submission and displaying validation messages. */
   validation?: boolean;
 }
 
@@ -423,7 +414,7 @@ export function formAssociated(
     await submitButton.click();
     await page.waitForChanges();
 
-    await expectValidationProps(page, component, { message, icon: "", status: "invalid" });
+    await expectValidationProps(page, component, { message, icon: true, status: "invalid" });
   }
 
   async function assertClearsValidationOnValueChange(

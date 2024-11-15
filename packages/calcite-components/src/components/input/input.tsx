@@ -1,25 +1,25 @@
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
+import { literal } from "lit-html/static.js";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  forceUpdate,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
+  method,
+  state,
+  JsxNode,
+  LuminaJsx,
+  stringOrBoolean,
+} from "@arcgis/lumina";
+import { useWatchAttributes } from "@arcgis/components-controllers";
 import {
   focusFirstTabbable,
   getElementDir,
   isPrimaryPointerButton,
   setRequestedIcon,
-  toAriaBoolean,
 } from "../../utils/dom";
-import { Scale, Status, Alignment } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 import {
   connectForm,
   disconnectForm,
@@ -42,13 +42,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-  numberStringFormatter,
-} from "../../utils/locale";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
@@ -57,268 +51,118 @@ import {
   sanitizeNumberString,
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
-import { InputMessages } from "./assets/input/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { InlineEditable } from "../inline-editable/inline-editable";
+import type { Label } from "../label/label";
+import T9nStrings from "./assets/t9n/input.t9n.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
+import { styles } from "./input.scss";
 
-/**
- * @slot action - A slot for positioning a `calcite-button` next to the component.
- */
-@Component({
-  tag: "calcite-input",
-  styleUrl: "input.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
+declare global {
+  interface DeclareElements {
+    "calcite-input": Input;
+  }
+}
+
+/** @slot action - A slot for positioning a `calcite-button` next to the component. */
 export class Input
+  extends LitElement
   implements
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    T9nComponent,
-    LocalizedComponent,
     LoadableComponent,
     NumericInputComponent,
     TextualInputComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Global attributes
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
 
-  @Watch("autofocus")
-  @Watch("enterkeyhint")
-  @Watch("inputmode")
-  @Watch("spellcheck")
-  handleGlobalAttributesChanged(): void {
-    forceUpdate(this);
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private actionWrapperEl = createRef<HTMLDivElement>();
+
+  attributeWatch = useWatchAttributes(
+    ["enterkeyhint", "inputmode", "spellcheck"],
+    this.handleGlobalAttributesChanged,
+  );
+
+  /** keep track of the rendered child type */
+  private childEl?: HTMLInputElement | HTMLTextAreaElement;
+
+  /** keep track of the rendered child type */
+  private childElType?: "input" | "textarea" = "input";
+
+  /** number text input element for locale */
+  private childNumberEl?: HTMLInputElement;
+
+  defaultValue: Input["value"];
+
+  formEl: HTMLFormElement;
+
+  private inlineEditableEl: InlineEditable["el"];
+
+  private inputWrapperEl = createRef<HTMLDivElement>();
+
+  get isClearable(): boolean {
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
-
-  /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
-
-  /**
-   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
-   *
-   * @ignore
-   */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
-  @Prop() autofocus: boolean;
-
-  /**
-   * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
-   */
-  @Prop({ reflect: true }) clearable = false;
-
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   *
-   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
-   */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
-  @Prop() enterKeyHint: string;
-
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @Prop({ reflect: true }) form: string;
-
-  /**
-   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
-   */
-  @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
-   */
-  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
-
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
-  @Prop() inputMode: string;
-
-  /** Accessible name for the component. */
-  @Prop() label: string;
-
-  /** When `true`, a busy indicator is displayed. */
-  @Prop({ reflect: true }) loading = false;
-
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   *
-   */
-  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
-
-  /**
-   * When `true`, uses locale formatting for numbers.
-   *
-   * @internal
-   */
-  @Prop() localeFormat = false;
-
-  /**
-   * Specifies the maximum value for type "number".
-   *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
-   */
-  @Prop({ reflect: true }) max: number;
-
-  /** watcher to update number-to-string for max */
-  @Watch("max")
-  maxWatcher(): void {
-    this.maxString = this.max?.toString() || null;
+  get isTextarea(): boolean {
+    return this.childElType === "textarea";
   }
 
-  /**
-   * Specifies the minimum value for `type="number"`.
-   *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
-   */
-  @Prop({ reflect: true }) min: number;
+  labelEl: Label["el"];
 
-  /** watcher to update number-to-string for min */
-  @Watch("min")
-  minWatcher(): void {
-    this.minString = this.min?.toString() || null;
-  }
+  private maxString?: string;
 
-  /**
-   * Specifies the maximum length of text for the component's value.
-   *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
-   */
-  @Prop({ reflect: true }) maxLength: number;
+  private minString?: string;
 
-  /**
-   * Specifies the minimum length of text for the component's value.
-   *
-   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
-   */
-  @Prop({ reflect: true }) minLength: number;
+  private nudgeNumberValueIntervalId: number;
 
-  /** Specifies the validation message to display under the component. */
-  @Prop() validationMessage: string;
-
-  /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
-
-  /**
-   * The current validation state of the component.
-   *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
+  private onHiddenFormInputInput = (event: Event): void => {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      this.setValue({
+        value: (event.target as HTMLInputElement).value,
+        origin: "direct",
+      });
+    }
+    this.setFocus();
+    event.stopPropagation();
   };
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
-   */
-  @Prop({ reflect: true }) name: string;
+  private previousEmittedValue: string;
 
-  /** Specifies the placement of the buttons for `type="number"`. */
-  @Prop({ reflect: true }) numberButtonType: InputPlacement = "vertical";
+  private previousValue: string;
 
-  /**
-   * Specifies placeholder text for the component.
-   *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
-   */
-  @Prop() placeholder: string;
+  private previousValueOrigin: SetValueOrigin = "initial";
 
-  /** Adds text to the start of the component. */
-  @Prop() prefixText: string;
+  /** the computed icon to render */
+  private requestedIcon?: IconNameOrString;
 
-  /**
-   * When `true`, the component's value can be read, but cannot be modified.
-   *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
-   */
-  @Prop({ reflect: true }) readOnly = false;
+  private userChangedValue = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
+  private _value = "";
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  // #endregion
 
-  /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ reflect: true }) status: Status = "idle";
+  // #region State Properties
 
-  /**
-   * Specifies the granularity the component's `value` must adhere to.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
-   */
-  @Prop({ reflect: true }) step: number | "any";
+  @state() displayedValue: string;
 
-  /**
-   * Specifies the type of content to autocomplete, for use in forms.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
-   */
-  @Prop() autocomplete: string;
+  @state() slottedActionElDisabledInternally = false;
 
-  /**
-   * Specifies a regex pattern the component's `value` must match for validation.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
-   */
-  @Prop() pattern: string;
+  // #endregion
+
+  // #region Public Properties
 
   /**
    * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
@@ -327,7 +171,105 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
-  @Prop() accept: string;
+  @property() accept: string;
+
+  /** Specifies the text alignment of the component's value. */
+  @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
+
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @property() autocomplete: string;
+
+  /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type. */
+  @property({ reflect: true }) clearable = false;
+
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   */
+  @property({ reflect: true }) disabled = false;
+
+  /** @private */
+  @property({ reflect: true }) editingEnabled = false;
+
+  /**
+   * When `type` is `"file"`, specifies the component's selected files.
+   *
+   * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
+   */
+  @property() files: FileList | undefined;
+
+  /**
+   * The `id` of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @property({ reflect: true }) form: string;
+
+  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  @property({ reflect: true }) groupSeparator = false;
+
+  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
+  /** Accessible name for the component. */
+  @property() label: string;
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /**
+   * When `true`, uses locale formatting for numbers.
+   *
+   * @private
+   */
+  @property() localeFormat = false;
+
+  /**
+   * Specifies the maximum value for type "number".
+   *
+   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
+   */
+  @property({ reflect: true }) max: number;
+
+  /**
+   * Specifies the maximum length of text for the component's value.
+   *
+   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   */
+  @property({ reflect: true }) maxLength: number;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * Specifies the minimum value for `type="number"`.
+   *
+   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
+   */
+  @property({ reflect: true }) min: number;
+
+  /**
+   * Specifies the minimum length of text for the component's value.
+   *
+   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   */
+  @property({ reflect: true }) minLength: number;
 
   /**
    * When `true`, the component can accept more than one value.
@@ -336,22 +278,73 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
    */
-  @Prop() multiple = false;
-
-  /** Adds text to the end of the component. */
-  @Prop() suffixText: string;
+  @property() multiple = false;
 
   /**
-   * @internal
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   *
+   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
-  @Prop({ mutable: true, reflect: true }) editingEnabled = false;
+  @property({ reflect: true }) name: string;
+
+  /** Specifies the placement of the buttons for `type="number"`. */
+  @property({ reflect: true }) numberButtonType: InputPlacement = "vertical";
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @property({ reflect: true }) numberingSystem: NumberingSystem;
+
+  /**
+   * Specifies a regex pattern the component's `value` must match for validation.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @property() pattern: string;
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder: string;
+
+  /** Adds text to the start of the component. */
+  @property() prefixText: string;
+
+  /**
+   * When `true`, the component's value can be read, but cannot be modified.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @property({ reflect: true }) readOnly = false;
+
+  /** When `true`, the component must have a value in order for the form to submit. */
+  @property({ reflect: true }) required = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * Specifies the granularity the component's `value` must adhere to.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
+   */
+  @property({ reflect: true }) step: number | "any";
+
+  /** Adds text to the end of the component. */
+  @property() suffixText: string;
 
   /**
    * Specifies the component type.
    *
    * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
    */
-  @Prop({ reflect: true }) type:
+  @property({ reflect: true }) type:
     | "color"
     | "date"
     | "datetime-local"
@@ -369,37 +362,182 @@ export class Input
     | "url"
     | "week" = "text";
 
+  /** Specifies the validation icon to display under the component. */
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
+    | IconNameOrString
+    | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage: string;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property() validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
   /** The component's value. */
-  @Prop({ mutable: true }) value = "";
-
-  /**
-   * When `type` is `"file"`, specifies the component's selected files.
-   *
-   * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
-   */
-  @Prop() files: FileList | undefined;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: InputMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<InputMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  @property()
+  get value(): string {
+    return this._value;
   }
 
-  @Watch("value")
-  valueWatcher(newValue: string, previousValue: string): void {
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value, oldValue);
+      if (value && this._value === "") {
+        this.setValue({
+          origin: "reset",
+          value: oldValue,
+        });
+      }
+    }
+  }
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Selects the text of the component's `value`. */
+  @method()
+  async selectText(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl?.select();
+    } else {
+      this.childEl?.select();
+    }
+  }
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    focusFirstTabbable(this.type === "number" ? this.childNumberEl : this.childEl);
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires each time a new `value` is typed and committed. */
+  calciteInputChange = createEvent({ cancelable: false });
+
+  /** Fires each time a new `value` is typed. */
+  calciteInputInput = createEvent();
+
+  /** @private */
+  calciteInternalInputBlur = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalInputFocus = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("click", this.clickHandler);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    if (this.inlineEditableEl) {
+      this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
+    }
+    connectLabel(this);
+    connectForm(this);
+    this.el.addEventListener(
+      internalHiddenInputInputEvent,
+      this.onHiddenFormInputInput,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.childElType = this.type === "textarea" ? "textarea" : "input";
+    this.maxString = this.max?.toString();
+    this.minString = this.min?.toString();
+    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+    this.setPreviousEmittedValue(this.value);
+    this.setPreviousValue(this.value);
+
+    if (this.type === "number") {
+      if (this.value === "Infinity" || this.value === "-Infinity") {
+        this.displayedValue = this.value;
+        this.previousEmittedValue = this.value;
+      } else {
+        this.warnAboutInvalidNumberValue(this.value);
+        this.setValue({
+          origin: "connected",
+          value: isValidNumber(this.value) ? this.value : "",
+        });
+      }
+    }
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("max")) {
+      this.maxString = this.max?.toString() || null;
+    }
+
+    if (changes.has("min")) {
+      this.minString = this.min?.toString() || null;
+    }
+
+    if (changes.has("icon") || (changes.has("type") && (this.hasUpdated || this.type !== "text"))) {
+      this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+    this.el.removeEventListener(
+      internalHiddenInputInputEvent,
+      this.onHiddenFormInputInput,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleGlobalAttributesChanged(): void {
+    this.requestUpdate();
+  }
+
+  private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       if (this.type === "number" && (newValue === "Infinity" || newValue === "-Infinity")) {
         this.displayedValue = newValue;
@@ -424,213 +562,7 @@ export class Input
     this.userChangedValue = false;
   }
 
-  @Watch("icon")
-  @Watch("type")
-  updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputElement;
-
-  labelEl: HTMLCalciteLabelElement;
-
-  formEl: HTMLFormElement;
-
-  defaultValue: Input["value"];
-
-  inlineEditableEl: HTMLCalciteInlineEditableElement;
-
-  private inputWrapperEl: HTMLDivElement;
-
-  private actionWrapperEl: HTMLDivElement;
-
-  /** keep track of the rendered child type */
-  private childEl?: HTMLInputElement | HTMLTextAreaElement;
-
-  /** keep track of the rendered child type */
-  private childElType?: "input" | "textarea" = "input";
-
-  /** number text input element for locale */
-  private childNumberEl?: HTMLInputElement;
-
-  get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
-  }
-
-  get isTextarea(): boolean {
-    return this.childElType === "textarea";
-  }
-
-  private minString?: string;
-
-  private maxString?: string;
-
-  private previousEmittedValue: string;
-
-  private previousValue: string;
-
-  private previousValueOrigin: SetValueOrigin = "initial";
-
-  /** the computed icon to render */
-  private requestedIcon?: IconNameOrString;
-
-  private nudgeNumberValueIntervalId: number;
-
-  private userChangedValue = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  State
-  //
-  //--------------------------------------------------------------------------
-
-  @State() defaultMessages: InputMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() displayedValue: string;
-
-  @State() slottedActionElDisabledInternally = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-
-    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
-    if (this.inlineEditableEl) {
-      this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
-    }
-    connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.maxString = this.max?.toString();
-    this.minString = this.min?.toString();
-    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-    await setUpMessages(this);
-
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
-
-    if (this.type === "number") {
-      if (this.value === "Infinity" || this.value === "-Infinity") {
-        this.displayedValue = this.value;
-        this.previousEmittedValue = this.value;
-      } else {
-        this.warnAboutInvalidNumberValue(this.value);
-        this.setValue({
-          origin: "connected",
-          value: isValidNumber(this.value) ? this.value : "",
-        });
-      }
-    }
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
-    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
-      this.setValue({
-        origin: "reset",
-        value: oldValue,
-      });
-      return false;
-    }
-    return true;
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalInputFocus: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
-
-  /**
-   * Fires each time a new `value` is typed.
-   */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter<void>;
-
-  /**
-   * Fires each time a new `value` is typed and committed.
-   */
-  @Event({ cancelable: false }) calciteInputChange: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.type === "number" ? this.childNumberEl : this.childEl);
-  }
-
-  /** Selects the text of the component's `value`. */
-  @Method()
-  async selectText(): Promise<void> {
-    if (this.type === "number") {
-      this.childNumberEl?.select();
-    } else {
-      this.childEl?.select();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
@@ -644,13 +576,13 @@ export class Input
         event.preventDefault();
       }
     }
-  };
+  }
 
   onLabelClick(): void {
     this.setFocus();
   }
 
-  incrementOrDecrementNumberValue(
+  private incrementOrDecrementNumberValue(
     direction: NumberNudgeDirection,
     inputMax: number | null,
     inputMin: number | null,
@@ -691,29 +623,29 @@ export class Input
     });
   }
 
-  private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
+  private clearInputValue(nativeEvent: KeyboardEvent | MouseEvent): void {
     this.setValue({
       committing: true,
       nativeEvent,
       origin: "user",
       value: "",
     });
-  };
+  }
 
-  private emitChangeIfUserModified = (): void => {
+  private emitChangeIfUserModified(): void {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputChange.emit();
       this.setPreviousEmittedValue(this.value);
     }
-  };
+  }
 
-  private inputBlurHandler = () => {
+  private inputBlurHandler() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputBlur.emit();
     this.emitChangeIfUserModified();
-  };
+  }
 
-  private clickHandler = (event: MouseEvent): void => {
+  private clickHandler(event: MouseEvent): void {
     if (this.disabled) {
       return;
     }
@@ -721,26 +653,26 @@ export class Input
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl) ||
-      composedPath.includes(this.actionWrapperEl)
+      !composedPath.includes(this.inputWrapperEl.value) ||
+      composedPath.includes(this.actionWrapperEl.value)
     ) {
       return;
     }
 
     this.setFocus();
-  };
+  }
 
-  private inputFocusHandler = (): void => {
+  private inputFocusHandler(): void {
     this.calciteInternalInputFocus.emit();
-  };
+  }
 
-  private inputChangeHandler = (): void => {
+  private inputChangeHandler(): void {
     if (this.type === "file") {
       this.files = (this.childEl as HTMLInputElement).files;
     }
-  };
+  }
 
-  private inputInputHandler = (nativeEvent: InputEvent): void => {
+  private inputInputHandler(nativeEvent: InputEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -749,18 +681,18 @@ export class Input
       origin: "user",
       value: (nativeEvent.target as HTMLInputElement).value,
     });
-  };
+  }
 
-  private inputKeyDownHandler = (event: KeyboardEvent): void => {
+  private inputKeyDownHandler(event: KeyboardEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
     if (event.key === "Enter") {
       this.emitChangeIfUserModified();
     }
-  };
+  }
 
-  private inputNumberInputHandler = (nativeEvent: InputEvent): void => {
+  private inputNumberInputHandler(nativeEvent: InputEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -771,7 +703,7 @@ export class Input
 
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -793,9 +725,9 @@ export class Input
         value: delocalizedValue,
       });
     }
-  };
+  }
 
-  private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
+  private inputNumberKeyDownHandler(event: KeyboardEvent): void {
     if (this.type !== "number" || this.disabled || this.readOnly) {
       return;
     }
@@ -839,7 +771,7 @@ export class Input
       return;
     }
     numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -869,12 +801,12 @@ export class Input
       }
     }
     event.preventDefault();
-  };
+  }
 
-  private nudgeNumberValue = (
+  private nudgeNumberValue(
     direction: NumberNudgeDirection,
     nativeEvent: KeyboardEvent | MouseEvent,
-  ): void => {
+  ): void {
     if ((nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) || this.type !== "number") {
       return;
     }
@@ -897,13 +829,13 @@ export class Input
 
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
     }, valueNudgeDelayInMs);
-  };
+  }
 
-  private numberButtonPointerUpAndOutHandler = (): void => {
+  private numberButtonPointerUpAndOutHandler(): void {
     window.clearInterval(this.nudgeNumberValueIntervalId);
-  };
+  }
 
-  private numberButtonPointerDownHandler = (event: PointerEvent): void => {
+  private numberButtonPointerDownHandler(event: PointerEvent): void {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
@@ -913,54 +845,41 @@ export class Input
     if (!this.disabled) {
       this.nudgeNumberValue(direction, event);
     }
-  };
+  }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput(this.type, this, input);
   }
 
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
-
-  private setChildElRef = (el: HTMLInputElement | HTMLTextAreaElement) => {
+  private setChildElRef(el: HTMLInputElement | HTMLTextAreaElement) {
     this.childEl = el;
-  };
+  }
 
-  private setChildNumberElRef = (el: HTMLInputElement) => {
+  private setChildNumberElRef(el: HTMLInputElement) {
     this.childNumberEl = el;
-  };
+  }
 
-  private setInputValue = (newInputValue: string): void => {
-    if (this.type === "text" && !this.childEl) {
-      return;
+  private setInputValue(newInputValue: string): void {
+    if (this.type === "number" && this.childNumberEl) {
+      this.childNumberEl.value = newInputValue;
+    } else if (this.childEl) {
+      this.childEl.value = newInputValue;
     }
-    if (this.type === "number" && !this.childNumberEl) {
-      return;
-    }
-    this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
-  };
+  }
 
-  private setPreviousEmittedValue = (value: string): void => {
+  private setPreviousEmittedValue(value: string): void {
     this.previousEmittedValue = this.normalizeValue(value);
-  };
+  }
 
   private normalizeValue(value: string): string {
     return this.type === "number" ? (isValidNumber(value) ? value : "") : value;
   }
 
-  private setPreviousValue = (value: string): void => {
+  private setPreviousValue(value: string): void {
     this.previousValue = this.normalizeValue(value);
-  };
+  }
 
-  private setValue = ({
+  private setValue({
     committing = false,
     nativeEvent,
     origin,
@@ -972,13 +891,13 @@ export class Input
     origin: SetValueOrigin;
     previousValue?: string;
     value: string;
-  }): void => {
+  }): void {
     this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
 
     if (this.type === "number") {
       numberStringFormatter.numberFormatOptions = {
-        locale: this.effectiveLocale,
+        locale: this.messages._lang,
         numberingSystem: this.numberingSystem,
         useGrouping: this.groupSeparator,
         signDisplay: "never",
@@ -1039,11 +958,11 @@ export class Input
         this.emitChangeIfUserModified();
       }
     }
-  };
+  }
 
-  private inputKeyUpHandler = (): void => {
+  private inputKeyUpHandler(): void {
     window.clearInterval(this.nudgeNumberValueIntervalId);
-  };
+  }
 
   private warnAboutInvalidNumberValue(value: string): void {
     if (this.type === "number" && value && !isValidNumber(value)) {
@@ -1051,13 +970,11 @@ export class Input
     }
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
@@ -1067,7 +984,7 @@ export class Input
 
     const inputClearButton = (
       <button
-        aria-label={this.messages.clear}
+        ariaLabel={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
@@ -1090,7 +1007,7 @@ export class Input
 
     const numberButtonsHorizontalUp = (
       <button
-        aria-hidden="true"
+        ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
@@ -1109,7 +1026,7 @@ export class Input
 
     const numberButtonsHorizontalDown = (
       <button
-        aria-hidden="true"
+        ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
@@ -1145,14 +1062,14 @@ export class Input
         <input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
-          aria-invalid={toAriaBoolean(this.status === "invalid")}
-          aria-label={getLabelText(this)}
-          autocomplete={this.autocomplete}
+          ariaInvalid={this.status === "invalid"}
+          ariaLabel={getLabelText(this)}
+          autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={enterKeyHint}
-          inputMode={inputMode}
+          enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+          inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1171,16 +1088,20 @@ export class Input
           value={this.displayedValue}
         />
       ) : null;
+    const DynamicHtmlTag =
+      this.childElType === "input"
+        ? (literal`input` as unknown as "input")
+        : (literal`textarea` as unknown as "textarea");
 
     const childEl =
       this.type !== "number"
         ? [
-            <this.childElType
+            <DynamicHtmlTag
               accept={this.accept}
               aria-errormessage={IDS.validationMessage}
-              aria-invalid={toAriaBoolean(this.status === "invalid")}
-              aria-label={getLabelText(this)}
-              autocomplete={this.autocomplete}
+              ariaInvalid={this.status === "invalid"}
+              ariaLabel={getLabelText(this)}
+              autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
               autofocus={autofocus}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
@@ -1188,8 +1109,8 @@ export class Input
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={enterKeyHint}
-              inputMode={inputMode}
+              enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+              inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
@@ -1224,46 +1145,46 @@ export class Input
         : null;
 
     return (
-      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <InteractiveContainer disabled={this.disabled}>
-          <div
-            class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-            ref={(el) => (this.inputWrapperEl = el)}
-          >
-            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-              ? numberButtonsHorizontalDown
-              : null}
-            {this.prefixText ? prefixText : null}
-            <div class={CSS.wrapper}>
-              {localeNumberInput}
-              {childEl}
-              {this.isClearable ? inputClearButton : null}
-              {this.requestedIcon ? iconEl : null}
-              {this.loading ? loader : null}
-            </div>
-            <div class={CSS.actionWrapper} ref={(el) => (this.actionWrapperEl = el)}>
-              <slot name={SLOTS.action} />
-            </div>
-            {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
-              ? numberButtonsVertical
-              : null}
-            {this.suffixText ? suffixText : null}
-            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-              ? numberButtonsHorizontalUp
-              : null}
-            <HiddenFormInputSlot component={this} />
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          ref={this.inputWrapperEl}
+        >
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+            ? numberButtonsHorizontalDown
+            : null}
+          {this.prefixText ? prefixText : null}
+          <div class={CSS.wrapper}>
+            {localeNumberInput}
+            {childEl}
+            {this.isClearable ? inputClearButton : null}
+            {this.requestedIcon ? iconEl : null}
+            {this.loading ? loader : null}
           </div>
-          {this.validationMessage && this.status === "invalid" ? (
-            <Validation
-              icon={this.validationIcon}
-              id={IDS.validationMessage}
-              message={this.validationMessage}
-              scale={this.scale}
-              status={this.status}
-            />
-          ) : null}
-        </InteractiveContainer>
-      </Host>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+            <slot name={SLOTS.action} />
+          </div>
+          {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
+            ? numberButtonsVertical
+            : null}
+          {this.suffixText ? suffixText : null}
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+            ? numberButtonsHorizontalUp
+            : null}
+          <HiddenFormInputSlot component={this} />
+        </div>
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

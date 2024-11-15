@@ -1,72 +1,70 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
+import { styles } from "./combobox-item-group.scss";
 
-/**
- * @slot - A slot for adding `calcite-combobox-item`s.
- */
-@Component({
-  tag: "calcite-combobox-item-group",
-  styleUrl: "combobox-item-group.scss",
-  shadow: true,
-})
-export class ComboboxItemGroup {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-combobox-item-group": ComboboxItemGroup;
+  }
+}
+
+/** @slot - A slot for adding `calcite-combobox-item`s. */
+export class ComboboxItemGroup extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private guid: string = guid();
+
+  // #endregion
+
+  // #region Public Properties
 
   /**
    * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
    *
-   * @internal
+   * @private
    */
-  @Prop({ reflect: true }) afterEmptyGroup = false;
+  @property({ reflect: true }) afterEmptyGroup = false;
 
   /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
-  @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
+  @property() ancestors: ComboboxChildElement[];
 
-  /** Specifies the title of the component. */
-  @Prop() label!: string;
+  /**
+   * Specifies the title of the component.
+   *
+   * @required
+   */
+  @property() label: string;
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
    *
-   * @internal
+   * @private
    */
-  @Prop() scale: Scale = "m";
+  @property() scale: Scale = "m";
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  connectedCallback(): void {
+  // #region Lifecycle
+
+  override connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteComboboxItemGroupElement;
+  // #region Rendering
 
-  guid: string = guid();
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  render(): VNode {
+  override render(): JsxNode {
     const { el, scale } = this;
     const depth = getDepth(el);
 
@@ -88,4 +86,6 @@ export class ComboboxItemGroup {
       </ul>
     );
   }
+
+  // #endregion
 }

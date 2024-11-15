@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { locales, defaultLocale } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { DatePicker } from "./date-picker";
+
 const { scale } = ATTRIBUTES;
 
 interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" | "scale" | "value"> {

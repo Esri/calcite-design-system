@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -14,6 +15,7 @@ import {
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS as TooltipCSS } from "../tooltip/resources";
 import { skipAnimations } from "../../tests/utils";
+import type { Action } from "../action/action";
 import { CSS, SLOTS, activeAttr } from "./resources";
 
 describe("calcite-action-menu", () => {
@@ -74,7 +76,7 @@ describe("calcite-action-menu", () => {
       },
       {
         propertyName: "scale",
-        defaultValue: undefined,
+        defaultValue: "m",
       },
     ]);
   });
@@ -525,7 +527,7 @@ describe("calcite-action-menu", () => {
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       // native click is used to close the open menu
-      await page.$eval("calcite-action", (el: HTMLCalciteActionElement) => el.click());
+      await page.$eval("calcite-action", (el: Action["el"]) => el.click());
 
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);
