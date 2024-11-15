@@ -515,15 +515,18 @@ export class Pagination extends LitElement implements LoadableComponent {
   }
 
   override render(): JsxNode {
+    const firstChevron = this.renderFirstChevron();
+    const lastChevron = this.renderLastChevron();
+
     return (
       <ul class={CSS.list}>
         <li
           class={{
             [CSS.listItem]: true,
-            [CSS.hiddenItem]: !this.renderFirstChevron(),
+            [CSS.hiddenItem]: !firstChevron,
           }}
         >
-          {this.renderFirstChevron()}
+          {firstChevron}
         </li>
         <li class={CSS.listItem}>{this.renderPreviousChevron()}</li>
         {this.renderItems()}
@@ -531,10 +534,10 @@ export class Pagination extends LitElement implements LoadableComponent {
         <li
           class={{
             [CSS.listItem]: true,
-            [CSS.hiddenItem]: !this.renderLastChevron(),
+            [CSS.hiddenItem]: !lastChevron,
           }}
         >
-          {this.renderLastChevron()}
+          {lastChevron}
         </li>
       </ul>
     );
