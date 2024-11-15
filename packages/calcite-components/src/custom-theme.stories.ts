@@ -25,7 +25,7 @@ import { icon } from "./custom-theme/icon";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
-import { label, labelTokens, linkTokens } from "./custom-theme/label";
+import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
