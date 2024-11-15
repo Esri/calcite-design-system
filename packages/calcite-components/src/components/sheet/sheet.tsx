@@ -32,6 +32,7 @@ import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { componentOnReady } from "../../utils/component";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/sheet.t9n.en.json";
@@ -43,11 +44,6 @@ declare global {
   }
 }
 
-/**
- * TODO: [MIGRATION] This component had a
- *
- * @Component () decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs
- */
 export class Sheet
   extends LitElement
   implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
@@ -64,6 +60,8 @@ export class Sheet
 
   private contentId: string;
 
+  private ignoreOpenChange = false;
+
   private escapeDeactivates = (event: KeyboardEvent) => {
     if (event.defaultPrevented || this.escapeDisabled) {
       return false;
@@ -78,8 +76,6 @@ export class Sheet
     this.open = false;
   };
 
-  private ignoreOpenChange = false;
-
   private initialOverflowCSS: string;
 
   private interaction: Interactable;
@@ -89,7 +85,6 @@ export class Sheet
    *
    * @private
    */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
@@ -124,6 +119,26 @@ export class Sheet
     maxInlineSize: 0,
     maxBlockSize: 0,
   };
+
+  // #endregion
+
+  // #region Public Properties
+
+  /**
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserver(),
+  );
+   
+  private _open = false;
+   
+  private openEnd = (): void => {
+    this.setFocus();
+    this.el.removeEventListener(
+      "calciteSheetOpen",
+      this.openEnd,
+    );
+  };
+   */
 
   // #endregion
 
@@ -169,7 +184,6 @@ export class Sheet
   @property() label: string;
 
   /** Use this property to override individual strings used by the component. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays and positions the component. */
@@ -208,19 +222,6 @@ export class Sheet
   // #endregion
 
   // #region Public Methods
-
-  /** Sets focus on the component's "close" button - the first focusable item. */
-  @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
-  }
-
-  /** Updates the element(s) that are used within the focus-trap of the component. */
-  @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
-  }
 
   // #endregion
 
@@ -511,6 +512,35 @@ export class Sheet
     });
   }
 
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component's "close" button - the first focusable item. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
+  }
+
+  /** Updates the element(s) that are used within the focus-trap of the component. */
+  @method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
+  }
+
+  // #endregion
+
+  // #region Events
+
+  // #endregion
+
+  // #region Lifecycle
+
+  // #endregion
+
+  // #region Private Methods
+
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
   }
@@ -543,7 +573,8 @@ export class Sheet
     this.transitionEl = el;
   }
 
-  private openSheet(): void {
+  private async openSheet(): Promise<void> {
+    await componentOnReady(this.el);
     this.el.addEventListener(
       "calciteSheetOpen",
       this.openEnd,
