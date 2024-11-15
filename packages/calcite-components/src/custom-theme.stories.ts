@@ -25,6 +25,7 @@ import { icon } from "./custom-theme/icon";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
+import { label, labelTokens } from "./custom-theme/label";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
@@ -32,8 +33,10 @@ import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
+import { switchTokens } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
+import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
@@ -118,8 +121,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${chips} ${pagination} ${slider}
       </div>
       <div class="demo-column">
-        ${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress}
-        ${handle} ${textArea} ${popover} ${tile}
+        ${datePicker} ${tabs} ${label} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail}
+        ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
       </div>
       ${alert} ${navigation}
     </div>
@@ -140,10 +143,13 @@ const componentTokens = {
   ...chipTokens,
   ...checkboxTokens,
   ...handleTokens,
+  ...labelTokens,
   ...popoverTokens,
   ...progressTokens,
   ...inputTokens,
+  ...switchTokens,
   ...textAreaTokens,
+  ...tooltipTokens,
   ...tileTokens,
   ...navigationTokens,
 };
