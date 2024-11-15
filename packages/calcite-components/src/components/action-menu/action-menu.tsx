@@ -23,6 +23,7 @@ import {
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
+import { Popover } from "../popover/popover";
 import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
@@ -98,15 +99,9 @@ export class ActionMenu extends LitElement implements LoadableComponent {
 
   private _open = false;
 
-  private slottedMenuButtonEl: Action["el"];
+  private popoverEl: Popover["el"];
 
-  private toggleOpenEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calcitePopoverOpen",
-      this.toggleOpenEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
+  private slottedMenuButtonEl: Action["el"];
 
   private tooltipEl: Tooltip["el"];
 
@@ -247,12 +242,16 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   }
 
   private openHandler(open: boolean): void {
-    this.activeMenuItemIndex = this.open ? 0 : -1;
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
     }
-    this.calciteActionMenuOpen.emit();
 
+    if (this.popoverEl) {
+      this.popoverEl.open = open;
+    }
+
+    this.activeMenuItemIndex = this.open ? 0 : -1;
+    this.calciteActionMenuOpen.emit();
     this.setTooltipReferenceElement();
   }
 
@@ -332,6 +331,14 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   private setDefaultMenuButtonEl(el: Action["el"]): void {
     this.defaultMenuButtonEl = el;
     this.connectMenuButtonEl();
+  }
+
+  private setPopoverEl(el: Popover["el"]): void {
+    if (!el) {
+      return;
+    }
+    this.popoverEl = el;
+    el.open = this.open;
   }
 
   private handleCalciteActionClick(): void {
@@ -428,15 +435,12 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   }
 
   private toggleOpen(value = !this.open): void {
-    this.el.addEventListener(
-      "calcitePopoverOpen",
-      this.toggleOpenEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.open = value;
   }
 
   private handlePopoverOpen(): void {
     this.open = true;
+    this.setFocus();
   }
 
   private handlePopoverClose(): void {
@@ -471,7 +475,6 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     const {
       actionElements,
       activeMenuItemIndex,
-      open,
       menuId,
       menuButtonEl,
       label,
@@ -492,11 +495,12 @@ export class ActionMenu extends LitElement implements LoadableComponent {
         offsetDistance={0}
         oncalcitePopoverClose={this.handlePopoverClose}
         oncalcitePopoverOpen={this.handlePopoverOpen}
-        open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
         pointerDisabled={true}
+        ref={this.setPopoverEl}
         referenceElement={menuButtonEl}
+        triggerDisabled={true}
       >
         <div
           aria-activedescendant={activeDescendantId}

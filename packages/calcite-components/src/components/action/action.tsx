@@ -97,7 +97,7 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
