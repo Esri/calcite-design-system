@@ -334,6 +334,9 @@ export class ActionMenu extends LitElement implements LoadableComponent {
   }
 
   private setPopoverEl(el: Popover["el"]): void {
+    if (!el) {
+      return;
+    }
     this.popoverEl = el;
     el.open = this.open;
   }
