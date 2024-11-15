@@ -1,27 +1,34 @@
 module.exports = {
-  root: true,
-  env: {
-    "jest/globals": true,
+  "root": true,
+  "env": {
+    "jest/globals": true
   },
-  extends: [
+  "extends": [
     "eslint:recommended",
     "plugin:@cspell/recommended",
     "plugin:@esri/calcite-components/recommended",
-    "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "plugin:jsdoc/recommended",
-    "prettier",
+    "prettier"
   ],
-  ignorePatterns: ["dist", "docs", "hydrate", "www", "**/*.d.ts"],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    tsconfigRootDir: __dirname,
-    project: ["tsconfig-eslint.json"],
-    ecmaVersion: 2021,
-    sourceType: "module",
+  "ignorePatterns": [
+    "dist",
+    "docs",
+    "hydrate",
+    "www",
+    "**/*.d.ts"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "tsconfigRootDir": "/Users/eli97736/Documents/calcite-components/packages/calcite-components",
+    "project": [
+      "tsconfig-eslint.json"
+    ],
+    "ecmaVersion": 2021,
+    "sourceType": "module"
   },
-  plugins: [
+  "plugins": [
     "@esri/calcite-components",
     "@typescript-eslint",
     "eslint-plugin-react",
@@ -29,35 +36,28 @@ module.exports = {
     "jest",
     "jsdoc",
     "prettier",
-    "unicorn",
+    "unicorn"
   ],
-  rules: {
+  "rules": {
     "@esri/calcite-components/ban-events": [
       "warn",
       {
-        event: "keyup",
-        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
+        "event": "keyup",
+        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
       },
       {
-        event: "keypress",
-        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
-      },
+        "event": "keypress",
+        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+      }
     ],
     "@esri/calcite-components/enforce-ref-last-prop": "off",
     "@esri/calcite-components/strict-boolean-attributes": "off",
-    "@stencil-community/decorators-style": "warn",
-    "@stencil-community/no-unused-watch": "off",
-    "@stencil-community/own-methods-must-be-private": "off",
-    "@stencil-community/own-props-must-be-private": "off",
-    "@stencil-community/prefer-vdom-listener": "warn",
-    "@stencil-community/required-jsdoc": "off",
-    "@stencil-community/strict-boolean-conditions": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
-        allowArgumentsExplicitlyTypedAsAny: true,
-        allowedNames: [
+        "allowArgumentsExplicitlyTypedAsAny": true,
+        "allowedNames": [
           "connectedCallback",
           "disconnectedCallback",
           "componentWillRender",
@@ -66,18 +66,34 @@ module.exports = {
           "componentDidLoad",
           "componentWillUpdate",
           "componentDidUpdate",
-          "render",
-        ],
-      },
+          "render"
+        ]
+      }
     ],
-    "@typescript-eslint/lines-between-class-members": ["error", "always"],
-    "@typescript-eslint/method-signature-style": ["error", "property"],
+    "@typescript-eslint/lines-between-class-members": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/method-signature-style": [
+      "error",
+      "property"
+    ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/no-unused-vars": "error",
-    curly: "error",
-    "import/no-dynamic-require": ["error", { esmodule: true }],
-    "import/order": ["error", { "newlines-between": "never" }],
+    "curly": "error",
+    "import/no-dynamic-require": [
+      "error",
+      {
+        "esmodule": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "never"
+      }
+    ],
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
@@ -85,60 +101,70 @@ module.exports = {
     "jsdoc/require-param-type": "off",
     "jsdoc/require-property-type": "off",
     "jsdoc/require-returns-type": "off",
-    "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
+    "jsdoc/tag-lines": [
+      "error",
+      "any",
+      {
+        "startLines": 1
+      }
+    ],
     "lines-between-class-members": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [
       "error",
       {
-        max: 1,
-      },
+        "max": 1
+      }
     ],
     "no-new-func": "error",
     "no-restricted-imports": [
       "error",
       {
-        patterns: [
+        "patterns": [
           {
-            group: ["tests/commonTests/*"],
-            message:
-              "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
-          },
-        ],
-      },
+            "group": [
+              "tests/commonTests/*"
+            ],
+            "message": "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'"
+          }
+        ]
+      }
     ],
     "no-unneeded-ternary": "error",
-    "one-var": ["error", "never"],
+    "one-var": [
+      "error",
+      "never"
+    ],
     "react/forbid-component-props": [
       "warn",
       {
-        forbid: [
+        "forbid": [
           {
-            propName: "onKeyPress",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
+            "propName": "onKeyPress",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           },
           {
-            propName: "onKeyUp",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
-          },
-        ],
-      },
+            "propName": "onKeyUp",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+          }
+        ]
+      }
     ],
     "react/forbid-dom-props": [
       "warn",
       {
-        forbid: [
+        "forbid": [
           {
-            propName: "onKeyPress",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
+            "propName": "onKeyPress",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           },
           {
-            propName: "onKeyUp",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc).",
-          },
-        ],
-      },
+            "propName": "onKeyUp",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
+          }
+        ]
+      }
     ],
     "react/jsx-props-no-spreading": "error",
     "react/jsx-sort-props": "error",
@@ -149,40 +175,47 @@ module.exports = {
     "unicorn/prevent-abbreviations": [
       "error",
       {
-        allowList: {
-          e2ePage: true,
+        "allowList": {
+          "e2ePage": true
         },
-        extendDefaultReplacements: false,
-        replacements: {
-          e: {
-            error: true,
-            event: true,
-          },
+        "extendDefaultReplacements": false,
+        "replacements": {
+          "e": {
+            "error": true,
+            "event": true
+          }
         },
-        checkProperties: false,
-        checkFilenames: false,
-      },
-    ],
+        "checkProperties": false,
+        "checkFilenames": false
+      }
+    ]
   },
-  settings: {
-    react: {
-      pragma: "h",
+  "settings": {
+    "react": {
+      "pragma": "h"
     },
-    jsdoc: {
-      ignoreInternal: true,
-      ignorePrivate: true,
-    },
+    "jsdoc": {
+      "ignoreInternal": true,
+      "ignorePrivate": true
+    }
   },
-  overrides: [
+  "overrides": [
     {
-      files: ["**/*.e2e.ts", "src/tests/**/*"],
-      rules: {
-        "@esri/calcite-components/no-dynamic-createelement": "off",
-      },
+      "files": [
+        "**/*.e2e.ts",
+        "src/tests/**/*"
+      ],
+      "rules": {
+        "@esri/calcite-components/no-dynamic-createelement": "off"
+      }
     },
     {
-      extends: ["plugin:@typescript-eslint/disable-type-checked"],
-      files: ["*.cjs"],
-    },
-  ],
+      "extends": [
+        "plugin:@typescript-eslint/disable-type-checked"
+      ],
+      "files": [
+        "*.cjs"
+      ]
+    }
+  ]
 };

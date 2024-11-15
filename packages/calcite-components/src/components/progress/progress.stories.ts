@@ -2,6 +2,7 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Progress } from "./progress";
+
 const { determinateType } = ATTRIBUTES;
 
 type ProgressStoryArgs = Pick<Progress, "type" | "value" | "text">;
