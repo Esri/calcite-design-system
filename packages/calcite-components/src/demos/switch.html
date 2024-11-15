@@ -155,6 +155,32 @@
           console.log("Basic switch changed by <calcite-switch>", e.target.checked);
         });
       </script>
+
+      <hr />
+      <!-- A horizontal line -->
+
+      <!-- Themed -->
+      <div class="parent">
+        <style>
+          .themed-switch {
+            --calcite-switch-background-color: red;
+            --calcite-switch-border-color: red;
+            --calcite-switch-handle-border-color: purple;
+            --calcite-switch-handle-background-color: purple;
+            --calcite-switch-handle-shadow: 0 0 0 2px white;
+            --calcite-switch-corner-radius: 10px;
+          }
+        </style>
+        <div class="child right-aligned-text">Themed</div>
+
+        <div class="child">
+          <calcite-switch class="themed-switch" checked></calcite-switch>
+        </div>
+
+        <div class="child">
+          <calcite-switch class="themed-switch"></calcite-switch>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>
