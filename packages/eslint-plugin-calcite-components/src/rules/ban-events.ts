@@ -1,12 +1,18 @@
-import { Rule } from "eslint";
-import { stencilComponentContext } from "stencil-eslint-core";
-import { CallExpression, Literal } from "estree";
+import { ESLintUtils, TSESTree } from "@typescript-eslint/utils";
 
-const rule: Rule.RuleModule = {
+const createRule = ESLintUtils.RuleCreator((name) => name);
+
+type Options = (string | { event: string; message?: string })[];
+
+export default createRule<Options, "default">({
+  name: "ban-events",
+  defaultOptions: [],
   meta: {
     docs: {
-      description: "This rule catches helps ban or warn against listened event types",
-      category: "Consistency",
+      description: "This rule helps ban or warn against listened event types",
+    },
+    messages: {
+      default: "{{message}}",
     },
     schema: {
       type: "array",
@@ -32,12 +38,11 @@ const rule: Rule.RuleModule = {
     type: "problem",
   },
 
-  create: function (context): Rule.RuleListener {
-    const stencil = stencilComponentContext();
+  create(context) {
     const bannedEventToMessageLookup = new Map<string, string | null>();
     context.options.forEach((option: string | { event: string; message?: string }) => {
       const event = typeof option === "string" ? option : option.event;
-      const message = typeof option === "string" ? null : option.message ?? null;
+      const message = typeof option === "string" ? null : (option.message ?? null);
       bannedEventToMessageLookup.set(event, message);
     });
 
@@ -45,36 +50,31 @@ const rule: Rule.RuleModule = {
       return bannedEventToMessageLookup.get(eventName) ?? `${eventName} is not allowed`;
     }
 
+    function checkEvent(node: TSESTree.CallExpression, eventName: string): void {
+      if (bannedEventToMessageLookup.has(eventName)) {
+        context.report({
+          node,
+          messageId: "default",
+          data: {
+            message: buildMessage(eventName),
+          },
+        });
+      }
+    }
+
     return {
-      ...stencil.rules,
-      "MethodDefinition > Decorator[expression.callee.name=Listen] Literal": (node: Literal) => {
-        if (stencil.isComponent()) {
-          const eventName = node.value as string;
-
-          if (bannedEventToMessageLookup.has(eventName)) {
-            context.report({
-              node,
-              message: buildMessage(eventName),
-            });
-          }
-        }
+      "ClassDeclaration[superClass.name=LitElement] CallExpression:matches([callee.property.name=addEventListener], [callee.property.name=removeEventListener])"(
+        node: TSESTree.CallExpression,
+      ) {
+        const eventName = (node.arguments[0] as TSESTree.Literal).value as string;
+        checkEvent(node, eventName);
       },
-      "CallExpression:matches([callee.property.name=addEventListener], [callee.property.name=removeEventListener])": (
-        node: CallExpression,
-      ) => {
-        if (stencil.isComponent()) {
-          const eventName = (node.arguments[0] as Literal).value as string;
-
-          if (bannedEventToMessageLookup.has(eventName)) {
-            context.report({
-              node,
-              message: buildMessage(eventName),
-            });
-          }
-        }
+      "ClassDeclaration[superClass.name=LitElement] CallExpression[callee.object.type=ThisExpression][callee.property.name=listen], CallExpression[callee.object.type=ThisExpression][callee.property.name=listenOn]"(
+        node: TSESTree.CallExpression,
+      ) {
+        const eventName = (node.arguments[1] as TSESTree.Literal).value as string;
+        checkEvent(node, eventName);
       },
     };
   },
-};
-
-export default rule;
+});

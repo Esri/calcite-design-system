@@ -1,21 +1,10 @@
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import {
   calciteSize24,
   calciteSize32,
   calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import {
   Direction,
   filterDirectChildren,
@@ -28,128 +17,179 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { CSS_UTILITY } from "../../utils/resources";
+import { useT9n } from "../../controllers/useT9n";
+import type { TabTitle } from "../tab-title/tab-title";
+import type { Tabs } from "../tabs/tabs";
 import { CSS, ICON } from "./resources";
-import { TabNavMessages } from "./assets/tab-nav/t9n";
+import T9nStrings from "./assets/t9n/tab-nav.t9n.en.json";
+import { styles } from "./tab-nav.scss";
 
-/**
- * @slot - A slot for adding `calcite-tab-title`s.
- */
-@Component({
-  tag: "calcite-tab-nav",
-  styleUrl: "tab-nav.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class TabNav implements LocalizedComponent, T9nComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-tab-nav": TabNav;
+  }
+}
+
+/** @slot - A slot for adding `calcite-tab-title`s. */
+export class TabNav extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private effectiveDir: Direction = "ltr";
+
+  get enabledTabTitles(): TabTitle["el"][] {
+    return filterDirectChildren<TabTitle["el"]>(
+      this.el,
+      "calcite-tab-title:not([disabled])",
+    ).filter((tabTitle) => !tabTitle.closed);
+  }
+
+  private intersectionObserver: IntersectionObserver;
+
+  private lastScrollWheelAxis: "x" | "y" = "x";
+
+  private parentTabsEl: Tabs["el"];
+
+  private resizeObserver = createObserver("resize", () => {
+    this.updateScrollingState();
+  });
+
+  private get scrollerButtonWidth(): number {
+    const { scale } = this;
+    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
+  }
+
+  private tabTitleContainerEl: HTMLDivElement;
+
+  get tabTitles(): TabTitle["el"][] {
+    return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
+  }
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() private hasOverflowingEndTabTitle = false;
+
+  @state() private hasOverflowingStartTabTitle = false;
+
+  @state() selectedTabId: TabID;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** @private */
+  @property({ reflect: true }) bordered = false;
+
+  /** @private */
+  @property({ reflect: true }) layout: TabLayout = "inline";
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
+   * Made into a prop for testing purposes only.
+   *
+   * @private
    */
-  @Prop({ reflect: true }) storageId: string;
+  messages = useT9n<typeof T9nStrings>();
 
   /**
-   * Specifies text to update multiple components to keep in sync if one changes.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   *
+   *  `@internal`
    */
-  @Prop({ reflect: true }) syncId: string;
+  @property() position: TabPosition = "bottom";
+
+  /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
+   * @private
+   */
+  @property() scale: Scale = "m";
 
   /**
    * Specifies the component's selected `calcite-tab-title`.
    *
    * @readonly
    */
-  @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
+  @property() selectedTitle: TabTitle["el"] = null;
 
-  @Watch("selectedTitle")
-  selectedTitleChanged(): void {
-    this.calciteInternalTabChange.emit({
-      tab: this.selectedTabId,
-    });
+  /** Specifies the name when saving selected `calcite-tab` data to `localStorage`. */
+  @property({ reflect: true }) storageId: string;
+
+  /** Specifies text to update multiple components to keep in sync if one changes. */
+  @property({ reflect: true }) syncId: string;
+
+  // #endregion
+
+  // #region Events
+
+  /** @private */
+  calciteInternalTabChange = createEvent<TabChangeEventDetail>({ cancelable: false });
+
+  /** @private */
+  calciteInternalTabNavSlotChange = createEvent<Element[]>();
+
+  /** Emits when the selected `calcite-tab` changes. */
+  calciteTabChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalTabsFocusPrevious", this.focusPreviousTabHandler);
+    this.listen("calciteInternalTabsFocusNext", this.focusNextTabHandler);
+    this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
+    this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
+    this.listen("calciteInternalTabsActivate", this.internalActivateTabHandler);
+    this.listen("calciteTabsActivate", this.activateTabHandler);
+    this.listen("calciteInternalTabsClose", this.internalCloseTabHandler);
+    this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
+    this.listenOn<CustomEvent<TabChangeEventDetail>>(
+      document.body,
+      "calciteInternalTabChange",
+      this.globalInternalTabChangeHandler,
+    );
   }
 
-  /**
-   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
-   *
-   * @internal
-   */
-  @Prop() scale: Scale = "m";
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
-
-  /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
-   *
-   *  @internal
-   */
-  @Prop() position: TabPosition = "bottom";
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) bordered = false;
-
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TabNavMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TabNavMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
+  override connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
     this.resizeObserver?.observe(this.el);
-    connectLocalized(this);
-    connectMessages(this);
   }
 
-  async componentWillLoad(): Promise<void> {
+  async load(): Promise<void> {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTabId = storedTab;
     }
-    await setUpMessages(this);
   }
 
-  componentDidLoad(): void {
-    this.scrollTabTitleIntoView(this.selectedTitle, "instant");
-  }
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("selectedTitle") && (this.hasUpdated || this.selectedTitle !== null)) {
+      this.calciteInternalTabChange.emit({
+        tab: this.selectedTabId,
+      });
+    }
 
-  componentWillRender(): void {
+    if (changes.has("selectedTabId")) {
+      this.selectedTabIdChanged();
+    }
+
     const { parentTabsEl } = this;
 
     this.layout = parentTabsEl?.layout;
@@ -157,7 +197,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.effectiveDir = getElementDir(this.el);
   }
 
-  componentDidRender(): void {
+  loaded(): void {
+    this.scrollTabTitleIntoView(this.selectedTitle, "instant");
+
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
@@ -172,77 +214,31 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     }
   }
 
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
-    disconnectLocalized(this);
-    disconnectMessages(this);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
-    return (
-      <Host role="tablist">
-        <div
-          class={{
-            [CSS.container]: true,
-            [CSS.containerHasStartTabTitleOverflow]: !!this.hasOverflowingStartTabTitle,
-            [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
-            [`scale-${this.scale}`]: true,
-            [`position-${this.position}`]: true,
-            [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
-          }}
-        >
-          {this.renderScrollButton("start")}
-          <div
-            class={{
-              [CSS.tabTitleSlotWrapper]: true,
-            }}
-            onScroll={this.onTabTitleScroll}
-            onWheel={this.onTabTitleWheel}
-            ref={this.storeTabTitleWrapperRef}
-          >
-            <slot onSlotchange={this.onSlotChange} />
-          </div>
-          {this.renderScrollButton("end")}
-        </div>
-      </Host>
-    );
+  // #region Private Methods
+  private focusPreviousTabHandler(event: CustomEvent): void {
+    this.handleTabFocus(event, event.target as TabTitle["el"], "previous");
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteInternalTabsFocusPrevious")
-  focusPreviousTabHandler(event: CustomEvent): void {
-    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "previous");
+  private focusNextTabHandler(event: CustomEvent): void {
+    this.handleTabFocus(event, event.target as TabTitle["el"], "next");
   }
 
-  @Listen("calciteInternalTabsFocusNext")
-  focusNextTabHandler(event: CustomEvent): void {
-    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "next");
+  private focusFirstTabHandler(event: CustomEvent): void {
+    this.handleTabFocus(event, event.target as TabTitle["el"], "first");
   }
 
-  @Listen("calciteInternalTabsFocusFirst")
-  focusFirstTabHandler(event: CustomEvent): void {
-    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "first");
+  private focusLastTabHandler(event: CustomEvent): void {
+    this.handleTabFocus(event, event.target as TabTitle["el"], "last");
   }
 
-  @Listen("calciteInternalTabsFocusLast")
-  focusLastTabHandler(event: CustomEvent): void {
-    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "last");
-  }
-
-  @Listen("calciteInternalTabsActivate")
-  internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const activatedTabTitle = event.target as HTMLCalciteTabTitleElement;
+  private internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
+    const activatedTabTitle = event.target as TabTitle["el"];
 
     this.selectedTabId = event.detail.tab
       ? event.detail.tab
@@ -254,7 +250,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   }
 
   private scrollTabTitleIntoView(
-    activatedTabTitle: HTMLCalciteTabTitleElement,
+    activatedTabTitle: TabTitle["el"],
     behavior: ScrollBehavior = "smooth",
   ): void {
     if (!activatedTabTitle) {
@@ -294,15 +290,13 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   }
 
-  @Listen("calciteTabsActivate")
-  activateTabHandler(event: CustomEvent<void>): void {
+  private activateTabHandler(event: CustomEvent<void>): void {
     this.calciteTabChange.emit();
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalTabsClose")
-  internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
-    const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
+  private internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
+    const closedTabTitleEl = event.target as TabTitle["el"];
     this.handleTabTitleClose(closedTabTitleEl);
     event.stopPropagation();
   }
@@ -312,20 +306,19 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    *
    * @param event
    */
-  @Listen("calciteInternalTabTitleRegister")
-  async updateTabTitles(event: CustomEvent<TabID>): Promise<void> {
-    if ((event.target as HTMLCalciteTabTitleElement).selected) {
+
+  private async updateTabTitles(event: CustomEvent<TabID>): Promise<void> {
+    if ((event.target as TabTitle["el"]).selected) {
       this.selectedTabId = event.detail;
       this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
     }
   }
 
-  @Listen("calciteInternalTabChange", { target: "body" })
-  globalInternalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
+  private globalInternalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     if (
       this.syncId &&
       event.target !== this.el &&
-      (event.target as HTMLCalciteTabNavElement).syncId === this.syncId &&
+      (event.target as TabNav["el"]).syncId === this.syncId &&
       this.selectedTabId !== event.detail.tab
     ) {
       this.selectedTabId = event.detail.tab;
@@ -333,52 +326,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     event.stopPropagation();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
+  private async selectedTabIdChanged(): Promise<void> {
+    await this.componentOnReady();
 
-  /**
-   * Emits when the selected `calcite-tab` changes.
-   */
-  @Event({ cancelable: false }) calciteTabChange: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event() calciteInternalTabNavSlotChange: EventEmitter<Element[]>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTabNavElement;
-
-  @State() defaultMessages: TabNavMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() private hasOverflowingStartTabTitle = false;
-
-  @State() private hasOverflowingEndTabTitle = false;
-
-  @State() private selectedTabId: TabID;
-
-  @Watch("selectedTabId")
-  async selectedTabIdChanged(): Promise<void> {
     if (
       localStorage &&
       this.storageId &&
@@ -393,32 +343,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   }
 
-  private effectiveDir: Direction = "ltr";
-
-  private lastScrollWheelAxis: "x" | "y" = "x";
-
-  private parentTabsEl: HTMLCalciteTabsElement;
-
-  private tabTitleContainerEl: HTMLDivElement;
-
-  private intersectionObserver: IntersectionObserver;
-
-  private resizeObserver = createObserver("resize", () => {
-    this.updateScrollingState();
-  });
-
-  private get scrollerButtonWidth(): number {
-    const { scale } = this;
-    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private onTabTitleWheel = (event: WheelEvent): void => {
+  private onTabTitleWheel(event: WheelEvent): void {
     event.preventDefault();
 
     const { deltaX, deltaY } = event;
@@ -439,9 +364,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     const scrollByX = (this.effectiveDir === "rtl" ? -1 : 1) * scrollBy;
     (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
-  };
+  }
 
-  private onSlotChange = (event: Event): void => {
+  private onSlotChange(event: Event): void {
     this.intersectionObserver?.disconnect();
 
     const slottedElements = slotChangeGetAssignedElements(event, "calcite-tab-title");
@@ -449,15 +374,19 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       this.intersectionObserver?.observe(child);
     });
     this.calciteInternalTabNavSlotChange.emit(slottedElements);
-  };
+  }
 
-  private storeTabTitleWrapperRef = (el: HTMLDivElement) => {
+  private storeTabTitleWrapperRef(el: HTMLDivElement) {
+    if (!el) {
+      return;
+    }
+
     this.tabTitleContainerEl = el;
     this.intersectionObserver = createObserver("intersection", () => this.updateScrollingState(), {
       root: el,
       threshold: [0, 0.5, 1],
     });
-  };
+  }
 
   private updateScrollingState(): void {
     const tabTitleContainer = this.tabTitleContainerEl;
@@ -485,7 +414,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.hasOverflowingEndTabTitle = isOverflowEnd;
   }
 
-  private scrollToTabTitles = (direction: "forward" | "backward"): void => {
+  private scrollToTabTitles(direction: "forward" | "backward"): void {
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
       const containerBounds = tabTitleContainer.getBoundingClientRect();
@@ -496,7 +425,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         tabTitles.reverse();
       }
 
-      let closestToEdge: HTMLCalciteTabTitleElement = null;
+      let closestToEdge: TabTitle["el"] = null;
 
       tabTitles.forEach((tabTitle) => {
         const tabTitleBounds = tabTitle.getBoundingClientRect();
@@ -550,55 +479,44 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         });
       }
     });
-  };
+  }
 
-  private scrollToNextTabTitles = (): void => this.scrollToTabTitles("forward");
+  private scrollToNextTabTitles(): void {
+    this.scrollToTabTitles("forward");
+  }
 
-  private scrollToPreviousTabTitles = (): void => this.scrollToTabTitles("backward");
+  private scrollToPreviousTabTitles(): void {
+    this.scrollToTabTitles("backward");
+  }
 
-  handleTabFocus = (
+  private handleTabFocus(
     event: CustomEvent,
-    el: HTMLCalciteTabTitleElement,
+    el: TabTitle["el"],
     destination: FocusElementInGroupDestination,
-  ): void => {
-    const focused = focusElementInGroup<HTMLCalciteTabTitleElement>(
-      this.enabledTabTitles,
-      el,
-      destination,
-    );
+  ): void {
+    const focused = focusElementInGroup<TabTitle["el"]>(this.enabledTabTitles, el, destination);
     this.scrollTabTitleIntoView(focused, "instant");
 
     event.stopPropagation();
-  };
+  }
 
-  getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
+  private getIndexOfTabTitle(el: TabTitle["el"], tabTitles = this.tabTitles): number {
     // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
     // However, when doing relative index operations, it makes sense to pass in this.enabledTabTitles as the 2nd arg.
     return tabTitles.indexOf(el);
   }
 
-  private onTabTitleScroll = (): void => {
+  private onTabTitleScroll(): void {
     this.updateScrollingState();
-  };
+  }
 
-  async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
+  private async getTabTitleById(id: TabID): Promise<TabTitle["el"] | null> {
     return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
       return this.tabTitles[ids.indexOf(id)];
     });
   }
 
-  get tabTitles(): HTMLCalciteTabTitleElement[] {
-    return filterDirectChildren<HTMLCalciteTabTitleElement>(this.el, "calcite-tab-title");
-  }
-
-  get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
-    return filterDirectChildren<HTMLCalciteTabTitleElement>(
-      this.el,
-      "calcite-tab-title:not([disabled])",
-    ).filter((tabTitle) => !tabTitle.closed);
-  }
-
-  private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
+  private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
     const { tabTitles } = this;
     const selectionModified = closedTabTitleEl.selected;
 
@@ -634,7 +552,41 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   }
 
-  private renderScrollButton = (overflowDirection: "start" | "end"): VNode => {
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "tablist";
+    return (
+      <div
+        class={{
+          [CSS.container]: true,
+          [CSS.containerHasStartTabTitleOverflow]: !!this.hasOverflowingStartTabTitle,
+          [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
+          [`scale-${this.scale}`]: true,
+          [`position-${this.position}`]: true,
+          [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
+        }}
+      >
+        {this.renderScrollButton("start")}
+        <div
+          class={{
+            [CSS.tabTitleSlotWrapper]: true,
+          }}
+          onScroll={this.onTabTitleScroll}
+          onWheel={this.onTabTitleWheel}
+          ref={this.storeTabTitleWrapperRef}
+        >
+          <slot onSlotChange={this.onSlotChange} />
+        </div>
+        {this.renderScrollButton("end")}
+      </div>
+    );
+  }
+
+  private renderScrollButton(overflowDirection: "start" | "end"): JsxNode {
     const { bordered, messages, hasOverflowingStartTabTitle, hasOverflowingEndTabTitle, scale } =
       this;
     const isEnd = overflowDirection === "end";
@@ -651,7 +603,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       >
         <calcite-button
           appearance={bordered ? "outline-fill" : "transparent"}
-          aria-label={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
+          ariaLabel={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
           class={{
             [CSS.scrollButton]: true,
           }}
@@ -664,5 +616,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         />
       </div>
     );
-  };
+  }
+
+  // #endregion
 }

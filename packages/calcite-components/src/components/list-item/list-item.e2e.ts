@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { defaults, disabled, focusable, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -51,10 +52,6 @@ describe("calcite-list-item", () => {
       {
         propertyName: "filterHidden",
         defaultValue: false,
-      },
-      {
-        propertyName: "interactionMode",
-        defaultValue: null,
       },
       {
         propertyName: "unavailable",

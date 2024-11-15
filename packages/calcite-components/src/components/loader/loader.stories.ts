@@ -1,6 +1,7 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Loader } from "./loader";
+
 const { determinateType, scale } = ATTRIBUTES;
 
 type LoaderStoryArgs = Pick<Loader, "type" | "scale" | "value">;
