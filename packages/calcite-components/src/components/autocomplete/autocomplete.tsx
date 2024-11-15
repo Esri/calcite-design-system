@@ -112,7 +112,7 @@ export class Autocomplete
    * Made into a prop for testing purposes only
    *
    * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
+   */
   messages = useT9n<typeof T9nStrings>();
 
   openTransitionProp = "opacity";
@@ -390,11 +390,6 @@ export class Autocomplete
     setUpLoadableComponent(this);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
