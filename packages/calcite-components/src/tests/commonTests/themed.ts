@@ -1,6 +1,7 @@
-import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import type { RequireExactlyOne } from "type-fest";
+import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
 import { toElementHandle } from "../utils";
 import type { ComponentTestSetup } from "./interfaces";
@@ -18,13 +19,10 @@ interface TargetInfo {
 const pseudoElementPattern =
   /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
 
-/**
- * This object that represents component tokens and their respective test options.
- */
+/** This object that represents component tokens and their respective test options. */
 export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken | TestSelectToken[]>;
 
 /**
- *
  * Helper to test custom theming of a component's associated tokens.
  *
  * @example
@@ -70,7 +68,6 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  *   };
  *   themed(`calcite-action-bar`, tokens);
  * });
- *
  * @param componentTestSetup - A component tag, html, tag + e2e page or provider for setting up a test.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
  */
@@ -180,44 +177,28 @@ type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
 type State = "press" | "hover" | "focus";
 
-/**
- * Describes a test target for themed components.
- */
+/** Describes a test target for themed components. */
 type TestTarget = {
-  /**
-   * An object with target element and selector info.
-   */
+  /** An object with target element and selector info. */
   target: TargetInfo;
 
-  /**
-   * @todo doc
-   */
+  /** @todo doc */
   contextSelector?: ContextSelectByAttr;
 
-  /**
-   * The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on.
-   */
+  /** The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on. */
   targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
-  /**
-   * The state to apply to the target element.
-   */
+  /** The state to apply to the target element. */
   state?: State;
 
-  /**
-   * The expected value of the targetProp.
-   */
+  /** The expected value of the targetProp. */
   expectedValue: string;
 
-  /**
-   * The associated component token.
-   */
+  /** The associated component token. */
   token: CalciteCSSCustomProp;
 };
 
-/**
- * Represents a Calcite CSS custom prop
- */
+/** Represents a Calcite CSS custom prop */
 type CalciteCSSCustomProp = `--calcite-${string}`;
 
 /**
@@ -227,28 +208,18 @@ type CalciteCSSCustomProp = `--calcite-${string}`;
  */
 type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
 
-/**
- * Describes a test selector for themed components.
- */
+/** Describes a test selector for themed components. */
 type TestSelectToken = {
-  /**
-   * The selector of the target element. When not provided, the component tag is used.
-   */
+  /** The selector of the target element. When not provided, the component tag is used. */
   selector?: string;
 
-  /**
-   * This selector will be used to find the target element within the shadow DOM of the component.
-   */
+  /** This selector will be used to find the target element within the shadow DOM of the component. */
   shadowSelector?: string;
 
-  /**
-   * The CSSStyleDeclaration property to assert on.
-   */
+  /** The CSSStyleDeclaration property to assert on. */
   targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
-  /**
-   * The state to apply to the target element.
-   */
+  /** The state to apply to the target element. */
   state?: State | RequireExactlyOne<Record<State, ContextSelectByAttr>, "focus" | "hover" | "press">;
 };
 

@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   disabled,
@@ -9,6 +10,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import type { Switch } from "./switch";
 import { CSS } from "./resources";
 
 describe("calcite-switch", () => {
@@ -68,7 +70,7 @@ describe("calcite-switch", () => {
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
 
-    await page.$eval("calcite-switch", (component: HTMLCalciteSwitchElement) => {
+    await page.$eval("calcite-switch", (component: Switch["el"]) => {
       component.click();
     });
 

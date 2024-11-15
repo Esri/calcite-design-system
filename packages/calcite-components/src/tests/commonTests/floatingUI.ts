@@ -1,6 +1,8 @@
 import { toHaveNoViolations } from "jest-axe";
+import { expect, it } from "vitest";
 import { getTag, simplePageSetup } from "./utils";
 import { ComponentTag, TagOrHTML } from "./interfaces";
+
 expect.extend(toHaveNoViolations);
 
 /**
@@ -17,7 +19,6 @@ expect.extend(toHaveNoViolations);
  *      { shadowSelector: ".menu-container" }
  *  )
  * });
- *
  * @param {TagOrHTML} componentTagOrHTML - The component tag or HTML markup to test against.
  * @param {string} togglePropName - The component property that toggles the floating-ui.
  * @param [options] - additional options for asserting focus
@@ -27,9 +28,7 @@ export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
   togglePropName: string,
   options?: {
-    /**
-     * Use this to specify the selector in the shadow DOM for the floating-ui element.
-     */
+    /** Use this to specify the selector in the shadow DOM for the floating-ui element. */
     shadowSelector?: string;
   },
 ): void {
@@ -108,7 +107,6 @@ export function floatingUIOwner(
  * describe("delegates to floating-ui-owner component", () => {
  *   delegatesToFloatingUiOwningComponent("calcite-pad", "calcite-action-group");
  * });
- *
  * @param componentTagOrHTML
  * @param floatingUiOwnerComponentTag
  */
@@ -144,7 +142,6 @@ export async function delegatesToFloatingUiOwningComponent(
  *     </calcite-panel>
  *   `);
  * });
- *
  * @param componentTagOrHTML - The component tag or HTML markup to test against.
  */
 export async function handlesActionMenuPlacements(componentTagOrHTML: TagOrHTML): Promise<void> {

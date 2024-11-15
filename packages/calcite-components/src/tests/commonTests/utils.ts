@@ -1,6 +1,6 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import { config } from "../../../stencil.config";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect } from "vitest";
 import type {
   ComponentTag,
   TagOrHTML,
@@ -13,7 +13,7 @@ import type {
 } from "./interfaces";
 expect.extend(toHaveNoViolations);
 
-export const HYDRATED_ATTR = config.hydratedFlag?.name;
+export const HYDRATED_ATTR = "calcite-hydrated";
 
 export function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
@@ -37,7 +37,6 @@ export async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2
   const componentTag = getTag(componentTagOrHTML);
   const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
-    failOnConsoleError: true,
   });
   await page.waitForChanges();
 

@@ -17,19 +17,13 @@ export interface TextualInputComponent {
   maxLength: number;
 }
 
-/**
- * Exported for testing purposes only
- */
+/** Exported for testing purposes only */
 export const minMaxStepTypes = ["date", "datetime-local", "month", "number", "range", "time", "week"];
 
-/**
- * Exported for testing purposes only
- */
+/** Exported for testing purposes only */
 export const patternTypes = ["email", "password", "search", "tel", "text", "url"];
 
-/**
- * Exported for testing purposes only
- */
+/** Exported for testing purposes only */
 export const minMaxLengthTypes = ["email", "password", "search", "tel", "text", "textarea", "url"];
 
 function updateConstraintValidation(

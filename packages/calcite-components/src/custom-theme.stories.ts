@@ -1,5 +1,5 @@
-import { setCSSVariables } from "../src/tests/utils/cssTokenValues";
 import { html } from "../support/formatting";
+import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
   actionMenu,

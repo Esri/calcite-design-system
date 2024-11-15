@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -14,6 +15,7 @@ import {
 import { skipAnimations } from "../../tests/utils";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
+import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
   describe("renders when closed", () => {
@@ -126,7 +128,7 @@ describe("calcite-popover", () => {
 
     expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-popover", (el: HTMLCalcitePopoverElement): void => {
+    await page.$eval("calcite-popover", (el: Popover["el"]): void => {
       const referenceElement = document.getElementById("ref");
       el.referenceElement = referenceElement;
     });
@@ -190,7 +192,7 @@ describe("calcite-popover", () => {
 
     await page.setContent(`<calcite-popover placement="auto" open>content</calcite-popover>`);
 
-    await page.$eval("calcite-popover", (popover: HTMLCalcitePopoverElement) => {
+    await page.$eval("calcite-popover", (popover: Popover["el"]) => {
       const virtualElement = {
         getBoundingClientRect: () =>
           ({
@@ -641,7 +643,7 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
     expect(await positionContainer.isVisible()).toBe(false);
 
-    await page.$eval("calcite-popover", (popoverEl: HTMLCalcitePopoverElement) => {
+    await page.$eval("calcite-popover", (popoverEl: Popover["el"]) => {
       const transferEl = document.getElementById("transfer");
       transferEl.appendChild(popoverEl);
     });

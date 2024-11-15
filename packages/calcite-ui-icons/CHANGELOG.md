@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.8...@esri/calcite-ui-icons@4.0.0-next.0) (2024-11-15)
+
+### ⚠ BREAKING CHANGES
+
+- - for a consistent development experience, components now convert `null`
+    to `undefined`, so developers will need to update code with strict null
+    checks
+- removed the following `@esri/eslint-plugin-calcite-components` rules
+  as they are no longer valid:
+  _`ban-props-on-host`
+  _ `enforce-ref-last-prop` \* `require-event-emitter-type`
+
+### Code Refactoring
+
+- migrate to Lumina ([#10482](https://github.com/Esri/calcite-design-system/issues/10482)) ([b2c9762](https://github.com/Esri/calcite-design-system/commit/b2c976214774490b5a313e1fafc67415fe212b37)), closes [#10310](https://github.com/Esri/calcite-design-system/issues/10310) [#10481](https://github.com/Esri/calcite-design-system/issues/10481) [#10399](https://github.com/Esri/calcite-design-system/issues/10399) [#10405](https://github.com/Esri/calcite-design-system/issues/10405) [#10491](https://github.com/Esri/calcite-design-system/issues/10491) [#10434](https://github.com/Esri/calcite-design-system/issues/10434) [#10495](https://github.com/Esri/calcite-design-system/issues/10495) [#9260](https://github.com/Esri/calcite-design-system/issues/9260)
+
+## [3.33.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.7...@esri/calcite-ui-icons@3.33.0-next.8) (2024-11-03)
+
+### Bug Fixes
+
+- updated offset and properties ([#10671](https://github.com/Esri/calcite-design-system/issues/10671)) ([7adb6a6](https://github.com/Esri/calcite-design-system/commit/7adb6a67dae5e86e9945b759b599bfb2d84a73fc))
+
 ## [3.33.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.6...@esri/calcite-ui-icons@3.33.0-next.7) (2024-10-30)
 
 ### Bug Fixes

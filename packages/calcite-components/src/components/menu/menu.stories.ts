@@ -1,6 +1,7 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { CalciteMenu } from "./menu";
+
 const { layout } = ATTRIBUTES;
 
 type MenuStoryArgs = Pick<CalciteMenu, "layout">;

@@ -1,16 +1,14 @@
 import rule from "../../../../src/rules/no-dynamic-createelement";
-import { ruleTester } from "stencil-eslint-core";
 import * as path from "path";
 import * as fs from "fs";
+import { ruleTester } from "../../../../src/utils/rule-tester";
 
-const projectPath = path.resolve(__dirname, "../../../tsconfig.json");
-
-describe("no-dynamic-createelement rule", () => {
+describe("no-dynamic-createelement", () => {
   const files = {
     good: path.resolve(__dirname, "no-dynamic-createelement.good.tsx"),
     wrong: path.resolve(__dirname, "no-dynamic-createelement.wrong.tsx"),
   };
-  ruleTester(projectPath).run("no-dynamic-createelement", rule, {
+  ruleTester().run("no-dynamic-createelement", rule, {
     valid: [
       {
         code: fs.readFileSync(files.good, "utf8"),
@@ -22,7 +20,11 @@ describe("no-dynamic-createelement rule", () => {
       {
         code: fs.readFileSync(files.wrong, "utf8"),
         filename: files.wrong,
-        errors: 1,
+        errors: [
+          {
+            messageId: "default",
+          },
+        ],
       },
     ],
   });

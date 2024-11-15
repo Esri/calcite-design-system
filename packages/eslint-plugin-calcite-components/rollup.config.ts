@@ -3,6 +3,7 @@ import typescript from "@rollup/plugin-typescript";
 import { version } from "./package.json";
 
 export default {
+  external: ["eslint", "@typescript-eslint/utils"],
   input: "src/index.ts",
   plugins: [
     nodeResolve({
@@ -13,7 +14,6 @@ export default {
   treeshake: {
     moduleSideEffects: "no-external",
   },
-  external: ["stencil-eslint-core"],
   output: {
     banner: `/*
 All material copyright ESRI, All Rights Reserved, unless otherwise specified.

@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -17,6 +18,7 @@ import {
 import { GlobalTestProps } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";
+import type { Panel } from "./panel";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -256,15 +258,12 @@ describe("calcite-panel", () => {
   it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
 
-    const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+    const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
 
     await page.setContent(`<calcite-panel closable></calcite-panel>`);
 
-    await page.$eval(
-      "calcite-panel",
-      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
-    );
+    await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
     await page.waitForChanges();
 
     const panel = await page.find("calcite-panel");
@@ -281,10 +280,7 @@ describe("calcite-panel", () => {
     await page.exposeFunction("beforeClose", () => Promise.reject());
     await page.setContent(`<calcite-panel closable></calcite-panel>`);
 
-    await page.$eval(
-      "calcite-panel",
-      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
-    );
+    await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
 
     const panel = await page.find("calcite-panel");
     panel.setProperty("closed", true);
@@ -584,7 +580,7 @@ describe("calcite-panel", () => {
 
     expect(await scrollEl.getProperty("scrollTop")).toBe(0);
 
-    await page.$eval("calcite-panel", async (panel: HTMLCalcitePanelElement) => {
+    await page.$eval("calcite-panel", async (panel: Panel["el"]) => {
       await panel.scrollContentTo({ top: 100 });
     });
 
@@ -630,7 +626,7 @@ describe("calcite-panel", () => {
         expect(await panel.getProperty("closed")).toBe(false);
         expect(await container.isVisible()).toBe(true);
 
-        await page.$eval("calcite-panel", (panel: HTMLCalcitePanelElement) => {
+        await page.$eval("calcite-panel", (panel: Panel["el"]) => {
           panel.addEventListener("keydown", (event) => {
             if (event.key === "Escape") {
               event.preventDefault();
