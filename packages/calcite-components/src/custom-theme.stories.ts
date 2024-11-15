@@ -32,6 +32,7 @@ import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
+import { switchTokens } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
@@ -144,6 +145,7 @@ const componentTokens = {
   ...popoverTokens,
   ...progressTokens,
   ...inputTokens,
+  ...switchTokens,
   ...textAreaTokens,
   ...tooltipTokens,
   ...tileTokens,
