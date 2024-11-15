@@ -6,7 +6,7 @@
 
     <title>Nesting Testing with a Flow</title>
 
-    <script src="../_assets/head.js"></script>
+    <script src="../_assets/head.ts"></script>
 
     <link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/next/"></script>
@@ -130,8 +130,12 @@
                   <some-custom-element class="calcite-match-height">
                     <calcite-flow-item heading="Flow & DIVs" description="Extra nested divs" closable>
                       <calcite-block heading="Basic" summary="Collapsible with section" collapsible open>
-                        <calcite-value-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double)">
-                          <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
+                        <calcite-list
+                          id="one"
+                          selection-mode="multiple"
+                          style="margin-bottom: var(--calcite-spacing-double)"
+                        >
+                          <calcite-list-item label="Dogs" description="Man's best friend" value="dogs">
                             <calcite-action
                               slot="actions-end"
                               text="click-me"
@@ -139,8 +143,8 @@
                               icon="x"
                             >
                             </calcite-action>
-                          </calcite-value-list-item>
-                          <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
+                          </calcite-list-item>
+                          <calcite-list-item label="Cats" description="Independent and fluffy" value="cats">
                             <calcite-action
                               slot="actions-end"
                               text="click-me"
@@ -148,8 +152,8 @@
                               icon="x"
                             >
                             </calcite-action>
-                          </calcite-value-list-item>
-                          <calcite-value-list-item
+                          </calcite-list-item>
+                          <calcite-list-item
                             label="Fish. But not just any fish."
                             description="Easy to care for."
                             value="fish"
@@ -161,8 +165,8 @@
                               icon="x"
                             >
                             </calcite-action>
-                          </calcite-value-list-item>
-                        </calcite-value-list>
+                          </calcite-list-item>
+                        </calcite-list>
 
                         <!-- Using Button -->
                         <calcite-label scale="s">

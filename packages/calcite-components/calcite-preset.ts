@@ -258,14 +258,14 @@ export default {
           "outline-color": "transparent",
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand))",
+          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand))",
+          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
           "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand))",
+          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
           "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
         },
         ".focus-outset-danger": {
@@ -285,7 +285,7 @@ export default {
       addUtilities(newUtilities);
     }),
     plugin(({ addUtilities, theme }) => {
-      const colors = flattenColorPalette(theme("borderColor"));
+      const colors = flattenColorPalette.default(theme("borderColor"));
       delete colors["default"];
 
       const colorMap = Object.keys(colors).map((color) => ({

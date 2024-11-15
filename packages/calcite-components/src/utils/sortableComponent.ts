@@ -1,5 +1,13 @@
 import Sortable from "sortablejs";
+
 const sortableComponentSet = new Set<SortableComponent>();
+
+export interface MoveDetail {
+  toEl: HTMLElement;
+  fromEl: HTMLElement;
+  dragEl: HTMLElement;
+  relatedEl: HTMLElement;
+}
 
 export interface DragDetail {
   toEl: HTMLElement;
@@ -16,73 +24,48 @@ export const CSS = {
   fallbackClass: "calcite-sortable--fallback",
 };
 
-/**
- * Defines interface for components with sorting functionality.
- */
+/** Defines interface for components with sorting functionality. */
 export interface SortableComponent {
-  /**
-   * The host element.
-   */
+  /** The host element. */
   readonly el: HTMLElement;
 
-  /**
-   * When `true`, dragging is enabled.
-   */
+  /** When `true`, dragging is enabled. */
   dragEnabled: boolean;
 
-  /**
-   * Specifies which items inside the element should be draggable.
-   */
+  /** Specifies which items inside the element should be draggable. */
   dragSelector?: string;
 
-  /**
-   * The list's group identifier.
-   */
+  /** The list's group identifier. */
   group?: string;
 
-  /**
-   * The selector for the handle elements.
-   */
+  /** The selector for the handle elements. */
   handleSelector: string;
 
-  /**
-   * The Sortable instance.
-   */
+  /** The Sortable instance. */
   sortable: Sortable;
 
-  /**
-   * Whether the element can move from the list.
-   */
+  /** Whether the element can move from the list. */
   canPull: (detail: DragDetail) => boolean;
 
-  /**
-   * Whether the element can be added from another list.
-   */
+  /** Whether the element can be added from another list. */
   canPut: (detail: DragDetail) => boolean;
 
-  /**
-   * Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`.
-   */
+  /** Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`. */
   onGlobalDragStart: () => void;
 
-  /**
-   * Called when any sortable component drag ends. For internal use only. Any public drag events should emit within `onDragEnd()`.
-   */
+  /** Called when any sortable component drag ends. For internal use only. Any public drag events should emit within `onDragEnd()`. */
   onGlobalDragEnd: () => void;
 
-  /**
-   * Called when a component's dragging ends.
-   */
+  /** Called when a component's dragging ends. */
   onDragEnd: (detail: DragDetail) => void;
 
-  /**
-   * Called when a component's dragging starts.
-   */
+  /** Called when a component's dragging ends. */
+  onDragMove?: (detail: MoveDetail) => void;
+
+  /** Called when a component's dragging starts. */
   onDragStart: (detail: DragDetail) => void;
 
-  /**
-   * Called by any change to the list (add / update / remove).
-   */
+  /** Called by any change to the list (add / update / remove). */
   onDragSort: (detail: DragDetail) => void;
 }
 
@@ -93,7 +76,7 @@ export interface SortableComponentItem {
    *
    * Notes:
    *
-   * This property should use the @Prop decorator and reflect.
+   * This property should use the `@Prop` decorator and reflect.
    * This property should be used to set the `calcite-handle` disabled property.
    */
   dragDisabled: boolean;
@@ -132,6 +115,13 @@ export function connectSortableComponent(component: SortableComponent): void {
         }),
       },
     }),
+    onMove: ({ from: fromEl, dragged: dragEl, to: toEl, related: relatedEl }) => {
+      if (!component.onDragMove) {
+        return;
+      }
+
+      component.onDragMove({ fromEl, dragEl, toEl, relatedEl });
+    },
     handle,
     filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {

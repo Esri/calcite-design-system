@@ -2,6 +2,7 @@ import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
+import type { Tooltip } from "./tooltip";
 
 export default class TooltipManager {
   // --------------------------------------------------------------------------
@@ -10,7 +11,7 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements = new WeakMap<ReferenceElement, HTMLCalciteTooltipElement>();
+  private registeredElements = new WeakMap<ReferenceElement, Tooltip["el"]>();
 
   private registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
 
@@ -18,11 +19,11 @@ export default class TooltipManager {
 
   private hoverCloseTimeout: number = null;
 
-  private activeTooltip: HTMLCalciteTooltipElement = null;
+  private activeTooltip: Tooltip["el"] = null;
 
   private registeredElementCount = 0;
 
-  private clickedTooltip: HTMLCalciteTooltipElement = null;
+  private clickedTooltip: Tooltip["el"] = null;
 
   // --------------------------------------------------------------------------
   //
@@ -30,7 +31,7 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  registerElement(referenceEl: ReferenceElement, tooltip: HTMLCalciteTooltipElement): void {
+  registerElement(referenceEl: ReferenceElement, tooltip: Tooltip["el"]): void {
     this.registeredElementCount++;
     this.registeredElements.set(referenceEl, tooltip);
     const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
@@ -66,7 +67,7 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  private queryTooltip = (composedPath: EventTarget[]): HTMLCalciteTooltipElement => {
+  private queryTooltip = (composedPath: EventTarget[]): Tooltip["el"] => {
     const { registeredElements } = this;
 
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
@@ -81,10 +82,13 @@ export default class TooltipManager {
       if (activeTooltip?.open) {
         this.clearHoverTimeout();
         this.closeActiveTooltip();
-
         const referenceElement = getEffectiveReferenceElement(activeTooltip);
+        const composedPath = event.composedPath();
 
-        if (referenceElement instanceof Element && referenceElement.contains(event.target as HTMLElement)) {
+        if (
+          (referenceElement instanceof Element && composedPath.includes(referenceElement)) ||
+          composedPath.includes(activeTooltip)
+        ) {
           event.preventDefault();
         }
       }
@@ -115,7 +119,7 @@ export default class TooltipManager {
     this.clickedTooltip = null;
   };
 
-  private pathHasOpenTooltip(tooltip: HTMLCalciteTooltipElement, composedPath: EventTarget[]): boolean {
+  private pathHasOpenTooltip(tooltip: Tooltip["el"], composedPath: EventTarget[]): boolean {
     const { activeTooltip } = this;
 
     return (
@@ -173,26 +177,26 @@ export default class TooltipManager {
   };
 
   private addShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.addEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.addEventListener("focusin", this.focusInHandler);
   }
 
   private removeShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.removeEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.removeEventListener("focusin", this.focusInHandler);
   }
 
   private addListeners(): void {
-    window.addEventListener("keydown", this.keyDownHandler, { capture: true });
-    window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.addEventListener("click", this.clickHandler, { capture: true });
-    window.addEventListener("focusin", this.focusInHandler, { capture: true });
+    window.addEventListener("keydown", this.keyDownHandler);
+    window.addEventListener("pointermove", this.pointerMoveHandler);
+    window.addEventListener("click", this.clickHandler);
+    window.addEventListener("focusin", this.focusInHandler);
     window.addEventListener("blur", this.blurHandler);
   }
 
   private removeListeners(): void {
-    window.removeEventListener("keydown", this.keyDownHandler, { capture: true });
-    window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.removeEventListener("click", this.clickHandler, { capture: true });
-    window.removeEventListener("focusin", this.focusInHandler, { capture: true });
+    window.removeEventListener("keydown", this.keyDownHandler);
+    window.removeEventListener("pointermove", this.pointerMoveHandler);
+    window.removeEventListener("click", this.clickHandler);
+    window.removeEventListener("focusin", this.focusInHandler);
     window.removeEventListener("blur", this.blurHandler);
   }
 
@@ -211,7 +215,7 @@ export default class TooltipManager {
     this.clearHoverCloseTimeout();
   }
 
-  private closeTooltipIfNotActive(tooltip: HTMLCalciteTooltipElement): void {
+  private closeTooltipIfNotActive(tooltip: Tooltip["el"]): void {
     if (this.activeTooltip !== tooltip) {
       this.closeActiveTooltip();
     }
@@ -225,7 +229,7 @@ export default class TooltipManager {
     }
   }
 
-  private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, open: boolean): void {
+  private toggleFocusedTooltip(tooltip: Tooltip["el"], open: boolean): void {
     if (open) {
       this.clearHoverTimeout();
     }
@@ -233,13 +237,13 @@ export default class TooltipManager {
     this.toggleTooltip(tooltip, open);
   }
 
-  private toggleTooltip(tooltip: HTMLCalciteTooltipElement, open: boolean): void {
+  private toggleTooltip(tooltip: Tooltip["el"], open: boolean): void {
     tooltip.open = open;
 
     this.activeTooltip = open ? tooltip : null;
   }
 
-  private openHoveredTooltip = (tooltip: HTMLCalciteTooltipElement): void => {
+  private openHoveredTooltip = (tooltip: Tooltip["el"]): void => {
     this.hoverOpenTimeout = window.setTimeout(
       () => {
         if (this.hoverOpenTimeout === null) {

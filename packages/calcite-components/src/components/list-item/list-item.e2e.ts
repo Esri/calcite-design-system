@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { defaults, disabled, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -49,10 +50,6 @@ describe("calcite-list-item", () => {
         defaultValue: false,
       },
       {
-        propertyName: "dragSelected",
-        defaultValue: false,
-      },
-      {
         propertyName: "filterHidden",
         defaultValue: false,
       },
@@ -80,12 +77,40 @@ describe("calcite-list-item", () => {
     disabled(`<calcite-list-item label="test" active></calcite-list-item>`);
   });
 
-  it("always displays hover class", async () => {
+  it("displays hover class", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    await page.setContent(`<calcite-list-item interaction-mode="interactive"></calcite-list-item>`);
     await page.waitForChanges();
 
     expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
+  });
+
+  it("displays hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === border", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="border"></calcite-list-item>`,
+    );
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
+  });
+
+  it("does not display hover class when selection-mode === none and interaction-mode === static", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item selection-mode="none" interaction-mode="static"></calcite-list-item>`);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
+  });
+
+  it("does not display hover class when selection-mode !== none and interaction-mode === static and selection-appearance === icon", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="icon"></calcite-list-item>`,
+    );
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
   });
 
   it("adds unavailable class", async () => {
@@ -107,7 +132,7 @@ describe("calcite-list-item", () => {
     await page.setContent(`<calcite-list-item></calcite-list-item>`);
     await page.waitForChanges();
 
-    let handleNode = await page.find("calcite-list-item >>> calcite-handle");
+    let handleNode = await page.find("calcite-list-item >>> calcite-sort-handle");
 
     expect(handleNode).toBeNull();
 
@@ -115,7 +140,7 @@ describe("calcite-list-item", () => {
     item.setProperty("dragHandle", true);
     await page.waitForChanges();
 
-    handleNode = await page.find("calcite-list-item >>> calcite-handle");
+    handleNode = await page.find("calcite-list-item >>> calcite-sort-handle");
 
     expect(handleNode).not.toBeNull();
   });
@@ -342,30 +367,5 @@ describe("calcite-list-item", () => {
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
-  });
-
-  it("should fire calciteListItemDragHandleChange event when drag handle is clicked", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-list-item drag-handle></calcite-list-item>`,
-    });
-
-    const listItem = await page.find("calcite-list-item");
-    const calciteListItemDragHandleChange = await page.spyOnEvent("calciteListItemDragHandleChange", "window");
-
-    expect(await listItem.getProperty("dragSelected")).toBe(false);
-
-    const dragHandle = await page.find(`calcite-list-item >>> calcite-handle`);
-    await dragHandle.callMethod("setFocus");
-    await page.waitForChanges();
-
-    await dragHandle.press("Space");
-    await page.waitForChanges();
-    expect(await listItem.getProperty("dragSelected")).toBe(true);
-    expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(1);
-
-    await dragHandle.press("Space");
-    await page.waitForChanges();
-    expect(await listItem.getProperty("dragSelected")).toBe(false);
-    expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(2);
   });
 });

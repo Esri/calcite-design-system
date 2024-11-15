@@ -6,7 +6,7 @@
 
     <title>List</title>
 
-    <script src="./_assets/head.js"></script>
+    <script src="./_assets/head.ts"></script>
     <style>
       .parent {
         display: flex;
@@ -813,13 +813,13 @@
         <div class="child right-aligned-text">nested & draggable</div>
 
         <div class="child">
-          <calcite-list drag-enabled group="nested" label="test" selection-mode="multiple">
+          <calcite-list drag-enabled group="nested" label="List 1" selection-mode="multiple">
             <calcite-list-item open label="Hi! 1" description="hello world">
-              <calcite-list drag-enabled group="nested" selection-mode="multiple">
+              <calcite-list label="List 2" drag-enabled group="nested" selection-mode="multiple">
                 <calcite-list-item open label="Hi! 2" description="hello world">
-                  <calcite-list drag-enabled group="nested" selection-mode="multiple">
+                  <calcite-list label="List 3" drag-enabled group="nested" selection-mode="multiple">
                     <calcite-list-item label="Hi! 3" description="hello world">
-                      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+                      <calcite-list label="List 4" drag-enabled group="nested" selection-mode="multiple"></calcite-list>
                     </calcite-list-item>
                     <calcite-list-item label="Hi! 4" description="hello world"></calcite-list-item>
                   </calcite-list>

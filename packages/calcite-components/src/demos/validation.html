@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Form</title>
-    <script src="./_assets/head.js"></script>
+    <script src="./_assets/head.ts"></script>
 
     <style>
       html,
@@ -48,16 +48,6 @@
         padding: var(--calcite-spacing-md);
       }
 
-      #when {
-        display: flex;
-      }
-
-      #whenDate,
-      #whenTime {
-        align-self: center;
-        width: 50%;
-      }
-
       /* Progress bar */
       #progress {
         position: fixed;
@@ -89,10 +79,11 @@
         padding: 0 var(--calcite-spacing-sm);
       }
 
-      /* custom styling of invalid elements */
+      /* custom styling of invalid elements
       [status="invalid"] {
         --calcite-color-foreground-1: #f4c4d3;
       }
+      */
     </style>
   </head>
 
@@ -127,16 +118,16 @@
                   Your name
                   <calcite-icon tabindex="0" id="name-help" icon="question" scale="s"></calcite-icon>
                 </span>
-                <calcite-input-text
-                  pattern="^\w+\s\w+$"
-                  minlength="3"
-                  maxlength="69"
+                <calcite-input
+                  type="text"
+                  pattern="[a-zA-z]+\s[a-zA-z]+"
+                  min-length="6"
+                  max-length="69"
                   placeholder="John Doe"
                   name="fullName"
                   id="fullName"
-                  validation-message="Please enter your name."
                   required
-                ></calcite-input-text>
+                ></calcite-input>
               </calcite-label>
               <calcite-tooltip reference-element="name-help">
                 It's a pleasure to meet you! Let us know your name incase we have any further questions.
@@ -157,24 +148,11 @@
               </calcite-label>
             </li>
 
-            <!-- Date and time pickers -->
+            <!-- Date picker -->
             <li>
               <calcite-label>
                 When did you hear about Calcite components?
-                <div id="when">
-                  <calcite-input-date-picker
-                    id="whenDate"
-                    name="whenDate"
-                    max="2024-07-01"
-                    required
-                  ></calcite-input-date-picker>
-                  <calcite-input-time-picker
-                    id="whenTime"
-                    name="whenTime"
-                    max="23:11"
-                    required
-                  ></calcite-input-time-picker>
-                </div>
+                <calcite-input-date-picker id="when" name="when" required></calcite-input-date-picker>
               </calcite-label>
             </li>
 
@@ -234,8 +212,8 @@
                 <calcite-input-text
                   name="favoriteApp"
                   id="favoriteApp"
-                  pattern="^https:\/\/.+"
-                  minlength="3"
+                  pattern="https:\/\/.+"
+                  min-length="3"
                   required
                 ></calcite-input-text>
               </calcite-label>
@@ -253,10 +231,10 @@
                   label-ticks
                   ticks="2"
                   label="Number of components"
-                  value="0"
                   min="0"
                   max="10"
                   step="1"
+                  required
                 ></calcite-slider>
               </calcite-label>
             </li>
@@ -289,8 +267,8 @@
                 <calcite-input-number
                   id="numberSeen"
                   name="numberSeen"
-                  min="0"
-                  max="100"
+                  min="21"
+                  max="108"
                   required
                 ></calcite-input-number>
               </calcite-label>
@@ -300,7 +278,7 @@
             <li>
               <calcite-label>
                 How many stars would you give Calcite components?
-                <calcite-rating name="rating" value="1"></calcite-rating>
+                <calcite-rating required name="rating"></calcite-rating>
               </calcite-label>
             </li>
           </ol>
@@ -348,16 +326,20 @@
       {
         id: "fullName",
         patternMismatch: {
-          message: "First and last name are required.",
+          message: "First and last name are required using only letters.",
+          icon: "user",
         },
         tooShort: {
           message: "Please enter at least 3 characters.",
+          icon: "measure",
         },
         tooLong: {
           message: "Please enter no more than 69 characters.",
+          icon: "measure-line",
         },
         valueMissing: {
           message: "Please enter your name.",
+          icon: "user",
         },
       },
       {
@@ -402,27 +384,26 @@
           if (SHOW_VALIDATION_MESSAGES_ON_BLUR) {
             el.status = "invalid";
           }
-
           return;
         }
       }
     }
 
     window.onload = () => {
-      if (SHOW_VALIDATION_MESSAGES_ON_BLUR) {
-        /* blur event listeners to check validation constraints of elements with custom messages */
-        ELEMENT_CONSTRAINTS.forEach((data) => {
-          document
-            .querySelector(`#${data.id}`)
-            ?.addEventListener("blur", ({ target }) => checkElementConstraints(target, data));
-        });
-      } else {
-        /* use `calciteInvalid` if you only want to set custom messages on form submission */
-        document.addEventListener("calciteInvalid", ({ target }) => {
-          const constraints = ELEMENT_CONSTRAINTS.find((x) => x.id === target.id);
+      /* blur event listeners to check validation constraints of elements with custom messages */
+      ELEMENT_CONSTRAINTS.forEach((data) => {
+        document
+          .querySelector(`#${data.id}`)
+          ?.addEventListener("blur", ({ target }) => checkElementConstraints(target, data));
+      });
+
+      /* use `calciteInvalid` if you only want to set custom messages on form submission */
+      document.addEventListener("calciteInvalid", ({ target }) => {
+        const constraints = ELEMENT_CONSTRAINTS.find((x) => x.id === target.id);
+        if (constraints) {
           checkElementConstraints(target, constraints);
-        });
-      }
+        }
+      });
 
       // Mode Switcher
       document.getElementById("mode")?.addEventListener("calciteSwitchChange", () => {
@@ -472,7 +453,7 @@
       });
 
       // Date picker
-      const datePicker = document.getElementById("whenDate");
+      const datePicker = document.getElementById("when");
       datePicker.maxAsDate = new Date();
       datePicker.min = "2021-01-01";
 

@@ -1,7 +1,8 @@
-import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { SetFieldType } from "type-fest";
-import { IntrinsicElementsWithProp, skipAnimations } from "./../utils";
+import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { expect, it } from "vitest";
+import { IntrinsicElementsWithProp, skipAnimations } from "../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 
@@ -16,7 +17,6 @@ expect.extend(toHaveNoViolations);
  * describe("disabled", () => {
  *    disabled("calcite-input")
  * });
- *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {DisabledOptions} [options] - Disabled options.
  */

@@ -1,6 +1,8 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { CSS as DropdownCSS } from "../dropdown/resources";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -239,12 +241,12 @@ describe("calcite-split-button", () => {
       <calcite-dropdown-item id="item-3">Option 4</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-split-button>`);
-    const group = await page.find("calcite-dropdown-group");
+    const positionContainer = await page.find(`calcite-split-button >>> calcite-dropdown >>> .${DropdownCSS.wrapper}`);
     const secondary = await page.find(`calcite-split-button >>> calcite-button[split-child="secondary"]`);
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
     await secondary.click();
     await dropdownOpenEvent;
-    expect(await group.isVisible()).toBe(true);
+    expect(await positionContainer.isVisible()).toBe(true);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
@@ -255,6 +257,6 @@ describe("calcite-split-button", () => {
     const dropdownCloseEvent = page.waitForEvent("calciteDropdownClose");
     await page.keyboard.press("Enter");
     await dropdownCloseEvent;
-    expect(await group.isVisible()).toBe(false);
+    expect(await positionContainer.isVisible()).toBe(false);
   });
 });

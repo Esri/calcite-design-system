@@ -4,6 +4,7 @@ import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TimePicker } from "./time-picker";
+
 const { scale } = ATTRIBUTES;
 
 interface TimePickerStoryArgs extends Pick<TimePicker, "numberingSystem" | "scale" | "step" | "value"> {

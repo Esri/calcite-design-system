@@ -100,7 +100,7 @@ export const positionFloatingUI =
     },
   ): Promise<void> => {
     if (!referenceEl || !floatingEl) {
-      return null;
+      return;
     }
 
     const isRTL = getElementDir(floatingEl) === "rtl";
@@ -153,21 +153,15 @@ export const positionFloatingUI =
 
     floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
-    const { open } = component;
-
     Object.assign(floatingEl.style, {
-      visibility,
       pointerEvents,
       position,
-      transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
-      top: 0,
-      left: 0,
+      transform: `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)`,
+      visibility,
     });
   };
 
-/**
- * Exported for testing purposes only
- */
+/** Exported for testing purposes only */
 export const placementDataAttribute = "data-placement";
 
 export type ReferenceElement = VirtualElement | Element;
@@ -274,21 +268,16 @@ export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
-  /**
-   * Whether the component is opened.
-   */
+  /** Whether the component is opened. */
   open: boolean;
 
-  /**
-   * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
-   */
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   overlayPositioning: OverlayPositioning;
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    *
    * Possible values: "auto", "auto-start", "auto-end", "top", "right", "bottom", "left", "top-start", "top-end", "right-start", "right-end", "bottom-start", "bottom-end", "left-start", "left-end", "leading-start", "leading", "leading-end", "trailing-end", "trailing",  or "trailing-start".
-   *
    */
   placement: LogicalPlacement;
 
@@ -313,6 +302,12 @@ export interface FloatingUIComponent {
    * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
+
+  /** The `floatingElement` containing the floating ui. */
+  floatingEl: HTMLElement;
+
+  /** The `referenceElement` used to position the component according to its `placement` value. */
+  referenceEl: ReferenceElement;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
@@ -440,10 +435,16 @@ export async function reposition(
     return;
   }
 
+  Object.assign(options.floatingEl.style, {
+    display: "block",
+    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+    position: options.overlayPositioning ?? "absolute",
+  });
+
   const trackedState = autoUpdatingComponentMap.get(component);
 
   if (!trackedState) {
-    return runAutoUpdate(component, options.referenceEl, options.floatingEl);
+    return runAutoUpdate(component);
   }
 
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
@@ -489,17 +490,15 @@ type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
 /**
  * Exported for testing purposes only
  *
- * @internal
+ * @private
  */
 export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 
 const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
 
-async function runAutoUpdate(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): Promise<void> {
+async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
+  const { referenceEl, floatingEl } = component;
+
   if (!floatingEl.isConnected) {
     return;
   }
@@ -537,50 +536,58 @@ async function runAutoUpdate(
 }
 
 /**
+ * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
+ *
+ * @param component - A floating-ui component.
+ */
+export function hideFloatingUI(component: FloatingUIComponent): void {
+  const { floatingEl } = component;
+
+  if (!floatingEl) {
+    return;
+  }
+
+  Object.assign(floatingEl.style, {
+    display: "",
+    pointerEvents: "",
+    position: "",
+    transform: "",
+    visibility: "",
+  });
+}
+
+/**
  * Helper to set up floating element interactions on connectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
- * @param floatingEl - The `floatingElement` containing the floating ui.
+ * @returns {Promise<void>}
  */
-export async function connectFloatingUI(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): Promise<void> {
+export async function connectFloatingUI(component: FloatingUIComponent): Promise<void> {
+  const { floatingEl, referenceEl } = component;
+
+  hideFloatingUI(component);
+
   if (!floatingEl || !referenceEl) {
     return;
   }
 
-  disconnectFloatingUI(component, referenceEl, floatingEl);
-
-  Object.assign(floatingEl.style, {
-    visibility: "hidden",
-    pointerEvents: "none",
-
-    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
-    position: component.overlayPositioning,
-  });
+  disconnectFloatingUI(component);
 
   if (!component.open) {
     return;
   }
 
-  return runAutoUpdate(component, referenceEl, floatingEl);
+  return runAutoUpdate(component);
 }
 
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
- * @param floatingEl - The `floatingElement` containing the floating ui.
  */
-export function disconnectFloatingUI(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): void {
+export function disconnectFloatingUI(component: FloatingUIComponent): void {
+  const { floatingEl, referenceEl } = component;
+
   if (!floatingEl || !referenceEl) {
     return;
   }

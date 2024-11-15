@@ -6,7 +6,7 @@
 
     <title>Boomer v Millennial - California</title>
 
-    <script src="../_assets/head.js"></script>
+    <script src="../_assets/head.ts"></script>
     <script>
       const dojoConfig = {
         has: {
@@ -152,18 +152,18 @@
                       <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
                       <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
 
-                      <calcite-value-list drag-enabled>
-                        <calcite-value-list-item
+                      <calcite-list drag-enabled>
+                        <calcite-list-item
                           label="2018 Total Households (Esri)"
                           value="Households"
                           description="{TOTHH_CY}"
-                        ></calcite-value-list-item>
-                        <calcite-value-list-item
+                        ></calcite-list-item>
+                        <calcite-list-item
                           label="2018 Average Household Size (Esri)"
                           value="Household"
                           description="{AVGHHSZ_CY}"
-                        ></calcite-value-list-item>
-                      </calcite-value-list>
+                        ></calcite-list-item>
+                      </calcite-list>
                       <div class="row">
                         <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" kind="neutral"
                           >Select attributes</calcite-button
@@ -301,23 +301,16 @@
         >
           <calcite-panel class="calcite-mode-light">
             <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
-            <calcite-pick-list filter-enabled filter-sticky>
+            <calcite-list filter-enabled>
               <calcite-action slot="menu-actions" text="options">
                 <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
               </calcite-action>
-              <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
-              </calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about the NASA shuttle falling in the sea"
-                value="2"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
-              </calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-            </calcite-pick-list>
+              <calcite-list-item label="about disasters, fires, floods and killer bees" value="1"> </calcite-list-item>
+              <calcite-list-item label="about the NASA shuttle falling in the sea" value="2"></calcite-list-item>
+              <calcite-list-item label="about starvation and the food that Live Aid bought" value="3">
+              </calcite-list-item>
+              <calcite-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-list-item>
+            </calcite-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
             <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
           </calcite-panel>

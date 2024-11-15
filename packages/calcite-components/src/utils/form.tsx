@@ -1,12 +1,13 @@
-import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { Writable } from "type-fest";
-import { Status } from "../components/interfaces";
+import { TemplateResult } from "lit-html";
+import { h } from "@arcgis/lumina";
 import type { IconNameOrString } from "../components/icon/interfaces";
+import { Status } from "../components/interfaces";
+import type { Input } from "../components/input/input";
+import type { RadioButtonGroup } from "../components/radio-button-group/radio-button-group";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
-/**
- * Any form <Component> with a `calcite<Component>Input` event needs to be included in this array.
- */
+/** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
 export const componentsWithInputEvent = [
   "calcite-input",
   "calcite-input-number",
@@ -42,9 +43,7 @@ export function getClearValidationEventName(componentTag: string): string {
 
 export type MutableValidityState = Writable<ValidityState>;
 
-/**
- * Exported for testing purposes.
- */
+/** Exported for testing purposes. */
 export const hiddenFormInputSlotName = "hidden-form-input";
 
 /**
@@ -53,9 +52,7 @@ export const hiddenFormInputSlotName = "hidden-form-input";
  * Allows calling submit/reset methods on the form.
  */
 export interface FormOwner {
-  /**
-   * The host element.
-   */
+  /** The host element. */
   readonly el: HTMLElement;
 
   /**
@@ -63,14 +60,14 @@ export interface FormOwner {
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    *
-   * Note that this prop should use the @Prop decorator.
+   * Note that this prop should use the `@Prop` decorator.
    */
   form: string;
 
   /**
    * The form this component is associated with.
    *
-   * @internal
+   * @private
    */
   formEl: HTMLFormElement;
 }
@@ -81,9 +78,7 @@ export interface FormOwner {
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
 export interface FormComponent<T = any> extends FormOwner {
-  /**
-   * When true, this component's value will not be submitted in the form.
-   */
+  /** When true, this component's value will not be submitted in the form. */
   disabled: boolean;
 
   /**
@@ -96,14 +91,14 @@ export interface FormComponent<T = any> extends FormOwner {
   /**
    * The name used to submit the value to the associated form.
    *
-   * Note that this prop should use the @Prop decorator.
+   * Note that this prop should use the `@Prop` decorator.
    */
   name: string;
 
   /**
    * This form component's value.
    *
-   * Note that this prop should use the @Prop decorator.
+   * Note that this prop should use the `@Prop` decorator.
    */
   value: T;
 
@@ -123,9 +118,7 @@ export interface FormComponent<T = any> extends FormOwner {
   /** The validity state of the form component. */
   validity?: MutableValidityState;
 
-  /**
-   * Hook for components to provide custom form reset behavior.
-   */
+  /** Hook for components to provide custom form reset behavior. */
   onFormReset?: () => void;
 
   /**
@@ -142,9 +135,7 @@ export interface FormComponent<T = any> extends FormOwner {
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
 export interface CheckableFormComponent<T = any> extends FormComponent<T> {
-  /**
-   * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
-   */
+  /** For boolean-valued components, this property defines whether the associated value is submitted to the form or not. */
   checked: boolean;
 
   /**
@@ -216,7 +207,7 @@ export interface ValidationProps {
 }
 
 function displayValidationMessage(
-  component: HTMLCalciteInputElement | FormComponent,
+  component: Input["el"] | FormComponent,
   { status, message, icon }: ValidationProps,
 ): void {
   if ("status" in component) {
@@ -233,9 +224,9 @@ function displayValidationMessage(
 }
 
 function getValidationComponent(
-  el: HTMLCalciteInputElement,
+  el: Input["el"],
   // TODO: create an HTMLCalciteFormAssociatedElement base type
-): HTMLCalciteInputElement | HTMLCalciteRadioButtonGroupElement {
+): Input["el"] | RadioButtonGroup["el"] {
   // radio-button is formAssociated, but the validation props are on the parent group
   if (el.nodeName === "CALCITE-RADIO-BUTTON") {
     return closestElementCrossShadowBoundary(el, "calcite-radio-button-group");
@@ -252,8 +243,8 @@ function invalidHandler(event: Event) {
 
   // not necessarily a calcite-input, but we don't have an HTMLCalciteFormAssociatedElement type
   const formComponent = getValidationComponent(
-    hiddenInput?.parentElement as HTMLCalciteInputElement,
-  ) as HTMLCalciteInputElement;
+    hiddenInput?.parentElement as Input["el"],
+  ) as Input["el"];
 
   if (!formComponent) {
     return;
@@ -290,7 +281,11 @@ function invalidHandler(event: Event) {
         formComponent.status = "idle";
       }
 
-      if ("validationIcon" in formComponent && !formComponent.validationIcon) {
+      // don't clear if an icon was specified by the user
+      if (
+        "validationIcon" in formComponent &&
+        (formComponent.validationIcon === "" || formComponent.validationIcon === true)
+      ) {
         formComponent.validationIcon = false;
       }
 
@@ -327,7 +322,7 @@ export function submitForm(component: FormOwner): boolean {
   formEl.removeEventListener("invalid", invalidHandler, true);
 
   requestAnimationFrame(() => {
-    const invalidEls = formEl.querySelectorAll<HTMLCalciteInputElement>("[status=invalid]");
+    const invalidEls = formEl.querySelectorAll<Input["el"]>("[status=invalid]");
 
     // focus the first invalid element that has a validation message
     for (const el of invalidEls) {
@@ -559,7 +554,7 @@ function defaultSyncHiddenFormInput(
 
   component.syncHiddenFormInput?.(input);
 
-  const validationComponent = getValidationComponent(component.el as HTMLCalciteInputElement);
+  const validationComponent = getValidationComponent(component.el as Input["el"]);
 
   if (validationComponent && "validity" in validationComponent) {
     // mutate the component's validity object to prevent a rerender
@@ -593,9 +588,7 @@ interface HiddenFormInputSlotProps {
  * @param root0
  * @param root0.component
  */
-export const HiddenFormInputSlot: FunctionalComponent<HiddenFormInputSlotProps> = ({
-  component,
-}): VNode => {
+export const HiddenFormInputSlot = ({ component }: HiddenFormInputSlotProps): TemplateResult => {
   syncHiddenFormInput(component);
 
   return <slot name={hiddenFormInputSlotName} />;
