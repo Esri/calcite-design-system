@@ -188,6 +188,30 @@
         </div>
       </div>
 
+      <!-- themed -->
+      <div class="parent">
+        <div class="child right-aligned-text">themed</div>
+
+        <style>
+          .themed-tooltip {
+            --calcite-tooltip-background-color: lightpink;
+            --calcite-tooltip-border-color: blue;
+            --calcite-tooltip-corner-radius: 10px;
+            --calcite-tooltip-text-color: green;
+            --calcite-tooltip-z-index: 999;
+          }
+        </style>
+
+        <div class="child">
+          <button id="tooltip-themed">themed</button>
+          <calcite-tooltip class="themed-tooltip" placement="auto" reference-element="tooltip-themed">
+            <p>placement: auto</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.
+          </calcite-tooltip>
+        </div>
+      </div>
+
       <!-- containers to hold the tooltip -->
       <div>
         <calcite-tooltip placement="auto" reference-element="tooltip-auto-ref">
