@@ -1,8 +1,10 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS } from "../tooltip/resources";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS } from "./resources";
+import type { Tooltip } from "./tooltip";
 
 interface PointerMoveOptions {
   delay: number;
@@ -203,7 +205,7 @@ describe("calcite-tooltip", () => {
 
     expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-tooltip", (el: HTMLCalciteTooltipElement): void => {
+    await page.$eval("calcite-tooltip", (el: Tooltip["el"]): void => {
       const referenceElement = document.getElementById("ref");
       el.referenceElement = referenceElement;
     });
@@ -267,7 +269,7 @@ describe("calcite-tooltip", () => {
 
     await page.setContent(`<calcite-tooltip open>content</calcite-tooltip>`);
 
-    await page.$eval("calcite-tooltip", (tooltip: HTMLCalciteTooltipElement) => {
+    await page.$eval("calcite-tooltip", (tooltip: Tooltip["el"]) => {
       const virtualElement = {
         getBoundingClientRect: () =>
           ({
@@ -724,7 +726,7 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
     expect(await positionContainer.isVisible()).toBe(false);
 
-    await page.$eval("calcite-tooltip", (tooltipEl: HTMLCalciteTooltipElement) => {
+    await page.$eval("calcite-tooltip", (tooltipEl: Tooltip["el"]) => {
       const transferEl = document.getElementById("transfer");
       transferEl.appendChild(tooltipEl);
     });

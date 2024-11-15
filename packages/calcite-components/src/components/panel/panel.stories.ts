@@ -4,6 +4,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
 import { Panel } from "./panel";
 import { SLOTS } from "./resources";
+
 const { collapseDirection, scale } = ATTRIBUTES;
 
 interface PanelStoryArgs

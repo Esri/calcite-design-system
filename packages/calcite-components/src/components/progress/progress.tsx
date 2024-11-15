@@ -1,44 +1,56 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-@Component({
-  tag: "calcite-progress",
-  styleUrl: "progress.scss",
-  shadow: true,
-})
-export class Progress {
-  @Element() el: HTMLCalciteProgressElement;
+import { styles } from "./progress.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-progress": Progress;
+  }
+}
+
+export class Progress extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** Accessible name for the component. */
+  @property() label: string;
+
+  /** When `true` and for `"indeterminate"` progress bars, reverses the animation direction. */
+  @property({ reflect: true }) reversed = false;
+
+  /** Text that displays under the component's indicator. */
+  @property() text: string;
 
   /**
    * Specifies the component type.
    *
    * Use `"indeterminate"` if finding actual progress value is impossible.
-   *
    */
-  @Prop({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
+  @property({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
 
   /** When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0. */
-  @Prop() value = 0;
+  @property() value = 0;
 
-  /** Accessible name for the component. */
-  @Prop() label: string;
+  // #endregion
 
-  /** Text that displays under the component's indicator. */
-  @Prop() text: string;
+  // #region Rendering
 
-  /** When `true` and for `"indeterminate"` progress bars, reverses the animation direction. */
-  @Prop({ reflect: true }) reversed = false;
-
-  render(): VNode {
+  override render(): JsxNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     const dir = getElementDir(this.el);
     return (
       <div
-        aria-label={this.label || this.text}
-        aria-valuemax={1}
-        aria-valuemin={0}
-        aria-valuenow={this.value}
+        ariaLabel={this.label || this.text}
+        ariaValueMax={1}
+        ariaValueMin={0}
+        ariaValueNow={this.value}
         role="progressbar"
       >
         <div class="track">
@@ -56,4 +68,6 @@ export class Progress {
       </div>
     );
   }
+
+  // #endregion
 }

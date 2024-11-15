@@ -1,3 +1,4 @@
+import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
 import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
@@ -11,6 +12,7 @@ import {
   getModeName,
   getShadowRootNode,
   getSlotAssignedElements,
+  hasVisibleContent,
   isBefore,
   isKeyboardTriggeredClick,
   isPrimaryPointerButton,
@@ -28,6 +30,31 @@ import {
 } from "./dom";
 
 describe("dom", () => {
+  async function setUpSlotChange({
+    assignedElements = [],
+    assignedNodes = [],
+    onSlotChange = () => {},
+  }: {
+    assignedElements?: Element[];
+    assignedNodes?: Node[];
+    onSlotChange?: (event: Event) => void;
+  }): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => assignedElements;
+      target.assignedNodes = () => assignedNodes;
+      target.addEventListener(
+        "slotchange",
+        (event: Event) => {
+          onSlotChange(event);
+          resolve();
+        },
+        { once: true },
+      );
+      target.dispatchEvent(new Event("slotchange"));
+    });
+  }
+
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
@@ -61,9 +88,11 @@ describe("dom", () => {
     interface ModeElement extends HTMLElement {
       foundModeName: ModeName;
     }
+
     function getTestComponentMode(): string {
       return document.body.querySelector<ModeElement>("mode-element").foundModeName;
     }
+
     function defineTestComponents(): void {
       class ModeElement extends HTMLElement {
         constructor() {
@@ -77,9 +106,11 @@ describe("dom", () => {
           this.foundModeName = getModeName(this);
         }
       }
+
       customElements.define("mode-element", ModeElement);
     }
-    beforeEach(() => {
+
+    beforeAll(() => {
       defineTestComponents();
     });
 
@@ -172,139 +203,122 @@ describe("dom", () => {
   });
 
   describe("slotChangeGetAssignedElements()", () => {
-    it("handles slotted elements", () => {
-      const target = document.createElement("slot");
-      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeGetAssignedElements(event)).toHaveLength(2);
-    });
+    it("handles slotted elements", async () =>
+      await setUpSlotChange({
+        assignedElements: [document.createElement("div"), document.createElement("div")],
+        onSlotChange: (event) => expect(slotChangeGetAssignedElements(event)).toHaveLength(2),
+      }));
 
-    it("handles no slotted elements", () => {
-      const target = document.createElement("slot");
-      target.assignedElements = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeGetAssignedElements(event)).toHaveLength(0);
-    });
+    it("handles no slotted elements", async () =>
+      await setUpSlotChange({
+        onSlotChange: (event) => expect(slotChangeGetAssignedElements(event)).toHaveLength(0),
+      }));
   });
 
   describe("slotChangeHasAssignedElement()", () => {
-    it("handles slotted elements", () => {
-      const target = document.createElement("slot");
-      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasAssignedElement(event)).toBe(true);
-    });
+    it("handles slotted elements", async () =>
+      await setUpSlotChange({
+        assignedElements: [document.createElement("div"), document.createElement("div")],
+        onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(true),
+      }));
 
-    it("handles no slotted elements", () => {
-      const target = document.createElement("slot");
-      target.assignedElements = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasAssignedElement(event)).toBe(false);
-    });
+    it("handles no slotted elements", async () =>
+      await setUpSlotChange({
+        onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(false),
+      }));
   });
 
   describe("slotChangeHasAssignedNode()", () => {
-    it("handles slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasAssignedNode(event)).toBe(true);
-    });
+    it("handles slotted nodes", async () =>
+      await setUpSlotChange({
+        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+        onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(true),
+      }));
 
-    it("handles no slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasAssignedNode(event)).toBe(false);
-    });
+    it("handles no slotted nodes", async () =>
+      await setUpSlotChange({
+        onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(false),
+      }));
   });
 
   describe("slotChangeGetAssignedNodes()", () => {
-    it("handles slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeGetAssignedNodes(event)).toHaveLength(2);
-    });
+    it("handles slotted nodes", async () =>
+      await setUpSlotChange({
+        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+        onSlotChange: (event) => expect(slotChangeGetAssignedNodes(event)).toHaveLength(2),
+      }));
 
-    it("handles no slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeGetAssignedNodes(event)).toHaveLength(0);
-    });
+    it("handles no slotted nodes", async () =>
+      await setUpSlotChange({
+        onSlotChange: (event) => expect(slotChangeGetAssignedNodes(event)).toHaveLength(0),
+      }));
   });
 
   describe("slotChangeGetTextContent()", () => {
-    it("handles slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeGetTextContent(event)).toEqual("helloworld");
+    it("handles slotted nodes", async () => {
+      await setUpSlotChange({
+        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+        onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual("helloworld"),
+      });
     });
 
-    it("handles no slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeGetTextContent(event)).toEqual("");
-    });
+    it("handles no slotted nodes", async () =>
+      await setUpSlotChange({
+        onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual(""),
+      }));
   });
 
   describe("slotChangeHasContent()", () => {
-    it("handles slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [document.createTextNode("hello")];
-      target.assignedElements = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasContent(event)).toEqual(true);
-    });
+    it("handles slotted nodes", async () =>
+      await setUpSlotChange({
+        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
+      }));
 
-    it("handles slotted elements", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [];
-      target.assignedElements = () => [document.createElement("div")];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasContent(event)).toEqual(true);
-    });
+    it("handles slotted elements", async () =>
+      await setUpSlotChange({
+        assignedElements: [document.createElement("div")],
+        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
+      }));
 
-    it("handles no slotted nodes or elements", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [];
-      target.assignedElements = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasContent(event)).toEqual(false);
-    });
+    it("handles no slotted nodes or elements", async () =>
+      await setUpSlotChange({
+        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(false),
+      }));
   });
 
   describe("slotChangeHasTextContent()", () => {
-    it("handles slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasTextContent(event)).toEqual(true);
+    it("handles slotted nodes", async () =>
+      await setUpSlotChange({
+        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+        onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(true),
+      }));
+
+    it("handles no slotted nodes", async () =>
+      await setUpSlotChange({
+        onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(false),
+      }));
+  });
+
+  describe("hasVisibleContent", () => {
+    it("should return true if element has visible content", () => {
+      const element = document.createElement("div");
+      element.innerHTML = "<p>hello</p>";
+      document.body.append(element);
+      expect(hasVisibleContent(element)).toBe(true);
     });
 
-    it("handles no slotted nodes", () => {
-      const target = document.createElement("slot");
-      target.assignedNodes = () => [];
-      const event = new Event("onSlotchange");
-      target.dispatchEvent(event);
-      expect(slotChangeHasTextContent(event)).toEqual(false);
+    it("should return false if element has no visible content", () => {
+      const element = document.createElement("div");
+      document.body.append(element);
+      expect(hasVisibleContent(element)).toBe(false);
+    });
+
+    it("should return false if element has no visible content", () => {
+      const element = document.createElement("div");
+      element.innerHTML = "\n<!-- some comment -->\n";
+      document.body.append(element);
+      expect(hasVisibleContent(element)).toBe(false);
     });
   });
 
@@ -331,9 +345,11 @@ describe("dom", () => {
           shadow.innerHTML = `<button>Hello</button>`;
         }
       }
+
       customElements.define("shadow-element", ShadowElement);
     }
-    beforeEach(() => {
+
+    beforeAll(() => {
       defineTestComponents();
     });
 
@@ -401,14 +417,14 @@ describe("dom", () => {
 
     let element: HTMLDivElement;
     let dispatchTransitionEvent: TransitionEventDispatcher;
-    let onStartCallback: jest.Mock;
-    let onEndCallback: jest.Mock;
+    let onStartCallback: Mock;
+    let onEndCallback: Mock;
 
     beforeEach(() => {
       dispatchTransitionEvent = createTransitionEventDispatcher();
       element = window.document.createElement("div");
-      onStartCallback = jest.fn();
-      onEndCallback = jest.fn();
+      onStartCallback = vi.fn();
+      onEndCallback = vi.fn();
     });
 
     it("should return a promise that resolves after the transition", async () => {
@@ -502,14 +518,14 @@ describe("dom", () => {
 
     let element: HTMLDivElement;
     let dispatchAnimationEvent: AnimationEventDispatcher;
-    let onStartCallback: jest.Mock;
-    let onEndCallback: jest.Mock;
+    let onStartCallback: Mock;
+    let onEndCallback: Mock;
 
     beforeEach(() => {
       dispatchAnimationEvent = createAnimationEventDispatcher();
       element = window.document.createElement("div");
-      onStartCallback = jest.fn();
-      onEndCallback = jest.fn();
+      onStartCallback = vi.fn();
+      onEndCallback = vi.fn();
     });
 
     it("should return a promise that resolves after the animation", async () => {
