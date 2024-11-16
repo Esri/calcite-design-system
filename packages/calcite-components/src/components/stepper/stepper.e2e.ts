@@ -486,6 +486,7 @@ describe("calcite-stepper", () => {
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
+        await page.waitForChanges();
 
         const wrapper = document.querySelector(wrapperName);
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
@@ -499,6 +500,7 @@ describe("calcite-stepper", () => {
 
         return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
       }, templateHTML);
+      await page.waitForChanges();
 
       expect(finalSelectedItem).toBe("item-3");
     });

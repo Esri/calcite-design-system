@@ -223,6 +223,7 @@ describe("calcite-tabs", () => {
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
+        await page.waitForChanges();
 
         const wrapper = document.querySelector(wrapperName);
 
@@ -249,6 +250,8 @@ describe("calcite-tabs", () => {
       },
       wrappedTabTemplateHTML,
     );
+    await page.waitForChanges();
+
     expect(finalSelectedItem.tabTitle).toBe("title-2");
     expect(finalSelectedItem.tab).toBe("tab-2");
   });
