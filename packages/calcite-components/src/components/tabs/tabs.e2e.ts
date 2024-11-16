@@ -209,6 +209,18 @@ describe("calcite-tabs", () => {
       async (templateHTML: string): Promise<{ tabTitle: string; tab: string }> => {
         const wrapperName = "tab-wrapping-component";
 
+        async function waitForAnimationFrames(count: number): Promise<void> {
+          async function frame() {
+            if (count > 0) {
+              await new Promise((resolve) => requestAnimationFrame(resolve));
+              count--;
+              await frame();
+            }
+          }
+
+          await frame();
+        }
+
         customElements.define(
           wrapperName,
           class extends HTMLElement {
@@ -223,24 +235,11 @@ describe("calcite-tabs", () => {
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
-        await page.waitForChanges();
+        await waitForAnimationFrames(2);
 
         const wrapper = document.querySelector(wrapperName);
 
-        async function waitForAnimationFrames(count) {
-          async function frame() {
-            if (count > 0) {
-              await new Promise((resolve) => requestAnimationFrame(resolve));
-              count--;
-              await frame();
-            }
-          }
-
-          await frame();
-        }
-
         wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
-        await waitForAnimationFrames(4);
 
         const tabTitle = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
         await waitForAnimationFrames(2);

@@ -253,7 +253,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
         </calcite-segmented-control>
       `;
-      await page.waitForChanges();
+      await waitForFrame();
 
       [first, second] = Array.from(document.querySelectorAll("calcite-segmented-control-item"));
 

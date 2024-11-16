@@ -486,7 +486,7 @@ describe("calcite-stepper", () => {
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
-        await page.waitForChanges();
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
         const wrapper = document.querySelector(wrapperName);
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
