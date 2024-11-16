@@ -232,9 +232,7 @@ export class StepperItem
   }
 
   componentDidLoad(): void {
-    if (!this.el.hidden) {
-      setComponentLoaded(this);
-    }
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
