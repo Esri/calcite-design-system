@@ -407,12 +407,15 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-space-fixed-sm: 8px; /* deprecated */
   --calcite-space-fixed-xs: 6px; /* deprecated */
   --calcite-space-fixed-xxs: 4px; /* deprecated */
-  --calcite-size-xxl: 2.75rem;
-  --calcite-size-xl: 2rem;
-  --calcite-size-lg: 1.5rem;
-  --calcite-size-md-plus: 1.25rem;
-  --calcite-size-md: 1rem;
-  --calcite-size-sm: 0.5rem;
+  --calcite-size-xxxl: 6rem;
+  --calcite-size-xxl: 4rem;
+  --calcite-size-xl: 3rem;
+  --calcite-size-lg: 2.75rem;
+  --calcite-size-md: 2rem;
+  --calcite-size-sm: 1.5rem;
+  --calcite-size-xs: 1rem;
+  --calcite-size-xxs: 0.875rem;
+  --calcite-size-xxxs: 0.75rem;
   --calcite-size-px: 1px;
   --calcite-size-fixed-xxxl: 32px; /* deprecated */
   --calcite-size-fixed-xxl: 24px; /* deprecated */
@@ -981,12 +984,15 @@ export const calciteSizeFixedXl = "20px"; // deprecated
 export const calciteSizeFixedXxl = "24px"; // deprecated
 export const calciteSizeFixedXxxl = "32px"; // deprecated
 export const calciteSizePx = "1px";
-export const calciteSizeSm = "0.5rem";
-export const calciteSizeMd = "1rem";
-export const calciteSizeMdPlus = "1.25rem";
-export const calciteSizeLg = "1.5rem";
-export const calciteSizeXl = "2rem";
-export const calciteSizeXxl = "2.75rem";
+export const calciteSizeXxxs = "0.75rem";
+export const calciteSizeXxs = "0.875rem";
+export const calciteSizeXs = "1rem";
+export const calciteSizeSm = "1.5rem";
+export const calciteSizeMd = "2rem";
+export const calciteSizeLg = "2.75rem";
+export const calciteSizeXl = "3rem";
+export const calciteSizeXxl = "4rem";
+export const calciteSizeXxxl = "6rem";
 export const calciteSpaceFixedXxs = "4px"; // deprecated
 export const calciteSpaceFixedXs = "6px"; // deprecated
 export const calciteSpaceFixedSm = "8px"; // deprecated
@@ -1238,12 +1244,15 @@ export const calciteSizeFixedXxl : string;
 /** deprecated */
 export const calciteSizeFixedXxxl : string;
 export const calciteSizePx : string;
+export const calciteSizeXxxs : string;
+export const calciteSizeXxs : string;
+export const calciteSizeXs : string;
 export const calciteSizeSm : string;
 export const calciteSizeMd : string;
-export const calciteSizeMdPlus : string;
 export const calciteSizeLg : string;
 export const calciteSizeXl : string;
 export const calciteSizeXxl : string;
+export const calciteSizeXxxl : string;
 /** deprecated */
 export const calciteSpaceFixedXxs : string;
 /** deprecated */
@@ -2072,12 +2081,15 @@ $calcite-space-fixed-md: 12px; // deprecated
 $calcite-space-fixed-sm: 8px; // deprecated
 $calcite-space-fixed-xs: 6px; // deprecated
 $calcite-space-fixed-xxs: 4px; // deprecated
-$calcite-size-xxl: 2.75rem;
-$calcite-size-xl: 2rem;
-$calcite-size-lg: 1.5rem;
-$calcite-size-md-plus: 1.25rem;
-$calcite-size-md: 1rem;
-$calcite-size-sm: 0.5rem;
+$calcite-size-xxxl: 6rem;
+$calcite-size-xxl: 4rem;
+$calcite-size-xl: 3rem;
+$calcite-size-lg: 2.75rem;
+$calcite-size-md: 2rem;
+$calcite-size-sm: 1.5rem;
+$calcite-size-xs: 1rem;
+$calcite-size-xxs: 0.875rem;
+$calcite-size-xxxs: 0.75rem;
 $calcite-size-px: 1px;
 $calcite-size-fixed-xxxl: 32px; // deprecated
 $calcite-size-fixed-xxl: 24px; // deprecated
