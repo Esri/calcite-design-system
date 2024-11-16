@@ -1,6 +1,7 @@
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import { isKeyboardTriggeredClick } from "../../utils/dom";
+import type { Popover } from "./popover";
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------
@@ -9,7 +10,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements = new Map<ReferenceElement, HTMLCalcitePopoverElement>();
+  private registeredElements = new Map<ReferenceElement, Popover["el"]>();
 
   private registeredElementCount = 0;
 
@@ -19,7 +20,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  registerElement(referenceEl: ReferenceElement, popover: HTMLCalcitePopoverElement): void {
+  registerElement(referenceEl: ReferenceElement, popover: Popover["el"]): void {
     this.registeredElementCount++;
 
     this.registeredElements.set(referenceEl, popover);
@@ -45,7 +46,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  private queryPopover = (composedPath: EventTarget[]): HTMLCalcitePopoverElement => {
+  private queryPopover = (composedPath: EventTarget[]): Popover["el"] => {
     const { registeredElements } = this;
 
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));

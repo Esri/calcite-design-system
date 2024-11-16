@@ -52,7 +52,7 @@ The following are some troubleshooting steps you can take if a release is unsucc
 
 1. Find the workflow run for the release [here](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml), and view the logs to find the error message.
 1. Fix the error:
-   - In some cases you can resolve the issue with a temporary solution, and then fix the CI after the release is completed. For example, if the `components.d.ts` file is outdated and breaks releases due to an unclean working tree, the [temporary solution](https://github.com/Esri/calcite-design-system/pull/9008) would be to build locally and submit a PR with the updated file. That way you won't be so time crunched when determining an [actual fix](https://github.com/Esri/calcite-design-system/pull/9011) to prevent the same error from occurring in the future. Reach out to Ben or Franco if a solution to the error isn't clear.
+   - In some cases you can resolve the issue with a temporary solution, and then fix the CI after the release is completed. Reach out to Ben or Franco if a solution to the error isn't clear.
    - If the `dev`->`main` sync failed, you may have to resolve merge conflicts locally. See the "Sync dev to main" step in the `deploy-latest.yml` workflow for the process.
    - If the release succeeded, but the cherry-pick PR wasn't created, you may need to fix merge conflicts locally.
 1. Once the PR with the fix is installed, make sure the new workflow run is passing.

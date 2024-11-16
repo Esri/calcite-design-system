@@ -300,7 +300,6 @@ export function setEndOfDay(date: Date): Date {
 }
 
 /**
- *
  * Returns true if two dates have same month and year.
  *
  * @param date1
