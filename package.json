@@ -41,7 +41,7 @@
     "@prettier/sync": "0.5.2",
     "@rollup/plugin-node-resolve": "15.3.0",
     "@rollup/plugin-replace": "6.0.1",
-    "@rollup/plugin-typescript": "11.1.6",
+    "@rollup/plugin-typescript": "12.1.1",
     "@storybook/addon-a11y": "8.4.2",
     "@storybook/addon-controls": "8.4.2",
     "@storybook/addon-docs": "8.4.2",
