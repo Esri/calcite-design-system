@@ -1,4 +1,5 @@
 {
   "loading": "Učitavanje u tijeku",
-  "indicator": "Pokazatelj postoji"
+  "indicator": "Pokazatelj postoji",
+  "indicatorLabel": "{label} (pokazatelj postoji)"
 }
