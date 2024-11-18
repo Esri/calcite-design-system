@@ -189,32 +189,30 @@ calcite-panel {
  * Sizes
  */
 @mixin dialog-size($size, $width) {
-  :host([width-scale="#{$size}"]) .dialog {
+  .width-#{$size} {
     inline-size: var(--calcite-dialog-size-x, $width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
 
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([width-scale="#{$size}"]) {
-      .dialog {
-        @apply m-0
+    .width-#{$size} {
+      @apply m-0
           h-full
           max-h-full
           w-full
           max-w-full;
-        inset-inline-start: 0;
-        inset-block-start: var(--calcite-internal-dialog-animation-offset);
-        &--opening {
-          &-active {
-            inset-block-start: 0;
-          }
+      inset-inline-start: 0;
+      inset-block-start: var(--calcite-internal-dialog-animation-offset);
+      &--opening {
+        &-active {
+          inset-block-start: 0;
         }
       }
     }
   }
 }
 
-:host([width="small"]) .dialog {
+.width-s .dialog {
   @apply w-auto;
 }
 

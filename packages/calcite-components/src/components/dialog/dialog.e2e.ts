@@ -127,6 +127,10 @@ describe("calcite-dialog", () => {
         propertyName: "widthScale",
         value: "s",
       },
+      {
+        propertyName: "width",
+        value: "s",
+      },
     ]);
   });
 
