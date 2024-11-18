@@ -20,7 +20,7 @@ export default defineConfig({
         },
         dependencies: {
           // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
-          externalize: nonEsmDependencies,
+          bundleIn: nonEsmDependencies,
         },
         ssr: {
           stencilCompatibility: {
