@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
-import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
+import { defaults, focusable, hidden, openClose, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
@@ -26,6 +26,28 @@ describe("calcite-modal", () => {
 
   describe("translation support", () => {
     t9n("calcite-modal");
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-modal", [
+      {
+        propertyName: "width-scale",
+        value: "m",
+      },
+      {
+        propertyName: "width",
+        value: "m",
+      },
+    ]);
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-modal", [
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+    ]);
   });
 
   it("should hide closeButton when disabled", async () => {
