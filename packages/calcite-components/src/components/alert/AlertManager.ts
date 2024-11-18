@@ -1,3 +1,5 @@
+import type { Alert } from "./alert";
+
 export const alertQueueTimeoutMs = 300;
 
 export default class AlertManager {
@@ -7,7 +9,7 @@ export default class AlertManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements: HTMLCalciteAlertElement[] = [];
+  private registeredElements: Alert["el"][] = [];
 
   private queueTimeoutId: number = null;
 
@@ -17,7 +19,7 @@ export default class AlertManager {
   //
   // --------------------------------------------------------------------------
 
-  registerElement(alert: HTMLCalciteAlertElement): void {
+  registerElement(alert: Alert["el"]): void {
     const { registeredElements } = this;
 
     if (!registeredElements.includes(alert)) {
@@ -37,7 +39,7 @@ export default class AlertManager {
     }
   }
 
-  unregisterElement(alert: HTMLCalciteAlertElement): void {
+  unregisterElement(alert: Alert["el"]): void {
     const { registeredElements } = this;
 
     const index = registeredElements.indexOf(alert);

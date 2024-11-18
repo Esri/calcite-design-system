@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from "vitest";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "./form";
 
 describe("form", () => {
@@ -6,7 +7,7 @@ describe("form", () => {
     const form = null;
     const el = document.createElement("div");
     const formOwner: FormOwner = { formEl, form, el };
-    const submitSpy = jest.fn();
+    const submitSpy = vi.fn();
     formEl.requestSubmit = submitSpy;
 
     let submitted = submitForm(formOwner);
@@ -27,7 +28,7 @@ describe("form", () => {
     const form = null;
     const el = document.createElement("div");
     const formOwner: FormOwner = { formEl, form, el };
-    const resetSpy = jest.fn();
+    const resetSpy = vi.fn();
     formEl.reset = resetSpy;
 
     resetForm(formOwner);
@@ -47,7 +48,7 @@ describe("form", () => {
       formEl.append(el);
       const formOwner: FormOwner = { formEl, form, el };
 
-      expect(findAssociatedForm(formOwner)).toBe(formEl);
+      expect(findAssociatedForm(formOwner)).toStrictEqual(formEl);
     });
 
     it("finds form via ID", async () => {

@@ -1,26 +1,35 @@
-import { Component, Element, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
+import { PropertyValues } from "lit";
+import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hexify } from "../color-picker/utils";
 import { CHECKER_DIMENSIONS, COLORS, CSS } from "./resources";
+import { styles } from "./color-picker-swatch.scss";
 
-@Component({
-  tag: "calcite-color-picker-swatch",
-  styleUrl: "color-picker-swatch.scss",
-  shadow: true,
-})
-export class ColorPickerSwatch {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-color-picker-swatch": ColorPickerSwatch;
+  }
+}
 
-  /**
-   * When `true`, the component is active.
-   */
-  @Prop({
+export class ColorPickerSwatch extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private internalColor: Color;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, the component is active. */
+  @property({
     reflect: true,
   })
   active = false;
@@ -30,43 +39,41 @@ export class ColorPickerSwatch {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
-  @Prop()
-  color: string | null;
+  @property() color: string | null;
 
-  @Watch("color")
-  handleColorChange(color: string | null): void {
-    this.internalColor = color ? Color(color) : null;
-  }
-
-  /**
-   * Specifies the size of the component.
-   */
-  @Prop({
+  /** Specifies the size of the component. */
+  @property({
     reflect: true,
   })
   scale: Scale = "m";
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteColorPickerSwatchElement;
+  // #region Lifecycle
 
-  private internalColor: Color;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
+  load(): void {
     this.handleColorChange(this.color);
   }
 
-  render(): VNode {
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("color")) {
+      this.handleColorChange(this.color);
+    }
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleColorChange(color: string | null): void {
+    this.internalColor = color ? Color(color) : null;
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
     const isEmpty = !this.internalColor;
     const classes = {
       [CSS.swatch]: true,
@@ -80,7 +87,7 @@ export class ColorPickerSwatch {
     );
   }
 
-  renderSwatch(): VNode {
+  private renderSwatch(): JsxNode {
     const { active, el, internalColor } = this;
     const borderRadius = active ? "100%" : "0";
     const theme = getModeName(el);
@@ -96,7 +103,7 @@ export class ColorPickerSwatch {
 
     if (isEmpty) {
       return (
-        <Fragment>
+        <>
           <clipPath id="shape">
             <rect height="100%" rx={borderRadius} width="100%" />
           </clipPath>
@@ -105,7 +112,7 @@ export class ColorPickerSwatch {
             ...commonSwatchProps,
           })}
           <line clip-path="url(#shape)" stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
-        </Fragment>
+        </>
       );
     }
 
@@ -114,7 +121,7 @@ export class ColorPickerSwatch {
     const hexa = hexify(internalColor, alpha < 1);
 
     return (
-      <Fragment>
+      <>
         <title>{hexa}</title>
         <defs>
           <pattern
@@ -160,11 +167,11 @@ export class ColorPickerSwatch {
               ...commonSwatchProps,
             })
           : null}
-      </Fragment>
+      </>
     );
   }
 
-  renderSwatchRect({
+  private renderSwatchRect({
     clipPath,
     fill,
     height,
@@ -186,7 +193,7 @@ export class ColorPickerSwatch {
     strokeWidth?: string;
 
     width: string;
-  }): VNode {
+  }): JsxNode {
     return (
       <rect
         clip-path={clipPath}
@@ -200,4 +207,6 @@ export class ColorPickerSwatch {
       />
     );
   }
+
+  // #endregion
 }

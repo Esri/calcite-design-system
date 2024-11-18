@@ -1,5 +1,7 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
+import { accessible, defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-link", () => {
   describe("renders", () => {
@@ -318,6 +320,17 @@ describe("calcite-link", () => {
       expect(linkUnderlineStyle).toEqual(
         `linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(${overrideStyle}, ${overrideStyle})`,
       );
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html` <calcite-link href="#" icon-start="banana" icon-end="information">link</calcite-link> `, {
+        "--calcite-link-text-color": {
+          shadowSelector: "a",
+          targetProp: "color",
+        },
+      });
     });
   });
 });
