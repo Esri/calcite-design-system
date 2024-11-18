@@ -1,4 +1,5 @@
 {
   "loading": "Laster inn",
-  "indicator": "Indikator til stede"
+  "indicator": "Indikator til stede",
+  "indicatorLabel": "{label} (Indikator til stede)"
 }
