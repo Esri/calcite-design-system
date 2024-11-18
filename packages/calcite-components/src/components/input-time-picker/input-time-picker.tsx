@@ -407,7 +407,7 @@ export class InputTimePicker
     }
 
     if (changes.has("hourFormat")) {
-      this.setLocalizedInputValue({ hourFormat: changes.get("hourFormat") });
+      this.setLocalizedInputValue({ hourFormat: this.hourFormat });
     }
 
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
@@ -561,7 +561,7 @@ export class InputTimePicker
   }
 
   async updateLocale(locale: SupportedLocale): Promise<void> {
-    await Promise.all([this.loadDateTimeLocaleData(), updateMessages(this, locale)]);
+    await this.loadDateTimeLocaleData();
     if (!this.hourFormat) {
       this.hourFormat = getLocaleHourFormat(locale);
     }
