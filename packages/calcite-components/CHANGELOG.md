@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.12...@esri/calcite-components@3.0.0-next.13) (2024-11-18)
+
+### Bug Fixes
+
+- **tooltip:** fix closeOnClick property in Safari ([#10737](https://github.com/Esri/calcite-design-system/issues/10737)) ([0479946](https://github.com/Esri/calcite-design-system/commit/0479946685469e558d79b9d314a007d59861f824)), closes [#10715](https://github.com/Esri/calcite-design-system/issues/10715)
+
+## [3.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.11...@esri/calcite-components@3.0.0-next.12) (2024-11-15)
+
+### Features
+
+- **link:** add component tokens ([#10689](https://github.com/Esri/calcite-design-system/issues/10689)) ([5d26527](https://github.com/Esri/calcite-design-system/commit/5d26527800a3f7417f360b07cc5a33e599214f53)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.10...@esri/calcite-components@3.0.0-next.11) (2024-11-15)
 
 ### Bug Fixes

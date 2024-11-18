@@ -1,4 +1,5 @@
 {
   "loading": "Wczytywanie",
-  "indicator": "Obecny wskaźnik"
+  "indicator": "Obecny wskaźnik",
+  "indicatorLabel": "{label} (obecny wskaźnik)"
 }
