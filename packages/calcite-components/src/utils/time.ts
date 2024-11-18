@@ -4,7 +4,7 @@ import { isValidNumber } from "./number";
 
 export type FractionalSecondDigits = 1 | 2 | 3;
 
-export type HourCycle = "12" | "24";
+export type HourFormat = "12" | "24";
 
 export interface LocalizedTime {
   localizedHour: string;
@@ -107,7 +107,7 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
   return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
 
-export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem): HourCycle {
+export function getLocaleHourFormat(locale: string, numberingSystem: NumberingSystem): HourFormat {
   const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
