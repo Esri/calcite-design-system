@@ -6,12 +6,12 @@ import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
 import {
   formatTimePart,
-  getLocaleHourCycle,
+  getLocaleHourFormat,
   getLocalizedDecimalSeparator,
   getLocalizedTimePartSuffix,
   getMeridiem,
   getMeridiemOrder,
-  HourCycle,
+  HourFormat,
   isValidTime,
   localizeTimePart,
   localizeTimeStringToParts,
@@ -29,6 +29,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { decimalPlaces, getDecimals } from "../../utils/math";
+import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/time-picker.t9n.en.json";
@@ -46,7 +47,6 @@ function capitalize(str: string): string {
 
 export class TimePicker extends LitElement implements LoadableComponent {
   // #region Static Members
-
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
@@ -79,7 +79,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   @state() hour: string;
 
-  @state() hourCycle: HourCycle;
+  @state() hourFormat: HourFormat;
 
   @state() localizedDecimalSeparator = ".";
 
@@ -179,6 +179,10 @@ export class TimePicker extends LitElement implements LoadableComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("hourFormat")) {
+      this.setValue(this.value);
+    }
+
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
       this.toggleSecond();
     }
@@ -229,7 +233,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
             if (this.step !== 60) {
               this.focusPart("second");
               event.preventDefault();
-            } else if (this.hourCycle === "12") {
+            } else if (this.hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -245,7 +249,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
           case "ArrowRight":
             if (this.showFractionalSecond) {
               this.focusPart("fractionalSecond");
-            } else if (this.hourCycle === "12") {
+            } else if (this.hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -259,7 +263,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
             event.preventDefault();
             break;
           case "ArrowRight":
-            if (this.hourCycle === "12") {
+            if (this.hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -295,7 +299,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
   }
 
   private decrementHour(): void {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    const newHour = !this.hour ? 0 : parseInt(this.hour) === 0 ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
   }
 
@@ -394,7 +398,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
       const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.hour)) {
-        switch (this.hourCycle) {
+        switch (this.hourFormat) {
           case "12":
             newHour =
               this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
@@ -685,6 +689,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
       const {
+        hourFormat,
         messages: { _lang: locale },
         numberingSystem,
       } = this;
@@ -698,7 +703,12 @@ export class TimePicker extends LitElement implements LoadableComponent {
         localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
-      } = localizeTimeStringToParts({ value, locale, numberingSystem });
+      } = localizeTimeStringToParts({
+        value,
+        locale,
+        numberingSystem,
+        hour12: hourFormat === "12",
+      });
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -754,6 +764,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     value: number | string | Meridiem,
   ): void {
     const {
+      hourFormat,
       messages: { _lang: locale },
       numberingSystem,
     } = this;
@@ -821,8 +832,12 @@ export class TimePicker extends LitElement implements LoadableComponent {
     }
     this.value = newValue;
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
-          ?.localizedMeridiem || null
+      ? localizeTimeStringToParts({
+          hour12: hourFormat === "12",
+          locale,
+          numberingSystem,
+          value: this.value,
+        })?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
       this.calciteInternalTimePickerChange.emit();
@@ -835,7 +850,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
   }
 
   private updateLocale() {
-    this.hourCycle = getLocaleHourCycle(this.messages._lang, this.numberingSystem);
+    if (!this.hourFormat) {
+      this.hourFormat = getLocaleHourFormat(this.messages._lang);
+    }
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.messages._lang,
       this.numberingSystem,
@@ -846,15 +863,13 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   // #endregion
 
-  // #region Rendering
-
   override render(): JsxNode {
     const hourIsNumber = isValidNumber(this.hour);
     const iconScale = getIconScale(this.scale);
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
-    const showMeridiem = this.hourCycle === "12";
+    const showMeridiem = this.hourFormat === "12";
     return (
       <div
         class={{
@@ -1059,7 +1074,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0,
+              [CSS.meridiemStart]: this.meridiemOrder === 0 || getElementDir(this.el) === "rtl",
             }}
             role="group"
           >
