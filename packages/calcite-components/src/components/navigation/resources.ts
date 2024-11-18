@@ -22,4 +22,4 @@ export const SLOTS = {
 
 export const ICONS = {
   hamburger: "hamburger",
-};
+} as const;

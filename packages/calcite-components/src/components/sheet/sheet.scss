@@ -213,7 +213,7 @@
 /**
  * Conditional styles for when Sheet is slotted in Shell
  */
-:host([position]) .container--slotted-in-shell {
+:host([position]) .container--embedded {
   @apply absolute pointer-events-auto;
   inline-size: 100%;
   max-inline-size: 100%;

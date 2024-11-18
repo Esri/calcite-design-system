@@ -1,4 +1,6 @@
 {
   "expand": "Развернуть",
-  "collapse": "Свернуть"
+  "collapse": "Свернуть",
+  "expandLabel": "Развернуть",
+  "collapseLabel": "Свернуть"
 }

@@ -14,14 +14,15 @@ import {
   Strategy,
   VirtualElement,
 } from "@floating-ui/dom";
-import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
+import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
+import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (Build.isBrowser) {
+  if (isBrowser()) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -94,13 +95,15 @@ export const positionFloatingUI =
       flipPlacements?: FlipPlacement[];
       offsetDistance?: number;
       offsetSkidding?: number;
-      arrowEl?: SVGElement;
+      arrowEl?: SVGSVGElement;
       type: UIType;
     },
   ): Promise<void> => {
     if (!referenceEl || !floatingEl) {
-      return null;
+      return;
     }
+
+    const isRTL = getElementDir(floatingEl) === "rtl";
 
     const {
       x,
@@ -113,11 +116,11 @@ export const positionFloatingUI =
       placement:
         placement === "auto" || placement === "auto-start" || placement === "auto-end"
           ? undefined
-          : getEffectivePlacement(floatingEl, placement),
+          : getEffectivePlacement(placement, isRTL),
       middleware: getMiddleware({
         placement,
         flipDisabled,
-        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(floatingEl, placement)),
+        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(placement, isRTL)),
         offsetDistance,
         offsetSkidding,
         arrowEl,
@@ -150,15 +153,11 @@ export const positionFloatingUI =
 
     floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
-    const { open } = component;
-
     Object.assign(floatingEl.style, {
-      visibility,
       pointerEvents,
       position,
-      transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
-      top: 0,
-      left: 0,
+      transform: `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)`,
+      visibility,
     });
   };
 
@@ -166,11 +165,6 @@ export const positionFloatingUI =
  * Exported for testing purposes only
  */
 export const placementDataAttribute = "data-placement";
-
-/**
- * Exported for testing purposes only
- */
-export const repositionDebounceTimeout = 100;
 
 export type ReferenceElement = VirtualElement | Element;
 
@@ -273,6 +267,7 @@ export type MenuPlacement = Extract<
 >;
 
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
+export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
   /**
@@ -298,7 +293,7 @@ export interface FloatingUIComponent {
    *
    * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(delayed?: boolean): Promise<void>;
+  reposition: (delayed?: boolean) => Promise<void>;
 
   /**
    * Used to store the effective floating layout for components that use arrows.
@@ -311,9 +306,19 @@ export interface FloatingUIComponent {
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/main/src/components/functional/FloatingArrow.tsx)
+   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
+
+  /**
+   * The `floatingElement` containing the floating ui.
+   */
+  floatingEl: HTMLElement;
+
+  /**
+   * The `referenceElement` used to position the component according to its `placement` value.
+   */
+  referenceEl: ReferenceElement;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
@@ -321,6 +326,8 @@ export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
   animationActive: "calcite-floating-ui-anim--active",
+  arrow: "calcite-floating-ui-arrow",
+  arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
 function getMiddleware({
@@ -337,7 +344,7 @@ function getMiddleware({
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
-  arrowEl?: SVGElement;
+  arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
   const defaultMiddleware = [shift(), hide()];
@@ -400,10 +407,10 @@ export function filterValidFlipPlacements(placements: string[], el: HTMLElement)
   return filteredPlacements;
 }
 
-export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
+export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false): EffectivePlacement {
   const placements = ["left", "right"];
 
-  if (getElementDir(floatingEl) === "rtl") {
+  if (isRTL) {
     placements.reverse();
   }
 
@@ -439,10 +446,16 @@ export async function reposition(
     return;
   }
 
+  Object.assign(options.floatingEl.style, {
+    display: "block",
+    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+    position: options.overlayPositioning ?? "absolute",
+  });
+
   const trackedState = autoUpdatingComponentMap.get(component);
 
   if (!trackedState) {
-    return runAutoUpdate(component, options.referenceEl, options.floatingEl);
+    return runAutoUpdate(component);
   }
 
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
@@ -457,9 +470,9 @@ function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<t
     return debounced;
   }
 
-  debounced = debounce(positionFloatingUI, repositionDebounceTimeout, {
+  debounced = debounce(positionFloatingUI, DEBOUNCE.reposition, {
     leading: true,
-    maxWait: repositionDebounceTimeout,
+    maxWait: DEBOUNCE.reposition,
   });
 
   componentToDebouncedRepositionMap.set(component, debounced);
@@ -494,16 +507,14 @@ export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, Tracked
 
 const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
 
-async function runAutoUpdate(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): Promise<void> {
+async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
+  const { referenceEl, floatingEl } = component;
+
   if (!floatingEl.isConnected) {
     return;
   }
 
-  const effectiveAutoUpdate = Build.isBrowser
+  const effectiveAutoUpdate = isBrowser()
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
@@ -536,50 +547,58 @@ async function runAutoUpdate(
 }
 
 /**
+ * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
+ *
+ * @param component - A floating-ui component.
+ */
+export function hideFloatingUI(component: FloatingUIComponent): void {
+  const { floatingEl } = component;
+
+  if (!floatingEl) {
+    return;
+  }
+
+  Object.assign(floatingEl.style, {
+    display: "",
+    pointerEvents: "",
+    position: "",
+    transform: "",
+    visibility: "",
+  });
+}
+
+/**
  * Helper to set up floating element interactions on connectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
- * @param floatingEl - The `floatingElement` containing the floating ui.
+ * @returns {Promise<void>}
  */
-export async function connectFloatingUI(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): Promise<void> {
+export async function connectFloatingUI(component: FloatingUIComponent): Promise<void> {
+  const { floatingEl, referenceEl } = component;
+
+  hideFloatingUI(component);
+
   if (!floatingEl || !referenceEl) {
     return;
   }
 
-  disconnectFloatingUI(component, referenceEl, floatingEl);
-
-  Object.assign(floatingEl.style, {
-    visibility: "hidden",
-    pointerEvents: "none",
-
-    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
-    position: component.overlayPositioning,
-  });
+  disconnectFloatingUI(component);
 
   if (!component.open) {
     return;
   }
 
-  return runAutoUpdate(component, referenceEl, floatingEl);
+  return runAutoUpdate(component);
 }
 
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
- * @param floatingEl - The `floatingElement` containing the floating ui.
  */
-export function disconnectFloatingUI(
-  component: FloatingUIComponent,
-  referenceEl: ReferenceElement,
-  floatingEl: HTMLElement,
-): void {
+export function disconnectFloatingUI(component: FloatingUIComponent): void {
+  const { floatingEl, referenceEl } = component;
+
   if (!floatingEl || !referenceEl) {
     return;
   }

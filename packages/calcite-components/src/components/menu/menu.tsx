@@ -11,7 +11,12 @@ import {
   VNode,
   forceUpdate,
 } from "@stencil/core";
-import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  focusElement,
+  focusElementInGroup,
+  focusFirstTabbable,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -145,7 +150,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.menuItems[0]);
   }
   //--------------------------------------------------------------------------
   //
@@ -205,7 +210,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   handleMenuSlotChange = (event: Event): void => {
-    this.menuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.menuItems = slotChangeGetAssignedElements<HTMLCalciteMenuItemElement>(event);
     this.setMenuItemLayout(this.menuItems, this.layout);
   };
 
@@ -228,7 +233,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   }
 
   private getEffectiveRole(): string {
-    return this.el.getAttribute("role") || "menubar";
+    return this.el.role || "menubar";
   }
 
   // --------------------------------------------------------------------------

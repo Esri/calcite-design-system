@@ -11,11 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
@@ -50,9 +45,7 @@ import { CSS, SLOTS } from "./resources";
   },
   assetsDirs: ["assets"],
 })
-export class ActionPad
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -149,11 +142,9 @@ export class ActionPad
 
   @State() expandTooltip: HTMLCalciteTooltipElement;
 
-  mutationObserver = createObserver("mutation", () =>
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
-  );
+  mutationObserver = createObserver("mutation", () => this.updateGroups());
 
-  expandToggleEl: HTMLCalciteActionElement;
+  actionGroups: HTMLCalciteActionGroupElement[];
 
   @State() effectiveLocale = "";
 
@@ -171,26 +162,24 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    disconnectConditionalSlotComponent(this);
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
     await setUpMessages(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    this.mutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -218,7 +207,7 @@ export class ActionPad
   actionMenuOpenHandler = (event: CustomEvent<void>): void => {
     if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
-      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+      this.actionGroups?.forEach((group) => {
         if (!composedPath.includes(group)) {
           group.menuOpen = false;
         }
@@ -231,30 +220,24 @@ export class ActionPad
     this.calciteActionPadToggle.emit();
   };
 
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
-  };
-
   updateGroups(): void {
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = groups;
+    this.setGroupLayout(groups);
   }
 
   setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
     groups.forEach((group) => (group.layout = this.layout));
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
-
-    this.setGroupLayout(groups);
+  handleDefaultSlotChange = (): void => {
+    this.updateGroups();
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
@@ -288,7 +271,6 @@ export class ActionPad
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

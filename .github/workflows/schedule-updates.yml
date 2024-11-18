@@ -21,7 +21,7 @@ jobs:
       - name: Commit and create pull request
         uses: peter-evans/create-pull-request@v6
         with:
-          base: main
+          base: dev
           branch: ci/update-component-docs
           delete-branch: true
           add-paths: |
@@ -50,7 +50,7 @@ jobs:
       - name: Commit and create pull request
         uses: peter-evans/create-pull-request@v6
         with:
-          base: main
+          base: dev
           branch: ci/update-browserslist-db
           delete-branch: true
           commit-message: "build: update browserslist db"

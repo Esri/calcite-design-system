@@ -1,4 +1,3 @@
-import { readTask } from "@stencil/core";
 import { whenTransitionDone } from "./dom";
 
 /**
@@ -81,20 +80,28 @@ function isOpen(component: OpenCloseComponent): boolean {
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
-  readTask(async (): Promise<void> => {
+  requestAnimationFrame((): void => {
     if (!component.transitionEl) {
       return;
     }
 
-    await whenTransitionDone(component.transitionEl, component.openTransitionProp);
-
-    if (isOpen(component)) {
-      component.onBeforeOpen();
-      component.onOpen();
-      return;
-    }
-
-    component.onBeforeClose();
-    component.onClose();
+    whenTransitionDone(
+      component.transitionEl,
+      component.openTransitionProp,
+      () => {
+        if (isOpen(component)) {
+          component.onBeforeOpen();
+        } else {
+          component.onBeforeClose();
+        }
+      },
+      () => {
+        if (isOpen(component)) {
+          component.onOpen();
+        } else {
+          component.onClose();
+        }
+      },
+    );
   });
 }

@@ -4,45 +4,6 @@ For comprehensive guidance on using and implementing `calcite-action-pad`, refer
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-Renders a basic action pad with `calcite-action`s.
-
-```html
-<calcite-action-pad>
-  <calcite-action text="Undo" icon="undo"></calcite-action>
-  <calcite-action text="Redo" icon="redo"></calcite-action>
-</calcite-action-pad>
-```
-
-### Tooltip
-
-Renders an action pad with a tooltip on the expand action.
-
-```html
-<calcite-action-pad id="action-pad-test">
-  <calcite-action text="Add" icon="plus"></calcite-action>
-  <calcite-tooltip slot="expand-tooltip">Let's expand</calcite-tooltip>
-</calcite-action-pad>
-```
-
-### With-grouping
-
-Renders a group of `calcite-action`s contained in a `calcite-action-group`. Actions in a group are visually separated from other groups or actions in the pad.
-
-```html
-<calcite-action-pad>
-  <calcite-action-group label="Manage item">
-    <calcite-action text="Home" icon="home"></calcite-action>
-    <calcite-action text="Styles" icon="add-in-edit"></calcite-action>
-  </calcite-action-group>
-
-  <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-</calcite-action-pad>
-```
-
 ## Properties
 
 | Property               | Attribute                 | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                   | Default      |
@@ -81,9 +42,11 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                      | Description                                                                       |
-| ----------------------------------------- | --------------------------------------------------------------------------------- |
-| `--calcite-action-pad-expanded-max-width` | When `layout` is `"vertical"`, specifies the expanded max width of the component. |
+| Name                                      | Description                                                                             |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- |
+| `--calcite-action-pad-corner-radius`      | Specifies the component's border radius.                                                |
+| `--calcite-action-pad-expanded-max-width` | When `layout` is `"vertical"`, specifies the component's maximum width when `expanded`. |
+| `--calcite-action-pad-items-space`        | Specifies the component's space between slotted components.                             |
 
 ## Dependencies
 

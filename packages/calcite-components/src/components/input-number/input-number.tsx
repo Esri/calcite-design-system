@@ -14,9 +14,9 @@ import {
 } from "@stencil/core";
 import {
   getElementDir,
-  getSlotted,
   isPrimaryPointerButton,
   setRequestedIcon,
+  toAriaBoolean,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -29,8 +29,6 @@ import {
   submitForm,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -57,7 +55,6 @@ import {
   parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -74,7 +71,8 @@ import {
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
-import { CSS, SLOTS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS, SLOTS } from "./resources";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 
 /**
@@ -139,11 +137,6 @@ export class InputNumber
    */
   @Prop({ reflect: true }) disabled = false;
 
-  @Watch("disabled")
-  disabledWatcher(): void {
-    this.setDisabledAction();
-  }
-
   /**
    * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
    *
@@ -170,7 +163,7 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -253,7 +246,7 @@ export class InputNumber
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -404,6 +397,10 @@ export class InputNumber
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 
+  private inputWrapperEl: HTMLDivElement;
+
+  private actionWrapperEl: HTMLDivElement;
+
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
 
@@ -422,11 +419,9 @@ export class InputNumber
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: string;
+  private requestedIcon?: IconNameOrString;
 
   private nudgeNumberValueIntervalId: number;
-
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
   private userChangedValue = false;
 
@@ -461,7 +456,6 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -470,9 +464,6 @@ export class InputNumber
     }
     connectLabel(this);
     connectForm(this);
-
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -481,13 +472,10 @@ export class InputNumber
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-
-    this.mutationObserver?.disconnect();
     this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -671,10 +659,16 @@ export class InputNumber
       return;
     }
 
-    const slottedActionEl = getSlotted(this.el, "action");
-    if (event.target !== slottedActionEl) {
-      this.setFocus();
+    const composedPath = event.composedPath();
+
+    if (
+      !composedPath.includes(this.inputWrapperEl) ||
+      composedPath.includes(this.actionWrapperEl)
+    ) {
+      return;
     }
+
+    this.setFocus();
   };
 
   private inputNumberFocusHandler = (): void => {
@@ -866,24 +860,6 @@ export class InputNumber
   private setChildNumberElRef = (el: HTMLInputElement) => {
     this.childNumberEl = el;
   };
-
-  private setDisabledAction(): void {
-    const slottedActionEl = getSlotted(this.el, "action");
-
-    if (!slottedActionEl) {
-      return;
-    }
-
-    if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled") == null) {
-        this.slottedActionElDisabledInternally = true;
-      }
-      slottedActionEl.setAttribute("disabled", "");
-    } else if (this.slottedActionElDisabledInternally) {
-      slottedActionEl.removeAttribute("disabled");
-      this.slottedActionElDisabledInternally = false;
-    }
-  }
 
   private setInputNumberValue = (newInputValue: string): void => {
     if (!this.childNumberEl) {
@@ -1080,13 +1056,15 @@ export class InputNumber
 
     const childEl = (
       <input
+        aria-errormessage={IDS.validationMessage}
+        aria-invalid={toAriaBoolean(this.status === "invalid")}
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enterkeyhint")}
-        inputMode={this.el.inputMode || this.el.getAttribute("inputmode")}
+        inputMode={this.el.inputMode || this.el.getAttribute("inputmode") || "decimal"}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
@@ -1107,7 +1085,10 @@ export class InputNumber
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
-          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <div
+            class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+            ref={(el) => (this.inputWrapperEl = el)}
+          >
             {this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalDown
               : null}
@@ -1118,7 +1099,7 @@ export class InputNumber
               {this.requestedIcon ? iconEl : null}
               {this.loading ? loader : null}
             </div>
-            <div class={CSS.actionWrapper}>
+            <div class={CSS.actionWrapper} ref={(el) => (this.actionWrapperEl = el)}>
               <slot name={SLOTS.action} />
             </div>
             {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
@@ -1131,6 +1112,7 @@ export class InputNumber
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

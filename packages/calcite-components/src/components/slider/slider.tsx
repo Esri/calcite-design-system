@@ -13,17 +13,17 @@ import {
   Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { intersects, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { Validation } from "../functional/Validation";
 import {
   afterConnectDefaultValueSet,
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -45,8 +45,10 @@ import {
 } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
-import { Scale } from "../interfaces";
-import { CSS, maxTickElementThreshold } from "./resources";
+import { Scale, Status } from "../interfaces";
+import { BigDecimal } from "../../utils/number";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 
 function isRange(value: number | number[]): value is number[] {
@@ -102,7 +104,7 @@ export class Slider
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
    */
   @Prop() histogram: DataSeries;
 
@@ -212,6 +214,36 @@ export class Slider
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -219,7 +251,6 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
@@ -228,7 +259,6 @@ export class Slider
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -318,6 +348,8 @@ export class Slider
       <Host id={id} onKeyDown={this.handleKeyDown} onTouchStart={this.handleTouchStart}>
         <InteractiveContainer disabled={this.disabled}>
           <div
+            aria-errormessage={IDS.validationMessage}
+            aria-invalid={toAriaBoolean(this.status === "invalid")}
             aria-label={getLabelText(this)}
             class={{
               [CSS.container]: true,
@@ -371,6 +403,15 @@ export class Slider
               <HiddenFormInputSlot component={this} />
             </div>
           </div>
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              id={IDS.validationMessage}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
         </InteractiveContainer>
       </Host>
     );
@@ -441,7 +482,6 @@ export class Slider
 
     return (
       <div
-        aria-disabled={this.disabled}
         aria-label={ariaLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -564,7 +604,7 @@ export class Slider
     }
 
     const x = event.clientX || event.pageX;
-    const position = this.translate(x);
+    const position = this.mapToRange(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -806,7 +846,7 @@ export class Slider
 
     event.preventDefault();
     if (this.dragProp) {
-      const value = this.translate(event.clientX || event.pageX);
+      const value = this.mapToRange(event.clientX || event.pageX);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -945,7 +985,7 @@ export class Slider
    * @param x
    * @internal
    */
-  private translate(x: number): number {
+  private mapToRange(x: number): number {
     const range = this.max - this.min;
     const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;
@@ -964,8 +1004,14 @@ export class Slider
    */
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
-    let snappedValue = Math.floor((value - min) / step) * step + min;
-    snappedValue = Math.min(Math.max(snappedValue, min), max);
+
+    // prevents floating point precision issues
+    const bigDecimalString = new BigDecimal(`${Math.floor((value - min) / step)}`)
+      .multiply(`${step}`)
+      .add(`${min}`)
+      .toString();
+
+    let snappedValue = this.clamp(Number(bigDecimalString));
 
     if (snappedValue > max) {
       snappedValue -= step;

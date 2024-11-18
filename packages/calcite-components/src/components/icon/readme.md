@@ -4,22 +4,6 @@ For comprehensive guidance on using and implementing `calcite-icon`, refer to th
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Custom-icon-color
-
-To use a custom color for the icon fill, you can supply your desired color to the `--calcite-ui-icon-color` CSS variable:
-
-```html
-<calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
-```
-
-```css
-.my-icon-color-class {
-  --calcite-ui-icon-color: #007ac2;
-}
-```
-
 ## Properties
 
 | Property    | Attribute    | Description                                                                                      | Type                | Default     |
@@ -31,9 +15,10 @@ To use a custom color for the icon fill, you can supply your desired color to th
 
 ## CSS Custom Properties
 
-| Name                      | Description                                        |
-| ------------------------- | -------------------------------------------------- |
-| `--calcite-ui-icon-color` | The component's color. Defaults to `currentColor`. |
+| Name                      | Description                                                                                          |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `--calcite-icon-color`    | Specifies the component's color. Defaults to current color.                                          |
+| `--calcite-ui-icon-color` | [Deprecated] Use `--calcite-icon-color`. Specifies the component's color. Defaults to current color. |
 
 ## Dependencies
 
@@ -51,7 +36,6 @@ To use a custom color for the icon fill, you can supply your desired color to th
 - [calcite-chip](../chip)
 - [calcite-combobox](../combobox)
 - [calcite-combobox-item](../combobox-item)
-- [calcite-date-picker-month-header](../date-picker-month-header)
 - [calcite-dropdown-item](../dropdown-item)
 - [calcite-handle](../handle)
 - [calcite-input](../input)
@@ -99,7 +83,6 @@ graph TD;
   calcite-chip --> calcite-icon
   calcite-combobox --> calcite-icon
   calcite-combobox-item --> calcite-icon
-  calcite-date-picker-month-header --> calcite-icon
   calcite-dropdown-item --> calcite-icon
   calcite-handle --> calcite-icon
   calcite-input --> calcite-icon

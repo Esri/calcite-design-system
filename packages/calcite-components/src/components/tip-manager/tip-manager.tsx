@@ -20,6 +20,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
+import { logger } from "../../utils/logger";
 import { TipManagerMessages } from "./assets/tip-manager/t9n";
 import { CSS, ICONS } from "./resources";
 
@@ -125,6 +126,12 @@ export class TipManager {
   }
 
   async componentWillLoad(): Promise<void> {
+    logger.deprecated("component", {
+      name: "tip-manager",
+      removalVersion: 4,
+      suggested: "carousel",
+    });
+
     await setUpMessages(this);
     this.updateGroupTitle();
   }

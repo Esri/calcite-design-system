@@ -19,6 +19,7 @@ For comprehensive guidance on using and implementing `calcite-list-item`, refer 
 | `metadata`         | --                  | Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.                                  | `{ [x: string]: unknown; }` | `undefined` |
 | `open`             | `open`              | When `true`, the item is open to show child components.                                                                                   | `boolean`                   | `false`     |
 | `selected`         | `selected`          | When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or`"multiple"`, the component is selected. | `boolean`                   | `false`     |
+| `unavailable`      | `unavailable`       | When `true`, the component's content appears inactive.                                                                                    | `boolean`                   | `false`     |
 | `value`            | `value`             | The component's value.                                                                                                                    | `any`                       | `undefined` |
 
 ## Events
@@ -44,7 +45,7 @@ Type: `Promise<void>`
 
 | Slot               | Description                                                                                                    |
 | ------------------ | -------------------------------------------------------------------------------------------------------------- |
-|                    | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.                                  |
+|                    | A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.                  |
 | `"actions-end"`    | A slot for adding actionable `calcite-action` elements after the content of the component.                     |
 | `"actions-start"`  | A slot for adding actionable `calcite-action` elements before the content of the component.                    |
 | `"content"`        | A slot for adding non-actionable, centered content in place of the `label` and `description` of the component. |

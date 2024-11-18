@@ -22,8 +22,6 @@ import {
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -98,7 +96,11 @@ export class RadioButton
   @Prop({ reflect: true })
   form: string;
 
-  /** The `id` of the component. When omitted, a globally unique identifier is used. */
+  /**
+   * The `id` of the component. When omitted, a globally unique identifier is used.
+   *
+   * @deprecated No longer necessary.
+   */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
   /**
@@ -188,9 +190,11 @@ export class RadioButton
   };
 
   queryButtons = (): HTMLCalciteRadioButtonElement[] => {
-    return Array.from(this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])")).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
-    ) as HTMLCalciteRadioButtonElement[];
+    return Array.from(
+      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
+        "calcite-radio-button:not([hidden])",
+      ),
+    ).filter((radioButton) => radioButton.name === this.name);
   };
 
   isFocusable = (): boolean => {
@@ -406,10 +410,10 @@ export class RadioButton
     }
 
     const radioButtons = Array.from(
-      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])"),
-    ).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
-    ) as HTMLCalciteRadioButtonElement[];
+      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
+        "calcite-radio-button:not([hidden])",
+      ),
+    ).filter((radioButton) => radioButton.name === this.name);
     let currentIndex = 0;
 
     const radioButtonsLength = radioButtons.length;
@@ -464,7 +468,6 @@ export class RadioButton
     if (this.name) {
       this.checkLastRadioButton();
     }
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
@@ -483,7 +486,6 @@ export class RadioButton
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();

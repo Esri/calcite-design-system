@@ -13,8 +13,6 @@ import {
 import { dateToISO } from "../../utils/date";
 import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -102,12 +100,12 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
       return;
     }
 
-    this.calciteDaySelect.emit();
+    this.calciteInternalDaySelect.emit();
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
-      !this.disabled && this.calciteDaySelect.emit();
+      !this.disabled && this.calciteInternalDaySelect.emit();
       event.preventDefault();
     }
   };
@@ -129,8 +127,10 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
   /**
    * Fires when user selects day.
+   *
+   * @internal
    */
-  @Event({ cancelable: false }) calciteDaySelect: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalDaySelect: EventEmitter<void>;
 
   /**
    * Fires when user hovers over a day.
@@ -147,10 +147,7 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(
-      this.el,
-      "calcite-date-picker",
-    ) as HTMLCalciteDatePickerElement;
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   componentDidLoad(): void {
@@ -186,7 +183,6 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
     return (
       <Host
-        aria-disabled={toAriaBoolean(this.disabled)}
         aria-label={dayLabel}
         aria-selected={toAriaBoolean(this.active)}
         id={dayId}
@@ -196,28 +192,18 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
         tabIndex={this.active && !this.disabled ? 0 : -1}
       >
         <InteractiveContainer disabled={this.disabled}>
-          <div aria-hidden="true" class={{ "day-v-wrapper": true }}>
-            <div class="day-wrapper">
-              <span class="day">
-                <span class="text">{formattedDay}</span>
-              </span>
-            </div>
+          <div aria-hidden="true" class="day-wrapper">
+            <span class="day">
+              <span class="text">{formattedDay}</span>
+            </span>
           </div>
         </InteractiveContainer>
       </Host>
     );
   }
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------

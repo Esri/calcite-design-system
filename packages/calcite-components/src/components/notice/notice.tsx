@@ -10,12 +10,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -34,6 +29,7 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
 import { NoticeMessages } from "./assets/notice/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -42,9 +38,7 @@ import { CSS, SLOTS } from "./resources";
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
- */
-
-/**
+ *
  * @slot title - A slot for adding the title.
  * @slot message - A slot for adding the message.
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
@@ -58,12 +52,7 @@ import { CSS, SLOTS } from "./resources";
   assetsDirs: ["assets"],
 })
 export class Notice
-  implements
-    ConditionalSlotComponent,
-    LoadableComponent,
-    T9nComponent,
-    LocalizedComponent,
-    OpenCloseComponent
+  implements LoadableComponent, T9nComponent, LocalizedComponent, OpenCloseComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -91,7 +80,7 @@ export class Notice
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -134,13 +123,11 @@ export class Notice
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -159,7 +146,6 @@ export class Notice
   }
 
   render(): VNode {
-    const { el } = this;
     const closeButton = (
       <button
         aria-label={this.messages.close}
@@ -170,8 +156,6 @@ export class Notice
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
-
-    const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
       <div class={CSS.container} ref={this.setTransitionEl}>
@@ -189,11 +173,9 @@ export class Notice
           <slot name={SLOTS.message} />
           <slot name={SLOTS.link} />
         </div>
-        {hasActionEnd ? (
-          <div class={CSS.actionsEnd}>
-            <slot name={SLOTS.actionsEnd} />
-          </div>
-        ) : null}
+        <div class={CSS.actionsEnd} hidden={!this.hasActionEnd}>
+          <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+        </div>
         {this.closable ? closeButton : null}
       </div>
     );
@@ -265,8 +247,13 @@ export class Notice
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
   private close = (): void => {
     this.open = false;
+  };
+
+  private handleActionsEndSlotChange = (event: Event): void => {
+    this.hasActionEnd = slotChangeHasAssignedElement(event);
   };
 
   //--------------------------------------------------------------------------
@@ -281,7 +268,7 @@ export class Notice
   private closeButton?: HTMLButtonElement;
 
   /** The computed icon to render. */
-  private requestedIcon?: string;
+  private requestedIcon?: IconNameOrString;
 
   @State() effectiveLocale: string;
 
@@ -295,4 +282,6 @@ export class Notice
   openTransitionProp = "opacity";
 
   transitionEl: HTMLElement;
+
+  @State() hasActionEnd = false;
 }

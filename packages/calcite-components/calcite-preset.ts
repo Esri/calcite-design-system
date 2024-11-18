@@ -68,7 +68,7 @@ export default {
         3: "var(--calcite-color-text-3)",
         inverse: "var(--calcite-color-text-inverse)",
         link: "var(--calcite-color-text-link)",
-        icon: "var(--calcite-ui-icon-color)",
+        icon: "var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor))",
       },
       transparent: "transparent",
     },
@@ -258,14 +258,14 @@ export default {
           "outline-color": "transparent",
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand))",
+          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand))",
+          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
           "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand))",
+          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
           "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
         },
         ".focus-outset-danger": {

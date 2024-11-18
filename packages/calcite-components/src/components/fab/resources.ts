@@ -4,4 +4,4 @@ export const CSS = {
 
 export const ICONS = {
   plus: "plus",
-};
+} as const;

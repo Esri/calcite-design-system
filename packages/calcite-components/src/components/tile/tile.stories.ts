@@ -1,7 +1,7 @@
 import { iconNames } from "../../../.storybook/helpers";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
 const { scale } = ATTRIBUTES;
@@ -77,8 +77,8 @@ export const allVariants = (): string => html`
       border-top: 1px solid var(--calcite-color-border-2);
     }
     calcite-chip.new {
-      background-color: #d8efda;
-      color: #13631f;
+      --calcite-chip-background-color: #d8efda;
+      --calcite-chip-text-color: #13631f;
     }
   </style>
   <div class="parent">
@@ -729,6 +729,84 @@ export const allVariants = (): string => html`
         icon="layers"
         scale="l"
       >
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-top slot centered -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-top slot centered</div>
+
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-bottom slot centered-->
+  <div class="parent">
+    <div class="child right-aligned-text">content-bottom slot centered</div>
+
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="l">New</calcite-chip>
       </calcite-tile>
     </div>
   </div>

@@ -45,8 +45,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -55,9 +53,10 @@ import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { IconNameOrString } from "../icon/interfaces";
 import { CharacterLengthObj } from "./interfaces";
 import { TextAreaMessages } from "./assets/text-area/t9n";
-import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
+import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -88,6 +87,7 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   @Watch("autofocus")
+  @Watch("spellcheck")
   handleGlobalAttributesChanged(): void {
     forceUpdate(this);
   }
@@ -156,7 +156,7 @@ export class TextArea
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -272,7 +272,6 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     connectLocalized(this);
@@ -294,7 +293,6 @@ export class TextArea
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -309,15 +307,18 @@ export class TextArea
         <InteractiveContainer disabled={this.disabled}>
           <textarea
             aria-describedby={this.guid}
-            aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
+            aria-errormessage={IDS.validationMessage}
+            aria-invalid={toAriaBoolean(
+              this.status === "invalid" || this.isCharacterLimitExceeded(),
+            )}
             aria-label={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{
+              [CSS.textArea]: true,
               [CSS.readOnly]: this.readOnly,
               [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
               [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-              [CSS.blockSizeFull]: !hasFooter,
-              [CSS.borderColor]: !hasFooter,
+              [CSS.textAreaOnly]: !hasFooter,
             }}
             cols={this.columns}
             disabled={this.disabled}
@@ -329,6 +330,7 @@ export class TextArea
             ref={this.setTextAreaEl}
             required={this.required}
             rows={this.rows}
+            spellcheck={this.el.spellcheck}
             value={this.value}
             wrap={this.wrap}
           />
@@ -341,7 +343,7 @@ export class TextArea
               [CSS.readOnly]: this.readOnly,
               [CSS.hide]: !hasFooter,
             }}
-            ref={(el) => (this.footerEl = el as HTMLElement)}
+            ref={(el) => (this.footerEl = el)}
           >
             <div
               class={{
@@ -366,13 +368,14 @@ export class TextArea
           </footer>
           <HiddenFormInputSlot component={this} />
           {this.isCharacterLimitExceeded() && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+            <span aria-live="polite" class={CSS.assistiveText} id={this.guid}>
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

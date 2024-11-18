@@ -1,8 +1,6 @@
 import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -15,12 +13,17 @@ import {
 } from "../../utils/loadable";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
+import { IconNameOrString } from "../icon/interfaces";
 
-/** Any attributes placed on <calcite-link> component will propagate to the rendered child */
-/** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
-/** It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission */
-
-/** @slot - A slot for adding text. */
+/**
+ * Any attributes placed on <calcite-link> component will propagate to the rendered child
+ *
+ * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+ *
+ * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+ *
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-link",
   styleUrl: "link.scss",
@@ -47,13 +50,13 @@ export class Link implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** Specifies the relationship to the linked document defined in `href`. */
   @Prop() rel: string;
@@ -67,10 +70,6 @@ export class Link implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -81,10 +80,6 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   render(): VNode {
@@ -122,14 +117,20 @@ export class Link implements InteractiveComponent, LoadableComponent {
           When the 'download' property of type 'boolean | string' is set to true, the value is "".
           This works around that issue for now.
           */
-            download={Tag === "a" && (download === "" || download) ? download : null}
-            href={Tag === "a" && this.href}
+            download={
+              childElType === "a"
+                ? download === true || download === ""
+                  ? ""
+                  : download || null
+                : null
+            }
+            href={childElType === "a" && this.href}
             onClick={this.childElClickHandler}
             ref={this.storeTagRef}
-            rel={Tag === "a" && this.rel}
+            rel={childElType === "a" && this.rel}
             role={role}
             tabIndex={tabIndex}
-            target={Tag === "a" && this.target}
+            target={childElType === "a" && this.target}
           >
             {this.iconStart ? iconStartEl : null}
             <slot />
@@ -183,7 +184,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
 
-  private childElClickHandler = (event: PointerEvent): void => {
+  private childElClickHandler = (event: MouseEvent): void => {
     if (!event.isTrusted) {
       // click was invoked internally, we stop it here
       event.stopPropagation();

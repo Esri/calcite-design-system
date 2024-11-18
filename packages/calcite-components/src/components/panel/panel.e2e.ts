@@ -11,8 +11,16 @@ import {
   renders,
   slots,
   t9n,
+  themed,
+  handlesActionMenuPlacements,
 } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
+import { GlobalTestProps } from "../../tests/utils";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { CSS, IDS, SLOTS } from "./resources";
+
+type TestWindow = GlobalTestProps<{
+  beforeClose: () => Promise<void>;
+}>;
 
 const panelTemplate = (scrollable = false) =>
   html`<div style="height: 200px; display: flex">
@@ -24,6 +32,55 @@ const panelTemplate = (scrollable = false) =>
     </calcite-panel>
   </div>`;
 
+export const scrollingContentHtml = html`
+  <p>
+    Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae; leo
+    semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula purus porta ante lacus
+    habitasse libero cubilia purus! In quis congue arcu maecenas felis cursus pellentesque nascetur porta donec non.
+    Quisque, rutrum ligula pharetra justo habitasse facilisis rutrum neque. Magnis nostra nec nulla dictumst taciti
+    consectetur. Non porttitor tempor orci dictumst magna porta vitae.
+  </p>
+  <p>
+    Ipsum nostra tempus etiam augue ullamcorper scelerisque sapien potenti erat nisi gravida. Vehicula sem tristique
+    sed. Nullam, sociis imperdiet ullamcorper? Dapibus fames primis ridiculus vulputate, habitant inceptos! Nunc
+    torquent lorem urna vehicula volutpat donec nec. Orci massa eu nec donec enim fames, faucibus quam aenean. Laoreet
+    tellus tempor quisque ornare lobortis praesent erat senectus natoque consectetur donec imperdiet. Quis sem cum
+    gravida dictumst a pretium purus aptent amet id. Orci habitasse, praesent facilisis condimentum. Nec elit turpis
+    leo.
+  </p>
+  <p>
+    Tempus per volutpat diam tempor mauris parturient vulputate leo id libero quisque. Mattis aliquam dictum venenatis
+    fringilla. Taciti venenatis, ultrices sollicitudin consequat. Sapien fusce est iaculis potenti ut auctor potenti.
+    Nisi malesuada feugiat vulputate vitae porttitor. Nullam nullam nullam accumsan quis magna in. Elementum, nascetur
+    gravida cras scelerisque inceptos aenean inceptos potenti. Lobortis condimentum accumsan posuere curabitur fermentum
+    diam, natoque quisque. Eget placerat sed aptent orci urna fusce magnis. Vel lacus magnis nunc.
+  </p>
+  <p>
+    Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae; leo
+    semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula purus porta ante lacus
+    habitasse libero cubilia purus! In quis congue arcu maecenas felis cursus pellentesque nascetur porta donec non.
+    Quisque, rutrum ligula pharetra justo habitasse facilisis rutrum neque. Magnis nostra nec nulla dictumst taciti
+    consectetur. Non porttitor tempor orci dictumst magna porta vitae.
+  </p>
+  <p>
+    Ipsum nostra tempus etiam augue ullamcorper scelerisque sapien potenti erat nisi gravida. Vehicula sem tristique
+    sed. Nullam, sociis imperdiet ullamcorper? Dapibus fames primis ridiculus vulputate, habitant inceptos! Nunc
+    torquent lorem urna vehicula volutpat donec nec. Orci massa eu nec donec enim fames, faucibus quam aenean. Laoreet
+    tellus tempor quisque ornare lobortis praesent erat senectus natoque consectetur donec imperdiet. Quis sem cum
+    gravida dictumst a pretium purus aptent amet id. Orci habitasse, praesent facilisis condimentum. Nec elit turpis
+    leo.
+  </p>
+  <p>
+    Tempus per volutpat diam tempor mauris parturient vulputate leo id libero quisque. Mattis aliquam dictum venenatis
+    fringilla. Taciti venenatis, ultrices sollicitudin consequat. Sapien fusce est iaculis potenti ut auctor potenti.
+    Nisi malesuada feugiat vulputate vitae porttitor. Nullam nullam nullam accumsan quis magna in. Elementum, nascetur
+    gravida cras scelerisque inceptos aenean inceptos potenti. Lobortis condimentum accumsan posuere curabitur fermentum
+    diam, natoque quisque. Eget placerat sed aptent orci urna fusce magnis. Vel lacus magnis nunc.
+  </p>
+`;
+
+export const scrollingHeightStyle = "height: 200px;";
+
 describe("calcite-panel", () => {
   describe("renders", () => {
     renders("calcite-panel", { display: "flex" });
@@ -33,8 +90,20 @@ describe("calcite-panel", () => {
     hidden("calcite-panel");
   });
 
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(html`
+      <calcite-panel>
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+      </calcite-panel>
+    `);
+  });
+
   describe("defaults", () => {
     defaults("calcite-panel", [
+      {
+        propertyName: "beforeClose",
+        defaultValue: undefined,
+      },
       {
         propertyName: "widthScale",
         defaultValue: undefined,
@@ -59,6 +128,18 @@ describe("calcite-panel", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: defaultEndMenuPlacement,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -80,6 +161,10 @@ describe("calcite-panel", () => {
         propertyName: "overlayPositioning",
         value: "fixed",
       },
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
+      },
     ]);
   });
 
@@ -88,7 +173,38 @@ describe("calcite-panel", () => {
   });
 
   describe("disabled", () => {
-    disabled(`<calcite-panel closable>scrolling content</calcite-panel>`);
+    describe("with scrolling content", () => {
+      disabled(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
+        focusTarget: {
+          tab: "calcite-panel",
+          click: "body",
+        },
+      });
+
+      describe("closable", () => {
+        disabled(
+          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
+          {
+            focusTarget: {
+              tab: "calcite-panel",
+              click: "body",
+            },
+          },
+        );
+      });
+    });
+
+    describe("without scrolling content", () => {
+      disabled(html`<calcite-panel>non-scrolling content</calcite-panel>`, {
+        focusTarget: "none",
+      });
+
+      describe("closable", () => {
+        disabled(html`<calcite-panel closable>non-scrolling content</calcite-panel>`, {
+          focusTarget: "none",
+        });
+      });
+    });
   });
 
   describe("translation support", () => {
@@ -125,6 +241,59 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
+  it("honors closed prop initially", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel closed closable>test</calcite-panel>");
+
+    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(false);
+  });
+
+  it("should handle rejected 'beforeClose' promise'", async () => {
+    const page = await newE2EPage();
+
+    const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+    await page.exposeFunction("beforeClose", mockCallBack);
+
+    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+
+    await page.$eval(
+      "calcite-panel",
+      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
+    );
+    await page.waitForChanges();
+
+    const panel = await page.find("calcite-panel");
+    expect(await panel.getProperty("closed")).toBe(false);
+    panel.setProperty("closed", true);
+    await page.waitForChanges();
+
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+  });
+
+  it("should remain open with rejected 'beforeClose' promise'", async () => {
+    const page = await newE2EPage();
+
+    await page.exposeFunction("beforeClose", () => Promise.reject());
+    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+
+    await page.$eval(
+      "calcite-panel",
+      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
+    );
+
+    const panel = await page.find("calcite-panel");
+    panel.setProperty("closed", true);
+    await page.waitForChanges();
+
+    expect(await panel.getProperty("closed")).toBe(false);
+    expect(panel.getAttribute("closed")).toBe(null); // Makes sure attribute is added back
+  });
+
   it("honors collapsed & collapsible properties", async () => {
     const page = await newE2EPage();
 
@@ -132,7 +301,7 @@ describe("calcite-panel", () => {
 
     const element = await page.find("calcite-panel");
     const container = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
-    const collapseButtonSelector = `calcite-panel >>> [data-test="collapse"]`;
+    const collapseButtonSelector = `calcite-panel >>> #${IDS.collapse}`;
     expect(await page.find(collapseButtonSelector)).toBeNull();
 
     await page.waitForChanges();
@@ -153,7 +322,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
-    const closeButton = await page.find("calcite-panel >>> calcite-action[data-test=close]");
+    const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
 
     await closeButton.click();
 
@@ -167,11 +336,29 @@ describe("calcite-panel", () => {
 
     const calcitePanelToggle = await page.spyOnEvent("calcitePanelToggle", "window");
 
-    const toggleButton = await page.find("calcite-panel >>> [data-test=collapse]");
+    const toggleButton = await page.find(`calcite-panel >>> #${IDS.collapse}`);
 
     await toggleButton.click();
 
     expect(calcitePanelToggle).toHaveReceivedEventTimes(1);
+  });
+
+  it("should set embedded on slotted alerts", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-panel>
+        Hello World!
+        <calcite-alert slot="alerts" open label="this is a default alert">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+      </calcite-panel>`,
+    );
+    await page.waitForChanges();
+
+    const alert = await page.find("calcite-alert");
+
+    expect(await alert.getProperty("embedded")).toBe(true);
   });
 
   describe("accessible", () => {
@@ -179,9 +366,9 @@ describe("calcite-panel", () => {
       <calcite-panel>
         <calcite-action-bar slot="${SLOTS.actionBar}">
           <calcite-action-group>
-            <calcite-action text="Add" icon="plus"> </calcite-action>
-            <calcite-action text="Save" icon="save"> </calcite-action>
-            <calcite-action text="Layers" icon="layers"> </calcite-action>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Save" icon="save"></calcite-action>
+            <calcite-action text="Layers" icon="layers"></calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
         <div slot="${SLOTS.headerActionsStart}">test start</div>
@@ -197,9 +384,9 @@ describe("calcite-panel", () => {
       <calcite-panel collapsible closable>
         <calcite-action-bar slot="${SLOTS.actionBar}">
           <calcite-action-group>
-            <calcite-action text="Add" icon="plus"> </calcite-action>
-            <calcite-action text="Save" icon="save"> </calcite-action>
-            <calcite-action text="Layers" icon="layers"> </calcite-action>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Save" icon="save"></calcite-action>
+            <calcite-action text="Layers" icon="layers"></calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
         <div slot="${SLOTS.headerActionsStart}">test start</div>
@@ -212,15 +399,36 @@ describe("calcite-panel", () => {
     `);
   });
 
-  describe("should focus on close button", () => {
-    focusable(`<calcite-panel closable>test</calcite-panel>`, {
-      shadowFocusTargetSelector: "calcite-action",
-    });
-  });
+  describe("is focusable", () => {
+    describe("with scrolling content", () => {
+      describe("closable", () => {
+        focusable(
+          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
+          {
+            shadowFocusTargetSelector: "calcite-action",
+          },
+        );
+      });
 
-  describe("should focus on container", () => {
-    focusable(`<calcite-panel>test</calcite-panel>`, {
-      shadowFocusTargetSelector: "article",
+      describe("should focus on container", () => {
+        focusable(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
+          shadowFocusTargetSelector: `.${CSS.contentWrapper}`,
+        });
+      });
+    });
+
+    describe("without scrolling content", () => {
+      describe("closable", () => {
+        focusable(html`<calcite-panel closable>non-scrolling content</calcite-panel>`, {
+          shadowFocusTargetSelector: "calcite-action",
+        });
+      });
+
+      describe("should not focus on container", () => {
+        focusable(html`<calcite-panel>non-scrolling-content</calcite-panel>`, {
+          focusTargetSelector: "body",
+        });
+      });
     });
   });
 
@@ -383,45 +591,95 @@ describe("calcite-panel", () => {
     expect(await scrollEl.getProperty("scrollTop")).toBe(100);
   });
 
-  it("should close when Escape key is pressed and closable is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-panel>test</calcite-panel>");
-    const panel = await page.find("calcite-panel");
-    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
-    expect(await panel.getProperty("closed")).toBe(false);
-    expect(await container.isVisible()).toBe(true);
-    await container.press("Escape");
-    await page.waitForChanges();
-    expect(await panel.getProperty("closed")).toBe(false);
-    expect(await container.isVisible()).toBe(true);
-    panel.setProperty("closable", true);
-    await page.waitForChanges();
-    await container.press("Escape");
-    expect(await panel.getProperty("closed")).toBe(true);
-    expect(await container.isVisible()).toBe(false);
-  });
+  describe("closable", () => {
+    describe("with scrollable content (Escape emits from scroll container)", () => {
+      it("should close when Escape key is pressed and closable is true", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
+        );
+        const panel = await page.find("calcite-panel");
+        const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
+        const contentWrapper = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
+        const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+        expect(await panel.getProperty("closed")).toBe(false);
+        expect(await container.isVisible()).toBe(true);
+        await contentWrapper.press("Escape");
+        await page.waitForChanges();
+        expect(await panel.getProperty("closed")).toBe(false);
+        expect(await container.isVisible()).toBe(true);
+        panel.setProperty("closable", true);
+        await page.waitForChanges();
 
-  it("should not close when Escape key is prevented and closable is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-panel closable>test</calcite-panel>");
-    const panel = await page.find("calcite-panel");
-    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+        await contentWrapper.press("Escape");
+        await page.waitForChanges();
+        expect(await panel.getProperty("closed")).toBe(true);
+        expect(await container.isVisible()).toBe(false);
+        expect(calcitePanelClose).toHaveReceivedEventTimes(1);
+      });
 
-    expect(await panel.getProperty("closed")).toBe(false);
-    expect(await container.isVisible()).toBe(true);
+      it("should not close when Escape key is prevented and closable is true", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
+        );
+        const panel = await page.find("calcite-panel");
+        const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
+        const container = await page.find(`calcite-panel >>> .${CSS.container}`);
 
-    await page.$eval("calcite-panel", (panel: HTMLCalcitePanelElement) => {
-      panel.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          event.preventDefault();
-        }
+        expect(await panel.getProperty("closed")).toBe(false);
+        expect(await container.isVisible()).toBe(true);
+
+        await page.$eval("calcite-panel", (panel: HTMLCalcitePanelElement) => {
+          panel.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+            }
+          });
+        });
+
+        await panel.press("Escape");
+        await page.waitForChanges();
+
+        expect(await panel.getProperty("closed")).toBe(false);
+        expect(await container.isVisible()).toBe(true);
+        expect(calcitePanelClose).toHaveReceivedEventTimes(0);
       });
     });
 
-    await panel.press("Escape");
-    await page.waitForChanges();
+    describe("without scrollable content (Escape emits from close button)", () => {
+      it("should close when Escape key is pressed and closable is true", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-panel closable>non-scrolling content</calcite-panel>`);
+        const panel = await page.find("calcite-panel");
+        const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
+        const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
+        const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+        expect(await panel.getProperty("closed")).toBe(false);
+        expect(await container.isVisible()).toBe(true);
+        expect(calcitePanelClose).toHaveReceivedEventTimes(0);
 
-    expect(await panel.getProperty("closed")).toBe(false);
-    expect(await container.isVisible()).toBe(true);
+        await closeButton.callMethod("setFocus");
+        await closeButton.press("Escape");
+        await page.waitForChanges();
+
+        expect(await panel.getProperty("closed")).toBe(true);
+        expect(await container.isVisible()).toBe(false);
+        expect(calcitePanelClose).toHaveReceivedEventTimes(1);
+      });
+    });
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-panel collapsible closable>scrolling content</calcite-panel>`, {
+      "--calcite-panel-content-space": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "padding",
+      },
+      "--calcite-panel-background-color": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "backgroundColor",
+      },
+    });
   });
 });

@@ -1,5 +1,5 @@
 import { boolean } from "../../../.storybook/utils";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CalciteNavigationLogo } from "./navigation-logo";
 

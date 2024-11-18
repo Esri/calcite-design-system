@@ -2,6 +2,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { menuPlacements } from "../../utils/floating-ui";
 import { SplitButton } from "./split-button";
 const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
 
@@ -13,6 +14,7 @@ type SplitButtonStoryArgs = Pick<
   | "width"
   | "loading"
   | "disabled"
+  | "placement"
   | "primaryIconStart"
   | "primaryText"
   | "primaryLabel"
@@ -29,6 +31,7 @@ export default {
     width: width.defaultValue,
     loading: false,
     disabled: false,
+    placement: "bottom-end",
     primaryIconStart: iconNames[0],
     primaryText: "Primary Option",
     primaryLabel: "Primary Option",
@@ -52,6 +55,10 @@ export default {
       options: width.values,
       control: { type: "select" },
     },
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
     primaryIconStart: {
       options: iconNames,
       control: { type: "select" },
@@ -73,6 +80,7 @@ export const simple = (args: SplitButtonStoryArgs): string => html`
       width="${args.width}"
       ${boolean("loading", args.loading)}
       ${boolean("disabled", args.disabled)}
+      placement="${args.placement}"
       primary-icon-start="${args.primaryIconStart}"
       primary-text="${args.primaryText}"
       primary-label="${args.primaryLabel}"
@@ -152,6 +160,31 @@ export const iconStartAndIconEnd = (): string => html`
       kind="brand"
       scale="m"
       width="auto"
+      primary-icon-start="${iconNames[0]}"
+      primary-icon-end="${iconNames[0]}"
+      primary-text="Primary Option"
+      primary-label="Primary Option"
+      dropdown-label="Additional Options"
+      dropdown-icon-type="chevron"
+    >
+      <calcite-dropdown-group selection-mode="none">
+        <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-split-button>
+  </div>
+`;
+
+export const placementTopStart = (): string => html`
+  <div style="width:70vw;">
+    <calcite-split-button
+      active
+      appearance="solid"
+      kind="brand"
+      scale="m"
+      width="auto"
+      placement="top-start"
       primary-icon-start="${iconNames[0]}"
       primary-icon-end="${iconNames[0]}"
       primary-text="Primary Option"

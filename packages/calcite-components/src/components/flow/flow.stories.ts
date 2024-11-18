@@ -8,6 +8,7 @@ interface FlowStoryArgs {
   loading: boolean;
   menuOpen: boolean;
   description: string;
+  selected: boolean;
 }
 
 export default {
@@ -121,6 +122,7 @@ export const simple = (args: FlowStoryArgs): string => html`
       heading="${args.heading}"
       ${boolean("loading", args.loading)}
       ${boolean("menu-open", args.menuOpen)}
+      ${boolean("selected", args.selected)}
       description="${args.description}"
     >
       ${createItemHTML(item1HTML)}
@@ -188,4 +190,18 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
       </calcite-flow-item>
     </calcite-flow>
   </div>
+`;
+
+export const scales = (): string => html`
+  <calcite-flow style="height: 100px; width: 300px;">
+    <calcite-flow-item heading="Flow-item heading" description="Flow-item description" scale="s" />
+  </calcite-flow>
+
+  <calcite-flow style="height: 100px">
+    <calcite-flow-item heading="Flow-item heading" description="Flow-item description" scale="m" />
+  </calcite-flow>
+
+  <calcite-flow style="height: 100px">
+    <calcite-flow-item heading="Flow-item heading" description="Flow-item description" scale="l" />
+  </calcite-flow>
 `;

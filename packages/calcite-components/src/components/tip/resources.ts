@@ -6,11 +6,12 @@ export const CSS = {
   imageFrame: "image-frame",
   content: "content",
   info: "info",
+  infoNoThumbnail: "info--no-thumbnail",
 };
 
 export const ICONS = {
   close: "x",
-};
+} as const;
 
 export const SLOTS = {
   thumbnail: "thumbnail",

@@ -7,11 +7,14 @@ export const CSS = {
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
+  contentContainerUnavailable: "content-container--unavailable",
   contentContainerSelectable: "content-container--selectable",
   contentContainerHasCenterContent: "content-container--has-center-content",
   nestedContainer: "nested-container",
   nestedContainerOpen: "nested-container--open",
   content: "content",
+  row: "row",
+  gridCell: "grid-cell",
   customContent: "custom-content",
   actionsStart: "actions-start",
   contentStart: "content-start",
@@ -24,6 +27,7 @@ export const CSS = {
   selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
+  close: "close",
 };
 
 export const SLOTS = {
@@ -48,6 +52,6 @@ export const ICONS = {
   open: "chevron-down",
   blank: "blank",
   close: "x",
-};
+} as const;
 
 export const activeCellTestAttribute = "data-test-active";

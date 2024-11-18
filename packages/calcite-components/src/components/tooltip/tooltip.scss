@@ -7,11 +7,17 @@
  */
 
 :host {
+  @apply relative block;
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+.position-container {
+  @include floating-ui-container();
+}
+
+@include floating-ui-elem-anim(".position-container");
+
+@include floating-ui-arrow();
 
 .container {
   @apply text-color-1

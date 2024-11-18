@@ -1168,6 +1168,15 @@ describe("calcite-time-picker", () => {
       const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
       expect(meridiemStart).toBeTruthy();
     });
+
+    it("meridiem is to the left of the time for korean locale", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker lang="ko"></calcite-time-picker>`,
+      });
+
+      const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
+      expect(meridiemStart).toBeTruthy();
+    });
   });
 
   describe("translation support", () => {
@@ -1205,7 +1214,7 @@ describe("calcite-time-picker", () => {
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
-      expect(fractionalSecondEl.innerHTML).toEqual("0");
+      expect(fractionalSecondEl.textContent).toEqual("0");
     });
 
     it("upward nudge of empty fractional second sets to 00 for step=0.01", async () => {
@@ -1219,7 +1228,7 @@ describe("calcite-time-picker", () => {
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
-      expect(fractionalSecondEl.innerHTML).toEqual("00");
+      expect(fractionalSecondEl.textContent).toEqual("00");
     });
 
     it("upward nudge of empty fractional second sets to 000 for step=0.001", async () => {
@@ -1233,7 +1242,7 @@ describe("calcite-time-picker", () => {
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
-      expect(fractionalSecondEl.innerHTML).toEqual("000");
+      expect(fractionalSecondEl.textContent).toEqual("000");
     });
   });
 });

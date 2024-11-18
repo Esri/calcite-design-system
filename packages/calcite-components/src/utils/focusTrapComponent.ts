@@ -14,7 +14,7 @@ export interface FocusTrapComponent {
   /**
    * When `true`, prevents focus trapping.
    */
-  focusTrapDisabled: boolean;
+  focusTrapDisabled?: boolean;
 
   /**
    * The focus trap instance.
@@ -58,8 +58,6 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   }
 
   const focusTrapOptions: FocusTrapOptions = {
-    clickOutsideDeactivates: true,
-    escapeDeactivates: false,
     fallbackFocus: focusTrapNode,
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);

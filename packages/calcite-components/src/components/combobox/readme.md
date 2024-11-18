@@ -4,74 +4,6 @@ For comprehensive guidance on using and implementing `calcite-combobox`, refer t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Ancestors
-
-```html
-<calcite-combobox label="Ancestors selection-mode combobox" selection-mode="ancestors">
-  <calcite-combobox-item value="Trees" text-label="Trees">
-    <calcite-combobox-item
-      value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-      text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-      selected
-    ></calcite-combobox-item>
-    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-  </calcite-combobox-item>
-</calcite-combobox>
-```
-
-### Multiple
-
-```html
-<calcite-combobox label="Mulit selection-mode combobox" selection-mode="multiple">
-  <calcite-combobox-item value="Trees" text-label="Trees">
-    <calcite-combobox-item
-      value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-      text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-      selected
-    ></calcite-combobox-item>
-    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-  </calcite-combobox-item>
-</calcite-combobox>
-```
-
-### Single
-
-```html
-<calcite-combobox label="Single selection-mode combobox" selection-mode="single">
-  <calcite-combobox-item value="Trees" text-label="Trees">
-    <calcite-combobox-item
-      value="CommercialDamageAssessment - Damage to Commercial Buildings"
-      text-label="CommercialDamageAssessment - Damage to Commercial Buildings"
-      selected
-    ></calcite-combobox-item>
-    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-  </calcite-combobox-item>
-  <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-</calcite-combobox>
-```
-
-### SinglePersist
-
-```html
-<calcite-combobox label="Single selection-mode combobox" selection-mode="single-persist">
-  <calcite-combobox-item value="Trees" text-label="Trees">
-    <calcite-combobox-item
-      value="CommercialDamageAssessment - Damage to Commercial Buildings"
-      text-label="CommercialDamageAssessment - Damage to Commercial Buildings"
-      selected
-    ></calcite-combobox-item>
-    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-  </calcite-combobox-item>
-  <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-</calcite-combobox>
-```
-
 ## Properties
 
 | Property                 | Attribute                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |
@@ -79,8 +11,9 @@ For comprehensive guidance on using and implementing `calcite-combobox`, refer t
 | `allowCustomValues`      | `allow-custom-values`       | When `true`, allows entry of custom values, which are not in the original set of items.                                                                                                                                                                                                                                                                                                                                                                                                                          | `boolean`                                                                                                                                                                                                                                           | `undefined`                                                                                                                                                                                                                                                                 |
 | `clearDisabled`          | `clear-disabled`            | When `true`, the value-clearing will be disabled.                                                                                                                                                                                                                                                                                                                                                                                                                                                                | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
 | `disabled`               | `disabled`                  | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                                                                                                                                                                                                                                                                         | `boolean`                                                                                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                     |
+| `filterText`             | `filter-text`               | Text for the component's filter input field.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `string`                                                                                                                                                                                                                                            | `""`                                                                                                                                                                                                                                                                        |
 | `filteredItems`          | --                          | Specifies the component's filtered items.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `HTMLCalciteComboboxItemElement[]`                                                                                                                                                                                                                  | `[]`                                                                                                                                                                                                                                                                        |
-| `flipPlacements`         | --                          | Defines the available placements that can be used when a flip occurs.                                                                                                                                                                                                                                                                                                                                                                                                                                            | `Placement[]`                                                                                                                                                                                                                                       | `undefined`                                                                                                                                                                                                                                                                 |
+| `flipPlacements`         | --                          | Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available.                                                                                                                                                                                                                                                                                                                                                                                       | `FlipPlacement[]`                                                                                                                                                                                                                                   | `undefined`                                                                                                                                                                                                                                                                 |
 | `form`                   | `form`                      | The `id` of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                                                                                                                                                                                                                                                                                                                                                          | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `label` *(required)*     | `label`                     | Accessible name for the component.                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `string`                                                                                                                                                                                                                                            | `undefined`                                                                                                                                                                                                                                                                 |
 | `maxItems`               | `max-items`                 | Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar.                                                                                                                                                                                                                                                                                                                                                                                   | `number`                                                                                                                                                                                                                                            | `0`                                                                                                                                                                                                                                                                         |

@@ -1,8 +1,8 @@
 {
-  "previous": "Atgal",
+  "previous": "Ankstesnis",
   "next": "Kitas",
-  "play": "Play",
-  "pause": "Pause",
+  "play": "Leisti",
+  "pause": "Pristabdyti",
   "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "carouselItemProgress": "Karuselės elemento eigos indikatorius"
 }

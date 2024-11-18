@@ -11,11 +11,6 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   getElementDir,
   isPrimaryPointerButton,
   slotChangeGetAssignedElements,
@@ -46,7 +41,7 @@ import { DisplayMode } from "./interfaces";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class ShellPanel implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -68,8 +63,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Watch("detached")
   handleDetached(value: boolean): void {
     if (value) {
-      this.displayMode = "float";
-    } else if (this.displayMode === "float") {
+      this.displayMode = "float-content";
+    } else if (this.displayMode === "float-content" || this.displayMode === "float") {
       this.displayMode = "dock";
     }
   }
@@ -81,17 +76,21 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
    *
    * `"overlay"` displays at full height on top of center content, and
    *
-   * `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   * `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   *
+   * `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   *
+   * `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
 
   @Watch("displayMode")
   handleDisplayMode(value: DisplayMode): void {
-    this.detached = value === "float";
+    this.detached = value === "float-content" || value === "float";
   }
 
   /**
-   * When `displayMode` is `float`, specifies the maximum height of the component.
+   * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
    *
    * @deprecated Use `heightScale` instead.
    */
@@ -134,7 +133,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Prop({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
   /**
-   * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+   * When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -163,7 +162,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -173,7 +171,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     this.disconnectSeparator();
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -280,7 +277,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const dir = getElementDir(this.el);
 
-    const allowResizing = displayMode !== "float" && resizable;
+    const allowResizing = displayMode !== "float-content" && displayMode !== "float" && resizable;
 
     const style = allowResizing
       ? layout === "horizontal"
@@ -301,8 +298,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
           aria-valuenow={
             layout == "horizontal"
-              ? contentHeight ?? initialContentHeight
-              : contentWidth ?? initialContentWidth
+              ? (contentHeight ?? initialContentHeight)
+              : (contentWidth ?? initialContentWidth)
           }
           class={CSS.separator}
           key="separator"
@@ -332,7 +329,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.content]: true,
           [CSS.contentOverlay]: displayMode === "overlay",
-          [CSS.contentFloat]: displayMode === "float",
+          [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
         }}
@@ -359,7 +356,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       mainNodes.reverse();
     }
 
-    return <div class={{ [CSS.container]: true }}>{mainNodes}</div>;
+    return (
+      <div class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}>
+        {mainNodes}
+      </div>
+    );
   }
 
   // --------------------------------------------------------------------------
@@ -661,9 +662,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar"),
-    ) as HTMLCalciteActionBarElement[];
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionBarElement => el?.matches("calcite-action-bar"),
+    );
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);

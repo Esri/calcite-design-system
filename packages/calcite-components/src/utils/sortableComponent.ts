@@ -1,6 +1,13 @@
 import Sortable from "sortablejs";
 const sortableComponentSet = new Set<SortableComponent>();
 
+export interface MoveDetail {
+  toEl: HTMLElement;
+  fromEl: HTMLElement;
+  dragEl: HTMLElement;
+  relatedEl: HTMLElement;
+}
+
 export interface DragDetail {
   toEl: HTMLElement;
   fromEl: HTMLElement;
@@ -76,6 +83,11 @@ export interface SortableComponent {
   onDragEnd: (detail: DragDetail) => void;
 
   /**
+   * Called when a component's dragging ends.
+   */
+  onDragMove?: (detail: MoveDetail) => void;
+
+  /**
    * Called when a component's dragging starts.
    */
   onDragStart: (detail: DragDetail) => void;
@@ -105,6 +117,10 @@ export interface SortableComponentItem {
  * @param {SortableComponent} component - The sortable component.
  */
 export function connectSortableComponent(component: SortableComponent): void {
+  if (dragActive(component)) {
+    return;
+  }
+
   disconnectSortableComponent(component);
   sortableComponentSet.add(component);
 
@@ -128,6 +144,13 @@ export function connectSortableComponent(component: SortableComponent): void {
         }),
       },
     }),
+    onMove: ({ from: fromEl, dragged: dragEl, to: toEl, related: relatedEl }) => {
+      if (!component.onDragMove) {
+        return;
+      }
+
+      component.onDragMove({ fromEl, dragEl, toEl, relatedEl });
+    },
     handle,
     filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
@@ -152,6 +175,10 @@ export function connectSortableComponent(component: SortableComponent): void {
  * @param {SortableComponent} component - The sortable component.
  */
 export function disconnectSortableComponent(component: SortableComponent): void {
+  if (dragActive(component)) {
+    return;
+  }
+
   sortableComponentSet.delete(component);
 
   component.sortable?.destroy();

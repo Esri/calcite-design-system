@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -29,8 +28,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -38,6 +35,8 @@ import {
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { ChipMessages } from "./assets/chip/t9n";
 import { CSS, SLOTS, ICONS } from "./resources";
 
@@ -73,7 +72,7 @@ export class Chip
   @Prop({ reflect: true }) closable = false;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -205,7 +204,6 @@ export class Chip
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -222,14 +220,13 @@ export class Chip
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       await setUpMessages(this);
       this.updateHasText();
     }
@@ -350,13 +347,13 @@ export class Chip
 
   renderSelectionIcon(): VNode {
     const icon =
-      this.selectionMode === "multiple" && this.selected
-        ? ICONS.checked
-        : this.selectionMode === "multiple"
-          ? ICONS.unchecked
-          : this.selected
-            ? ICONS.checkedSingle
-            : undefined;
+      this.selectionMode === "multiple"
+        ? this.selected
+          ? ICONS.checkedMultiple
+          : ICONS.uncheckedMultiple
+        : this.selected
+          ? ICONS.checkedSingle
+          : undefined;
 
     return (
       <div
@@ -416,7 +413,6 @@ export class Chip
                 ? toAriaBoolean(this.selected)
                 : undefined
             }
-            aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
             aria-label={this.label}
             class={{
               [CSS.container]: true,
@@ -424,6 +420,9 @@ export class Chip
               [CSS.imageSlotted]: this.hasImage,
               [CSS.selectable]: this.selectionMode !== "none",
               [CSS.multiple]: this.selectionMode === "multiple",
+              [CSS.single]:
+                this.selectionMode === "single" || this.selectionMode === "single-persist",
+              [CSS.selected]: this.selected,
               [CSS.closable]: this.closable,
               [CSS.nonInteractive]: !this.interactive,
               [CSS.isCircle]:

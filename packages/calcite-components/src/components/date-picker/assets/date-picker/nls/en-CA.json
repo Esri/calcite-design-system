@@ -5,10 +5,28 @@
   "weekStart": 7,
   "placeholder": "YYYY-MM-DD",
   "days": {
-    "abbreviated": ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."]
+    "abbreviated": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "narrow": ["S", "M", "T", "W", "T", "F", "S"],
+    "short": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    "wide": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   },
   "numerals": "0123456789",
   "months": {
-    "abbreviated": ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."]
+    "abbreviated": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "narrow": ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+    "wide": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
   }
 }

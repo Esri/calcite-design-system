@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-navigation-logo`, 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-navigation-logo active thumbnail="./_assets/images/esri-logo.svg"></calcite-navigation-user>
-```
-
 ## Properties
 
 | Property       | Attribute       | Description                                                                                                                               | Type                         | Default     |

@@ -12,6 +12,7 @@ For comprehensive guidance on using and implementing `calcite-tree-item`, refer 
 | `expanded`    | `expanded`      | When `true`, the component is expanded.                                                      | `boolean`                    | `false`     |
 | `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"` | `undefined` |
 | `iconStart`   | `icon-start`    | Specifies an icon to display at the start of the component.                                  | `string`                     | `undefined` |
+| `label`       | `label`         | Accessible name for the component.                                                           | `string`                     | `undefined` |
 | `selected`    | `selected`      | When `true`, the component is selected.                                                      | `boolean`                    | `false`     |
 
 ## Slots
@@ -27,14 +28,12 @@ For comprehensive guidance on using and implementing `calcite-tree-item`, refer 
 ### Depends on
 
 - [calcite-icon](../icon)
-- [calcite-checkbox](../checkbox)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-tree-item --> calcite-icon
-  calcite-tree-item --> calcite-checkbox
   style calcite-tree-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

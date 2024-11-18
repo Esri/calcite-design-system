@@ -10,11 +10,15 @@ import {
   State,
   Watch,
 } from "@stencil/core";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  MutableValidityState,
+} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -34,11 +38,14 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Scale } from "../interfaces";
-import { focusFirstTabbable } from "../../utils/dom";
+import { Scale, Status } from "../interfaces";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { Validation } from "../functional/Validation";
+import { IconNameOrString } from "../icon/interfaces";
 import { RatingMessages } from "./assets/rating/t9n";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
+import { IDS } from "./resources";
 
 @Component({
   tag: "calcite-rating",
@@ -116,6 +123,36 @@ export class Rating
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
   /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
   @Prop({ reflect: true }) showChip = false;
 
@@ -167,7 +204,6 @@ export class Rating
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     connectLabel(this);
@@ -209,7 +245,6 @@ export class Rating
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectLabel(this);
@@ -263,6 +298,8 @@ export class Rating
                       tabIndex={tabIndex}
                     >
                       <input
+                        aria-errormessage={IDS.validationMessage}
+                        aria-invalid={toAriaBoolean(this.status === "invalid")}
                         checked={checked}
                         class="visually-hidden"
                         disabled={this.disabled || this.readOnly}
@@ -295,6 +332,15 @@ export class Rating
               ) : null}
             </fieldset>
             <HiddenFormInputSlot component={this} />
+            {this.validationMessage && this.status === "invalid" ? (
+              <Validation
+                icon={this.validationIcon}
+                id={IDS.validationMessage}
+                message={this.validationMessage}
+                scale={this.scale}
+                status={this.status}
+              />
+            ) : null}
           </span>
         </InteractiveContainer>
       </Host>
@@ -360,7 +406,7 @@ export class Rating
     }
   };
 
-  private handleInputChange = (event: InputEvent) => {
+  private handleInputChange = (event: Event) => {
     if (this.isKeyboardInteraction === true) {
       const inputVal = Number(event.target["value"]);
       this.hoverValue = inputVal;

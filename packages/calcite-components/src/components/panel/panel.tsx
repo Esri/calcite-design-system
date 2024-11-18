@@ -18,8 +18,6 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -41,14 +39,21 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
@@ -56,8 +61,10 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
- * @slot footer - A slot for adding custom content to the footer.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+ * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 @Component({
   tag: "calcite-panel",
@@ -74,8 +81,16 @@ export class Panel
   //
   // --------------------------------------------------------------------------
 
+  /** Passes a function to run before the component closes. */
+  @Prop() beforeClose: () => Promise<void>;
+
   /** When `true`, the component will be hidden. */
   @Prop({ mutable: true, reflect: true }) closed = false;
+
+  @Watch("closed")
+  toggleDialog(value: boolean): void {
+    value ? this.close() : this.open();
+  }
 
   /**
    *  When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -121,9 +136,19 @@ export class Panel
   @Prop() description: string;
 
   /**
+   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
+   */
+  @Prop() menuFlipPlacements: FlipPlacement[];
+
+  /**
    * When `true`, the action menu items in the `header-menu-actions` slot are open.
    */
   @Prop({ reflect: true }) menuOpen = false;
+
+  /**
+   * Determines where the action menu will be positioned.
+   */
+  @Prop({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * Use this property to override individual strings used by the component.
@@ -154,6 +179,9 @@ export class Panel
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -161,13 +189,13 @@ export class Panel
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.isClosed = this.closed;
     await setUpMessages(this);
   }
 
@@ -180,7 +208,6 @@ export class Panel
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
@@ -200,6 +227,8 @@ export class Panel
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
+  @State() isClosed = false;
+
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -214,11 +243,15 @@ export class Panel
 
   @State() hasContentTop = false;
 
-  @State() hasFooterContent = false;
+  @State() hasFab = false;
 
   @State() hasFooterActions = false;
 
-  @State() hasFab = false;
+  @State() hasFooterContent = false;
+
+  @State() hasFooterEndContent = false;
+
+  @State() hasFooterStartContent = false;
 
   @State() defaultMessages: PanelMessages;
 
@@ -269,7 +302,14 @@ export class Panel
       return;
     }
 
-    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : -1;
+    const hasScrollingContent = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight;
+
+    // intentionally using setAttribute to avoid reflecting -1 so default browser behavior will occur
+    if (hasScrollingContent) {
+      panelScrollEl.setAttribute("tabindex", "0");
+    } else {
+      panelScrollEl.removeAttribute("tabindex");
+    }
   };
 
   setContainerRef = (node: HTMLElement): void => {
@@ -278,14 +318,34 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.close();
+      this.handleUserClose();
       event.preventDefault();
     }
   };
 
-  close = (): void => {
+  private handleUserClose = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
+  };
+
+  open = (): void => {
+    this.isClosed = false;
+  };
+
+  close = async (): Promise<void> => {
+    const beforeClose = this.beforeClose ?? (() => Promise.resolve());
+
+    try {
+      await beforeClose();
+    } catch (_error) {
+      // close prevented
+      requestAnimationFrame(() => {
+        this.closed = false;
+      });
+      return;
+    }
+
+    this.isClosed = true;
   };
 
   collapse = (): void => {
@@ -310,9 +370,9 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar"),
-    ) as HTMLCalciteActionBarElement[];
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteActionBarElement => el?.matches("calcite-action-bar"),
+    );
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
@@ -323,16 +383,24 @@ export class Panel
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
   };
 
-  handleFooterSlotChange = (event: Event): void => {
-    this.hasFooterContent = slotChangeHasAssignedElement(event);
+  handleFabSlotChange = (event: Event): void => {
+    this.hasFab = slotChangeHasAssignedElement(event);
   };
 
   handleFooterActionsSlotChange = (event: Event): void => {
     this.hasFooterActions = slotChangeHasAssignedElement(event);
   };
 
-  handleFabSlotChange = (event: Event): void => {
-    this.hasFab = slotChangeHasAssignedElement(event);
+  handleFooterEndSlotChange = (event: Event): void => {
+    this.hasFooterEndContent = slotChangeHasAssignedElement(event);
+  };
+
+  handleFooterStartSlotChange = (event: Event): void => {
+    this.hasFooterStartContent = slotChangeHasAssignedElement(event);
+  };
+
+  handleFooterSlotChange = (event: Event): void => {
+    this.hasFooterContent = slotChangeHasAssignedElement(event);
   };
 
   private contentBottomSlotChangeHandler = (event: Event): void => {
@@ -454,9 +522,10 @@ export class Panel
       <calcite-action
         aria-expanded={toAriaBoolean(!collapsed)}
         aria-label={collapse}
-        data-test="collapse"
         icon={collapsed ? icons[0] : icons[1]}
+        id={IDS.collapse}
         onClick={this.collapse}
+        scale={this.scale}
         text={collapse}
         title={collapsed ? expand : collapse}
       />
@@ -465,9 +534,10 @@ export class Panel
     const closeNode = closable ? (
       <calcite-action
         aria-label={close}
-        data-test="close"
         icon={ICONS.close}
-        onClick={this.close}
+        id={IDS.close}
+        onClick={this.handleUserClose}
+        scale={this.scale}
         text={close}
         title={close}
       />
@@ -494,20 +564,21 @@ export class Panel
   }
 
   renderMenu(): VNode {
-    const { hasMenuItems, messages, menuOpen } = this;
+    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
 
     return (
       <calcite-action-menu
-        flipPlacements={["top", "bottom"]}
+        flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
         label={messages.options}
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
-        placement="bottom-end"
+        placement={menuPlacement}
       >
         <calcite-action
           icon={ICONS.menu}
+          scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />
@@ -561,18 +632,29 @@ export class Panel
   }
 
   renderFooterNode(): VNode {
-    const { hasFooterContent, hasFooterActions } = this;
+    const { hasFooterEndContent, hasFooterStartContent, hasFooterContent, hasFooterActions } = this;
 
-    const showFooter = hasFooterContent || hasFooterActions;
+    const showFooter =
+      hasFooterStartContent || hasFooterEndContent || hasFooterContent || hasFooterActions;
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
-        <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
-        <slot
-          key="footer-actions-slot"
-          name={SLOTS.footerActions}
-          onSlotchange={this.handleFooterActionsSlotChange}
-        />
+        <div class={CSS.footerContent} hidden={!hasFooterContent}>
+          <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+        </div>
+        <div class={CSS.footerStart} hidden={hasFooterContent || !hasFooterStartContent}>
+          <slot name={SLOTS.footerStart} onSlotchange={this.handleFooterStartSlotChange} />
+        </div>
+        <div class={CSS.footerEnd} hidden={hasFooterContent || !hasFooterEndContent}>
+          <slot name={SLOTS.footerEnd} onSlotchange={this.handleFooterEndSlotChange} />
+        </div>
+        <div class={CSS.footerActions} hidden={hasFooterContent || !hasFooterActions}>
+          <slot
+            key="footer-actions-slot"
+            name={SLOTS.footerActions}
+            onSlotchange={this.handleFooterActionsSlotChange}
+          />
+        </div>
       </footer>
     );
   }
@@ -625,26 +707,34 @@ export class Panel
     );
   }
 
+  handleAlertsSlotChange = (event: Event): void => {
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-ALERT") {
+        (el as HTMLCalciteAlertElement).embedded = true;
+      }
+    });
+  };
+
   render(): VNode {
-    const { disabled, loading, panelKeyDownHandler, closed, closable } = this;
+    const { disabled, loading, isClosed } = this;
 
     const panelNode = (
       <article
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
-        hidden={closed}
+        hidden={isClosed}
         ref={this.setContainerRef}
-        tabIndex={closable ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
+        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
       </article>
     );
 
     return (
-      <Host onKeyDown={panelKeyDownHandler}>
+      <Host onKeyDown={this.panelKeyDownHandler}>
         <InteractiveContainer disabled={disabled}>
           {loading ? <calcite-scrim loading={loading} /> : null}
           {panelNode}

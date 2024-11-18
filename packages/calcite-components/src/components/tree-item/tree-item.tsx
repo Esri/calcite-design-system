@@ -14,18 +14,11 @@ import {
 import {
   filterDirectChildren,
   getElementDir,
-  getSlotted,
+  slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -33,6 +26,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -46,7 +40,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
   styleUrl: "tree-item.scss",
   shadow: true,
 })
-export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
+export class TreeItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -58,19 +52,22 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Accessible name for the component. */
+  @Prop() label: string;
+
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
-  expandedHandler(newValue: boolean): void {
-    this.updateParentIsExpanded(this.el, newValue);
+  expandedHandler(): void {
+    this.updateChildTree();
   }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
@@ -118,7 +115,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop({ reflect: true }) indeterminate = false;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- ignoring until https://github.com/stencil-community/stencil-eslint/issues/111 is fixed
+  @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
   /**
    * @internal
@@ -139,17 +137,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   connectedCallback(): void {
     this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
-    if (this.parentTreeItem) {
-      const { expanded } = this.parentTreeItem;
-      this.updateParentIsExpanded(this.parentTreeItem, expanded);
-    }
-    connectConditionalSlotComponent(this);
-    connectInteractive(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentWillRender(): void {
@@ -208,6 +195,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const showCheckmark =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
     const chevron = this.hasChildren ? (
       <calcite-icon
@@ -225,17 +213,20 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     const checkbox =
       this.selectionMode === "ancestors" ? (
-        <label class={CSS.checkboxLabel} key="checkbox-label">
-          <calcite-checkbox
-            checked={this.selected}
+        <div class={CSS.checkboxContainer}>
+          <calcite-icon
             class={CSS.checkbox}
-            data-test-id="checkbox"
-            indeterminate={this.hasChildren && this.indeterminate}
-            scale={this.scale}
-            tabIndex={-1}
+            icon={
+              this.selected
+                ? ICONS.checkSquareF
+                : checkboxIsIndeterminate
+                  ? ICONS.minusSquareF
+                  : ICONS.square
+            }
+            scale={getIconScale(this.scale)}
           />
-          {defaultSlotNode}
-        </label>
+          <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
+        </div>
       ) : null;
     const selectedIcon = showBulletPoint
       ? ICONS.bulletPoint
@@ -278,9 +269,23 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     return (
       <Host
+        aria-checked={
+          this.selectionMode === "multiple" ||
+          this.selectionMode === "multichildren" ||
+          this.selectionMode === "ancestors"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         aria-expanded={this.hasChildren ? toAriaBoolean(isExpanded) : undefined}
         aria-hidden={toAriaBoolean(hidden)}
-        aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
+        aria-live="polite"
+        aria-selected={
+          this.selectionMode === "single" ||
+          this.selectionMode === "children" ||
+          this.selectionMode === "single-persist"
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
         calcite-hydrated-hidden={hidden}
         role="treeitem"
         tabIndex={this.disabled ? -1 : 0}
@@ -294,7 +299,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
                   [CSS_UTILITY.rtl]: rtl,
                 }}
                 data-selection-mode={this.selectionMode}
-                ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
               >
                 {chevron}
                 {itemIndicator}
@@ -319,7 +323,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
               onClick={this.childrenClickHandler}
               role={this.hasChildren ? "group" : undefined}
             >
-              <slot name={SLOTS.children} />
+              <slot name={SLOTS.children} onSlotchange={this.handleChildrenSlotChange} />
             </div>
           </div>
         </InteractiveContainer>
@@ -432,13 +436,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   actionSlotWrapper!: HTMLElement;
 
-  childrenSlotWrapper!: HTMLElement;
-
-  defaultSlotWrapper!: HTMLElement;
-
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
   private userChangedValue = false;
+
+  private childTree: HTMLCalciteTreeElement;
 
   //--------------------------------------------------------------------------
   //
@@ -446,18 +448,30 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   //--------------------------------------------------------------------------
 
+  private updateChildTree(): void {
+    const { childTree } = this;
+
+    if (!childTree) {
+      return;
+    }
+
+    childTree.parentExpanded = this.expanded;
+  }
+
+  private handleChildrenSlotChange = (event: Event): void => {
+    const childTree = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTreeElement => el.matches("calcite-tree"),
+    )[0];
+
+    this.childTree = childTree;
+
+    this.updateChildTree();
+  };
+
   private isActionEndEvent(event: Event): boolean {
     const composedPath = event.composedPath();
     return composedPath.includes(this.actionSlotWrapper);
   }
-
-  private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
-    const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
-      all: true,
-      selector: "calcite-tree-item",
-    });
-    items.forEach((item) => (item.parentExpanded = expanded));
-  };
 
   /**
    * This is meant to be called in `componentDidLoad` in order to take advantage of the hierarchical component lifecycle

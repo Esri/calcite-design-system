@@ -44,7 +44,6 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-icon](../icon)
-- [calcite-label](../label)
 - [calcite-switch](../switch)
 
 ### Graph
@@ -52,7 +51,6 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-block-section --> calcite-icon
-  calcite-block-section --> calcite-label
   calcite-block-section --> calcite-switch
   style calcite-block-section fill:#f9f,stroke:#333,stroke-width:4px
 ```

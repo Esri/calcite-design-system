@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import {
   connectForm,
   disconnectForm,
@@ -23,8 +23,6 @@ import {
   submitForm,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -37,7 +35,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -51,7 +48,8 @@ import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
-import { CSS, SLOTS } from "./resources";
+import { IconNameOrString } from "../icon/interfaces";
+import { CSS, IDS, SLOTS } from "./resources";
 import { InputTextMessages } from "./assets/input-text/t9n";
 
 /**
@@ -82,6 +80,7 @@ export class InputText
   @Watch("autofocus")
   @Watch("enterkeyhint")
   @Watch("inputmode")
+  @Watch("spellcheck")
   handleGlobalAttributesChanged(): void {
     forceUpdate(this);
   }
@@ -115,11 +114,6 @@ export class InputText
    */
   @Prop({ reflect: true }) disabled = false;
 
-  @Watch("disabled")
-  disabledWatcher(): void {
-    this.setDisabledAction();
-  }
-
   /**
    * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
    *
@@ -142,7 +136,7 @@ export class InputText
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -180,7 +174,7 @@ export class InputText
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
 
   /**
    * The current validation state of the component.
@@ -317,6 +311,10 @@ export class InputText
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 
+  private inputWrapperEl: HTMLDivElement;
+
+  private actionWrapperEl: HTMLDivElement;
+
   /** keep track of the rendered child */
   private childEl?: HTMLInputElement;
 
@@ -331,9 +329,7 @@ export class InputText
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: string;
-
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
+  private requestedIcon?: IconNameOrString;
 
   private userChangedValue = false;
 
@@ -355,7 +351,6 @@ export class InputText
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
 
@@ -366,19 +361,14 @@ export class InputText
 
     connectLabel(this);
     connectForm(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-
-    this.mutationObserver?.disconnect();
     this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -504,10 +494,16 @@ export class InputText
       return;
     }
 
-    const slottedActionEl = getSlotted(this.el, "action");
-    if (event.target !== slottedActionEl) {
-      this.setFocus();
+    const composedPath = event.composedPath();
+
+    if (
+      !composedPath.includes(this.inputWrapperEl) ||
+      composedPath.includes(this.actionWrapperEl)
+    ) {
+      return;
     }
+
+    this.setFocus();
   };
 
   private inputTextFocusHandler = (): void => {
@@ -555,24 +551,6 @@ export class InputText
   private setChildElRef = (el) => {
     this.childEl = el;
   };
-
-  private setDisabledAction(): void {
-    const slottedActionEl = getSlotted(this.el, "action");
-
-    if (!slottedActionEl) {
-      return;
-    }
-
-    if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled") == null) {
-        this.slottedActionElDisabledInternally = true;
-      }
-      slottedActionEl.setAttribute("disabled", "");
-    } else if (this.slottedActionElDisabledInternally) {
-      slottedActionEl.removeAttribute("disabled");
-      this.slottedActionElDisabledInternally = false;
-    }
-  }
 
   private setInputValue = (newInputValue: string): void => {
     if (!this.childEl) {
@@ -662,6 +640,8 @@ export class InputText
 
     const childEl = (
       <input
+        aria-errormessage={IDS.validationMessage}
+        aria-invalid={toAriaBoolean(this.status === "invalid")}
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus ? true : null}
@@ -685,6 +665,7 @@ export class InputText
         readOnly={this.readOnly}
         ref={this.setChildElRef}
         required={this.required ? true : null}
+        spellcheck={this.el.spellcheck}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
@@ -694,7 +675,10 @@ export class InputText
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
-          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <div
+            class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+            ref={(el) => (this.inputWrapperEl = el)}
+          >
             {this.prefixText ? prefixText : null}
             <div class={CSS.wrapper}>
               {childEl}
@@ -702,7 +686,7 @@ export class InputText
               {this.requestedIcon ? iconEl : null}
               {this.loading ? loader : null}
             </div>
-            <div class={CSS.actionWrapper}>
+            <div class={CSS.actionWrapper} ref={(el) => (this.actionWrapperEl = el)}>
               <slot name={SLOTS.action} />
             </div>
             {this.suffixText ? suffixText : null}
@@ -711,6 +695,7 @@ export class InputText
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
+              id={IDS.validationMessage}
               message={this.validationMessage}
               scale={this.scale}
               status={this.status}

@@ -13,8 +13,6 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -34,8 +32,9 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
+import { DEBOUNCE } from "../../utils/resources";
 import { FilterMessages } from "./assets/filter/t9n";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
+import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-filter",
@@ -80,6 +79,16 @@ export class Filter
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: object[] = [];
+
+  /**
+   * Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched.
+   */
+  @Prop() filterProps: string[];
+
+  @Watch("filterProps")
+  filterPropsHandler(): void {
+    this.filterDebounced(this.value);
+  }
 
   /**
    * Specifies placeholder text for the input element.
@@ -158,14 +167,11 @@ export class Filter
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (this.items.length) {
-      this.updateFiltered(filter(this.items, this.value));
-    }
+    this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
     await setUpMessages(this);
   }
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -175,7 +181,6 @@ export class Filter
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.filterDebounced.cancel();
@@ -212,7 +217,7 @@ export class Filter
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.el?.focus();
+    return this.textInput?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -223,8 +228,8 @@ export class Filter
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
-    DEBOUNCE_TIMEOUT,
+      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), emit, onFilter),
+    DEBOUNCE.filter,
   );
 
   inputHandler = (event: CustomEvent): void => {

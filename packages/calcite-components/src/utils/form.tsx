@@ -1,6 +1,7 @@
-import { FunctionalComponent, h } from "@stencil/core";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 import { Writable } from "type-fest";
-import { Status } from "../components";
+import { Status } from "../components/interfaces";
+import type { IconNameOrString } from "../components/icon/interfaces";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 /**
@@ -125,14 +126,14 @@ export interface FormComponent<T = any> extends FormOwner {
   /**
    * Hook for components to provide custom form reset behavior.
    */
-  onFormReset?(): void;
+  onFormReset?: () => void;
 
   /**
    * Hook for components to sync _extra_ props on the hidden input form element used for form-submitting.
    *
    * Note: The following props are set by default: disabled, hidden, name, required, value.
    */
-  syncHiddenFormInput?(input: HTMLInputElement): void;
+  syncHiddenFormInput?: (input: HTMLInputElement) => void;
 }
 
 /**
@@ -211,7 +212,7 @@ function hasRegisteredFormComponentParent(
 export interface ValidationProps {
   status: Status;
   message: string;
-  icon: string | boolean;
+  icon: IconNameOrString | boolean | "";
 }
 
 function displayValidationMessage(
@@ -237,10 +238,7 @@ function getValidationComponent(
 ): HTMLCalciteInputElement | HTMLCalciteRadioButtonGroupElement {
   // radio-button is formAssociated, but the validation props are on the parent group
   if (el.nodeName === "CALCITE-RADIO-BUTTON") {
-    return closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
-      el,
-      "calcite-radio-button-group",
-    );
+    return closestElementCrossShadowBoundary(el, "calcite-radio-button-group");
   }
   return el;
 }
@@ -292,7 +290,11 @@ function invalidHandler(event: Event) {
         formComponent.status = "idle";
       }
 
-      if ("validationIcon" in formComponent && !formComponent.validationIcon) {
+      // don't clear if an icon was specified by the user
+      if (
+        "validationIcon" in formComponent &&
+        (formComponent.validationIcon === "" || formComponent.validationIcon === true)
+      ) {
         formComponent.validationIcon = false;
       }
 
@@ -329,12 +331,12 @@ export function submitForm(component: FormOwner): boolean {
   formEl.removeEventListener("invalid", invalidHandler, true);
 
   requestAnimationFrame(() => {
-    const invalidEls = formEl.querySelectorAll("[status=invalid]");
+    const invalidEls = formEl.querySelectorAll<HTMLCalciteInputElement>("[status=invalid]");
 
     // focus the first invalid element that has a validation message
     for (const el of invalidEls) {
-      if ((el as HTMLCalciteInputElement)?.validationMessage) {
-        (el as HTMLCalciteInputElement)?.setFocus();
+      if (el?.validationMessage) {
+        el?.setFocus();
         break;
       }
     }
@@ -388,7 +390,7 @@ export function findAssociatedForm(component: FormOwner): HTMLFormElement | null
 
   return form
     ? queryElementRoots<HTMLFormElement>(el, { id: form })
-    : closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
+    : closestElementCrossShadowBoundary(el, "form");
 }
 
 function onFormReset<T>(this: FormComponent<T>): void {
@@ -502,12 +504,12 @@ function syncHiddenFormInput(component: FormComponent): void {
     let input = extra.pop();
 
     if (!input) {
-      input = ownerDocument!.createElement("input");
+      input = ownerDocument.createElement("input");
       input.slot = hiddenFormInputSlotName;
     }
 
     if (!docFrag) {
-      docFrag = ownerDocument!.createDocumentFragment();
+      docFrag = ownerDocument.createDocumentFragment();
     }
 
     docFrag.append(input);
@@ -597,7 +599,7 @@ interface HiddenFormInputSlotProps {
  */
 export const HiddenFormInputSlot: FunctionalComponent<HiddenFormInputSlotProps> = ({
   component,
-}) => {
+}): VNode => {
   syncHiddenFormInput(component);
 
   return <slot name={hiddenFormInputSlotName} />;

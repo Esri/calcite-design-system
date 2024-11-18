@@ -373,9 +373,9 @@ This generates a `hydrate` directory which exposes `renderToString()` (for the s
 Since many of the same lifecycle methods are called on the client and server you may need to differentiate any code that relies on browser APIs like so:
 
 ```ts
-import { Build } from "@stencil/core";
+import { isBrowser } from "../utils/browser";
 
-if (Build.isBrowser) {
+if (isBrowser()) {
   // client side
 } else {
   // server side
@@ -423,7 +423,7 @@ Watching global attributes on components is now possible with Stencil v4. Please
 
 ### BigDecimal
 
-`BigDecimal` is a [number util](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).
+`BigDecimal` is a [number util](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).
 
 ### Custom child element support
 

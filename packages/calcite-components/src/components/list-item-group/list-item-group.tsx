@@ -1,7 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -49,9 +47,11 @@ export class ListItemGroup implements InteractiveComponent {
 
   /**
    * Fires when changes occur in the default slot, notifying parent lists of the changes.
+   *
+   * @internal
    */
   @Event({ cancelable: false })
-  calciteInternalListItemGroupDefaultSlotChange: EventEmitter<DragEvent>;
+  calciteInternalListItemGroupDefaultSlotChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -59,16 +59,8 @@ export class ListItemGroup implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   // --------------------------------------------------------------------------
@@ -90,11 +82,11 @@ export class ListItemGroup implements InteractiveComponent {
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
-          <tr class={CSS.container}>
-            <td class={CSS.heading} colSpan={MAX_COLUMNS}>
+          <div class={CSS.container} role="row">
+            <div aria-colspan={MAX_COLUMNS} class={CSS.heading} role="cell">
               {heading}
-            </td>
-          </tr>
+            </div>
+          </div>
           <slot onSlotchange={this.handleDefaultSlotChange} />
         </InteractiveContainer>
       </Host>

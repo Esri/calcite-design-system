@@ -1,6 +1,7 @@
 export const CSS = {
   list: "list",
   listItem: "list-item",
+  hiddenItem: "hidden-item",
   page: "page",
   selected: "selected",
   chevron: "chevron",
@@ -13,4 +14,4 @@ export const ICONS = {
   previous: "chevron-left",
   first: "chevron-start",
   last: "chevron-end",
-};
+} as const;

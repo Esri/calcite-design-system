@@ -136,10 +136,6 @@ export class Pagination
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
-  }
-
-  @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
@@ -552,11 +548,25 @@ export class Pagination
   render(): VNode {
     return (
       <ul class={CSS.list}>
-        <li class={CSS.listItem}>{this.renderFirstChevron()}</li>
+        <li
+          class={{
+            [CSS.listItem]: true,
+            [CSS.hiddenItem]: !this.renderFirstChevron(),
+          }}
+        >
+          {this.renderFirstChevron()}
+        </li>
         <li class={CSS.listItem}>{this.renderPreviousChevron()}</li>
         {this.renderItems()}
         <li class={CSS.listItem}>{this.renderNextChevron()}</li>
-        <li class={CSS.listItem}>{this.renderLastChevron()}</li>
+        <li
+          class={{
+            [CSS.listItem]: true,
+            [CSS.hiddenItem]: !this.renderLastChevron(),
+          }}
+        >
+          {this.renderLastChevron()}
+        </li>
       </ul>
     );
   }

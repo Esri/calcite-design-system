@@ -40,10 +40,10 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
   const beforeMin = min instanceof Date && time < min.getTime();
   const afterMax = max instanceof Date && time > max.getTime();
   if (beforeMin) {
-    return min as Date;
+    return min;
   }
   if (afterMax) {
-    return max as Date;
+    return max;
   }
   return date;
 }
@@ -145,13 +145,16 @@ export function datePartsFromLocalizedString(
 }
 
 /**
- * Return first portion of ISO string (YYYY-mm-dd)
+ * Return the date portion in local time of a Date object in ISO 8601 format (YYYY-MM-DD)
  *
  * @param date
  */
 export function dateToISO(date?: Date): string {
   if (date instanceof Date) {
-    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = String(date.getFullYear()).padStart(4, "0");
+    return `${year}-${month}-${day}`;
   }
   return "";
 }
@@ -197,6 +200,31 @@ export function prevMonth(date: Date): Date {
     return new Date(date.getFullYear(), month, 0);
   }
   return nextDate;
+}
+
+/**
+ * Get active date in a given month.
+ *
+ * @param date
+ * @param month
+ */
+export function getDateInMonth(date: Date, month: number): Date {
+  const nextDate = new Date(date);
+  nextDate.setMonth(month);
+  return nextDate;
+}
+
+/**
+ * Get First Valid date in a month.
+ *
+ * @param date
+ * @param min
+ * @param max
+ */
+export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
+  const newDate = new Date(date);
+  newDate.setDate(1);
+  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max);
 }
 
 /**
@@ -269,4 +297,16 @@ export function getDaysDiff(date1: Date, date2: Date): number {
 export function setEndOfDay(date: Date): Date {
   date.setHours(23, 59, 59, 999);
   return date;
+}
+
+/**
+ *
+ * Returns true if two dates have same month and year.
+ *
+ * @param date1
+ * @param date2
+ * @returns {boolean}
+ */
+export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
+  return date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
 }

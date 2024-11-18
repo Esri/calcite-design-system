@@ -18,6 +18,7 @@ import {
   hexChar,
   hexify,
   isLonghandHex,
+  isShorthandHex,
   isValidHex,
   normalizeHex,
   opacityToAlpha,
@@ -63,7 +64,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
 
     if (allowEmpty) {
-      this.internalSetValue(null, null, false);
+      this.internalSetValue(undefined, undefined, false);
     }
   }
 
@@ -82,7 +83,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When `true`, an empty color (`undefined`) will be allowed as a `value`.
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
@@ -146,8 +147,10 @@ export class ColorPickerHexInput implements LoadableComponent {
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
 
-    // ensure modified pasted hex values are committed since we prevent default to remove the # char.
-    this.onHexInputChange();
+    if (isShorthandHex(hex, this.alphaChannel)) {
+      // ensure modified pasted hex values are committed since we prevent default to remove the # char.
+      this.onHexInputChange();
+    }
 
     if (willClearValue || (isValidHex(hex) && isLonghand)) {
       return;
@@ -180,6 +183,10 @@ export class ColorPickerHexInput implements LoadableComponent {
       allowEmpty && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
   };
 
+  private onOpacityInputInput = (): void => {
+    this.onOpacityInputChange();
+  };
+
   private onHexInputChange = (): void => {
     const nodeValue = this.hexInputNode.value;
     let value = nodeValue;
@@ -210,13 +217,31 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.internalSetValue(value, this.value);
   };
 
+  private onInputFocus = (event: Event): void => {
+    event.type === "calciteInternalInputTextFocus"
+      ? this.hexInputNode.selectText()
+      : this.opacityInputNode.selectText();
+  };
+
+  private onHexInputInput = (): void => {
+    const hexInputValue = `#${this.hexInputNode.value}`;
+    const oldValue = this.value;
+
+    if (
+      isValidHex(hexInputValue, this.alphaChannel) &&
+      isLonghandHex(hexInputValue, this.alphaChannel)
+    ) {
+      this.internalSetValue(hexInputValue, oldValue);
+    }
+  };
+
   protected onInputKeyDown = (event: KeyboardEvent): void => {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { alphaChannel, hexInputNode, internalColor, value } = this;
     const { key } = event;
     const composedPath = event.composedPath();
 
-    if (key === "Tab" || key === "Enter") {
+    if ((key === "Tab" && isShorthandHex(value, this.alphaChannel)) || key === "Enter") {
       if (composedPath.includes(hexInputNode)) {
         this.onHexInputChange();
       } else {
@@ -271,9 +296,10 @@ export class ColorPickerHexInput implements LoadableComponent {
   private onHexInputPaste = (event: ClipboardEvent): void => {
     const hex = event.clipboardData.getData("text");
 
-    if (isValidHex(hex)) {
+    if (isValidHex(hex, this.alphaChannel) && isLonghandHex(hex, this.alphaChannel)) {
       event.preventDefault();
       this.hexInputNode.value = hex.slice(1);
+      this.internalSetValue(hex, this.value);
     }
   };
 
@@ -290,7 +316,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
-  @State() internalColor: Color | null = DEFAULT_COLOR;
+  @State() internalColor: Color | undefined = DEFAULT_COLOR;
 
   private opacityInputNode: HTMLCalciteInputNumberElement;
 
@@ -313,9 +339,11 @@ export class ColorPickerHexInput implements LoadableComponent {
         <calcite-input-text
           class={CSS.hexInput}
           label={messages?.hex || hexLabel}
-          maxLength={6}
+          maxLength={this.alphaChannel ? 8 : 6}
           onCalciteInputTextChange={this.onHexInputChange}
+          onCalciteInputTextInput={this.onHexInputInput}
           onCalciteInternalInputTextBlur={this.onHexInputBlur}
+          onCalciteInternalInputTextFocus={this.onInputFocus}
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
@@ -333,8 +361,9 @@ export class ColorPickerHexInput implements LoadableComponent {
             min={OPACITY_LIMITS.min}
             numberButtonType="none"
             numberingSystem={this.numberingSystem}
-            onCalciteInputNumberChange={this.onOpacityInputChange}
+            onCalciteInputNumberInput={this.onOpacityInputInput}
             onCalciteInternalInputNumberBlur={this.onOpacityInputBlur}
+            onCalciteInternalInputNumberFocus={this.onInputFocus}
             onKeyDown={this.onInputKeyDown}
             ref={this.storeOpacityInputRef}
             scale={inputScale}
@@ -366,7 +395,11 @@ export class ColorPickerHexInput implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
+  private internalSetValue(
+    value: string | undefined,
+    oldValue: string | undefined,
+    emit = true,
+  ): void {
     if (value) {
       const { alphaChannel } = this;
       const normalized = normalizeHex(value, alphaChannel, alphaChannel);
@@ -391,8 +424,8 @@ export class ColorPickerHexInput implements LoadableComponent {
         return;
       }
     } else if (this.allowEmpty) {
-      this.internalColor = null;
-      this.value = null;
+      this.internalColor = undefined;
+      this.value = undefined;
 
       if (emit) {
         this.calciteColorPickerHexInputChange.emit();

@@ -1,11 +1,10 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { logger } from "../../utils/logger";
 import { TileSelectGroupLayout } from "./interfaces";
 
 /**
@@ -48,16 +47,16 @@ export class TileSelectGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
+  componentWillLoad(): void {
+    logger.deprecated("component", {
+      name: "tile-select-group",
+      removalVersion: 4,
+      suggested: ["tile", "tile-group"],
+    });
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   render(): VNode {

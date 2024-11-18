@@ -54,10 +54,10 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent("<calcite-color-picker-hex-input allow-empty></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
-    input.setProperty("value", null);
+    input.setProperty("value", undefined);
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe(null);
+    expect(await input.getProperty("value")).toBe(undefined);
     expect(input.getAttribute("value")).toBe(null);
 
     const internalInput = await page.find(`calcite-color-picker-hex-input >>> .${CSS.hexInput}`);
@@ -106,6 +106,66 @@ describe("calcite-color-picker-hex-input", () => {
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("#fafafafa");
+  });
+
+  it("commits shorthand hex on blur", async () => {
+    const defaultHex = "#b33f33";
+    const editedHex = "#aabbcc";
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-color-picker-hex-input value='${defaultHex}'></calcite-color-picker-hex-input>`);
+
+    const input = await page.find(`calcite-color-picker-hex-input`);
+    await selectText(input);
+    await page.keyboard.type("ab");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(defaultHex);
+
+    await selectText(input);
+    await page.keyboard.type("abc");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHex);
+
+    await selectText(input);
+    await page.keyboard.type("abcd");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHex);
+  });
+
+  it("commits shorthand hexa on blur", async () => {
+    const defaultHexa = "#b33f33ff";
+    const editedHexa = "#aabbccdd";
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-color-picker-hex-input alpha-channel value='${defaultHexa}'></calcite-color-picker-hex-input>`,
+    );
+
+    const input = await page.find(`calcite-color-picker-hex-input`);
+    await selectText(input);
+    await page.keyboard.type("abc");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(defaultHexa);
+
+    await selectText(input);
+    await page.keyboard.type("abcd");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHexa);
+
+    await selectText(input);
+    await page.keyboard.type("abcde");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHexa);
   });
 
   it("normalizes value when initialized", async () => {
@@ -272,11 +332,10 @@ describe("calcite-color-picker-hex-input", () => {
     await selectText(input);
     const longhandHexWithExtraChars = "bbbbbbbbc";
     await page.keyboard.type(longhandHexWithExtraChars);
-    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    const hexWithPreviousAlphaCharsPreserved = "#bbbbbbdd";
-    expect(await input.getProperty("value")).toBe(hexWithPreviousAlphaCharsPreserved);
+    const hexWithAlphaCharsPreserved = "#bbbbbbbb";
+    expect(await input.getProperty("value")).toBe(hexWithAlphaCharsPreserved);
   });
 
   describe("keyboard interaction", () => {
@@ -285,7 +344,7 @@ describe("calcite-color-picker-hex-input", () => {
 
     async function assertTabAndEnterBehavior(
       hexInputChars: string,
-      expectedValue: string | null,
+      expectedValue: string | undefined,
       alphaChannel = false,
     ): Promise<void> {
       const normalizedInputHex = normalizeHex(hexInputChars);
@@ -296,7 +355,7 @@ describe("calcite-color-picker-hex-input", () => {
       }
 
       expectedValue =
-        expectedValue === null ||
+        expectedValue === undefined ||
         (alphaChannel
           ? isValidHex(normalizedInputHex, true) || canConvertToHexa(normalizedInputHex)
           : isValidHex(normalizedInputHex))
@@ -348,6 +407,19 @@ describe("calcite-color-picker-hex-input", () => {
           await assertTabAndEnterBehavior("", startingHex);
         });
 
+        it("commits longhand hex chars when typing", async () => {
+          await selectText(input);
+          await page.keyboard.type("abc");
+          await page.waitForChanges();
+
+          expect(await input.getProperty("value")).toBe(startingHex);
+
+          await page.keyboard.type("def");
+          await page.waitForChanges();
+
+          expect(await input.getProperty("value")).toBe("#abcdef");
+        });
+
         it("prevents committing invalid hex values", async () => {
           await assertTabAndEnterBehavior("aabbc", startingHex);
           await assertTabAndEnterBehavior("aabb", startingHex);
@@ -391,7 +463,7 @@ describe("calcite-color-picker-hex-input", () => {
           it("commits hex chars on Tab and Enter", async () => {
             await assertTabAndEnterBehavior("b00", "#bb0000");
             await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
-            await assertTabAndEnterBehavior("", null);
+            await assertTabAndEnterBehavior("", undefined);
           });
 
           it("prevents committing invalid hex values", async () => {
@@ -399,7 +471,7 @@ describe("calcite-color-picker-hex-input", () => {
             await assertTabAndEnterBehavior("aabb", startingHex);
             await assertTabAndEnterBehavior("aa", startingHex);
             await assertTabAndEnterBehavior("a", startingHex);
-            await assertTabAndEnterBehavior("", null);
+            await assertTabAndEnterBehavior("", undefined);
           });
 
           it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {

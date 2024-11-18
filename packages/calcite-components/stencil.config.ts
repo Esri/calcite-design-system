@@ -1,11 +1,12 @@
+import { execSync } from "child_process";
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
-import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import stylelint from "stylelint";
+import replace from "@rollup/plugin-replace";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import { version } from "./package.json";
@@ -38,6 +39,7 @@ export const create: () => Config = () => ({
         "calcite-date-picker-month-header",
       ],
     },
+    { components: ["calcite-dialog"] },
     { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
     { components: ["calcite-fab"] },
     { components: ["calcite-flow"] },
@@ -60,7 +62,6 @@ export const create: () => Config = () => ({
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
     { components: ["calcite-panel"] },
-    { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
     { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-button"] },
@@ -85,16 +86,8 @@ export const create: () => Config = () => ({
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-value-list", "calcite-value-list-item"] },
   ],
   outputTargets: [
-    angularOutputTarget({
-      componentCorePackage: "@esri/calcite-components",
-      directivesProxyFile:
-        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/components.ts",
-      directivesArrayFile:
-        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/index.ts",
-    }),
     reactOutputTarget({
       componentCorePackage: "@esri/calcite-components",
       proxiesFile: "../calcite-components-react/src/components.ts",
@@ -141,6 +134,19 @@ export const create: () => Config = () => ({
       ],
     }),
   ],
+  rollupPlugins: {
+    before: [
+      replace({
+        values: {
+          __CALCITE_BUILD_DATE__: () => new Date().toISOString().split("T")[0],
+          __CALCITE_REVISION__: execSync("git rev-parse --short HEAD", { encoding: "utf-8" }).trim(),
+          __CALCITE_VERSION__: version,
+        },
+        include: ["src/utils/config.ts"],
+        preventAssignment: true,
+      }),
+    ],
+  },
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
@@ -156,7 +162,7 @@ export const create: () => Config = () => ({
     selector: "attribute",
     name: "calcite-hydrated",
   },
-  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.\nv${version}`,
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.\nv${version}`,
   extras: {
     enableImportInjection: true,
     scriptDataOpts: true,

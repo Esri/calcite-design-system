@@ -6,18 +6,23 @@ For comprehensive guidance on using and implementing `calcite-combobox-item`, re
 
 ## Properties
 
-| Property                 | Attribute         | Description                                                                                  | Type                     | Default     |
-| ------------------------ | ----------------- | -------------------------------------------------------------------------------------------- | ------------------------ | ----------- |
-| `active`                 | `active`          | When `true`, the component is active.                                                        | `boolean`                | `false`     |
-| `ancestors`              | --                | Specifies the parent and grandparent items, which are set on `calcite-combobox`.             | `ComboboxChildElement[]` | `undefined` |
-| `disabled`               | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.     | `boolean`                | `false`     |
-| `filterDisabled`         | `filter-disabled` | When `true`, omits the component from the `calcite-combobox` filtered search results.        | `boolean`                | `undefined` |
-| `guid`                   | `guid`            | The `id` attribute of the component. When omitted, a globally unique identifier is used.     | `string`                 | `guid()`    |
-| `icon`                   | `icon`            | Specifies an icon to display.                                                                | `string`                 | `undefined` |
-| `iconFlipRtl`            | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                | `false`     |
-| `selected`               | `selected`        | When `true`, the component is selected.                                                      | `boolean`                | `false`     |
-| `textLabel` *(required)* | `text-label`      | The component's text.                                                                        | `string`                 | `undefined` |
-| `value` *(required)*     | `value`           | The component's value.                                                                       | `any`                    | `undefined` |
+| Property                 | Attribute         | Description                                                                                                                                                     | Type                        | Default     |
+| ------------------------ | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
+| `active`                 | `active`          | When `true`, the component is active.                                                                                                                           | `boolean`                   | `false`     |
+| `ancestors`              | --                | Specifies the parent and grandparent items, which are set on `calcite-combobox`.                                                                                | `ComboboxChildElement[]`    | `undefined` |
+| `description`            | `description`     | A description for the component, which displays below the label.                                                                                                | `string`                    | `undefined` |
+| `disabled`               | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                        | `boolean`                   | `false`     |
+| `filterDisabled`         | `filter-disabled` | When `true`, omits the component from the `calcite-combobox` filtered search results.                                                                           | `boolean`                   | `undefined` |
+| `guid`                   | `guid`            | The `id` attribute of the component. When omitted, a globally unique identifier is used.                                                                        | `string`                    | `guid()`    |
+| `heading`                | `heading`         | The component's text.                                                                                                                                           | `string`                    | `undefined` |
+| `icon`                   | `icon`            | Specifies an icon to display.                                                                                                                                   | `string`                    | `undefined` |
+| `iconFlipRtl`            | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                                                    | `boolean`                   | `false`     |
+| `label`                  | `label`           | The component's label.                                                                                                                                          | `any`                       | `undefined` |
+| `metadata`               | --                | Provides additional metadata to the component used in filtering.                                                                                                | `{ [x: string]: unknown; }` | `undefined` |
+| `selected`               | `selected`        | When `true`, the component is selected.                                                                                                                         | `boolean`                   | `false`     |
+| `shortHeading`           | `short-heading`   | The component's short heading. When provided, the short heading will be displayed in the component's selection. It is recommended to use 5 characters or fewer. | `string`                    | `undefined` |
+| `textLabel` *(required)* | `text-label`      | <span style="color:red">**[DEPRECATED]**</span> Use `heading` instead.<br/><br/>The component's text.                                                           | `string`                    | `undefined` |
+| `value` *(required)*     | `value`           | The component's value.                                                                                                                                          | `any`                       | `undefined` |
 
 ## Events
 
@@ -27,9 +32,10 @@ For comprehensive guidance on using and implementing `calcite-combobox-item`, re
 
 ## Slots
 
-| Slot | Description                                        |
-| ---- | -------------------------------------------------- |
-|      | A slot for adding nested `calcite-combobox-item`s. |
+| Slot            | Description                                                              |
+| --------------- | ------------------------------------------------------------------------ |
+|                 | A slot for adding nested `calcite-combobox-item`s.                       |
+| `"content-end"` | A slot for adding non-actionable elements after the component's content. |
 
 ## Dependencies
 

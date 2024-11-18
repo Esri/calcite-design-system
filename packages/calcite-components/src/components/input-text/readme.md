@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-input-text`, refer
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-input-text placeholder="Enter your region"></calcite-input-text>
-```
-
 ## Properties
 
 | Property            | Attribute            | Description                                                                                                                                             | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |
@@ -73,6 +65,13 @@ Type: `Promise<void>`
 | Slot       | Description                                            |
 | ---------- | ------------------------------------------------------ |
 | `"action"` | A slot for positioning a button next to the component. |
+
+## CSS Custom Properties
+
+| Name                          | Description                             |
+| ----------------------------- | --------------------------------------- |
+| `--calcite-input-prefix-size` | Specifies the component's prefix width. |
+| `--calcite-input-suffix-size` | Specifies the component's suffix width. |
 
 ## Dependencies
 

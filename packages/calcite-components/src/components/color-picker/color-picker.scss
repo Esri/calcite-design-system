@@ -74,6 +74,11 @@
   @apply flex relative cursor-pointer touch-none;
 }
 
+.color-field,
+.control-and-scope {
+  user-select: none;
+}
+
 .scope {
   @apply text-n1
     focus-base
@@ -86,7 +91,7 @@
     pointer-events-none;
   &:focus {
     @apply focus-outset;
-    outline-offset: 11px;
+    outline-offset: 6px;
   }
 }
 
@@ -111,6 +116,7 @@
 .sliders {
   @apply flex flex-col justify-between;
   margin-inline-start: var(--calcite-color-picker-spacing);
+  gap: var(--calcite-spacing-xxs);
 }
 
 .preview-and-sliders {

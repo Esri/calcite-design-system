@@ -1,25 +1,40 @@
-const { handoff, issueWorkflow } = require("./support/resources");
+// @ts-check
+const {
+  labels: { handoff, issueWorkflow },
+} = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
-  const { ISSUE_VERIFIERS, CALCITE_DESIGNERS } = process.env;
-  const { label } = context.payload;
+  const { repo, owner } = context.repo;
 
-  if (label && label.name === issueWorkflow.installed) {
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
+  const {
+    label,
+    issue: { number },
+  } = payload;
+
+  const { ISSUE_VERIFIERS, CALCITE_DESIGNERS } = process.env;
+
+  if (label?.name === issueWorkflow.installed) {
     const issueProps = {
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      owner,
+      repo,
+      issue_number: number,
     };
 
     const { data: issue } = await github.rest.issues.get(issueProps);
 
     await removeLabel({ github, context, label: issueWorkflow.inDevelopment });
 
-    const assignees = ISSUE_VERIFIERS.split(",").map((v) => v.trim());
+    const assignees = ISSUE_VERIFIERS?.split(",").map((v) => v.trim());
 
     // assign designers if figma updates are required
-    if (issue.labels.map((label) => label.name).includes(handoff.figmaChanges)) {
+    if (
+      assignees &&
+      CALCITE_DESIGNERS &&
+      issue.labels.map((label) => (typeof label === "string" ? label : label.name)).includes(handoff.figmaChanges)
+    ) {
       assignees.push(...CALCITE_DESIGNERS.split(",").map((v) => v.trim()));
     }
 

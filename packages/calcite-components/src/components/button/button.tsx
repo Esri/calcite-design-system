@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   forceUpdate,
@@ -12,8 +11,6 @@ import {
 } from "@stencil/core";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -36,15 +33,20 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
+import { IconNameOrString } from "../icon/interfaces";
+import { isBrowser } from "../../utils/browser";
 import { toAriaBoolean } from "../../utils/dom";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
 
-/** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
-/** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-
-/** @slot - A slot for adding text. */
+/**
+ * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
+ *
+ * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+ *
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-button",
   styleUrl: "button.scss",
@@ -117,13 +119,13 @@ export class Button
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /**
    * When `true`, a busy indicator is displayed and interaction is disabled.
@@ -180,18 +182,6 @@ export class Button
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
-  @Watch("loading")
-  loadingChanged(newValue: boolean, oldValue: boolean): void {
-    if (!!newValue && !oldValue) {
-      this.hasLoader = true;
-    }
-    if (!newValue && !!oldValue) {
-      window.setTimeout(() => {
-        this.hasLoader = false;
-      }, 300);
-    }
-  }
-
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /** referred in t9n util */
@@ -204,10 +194,8 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
@@ -215,7 +203,6 @@ export class Button
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -225,7 +212,7 @@ export class Button
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
+    if (isBrowser()) {
       this.updateHasContent();
       await setUpMessages(this);
     }
@@ -243,7 +230,7 @@ export class Button
   render(): VNode {
     const childElType = this.href ? "a" : "button";
     const Tag = childElType;
-    const loaderNode = this.hasLoader ? (
+    const loaderNode = this.loading ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
@@ -282,8 +269,8 @@ export class Button
     return (
       <InteractiveContainer disabled={this.disabled}>
         <Tag
-          aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
-          aria-expanded={this.el.getAttribute("aria-expanded")}
+          aria-busy={toAriaBoolean(this.loading)}
+          aria-expanded={this.el.ariaExpanded ? this.el.ariaExpanded : null}
           aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
           aria-live="polite"
           class={{
@@ -293,9 +280,13 @@ export class Button
             [CSS.iconStartEmpty]: !this.iconStart,
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
-          disabled={childElType === "button" ? this.disabled || this.loading : null}
+          disabled={childElType === "button" ? this.disabled : null}
           download={
-            childElType === "a" && (this.download === "" || this.download) ? this.download : null
+            childElType === "a"
+              ? this.download === true || this.download === ""
+                ? ""
+                : this.download || null
+              : null
           }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
@@ -350,9 +341,6 @@ export class Button
 
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
-
-  /** determine if loader present for styling purposes */
-  @State() private hasLoader = false;
 
   @State() effectiveLocale = "";
 

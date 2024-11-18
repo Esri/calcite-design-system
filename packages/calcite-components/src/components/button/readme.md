@@ -4,63 +4,6 @@ For comprehensive guidance on using and implementing `calcite-button`, refer to 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-button icon-start="plus">Go!</calcite-button>
-```
-
-### Focusing
-
-You can programmatically focus a `calcite-button` with the `setFocus()` method:
-
-```html
-<div onclick="document.querySelector('#my-button').setFocus()">Focus!</div>
-```
-
-### Internals
-
-Any additional attributes set on `<calcite-button>` are passed to the internal `<a>` or `<button>` tag. For example, the first button below sets `target="_blank` On the internal `<a>`. The second button sets `type="submit"` on the internal `<button>`.
-
-- ```html
-  <calcite-button href="https://github.com/Esri/calcite-design-system" target="_blank">
-    Calcite Components on GitHub
-  </calcite-button>
-
-  <calcite-button type="submit">Submit</calcite-button>
-  ```
-
-### With-icons
-
-```html
-<calcite-button appearance="solid" icon-start="arrow-left">Back</calcite-button>
-<calcite-button icon-end="map" kind="danger">Delete Map Options</calcite-button>
-<calcite-button icon-end="plus" appearance="outline-fill" kind="inverse">Add to favorites</calcite-button>
-```
-
-### With-loader-disabled
-
-```html
-<calcite-button loading kind="neutral">Fetching data...</calcite-button>
-<calcite-button disabled>Can't touch this</calcite-button>
-```
-
-### Within-form
-
-```html
-<form name="sign-up">
-  <calcite-label>
-    First name
-    <calcite-input name="first-name" required value="Jane"></calcite-input>
-  </calcite-label>
-  <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
-  <calcite-button type="button">I should not submit the form (type button)</calcite-button>
-  <calcite-button type="submit">Submit</calcite-button>
-</form>
-```
-
 ## Properties
 
 | Property           | Attribute           | Description                                                                                                                                                                                                                                               | Type                                                                                                        | Default     |

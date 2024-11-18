@@ -38,8 +38,10 @@ export const simple = (args: ColorPickerStoryArgs): string => html`
   ></calcite-color-picker>
 `;
 
-export const alphaChannel = (): string => html`
+export const alphaChannelAllScales = (): string => html`
+  <calcite-color-picker scale="s" alpha-channel value="#b33f3333"></calcite-color-picker>
   <calcite-color-picker scale="m" alpha-channel value="#b33f3333"></calcite-color-picker>
+  <calcite-color-picker scale="l" alpha-channel value="#b33f3333"></calcite-color-picker>
 `;
 
 export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;

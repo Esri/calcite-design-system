@@ -8,6 +8,8 @@ import type {
   TagAndPage,
   TagOrHTMLWithBeforeContent,
   BeforeContent,
+  WithBeforeContent,
+  ComponentTestContent,
 } from "./interfaces";
 expect.extend(toHaveNoViolations);
 
@@ -55,6 +57,18 @@ export async function getTagAndPage(componentTestSetup: ComponentTestSetup): Pro
   }
 
   return componentTestSetup;
+}
+
+export async function noopBeforeContent(): Promise<void> {
+  /* noop */
+}
+
+export function getBeforeContent<TestContent = ComponentTestContent>(
+  componentTestSetup: WithBeforeContent<TestContent>,
+): BeforeContent {
+  return typeof componentTestSetup === "string"
+    ? noopBeforeContent
+    : componentTestSetup?.beforeContent || noopBeforeContent;
 }
 
 export function getTagOrHTMLWithBeforeContent(componentTestSetup: TagOrHTML | TagOrHTMLWithBeforeContent): {

@@ -8,8 +8,14 @@ import {
   Listen,
   Prop,
   VNode,
+  Watch,
 } from "@stencil/core";
-import { focusElement, nodeListToArray } from "../../utils/dom";
+import {
+  focusElement,
+  nodeListToArray,
+  slotChangeGetAssignedElements,
+  toAriaBoolean,
+} from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import { getTraversableItems, isTreeItem } from "./utils";
@@ -36,6 +42,16 @@ export class Tree {
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) child: boolean;
+
+  /**
+   * @internal
+   */
+  @Prop() parentExpanded = false;
+
+  @Watch("parentExpanded")
+  handleParentExpandedChange(): void {
+    this.updateItems();
+  }
 
   /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
@@ -88,15 +104,15 @@ export class Tree {
         aria-multiselectable={
           this.child
             ? undefined
-            : (
-                this.selectionMode === "multiple" || this.selectionMode === "multichildren"
-              ).toString()
+            : toAriaBoolean(
+                this.selectionMode === "multiple" || this.selectionMode === "multichildren",
+              )
         }
         onKeyDown={this.keyDownHandler}
         role={!this.child ? "tree" : undefined}
         tabIndex={this.getRootTabIndex()}
       >
-        <slot />
+        <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );
   }
@@ -143,9 +159,7 @@ export class Tree {
     }
 
     const target = event.target as HTMLCalciteTreeItemElement;
-    const childItems = nodeListToArray(
-      target.querySelectorAll("calcite-tree-item"),
-    ) as HTMLCalciteTreeItemElement[];
+    const childItems = nodeListToArray(target.querySelectorAll("calcite-tree-item"));
 
     event.preventDefault();
     event.stopPropagation();
@@ -190,8 +204,8 @@ export class Tree {
 
     if (shouldClearCurrentSelection) {
       const selectedItems = nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item[selected]"),
-      ) as HTMLCalciteTreeItemElement[];
+        this.el.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item[selected]"),
+      );
 
       selectedItems.forEach((treeItem) => {
         if (!targetItems.includes(treeItem)) {
@@ -236,9 +250,7 @@ export class Tree {
 
     this.selectedItems = isNoneSelectionMode
       ? []
-      : (nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
-          (i) => i.selected,
-        ) as HTMLCalciteTreeItemElement[]);
+      : nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter((i) => i.selected);
 
     this.calciteTreeSelect.emit();
 
@@ -411,9 +423,9 @@ export class Tree {
       ancestor.selected = !indeterminate;
     });
 
-    this.selectedItems = (
-      nodeListToArray(this.el.querySelectorAll("calcite-tree-item")) as HTMLCalciteTreeItemElement[]
-    ).filter((i) => i.selected);
+    this.selectedItems = nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
+      (i) => i.selected,
+    );
 
     if (updateItem) {
       this.calciteTreeSelect.emit();
@@ -439,11 +451,26 @@ export class Tree {
 
   @Element() el: HTMLCalciteTreeElement;
 
+  private items: HTMLCalciteTreeItemElement[] = [];
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateItems(): void {
+    this.items.forEach((item) => (item.parentExpanded = this.parentExpanded));
+  }
+
+  private handleDefaultSlotChange = (event: Event): void => {
+    const items = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTreeItemElement => el.matches("calcite-tree-item"),
+    );
+
+    this.items = items;
+    this.updateItems();
+  };
 
   getRootTabIndex(): number {
     return !this.child ? 0 : -1;

@@ -1,8 +1,8 @@
 {
   "previous": "Eelmine",
   "next": "Edasi",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "Esita",
+  "pause": "Peata",
+  "carousel": "Karussell",
+  "carouselItemProgress": "Karuselli üksuse edenemisnäidik"
 }

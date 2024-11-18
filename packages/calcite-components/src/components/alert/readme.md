@@ -4,20 +4,6 @@ For comprehensive guidance on using and implementing `calcite-alert`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-A single instance of an alert. Multiple alerts will aggregate in a queue.
-
-```html
-<calcite-alert open>
-  <div slot="title">Title of alert</div>
-  <div slot="message">Message text of the alert</div>
-  <a slot="link" href="#">Retry</a>
-</calcite-alert>
-```
-
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                           | Type                                                                              | Default     |
@@ -32,6 +18,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `numberingSystem`    | `numbering-system`    | Specifies the Unicode numeral system used by the component for localization.                                          | `"arab" \| "arabext" \| "latn"`                                                   | `undefined` |
 | `open`               | `open`                | When `true`, displays and positions the component.                                                                    | `boolean`                                                                         | `false`     |
 | `placement`          | `placement`           | Specifies the placement of the component.                                                                             | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`  |
+| `queue`              | `queue`               | Specifies the ordering priority of the component when opened.                                                         | `"immediate" \| "last" \| "next"`                                                 | `"last"`    |
 | `scale`              | `scale`               | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                                               | `"m"`       |
 
 ## Events
@@ -64,9 +51,12 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                    | Description                           |
-| ----------------------- | ------------------------------------- |
-| `--calcite-alert-width` | Specifies the width of the component. |
+| Name                               | Description                                 |
+| ---------------------------------- | ------------------------------------------- |
+| `--calcite-alert-background-color` | Specifies the component's background color. |
+| `--calcite-alert-corner-radius`    | Specifies the component's corner radius.    |
+| `--calcite-alert-shadow`           | Specifies the component's shadow.           |
+| `--calcite-alert-width`            | Specifies the width of the component.       |
 
 ## Dependencies
 

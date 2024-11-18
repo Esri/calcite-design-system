@@ -62,10 +62,9 @@ body:
     id: packages
     attributes:
       label: Calcite package
-      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/main/packages) related to the request.
+      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/dev/packages) related to the request.
       options:
         - label: "@esri/calcite-components"
-        - label: "@esri/calcite-components-angular"
         - label: "@esri/calcite-components-react"
         - label: "@esri/calcite-design-tokens"
         - label: "@esri/eslint-plugin-calcite-components"
@@ -81,11 +80,13 @@ body:
       description: If you work at Esri, please select your product team. Otherwise choose "N/A". If your team is not listed, choose "N/A", and then edit the line after submitting the issue.
       options:
         - N/A
+        - Application Protoype Lab - APL
         - ArcGIS Solutions
         - ArcGIS AppStudio
         - ArcGIS Business/Community Analyst
         - ArcGIS Charts
         - ArcGIS Dashboards
+        - ArcGIS Data Pipelines
         - ArcGIS Developer Experience
         - ArcGIS Enterprise
         - ArcGIS Excalibur

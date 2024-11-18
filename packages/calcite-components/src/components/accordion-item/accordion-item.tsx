@@ -8,17 +8,13 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
 } from "@stencil/core";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   closestElementCrossShadowBoundary,
   getElementDir,
-  getSlotted,
+  slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -30,6 +26,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { IconNameOrString } from "../icon/interfaces";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 
@@ -43,7 +40,7 @@ import { RequestedItem } from "./interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true,
 })
-export class AccordionItem implements ConditionalSlotComponent, LoadableComponent {
+export class AccordionItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -60,10 +57,10 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   @Prop() description: string;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconNameOrString;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
@@ -117,20 +114,12 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------
@@ -140,21 +129,19 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   // --------------------------------------------------------------------------
 
   renderActionsStart(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsStart) ? (
-      <div class={CSS.actionsStart}>
-        <slot name={SLOTS.actionsStart} />
+    return (
+      <div class={CSS.actionsStart} hidden={!this.hasActionsStart}>
+        <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   renderActionsEnd(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.actionsEnd) ? (
-      <div class={CSS.actionsEnd}>
-        <slot name={SLOTS.actionsEnd} />
+    return (
+      <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -162,7 +149,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
       <calcite-icon
-        class={CSS.iconStart}
+        class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
@@ -171,7 +158,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
     ) : null;
     const iconEndEl = this.iconEnd ? (
       <calcite-icon
-        class={CSS.iconEnd}
+        class={{ [CSS.iconEnd]: true, [CSS.icon]: true }}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
@@ -253,10 +240,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   @Listen("calciteInternalAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     const [accordion] = event.composedPath();
-    const parent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
-      this.el,
-      "calcite-accordion",
-    );
+    const parent = closestElementCrossShadowBoundary(this.el, "calcite-accordion");
 
     if (accordion !== parent) {
       return;
@@ -279,7 +263,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
+    const closestAccordionParent = closestElementCrossShadowBoundary(
       accordionItem,
       "calcite-accordion",
     );
@@ -288,9 +272,9 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
       return;
     }
 
-    accordionItem.iconPosition = closestAccordionParent.iconPosition;
-    accordionItem.iconType = closestAccordionParent.iconType;
-    accordionItem.scale = closestAccordionParent.scale;
+    this.iconPosition = closestAccordionParent.iconPosition;
+    this.iconType = closestAccordionParent.iconType;
+    this.scale = closestAccordionParent.scale;
     event.stopPropagation();
   }
 
@@ -303,6 +287,10 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   @Element() el: HTMLCalciteAccordionItemElement;
 
   private headerEl: HTMLDivElement;
+
+  @State() hasActionsStart = false;
+
+  @State() hasActionsEnd = false;
 
   //--------------------------------------------------------------------------
   //
@@ -322,6 +310,14 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private handleActionsStartSlotChange = (event: Event): void => {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
+  };
+
+  private handleActionsEndSlotChange = (event: Event): void => {
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+  };
 
   private storeHeaderEl = (el: HTMLDivElement): void => {
     this.headerEl = el;
@@ -353,7 +349,7 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   private emitRequestedItem(): void {
     this.calciteInternalAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement,
+      requestedAccordionItem: this.el,
     });
   }
 }

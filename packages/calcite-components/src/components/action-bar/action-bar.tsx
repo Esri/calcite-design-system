@@ -13,11 +13,6 @@ import {
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -40,15 +35,10 @@ import {
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { DEBOUNCE } from "../../utils/resources";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
 import { CSS, SLOTS } from "./resources";
-import {
-  geActionDimensions,
-  getOverflowCount,
-  overflowActions,
-  overflowActionsDebounceInMs,
-  queryActions,
-} from "./utils";
+import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
@@ -62,9 +52,7 @@ import {
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class ActionBar
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -82,7 +70,7 @@ export class ActionBar
   @Prop({ reflect: true }) expandDisabled = false;
 
   @Watch("expandDisabled")
-  expandHandler(): void {
+  expandDisabledHandler(): void {
     this.overflowActions();
   }
 
@@ -114,7 +102,7 @@ export class ActionBar
   @Prop({ reflect: true }) overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
-  overflowDisabledHandler(overflowActionsDisabled: boolean): void {
+  overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
     if (overflowActionsDisabled) {
       this.resizeObserver?.disconnect();
       return;
@@ -182,15 +170,11 @@ export class ActionBar
 
   @Element() el: HTMLCalciteActionBarElement;
 
-  mutationObserver = createObserver("mutation", () => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  });
+  mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
-  expandToggleEl: HTMLCalciteActionElement;
+  actionGroups: HTMLCalciteActionGroupElement[];
 
   @State() effectiveLocale: string;
 
@@ -213,29 +197,14 @@ export class ActionBar
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad(): void {
-    const { el, expanded } = this;
-
-    setComponentLoaded(this);
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  }
-
   connectedCallback(): void {
-    const { el, expanded } = this;
-
     connectLocalized(this);
     connectMessages(this);
-    toggleChildActionText({ el, expanded });
 
-    this.mutationObserver?.observe(el, { childList: true, subtree: true });
-
-    if (!this.overflowActionsDisabled) {
-      this.resizeObserver?.observe(el);
-    }
-
+    this.updateGroups();
     this.overflowActions();
-    connectConditionalSlotComponent(this);
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -243,10 +212,14 @@ export class ActionBar
     await setUpMessages(this);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+    this.overflowActions();
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -286,12 +259,17 @@ export class ActionBar
   actionMenuOpenHandler = (event: CustomEvent<void>): void => {
     if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
-      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+      this.actionGroups?.forEach((group) => {
         if (!composedPath.includes(group)) {
           group.menuOpen = false;
         }
       });
     }
+  };
+
+  mutationObserverHandler = (): void => {
+    this.updateGroups();
+    this.overflowActions();
   };
 
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
@@ -304,7 +282,7 @@ export class ActionBar
   };
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { el, expanded, expandDisabled, layout, overflowActionsDisabled } = this;
+    const { el, expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
       overflowActionsDisabled ||
@@ -316,9 +294,7 @@ export class ActionBar
 
     const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
-    const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
-
-    this.setGroupLayout(actionGroups);
+    this.updateGroups();
 
     const groupCount =
       this.hasActionsEnd || this.hasBottomActions || !expandDisabled
@@ -342,31 +318,25 @@ export class ActionBar
       expanded,
       overflowCount,
     });
-  }, overflowActionsDebounceInMs);
+  }, DEBOUNCE.resize);
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
     this.calciteActionBarToggle.emit();
   };
 
-  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
-    this.expandToggleEl = el;
-  };
-
   updateGroups(): void {
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = groups;
+    this.setGroupLayout(groups);
   }
 
   setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
     groups.forEach((group) => (group.layout = this.layout));
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el.matches("calcite-action-group"),
-    ) as HTMLCalciteActionGroupElement[];
-
-    this.setGroupLayout(groups);
+  handleDefaultSlotChange = (): void => {
+    this.updateGroups();
   };
 
   handleActionsEndSlotChange = (event: Event): void => {
@@ -378,9 +348,9 @@ export class ActionBar
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip"),
-    ) as HTMLCalciteTooltipElement[];
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+    );
 
     this.expandTooltip = tooltips[0];
   };
@@ -414,7 +384,6 @@ export class ActionBar
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

@@ -14,8 +14,6 @@ import {
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -46,6 +44,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
 import { StepperItemMessages } from "./assets/stepper-item/t9n";
 
@@ -213,7 +212,6 @@ export class StepperItem
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -239,7 +237,6 @@ export class StepperItem
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -361,7 +358,7 @@ export class StepperItem
   };
 
   private renderIcon(): VNode {
-    let path = "circle";
+    let path: IconNameOrString = "circle";
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
       path = "circleF";

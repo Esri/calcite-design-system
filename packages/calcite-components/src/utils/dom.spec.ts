@@ -1,13 +1,16 @@
-import { JSDOM } from "jsdom";
-import { ModeName } from "../../src/components/interfaces";
+import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
+import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
+import { AnimationEventDispatcher, createAnimationEventDispatcher } from "../tests/spec-helpers/animationEvents";
+import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
+import { waitForAnimationFrame } from "../tests/utils";
+import { guidPattern } from "./guid.spec";
 import {
   ensureId,
   focusElementInGroup,
-  getElementProp,
   getModeName,
   getShadowRootNode,
-  getSlotted,
+  getSlotAssignedElements,
   isBefore,
   isKeyboardTriggeredClick,
   isPrimaryPointerButton,
@@ -23,271 +26,8 @@ import {
   whenAnimationDone,
   whenTransitionDone,
 } from "./dom";
-import { guidPattern } from "./guid.spec";
 
 describe("dom", () => {
-  describe("getElementProp()", () => {
-    describe("light DOM", () => {
-      it("returns match if found on self", async () => {
-        document.body.innerHTML = `
-        <div>
-          <div>
-            <div id="test" test-prop="self"></div>
-          </div>
-        </div>
-      `;
-
-        expect(getElementProp(document.getElementById("test"), "test-prop", "not-found")).toBe("self");
-      });
-
-      it("returns first ancestral match", async () => {
-        document.body.innerHTML = `
-        <div test-prop="root">
-          <div>
-            <div id="test" ></div>
-          </div>
-        </div>
-      `;
-
-        expect(getElementProp(document.getElementById("test"), "test-prop", "not-found")).toBe("root");
-      });
-
-      it("returns fallback if no match is found", async () => {
-        document.body.innerHTML = `
-        <div>
-          <div>
-            <div id="test"></div>
-          </div>
-        </div>
-      `;
-
-        expect(getElementProp(document.getElementById("test"), "test-prop", "not-found")).toBe("not-found");
-      });
-    });
-
-    describe("shadow DOM boundaries", () => {
-      function defineTestComponents(): void {
-        class PropLookupParentTest extends HTMLElement {
-          constructor() {
-            super();
-            this.attachShadow({ mode: "open" });
-          }
-
-          connectedCallback(): void {
-            this.shadowRoot.innerHTML = `<prop-lookup-child-test></prop-lookup-child-test>`;
-          }
-        }
-
-        class PropLookupChildTest extends HTMLElement {
-          constructor() {
-            super();
-            this.attachShadow({ mode: "open" });
-          }
-
-          connectedCallback(): void {
-            this.shadowRoot.innerHTML = "<div>😄</div>";
-          }
-        }
-
-        customElements.define("prop-lookup-parent-test", PropLookupParentTest);
-        customElements.define("prop-lookup-child-test", PropLookupChildTest);
-      }
-
-      beforeEach(defineTestComponents);
-
-      it("does not cross shadow DOM boundary (default)", () => {
-        document.body.innerHTML = `
-        <prop-lookup-parent-test id="test" test-prop="parent"></prop-lookup-parent-test>
-      `;
-
-        expect(
-          getElementProp(document.getElementById("test").shadowRoot.firstElementChild, "test-prop", "not-found"),
-        ).toBe("not-found");
-      });
-    });
-  });
-
-  describe("getSlotted()", () => {
-    const testSlotName = "test";
-    const testSlotName2 = "test2";
-
-    function getTestComponent(): HTMLElement {
-      return document.body.querySelector("slot-test");
-    }
-
-    function defineTestComponents() {
-      class SlotTest extends HTMLElement {
-        constructor() {
-          super();
-          this.attachShadow({ mode: "open" });
-        }
-
-        connectedCallback(): void {
-          this.shadowRoot.innerHTML = html`
-            <slot name="${testSlotName}"></slot>
-            <slot name="${testSlotName2}"></slot>
-            <slot></slot>
-          `;
-        }
-      }
-
-      customElements.define("slot-test", SlotTest);
-    }
-
-    beforeEach(() => {
-      defineTestComponents();
-
-      document.body.innerHTML = `
-      <slot-test>
-        <h2 slot=${testSlotName}>
-          <span>😃</span>
-          <span>🙂</span>
-        </h2>
-        <h2 slot=${testSlotName}><span>😂</span></h2>
-        <h3 slot=${testSlotName2}><span>😂</span></h3>
-        <div id="default-slot-el"><p>🙂</p></div>
-      </slot-test>
-    `;
-    });
-
-    describe("single slotted", () => {
-      it("returns elements with matching default slot", () => expect(getSlotted(getTestComponent())).toBeTruthy());
-
-      it("returns elements with matching slot name", () =>
-        expect(getSlotted(getTestComponent(), testSlotName)).toBeTruthy());
-
-      it("returns elements with matching slot names", () =>
-        expect(getSlotted(getTestComponent(), [testSlotName, testSlotName2])).toBeTruthy());
-
-      it("returns null when no results", () => expect(getSlotted(getTestComponent(), "non-existent-slot")).toBeNull());
-
-      describe("scoped selector", () => {
-        it("returns element with matching default slot", () =>
-          expect(getSlotted(getTestComponent(), { selector: "p" })).toBeTruthy());
-
-        it("returns element with matching nested selector", () =>
-          expect(getSlotted(getTestComponent(), testSlotName, { selector: "span" })).toBeTruthy());
-
-        it("returns nothing with non-matching child selector", () =>
-          expect(
-            getSlotted(getTestComponent(), testSlotName, {
-              selector: "non-existent-slot",
-            }),
-          ).toBeNull());
-      });
-
-      describe("direct slotted children", () => {
-        it("returns element if slot is child of element", () => {
-          document.body.innerHTML = `
-            <slot-test>
-              <h2 slot=${testSlotName}><span>😂</span></h2>
-              <some-other-element>
-                <h2 slot=${testSlotName}><span>🙃</span></h2>
-              </some-other-element>
-            </slot-test>
-          `;
-
-          expect(
-            getSlotted(getTestComponent(), testSlotName, {
-              direct: true,
-            }),
-          ).toBeTruthy();
-        });
-
-        it("returns null if slot is nested", () => {
-          document.body.innerHTML = `
-            <slot-test>
-              <some-other-element>
-                <h2 slot=${testSlotName}><span>🙃</span></h2>
-              </some-other-element>
-            </slot-test>
-          `;
-
-          expect(
-            getSlotted(getTestComponent(), testSlotName, {
-              all: true,
-              direct: true,
-            }),
-          ).toBeTruthy();
-        });
-      });
-    });
-
-    describe("multiple slotted", () => {
-      it("returns element with default slot name", () =>
-        expect(getSlotted(getTestComponent(), { all: true })).toHaveLength(1));
-
-      it("returns elements with matching slot name", () =>
-        expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));
-
-      it("returns elements with matching slot names", () =>
-        expect(
-          getSlotted(getTestComponent(), [testSlotName, testSlotName2], {
-            all: true,
-          }),
-        ).toHaveLength(3));
-
-      it("returns empty list when no results", () =>
-        expect(getSlotted(getTestComponent(), "non-existent-slot", { all: true })).toHaveLength(0));
-
-      describe("scoped selector", () => {
-        it("returns child elements matching selector", () =>
-          expect(
-            getSlotted(getTestComponent(), testSlotName, {
-              all: true,
-              selector: "span",
-            }),
-          ).toHaveLength(3));
-
-        it("returns empty list with non-matching child selector", () =>
-          expect(
-            getSlotted(getTestComponent(), testSlotName, {
-              all: true,
-              selector: "non-existent",
-            }),
-          ).toHaveLength(0));
-      });
-
-      describe("direct slotted children", () => {
-        it("returns child elements if children are direct descendants", () => {
-          document.body.innerHTML = `
-            <slot-test>
-              <h2 slot=${testSlotName}><span>😃</span></h2>
-              <some-other-element>
-                <h2 slot=${testSlotName}><span>🙃</span></h2>
-              </some-other-element>
-            </slot-test>
-          `;
-
-          expect(
-            getSlotted(getTestComponent(), testSlotName, {
-              all: true,
-              direct: true,
-            }),
-          ).toHaveLength(1);
-        });
-
-        it("returns empty list if children are nested", () => {
-          document.body.innerHTML = `
-            <slot-test>
-              <some-other-element>
-                <h2 slot=${testSlotName}><span>😃</span></h2>
-                <h2 slot=${testSlotName}><span>🙃</span></h2>
-              </some-other-element>
-            </slot-test>
-          `;
-
-          expect(
-            getSlotted(getTestComponent(), testSlotName, {
-              all: true,
-              direct: true,
-            }),
-          ).toHaveLength(0);
-        });
-      });
-    });
-  });
-
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
@@ -395,6 +135,39 @@ describe("dom", () => {
       expect(isPrimaryPointerButton({ button: 1, isPrimary: true } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({ button: 0, isPrimary: false } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({} as PointerEvent)).toBe(false);
+    });
+  });
+
+  describe("getSlotAssignedElements()", () => {
+    it("returns slotted elements with no selector", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
+    });
+    it("returns no slotted elements", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [];
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
+    });
+    it("returns slotted elements with direct element selector", () => {
+      const slotEl = document.createElement("slot");
+      slotEl.assignedElements = () => [
+        document.createElement("span"),
+        document.createElement("div"),
+        document.createElement("span"),
+      ];
+      expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
+    });
+    it("returns slotted elements with class selector", () => {
+      const slotEl = document.createElement("slot");
+      const spanEl = document.createElement("span");
+      spanEl.className = "my-span";
+      const divEl = document.createElement("div");
+      divEl.className = "my-div";
+      slotEl.assignedElements = () => [document.createElement("span"), spanEl, document.createElement("div"), divEl];
+      expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
     });
   });
 
@@ -623,127 +396,204 @@ describe("dom", () => {
   }
 
   describe("whenTransitionDone", () => {
-    let dispatchTransitionEvent: (
-      element: HTMLElement,
-      type: "transitionstart" | "transitionend",
-      propertyName: string,
-    ) => void;
+    const testProp = "opacity";
+    const testDuration = "0.5s";
+
+    let element: HTMLDivElement;
+    let dispatchTransitionEvent: TransitionEventDispatcher;
+    let onStartCallback: jest.Mock;
+    let onEndCallback: jest.Mock;
 
     beforeEach(() => {
-      // we clobber Stencil's custom Mock document implementation
-      const { window: win } = new JSDOM();
-
-      // eslint-disable-next-line no-global-assign -- overriding to make window references use JSDOM (which is a subset, hence the type cast)
-      window = win as any as Window & typeof globalThis;
-
-      // we define TransitionEvent since JSDOM doesn't support it yet - https://github.com/jsdom/jsdom/issues/1781
-      class TransitionEvent extends window.Event {
-        elapsedTime: number;
-
-        propertyName: string;
-
-        constructor(type: string, eventInitDict: EventInit & Partial<{ elapsedTime: number; propertyName: string }>) {
-          super(type, eventInitDict);
-          this.elapsedTime = eventInitDict.elapsedTime;
-          this.propertyName = eventInitDict.propertyName;
-        }
-      }
-
-      dispatchTransitionEvent = (
-        element: HTMLElement,
-        type: "transitionstart" | "transitionend",
-        propertyName: string,
-      ): void => {
-        element.dispatchEvent(new TransitionEvent(type, { propertyName }));
-      };
+      dispatchTransitionEvent = createTransitionEventDispatcher();
+      element = window.document.createElement("div");
+      onStartCallback = jest.fn();
+      onEndCallback = jest.fn();
     });
 
     it("should return a promise that resolves after the transition", async () => {
-      const element = window.document.createElement("div");
-      const testProp = "opacity";
-      const testDuration = "0.5s";
       const testTransition = `${testProp} ${testDuration} ease 0s`;
 
       element.style.transition = testTransition;
-
-      // need to mock due to JSDOM issue with getComputedStyle - https://github.com/jsdom/jsdom/issues/3090
-      window.getComputedStyle = jest.fn().mockReturnValue({
+      window.document.body.append(element);
+      mockGetComputedStyleFor(element, {
         transition: testTransition,
         transitionDuration: testDuration,
         transitionProperty: testProp,
       });
-      window.document.body.append(element);
 
-      const promise = whenTransitionDone(element, "opacity");
+      const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
       element.style.opacity = "0";
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
-      dispatchTransitionEvent(element, "transitionstart", "opacity");
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).not.toHaveBeenCalled();
+      expect(onEndCallback).not.toHaveBeenCalled();
 
-      dispatchTransitionEvent(element, "transitionend", "opacity");
+      dispatchTransitionEvent(element, "transitionstart", testProp);
+
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).toHaveBeenCalled();
+      expect(onEndCallback).not.toHaveBeenCalled();
+
+      dispatchTransitionEvent(element, "transitionend", testProp);
+
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).toHaveBeenCalled();
+      expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      expect(onStartCallback).toHaveBeenCalled();
+      expect(onEndCallback).toHaveBeenCalled();
+    });
+
+    it("should return a promise that resolves after 0s transition", async () => {
+      const testDuration = "0s"; // shadows the outer testDuration
+      const testTransition = `${testProp} ${testDuration} ease 0s`;
+
+      element.style.transition = testTransition;
+      window.document.body.append(element);
+      mockGetComputedStyleFor(element, {
+        transition: testTransition,
+        transitionDuration: testDuration,
+        transitionProperty: testProp,
+      });
+
+      const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
+      element.style.opacity = "0";
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
+      expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
+      expect(onEndCallback).toHaveBeenCalled();
+
+      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+    });
+
+    it("should return a promise that resolves when called and transition has not started when expected", async () => {
+      const testTransition = `${testProp} ${testDuration} ease 0s`;
+
+      element.style.transition = testTransition;
+      window.document.body.append(element);
+      mockGetComputedStyleFor(element, {
+        transition: testTransition,
+        transitionDuration: testDuration,
+        transitionProperty: testProp,
+      });
+
+      const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
+      element.style.opacity = "0";
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).not.toHaveBeenCalled();
+      expect(onEndCallback).not.toHaveBeenCalled();
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
+      expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
+      expect(onEndCallback).toHaveBeenCalled();
     });
   });
 
   describe("whenAnimationDone", () => {
-    let dispatchAnimationEvent: (
-      element: HTMLElement,
-      type: "animationstart" | "animationend",
-      animationName: string,
-    ) => void;
+    const testAnimationName = "fade";
+    const testDuration = "0.5s";
+
+    let element: HTMLDivElement;
+    let dispatchAnimationEvent: AnimationEventDispatcher;
+    let onStartCallback: jest.Mock;
+    let onEndCallback: jest.Mock;
 
     beforeEach(() => {
-      // we clobber Stencil's custom Mock document implementation
-      const { window: win } = new JSDOM();
-
-      // eslint-disable-next-line no-global-assign -- overriding to make window references use JSDOM (which is a subset, hence the type cast)
-      window = win as any as Window & typeof globalThis;
-
-      // we define AnimationEvent since JSDOM doesn't support it yet -
-
-      class AnimationEvent extends window.Event {
-        elapsedTime: number;
-
-        animationName: string;
-
-        constructor(type: string, eventInitDict: EventInit & Partial<{ elapsedTime: number; animationName: string }>) {
-          super(type, eventInitDict);
-          this.elapsedTime = eventInitDict.elapsedTime;
-          this.animationName = eventInitDict.animationName;
-        }
-      }
-
-      dispatchAnimationEvent = (
-        element: HTMLElement,
-        type: "animationstart" | "animationend",
-        animationName: string,
-      ): void => {
-        element.dispatchEvent(new AnimationEvent(type, { animationName }));
-      };
+      dispatchAnimationEvent = createAnimationEventDispatcher();
+      element = window.document.createElement("div");
+      onStartCallback = jest.fn();
+      onEndCallback = jest.fn();
     });
 
     it("should return a promise that resolves after the animation", async () => {
-      const element = window.document.createElement("div");
-      const testAnimationName = "fade";
-      const testDuration = "0.5s";
+      const testAnimation = `${testAnimationName} ${testDuration} ease 0s`;
 
-      element.style.animation = `${testAnimationName} ${testDuration} ease 0s`;
+      element.style.animation = testAnimation;
       window.document.body.append(element);
+      mockGetComputedStyleFor(element, {
+        animation: testAnimation,
+        animationDuration: testDuration,
+        animationName: testAnimationName,
+      });
 
-      const promise = whenAnimationDone(element, testAnimationName);
+      const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
       element.style.animationName = "none";
+
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).not.toHaveBeenCalled();
+      expect(onEndCallback).not.toHaveBeenCalled();
 
       dispatchAnimationEvent(element, "animationstart", testAnimationName);
+
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).toHaveBeenCalled();
+      expect(onEndCallback).not.toHaveBeenCalled();
 
       dispatchAnimationEvent(element, "animationend", testAnimationName);
+
       expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).toHaveBeenCalled();
+      expect(onEndCallback).toHaveBeenCalled();
 
       expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      expect(onStartCallback).toHaveBeenCalled();
+      expect(onEndCallback).toHaveBeenCalled();
+    });
+
+    it("should return a promise that resolves after 0s animation", async () => {
+      const testDuration = "0s"; // shadows the outer testDuration
+      const testAnimation = `${testAnimationName} ${testDuration} ease 0s`;
+
+      element.style.animation = testAnimation;
+      window.document.body.append(element);
+      mockGetComputedStyleFor(element, {
+        animation: testAnimation,
+        animationDuration: testDuration,
+        animationName: testAnimationName,
+      });
+
+      const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
+      element.style.animationName = "none";
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      await waitForAnimationFrame();
+      expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
+      expect(onEndCallback).toHaveBeenCalled();
+
+      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+    });
+
+    it("should return a promise that resolves when called and animation has not started when expected", async () => {
+      const testAnimation = `${testAnimationName} ${testDuration} ease 0s`;
+
+      element.style.animation = testAnimation;
+      window.document.body.append(element);
+      mockGetComputedStyleFor(element, {
+        animation: testAnimation,
+        animationDuration: testDuration,
+        animationName: testAnimationName,
+      });
+
+      const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
+      element.style.animationName = "none";
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+      expect(onStartCallback).not.toHaveBeenCalled();
+      expect(onEndCallback).not.toHaveBeenCalled();
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+      await waitForAnimationFrame();
+      expect(onStartCallback).toHaveBeenCalled();
+      await waitForAnimationFrame();
+      expect(onEndCallback).toHaveBeenCalled();
     });
   });
 });

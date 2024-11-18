@@ -72,7 +72,7 @@ describe("focusTrapComponent", () => {
       window = win as any as Window & typeof globalThis;
       globalThis.MutationObserver = window.MutationObserver; // needed for focus-trap
 
-      type TestGlobal = GlobalTestProps<{ calciteConfig: CalciteConfig }>;
+      type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "focusTrapStack"> }>;
 
       (globalThis as TestGlobal).calciteConfig = {
         focusTrapStack: customFocusTrapStack,

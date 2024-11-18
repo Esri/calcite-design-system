@@ -1,4 +1,5 @@
 import { Component, h, Prop, VNode } from "@stencil/core";
+import { logger } from "../../utils/logger";
 
 /**
  * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
@@ -10,6 +11,20 @@ import { Component, h, Prop, VNode } from "@stencil/core";
   shadow: true,
 })
 export class TipGroup {
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    logger.deprecated("component", {
+      name: "tip-group",
+      removalVersion: 4,
+      suggested: ["carousel", "carousel-item"],
+    });
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Properties
