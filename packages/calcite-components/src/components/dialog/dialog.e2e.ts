@@ -1,4 +1,5 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, vi } from "vitest";
 import {
   accessible,
   defaults,
@@ -14,8 +15,8 @@ import {
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
 import { IDS as PanelIDS } from "../panel/resources";
-import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, dialogDragStep, dialogResizeStep, SLOTS } from "./resources";
+import type { Dialog } from "./dialog";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
@@ -210,8 +211,19 @@ describe("calcite-dialog", () => {
     ]);
   });
 
-  describe("accessible", () => {
-    accessible(`<calcite-dialog heading="My Dialog" description="My Description" open>Hello world!</calcite-dialog>`);
+  describe("accessible", async () => {
+    accessible(async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        `<calcite-dialog heading="My Dialog" description="My Description" open>Hello world!</calcite-dialog>`,
+      );
+      const openEvent = page.waitForEvent("calciteDialogOpen");
+      await skipAnimations(page);
+      await openEvent;
+
+      return { page, tag: "calcite-dialog" };
+    });
   });
 
   it("should set internal panel properties", async () => {
@@ -224,10 +236,7 @@ describe("calcite-dialog", () => {
 
     const messageOverrides = { close: "shut the front door" };
 
-    await page.$eval(
-      "calcite-dialog",
-      (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
-    );
+    await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
     dialog.setProperty("closeDisabled", true);
     dialog.setProperty("loading", true);
     dialog.setProperty("menuOpen", true);
@@ -247,9 +256,7 @@ describe("calcite-dialog", () => {
     expect(await panel.getProperty("heading")).toBe("My Heading");
     expect(await panel.getProperty("description")).toBe("My Description");
     expect(await panel.getProperty("scale")).toBe("l");
-    expect(((await panel.getProperty("messageOverrides")) as Partial<DialogMessages>).close).toBe(
-      messageOverrides.close,
-    );
+    expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
     expect(await panel.getProperty("beforeClose")).toBeDefined();
   });
 
@@ -399,17 +406,14 @@ describe("calcite-dialog", () => {
   describe("beforeClose()", () => {
     it("calls the beforeClose method prior to closing via click", async () => {
       const page = await newE2EPage();
-      const mockCallBack = jest.fn();
+      const mockCallBack = vi.fn();
       await page.exposeFunction("beforeClose", mockCallBack);
       await page.setContent(`
       <calcite-dialog></calcite-dialog>
     `);
 
       const dialog = await page.find("calcite-dialog");
-      await page.$eval(
-        "calcite-dialog",
-        (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
-      );
+      await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
       await page.waitForChanges();
 
       dialog.setProperty("open", true);
@@ -425,7 +429,7 @@ describe("calcite-dialog", () => {
 
     it("calls the beforeClose method prior to closing via ESC key", async () => {
       const page = await newE2EPage();
-      const mockCallBack = jest.fn();
+      const mockCallBack = vi.fn();
       await page.exposeFunction("beforeClose", mockCallBack);
       await page.setContent(`
       <calcite-dialog></calcite-dialog>
@@ -433,10 +437,7 @@ describe("calcite-dialog", () => {
       await skipAnimations(page);
 
       const dialog = await page.find("calcite-dialog");
-      await page.$eval(
-        "calcite-dialog",
-        (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
-      );
+      await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
       await page.waitForChanges();
 
       dialog.setProperty("open", true);
@@ -452,17 +453,14 @@ describe("calcite-dialog", () => {
 
     it("calls the beforeClose method prior to closing via attribute", async () => {
       const page = await newE2EPage();
-      const mockCallBack = jest.fn();
+      const mockCallBack = vi.fn();
       await page.exposeFunction("beforeClose", mockCallBack);
       await page.setContent(`
     <calcite-dialog></calcite-dialog>
   `);
 
       const dialog = await page.find("calcite-dialog");
-      await page.$eval(
-        "calcite-dialog",
-        (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
-      );
+      await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
       await page.waitForChanges();
 
       dialog.setProperty("open", true);
@@ -479,15 +477,12 @@ describe("calcite-dialog", () => {
     it("should handle rejected 'beforeClose' promise'", async () => {
       const page = await newE2EPage();
 
-      const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+      const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
       await page.exposeFunction("beforeClose", mockCallBack);
 
       await page.setContent(`<calcite-dialog open></calcite-dialog>`);
 
-      await page.$eval(
-        "calcite-dialog",
-        (elm: HTMLCalciteDialogElement) => (elm.beforeClose = (window as TestWindow).beforeClose),
-      );
+      await page.$eval("calcite-dialog", (elm: Dialog["el"]) => (elm.beforeClose = (window as TestWindow).beforeClose));
       await page.waitForChanges();
 
       const dialog = await page.find("calcite-dialog");
@@ -503,10 +498,7 @@ describe("calcite-dialog", () => {
       await page.exposeFunction("beforeClose", () => Promise.reject());
       await page.setContent(`<calcite-dialog open></calcite-dialog>`);
 
-      await page.$eval(
-        "calcite-dialog",
-        (elm: HTMLCalciteDialogElement) => (elm.beforeClose = (window as TestWindow).beforeClose),
-      );
+      await page.$eval("calcite-dialog", (elm: Dialog["el"]) => (elm.beforeClose = (window as TestWindow).beforeClose));
 
       const dialog = await page.find("calcite-dialog");
       dialog.setProperty("open", false);
@@ -617,8 +609,8 @@ describe("calcite-dialog", () => {
           <calcite-button id="openButton">open second dialog</calcite-button>
         </calcite-dialog>
       `);
+      let openEvent = page.waitForEvent("calciteDialogOpen");
       await skipAnimations(page);
-
       await page.waitForChanges();
 
       await page.evaluate(() => {
@@ -634,12 +626,12 @@ describe("calcite-dialog", () => {
           dialog2.open = true;
         });
       });
-
-      await page.waitForEvent("calciteDialogOpen");
-      await page.click("#openButton");
-      await page.waitForEvent("calciteDialogOpen");
-
       await page.waitForChanges();
+      await openEvent;
+
+      openEvent = page.waitForEvent("calciteDialogOpen");
+      await page.click("#openButton");
+      await openEvent;
 
       expect(await isElementFocused(page, "#dialog2")).toBe(true);
     });
@@ -985,7 +977,7 @@ describe("calcite-dialog", () => {
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
       expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      const messages = await import("./assets/t9n/messages.json");
       expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
     });
 
@@ -999,7 +991,7 @@ describe("calcite-dialog", () => {
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
       expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      const messages = await import("./assets/t9n/messages.json");
       expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
     });
 
@@ -1015,7 +1007,7 @@ describe("calcite-dialog", () => {
       const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
       expect(assistiveTextElement).not.toBeNull();
       expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      const messages = await import("./assets/t9n/messages.json");
       expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
     });
   });

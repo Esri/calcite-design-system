@@ -1,9 +1,11 @@
+import { describe, expect, it, beforeEach } from "vitest";
 import AlertManager, { alertQueueTimeoutMs } from "./AlertManager";
+import type { Alert } from "./alert";
 
 describe("AlertManager", () => {
   let alertManager: AlertManager;
-  let mockAlert1: HTMLCalciteAlertElement;
-  let mockAlert2: HTMLCalciteAlertElement;
+  let mockAlert1: Alert["el"];
+  let mockAlert2: Alert["el"];
 
   beforeEach(() => {
     alertManager = new AlertManager();
@@ -12,13 +14,13 @@ describe("AlertManager", () => {
       active: false,
       queue: "last",
       openAlertCount: 0,
-    } as HTMLCalciteAlertElement;
+    } as Alert["el"];
 
     mockAlert2 = {
       active: false,
       queue: "last",
       openAlertCount: 0,
-    } as HTMLCalciteAlertElement;
+    } as Alert["el"];
   });
 
   it("should activate the first alert after a timeout", async () => {

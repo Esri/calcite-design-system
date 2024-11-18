@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { defaults, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tab", () => {

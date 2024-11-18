@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ColorPicker } from "./color-picker";
+
 const { scale } = ATTRIBUTES;
 
 type ColorPickerStoryArgs = Pick<

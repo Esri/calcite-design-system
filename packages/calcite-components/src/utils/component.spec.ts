@@ -1,4 +1,5 @@
-import { HTMLStencilElement } from "@stencil/core/internal";
+import { PublicLitElement } from "@arcgis/lumina";
+import { describe, expect, it, afterEach, beforeEach, vi, MockInstance } from "vitest";
 import { html } from "../../support/formatting";
 import { componentOnReady, getIconScale } from "./component";
 
@@ -14,7 +15,7 @@ describe("getIconScale", () => {
 });
 
 describe("componentOnReady", () => {
-  let requestAnimationFrameSpy: jest.SpyInstance;
+  let requestAnimationFrameSpy: MockInstance;
   let fakeComponent: HTMLElement;
 
   beforeEach(() => {
@@ -22,7 +23,7 @@ describe("componentOnReady", () => {
     fakeComponent = document.querySelector<HTMLElement>("fake-component");
 
     const originalRaf = globalThis.requestAnimationFrame;
-    requestAnimationFrameSpy = jest
+    requestAnimationFrameSpy = vi
       .spyOn(globalThis, "requestAnimationFrame")
       .mockImplementation((callback) => originalRaf(callback));
   });
@@ -30,7 +31,7 @@ describe("componentOnReady", () => {
   afterEach(() => requestAnimationFrameSpy.mockRestore());
 
   it("should call componentOnReady if it exists on the element (lazy-loaded)", async () => {
-    const componentOnReadyStub = ((fakeComponent as HTMLStencilElement).componentOnReady = jest.fn());
+    const componentOnReadyStub = ((fakeComponent as PublicLitElement).componentOnReady = vi.fn());
 
     const promise = componentOnReady(fakeComponent);
     expect(promise).toBeInstanceOf(Promise);

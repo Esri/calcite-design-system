@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -12,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils";
+import type { RadioButton } from "./radio-button";
 
 describe("calcite-radio-button", () => {
   describe("renders", () => {
@@ -365,7 +367,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector<HTMLCalciteRadioButtonElement>("calcite-radio-button[value=two]");
+      const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]");
       second.checked = true;
     });
     await page.waitForChanges();
@@ -385,7 +387,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector<HTMLCalciteRadioButtonElement>("calcite-radio-button[value=one]");
+      const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]");
       second.checked = false;
     });
     await page.waitForChanges();

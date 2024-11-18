@@ -1,4 +1,3 @@
-import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -11,6 +10,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
+import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
   ensureId,
   focusFirstTabbable,
@@ -60,7 +60,6 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-/** TODO: [MIGRATION] This component had a `@Component()` decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs */
 export class Modal
   extends LitElement
   implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
@@ -96,14 +95,6 @@ export class Modal
   };
 
   private ignoreOpenChange = false;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  messages = useT9n<typeof T9nStrings>();
 
   private modalContent = createRef<HTMLDivElement>();
 
@@ -164,14 +155,6 @@ export class Modal
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @property({ reflect: true }) docked: boolean;
 
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @private
-   */
-  @property() embedded = false;
-
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
@@ -188,8 +171,14 @@ export class Modal
   >;
 
   /** Use this property to override individual strings used by the component. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
@@ -303,11 +292,6 @@ export class Modal
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -322,7 +306,7 @@ export class Modal
       (changes.has("hasPrimary") && (this.hasUpdated || this.hasPrimary !== false)) ||
       (changes.has("hasSecondary") && (this.hasUpdated || this.hasSecondary !== false))
     ) {
-      this.handleHasFooterChange();
+      this.hasFooter = this.hasBack || this.hasPrimary || this.hasSecondary;
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
@@ -339,7 +323,6 @@ export class Modal
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
     deactivateFocusTrap(this);
-    this.embedded = false;
   }
 
   // #endregion
@@ -352,10 +335,6 @@ export class Modal
     }
 
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
-  }
-
-  private handleHasFooterChange(): void {
-    this.hasFooter = this.hasBack || this.hasPrimary || this.hasSecondary;
   }
 
   private handleHeaderSlotChange(event: Event): void {
@@ -473,7 +452,6 @@ export class Modal
 
     if (getNearestOverflowAncestor(this.el) === document.body) {
       totalOpenModals--;
-
       if (totalOpenModals === 0) {
         this.removeOverflowHiddenClass();
       }
@@ -517,7 +495,6 @@ export class Modal
         class={{
           [CSS.container]: true,
           [CSS.containerOpen]: this.opened,
-          [CSS.containerEmbedded]: this.embedded,
         }}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
