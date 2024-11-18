@@ -41,15 +41,25 @@
       <div class="parent">
         <div class="child right-aligned-text">Locator example</div>
         <div class="child">
-          <calcite-autocomplete id="locator" scale="m"></calcite-autocomplete>
+          <form id="test-form">
+            <calcite-autocomplete name="test" required id="locator" scale="m"></calcite-autocomplete>
+          </form>
           <calcite-alert id="locator-alert" kind="brand"></calcite-alert>
 
           <script type="module">
             import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
 
+            const testForm = document.getElementById("test-form");
+
+            testForm.addEventListener("submit", (event) => {
+              event.preventDefault();
+              const data = new FormData(event.target);
+              console.log([...data.entries()]);
+            });
+
             const locatorAutocomplete = document.getElementById("locator");
 
-            let results;
+            let results, lastQuery;
 
             async function locate(text) {
               locatorAutocomplete.innerHTML = "";
@@ -70,10 +80,11 @@
               }
 
               locatorAutocomplete.loading = true;
-              const response = await suggestLocations(
-                "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-                { text },
-              );
+              const query = suggestLocations("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer", {
+                text,
+              });
+              lastQuery = query;
+              const response = await query;
 
               if (response.length === 0) {
                 locatorAutocomplete.innerHTML = "";
@@ -87,6 +98,7 @@
                 noResults.slot = "content-top";
                 locatorAutocomplete.appendChild(noResults);
               } else {
+                locatorAutocomplete.innerHTML = "";
                 response.forEach((location) => {
                   const item = document.createElement("calcite-autocomplete-item");
                   item.value = location.magicKey;
@@ -96,7 +108,12 @@
                 results = response;
               }
 
-              locatorAutocomplete.loading = false;
+              setTimeout(() => {
+                if (query !== lastQuery) {
+                  return;
+                }
+                locatorAutocomplete.loading = false;
+              }, 500);
             }
 
             locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", (event) => {

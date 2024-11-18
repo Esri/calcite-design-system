@@ -3,7 +3,8 @@
 }
 
 .container {
-  @apply cursor-pointer focus-base;
+  @apply cursor-pointer
+    focus-base;
 }
 
 .container:hover {

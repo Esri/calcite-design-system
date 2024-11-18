@@ -51,9 +51,10 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { Label } from "../label/label";
+import { Validation } from "../functional/Validation";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/autocomplete.t9n.en.json";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -400,7 +401,7 @@ export class Autocomplete
     }
 
     if (changes.has("flipPlacements")) {
-      this.flipPlacementsHandler();
+      this.reposition(true);
     }
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
@@ -411,19 +412,19 @@ export class Autocomplete
       changes.has("overlayPositioning") &&
       (this.hasUpdated || this.overlayPositioning !== "absolute")
     ) {
-      this.overlayPositioningHandler();
+      this.reposition(true);
     }
 
     if (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement)) {
-      this.placementHandler();
+      this.reposition(true);
     }
 
     if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
-      this.handlePropsChange();
+      this.updateItems();
     }
 
     if (changes.has("activeIndex") && (this.hasUpdated || this.activeIndex !== -1)) {
-      this.handleActiveIndexChange();
+      this.updateItems();
     }
   }
 
@@ -456,10 +457,6 @@ export class Autocomplete
     }
   }
 
-  private flipPlacementsHandler(): void {
-    this.reposition(true);
-  }
-
   private openHandler(): void {
     onToggleOpenCloseComponent(this);
 
@@ -471,18 +468,6 @@ export class Autocomplete
     }
 
     this.reposition(true);
-  }
-
-  private overlayPositioningHandler(): void {
-    this.reposition(true);
-  }
-
-  private placementHandler(): void {
-    this.reposition(true);
-  }
-
-  private handlePropsChange(): void {
-    this.updateItems();
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -497,10 +482,6 @@ export class Autocomplete
     this.value = (event.target as AutocompleteItem["el"]).value;
     event.stopPropagation();
     this.emitChange();
-  }
-
-  private handleActiveIndexChange(): void {
-    this.updateItems();
   }
 
   onLabelClick(): void {
@@ -599,9 +580,10 @@ export class Autocomplete
           this.value = items[activeIndex].value;
           this.emitChange();
           event.preventDefault();
-        }
-        if (submitForm(this)) {
-          event.preventDefault();
+        } else if (!event.defaultPrevented) {
+          if (submitForm(this)) {
+            event.preventDefault();
+          }
         }
         break;
       case "ArrowDown":
@@ -694,14 +676,11 @@ export class Autocomplete
             prefixText={this.prefixText}
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
-            required={this.required}
             role="combobox"
             scale={this.scale}
             status={this.status}
             suffixText={this.suffixText}
             type="search"
-            validationIcon={this.validationIcon}
-            validationMessage={this.validationMessage}
             value={this.inputValue}
           />
           {this.renderListBox()}
@@ -726,6 +705,15 @@ export class Autocomplete
             </div>
           </div>
           <HiddenFormInputSlot component={this} />
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              id={IDS.validationMessage}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
         </InteractiveContainer>
       </div>
     );

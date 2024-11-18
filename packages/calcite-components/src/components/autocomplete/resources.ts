@@ -19,3 +19,7 @@ export const CSS = {
   floatingUIContainerActive: "floating-ui-container--active",
   screenReadersOnly: "screen-readers-only",
 } as const;
+
+export const IDS = {
+  validationMessage: "autocompleteValidationMessage",
+} as const;
