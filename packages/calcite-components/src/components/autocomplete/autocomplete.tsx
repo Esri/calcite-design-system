@@ -606,12 +606,12 @@ export class Autocomplete
         break;
       case "ArrowDown":
         this.open = true;
-        this.activeIndex = open ? Math.min(activeIndex + 1, items.length - 1) : 0;
+        this.activeIndex = activeIndex !== -1 ? Math.min(activeIndex + 1, items.length - 1) : 0;
         event.preventDefault();
         break;
       case "ArrowUp":
         this.open = true;
-        this.activeIndex = open ? Math.max(activeIndex - 1, 0) : items.length - 1;
+        this.activeIndex = activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : items.length - 1;
         event.preventDefault();
         break;
     }
@@ -715,9 +715,14 @@ export class Autocomplete
             ref={this.setFloatingEl}
           >
             <div class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: isOpen }}>
-              <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
-              <slot onSlotChange={this.handleDefaultSlotChange} />
-              <slot name={SLOTS.contentBottom} onSlotChange={this.handleContentBottomSlotChange} />
+              <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
+                <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
+                <slot ariaHidden="true" onSlotChange={this.handleDefaultSlotChange} />
+                <slot
+                  name={SLOTS.contentBottom}
+                  onSlotChange={this.handleContentBottomSlotChange}
+                />
+              </div>
             </div>
           </div>
           <HiddenFormInputSlot component={this} />

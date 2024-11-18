@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper. // todo
+ * @prop --calcite-autocomplete-width: Specifies the width of the component's wrapper.
  */
 
 :host {
@@ -23,19 +23,26 @@
 
 .content-container {
   @apply bg-foreground-1
-    text-color-1;
+    text-color-1
+    w-full;
 }
 
 .floating-ui-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui-container();
-  @include floating-ui-wrapper();
 }
 
 @include floating-ui-elem-anim(".floating-ui-container");
 
-.floating-ui-container--active {
-  @include floating-ui-wrapper-active();
+.calcite-floating-ui-anim {
+  @apply bg-foreground-1
+    max-h-menu
+    overflow-y-auto;
+  inline-size: var(--calcite-autocomplete-width, 100%);
+}
+
+.content--hidden {
+  display: none;
 }
 
 @media (forced-colors: active) {
@@ -48,4 +55,6 @@
   @apply sr-only;
 }
 
+@include form-validation-message();
+@include hidden-form-input();
 @include base-component();

@@ -13,6 +13,8 @@ export const CSS = {
   container: "container",
   input: "input",
   contentContainer: "content-container",
+  content: "content",
+  contentHidden: "content--hidden",
   floatingUIContainer: "floating-ui-container",
   floatingUIContainerActive: "floating-ui-container--active",
   screenReadersOnly: "screen-readers-only",
