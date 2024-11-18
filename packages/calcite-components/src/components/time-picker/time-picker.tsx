@@ -79,8 +79,6 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   @state() hour: string;
 
-  @state() hourFormat: HourFormat;
-
   @state() localizedDecimalSeparator = ".";
 
   @state() localizedFractionalSecond: string;
@@ -112,6 +110,11 @@ export class TimePicker extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Public Properties
+
+  /**
+   * Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+   */
+  @property({ reflect: true }) hourFormat: HourFormat;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
