@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.13...@esri/calcite-components@3.0.0-next.14) (2024-11-18)
+
+### Features
+
+- **accordion-item:** custom header and content spacing tokens ([#10721](https://github.com/Esri/calcite-design-system/issues/10721)) ([b0234f9](https://github.com/Esri/calcite-design-system/commit/b0234f930568b7ae1601dc5208c6139fa40b0b52)), closes [#4012](https://github.com/Esri/calcite-design-system/issues/4012)
+
+### Bug Fixes
+
+- **dialog, panel:** restore relative positioning in content area ([#10749](https://github.com/Esri/calcite-design-system/issues/10749)) ([6302897](https://github.com/Esri/calcite-design-system/commit/63028971b5ab6e7aa071c025be5ec1e06bac1d2a)), closes [#10095](https://github.com/Esri/calcite-design-system/issues/10095)
+
 ## [3.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.12...@esri/calcite-components@3.0.0-next.13) (2024-11-18)
 
 ### Bug Fixes
