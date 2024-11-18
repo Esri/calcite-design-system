@@ -1,4 +1,5 @@
 {
   "loading": "Wird geladen",
-  "indicator": "Indikator vorhanden"
+  "indicator": "Indikator vorhanden",
+  "indicatorLabel": "{label} (Indikator vorhanden)"
 }
