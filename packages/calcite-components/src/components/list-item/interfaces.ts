@@ -4,4 +4,3 @@ export type ItemData = {
   metadata: Record<string, unknown>;
   value: string;
 };
-
