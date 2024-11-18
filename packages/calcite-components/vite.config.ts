@@ -9,12 +9,18 @@ import replace from "@rollup/plugin-replace";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
+const nonEsmDependencies = ["color", "interactjs"];
+
 export default defineConfig({
   plugins: [
     useLumina({
       build: {
         cdn: {
           namespace: "calcite",
+        },
+        dependencies: {
+          // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
+          externalize: nonEsmDependencies,
         },
         ssr: {
           stencilCompatibility: {
