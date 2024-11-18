@@ -3,6 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Notice } from "./notice";
+
 const { scale, width, kind } = ATTRIBUTES;
 
 interface NoticeStoryArgs extends Pick<Notice, "open" | "closable" | "width" | "kind" | "icon"> {

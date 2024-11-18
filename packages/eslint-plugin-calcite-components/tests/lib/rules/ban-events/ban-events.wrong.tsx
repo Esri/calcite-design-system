@@ -1,11 +1,20 @@
 // @ts-nocheck
-@Component({ tag: "sample-tag" })
-export class SampleTag {
-  @Listen("keypress")
-  onDisallowedEvent() {}
+import { LitElement, h } from "@arcgis/lumina";
+
+declare global {
+  interface DeclareElements {
+    "calcite-test-component": TestComponent;
+  }
+}
+
+export class TestComponent extends LitElement {
+  //#region Private Methods
 
   connectedCallback(): void {
     document.addEventListener("some-unsupported-event", this.handleDisallowedEvent);
+
+    this.listen(window, "keypress", this.handleDisallowedEvent);
+    this.listenOn(window, "keypress", this.handleDisallowedEvent);
   }
 
   disconnectedCallback(): void {
@@ -14,7 +23,5 @@ export class SampleTag {
 
   handleDisallowedEvent(): void {}
 
-  render() {
-    return <div>test</div>;
-  }
+  //#endregion
 }

@@ -47,14 +47,6 @@
   }
 }
 
-:host {
-  @apply pointer-events-none;
-}
-
-:host([open]) {
-  pointer-events: initial;
-}
-
 .position-container .calcite-floating-ui-anim {
   @apply border
     border-solid;

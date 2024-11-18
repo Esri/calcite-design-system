@@ -2,6 +2,7 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ChipGroup } from "./chip-group";
+
 const { selectionMode, scale } = ATTRIBUTES;
 
 type ChipGroupStoryArgs = Pick<ChipGroup, "selectionMode" | "scale">;

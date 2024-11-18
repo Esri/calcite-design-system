@@ -3,6 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InlineEditable } from "./inline-editable";
+
 const { scale, alignment } = ATTRIBUTES;
 
 type InlineEditableStoryArgs = Pick<InlineEditable, "scale" | "controls" | "editingEnabled" | "loading" | "disabled"> &
