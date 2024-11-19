@@ -35,13 +35,7 @@ export default {
 };
 
 export const simple = (args: TabsStoryArgs): string => html`
-  <calcite-tabs
-    dir="rtl"
-    class="calcite-mode-dark"
-    layout="${args.layout}"
-    position="${args.position}"
-    scale="${args.scale}"
-  >
+  <calcite-tabs layout="${args.layout}" position="${args.position}" scale="${args.scale}">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
