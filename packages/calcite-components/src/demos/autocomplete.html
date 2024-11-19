@@ -41,32 +41,26 @@
       <div class="parent">
         <div class="child right-aligned-text">Locator example</div>
         <div class="child">
-          <form id="test-form">
-            <calcite-autocomplete name="test" required id="locator" scale="m"></calcite-autocomplete>
+          <form class="locate-form">
+            <calcite-autocomplete
+              class="locator-autocomplete"
+              name="test"
+              required
+              id="locator"
+              scale="m"
+            ></calcite-autocomplete>
           </form>
           <calcite-alert id="locator-alert" kind="brand"></calcite-alert>
 
           <script type="module">
             import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
 
-            const testForm = document.getElementById("test-form");
-
-            testForm.addEventListener("submit", (event) => {
-              event.preventDefault();
-              const data = new FormData(event.target);
-              console.log([...data.entries()]);
-            });
-
-            const locatorAutocomplete = document.getElementById("locator");
-
-            let results, lastQuery;
-
-            async function locate(text) {
+            async function getSuggestions(locatorAutocomplete) {
               locatorAutocomplete.innerHTML = "";
 
               locatorAutocomplete.open = true;
 
-              if (!text) {
+              if (!locatorAutocomplete.inputValue) {
                 const emptyText = document.createElement("calcite-notice");
                 emptyText.open = true;
                 emptyText.icon = "information";
@@ -79,12 +73,12 @@
                 return;
               }
 
-              locatorAutocomplete.loading = true;
-              const query = suggestLocations("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer", {
-                text,
-              });
-              lastQuery = query;
-              const response = await query;
+              const response = await suggestLocations(
+                "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+                {
+                  text: locatorAutocomplete.inputValue,
+                },
+              );
 
               if (response.length === 0) {
                 locatorAutocomplete.innerHTML = "";
@@ -105,37 +99,60 @@
                   item.heading = location.text;
                   locatorAutocomplete.appendChild(item);
                 });
-                results = response;
               }
 
-              setTimeout(() => {
-                if (query !== lastQuery) {
-                  return;
-                }
-                locatorAutocomplete.loading = false;
-              }, 500);
+              return response;
             }
 
-            locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", (event) => {
-              const inputValue = event.target.inputValue;
+            const locateForms = document.querySelectorAll(".locate-form");
 
-              if (!inputValue) {
-                locatorAutocomplete.value = "";
-              }
-
-              locate(inputValue);
-              const alert = document.getElementById("locator-alert");
-              alert.open = false;
+            locateForms.forEach((form) => {
+              form.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const data = new FormData(event.target);
+                console.log([...data.entries()]);
+              });
             });
 
-            locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
-              console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
-              const selected = results.find((result) => result.magicKey === event.target.value);
-              locatorAutocomplete.inputValue = selected?.text;
-              const alert = document.getElementById("locator-alert");
-              alert.innerHTML = `<div slot="title">Selected item</div>
+            const locatorAutocompletes = document.querySelectorAll(".locator-autocomplete");
+
+            locatorAutocompletes.forEach((locatorAutocomplete) => {
+              let results, lastSuggestQuery;
+
+              locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", async (event) => {
+                const inputValue = event.target.inputValue;
+
+                if (!inputValue) {
+                  locatorAutocomplete.value = "";
+                }
+
+                const alert = document.getElementById("locator-alert");
+                alert.open = false;
+
+                locatorAutocomplete.loading = true;
+
+                const suggestQuery = getSuggestions(locatorAutocomplete);
+                lastSuggestQuery = suggestQuery;
+
+                setTimeout(() => {
+                  if (suggestQuery !== lastSuggestQuery) {
+                    return;
+                  }
+                  locatorAutocomplete.loading = false;
+                }, 500);
+
+                results = await suggestQuery;
+              });
+
+              locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+                console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
+                const selected = results.find((result) => result.magicKey === event.target.value);
+                locatorAutocomplete.inputValue = selected?.text;
+                const alert = document.getElementById("locator-alert");
+                alert.innerHTML = `<div slot="title">Selected item</div>
         <div slot="message">You selected "${selected?.text}"</div>`;
-              alert.open = true;
+                alert.open = true;
+              });
             });
           </script>
         </div>
