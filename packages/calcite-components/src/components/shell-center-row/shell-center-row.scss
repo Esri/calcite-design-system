@@ -7,6 +7,10 @@
     z-default;
 }
 
+.container {
+  @apply flex flex-auto;
+}
+
 .content {
   @apply m-0
     flex
@@ -32,19 +36,19 @@
   @apply self-end;
 }
 
-:host([position="start"]) {
-  @apply self-start;
+.height-s {
+  block-size: 33.333vh;
 }
 
-:host([height-scale="s"]) {
-  block-size: theme("width[1/3]");
+.height-m {
+  block-size: 70vh;
 }
 
-:host([height-scale="m"]) {
-  block-size: 70%;
+.height-l {
+  block-size: 100vh;
 }
 
-:host([height-scale="l"]) {
+:host([detached]) .height-l {
   @apply h-full;
 }
 

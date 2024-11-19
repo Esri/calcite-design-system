@@ -56,7 +56,7 @@ describe("calcite-shell-center-row", () => {
     `;
     await page.setContent(pageContent);
 
-    const element = await page.find("calcite-shell-center-row >>> div:first-of-type");
+    const element = await page.find(`calcite-shell-center-row >>> .${CSS.container} div:first-of-type`);
 
     await page.waitForChanges();
     expect(element).toHaveClass(CSS.actionBarContainer);
@@ -80,10 +80,10 @@ describe("calcite-shell-center-row", () => {
     await page.setContent(pageContent);
 
     const element = await page.find("calcite-shell-center-row");
-
+    const containerEl = element.shadowRoot.querySelector(`.${CSS.container}`);
     await page.waitForChanges();
 
-    expect(element.shadowRoot.lastElementChild).toHaveClass(CSS.actionBarContainer);
+    expect(containerEl.lastElementChild).toHaveClass(CSS.actionBarContainer);
   });
 
   describe("accessible", () => {
