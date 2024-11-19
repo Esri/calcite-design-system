@@ -1,29 +1,62 @@
-import { DropdownGroup } from "../dropdown-group/dropdown-group";
+import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Autocomplete } from "./autocomplete";
 
-const { scale, clickType, selectionMode } = ATTRIBUTES;
+const { scale, alignment, status, overlayPositioning } = ATTRIBUTES;
 
-type DropdownStoryArgs = Pick<
-  Dropdown,
-  "placement" | "scale" | "widthScale" | "type" | "closeOnSelectDisabled" | "disabled"
-> &
-  Pick<DropdownGroup, "selectionMode">;
+type AutocompleteStoryArgs = Pick<
+  Autocomplete,
+  | "alignment"
+  | "disabled"
+  | "inputValue"
+  | "label"
+  | "loading"
+  | "maxLength"
+  | "minLength"
+  | "name"
+  | "open"
+  | "overlayPositioning"
+  | "placeholder"
+  | "placement"
+  | "prefixText"
+  | "readOnly"
+  | "scale"
+  | "status"
+  | "suffixText"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
+>;
 
 export default {
-  title: "Components/Buttons/Dropdown",
+  title: "Components/Controls/Autocomplete",
   args: {
-    placement: defaultMenuPlacement,
-    scale: scale.defaultValue,
-    widthScale: scale.defaultValue,
-    type: clickType.defaultValue,
-    closeOnSelectDisabled: false,
+    alignment: alignment.defaultValue,
     disabled: false,
-    selectionMode: selectionMode.values[0],
+    inputValue: "",
+    loading: false,
+    overlayPositioning: overlayPositioning.defaultValue,
+    placeholder: "Placeholder text",
+    placement: defaultMenuPlacement,
+    prefixText: "",
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    suffixText: "",
+    validationIcon: "",
+    validationMessage: "",
   },
   argTypes: {
+    alignment: {
+      options: alignment.values.filter((option) => option !== "center"),
+      control: { type: "select" },
+    },
+    overlayPositioning: {
+      options: overlayPositioning.values,
+      control: { type: "select" },
+    },
     placement: {
       options: menuPlacements,
       control: { type: "select" },
@@ -32,19 +65,12 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
-    widthScale: {
-      options: scale.values,
+    status: {
+      options: status.values,
       control: { type: "select" },
     },
-    type: {
-      options: clickType.values,
-      control: { type: "select" },
-    },
-    selectionMode: {
-      options: selectionMode.values.filter(
-        (option) =>
-          option !== "children" && option !== "single-persist" && option !== "multichildren" && option !== "ancestors",
-      ),
+    validationIcon: {
+      options: iconNames,
       control: { type: "select" },
     },
   },
@@ -55,443 +81,432 @@ export default {
   },
 };
 
-export const simple = (args: DropdownStoryArgs): string => html`
-  <calcite-dropdown
-    open
-    placement="${args.placement}"
-    scale="${args.scale}"
-    width-scale="${args.widthScale}"
-    type="${args.type}"
-    ${boolean("close-on-select-disabled", args.closeOnSelectDisabled)}
-    ${boolean("disabled", args.disabled)}
-  >
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group selection-mode="${args.selectionMode}" group-title="Sort by">
-      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-      <calcite-dropdown-item>Title</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-export const simpleAutoWidth = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" type="click">
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group selection-mode="single" group-title="Sort by">
-      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item selected>Date</calcite-dropdown-item>
-      <calcite-dropdown-item>Title</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-export const simpleFullWidth = (): string => html`
-  <div style="width: 500px;">
-    <calcite-dropdown
-      style="width:100%"
-      open
-      placement="${defaultMenuPlacement}"
-      scale="m"
-      width-scale="m"
-      type="click"
+export const simple = (args: AutocompleteStoryArgs): string => html`
+  <div style="width:350px">
+    <calcite-autocomplete
+      ${boolean("disabled", args.disabled)}
+      ${boolean("loading", args.loading)}
+      ${boolean("open", args.open)}
+      ${boolean("read-only", args.readOnly)}
+      alignment="${args.alignment}"
+      input-value="${args.inputValue}"
+      label="${args.label}"
+      max-length="${args.maxLength}"
+      min-length="${args.minLength}"
+      name="${args.name}"
+      overlay-positioning="${args.overlayPositioning}"
+      placeholder="${args.placeholder}"
+      placement="${args.placement}"
+      prefix-text="${args.prefixText}"
+      scale="${args.scale}"
+      status="${args.status}"
+      suffix-text="${args.suffixText}"
+      validation-icon="${args.validationIcon}"
+      validation-message="${args.validationMessage}"
+      value="${args.value}"
     >
-      <calcite-button width="full" slot="trigger">Open Dropdown</calcite-button>
-      <calcite-dropdown-group selection-mode="single" group-title="Sort by">
-        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-        <calcite-dropdown-item>Title</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
+      <div slot="content-top">Content top</div>
+      <div slot="content-bottom">Content bottom</div>
+      <calcite-autocomplete-item
+        scale="l"
+        label="Item 1"
+        value="1"
+        heading="Item 1"
+        description="Item 1 description"
+        icon-start="information"
+        icon-end="gear"
+      ></calcite-autocomplete-item>
+      <calcite-autocomplete-item
+        disabled
+        scale="l"
+        label="Item 2"
+        value="2"
+        heading="Item 2"
+        description="Item 2 description"
+      ></calcite-autocomplete-item>
+    </calcite-autocomplete>
   </div>
 `;
 
-export const withIcons = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group selection-mode="single" group-title="Icon Start">
-      <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group selection-mode="single" group-title="Icon End">
-      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group selection-mode="single" group-title="Icon Both">
-      <calcite-dropdown-item icon-start="list" icon-end="data-check">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" icon-end="data-check" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="table" icon-end="data-check">Table</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-export const groupsAndSelectionModes = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group group-title="Select one">
-      <calcite-dropdown-item>Apple</calcite-dropdown-item>
-      <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
-      <calcite-dropdown-item>Grape</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Select multi" selection-mode="multiple">
-      <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
-      <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
-      <calcite-dropdown-item selected>Yam</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
-      <calcite-dropdown-item>Plant beans</calcite-dropdown-item>
-      <calcite-dropdown-item>Add peas</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-export const itemsAsLinks = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group selection-mode="none" group-title="Select one">
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >Throw Apples</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >Visit Oranges</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >Eat Grapes</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-start="camera-flash-on"
-        >Plant beans</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-end="camera-flash-on"
-        >Add peas</calcite-dropdown-item
-      >
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-dropdown
-    dir="rtl"
-    open
-    class="calcite-mode-dark"
-    placement="${defaultMenuPlacement}"
-    scale="m"
-    width-scale="m"
-    type="click"
-  >
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group group-title="Select one">
-      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >A link</calcite-dropdown-item
-      >
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Select multi" selection-mode="multiple">
-      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >A link</calcite-dropdown-item
-      >
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
-      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >A link</calcite-dropdown-item
-      >
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
-
-export const itemsAsLinksDarkMode = (): string => html`
-  <calcite-dropdown
-    open
-    class="calcite-mode-dark"
-    placement="${defaultMenuPlacement}"
-    scale="m"
-    width-scale="m"
-    type="click"
-  >
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group selection-mode="none" group-title="Select one">
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >Throw Apples</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >Visit Oranges</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
-        >Eat Grapes</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-start="camera-flash-on"
-        >Plant beans</calcite-dropdown-item
-      >
-      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-end="camera-flash-on"
-        >Add peas</calcite-dropdown-item
-      >
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-itemsAsLinksDarkMode.parameters = { themes: modesDarkDefault };
-
-export const scrollingAfterCertainItems_TestOnly = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" max-items="7" scale="m" width-scale="m" type="click">
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group group-title="First group">
-      <calcite-dropdown-item>1</calcite-dropdown-item>
-      <calcite-dropdown-item>2</calcite-dropdown-item>
-      <calcite-dropdown-item>3</calcite-dropdown-item>
-      <calcite-dropdown-item>4</calcite-dropdown-item>
-      <calcite-dropdown-item>5</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Second group">
-      <calcite-dropdown-item>6</calcite-dropdown-item>
-      <calcite-dropdown-item>7</calcite-dropdown-item>
-      <calcite-dropdown-item>8</calcite-dropdown-item>
-      <calcite-dropdown-item>9</calcite-dropdown-item>
-      <calcite-dropdown-item>10</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-scrollingAfterCertainItems_TestOnly.parameters = {
-  chromatic: { delay: 1500 },
-};
-
-export const scrollingWithoutMaxItems_TestOnly = (): string => html`
-  <calcite-dropdown open>
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group selection-mode="single" group-title="Sort by">
-      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-      <calcite-dropdown-item>Title</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="First group">
-      <calcite-dropdown-item>1</calcite-dropdown-item>
-      <calcite-dropdown-item>2</calcite-dropdown-item>
-      <calcite-dropdown-item>3</calcite-dropdown-item>
-      <calcite-dropdown-item>4</calcite-dropdown-item>
-      <calcite-dropdown-item>5</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Second group">
-      <calcite-dropdown-item>6</calcite-dropdown-item>
-      <calcite-dropdown-item>7</calcite-dropdown-item>
-      <calcite-dropdown-item>8</calcite-dropdown-item>
-      <calcite-dropdown-item>9</calcite-dropdown-item>
-      <calcite-dropdown-item>10</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string =>
-  html` <calcite-dropdown max-items="3" open>
-    <calcite-button slot="trigger">Activate Dropdown</calcite-button>
-    <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
-      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-      <calcite-dropdown-item>Title</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>`;
-
-export const disabled_TestOnly = (): string => html`
-  <calcite-dropdown disabled>
-    <calcite-button slot="trigger">Disabled dropdown</calcite-button>
-    <calcite-dropdown-group group-title="First group">
-      <calcite-dropdown-item>1</calcite-dropdown-item>
-      <calcite-dropdown-item>2</calcite-dropdown-item>
-      <calcite-dropdown-item>3</calcite-dropdown-item>
-      <calcite-dropdown-item>4</calcite-dropdown-item>
-      <calcite-dropdown-item>5</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Second group">
-      <calcite-dropdown-item>6</calcite-dropdown-item>
-      <calcite-dropdown-item>7</calcite-dropdown-item>
-      <calcite-dropdown-item>8</calcite-dropdown-item>
-      <calcite-dropdown-item>9</calcite-dropdown-item>
-      <calcite-dropdown-item>10</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-
-  <calcite-dropdown open>
-    <calcite-button slot="trigger">Disabled dropdown items</calcite-button>
-    <calcite-dropdown-group group-title="First group">
-      <calcite-dropdown-item>1</calcite-dropdown-item>
-      <calcite-dropdown-item disabled>2</calcite-dropdown-item>
-      <calcite-dropdown-item disabled>3</calcite-dropdown-item>
-      <calcite-dropdown-item disabled>4</calcite-dropdown-item>
-      <calcite-dropdown-item>5</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Second group">
-      <calcite-dropdown-item>6</calcite-dropdown-item>
-      <calcite-dropdown-item>7</calcite-dropdown-item>
-      <calcite-dropdown-item>8</calcite-dropdown-item>
-      <calcite-dropdown-item>9</calcite-dropdown-item>
-      <calcite-dropdown-item>10</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-export const flipPositioning_TestOnly = (): string => html`
-  <div style="margin:10px;">
-    <calcite-dropdown width-scale="m" placement="top" open>
-      <calcite-button slot="trigger">Open Dropdown</calcite-button>
-      <calcite-dropdown-group>
-        <calcite-dropdown-item>1</calcite-dropdown-item>
-        <calcite-dropdown-item>2</calcite-dropdown-item>
-        <calcite-dropdown-item>3</calcite-dropdown-item>
-        <calcite-dropdown-item>4</calcite-dropdown-item>
-        <calcite-dropdown-item>5</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
-  </div>
-`;
-flipPositioning_TestOnly.parameters = {
-  layout: "fullscreen",
-};
-
-export const alignedCenter_TestOnly = (): string => html`
-  <div style="text-align:center">
-    <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
-      <calcite-button slot="trigger">Open Dropdown</calcite-button>
-      <calcite-dropdown-group selection-mode="single" group-title="Sort by">
-        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-        <calcite-dropdown-item>Title</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
-  </div>
-`;
-
-export const alignedCenterRTL_TestOnly = (): string => html`
-  <div dir="rtl" style="text-align:center">
-    <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
-      <calcite-button slot="trigger">Open Dropdown</calcite-button>
-      <calcite-dropdown-group selection-mode="single" group-title="Sort by">
-        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-        <calcite-dropdown-item>Title</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
-  </div>
-`;
-
-export const flipPlacements_TestOnly = (): string => html`
+const kitchenSinkHTML = html`
   <style>
-    .my-dropdown {
-      margin-top: 50px;
+    .parent {
+      display: flex;
+      width: 85%;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .child {
+      flex: 1 0 15%;
+      margin: 0 25px;
+      color: var(--calcite-color-text-3);
+      font-family: var(--calcite-font-family);
+      font-size: var(--calcite-font-size-0);
+      font-weight: var(--calcite-font-weight-medium);
+    }
+
+    .right-aligned-text {
+      text-align: right;
+    }
+
+    hr {
+      margin: 25px 0;
+      border-top: 1px solid var(--calcite-color-border-2);
     }
   </style>
-  <style>
-    .my-dropdown {
-      margin-top: 50px;
-    }
-  </style>
-  <div style="height: 100px; overflow:scroll;">
-    <calcite-dropdown class="my-dropdown" open>
-      <calcite-button slot="trigger">Open Dropdown</calcite-button>
-      <calcite-dropdown-group group-title="Sort by">
-        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-        <calcite-dropdown-item>Title</calcite-dropdown-item>
-      </calcite-dropdown-group>
-      <calcite-dropdown-group group-title="Sort by">
-        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-        <calcite-dropdown-item>Title</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
+  <!-- Header -->
+  <div class="parent">
+    <div class="child"></div>
+    <div class="child">Small</div>
+    <div class="child">Medium</div>
+    <div class="child">Large</div>
   </div>
-  <script>
-    document.querySelector(".my-dropdown").flipPlacements = ["right"];
-  </script>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Simple</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Content start/end</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location">
+          <calcite-button kind="neutral" scale="s" icon-start="banana" slot="content-start"></calcite-button>
+          <calcite-button kind="neutral" scale="s" icon-start="banana" slot="content-end"></calcite-button>
+        </calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location">
+          <calcite-button kind="neutral" scale="m" icon-start="banana" slot="content-start"></calcite-button>
+          <calcite-button kind="neutral" scale="m" icon-start="banana" slot="content-end"></calcite-button>
+        </calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location">
+          <calcite-button kind="neutral" scale="l" icon-start="banana" slot="content-start"></calcite-button>
+          <calcite-button kind="neutral" scale="l" icon-start="banana" slot="content-end"></calcite-button>
+        </calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Placeholder</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="s"
+          placeholder="Find an address"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="m"
+          placeholder="Find an address"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="l"
+          placeholder="Find an address"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Disabled</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="s" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="m" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="l" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Readonly</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="s" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="m" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="l" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Loading</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="s" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="m" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="l" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Default value</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="s"
+          input-value="Hello world!"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="m"
+          input-value="Hello world!"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="l"
+          input-value="Hello world!"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Custom Icon</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="s"
+          icon="banana"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="m"
+          icon="banana"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="l"
+          icon="banana"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Required</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location" required></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location" required></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location" required></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="child right-aligned-text">Prefix & Suffix</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="s"
+          prefix-text="A"
+          suffix-text="Z"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="m"
+          prefix-text="A"
+          suffix-text="Z"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete
+          scale="l"
+          prefix-text="A"
+          suffix-text="Z"
+          class="locator-autocomplete"
+          name="location"
+        ></calcite-autocomplete>
+      </form>
+    </div>
+  </div>
+
+  <div class="parent" style="margin-bottom:200px">
+    <div class="child right-aligned-text">Open</div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="s" open>
+          <div slot="content-top">Content top</div>
+          <div slot="content-bottom">Content bottom</div>
+          <calcite-autocomplete-item
+            scale="s"
+            label="Item 1"
+            value="1"
+            heading="Item 1"
+            description="Item 1 description"
+            icon-start="information"
+            icon-end="gear"
+          ></calcite-autocomplete-item>
+          <calcite-autocomplete-item
+            disabled
+            scale="s"
+            label="Item 2"
+            value="2"
+            heading="Item 2"
+            description="Item 2 description"
+          ></calcite-autocomplete-item>
+        </calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="m" open>
+          <div slot="content-top">Content top</div>
+          <div slot="content-bottom">Content bottom</div>
+          <calcite-autocomplete-item
+            scale="m"
+            label="Item 1"
+            value="1"
+            heading="Item 1"
+            description="Item 1 description"
+            icon-start="information"
+            icon-end="gear"
+          ></calcite-autocomplete-item>
+          <calcite-autocomplete-item
+            disabled
+            scale="m"
+            label="Item 2"
+            value="2"
+            heading="Item 2"
+            description="Item 2 description"
+          ></calcite-autocomplete-item>
+        </calcite-autocomplete>
+      </form>
+    </div>
+    <div class="child">
+      <form class="locate-form">
+        <calcite-autocomplete scale="l" open>
+          <div slot="content-top">Content top</div>
+          <div slot="content-bottom">Content bottom</div>
+          <calcite-autocomplete-item
+            scale="l"
+            label="Item 1"
+            value="1"
+            heading="Item 1"
+            description="Item 1 description"
+            icon-start="information"
+            icon-end="gear"
+          ></calcite-autocomplete-item>
+          <calcite-autocomplete-item
+            disabled
+            scale="l"
+            label="Item 2"
+            value="2"
+            heading="Item 2"
+            description="Item 2 description"
+          ></calcite-autocomplete-item>
+        </calcite-autocomplete>
+      </form>
+    </div>
+  </div>
 `;
 
-export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
-  <calcite-dropdown scale="l" width-scale="m" open>
-    <calcite-dropdown-group group-title="View">
-      <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" scale="l">Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" icon-end="grid" scale="l">Grid</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
+export const kitchenSink = (): string => kitchenSinkHTML;
 
-export const triggerWordBreak_TestOnly = (): string => html`<div style="width:300px;">
-<calcite-dropdown scale="m">
-  <calcite-button slot="trigger" alignment="icon-end-space-between" appearance="transparent" icon-end="chevronDown"
-    scale="m" type="button" width="full">BirdObservationCommentBirdObservationComment</calcite-button>
-  <calcite-dropdown-group role="group" selection-mode="single">
-    <calcite-dropdown-item>BirdObservationComment</calcite-dropdown-item>
-    <calcite-dropdown-item>BirdObservationComment-BirdObservationComment</calcite-dropdown-item>
-    <calcite-dropdown-item>BirdObservationCommentBirdObservationComment</calcite-dropdown-item>
-  </calcite-dropdown-group>
-  <calcite-dropdown-item>BirdObservationComment BirdObservationComment</calcite-dropdown-item>
-  <calcite-dropdown-item>Bird_Observation_Comment_Bird_Observation_Comment</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-dropdown>
-</div>`;
+export const kitchenSinkDarkRTL = (): string => `<div dir="rtl">${kitchenSinkHTML}</div>`;
 
-export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string =>
-  html`<div style="width: 300px; border: solid">
-    <calcite-dropdown style="width: 100%;">
-      <calcite-button width="full" slot="trigger"
-        >This is some really long text that will eventually overrun the container</calcite-button
-      >
-      <calcite-dropdown-group group-title="Natural places">
-        <calcite-dropdown-item>Mountain</calcite-dropdown-item>
-        <calcite-dropdown-item>River</calcite-dropdown-item>
-        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
-        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
-        <calcite-dropdown-item>Tundra</calcite-dropdown-item>
-        <calcite-dropdown-item>Desert</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
-  </div>`;
-
-export const openInAllScales = (): string => html`
-  <style>
-    .container {
-      display: inline-flex;
-      flex-direction: column;
-      width: 10rem;
-      padding: 25px;
-      flex-basis: 200px;
-    }
-  </style>
-  <div class="container">
-    <calcite-dropdown scale="s" width-scale="s" open>
-      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale S</calcite-button>
-      <calcite-dropdown-group group-title="View">
-        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
-        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
-  </div>
-
-  <div class="container">
-    <calcite-dropdown scale="m" width-scale="s" open>
-      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale M</calcite-button>
-      <calcite-dropdown-group group-title="View">
-        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
-        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
-  </div>
-
-  <div class="container">
-    <calcite-dropdown scale="l" width-scale="s" open>
-      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale L</calcite-button>
-      <calcite-dropdown-group group-title="View">
-        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
-        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>
-  </div>
-`;
+kitchenSinkDarkRTL.parameters = { themes: modesDarkDefault };

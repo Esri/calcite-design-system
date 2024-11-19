@@ -11,6 +11,7 @@ export const ICONS = {
 
 export const CSS = {
   container: "container",
+  inputContainer: "input-container",
   input: "input",
   contentContainer: "content-container",
   content: "content",

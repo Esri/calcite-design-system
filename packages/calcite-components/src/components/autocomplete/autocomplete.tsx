@@ -646,67 +646,69 @@ export class Autocomplete
     return (
       <div class={CSS.container}>
         <InteractiveContainer disabled={disabled}>
-          <slot name={SLOTS.contentStart} />
-          <calcite-input
-            alignment={this.alignment}
-            aria-activedescendant={this.activeDescendant}
-            aria-controls={listId}
-            aria-owns={listId}
-            ariaAutoComplete="list"
-            ariaExpanded={isOpen}
-            ariaHasPopup="listbox"
-            ariaLabel={this.label}
-            autocomplete={this.autocomplete}
-            //autofocus={autofocus}
-            class={CSS.input}
-            clearable={true}
-            disabled={disabled}
-            //enterkeyhint={enterKeyHint}
-            form={this.form}
-            icon={this.getIcon()}
-            iconFlipRtl={this.iconFlipRtl}
-            id={inputId}
-            inputMode={inputMode}
-            label={this.label}
-            loading={this.loading}
-            maxLength={this.maxLength}
-            messageOverrides={this.messages}
-            minLength={this.minLength}
-            name={this.name}
-            onKeyDown={this.keyDownHandler}
-            oncalciteInputChange={this.changeHandler}
-            oncalciteInputInput={this.inputHandler}
-            oncalciteInternalInputFocus={this.handleInputFocus}
-            pattern={this.pattern}
-            placeholder={this.placeholder}
-            prefixText={this.prefixText}
-            readOnly={this.readOnly}
-            ref={this.setReferenceEl}
-            role="combobox"
-            scale={this.scale}
-            status={this.status}
-            suffixText={this.suffixText}
-            type="search"
-            value={this.inputValue}
-          />
-          {this.renderListBox()}
-          <slot name={SLOTS.contentEnd} />
-          <div
-            class={{
-              [CSS.contentContainer]: true,
-              [CSS.floatingUIContainer]: true,
-              [CSS.floatingUIContainerActive]: isOpen,
-            }}
-            ref={this.setFloatingEl}
-          >
-            <div class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: isOpen }}>
-              <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
-                <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
-                <slot ariaHidden="true" onSlotChange={this.handleDefaultSlotChange} />
-                <slot
-                  name={SLOTS.contentBottom}
-                  onSlotChange={this.handleContentBottomSlotChange}
-                />
+          <div class={CSS.inputContainer}>
+            <slot name={SLOTS.contentStart} />
+            <calcite-input
+              alignment={this.alignment}
+              aria-activedescendant={this.activeDescendant}
+              aria-controls={listId}
+              aria-owns={listId}
+              ariaAutoComplete="list"
+              ariaExpanded={isOpen}
+              ariaHasPopup="listbox"
+              ariaLabel={this.label}
+              autocomplete={this.autocomplete}
+              //autofocus={autofocus}
+              class={CSS.input}
+              clearable={true}
+              disabled={disabled}
+              //enterkeyhint={enterKeyHint}
+              form={this.form}
+              icon={this.getIcon()}
+              iconFlipRtl={this.iconFlipRtl}
+              id={inputId}
+              inputMode={inputMode}
+              label={this.label}
+              loading={this.loading}
+              maxLength={this.maxLength}
+              messageOverrides={this.messages}
+              minLength={this.minLength}
+              name={this.name}
+              onKeyDown={this.keyDownHandler}
+              oncalciteInputChange={this.changeHandler}
+              oncalciteInputInput={this.inputHandler}
+              oncalciteInternalInputFocus={this.handleInputFocus}
+              pattern={this.pattern}
+              placeholder={this.placeholder}
+              prefixText={this.prefixText}
+              readOnly={this.readOnly}
+              ref={this.setReferenceEl}
+              role="combobox"
+              scale={this.scale}
+              status={this.status}
+              suffixText={this.suffixText}
+              type="search"
+              value={this.inputValue}
+            />
+            {this.renderListBox()}
+            <slot name={SLOTS.contentEnd} />
+            <div
+              class={{
+                [CSS.contentContainer]: true,
+                [CSS.floatingUIContainer]: true,
+                [CSS.floatingUIContainerActive]: isOpen,
+              }}
+              ref={this.setFloatingEl}
+            >
+              <div class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: isOpen }}>
+                <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
+                  <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
+                  <slot ariaHidden="true" onSlotChange={this.handleDefaultSlotChange} />
+                  <slot
+                    name={SLOTS.contentBottom}
+                    onSlotChange={this.handleContentBottomSlotChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
