@@ -69,9 +69,9 @@ declare global {
 
 /**
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
+ * @slot actions-end - A slot for adding actions after the input.
+ * @slot actions-start - A slot for adding actions before the input.
  * @slot content-bottom - A slot for adding content below `calcite-autocomplete-item` elements.
- * @slot content-end - A slot for adding content after the input.
- * @slot content-start - A slot for adding content before the input.
  * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
  */
 export class Autocomplete
@@ -647,7 +647,7 @@ export class Autocomplete
       <div class={CSS.container}>
         <InteractiveContainer disabled={disabled}>
           <div class={CSS.inputContainer}>
-            <slot name={SLOTS.contentStart} />
+            <slot name={SLOTS.actionsStart} />
             <calcite-input
               alignment={this.alignment}
               aria-activedescendant={this.activeDescendant}
@@ -691,7 +691,7 @@ export class Autocomplete
               value={this.inputValue}
             />
             {this.renderListBox()}
-            <slot name={SLOTS.contentEnd} />
+            <slot name={SLOTS.actionsEnd} />
             <div
               class={{
                 [CSS.contentContainer]: true,

@@ -1,8 +1,8 @@
 export const SLOTS = {
-  contentTop: "content-top",
+  actionsEnd: "actions-end",
+  actionsStart: "actions-start",
   contentBottom: "content-bottom",
-  contentStart: "content-start",
-  contentEnd: "content-end",
+  contentTop: "content-top",
 } as const;
 
 export const ICONS = {
