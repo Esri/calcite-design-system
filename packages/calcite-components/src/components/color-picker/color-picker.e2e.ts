@@ -2237,7 +2237,7 @@ describe("calcite-color-picker", () => {
 
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
-        const hideSectionProp = `hide${section.charAt(0).toUpperCase() + section.slice(1)}`;
+        const hideSectionProp = `${section.charAt(0).toUpperCase() + section.slice(1)}Disabled`;
 
         color.setProperty(hideSectionProp, !sectionVisibility[section]);
         await page.waitForChanges();
