@@ -10,6 +10,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
+import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
   ensureId,
   focusFirstTabbable,
@@ -153,14 +154,6 @@ export class Modal
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @property({ reflect: true }) docked: boolean;
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @private
-   */
-  @property() embedded = false;
 
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
@@ -330,7 +323,6 @@ export class Modal
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
     deactivateFocusTrap(this);
-    this.embedded = false;
   }
 
   // #endregion
@@ -424,7 +416,7 @@ export class Modal
     this.titleId = ensureId(this.titleEl);
     this.contentId = ensureId(this.contentEl);
 
-    if (!this.embedded) {
+    if (getNearestOverflowAncestor(this.el) === document.body) {
       if (totalOpenModals === 0) {
         initialDocumentOverflowStyle = document.documentElement.style.overflow;
       }
@@ -458,9 +450,14 @@ export class Modal
       }
     }
 
-    totalOpenModals--;
+    if (getNearestOverflowAncestor(this.el) === document.body) {
+      totalOpenModals--;
+      if (totalOpenModals === 0) {
+        this.removeOverflowHiddenClass();
+      }
+    }
+
     this.opened = false;
-    this.removeOverflowHiddenClass();
   }
 
   private removeOverflowHiddenClass(): void {
@@ -498,7 +495,6 @@ export class Modal
         class={{
           [CSS.container]: true,
           [CSS.containerOpen]: this.opened,
-          [CSS.containerEmbedded]: this.embedded,
         }}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
