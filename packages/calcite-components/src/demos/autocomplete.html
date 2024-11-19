@@ -38,130 +38,475 @@
     <demo-dom-swapper>
       <h1 style="margin: 0; text-align: center">Autocomplete</h1>
 
+      <!-- Header -->
       <div class="parent">
-        <div class="child right-aligned-text">Locator example</div>
+        <div class="child"></div>
+        <div class="child">Small</div>
+        <div class="child">Medium</div>
+        <div class="child">Large</div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Simple</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="s" class="locator-autocomplete" name="location"></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="m" class="locator-autocomplete" name="location"></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="l" class="locator-autocomplete" name="location"></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Placeholder</div>
         <div class="child">
           <form class="locate-form">
             <calcite-autocomplete
+              scale="s"
+              placeholder="Find an address"
               class="locator-autocomplete"
-              name="test"
-              required
-              id="locator"
-              scale="m"
+              name="location"
             ></calcite-autocomplete>
           </form>
-          <calcite-alert id="locator-alert" kind="brand"></calcite-alert>
-
-          <script type="module">
-            import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
-
-            async function getSuggestions(locatorAutocomplete) {
-              locatorAutocomplete.innerHTML = "";
-
-              locatorAutocomplete.open = true;
-
-              if (!locatorAutocomplete.inputValue) {
-                const emptyText = document.createElement("calcite-notice");
-                emptyText.open = true;
-                emptyText.icon = "information";
-                emptyText.kind = "brand";
-                emptyText.innerHTML = `
-          <div slot="title">Empty text</div>
-    <div slot="message">Enter some text</div>`;
-                emptyText.slot = "content-bottom";
-                locatorAutocomplete.appendChild(emptyText);
-                return;
-              }
-
-              const response = await suggestLocations(
-                "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-                {
-                  text: locatorAutocomplete.inputValue,
-                },
-              );
-
-              if (response.length === 0) {
-                locatorAutocomplete.innerHTML = "";
-                const noResults = document.createElement("calcite-notice");
-                noResults.open = true;
-                noResults.kind = "danger";
-                noResults.icon = "exclamation-mark-triangle";
-                noResults.innerHTML = `
-          <div slot="title">No results</div>
-    <div slot="message">Try something else</div>`;
-                noResults.slot = "content-top";
-                locatorAutocomplete.appendChild(noResults);
-              } else {
-                locatorAutocomplete.innerHTML = "";
-                response.forEach((location) => {
-                  const item = document.createElement("calcite-autocomplete-item");
-                  item.value = location.magicKey;
-                  item.heading = location.text;
-                  locatorAutocomplete.appendChild(item);
-                });
-              }
-
-              return response;
-            }
-
-            const locateForms = document.querySelectorAll(".locate-form");
-
-            locateForms.forEach((form) => {
-              form.addEventListener("submit", (event) => {
-                event.preventDefault();
-                const data = new FormData(event.target);
-                console.log([...data.entries()]);
-              });
-            });
-
-            const locatorAutocompletes = document.querySelectorAll(".locator-autocomplete");
-
-            locatorAutocompletes.forEach((locatorAutocomplete) => {
-              let results, lastSuggestQuery;
-
-              locatorAutocomplete.addEventListener("calciteAutocompleteTextChange", async (event) => {
-                const inputValue = event.target.inputValue;
-
-                if (!inputValue) {
-                  locatorAutocomplete.value = "";
-                  locatorAutocomplete.innerHTML = "";
-                  return;
-                }
-              });
-
-              locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", async (event) => {
-                const inputValue = event.target.inputValue;
-
-                if (!inputValue) {
-                  locatorAutocomplete.value = "";
-                  locatorAutocomplete.innerHTML = "";
-                  return;
-                }
-
-                locatorAutocomplete.loading = true;
-
-                const suggestQuery = getSuggestions(locatorAutocomplete);
-                lastSuggestQuery = suggestQuery;
-
-                setTimeout(() => {
-                  if (suggestQuery !== lastSuggestQuery) {
-                    return;
-                  }
-                  locatorAutocomplete.loading = false;
-                }, 500);
-
-                results = await suggestQuery;
-              });
-
-              locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
-                console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
-                const selected = results.find((result) => result.magicKey === event.target.value);
-                locatorAutocomplete.inputValue = selected?.text;
-              });
-            });
-          </script>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              placeholder="Find an address"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              placeholder="Find an address"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
         </div>
       </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Disabled</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="s"
+              disabled
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              disabled
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              disabled
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Readonly</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="s"
+              read-only
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              read-only
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              read-only
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Loading</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="s" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="m" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="l" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Default value</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="s"
+              input-value="Hello world!"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              input-value="Hello world!"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              input-value="Hello world!"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Custom Icon</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="s"
+              icon="banana"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              icon="banana"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              icon="banana"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Required</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="s"
+              class="locator-autocomplete"
+              name="location"
+              required
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              class="locator-autocomplete"
+              name="location"
+              required
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              class="locator-autocomplete"
+              name="location"
+              required
+            ></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Prefix & Suffix</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="s"
+              prefix-text="A"
+              suffix-text="Z"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              prefix-text="A"
+              suffix-text="Z"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              prefix-text="A"
+              suffix-text="Z"
+              class="locator-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Open</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="s" open>
+              <calcite-autocomplete-item
+                scale="s"
+                label="Item 1"
+                value="1"
+                heading="Item 1"
+                description="Item 1 description"
+                icon-start="information"
+                icon-end="gear"
+              ></calcite-autocomplete-item>
+              <calcite-autocomplete-item
+                disabled
+                scale="s"
+                label="Item 2"
+                value="2"
+                heading="Item 2"
+                description="Item 2 description"
+              ></calcite-autocomplete-item>
+            </calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="m" open>
+              <calcite-autocomplete-item
+                scale="m"
+                label="Item 1"
+                value="1"
+                heading="Item 1"
+                description="Item 1 description"
+                icon-start="information"
+                icon-end="gear"
+              ></calcite-autocomplete-item>
+              <calcite-autocomplete-item
+                disabled
+                scale="m"
+                label="Item 2"
+                value="2"
+                heading="Item 2"
+                description="Item 2 description"
+              ></calcite-autocomplete-item>
+            </calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="l" open>
+              <calcite-autocomplete-item
+                scale="l"
+                label="Item 1"
+                value="1"
+                heading="Item 1"
+                description="Item 1 description"
+                icon-start="information"
+                icon-end="gear"
+              ></calcite-autocomplete-item>
+              <calcite-autocomplete-item
+                disabled
+                scale="l"
+                label="Item 2"
+                value="2"
+                heading="Item 2"
+                description="Item 2 description"
+              ></calcite-autocomplete-item>
+            </calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <script type="module">
+        import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
+
+        async function getSuggestions(locatorAutocomplete) {
+          locatorAutocomplete.innerHTML = "";
+
+          locatorAutocomplete.open = true;
+
+          if (!locatorAutocomplete.inputValue) {
+            const emptyText = document.createElement("calcite-notice");
+            emptyText.open = true;
+            emptyText.icon = "information";
+            emptyText.kind = "brand";
+            emptyText.innerHTML = `
+              <div slot="title">Empty text</div>
+        <div slot="message">Enter some text</div>`;
+            emptyText.slot = "content-bottom";
+            locatorAutocomplete.appendChild(emptyText);
+            return;
+          }
+
+          const response = await suggestLocations(
+            "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+            {
+              text: locatorAutocomplete.inputValue,
+            },
+          );
+
+          if (response.length === 0) {
+            locatorAutocomplete.innerHTML = "";
+            const noResults = document.createElement("calcite-notice");
+            noResults.open = true;
+            noResults.kind = "danger";
+            noResults.icon = "exclamation-mark-triangle";
+            noResults.innerHTML = `
+              <div slot="title">No results</div>
+        <div slot="message">Try something else</div>`;
+            noResults.slot = "content-top";
+            locatorAutocomplete.appendChild(noResults);
+          } else {
+            locatorAutocomplete.innerHTML = "";
+            response.forEach((location) => {
+              const item = document.createElement("calcite-autocomplete-item");
+              item.value = location.magicKey;
+              item.heading = location.text;
+              locatorAutocomplete.appendChild(item);
+            });
+          }
+
+          return response;
+        }
+
+        const locateForms = document.querySelectorAll(".locate-form");
+
+        locateForms.forEach((form) => {
+          form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const data = new FormData(event.target);
+            console.log([...data.entries()]);
+          });
+        });
+
+        const locatorAutocompletes = document.querySelectorAll(".locator-autocomplete");
+
+        locatorAutocompletes.forEach((locatorAutocomplete) => {
+          let results, lastSuggestQuery;
+
+          locatorAutocomplete.addEventListener("calciteAutocompleteTextChange", async (event) => {
+            const inputValue = event.target.inputValue;
+
+            if (!inputValue) {
+              locatorAutocomplete.value = "";
+              locatorAutocomplete.innerHTML = "";
+              return;
+            }
+          });
+
+          locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", async (event) => {
+            console.log({ name: "calciteAutocompleteTextInput", event, value: event.target.value });
+            const inputValue = event.target.inputValue;
+
+            if (!inputValue) {
+              locatorAutocomplete.value = "";
+              locatorAutocomplete.innerHTML = "";
+              return;
+            }
+
+            locatorAutocomplete.loading = true;
+
+            const suggestQuery = getSuggestions(locatorAutocomplete);
+            lastSuggestQuery = suggestQuery;
+
+            setTimeout(() => {
+              if (suggestQuery !== lastSuggestQuery) {
+                return;
+              }
+              locatorAutocomplete.loading = false;
+            }, 500);
+
+            results = await suggestQuery;
+          });
+
+          locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+            console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
+            const selected = results.find((result) => result.magicKey === event.target.value);
+            locatorAutocomplete.inputValue = selected?.text;
+          });
+        });
+      </script>
     </demo-dom-swapper>
   </body>
 </html>
