@@ -166,13 +166,6 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) detached = false;
 
   /**
-   * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
-   *
-   * @deprecated Use `heightScale` instead.
-   */
-  @property({ reflect: true }) detachedHeightScale: Scale;
-
-  /**
    * Specifies the display mode of the component, where:
    *
    * `"dock"` displays at full height adjacent to center content,
@@ -237,14 +230,6 @@ export class ShellPanel extends LitElement {
 
     if (changes.has("displayMode") && (this.hasUpdated || this.displayMode !== "dock")) {
       this.detached = this.displayMode === "float-content" || this.displayMode === "float";
-    }
-
-    if (changes.has("detachedHeightScale")) {
-      this.heightScale = this.detachedHeightScale;
-    }
-
-    if (changes.has("heightScale")) {
-      this.detachedHeightScale = this.heightScale;
     }
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
