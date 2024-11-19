@@ -11,7 +11,11 @@
 }
 
 .container {
-  display: block;
+  @apply relative flex flex-auto;
+}
+
+.input {
+  @apply w-full;
 }
 
 @include disabled();

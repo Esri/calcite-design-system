@@ -66,6 +66,34 @@
       </div>
 
       <div class="parent">
+        <div class="child right-aligned-text">Content start/end</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="s" class="locator-autocomplete" name="location">
+              <calcite-button kind="neutral" scale="s" icon-start="banana" slot="content-start"></calcite-button>
+              <calcite-button kind="neutral" scale="s" icon-start="banana" slot="content-end"></calcite-button>
+            </calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="m" class="locator-autocomplete" name="location">
+              <calcite-button kind="neutral" scale="m" icon-start="banana" slot="content-start"></calcite-button>
+              <calcite-button kind="neutral" scale="m" icon-start="banana" slot="content-end"></calcite-button>
+            </calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete scale="l" class="locator-autocomplete" name="location">
+              <calcite-button kind="neutral" scale="l" icon-start="banana" slot="content-start"></calcite-button>
+              <calcite-button kind="neutral" scale="l" icon-start="banana" slot="content-end"></calcite-button>
+            </calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
         <div class="child right-aligned-text">Placeholder</div>
         <div class="child">
           <form class="locate-form">
@@ -330,6 +358,8 @@
         <div class="child">
           <form class="locate-form">
             <calcite-autocomplete scale="s" open>
+              <div slot="content-top">Content top</div>
+              <div slot="content-bottom">Content bottom</div>
               <calcite-autocomplete-item
                 scale="s"
                 label="Item 1"
@@ -353,6 +383,8 @@
         <div class="child">
           <form class="locate-form">
             <calcite-autocomplete scale="m" open>
+              <div slot="content-top">Content top</div>
+              <div slot="content-bottom">Content bottom</div>
               <calcite-autocomplete-item
                 scale="m"
                 label="Item 1"
@@ -376,6 +408,8 @@
         <div class="child">
           <form class="locate-form">
             <calcite-autocomplete scale="l" open>
+              <div slot="content-top">Content top</div>
+              <div slot="content-bottom">Content bottom</div>
               <calcite-autocomplete-item
                 scale="l"
                 label="Item 1"
