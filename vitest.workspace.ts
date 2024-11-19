@@ -7,4 +7,6 @@ import { workspaces } from "./package.json";
  *
  * @see https://vitest.dev/guide/workspace.html
  */
-export default defineWorkspace(workspaces.map((workspace) => `${workspace}/vite.config.ts`));
+export default defineWorkspace(
+  workspaces.map((workspace) => `${workspace}/vite.config.ts`),
+);
