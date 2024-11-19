@@ -297,13 +297,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   @property() hexDisabled = false;
 
   /**
-   * When `true`, hides the RGB/HSV channel inputs.
-   *
-   * @deprecated use `channelsDisabled` instead
-   */
-  @property({ reflect: true }) hideChannels = false;
-
-  /**
    * When `true`, hides the hex input.
    *
    * @deprecated use `hexDisabled` instead
@@ -1447,7 +1440,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
         thumb: { radius: thumbRadius },
       },
       hexDisabled,
-      hideChannels,
       hideHex,
       hideSaved,
       hueScopeLeft,
@@ -1471,7 +1463,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     const noColor = color === undefined;
     const vertical = scopeOrientation === "vertical";
     const noHex = hexDisabled || hideHex;
-    const noChannels = channelsDisabled || hideChannels;
     const noSaved = savedDisabled || hideSaved;
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
@@ -1566,7 +1557,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
               ) : null}
             </div>
           </div>
-          {noHex && noChannels ? null : (
+          {noHex && channelsDisabled ? null : (
             <div
               class={{
                 [CSS.controlSection]: true,
@@ -1588,7 +1579,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
                     />
                   </div>
                 )}
-                {noChannels ? null : (
+                {channelsDisabled ? null : (
                   <calcite-tabs
                     class={{
                       [CSS.colorModeContainer]: true,

@@ -102,10 +102,6 @@ describe("calcite-color-picker", () => {
         defaultValue: false,
       },
       {
-        propertyName: "hideChannels",
-        defaultValue: false,
-      },
-      {
         propertyName: "hideHex",
         defaultValue: false,
       },
