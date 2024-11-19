@@ -441,7 +441,7 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-font-size: 14px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size-xs: 10px;
-  --calcite-font-weight-bold: 700;
+  --calcite-font-weight-bold: 600;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-regular: 400;
@@ -915,7 +915,7 @@ export const calciteFontWeightNormal = "400"; // For backwards compatibility onl
 export const calciteFontWeightRegular = "400";
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
-export const calciteFontWeightBold = "700";
+export const calciteFontWeightBold = "600";
 export const calciteFontSizeXs = "10px";
 export const calciteFontSizeSm = "12px";
 export const calciteFontSize = "14px";
@@ -1028,7 +1028,7 @@ export const calciteTypographyHierarchyHeading4 = {"fontWeight":"500","lineHeigh
 export const calciteTypographyHierarchyHeading5 = {"fontWeight":"500","lineHeight":"137.5%"};
 export const calciteTypographyHierarchyBodySnug = {"lineHeight":"137.5%"};
 export const calciteTypographyHierarchyBody = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
-export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","textCase":"uppercase","fontWeight":"700"};
+export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","textCase":"uppercase","fontWeight":"600"};
 export const calciteTypographyHierarchyCaption = {"lineHeight":"137.5%","fontSize":"12px"};
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
@@ -2036,7 +2036,7 @@ $calcite-font-size-md: 16px;
 $calcite-font-size: 14px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size-xs: 10px;
-$calcite-font-weight-bold: 700;
+$calcite-font-weight-bold: 600;
 $calcite-font-weight-semibold: 600;
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
