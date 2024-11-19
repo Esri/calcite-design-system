@@ -119,15 +119,24 @@
             locatorAutocompletes.forEach((locatorAutocomplete) => {
               let results, lastSuggestQuery;
 
+              locatorAutocomplete.addEventListener("calciteAutocompleteTextChange", async (event) => {
+                const inputValue = event.target.inputValue;
+
+                if (!inputValue) {
+                  locatorAutocomplete.value = "";
+                  locatorAutocomplete.innerHTML = "";
+                  return;
+                }
+              });
+
               locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", async (event) => {
                 const inputValue = event.target.inputValue;
 
                 if (!inputValue) {
                   locatorAutocomplete.value = "";
+                  locatorAutocomplete.innerHTML = "";
+                  return;
                 }
-
-                const alert = document.getElementById("locator-alert");
-                alert.open = false;
 
                 locatorAutocomplete.loading = true;
 
@@ -148,10 +157,6 @@
                 console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
                 const selected = results.find((result) => result.magicKey === event.target.value);
                 locatorAutocomplete.inputValue = selected?.text;
-                const alert = document.getElementById("locator-alert");
-                alert.innerHTML = `<div slot="title">Selected item</div>
-        <div slot="message">You selected "${selected?.text}"</div>`;
-                alert.open = true;
               });
             });
           </script>

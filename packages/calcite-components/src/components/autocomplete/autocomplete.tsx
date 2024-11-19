@@ -607,6 +607,7 @@ export class Autocomplete
   private changeHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.inputValue = (event.target as Input["el"]).value;
+    this.calciteAutocompleteTextChange.emit();
   }
 
   private inputHandler(event: CustomEvent): void {
