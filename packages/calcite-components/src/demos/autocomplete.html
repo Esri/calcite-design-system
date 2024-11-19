@@ -118,6 +118,11 @@
 
             locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", (event) => {
               const inputValue = event.target.inputValue;
+
+              if (!inputValue) {
+                locatorAutocomplete.value = "";
+              }
+
               locate(inputValue);
               const alert = document.getElementById("locator-alert");
               alert.open = false;

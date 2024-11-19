@@ -7,19 +7,14 @@
  */
 
 :host {
-  @apply flex relative;
+  @apply block relative;
 }
 
 .container {
   display: block;
-  flex: 1 1 auto;
 }
 
 @include disabled();
-
-.input {
-  flex: 1;
-}
 
 .content-container {
   @apply bg-foreground-1
@@ -55,5 +50,6 @@
   @apply sr-only;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();
