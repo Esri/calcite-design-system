@@ -57,7 +57,7 @@ export class ActionGroup extends LitElement implements LoadableComponent {
   /**
    * Indicates the layout of the component.
    *
-   * @deprecated Use the `layout` property on the component's parent instead.
+   * `@internal`
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
