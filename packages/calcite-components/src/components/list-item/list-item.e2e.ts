@@ -397,23 +397,23 @@ describe("calcite-list-item", () => {
             targetProp: "backgroundColor",
             state: { press: { attribute: "class", value: CSS.content } },
           },
-          "--calcite-list-item-border-color": {
+          "--calcite-list-border-color": {
             shadowSelector: `.${CSS.wrapper}`,
             targetProp: "borderBlockEndColor",
           },
-          "--calcite-list-item-content-text-color": {
+          "--calcite-list-content-text-color": {
             shadowSelector: `.${CSS.contentContainer}`,
             targetProp: "color",
           },
-          "--calcite-list-item-description-text-color": {
+          "--calcite-list-description-text-color": {
             shadowSelector: `.${CSS.description}`,
             targetProp: "color",
           },
-          "--calcite-list-item-icon-color": {
+          "--calcite-list-icon-color": {
             shadowSelector: `.${CSS.selectionContainer}`,
             targetProp: "color",
           },
-          "--calcite-list-item-label-text-color": {
+          "--calcite-list-label-text-color": {
             shadowSelector: `.${CSS.label}`,
             targetProp: "color",
           },
@@ -433,7 +433,7 @@ describe("calcite-list-item", () => {
           selection-appearance="border"
         ></calcite-list-item>`,
         {
-          "--calcite-list-item-selection-border-color": {
+          "--calcite-list-selection-border-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderInlineStartColor",
           },

@@ -2,15 +2,15 @@ import { html } from "../../support/formatting";
 
 export const listTokens = {
   calciteListBackgroundColor: "",
-  calciteListItemGroupColor: "",
   calciteListBackgroundColorHover: "",
   calciteListBackgroundColorPress: "",
-  calciteListItemBorderColor: "",
-  calciteListItemContentTextColor: "",
-  calciteListItemDescriptionTextColor: "",
-  calciteListItemIconColor: "",
-  calciteListItemLabelTextColor: "",
-  calciteListItemSelectionBorderColor: "",
+  calciteListBorderColor: "",
+  calciteListColor: "",
+  calciteListContentTextColor: "",
+  calciteListDescriptionTextColor: "",
+  calciteListIconColor: "",
+  calciteListLabelTextColor: "",
+  calciteListSelectionBorderColor: "",
 };
 
 export const list = html`<calcite-list>

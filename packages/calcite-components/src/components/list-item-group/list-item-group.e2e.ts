@@ -44,7 +44,7 @@ describe("calcite-list-item-group", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-list-item-group-color": {
+        "--calcite-list-color": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "color",
         },
