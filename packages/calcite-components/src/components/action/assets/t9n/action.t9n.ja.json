@@ -1,4 +1,5 @@
 {
   "loading": "読み込んでいます",
-  "indicator": "インジケーターあり"
+  "indicator": "インジケーターあり",
+  "indicatorLabel": "{label} (インジケーターあり)"
 }

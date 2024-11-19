@@ -405,6 +405,20 @@ describe("calcite-block", () => {
     expect(contentPadding).toEqual(overrideStyle);
   });
 
+  it("should set aria-label", async () => {
+    const label = "Spatial";
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-block label=${label} open>
+        <calcite-notice open>
+          <div slot="message">Use layer effects sparingly, for emphasis</div>
+        </calcite-notice>
+      </calcite-block>`,
+    );
+    const article = await page.find(`calcite-block >>> article`);
+    expect(article.getAttribute("aria-label")).toEqual(label);
+  });
+
   describe("translation support", () => {
     t9n("calcite-block");
   });

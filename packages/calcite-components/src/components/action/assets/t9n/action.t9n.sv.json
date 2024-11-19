@@ -1,4 +1,5 @@
 {
   "loading": "Läser in",
-  "indicator": "Indikator finns"
+  "indicator": "Indikator finns",
+  "indicatorLabel": "{label} (Indikator finns)"
 }

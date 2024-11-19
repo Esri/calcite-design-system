@@ -13,7 +13,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import { getFocusedElementProp, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS as PopoverCSS } from "../popover/resources";
@@ -888,6 +888,7 @@ describe("calcite-input-time-picker", () => {
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
       await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Tab");
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
@@ -940,10 +941,11 @@ describe("calcite-input-time-picker", () => {
       expect(await popover.getProperty("open")).not.toBe(true);
     });
 
-    it("toggles the time picker when clicked", async () => {
+    it("toggles the time picker while input retains focus when clicked", async () => {
       const popoverPositionContainer = await page.find(
         `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
       );
+      const input = await page.find("calcite-input-time-picker >>> calcite-input-text");
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
 
@@ -951,11 +953,18 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
+      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true }));
 
       await inputTimePicker.click();
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
+      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true }));
+
+      await input.click();
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true }));
     });
 
     it("toggles the time picker when using arrow down/escape key", async () => {
