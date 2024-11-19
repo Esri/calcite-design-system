@@ -642,7 +642,6 @@ export class Combobox
     onToggleOpenCloseComponent(this);
 
     if (this.disabled) {
-      this.open = false;
       return;
     }
 
