@@ -321,6 +321,7 @@ describe("calcite-flow", () => {
       <calcite-flow-item></calcite-flow-item>
       `;
       });
+      await page.waitForChanges();
 
       const items = await page.findAll("calcite-flow-item");
 
@@ -501,6 +502,7 @@ describe("calcite-flow", () => {
 
       customElements.define("custom-flow-item", CustomFlowItem);
     });
+    await page.waitForChanges();
 
     const flow = await page.find("calcite-flow");
     const displayedItemSelector = "calcite-flow > [selected]";
