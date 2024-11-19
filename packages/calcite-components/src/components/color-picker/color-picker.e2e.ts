@@ -102,14 +102,6 @@ describe("calcite-color-picker", () => {
         defaultValue: false,
       },
       {
-        propertyName: "hideHex",
-        defaultValue: false,
-      },
-      {
-        propertyName: "hideSaved",
-        defaultValue: false,
-      },
-      {
         propertyName: "savedDisabled",
         defaultValue: false,
       },
