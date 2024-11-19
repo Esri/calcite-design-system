@@ -79,8 +79,7 @@ describe("calcite-shell-center-row", () => {
     `;
     await page.setContent(pageContent);
 
-    const element = await page.find("calcite-shell-center-row");
-    const containerEl = element.shadowRoot.querySelector(`.${CSS.container}`);
+    const containerEl = await page.find(`calcite-shell-center-row >>> .${CSS.container}`);
     await page.waitForChanges();
 
     expect(containerEl.lastElementChild).toHaveClass(CSS.actionBarContainer);

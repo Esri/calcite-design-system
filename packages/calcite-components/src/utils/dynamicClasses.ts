@@ -5,5 +5,5 @@ export function getDimensionClass(
   size: Width | Height,
   scale: Scale,
 ): `${typeof type}-${Scale | Width | Height}` {
-  return size ? `${type}-${size}` : scale ? `${type}-${scale}` : "width-m";
+  return size ? `${type}-${size}` : scale ? `${type}-${scale}` : `${type}-m`;
 }

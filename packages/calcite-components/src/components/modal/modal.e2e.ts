@@ -31,7 +31,7 @@ describe("calcite-modal", () => {
   describe("reflects", () => {
     reflects("calcite-modal", [
       {
-        propertyName: "width-scale",
+        propertyName: "widthScale",
         value: "m",
       },
       {
