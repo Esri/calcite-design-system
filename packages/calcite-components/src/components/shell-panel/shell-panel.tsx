@@ -159,13 +159,6 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * When `true`, the content area displays like a floating panel.
-   *
-   * @deprecated Use `displayMode` instead.
-   */
-  @property({ reflect: true }) detached = false;
-
-  /**
    * Specifies the display mode of the component, where:
    *
    * `"dock"` displays at full height adjacent to center content,
@@ -224,14 +217,6 @@ export class ShellPanel extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("detached") && (this.hasUpdated || this.detached !== false)) {
-      this.handleDetached(this.detached);
-    }
-
-    if (changes.has("displayMode") && (this.hasUpdated || this.displayMode !== "dock")) {
-      this.detached = this.displayMode === "float-content" || this.displayMode === "float";
-    }
-
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
     }
@@ -248,14 +233,6 @@ export class ShellPanel extends LitElement {
   // #endregion
 
   // #region Private Methods
-
-  private handleDetached(value: boolean): void {
-    if (value) {
-      this.displayMode = "float-content";
-    } else if (this.displayMode === "float-content" || this.displayMode === "float") {
-      this.displayMode = "dock";
-    }
-  }
 
   private setContentWidth(width: number): void {
     const { contentWidthMax, contentWidthMin } = this;
