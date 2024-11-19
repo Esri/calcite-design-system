@@ -68,18 +68,8 @@ module.exports = {
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
-    "import/no-dynamic-require": [
-      "error",
-      {
-        esmodule: true,
-      },
-    ],
-    "import/order": [
-      "error",
-      {
-        "newlines-between": "never",
-      },
-    ],
+    "import/no-dynamic-require": ["error", { esmodule: true }],
+    "import/order": ["error", { "newlines-between": "never" }],
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
@@ -87,13 +77,7 @@ module.exports = {
     "jsdoc/require-param-type": "off",
     "jsdoc/require-property-type": "off",
     "jsdoc/require-returns-type": "off",
-    "jsdoc/tag-lines": [
-      "error",
-      "any",
-      {
-        startLines: 1,
-      },
-    ],
+    "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
     "lines-between-class-members": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
