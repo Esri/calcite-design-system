@@ -84,7 +84,7 @@ export class Checkbox
   /**
    * The `id` attribute of the component. When omitted, a globally unique identifier is used.
    *
-   * @deprecated No longer necessary.
+   * @internal
    */
   @property({ reflect: true }) guid: string;
 
