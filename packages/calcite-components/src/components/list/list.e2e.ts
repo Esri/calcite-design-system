@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
+import { accessible, hidden, renders, focusable, disabled, defaults, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
@@ -9,6 +9,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
 import { ListDragDetail } from "./interfaces";
+import { CSS } from "./resources";
 import type { List } from "./list";
 
 const placeholder = placeholderImage({
@@ -513,7 +514,7 @@ describe("calcite-list", () => {
           value="value-1"
         ></calcite-list-item>
         <calcite-list-item
-          id="value-match"
+          id="value-not-matched-by-default"
           label="label-3"
           description="description-3"
           value="match"
@@ -531,12 +532,12 @@ describe("calcite-list", () => {
     const list = await page.find("calcite-list");
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    expect(await list.getProperty("filteredItems")).toHaveLength(3);
-    expect(await list.getProperty("filteredData")).toHaveLength(3);
+    expect(await list.getProperty("filteredItems")).toHaveLength(2);
+    expect(await list.getProperty("filteredData")).toHaveLength(2);
 
     const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
+    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
   });
 
   it("filters initially with filterProps", async () => {
@@ -556,7 +557,7 @@ describe("calcite-list", () => {
           value="value-1"
         ></calcite-list-item>
         <calcite-list-item
-          id="value-match"
+          id="value-not-matched-by-default"
           label="label-3"
           description="description-3"
           value="match"
@@ -1575,6 +1576,17 @@ describe("calcite-list", () => {
 
       await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
       await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-list`, {
+        "--calcite-list-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+      });
     });
   });
 });

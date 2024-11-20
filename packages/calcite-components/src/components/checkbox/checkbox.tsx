@@ -8,7 +8,6 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -80,13 +79,6 @@ export class Checkbox
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
-
-  /**
-   * The `id` attribute of the component. When omitted, a globally unique identifier is used.
-   *
-   * @deprecated No longer necessary.
-   */
-  @property({ reflect: true }) guid: string;
 
   /**
    * The hovered state of the checkbox.
@@ -190,7 +182,6 @@ export class Checkbox
   }
 
   override connectedCallback(): void {
-    this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     connectLabel(this);
     connectForm(this);
   }
