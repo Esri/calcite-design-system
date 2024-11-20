@@ -34,7 +34,7 @@ export class Progress extends LitElement {
    */
   @property({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
 
-  /** When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0. */
+  /** When `type` is `"determinate"`, specifies the component's value with a range of 0 to 100. */
   @property() value = 0;
 
   // #endregion
@@ -43,14 +43,14 @@ export class Progress extends LitElement {
 
   override render(): JsxNode {
     const isDeterminate = this.type === "determinate";
-    const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
+    const barStyles = isDeterminate ? { width: `${this.value}%` } : {};
     const dir = getElementDir(this.el);
     return (
       <div
         ariaLabel={this.label || this.text}
-        ariaValueMax={1}
-        ariaValueMin={0}
-        ariaValueNow={this.value}
+        ariaValueMax={isDeterminate ? "100" : undefined}
+        ariaValueMin={isDeterminate ? "0" : undefined}
+        ariaValueNow={isDeterminate ? this.value : undefined}
         role="progressbar"
       >
         <div class="track">
