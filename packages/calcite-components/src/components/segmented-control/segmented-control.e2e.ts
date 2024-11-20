@@ -190,7 +190,7 @@ describe("calcite-segmented-control", () => {
     await page.evaluate(() => {
       (window as TestWindow).eventTimeValues = [];
       document.body.addEventListener("calciteSegmentedControlChange", (event: CustomEvent) => {
-        window.eventTimeValues.push(event.target.value);
+        (window as TestWindow).eventTimeValues.push((event.target as SegmentedControl["el"]).value);
       });
     });
 
