@@ -57,7 +57,7 @@ export class ActionGroup extends LitElement implements LoadableComponent {
   /**
    * Indicates the layout of the component.
    *
-   * `@internal`
+   * @internal
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
