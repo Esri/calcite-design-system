@@ -346,7 +346,7 @@ export class SegmentedControl
       (el): el is SegmentedControlItem["el"] => el.matches("calcite-segmented-control-item"),
     );
 
-    // await Promise.all(items.map((item) => item.componentOnReady()));
+    await Promise.all(items.map((item) => item.componentOnReady()));
     this.items = items;
     this.handleSelectedItem();
     this.handleItemPropChange();
