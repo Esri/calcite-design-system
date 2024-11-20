@@ -1,14 +1,5 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-  Prop,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -18,57 +9,68 @@ import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "..
 import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
+import type { Tile } from "../tile/tile";
 import { CSS } from "./resources";
+import { styles } from "./tile-group.scss";
 
-/**
- * @slot - A slot for adding `calcite-tile` elements.
- */
-@Component({
-  tag: "calcite-tile-group",
-  styleUrl: "tile-group.scss",
-  shadow: true,
-})
-export class TileGroup implements InteractiveComponent, SelectableGroupComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-tile-group": TileGroup;
+  }
+}
 
-  /**
-   * Specifies the alignment of each `calcite-tile`'s content.
-   */
-  @Prop({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
+/** @slot - A slot for adding `calcite-tile` elements. */
+export class TileGroup
+  extends LitElement
+  implements InteractiveComponent, SelectableGroupComponent
+{
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private items: Tile["el"][] = [];
+
+  private mutationObserver = createObserver("mutation", () => this.updateTiles());
+
+  private slotEl: HTMLSlotElement;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** Specifies the alignment of each `calcite-tile`'s content. */
+  @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
-  /** Accessible name for the component. */
-  @Prop() label!: string;
+  /**
+   * Accessible name for the component.
+   *
+   * @required
+   */
+  @property() label: string;
 
   /**
    * Defines the layout of the component.
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
-  @Prop({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
+  @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
-  /**
-   * Specifies the size of the component.
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  @Watch("scale")
-  scaleWatcher(): void {
-    this.updateTiles();
-  }
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
    *
    * @readonly
    */
-  @Prop({ mutable: true }) selectedItems: HTMLCalciteTileElement[] = [];
+  @property() selectedItems: Tile["el"][] = [];
 
   /**
    * Specifies the selection appearance, where:
@@ -76,7 +78,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
    * - `"icon"` (displays a checkmark or dot), or
    * - `"border"` (displays a border).
    */
-  @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
+  @property({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
   /**
    * Specifies the selection mode, where:
@@ -86,44 +88,70 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
    * - `"single-persist"` (allows only one selected item and prevents de-selection),
    * - `"none"` (allows no selected items).
    */
-  @Prop({ reflect: true }) selectionMode: Extract<
+  @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   > = "none";
 
-  @Watch("selectionMode")
-  @Watch("selectionAppearance")
-  handleSelectionModeOrAppearanceChange(): void {
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component's selection changes. */
+  calciteTileGroupSelect = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalTileKeyEvent", this.calciteInternalTileKeyEventListener);
+    this.listen("calciteTileSelect", this.calciteTileSelectHandler);
+  }
+
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
     this.updateTiles();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
+      (changes.has("selectionAppearance") &&
+        (this.hasUpdated || this.selectionAppearance !== "icon"))
+    ) {
+      this.updateTiles();
+    }
+  }
 
-  @Element() el: HTMLCalciteTileGroupElement;
+  override updated(): void {
+    updateHostInteraction(this);
+  }
 
-  private items: HTMLCalciteTileElement[] = [];
+  loaded(): void {
+    this.updateSelectedItems();
+  }
 
-  private slotEl: HTMLSlotElement;
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  private getSlottedTiles = (): HTMLCalciteTileElement[] => {
+  // #region Private Methods
+  private getSlottedTiles(): Tile["el"][] {
     return this.slotEl
       ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-tile")) as HTMLCalciteTileElement[];
-  };
+      .filter((el) => el?.matches("calcite-tile")) as Tile["el"][];
+  }
 
-  private mutationObserver = createObserver("mutation", () => this.updateTiles());
-
-  private selectItem = (item: HTMLCalciteTileElement): void => {
+  private selectItem(item: Tile["el"]): void {
     if (!item) {
       return;
     }
@@ -147,13 +175,13 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     });
     this.updateSelectedItems();
     this.calciteTileGroupSelect.emit();
-  };
+  }
 
-  private setSlotEl = (el: HTMLSlotElement): void => {
+  private setSlotEl(el: HTMLSlotElement): void {
     this.slotEl = el;
-  };
+  }
 
-  private updateSelectedItems = (): void => {
+  private updateSelectedItems(): void {
     const selectedItems = this.items?.filter((el) => el.selected);
     if (
       (this.selectionMode === "single" || this.selectionMode === "single-persist") &&
@@ -168,9 +196,9 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     } else {
       this.selectedItems = selectedItems ?? [];
     }
-  };
+  }
 
-  private updateTiles = (): void => {
+  private updateTiles(): void {
     this.items = this.getSlottedTiles();
     this.items?.forEach((el) => {
       el.alignment = this.alignment;
@@ -181,44 +209,9 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
       el.selectionMode = this.selectionMode;
     });
     this.updateSelectedItems();
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fires when the component's selection changes. */
-  @Event({ cancelable: false }) calciteTileGroupSelect: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.updateTiles();
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteInternalTileKeyEvent")
-  calciteInternalTileKeyEventListener(event: CustomEvent): void {
+  private calciteInternalTileKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       event.preventDefault();
       event.stopPropagation();
@@ -242,28 +235,27 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     }
   }
 
-  @Listen("calciteTileSelect")
-  calciteTileSelectHandler(event: CustomEvent): void {
+  private calciteTileSelectHandler(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      this.selectItem(event.target as HTMLCalciteTileElement);
+      this.selectItem(event.target as Tile["el"]);
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const role =
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div aria-label={this.label} class={CSS.container} role={role}>
-          <slot onSlotchange={this.updateTiles} ref={this.setSlotEl} />
+        <div ariaLabel={this.label} class={CSS.container} role={role}>
+          <slot onSlotChange={this.updateTiles} ref={this.setSlotEl} />
         </div>
       </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

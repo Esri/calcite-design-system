@@ -1,5 +1,6 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { KeyInput } from "puppeteer";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import {
   defaults,
   disabled,
@@ -18,8 +19,10 @@ import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { assertCaretPosition } from "../../tests/utils";
+import type { InputMessage } from "../input-message/input-message";
 import { CSS } from "./resources";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
+import type { Input } from "./input";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 200;
@@ -798,7 +801,7 @@ describe("calcite-input", () => {
   });
 
   describe("emits events when value is modified", () => {
-    type CodeBranchingTypes = Extract<HTMLCalciteInputElement["type"], "text" | "number">;
+    type CodeBranchingTypes = Extract<Input["el"]["type"], "text" | "number">;
 
     async function assertChangeEvents(type: CodeBranchingTypes): Promise<void> {
       const page = await newE2EPage();
@@ -1010,7 +1013,7 @@ describe("calcite-input", () => {
     await page.setContent(html`<calcite-input min-length="2" max-length="3" value=""></calcite-input>`);
 
     const getInputValidity = async () =>
-      page.$eval("calcite-input", (element: HTMLCalciteInputElement) => {
+      page.$eval("calcite-input", (element: Input["el"]) => {
         const input = element.shadowRoot.querySelector("input");
         return input.validity.valid;
       });
@@ -1935,7 +1938,7 @@ describe("calcite-input", () => {
       await page.keyboard.down("ArrowUp");
       await page.$eval(
         "calcite-input",
-        (element: HTMLCalciteInputElement) => {
+        (element: Input["el"]) => {
           document.addEventListener("calciteInputInput", async () => {
             const input = element.shadowRoot.querySelector("input");
             if (input.selectionStart === 0) {
@@ -1964,7 +1967,7 @@ describe("calcite-input", () => {
 
     expect(await isElementFocused(page, componentTag)).toBe(false);
 
-    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: HTMLCalciteInputMessageElement) => {
+    await page.$eval(`${componentTag} >>> calcite-input-message`, (element: InputMessage["el"]) => {
       element.click();
     });
     await page.waitForChanges();

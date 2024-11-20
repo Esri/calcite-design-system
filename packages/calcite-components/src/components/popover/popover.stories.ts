@@ -1,8 +1,8 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
-import { defaultPopoverPlacement } from "../popover/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { defaultPopoverPlacement } from "./resources";
 import { Popover } from "./popover";
 
 const contentHTML = `
@@ -208,3 +208,9 @@ export const transparentBG_TestOnly = (): string => html`
     </calcite-popover>
   </div>
 `;
+
+export const closedShouldNotCauseScrollbars = (): string =>
+  html`<calcite-popover reference-element="button">
+      <div style="width:10000px; height:10000px;">Popover</div>
+    </calcite-popover>
+    <calcite-button id="button">Button</calcite-button>`;

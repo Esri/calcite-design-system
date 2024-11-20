@@ -3,40 +3,54 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-tooltip-background-color: Specifies the background color of the component.
+ * @prop --calcite-tooltip-border-color: Specifies the border color of the component.
+ * @prop --calcite-tooltip-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-tooltip-text-color: Specifies the text color of the component.
  * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
  */
 
 :host {
+  @apply relative block;
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }
 
-@include floating-ui-host();
+.position-container {
+  @include floating-ui-container();
+}
+
+@include floating-ui-elem-anim(".position-container");
+
 @include floating-ui-arrow();
 
 .container {
-  @apply text-color-1
-    text-n2-wrap
+  @apply text-n2-wrap
     relative
     overflow-hidden
-    rounded
     py-3
     px-4
     font-medium;
+  border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
+  color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
   max-inline-size: 20rem;
   max-block-size: 20rem;
   text-align: start;
 }
 
-.calcite-floating-ui-anim {
-  @apply bg-foreground-1
-    border-color-3
-    rounded
-    border
+.position-container .calcite-floating-ui-anim {
+  @apply border
     border-solid;
+  background-color: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
 }
 
-.arrow::before {
-  outline: 1px solid var(--calcite-color-border-3);
+.calcite-floating-ui-arrow {
+  fill: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
+}
+
+.calcite-floating-ui-arrow__stroke {
+  stroke: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
 }
 
 @include base-component();

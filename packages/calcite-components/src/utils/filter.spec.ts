@@ -1,8 +1,9 @@
+import { describe, expect, it, vi } from "vitest";
 import { filter } from "./filter";
 
 describe("filter function", () => {
   it("warns and returns empty array for empty data", () => {
-    const spy = jest.spyOn(console, "warn");
+    const spy = vi.spyOn(console, "warn");
     const result = filter([], "test");
     expect(spy).toHaveBeenCalledTimes(1);
     expect(result).toEqual([]);

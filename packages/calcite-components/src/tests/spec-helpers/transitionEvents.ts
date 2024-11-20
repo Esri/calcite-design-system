@@ -2,9 +2,7 @@ export interface TransitionEventDispatcher {
   (element: HTMLElement, type: "transitionstart" | "transitionend", propertyName: string): void;
 }
 
-/**
- * Must be called in a `beforeEach` block to create a transition event dispatcher.
- */
+/** Must be called in a `beforeEach` block to create a transition event dispatcher. */
 export function createTransitionEventDispatcher(): TransitionEventDispatcher {
   // we define TransitionEvent since JSDOM doesn't support it yet - https://github.com/jsdom/jsdom/issues/1781
   class TransitionEvent extends window.Event {

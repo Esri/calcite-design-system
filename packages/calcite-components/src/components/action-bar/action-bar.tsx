@@ -1,17 +1,15 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
 import { debounce } from "lodash-es";
+import { PropertyValues } from "lit";
+import {
+  LitElement,
+  property,
+  createEvent,
+  Fragment,
+  h,
+  method,
+  state,
+  JsxNode,
+} from "@arcgis/lumina";
 import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
@@ -23,22 +21,24 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
-import { ActionBarMessages } from "./assets/action-bar/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Tooltip } from "../tooltip/tooltip";
+import type { ActionGroup } from "../action-group/action-group";
+import T9nStrings from "./assets/t9n/action-bar.t9n.en.json";
 import { CSS, SLOTS } from "./resources";
 import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
+import { styles } from "./action-bar.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-action-bar": ActionBar;
+  }
+}
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
@@ -46,249 +46,21 @@ import { geActionDimensions, getOverflowCount, overflowActions, queryActions } f
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
-@Component({
-  tag: "calcite-action-bar",
-  styleUrl: "action-bar.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class ActionBar extends LitElement implements LoadableComponent {
+  // #region Static Members
 
-  /**
-   * Specifies the accessible label for the last `calcite-action-group`.
-   */
-  @Prop() actionsEndGroupLabel: string;
+  static override styles = styles;
 
-  /**
-   * When `true`, the expand-toggling behavior is disabled.
-   */
-  @Prop({ reflect: true }) expandDisabled = false;
+  // #endregion
 
-  @Watch("expandDisabled")
-  expandHandler(): void {
-    this.overflowActions();
-  }
+  // #region Private Properties
 
-  /**
-   * When `true`, the component is expanded.
-   */
-  @Prop({ reflect: true, mutable: true }) expanded = false;
+  private actionGroups: ActionGroup["el"][];
 
-  @Watch("expanded")
-  expandedHandler(): void {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  }
-
-  /**
-   *  Specifies the layout direction of the actions.
-   */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
-
-  @Watch("layout")
-  layoutHandler(): void {
-    this.updateGroups();
-  }
-
-  /**
-   * Disables automatically overflowing `calcite-action`s that won't fit into menus.
-   */
-  @Prop({ reflect: true }) overflowActionsDisabled = false;
-
-  @Watch("overflowActionsDisabled")
-  overflowDisabledHandler(overflowActionsDisabled: boolean): void {
-    if (overflowActionsDisabled) {
-      this.resizeObserver?.disconnect();
-      return;
-    }
-
-    this.resizeObserver?.observe(this.el);
-    this.overflowActions();
-  }
-
-  /**
-   * Determines the type of positioning to use for the overlaid content.
-   *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
-   */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
-
-  /**
-   * Arranges the component depending on the element's `dir` property.
-   */
-  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
-
-  /**
-   * Specifies the size of the expand `calcite-action`.
-   */
-  @Prop({ reflect: true }) scale: Scale;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ActionBarMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ActionBarMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the `expanded` property is toggled.
-   */
-  @Event({ cancelable: false }) calciteActionBarToggle: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteActionBarElement;
-
-  mutationObserver = createObserver("mutation", () => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  });
-
-  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
-
-  @State() effectiveLocale: string;
-
-  @State() hasActionsEnd = false;
-
-  @State() hasBottomActions = false;
-
-  @State() expandTooltip: HTMLCalciteTooltipElement;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: ActionBarMessages;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  componentDidLoad(): void {
-    const { el, expanded } = this;
-
-    setComponentLoaded(this);
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  }
-
-  connectedCallback(): void {
-    const { el, expanded } = this;
-
-    connectLocalized(this);
-    connectMessages(this);
-    toggleChildActionText({ el, expanded });
-
-    this.mutationObserver?.observe(el, { childList: true, subtree: true });
-
-    if (!this.overflowActionsDisabled) {
-      this.resizeObserver?.observe(el);
-    }
-
-    this.overflowActions();
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    await setUpMessages(this);
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-    this.resizeObserver?.disconnect();
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Overflows actions that won't fit into menus.
-   *
-   * @internal
-   */
-  @Method()
-  async overflowActions(): Promise<void> {
-    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
-  }
-
-  /**
-   * Sets focus on the component's first focusable element.
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  actionMenuOpenHandler = (event: CustomEvent<void>): void => {
-    if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
-      const composedPath = event.composedPath();
-      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
-        if (!composedPath.includes(group)) {
-          group.menuOpen = false;
-        }
-      });
-    }
-  };
-
-  resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
-    entries.forEach(this.resizeHandler);
-  };
-
-  resizeHandler = (entry: ResizeObserverEntry): void => {
-    const { width, height } = entry.contentRect;
-    this.resize({ width, height });
-  };
+  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { el, expanded, expandDisabled, layout, overflowActionsDisabled } = this;
+    const { el, expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
       overflowActionsDisabled ||
@@ -300,9 +72,7 @@ export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComp
 
     const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
-    const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
-
-    this.setGroupLayout(actionGroups);
+    this.updateGroups();
 
     const groupCount =
       this.hasActionsEnd || this.hasBottomActions || !expandDisabled
@@ -328,50 +98,232 @@ export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComp
     });
   }, DEBOUNCE.resize);
 
-  toggleExpand = (): void => {
+  private resizeHandler = (entry: ResizeObserverEntry): void => {
+    const { width, height } = entry.contentRect;
+    this.resize({ width, height });
+  };
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    this.resizeHandlerEntries(entries),
+  );
+
+  private toggleExpand = (): void => {
     this.expanded = !this.expanded;
     this.calciteActionBarToggle.emit();
   };
 
-  updateGroups(): void {
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+  // #endregion
+
+  // #region State Properties
+
+  @state() expandTooltip: Tooltip["el"];
+
+  @state() hasActionsEnd = false;
+
+  @state() hasBottomActions = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** Specifies the accessible label for the last `calcite-action-group`. */
+  @property() actionsEndGroupLabel: string;
+
+  /** When `true`, the expand-toggling behavior is disabled. */
+  @property({ reflect: true }) expandDisabled = false;
+
+  /** When `true`, the component is expanded. */
+  @property({ reflect: true }) expanded = false;
+
+  /** Specifies the layout direction of the actions. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  /** Disables automatically overflowing `calcite-action`s that won't fit into menus. */
+  @property({ reflect: true }) overflowActionsDisabled = false;
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   */
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Arranges the component depending on the element's `dir` property. */
+  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
+
+  /** Specifies the size of the expand `calcite-action`. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  // #endregion
+
+  // #region Public Methods
+
+  /**
+   * Overflows actions that won't fit into menus.
+   *
+   * @private
+   */
+  @method()
+  async overflowActions(): Promise<void> {
+    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
-  setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
+  /** Sets focus on the component's first focusable element. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    focusFirstTabbable(this.el);
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the `expanded` property is toggled. */
+  calciteActionBarToggle = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+  }
+
+  override connectedCallback(): void {
+    this.updateGroups();
+    this.overflowActions();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) {
+      this.overflowActions();
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      this.expandedHandler();
+    }
+
+    if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
+      this.updateGroups();
+    }
+
+    if (
+      changes.has("overflowActionsDisabled") &&
+      (this.hasUpdated || this.overflowActionsDisabled !== false)
+    ) {
+      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    }
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+    this.overflowActions();
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+  private expandedHandler(): void {
+    const { el, expanded } = this;
+    toggleChildActionText({ el, expanded });
+    this.overflowActions();
+  }
+
+  private overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
+    if (overflowActionsDisabled) {
+      this.resizeObserver?.disconnect();
+      return;
+    }
+
+    this.resizeObserver?.observe(this.el);
+    this.overflowActions();
+  }
+
+  private actionMenuOpenHandler(event: CustomEvent<void>): void {
+    if ((event.target as ActionGroup["el"]).menuOpen) {
+      const composedPath = event.composedPath();
+      this.actionGroups?.forEach((group) => {
+        if (!composedPath.includes(group)) {
+          group.menuOpen = false;
+        }
+      });
+    }
+  }
+
+  private mutationObserverHandler(): void {
+    this.updateGroups();
+    this.overflowActions();
+  }
+
+  private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
+    entries.forEach(this.resizeHandler);
+  }
+
+  private updateGroups(): void {
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = groups;
+    this.setGroupLayout(groups);
+  }
+
+  private setGroupLayout(groups: ActionGroup["el"][]): void {
     groups.forEach((group) => (group.layout = this.layout));
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteActionGroupElement => el.matches("calcite-action-group"),
-    );
+  private handleDefaultSlotChange(): void {
+    this.updateGroups();
+  }
 
-    this.setGroupLayout(groups);
-  };
-
-  handleActionsEndSlotChange = (event: Event): void => {
+  private handleActionsEndSlotChange(event: Event): void {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleBottomActionsSlotChange = (event: Event): void => {
+  private handleBottomActionsSlotChange(event: Event): void {
     this.hasBottomActions = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+  private handleTooltipSlotChange(event: Event): void {
+    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
+      el?.matches("calcite-tooltip"),
     );
 
     this.expandTooltip = tooltips[0];
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderBottomActionGroup(): VNode {
+  // #region Rendering
+
+  private renderBottomActionGroup(): JsxNode {
     const {
       expanded,
       expandDisabled,
@@ -409,20 +361,22 @@ export class ActionBar implements LoadableComponent, LocalizedComponent, T9nComp
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
-        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
-        <slot name={SLOTS.bottomActions} onSlotchange={this.handleBottomActionsSlotChange} />
-        <slot name={SLOTS.expandTooltip} onSlotchange={this.handleTooltipSlotChange} />
+        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
+        <slot name={SLOTS.bottomActions} onSlotChange={this.handleBottomActionsSlotChange} />
+        <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
-        <slot onSlotchange={this.handleDefaultSlotChange} />
+      <>
+        <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
-      </Host>
+      </>
     );
   }
+
+  // #endregion
 }

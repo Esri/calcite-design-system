@@ -1,17 +1,15 @@
+import { PropertyValues } from "lit";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
+  Fragment,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { getElementDir, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
+  method,
+  JsxNode,
+  stringOrBoolean,
+} from "@arcgis/lumina";
+import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -36,82 +34,204 @@ import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
+import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
+import type { Label } from "../label/label";
 import { CSS, IDS } from "./resources";
+import { styles } from "./segmented-control.scss";
 
-/**
- * @slot - A slot for adding `calcite-segmented-control-item`s.
- */
-@Component({
-  tag: "calcite-segmented-control",
-  styleUrl: "segmented-control.scss",
-  shadow: true,
-})
+declare global {
+  interface DeclareElements {
+    "calcite-segmented-control": SegmentedControl;
+  }
+}
+
+/** @slot - A slot for adding `calcite-segmented-control-item`s. */
 export class SegmentedControl
+  extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  defaultValue: SegmentedControl["value"];
+
+  formEl: HTMLFormElement;
+
+  private items: SegmentedControlItem["el"][] = [];
+
+  labelEl: Label["el"];
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
-    "solid";
+  @property({ reflect: true }) appearance: Extract<
+    "outline" | "outline-fill" | "solid",
+    Appearance
+  > = "solid";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
   /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true }) form: string;
+  @property({ reflect: true }) form: string;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
+  /** Defines the layout of the component. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
    */
-  @Prop({ reflect: true }) name: string;
+  @property({ reflect: true }) name: string;
 
-  /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
+  /** When `true`, the component must have a value in order for the form to submit. */
+  @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  @Watch("appearance")
-  @Watch("layout")
-  @Watch("scale")
-  handlePropsChange(): void {
-    this.handleItemPropChange();
-  }
-
-  /** The component's `selectedItem` value. */
-  @Prop({ mutable: true }) value: string = null;
-
-  @Watch("value")
-  valueHandler(value: string): void {
-    const { items } = this;
-    items.forEach((item) => (item.checked = item.value === value));
-  }
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The component's selected item `HTMLElement`.
    *
    * @readonly
    */
-  @Prop({ mutable: true }) selectedItem: HTMLCalciteSegmentedControlItemElement;
+  @property() selectedItem: SegmentedControlItem["el"];
 
-  @Watch("selectedItem")
-  handleSelectedItemChange<T extends HTMLCalciteSegmentedControlItemElement>(
+  /** Specifies the status of the validation message. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation icon to display under the component. */
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
+    | IconNameOrString
+    | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage: string;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property() validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
+  /** The component's `selectedItem` value. */
+  @property() value: string = null;
+
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    (this.selectedItem || this.items[0])?.focus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the `calcite-segmented-control-item` selection changes. */
+  calciteSegmentedControlChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalSegmentedControlItemChange", this.handleSelected);
+    this.listen("keydown", this.handleKeyDown);
+    this.listen("click", this.handleClick);
+  }
+
+  override connectedCallback(): void {
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+    ) {
+      this.handleItemPropChange();
+    }
+
+    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+      this.valueHandler(this.value);
+    }
+
+    if (changes.has("selectedItem")) {
+      this.handleSelectedItemChange(this.selectedItem, changes.get("selectedItem"));
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    afterConnectDefaultValueSet(this, this.value);
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+  private valueHandler(value: string): void {
+    const { items } = this;
+    items.forEach((item) => (item.checked = item.value === value));
+  }
+
+  private handleSelectedItemChange<T extends SegmentedControlItem["el"]>(
     newItem: T,
-    oldItem: T,
+    oldItem?: T,
   ): void {
     this.value = newItem?.value;
     if (newItem === oldItem) {
@@ -127,121 +247,25 @@ export class SegmentedControl
     }
   }
 
-  /** Specifies the status of the validation message. */
-  @Prop({ reflect: true }) status: Status = "idle";
-
-  /** Specifies the validation message to display under the component. */
-  @Prop() validationMessage: string;
-
-  /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
-
-  /**
-   * The current validation state of the component.
-   *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
-
-  /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.value);
-    setComponentLoaded(this);
-  }
-
-  connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  render(): VNode {
-    return (
-      <Host onClick={this.handleClick} role="radiogroup">
-        <div
-          aria-errormessage={IDS.validationMessage}
-          aria-invalid={toAriaBoolean(this.status === "invalid")}
-          class={CSS.itemWrapper}
-        >
-          <InteractiveContainer disabled={this.disabled}>
-            <slot onSlotchange={this.handleDefaultSlotChange} />
-            <HiddenFormInputSlot component={this} />
-          </InteractiveContainer>
-        </div>
-        {this.validationMessage && this.status === "invalid" ? (
-          <Validation
-            icon={this.validationIcon}
-            id={IDS.validationMessage}
-            message={this.validationMessage}
-            scale={this.scale}
-            status={this.status}
-          />
-        ) : null}
-      </Host>
-    );
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  private handleClick = (event: MouseEvent): void => {
+  private handleClick(event: MouseEvent): void {
     if (this.disabled) {
       return;
     }
 
     if ((event.target as HTMLElement).localName === "calcite-segmented-control-item") {
-      this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
+      this.selectItem(event.target as SegmentedControlItem["el"], true);
     }
-  };
+  }
 
-  @Listen("calciteInternalSegmentedControlItemChange")
-  handleSelected(event: Event): void {
+  private handleSelected(event: Event): void {
     event.preventDefault();
-    const el = event.target as HTMLCalciteSegmentedControlItemElement;
+    const el = event.target as SegmentedControlItem["el"];
     if (el.checked) {
       this.selectItem(el);
     }
     event.stopPropagation();
   }
 
-  @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
@@ -288,57 +312,12 @@ export class SegmentedControl
       }
       case " ":
         event.preventDefault();
-        this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
+        this.selectItem(event.target as SegmentedControlItem["el"], true);
         return;
       default:
         return;
     }
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fires when the `calcite-segmented-control-item` selection changes. */
-  @Event({ cancelable: false }) calciteSegmentedControlChange: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.selectedItem || this.items[0])?.focus();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteSegmentedControlElement;
-
-  private items: HTMLCalciteSegmentedControlItemElement[] = [];
-
-  labelEl: HTMLCalciteLabelElement;
-
-  formEl: HTMLFormElement;
-
-  defaultValue: SegmentedControl["value"];
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 
   private handleItemPropChange(): void {
     const { items } = this;
@@ -362,29 +341,28 @@ export class SegmentedControl
     }
   }
 
-  private handleDefaultSlotChange = (event: Event): void => {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteSegmentedControlItemElement =>
-        el.matches("calcite-segmented-control-item"),
+      (el): el is SegmentedControlItem["el"] => el.matches("calcite-segmented-control-item"),
     );
 
+    await Promise.all(items.map((item) => item.componentOnReady()));
     this.items = items;
-
     this.handleSelectedItem();
     this.handleItemPropChange();
-  };
+  }
 
   onLabelClick(): void {
     this.setFocus();
   }
 
-  private selectItem(selected: HTMLCalciteSegmentedControlItemElement, emit = false): void {
+  private async selectItem(selected: SegmentedControlItem["el"], emit = false): Promise<void> {
     if (selected === this.selectedItem) {
       return;
     }
 
     const { items } = this;
-    let match: HTMLCalciteSegmentedControlItemElement = null;
+    let match: SegmentedControlItem["el"] = null;
 
     items.forEach((item) => {
       const matches = item === selected;
@@ -397,16 +375,52 @@ export class SegmentedControl
 
       if (matches) {
         match = item;
-
-        if (emit) {
-          this.calciteSegmentedControlChange.emit();
-        }
       }
     });
 
     this.selectedItem = match;
+
+    if (match && emit) {
+      await this.updateComplete;
+      this.calciteSegmentedControlChange.emit();
+    }
+
     if (isBrowser() && match) {
       match.focus();
     }
   }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "radiogroup";
+    return (
+      <>
+        <div
+          aria-errormessage={IDS.validationMessage}
+          ariaInvalid={this.status === "invalid"}
+          class={CSS.itemWrapper}
+        >
+          <InteractiveContainer disabled={this.disabled}>
+            <slot onSlotChange={this.handleDefaultSlotChange} />
+            <HiddenFormInputSlot component={this} />
+          </InteractiveContainer>
+        </div>
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </>
+    );
+  }
+
+  // #endregion
 }

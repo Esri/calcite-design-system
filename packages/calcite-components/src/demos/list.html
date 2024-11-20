@@ -6,7 +6,7 @@
 
     <title>List</title>
 
-    <script src="./_assets/head.js"></script>
+    <script src="./_assets/head.ts"></script>
     <style>
       .parent {
         display: flex;
@@ -813,13 +813,13 @@
         <div class="child right-aligned-text">nested & draggable</div>
 
         <div class="child">
-          <calcite-list drag-enabled group="nested" label="test" selection-mode="multiple">
+          <calcite-list drag-enabled group="nested" label="List 1" selection-mode="multiple">
             <calcite-list-item open label="Hi! 1" description="hello world">
-              <calcite-list drag-enabled group="nested" selection-mode="multiple">
+              <calcite-list label="List 2" drag-enabled group="nested" selection-mode="multiple">
                 <calcite-list-item open label="Hi! 2" description="hello world">
-                  <calcite-list drag-enabled group="nested" selection-mode="multiple">
+                  <calcite-list label="List 3" drag-enabled group="nested" selection-mode="multiple">
                     <calcite-list-item label="Hi! 3" description="hello world">
-                      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+                      <calcite-list label="List 4" drag-enabled group="nested" selection-mode="multiple"></calcite-list>
                     </calcite-list-item>
                     <calcite-list-item label="Hi! 4" description="hello world"></calcite-list-item>
                   </calcite-list>
@@ -829,6 +829,217 @@
             </calcite-list-item>
             <calcite-list-item label="Hi! 6" description="hello world"></calcite-list-item>
             <calcite-list-item drag-disabled label="Hi! 7" description="hello world"></calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
+
+      <style>
+        .themed-list {
+          --calcite-list-background-color: red;
+          --calcite-list-color: green;
+          --calcite-list-background-color-hover: red;
+          --calcite-list-background-color-press: red;
+          --calcite-list-content-text-color: rgb(184, 216, 184);
+          --calcite-list-label-text-color: rgb(234, 230, 32);
+          --calcite-list-description-text-color: rgb(29, 226, 33);
+          --calcite-list-icon-color: red;
+          --calcite-list-border-color: black;
+          --calcite-list-selection-border-color: purple;
+        }
+      </style>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Themed: icon</div>
+
+        <div class="child">
+          <calcite-list selection-mode="multiple" selection-appearance="icon" class="themed-list">
+            <calcite-list-item-group heading="Outdoor recreation">
+              <calcite-list-item
+                selected
+                label="Hiking trails"
+                description="Designated routes for hikers to use."
+                value="hiking-trails"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Trails layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Waterfalls layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Rivers layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Estuaries" description="Where the river meets the sea." value="estuaries">
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Estuaries layer"
+                ></calcite-action>
+              </calcite-list-item>
+            </calcite-list-item-group>
+            <calcite-list-item-group heading="Buildings">
+              <calcite-list-item
+                label="Park offices"
+                description="Home base for park staff to converse with visitors."
+                value="offices"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Offices layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item
+                label="Guest lodges"
+                description="Small houses available for visitors to book for stays."
+                value="lodges"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Lodges layer"
+                ></calcite-action>
+                <calcite-list-item
+                  label="Guest lodges"
+                  description="Small houses available for visitors to book for stays."
+                  value="lodges"
+                >
+                  <calcite-action
+                    appearance="transparent"
+                    slot="actions-end"
+                    icon="layer"
+                    text="Lodges layer"
+                  ></calcite-action>
+                </calcite-list-item>
+              </calcite-list-item>
+              <calcite-list-item
+                label="Yurts"
+                description="Insulated portable rounded structures similar to tents."
+                value="yurts"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Yurts layer"
+                ></calcite-action>
+              </calcite-list-item>
+            </calcite-list-item-group>
+          </calcite-list>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Themed: border</div>
+
+        <div class="child">
+          <calcite-list selection-mode="multiple" selection-appearance="border" class="themed-list">
+            <calcite-list-item-group heading="Outdoor recreation">
+              <calcite-list-item
+                selected
+                label="Hiking trails"
+                description="Designated routes for hikers to use."
+                value="hiking-trails"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Trails layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Waterfalls layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Rivers layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Estuaries" description="Where the river meets the sea." value="estuaries">
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Estuaries layer"
+                ></calcite-action>
+              </calcite-list-item>
+            </calcite-list-item-group>
+            <calcite-list-item-group heading="Buildings">
+              <calcite-list-item
+                label="Park offices"
+                description="Home base for park staff to converse with visitors."
+                value="offices"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Offices layer"
+                ></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item
+                label="Guest lodges"
+                description="Small houses available for visitors to book for stays."
+                value="lodges"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Lodges layer"
+                ></calcite-action>
+                <calcite-list-item
+                  label="Guest lodges"
+                  description="Small houses available for visitors to book for stays."
+                  value="lodges"
+                >
+                  <calcite-action
+                    appearance="transparent"
+                    slot="actions-end"
+                    icon="layer"
+                    text="Lodges layer"
+                  ></calcite-action>
+                </calcite-list-item>
+              </calcite-list-item>
+              <calcite-list-item
+                label="Yurts"
+                description="Insulated portable rounded structures similar to tents."
+                value="yurts"
+              >
+                <calcite-action
+                  appearance="transparent"
+                  slot="actions-end"
+                  icon="layer"
+                  text="Yurts layer"
+                ></calcite-action>
+              </calcite-list-item>
+            </calcite-list-item-group>
           </calcite-list>
         </div>
       </div>

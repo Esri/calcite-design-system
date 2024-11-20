@@ -1,6 +1,4 @@
-import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
-import { createObserver } from "./observers";
 
 export const defaultLocale = "en";
 
@@ -196,129 +194,12 @@ export function getDateFormatSupportedLocale(locale: string): string {
   }
 }
 
-/**
- * This interface is for components that need to determine locale from the lang attribute.
- */
-export interface LocalizedComponent {
-  el: HTMLElement;
-
-  /**
-   * Used to store the effective locale to avoid multiple lookups.
-   *
-   * This is an internal property and should:
-   *
-   * - use the `@State` decorator
-   * - be initialized to ""
-   *
-   * Components should watch this prop to ensure messages are updated.
-   *
-   * @Watch("effectiveLocale")
-   * effectiveLocaleChange(): void {
-   *   updateMessages(this, this.effectiveLocale);
-   * }
-   */
-  effectiveLocale: string;
-}
-
-const connectedComponents = new Set<LocalizedComponent>();
-
-/**
- * This utility sets up internals for messages support.
- *
- * It needs to be called in `connectedCallback` before any logic that depends on locale
- *
- * @param component
- */
-export function connectLocalized(component: LocalizedComponent): void {
-  updateEffectiveLocale(component);
-
-  if (connectedComponents.size === 0) {
-    mutationObserver?.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["lang"],
-      subtree: true,
-    });
-  }
-
-  connectedComponents.add(component);
-}
-
-/**
- * This is only exported for components that implemented the now deprecated `locale` prop.
- *
- * Do not use this utils for new components.
- *
- * @param component
- */
-export function updateEffectiveLocale(component: LocalizedComponent): void {
-  component.effectiveLocale = getLocale(component);
-}
-
-/**
- * This utility tears down internals for messages support.
- *
- * It needs to be called in `disconnectedCallback`
- *
- * @param component
- */
-export function disconnectLocalized(component: LocalizedComponent): void {
-  connectedComponents.delete(component);
-
-  if (connectedComponents.size === 0) {
-    mutationObserver.disconnect();
-  }
-}
-
-const mutationObserver = createObserver("mutation", (records) => {
-  records.forEach((record) => {
-    const el = record.target as HTMLElement;
-
-    connectedComponents.forEach((component) => {
-      const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
-
-      if (inUnrelatedSubtree) {
-        return;
-      }
-
-      const closestLangEl = closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]");
-
-      if (!closestLangEl) {
-        component.effectiveLocale = defaultLocale;
-        return;
-      }
-
-      const closestLang = closestLangEl.lang;
-
-      component.effectiveLocale =
-        // user set lang="" means unknown language, so we use default
-        closestLangEl.hasAttribute("lang") && closestLang === "" ? defaultLocale : closestLang;
-    });
-  });
-});
-
-/**
- * This util helps resolve a component's locale.
- * It will also fall back on the deprecated `locale` if a component implemented this previously.
- *
- * @param component
- */
-function getLocale(component: LocalizedComponent): string {
-  return (
-    component.el.lang ||
-    closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
-    document.documentElement.lang ||
-    defaultLocale
-  );
-}
-
 export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
   numberingSystem: NumberingSystem;
   locale: string;
 }
 
-/**
- * This util formats and parses numbers for localization
- */
+/** This util formats and parses numbers for localization */
 export class NumberStringFormat {
   /**
    * The actual group separator for the specified locale.
@@ -366,9 +247,7 @@ export class NumberStringFormat {
     return this._numberFormatOptions;
   }
 
-  /**
-   * numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date
-   */
+  /** numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date */
   set numberFormatOptions(options: NumberStringFormatOptions) {
     options.locale = getSupportedLocale(options?.locale);
     options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
@@ -449,21 +328,21 @@ export type LocaleDateTimeOptionKey = string;
 /**
  * Exported for testing purposes only.
  *
- * @internal
+ * @private
  */
 export let dateTimeFormatCache: Map<LocaleDateTimeOptionKey, Intl.DateTimeFormat>;
 
 /**
  * Used to ensure all cached formats are for the same locale.
  *
- * @internal
+ * @private
  */
 let previousLocaleUsedForCaching: string;
 
 /**
  * Generates a cache key for date time format lookups.
  *
- * @internal
+ * @private
  */
 function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): string {
   return Object.entries(options)
@@ -478,7 +357,7 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  *
  * **Note**: the cache will be cleared if a different locale is provided
  *
- * @internal
+ * @private
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   locale = getSupportedLocale(locale);

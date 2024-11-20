@@ -1,5 +1,5 @@
-import { setCSSVariables } from "../src/tests/utils/cssTokenValues";
 import { html } from "../support/formatting";
+import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
   actionMenu,
@@ -25,15 +25,20 @@ import { icon } from "./custom-theme/icon";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
+import { label, labelTokens } from "./custom-theme/label";
+import { link, linkTokens } from "./custom-theme/link";
+import { list, listTokens } from "./custom-theme/list";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
-import { slider } from "./custom-theme/slider";
+import { slider, sliderTokens } from "./custom-theme/slider";
+import { switchTokens } from "./custom-theme/switch";
 import { tabs } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
+import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
 import { tileTokens, tile } from "./custom-theme/tile";
@@ -119,8 +124,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${chips} ${pagination} ${slider}
       </div>
       <div class="demo-column">
-        ${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress}
-        ${handle} ${textArea} ${popover} ${tile}
+        ${datePicker} ${tabs} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
+        ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
       </div>
       ${alert} ${navigation} ${navigationLogos}
     </div>
@@ -141,13 +146,19 @@ const componentTokens = {
   ...chipTokens,
   ...checkboxTokens,
   ...handleTokens,
+  ...labelTokens,
+  ...linkTokens,
+  ...listTokens,
   ...popoverTokens,
   ...progressTokens,
   ...inputTokens,
+  ...switchTokens,
   ...textAreaTokens,
   ...navigationLogoTokens,
+  ...tooltipTokens,
   ...tileTokens,
   ...navigationTokens,
+  ...sliderTokens,
 };
 
 export default {

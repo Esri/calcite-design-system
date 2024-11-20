@@ -1,5 +1,6 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { defaults, disabled, focusable, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -49,16 +50,8 @@ describe("calcite-list-item", () => {
         defaultValue: false,
       },
       {
-        propertyName: "dragSelected",
-        defaultValue: false,
-      },
-      {
         propertyName: "filterHidden",
         defaultValue: false,
-      },
-      {
-        propertyName: "interactionMode",
-        defaultValue: null,
       },
       {
         propertyName: "unavailable",
@@ -139,7 +132,7 @@ describe("calcite-list-item", () => {
     await page.setContent(`<calcite-list-item></calcite-list-item>`);
     await page.waitForChanges();
 
-    let handleNode = await page.find("calcite-list-item >>> calcite-handle");
+    let handleNode = await page.find("calcite-list-item >>> calcite-sort-handle");
 
     expect(handleNode).toBeNull();
 
@@ -147,7 +140,7 @@ describe("calcite-list-item", () => {
     item.setProperty("dragHandle", true);
     await page.waitForChanges();
 
-    handleNode = await page.find("calcite-list-item >>> calcite-handle");
+    handleNode = await page.find("calcite-list-item >>> calcite-sort-handle");
 
     expect(handleNode).not.toBeNull();
   });
@@ -376,28 +369,76 @@ describe("calcite-list-item", () => {
     expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
   });
 
-  it("should fire calciteListItemDragHandleChange event when drag handle is clicked", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-list-item drag-handle></calcite-list-item>`,
+  describe("themed", () => {
+    describe(`selection-appearance="icon"`, () => {
+      themed(
+        html`<calcite-list-item
+          selected
+          label="Park offices"
+          interaction-mode="interactive"
+          description="Home base for park staff to converse with visitors."
+          value="offices"
+          bordered
+          selection-mode="single"
+          selection-appearance="icon"
+        ></calcite-list-item>`,
+        {
+          "--calcite-list-background-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-list-background-color-hover": {
+            shadowSelector: `.${CSS.container}`,
+            state: "hover",
+            targetProp: "backgroundColor",
+          },
+          "--calcite-list-background-color-press": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.content } },
+          },
+          "--calcite-list-border-color": {
+            shadowSelector: `.${CSS.wrapper}`,
+            targetProp: "borderBlockEndColor",
+          },
+          "--calcite-list-content-text-color": {
+            shadowSelector: `.${CSS.contentContainer}`,
+            targetProp: "color",
+          },
+          "--calcite-list-description-text-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          "--calcite-list-icon-color": {
+            shadowSelector: `.${CSS.selectionContainer}`,
+            targetProp: "color",
+          },
+          "--calcite-list-label-text-color": {
+            shadowSelector: `.${CSS.label}`,
+            targetProp: "color",
+          },
+        },
+      );
     });
-
-    const listItem = await page.find("calcite-list-item");
-    const calciteListItemDragHandleChange = await page.spyOnEvent("calciteListItemDragHandleChange", "window");
-
-    expect(await listItem.getProperty("dragSelected")).toBe(false);
-
-    const dragHandle = await page.find(`calcite-list-item >>> calcite-handle`);
-    await dragHandle.callMethod("setFocus");
-    await page.waitForChanges();
-
-    await dragHandle.press("Space");
-    await page.waitForChanges();
-    expect(await listItem.getProperty("dragSelected")).toBe(true);
-    expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(1);
-
-    await dragHandle.press("Space");
-    await page.waitForChanges();
-    expect(await listItem.getProperty("dragSelected")).toBe(false);
-    expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(2);
+    describe(`selection-appearance="border"`, () => {
+      themed(
+        html`<calcite-list-item
+          selected
+          label="Park offices"
+          description="Home base for park staff to converse with visitors."
+          interaction-mode="interactive"
+          value="offices"
+          bordered
+          selection-mode="single"
+          selection-appearance="border"
+        ></calcite-list-item>`,
+        {
+          "--calcite-list-selection-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineStartColor",
+          },
+        },
+      );
+    });
   });
 });

@@ -1,8 +1,19 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { defaults, disabled, formAssociated, hidden, labelable, renders, reflects } from "../../tests/commonTests";
+import {
+  defaults,
+  disabled,
+  formAssociated,
+  hidden,
+  labelable,
+  renders,
+  reflects,
+  themed,
+} from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
 import { CSS } from "./resources";
+import type { Slider } from "./slider";
 
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
@@ -847,7 +858,7 @@ describe("calcite-slider", () => {
 
     it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
       const page = await newE2EPage({ html: nonMirroredSlider });
-      await page.$eval("calcite-slider", (slider: HTMLCalciteSliderElement) => {
+      await page.$eval("calcite-slider", (slider: Slider["el"]) => {
         slider.histogram = [
           [0, 0],
           [20, 12],
@@ -1046,7 +1057,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type) => {
               if (type === "value") {
                 return `${value}%`;
@@ -1087,7 +1098,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type, defaultFormatter) => {
               if (type === "value") {
                 return defaultFormatter(value);
@@ -1121,7 +1132,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type) => {
               if (type === "min") {
                 return `-${value}%`;
@@ -1169,7 +1180,7 @@ describe("calcite-slider", () => {
 
         await page.$eval(
           "calcite-slider",
-          (slider: HTMLCalciteSliderElement) =>
+          (slider: Slider["el"]) =>
             (slider.labelFormatter = (value, type, defaultFormatter) =>
               type === "min"
                 ? // default formatting
@@ -1184,6 +1195,131 @@ describe("calcite-slider", () => {
 
         expect(minValueLabel.innerText).toBe(`2${frGroupSeparator}500`);
         expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
+      });
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`<calcite-slider value="30"></calcite-slider>`, {
+        "--calcite-slider-track-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-slider-track-fill-color": {
+          shadowSelector: `.${CSS.trackRange}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-slider-handle-fill-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+
+    describe("text color", () => {
+      describe("should apply handle label", () => {
+        themed(html`<calcite-slider value="30" label-handles max-label="100" min-label="0"></calcite-slider>`, {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.handleLabel}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("should apply tick labels", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-text-color": {
+              shadowSelector: `.${CSS.tickLabel}`,
+              targetProp: "color",
+            },
+          },
+        );
+      });
+    });
+
+    describe("handle extension", () => {
+      describe("should apply handle extension", () => {
+        themed(html`<calcite-slider value="30" precise></calcite-slider>`, {
+          "--calcite-slider-handle-extension-color": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+          },
+        });
+      });
+    });
+
+    describe("ticks", () => {
+      describe("should apply ticks", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-tick-color": {
+              shadowSelector: `.${CSS.tick}:not(.${CSS.tickActive})`,
+              targetProp: "backgroundColor",
+            },
+          },
+        );
+      });
+      describe("should apply ticks border", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-tick-border-color": {
+              shadowSelector: `.${CSS.tick}`,
+              targetProp: "borderColor",
+            },
+          },
+        );
+      });
+      describe("should apply ticks in selected range", () => {
+        themed(
+          html`<calcite-slider value="30" label-ticks max-label="100" min-label="0" ticks="20"></calcite-slider>`,
+          {
+            "--calcite-slider-tick-selected-color": {
+              shadowSelector: `.${CSS.tickActive}`,
+              targetProp: "backgroundColor",
+            },
+          },
+        );
+      });
+    });
+
+    describe("--calcite-slider-graph-color", () => {
+      describe("should apply graph", () => {
+        themed(
+          html`<calcite-slider
+              min="0"
+              max="100"
+              value="60"
+              step="1"
+              label-handles
+              id="basicHistogram"
+              scale="m"
+            ></calcite-slider>
+            <script>
+              const basicHistogram = document.getElementById("basicHistogram");
+
+              const histogram = [
+                [0, 0],
+                [20, 12],
+                [40, 35],
+                [60, 65],
+                [80, 25],
+                [90, 10],
+                [100, 0],
+              ];
+
+              basicHistogram.histogram = histogram;
+            </script>`,
+          {
+            "--calcite-slider-graph-color": {
+              shadowSelector: `.${CSS.graph}`,
+              targetProp: "color",
+            },
+          },
+        );
       });
     });
   });
