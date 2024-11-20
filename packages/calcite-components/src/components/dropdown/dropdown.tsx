@@ -305,7 +305,6 @@ export class Dropdown
     onToggleOpenCloseComponent(this);
 
     if (this.disabled) {
-      this.open = false;
       return;
     }
 

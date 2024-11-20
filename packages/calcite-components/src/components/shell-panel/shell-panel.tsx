@@ -160,20 +160,6 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * When `true`, the content area displays like a floating panel.
-   *
-   * @deprecated Use `displayMode` instead.
-   */
-  @property({ reflect: true }) detached = false;
-
-  /**
-   * When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
-   *
-   * @deprecated Use the `height` property instead.
-   */
-  @property({ reflect: true }) detachedHeightScale: Scale;
-
-  /**
    * Specifies the display mode of the component, where:
    *
    * `"dock"` displays at full height adjacent to center content,
@@ -246,22 +232,6 @@ export class ShellPanel extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("detached") && (this.hasUpdated || this.detached !== false)) {
-      this.handleDetached(this.detached);
-    }
-
-    if (changes.has("displayMode") && (this.hasUpdated || this.displayMode !== "dock")) {
-      this.detached = this.displayMode === "float-content" || this.displayMode === "float";
-    }
-
-    if (changes.has("detachedHeightScale")) {
-      this.heightScale = this.detachedHeightScale;
-    }
-
-    if (changes.has("heightScale")) {
-      this.detachedHeightScale = this.heightScale;
-    }
-
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
     }
@@ -278,14 +248,6 @@ export class ShellPanel extends LitElement {
   // #endregion
 
   // #region Private Methods
-
-  private handleDetached(value: boolean): void {
-    if (value) {
-      this.displayMode = "float-content";
-    } else if (this.displayMode === "float-content" || this.displayMode === "float") {
-      this.displayMode = "dock";
-    }
-  }
 
   private setContentWidth(width: number): void {
     const { contentWidthMax, contentWidthMin } = this;
@@ -316,12 +278,12 @@ export class ShellPanel extends LitElement {
   private setContentHeight(height: number): void {
     const { contentHeightMax, contentHeightMin } = this;
 
-    const roundedWidth = Math.round(height);
+    const roundedHeight = Math.round(height);
 
     this.contentHeight =
       typeof contentHeightMax === "number" && typeof contentHeightMin === "number"
-        ? clamp(roundedWidth, contentHeightMin, contentHeightMax)
-        : roundedWidth;
+        ? clamp(roundedHeight, contentHeightMin, contentHeightMax)
+        : roundedHeight;
   }
 
   private updateWidths(computedStyle: CSSStyleDeclaration): void {

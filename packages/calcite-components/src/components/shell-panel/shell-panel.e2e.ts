@@ -26,10 +26,6 @@ describe("calcite-shell-panel", () => {
         defaultValue: false,
       },
       {
-        propertyName: "detached",
-        defaultValue: false,
-      },
-      {
         propertyName: "displayMode",
         defaultValue: "dock",
       },
@@ -161,7 +157,7 @@ describe("calcite-shell-panel", () => {
     `);
   });
 
-  it("should have detached class when detached", async () => {
+  it("should have floatContent class when detached", async () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
@@ -172,13 +168,9 @@ describe("calcite-shell-panel", () => {
 
     const panel = await page.find("calcite-shell-panel");
 
-    expect(await panel.getProperty("detached")).toBe(false);
-
     panel.setProperty("displayMode", "float-content");
 
     await page.waitForChanges();
-
-    expect(await panel.getProperty("detached")).toBe(true);
 
     detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatContent}`);
 

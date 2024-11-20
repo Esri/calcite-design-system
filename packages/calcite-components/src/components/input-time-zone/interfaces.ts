@@ -1,9 +1,3 @@
-declare global {
-  namespace Intl {
-    function supportedValuesOf(key: "timeZone"): TimeZone[];
-  }
-}
-
 export type TimeZone = string;
 
 export interface TimeZoneGroup extends BasicTimeZoneGroup {

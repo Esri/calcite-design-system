@@ -341,13 +341,13 @@ export class SegmentedControl
     }
   }
 
-  private handleDefaultSlotChange(event: Event): void {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const items = slotChangeGetAssignedElements(event).filter(
       (el): el is SegmentedControlItem["el"] => el.matches("calcite-segmented-control-item"),
     );
 
+    await Promise.all(items.map((item) => item.componentOnReady()));
     this.items = items;
-
     this.handleSelectedItem();
     this.handleItemPropChange();
   }
@@ -356,7 +356,7 @@ export class SegmentedControl
     this.setFocus();
   }
 
-  private selectItem(selected: SegmentedControlItem["el"], emit = false): void {
+  private async selectItem(selected: SegmentedControlItem["el"], emit = false): Promise<void> {
     if (selected === this.selectedItem) {
       return;
     }
@@ -375,14 +375,16 @@ export class SegmentedControl
 
       if (matches) {
         match = item;
-
-        if (emit) {
-          this.calciteSegmentedControlChange.emit();
-        }
       }
     });
 
     this.selectedItem = match;
+
+    if (match && emit) {
+      await this.updateComplete;
+      this.calciteSegmentedControlChange.emit();
+    }
+
     if (isBrowser() && match) {
       match.focus();
     }
