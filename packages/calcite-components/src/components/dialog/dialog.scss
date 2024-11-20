@@ -195,7 +195,8 @@ calcite-panel {
   }
 
   @media screen and (max-width: $width + 2 * $baseline) {
-    .width-#{$size} {
+    .width-#{$size},
+    .width {
       @apply m-0
           h-full
           max-h-full
