@@ -167,6 +167,12 @@ export default class TooltipManager {
       return;
     }
 
+    if (tooltip === this.clickedTooltip) {
+      return;
+    }
+
+    this.clickedTooltip = null;
+
     this.closeTooltipIfNotActive(tooltip);
 
     if (!tooltip) {

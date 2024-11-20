@@ -13,7 +13,10 @@
 
 :host {
   --calcite-modal-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
-  @apply absolute flex inset-0 opacity-0 z-overlay;
+}
+
+:host {
+  @apply fixed flex inset-0 opacity-0 z-overlay;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
@@ -29,14 +32,13 @@
 
 .container {
   @apply text-color-2
-    fixed
+    absolute
     inset-0
     flex
     items-center
     justify-center
     overflow-y-hidden
-    opacity-0
-    z-overlay;
+    opacity-0;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
@@ -66,7 +68,7 @@
 
 .scrim {
   --calcite-scrim-background: var(--calcite-modal-scrim-background, var(--calcite-color-transparent-scrim));
-  @apply fixed inset-0 flex overflow-y-hidden;
+  @apply absolute inset-0 flex overflow-y-hidden;
 }
 
 .modal {
@@ -165,7 +167,6 @@
   padding-inline: var(--calcite-modal-padding-internal);
   flex: 0 0 auto;
   calcite-icon {
-    @apply pointer-events-none;
     vertical-align: -2px;
   }
   &:focus {
@@ -399,18 +400,6 @@ slot[name="primary"] {
   .back,
   .secondary {
     @apply m-0 mb-1;
-  }
-}
-
-/**
- * Conditional styles for when Modal is slotted in Shell
- */
-
-.container--embedded {
-  position: absolute;
-  pointer-events: auto;
-  calcite-scrim {
-    position: absolute;
   }
 }
 
