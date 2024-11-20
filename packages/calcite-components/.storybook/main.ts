@@ -1,4 +1,5 @@
 import { UserConfig } from "vite";
+import { html } from "../support/formatting";
 
 module.exports = {
   addons: [
@@ -26,61 +27,52 @@ module.exports = {
     });
   },
   stories: ["../src/**/*.mdx", "../src/**/*.stories.ts"],
+  staticDirs: ["./static"],
   previewHead: (head: string): string =>
     `
     ${head}
     ${
       process.env.STORYBOOK_SCREENSHOT_TEST_BUILD
-        ? `<style>
-          :root {
-            --calcite-duration-factor: 0;
-          }
-        </style>`
+        ? html`<style>
+            :root {
+              --calcite-duration-factor: 0;
+            }
+          </style>`
+        : ""
+    }
+    ${
+      !process.env.STORYBOOK_SCREENSHOT_TEST_BUILD && !process.env.STORYBOOK_SCREENSHOT_LOCAL_BUILD
+        ? html`<template id="internalStorybookNotice">
+              <calcite-notice
+                open
+                icon="exclamation-mark-triangle"
+                closable
+                kind="warning"
+                scale="l"
+                style="font-family: var(--calcite-font-family); position: fixed; top: 0; width: 100%;"
+              >
+                <div slot="title">
+                  This storybook is on the current @next version and is meant for internal, testing purposes only.
+                </div>
+                <div slot="link">
+                  Please refer to the&#32;<calcite-link
+                    title="my action"
+                    href="https://developers.arcgis.com/calcite-design-system/components/"
+                  >
+                    Calcite Components documentation site </calcite-link
+                  >&#32;to browse and interact with components.
+                </div>
+              </calcite-notice>
+            </template>
+
+            <script>
+              window.addEventListener(
+                "load",
+                () => document.body.append(document.getElementById("internalStorybookNotice").content.cloneNode(true)),
+                { once: true },
+              );
+            </script> `
         : ""
     }
   `,
-  managerHead: (head: string): string => {
-    if (process.env.STORYBOOK_SCREENSHOT_TEST_BUILD || process.env.STORYBOOK_SCREENSHOT_LOCAL_BUILD) {
-      return head;
-    }
-
-    return `
-      <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-      <link rel="stylesheet" href="./build/calcite.css" />
-      <script type="module" src="./build/calcite.esm.js"></script>
-
-      <template id="internalStorybookNotice">
-        <calcite-notice
-          open
-          icon="exclamation-mark-triangle"
-          closable
-          kind="warning"
-          scale="l"
-          style="font-family: var(--calcite-font-family)"
-        >
-          <div slot="title">
-            This storybook is on the current @next version and is meant for internal, testing purposes only.
-          </div>
-          <div slot="link">
-            Please refer to the&#32;<calcite-link
-              title="my action"
-              href="https://developers.arcgis.com/calcite-design-system/components/"
-            >
-              Calcite Components documentation site </calcite-link
-            >&#32;to browse and interact with components.
-          </div>
-        </calcite-notice>
-      </template>
-
-      <script>
-        window.addEventListener(
-          "load",
-          () => document.body.prepend(document.getElementById("internalStorybookNotice").content.cloneNode(true)),
-          { once: true }
-        );
-      </script>
-
-      ${head}
-    `;
-  },
 };
