@@ -133,7 +133,7 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
   /**
    * When `true`, displays a back button in the component's header.
    *
-   * @private
+   * @internal
    */
   @property() showBackButton = false;
 
