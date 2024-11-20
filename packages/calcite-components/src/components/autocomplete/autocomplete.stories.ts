@@ -107,23 +107,27 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
     >
       <div slot="content-top">Content top</div>
       <div slot="content-bottom">Content bottom</div>
-      <calcite-autocomplete-item
-        scale="l"
-        label="Item 1"
-        value="1"
-        heading="Item 1"
-        description="Item 1 description"
-        icon-start="information"
-        icon-end="gear"
-      ></calcite-autocomplete-item>
-      <calcite-autocomplete-item
-        disabled
-        scale="l"
-        label="Item 2"
-        value="2"
-        heading="Item 2"
-        description="Item 2 description"
-      ></calcite-autocomplete-item>
+      <calcite-autocomplete-item-group heading="Enabled Items">
+        <calcite-autocomplete-item
+          scale="l"
+          label="Item 1"
+          value="1"
+          heading="Item 1"
+          description="Item 1 description"
+          icon-start="information"
+          icon-end="gear"
+        ></calcite-autocomplete-item>
+      </calcite-autocomplete-item-group>
+      <calcite-autocomplete-item-group heading="Disabled Items">
+        <calcite-autocomplete-item
+          disabled
+          scale="l"
+          label="Item 2"
+          value="2"
+          heading="Item 2"
+          description="Item 2 description"
+        ></calcite-autocomplete-item>
+      </calcite-autocomplete-item-group>
     </calcite-autocomplete>
   </div>
 `;
@@ -187,24 +191,60 @@ const kitchenSinkHTML = html`
     <div class="child">
       <form class="locate-form">
         <calcite-autocomplete scale="s" class="locator-autocomplete" name="location">
-          <calcite-button kind="neutral" scale="s" icon-start="banana" slot="actions-start"></calcite-button>
-          <calcite-button kind="neutral" scale="s" icon-start="banana" slot="actions-end"></calcite-button>
+          <calcite-button
+            kind="neutral"
+            appearance="outline-fill"
+            scale="s"
+            icon-start="banana"
+            slot="actions-start"
+          ></calcite-button>
+          <calcite-button
+            kind="neutral"
+            appearance="outline-fill"
+            scale="s"
+            icon-start="banana"
+            slot="actions-end"
+          ></calcite-button>
         </calcite-autocomplete>
       </form>
     </div>
     <div class="child">
       <form class="locate-form">
         <calcite-autocomplete scale="m" class="locator-autocomplete" name="location">
-          <calcite-button kind="neutral" scale="m" icon-start="banana" slot="actions-start"></calcite-button>
-          <calcite-button kind="neutral" scale="m" icon-start="banana" slot="actions-end"></calcite-button>
+          <calcite-button
+            kind="neutral"
+            appearance="outline-fill"
+            scale="m"
+            icon-start="banana"
+            slot="actions-start"
+          ></calcite-button>
+          <calcite-button
+            kind="neutral"
+            appearance="outline-fill"
+            scale="m"
+            icon-start="banana"
+            slot="actions-end"
+          ></calcite-button>
         </calcite-autocomplete>
       </form>
     </div>
     <div class="child">
       <form class="locate-form">
         <calcite-autocomplete scale="l" class="locator-autocomplete" name="location">
-          <calcite-button kind="neutral" scale="l" icon-start="banana" slot="actions-start"></calcite-button>
-          <calcite-button kind="neutral" scale="l" icon-start="banana" slot="actions-end"></calcite-button>
+          <calcite-button
+            kind="neutral"
+            appearance="outline-fill"
+            scale="l"
+            icon-start="banana"
+            slot="actions-start"
+          ></calcite-button>
+          <calcite-button
+            kind="neutral"
+            appearance="outline-fill"
+            scale="l"
+            icon-start="banana"
+            slot="actions-end"
+          ></calcite-button>
         </calcite-autocomplete>
       </form>
     </div>

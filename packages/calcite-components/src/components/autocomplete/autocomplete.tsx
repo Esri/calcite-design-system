@@ -50,6 +50,7 @@ import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
+import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { styles } from "./autocomplete.scss";
@@ -140,6 +141,8 @@ export class Autocomplete
   @state() hasContentTop = false;
 
   @state() items: AutocompleteItem["el"][] = [];
+
+  @state() groups: AutocompleteItemGroup["el"][] = [];
 
   // #endregion
 
@@ -426,6 +429,7 @@ export class Autocomplete
 
     if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
       this.updateItems();
+      this.updateGroups();
     }
 
     if (changes.has("activeIndex") && (this.hasUpdated || this.activeIndex !== -1)) {
@@ -514,6 +518,22 @@ export class Autocomplete
     this.calciteAutocompleteChange.emit();
   }
 
+  private updateGroups(): void {
+    this.groups.forEach((group, index, items) => {
+      group.scale = this.scale;
+
+      if (index === 0) {
+        group.afterEmptyGroup = false;
+      }
+
+      const nextGroupItem = items[index + 1];
+
+      if (nextGroupItem) {
+        nextGroupItem.afterEmptyGroup = group.children.length === 0;
+      }
+    });
+  }
+
   private updateItems(): void {
     let activeDescendant: string = null;
 
@@ -544,10 +564,18 @@ export class Autocomplete
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    this.items = slotChangeGetAssignedElements(event).filter((el): el is AutocompleteItem["el"] =>
+    const elements = slotChangeGetAssignedElements(event);
+
+    this.groups = elements.filter((el): el is AutocompleteItemGroup["el"] =>
+      el.matches("calcite-autocomplete-item-group"),
+    );
+
+    this.items = elements.filter((el): el is AutocompleteItem["el"] =>
       el.matches("calcite-autocomplete-item"),
     );
+
     this.updateItems();
+    this.updateGroups();
   }
 
   private getIcon(): IconNameOrString {
