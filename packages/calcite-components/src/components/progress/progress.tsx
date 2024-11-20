@@ -34,7 +34,7 @@ export class Progress extends LitElement {
    */
   @property({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
 
-  /** The component's value. Valid only for `"determinate"` indicators. Percent complete of 100. */
+  /** When `type` is `"determinate"`, specifies the component's value with a range of 0 to 100. */
   @property() value = 0;
 
   // #endregion
