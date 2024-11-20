@@ -1,4 +1,5 @@
 {
   "loading": "Ladataan",
-  "indicator": "Ilmaisin on läsnä"
+  "indicator": "Ilmaisin on läsnä",
+  "indicatorLabel": "{label} (ilmaisin läsnä)"
 }

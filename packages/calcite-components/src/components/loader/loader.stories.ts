@@ -28,7 +28,7 @@ export default {
   },
 };
 
-export const simple_TestOnly = (args: LoaderStoryArgs): string => html`
+export const simple = (args: LoaderStoryArgs): string => html`
   <calcite-loader type="${args.type}" scale="${args.scale}" value="${args.value}" />
 `;
 
