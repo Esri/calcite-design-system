@@ -27,6 +27,7 @@ import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
+import { list, listTokens } from "./custom-theme/list";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
@@ -122,7 +123,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${chips} ${pagination} ${slider}
       </div>
       <div class="demo-column">
-        ${datePicker} ${tabs} ${label} ${link} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
+        ${datePicker} ${tabs} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
         ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
       </div>
       ${alert} ${navigation}
@@ -146,6 +147,7 @@ const componentTokens = {
   ...handleTokens,
   ...labelTokens,
   ...linkTokens,
+  ...listTokens,
   ...popoverTokens,
   ...progressTokens,
   ...inputTokens,
