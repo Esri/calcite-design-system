@@ -77,7 +77,7 @@
     "@whitespace/storybook-addon-html": "6.1.1",
     "autoprefixer": "10.4.20",
     "axe-core": "4.10.2",
-    "change-case": "4.1.2",
+    "change-case": "5.4.4",
     "cheerio": "1.0.0",
     "chokidar": "4.0.1",
     "chromatic": "11.18.1",
