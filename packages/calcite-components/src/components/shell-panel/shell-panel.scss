@@ -9,7 +9,6 @@
  * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-detached-max-height: [Deprecated] Use the `heightScale` property instead. When `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
@@ -21,7 +20,6 @@
     flex-initial
     items-stretch;
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
-  --calcite-shell-panel-detached-max-height: unset;
   --calcite-shell-panel-max-height: unset;
   --calcite-internal-shell-panel-shadow-block-start: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
     0 2px 4px -1px rgba(0, 0, 0, 0.04);
@@ -86,25 +84,16 @@
 }
 
 :host([layout="horizontal"][height-scale="s"]) .content {
-  --calcite-internal-shell-panel-max-height: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 20vh)
-  );
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 20vh);
 }
 
 :host([layout="horizontal"]) .content {
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
-  --calcite-internal-shell-panel-max-height: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 30vh)
-  );
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 30vh);
 }
 
 :host([layout="horizontal"][height-scale="l"]) .content {
-  --calcite-internal-shell-panel-max-height: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 40vh)
-  );
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 40vh);
 }
 
 .container {
