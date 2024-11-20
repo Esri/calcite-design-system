@@ -35,6 +35,7 @@ import type { Filter } from "../filter/filter";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/list.t9n.en.json";
 import { ListDragDetail, ListMoveDetail } from "./interfaces";
+import type { ListElement } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -137,7 +138,7 @@ export class List
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
     this.updateFilteredItems();
     this.borderItems();
-    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
+    this.focusableItems = this.filteredResults.filter((item): item is ListItem => !item.disabled);
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
@@ -203,8 +204,16 @@ export class List
    * The currently filtered `calcite-list-item`s.
    *
    * @readonly
+   * @deprecated Use `filteredResults` instead.
    */
-  @property() filteredItems: ListItem["el"][] = [];
+  @property() filteredItems: ListElement[] = [];
+
+  /**
+   * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`
+   *
+   * @readonly
+   */
+  @property() filteredResults: ListElement[] = [];
 
   /**
    * The list's group identifier.
@@ -642,17 +651,15 @@ export class List
     filteredItems,
     visibleParents,
   }: {
-    el: ListItem["el"] | ListItemGroup["el"];
-    filteredItems: (ListItem["el"] | ListItemGroup["el"])[];
-    visibleParents: WeakSet<ListItem["el"] | ListItemGroup["el"]>;
+    el: ListElement;
+    filteredItems: ListElement[];
+    visibleParents: WeakSet<ListElement>;
   }): void {
     const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el);
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest<ListItem["el"] | ListItemGroup["el"]>(
-      parentSelector,
-    );
+    const closestParent = el.parentElement.closest<ListElement>(parentSelector);
 
     if (!closestParent) {
       return;
@@ -711,12 +718,13 @@ export class List
       this.filterElements({ el: listItem, filteredItems, visibleParents }),
     );
 
-    this.filteredItems = filteredItems;
+    this.filteredResults = filteredItems;
 
     this.filterGroupItems(values, visibleParents);
 
     if (this.willFilterEmit) {
       this.willFilterEmit = false;
+      this.filteredItems = this.filteredResults;
       this.calciteListFilter.emit();
     }
   }
@@ -729,7 +737,7 @@ export class List
     }
 
     if (filterEl.filteredItems) {
-      this.filteredData = filterEl.filteredItems as ItemData[];
+      this.filteredData = filterEl.filteredItems as (ItemData | GroupItemData)[];
     }
 
     this.updateListItems();
@@ -749,6 +757,7 @@ export class List
 
     filteredGroupItems.forEach((groupItem: ListItemGroup) => {
       this.filterGroupItemDescendants(groupItem);
+      this.filteredResults.push(groupItem);
     });
   };
 
@@ -758,9 +767,6 @@ export class List
 
     itemDescendants.forEach((descendant: ListItem) => {
       descendant.filterHidden = false;
-      if (this.filteredItems.indexOf(descendant) === -1) {
-        this.filteredItems.push(descendant);
-      }
     });
 
     groupDescendants.forEach((descendant) => (descendant.filterHidden = false));
@@ -951,7 +957,7 @@ export class List
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = this.filteredItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = this.filteredResults.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
@@ -1006,7 +1012,7 @@ export class List
       filterEnabled,
       filterPlaceholder,
       filterText,
-      filteredItems,
+      filteredResults,
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
@@ -1066,7 +1072,7 @@ export class List
           <div
             ariaLive="polite"
             data-test-id="no-results-container"
-            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
+            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredResults.length)}
           >
             <slot
               name={SLOTS.filterNoResults}
@@ -1081,7 +1087,7 @@ export class List
   private renderItemAriaLive(): JsxNode {
     const {
       messages,
-      filteredItems,
+      filteredResults,
       parentListEl,
       messages: { _lang: effectiveLocale },
       numberingSystem,
@@ -1103,13 +1109,13 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(filteredItems.length.toString()),
+            numberStringFormatter.localize(filteredResults.length.toString()),
           )}
         </div>
-        {filteredItems.length ? (
+        {filteredResults.length ? (
           <ol key="aria-item-list">
-            {filteredItems.map((item) => (
-              <li>{item.label}</li>
+            {filteredResults.map((item) => (
+              <li>{(item as ListItem).label || (item as ListItemGroup).heading}</li>
             ))}
           </ol>
         ) : null}
