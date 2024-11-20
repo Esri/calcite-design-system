@@ -1,10 +1,36 @@
+.scale--s {
+  @apply text-n2h;
+  --calcite-autocomplete-item-spacing-unit-l: theme("spacing.2");
+  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-autocomplete-item-description-font-size: var(--calcite-font-size-xs);
+}
+
+.scale--m {
+  @apply text-n1h;
+  --calcite-autocomplete-item-spacing-unit-l: theme("spacing.3");
+  --calcite-autocomplete-item-spacing-unit-s: theme("spacing[1.5]");
+  --calcite-internal-autocomplete-item-description-font-size: var(--calcite-font-size-sm);
+}
+
+.scale--l {
+  @apply text-0h;
+  --calcite-autocomplete-item-spacing-unit-l: theme("spacing.4");
+  --calcite-autocomplete-item-spacing-unit-s: theme("spacing[2.5]");
+  --calcite-internal-autocomplete-item-description-font-size: var(--calcite-font-size);
+}
+
 :host {
   @apply flex;
 }
 
 .container {
-  @apply cursor-pointer
+  @apply flex
+    flex-auto
+    cursor-pointer
     focus-base;
+  padding-inline: var(--calcite-autocomplete-item-spacing-unit-l);
+  --calcite-stack-padding-inline: var(--calcite-autocomplete-item-spacing-unit-l);
+  --calcite-stack-padding-block: var(--calcite-autocomplete-item-spacing-unit-s);
 }
 
 .container:hover {

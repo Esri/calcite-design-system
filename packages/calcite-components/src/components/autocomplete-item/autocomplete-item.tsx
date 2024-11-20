@@ -129,13 +129,19 @@ export class AutocompleteItem
     return (
       <InteractiveContainer disabled={disabled}>
         <calcite-stack
-          class={{ [CSS.container]: true, [CSS.containerActive]: this.active }}
+          class={{
+            [CSS.container]: true,
+            [CSS.containerActive]: this.active,
+            [CSS.scale(this.scale)]: true,
+          }}
           onClick={this.handleClick}
         >
           {this.renderIconStart()}
           <slot name={SLOTS.contentStart} slot={STACK_SLOTS.contentStart} />
-          {heading}
-          {description}
+          <div class={CSS.content}>
+            <div class={CSS.heading}>{heading}</div>
+            <div class={CSS.description}>{description}</div>
+          </div>
           <slot name={SLOTS.contentEnd} slot={STACK_SLOTS.contentEnd} />
           {this.renderIconEnd()}
         </calcite-stack>

@@ -59,6 +59,7 @@ import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
 // todo: scale styles, item styles
 // todo: tests
+// todo: css vars
 
 declare global {
   interface DeclareElements {
