@@ -34,10 +34,6 @@ describe("calcite-modal", () => {
         propertyName: "widthScale",
         value: "m",
       },
-      {
-        propertyName: "width",
-        value: "m",
-      },
     ]);
   });
 

@@ -32,8 +32,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Kind, Scale, Width } from "../interfaces";
+import { Kind, Scale } from "../interfaces";
 import { componentOnReady, getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
@@ -215,15 +214,8 @@ export class Modal
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Specifies the width of the component.
-   *
-   * @deprecated Use the `width` property instead.
-   */
-  @property({ reflect: true }) widthScale: Scale = "m";
-
   /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
+  @property({ reflect: true }) widthScale: Scale = "m";
 
   // #endregion
 
@@ -514,9 +506,6 @@ export class Modal
         <div
           class={{
             [CSS.modal]: true,
-            [getDimensionClass("width", this.width, this.widthScale)]: !!(
-              this.width || this.widthScale
-            ),
           }}
           ref={this.setTransitionEl}
         >

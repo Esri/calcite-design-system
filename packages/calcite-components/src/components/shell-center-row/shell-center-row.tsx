@@ -1,7 +1,6 @@
-import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
+import { Position, Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { Height, Position, Scale } from "../interfaces";
-import { getDimensionClass } from "../../utils/dynamicClasses";
 import { logger } from "../../utils/logger";
 import type { ActionBar } from "../action-bar/action-bar";
 import { CSS, SLOTS } from "./resources";
@@ -36,15 +35,8 @@ export class ShellCenterRow extends LitElement {
   /** When `true`, the content area displays like a floating panel. */
   @property({ reflect: true }) detached = false;
 
-  /**
-   * Specifies the maximum height of the component.
-   *
-   * @deprecated Use the `height` property instead.
-   */
+  /** Specifies the maximum height of the component. */
   @property({ reflect: true }) heightScale: Scale = "s";
-
-  /** Specifies the height of the component. */
-  @property({ reflect: true }) height: Height;
 
   /** Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "end";
@@ -102,18 +94,7 @@ export class ShellCenterRow extends LitElement {
       children.reverse();
     }
 
-    return (
-      <div
-        class={{
-          [CSS.container]: true,
-          [getDimensionClass("height", this.height, this.heightScale)]: !!(
-            this.height || this.heightScale
-          ),
-        }}
-      >
-        {children}
-      </div>
-    );
+    return <>{children}</>;
   }
 
   // #endregion

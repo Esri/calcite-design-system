@@ -94,7 +94,7 @@ export class TileSelect extends LitElement implements InteractiveComponent, Load
   /** The component's value. */
   @property() value: any;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   // #endregion
