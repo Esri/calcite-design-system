@@ -3,8 +3,6 @@ import { html } from "../../support/formatting";
 export const inputTokens = {
   calciteInputPrefixSize: "",
   calciteInputSuffixSize: "",
-  calciteInputPrefixSize: "",
-  calciteInputSuffixSize: "",
   calciteInputBackgroundColor: "",
   calciteInputBorderColor: "",
   calciteInputCornerRadius: "",
