@@ -513,7 +513,7 @@ describe("calcite-list", () => {
           value="value-1"
         ></calcite-list-item>
         <calcite-list-item
-          id="value-match"
+          id="value-not-matched-by-default"
           label="label-3"
           description="description-3"
           value="match"
@@ -531,12 +531,12 @@ describe("calcite-list", () => {
     const list = await page.find("calcite-list");
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    expect(await list.getProperty("filteredItems")).toHaveLength(3);
-    expect(await list.getProperty("filteredData")).toHaveLength(3);
+    expect(await list.getProperty("filteredItems")).toHaveLength(2);
+    expect(await list.getProperty("filteredData")).toHaveLength(2);
 
     const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
+    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
   });
 
   it("filters initially with filterProps", async () => {
@@ -556,7 +556,7 @@ describe("calcite-list", () => {
           value="value-1"
         ></calcite-list-item>
         <calcite-list-item
-          id="value-match"
+          id="value-not-matched-by-default"
           label="label-3"
           description="description-3"
           value="match"

@@ -81,9 +81,6 @@ declare global {
   }
 }
 
-const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement["el"] =>
-  el.tagName === ComboboxItemGroup;
-
 const itemUidPrefix = "combobox-item-";
 const chipUidPrefix = "combobox-chip-";
 const labelUidPrefix = "combobox-label-";
@@ -125,13 +122,15 @@ export class Combobox
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
-      item &&
-      filteredData.some(({ label, value }) =>
-        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
-      );
+      item && filteredData.some(({ el }) => item === el);
 
     return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
-      const filteredData = filter([...this.data, ...this.groupData], text);
+      const filteredData = filter([...this.data, ...this.groupData], text, [
+        "description",
+        "label",
+        "metadata",
+        "shortHeading",
+      ]);
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
@@ -642,7 +641,6 @@ export class Combobox
     onToggleOpenCloseComponent(this);
 
     if (this.disabled) {
-      this.open = false;
       return;
     }
 
@@ -1264,16 +1262,17 @@ export class Combobox
     return this.items.map((item) => ({
       description: item.description,
       filterDisabled: item.filterDisabled,
-      label: item.textLabel,
+      label: item.heading || item.textLabel,
       metadata: item.metadata,
       shortHeading: item.shortHeading,
-      value: item.value,
+      el: item, // used for matching items to data
     }));
   }
 
   private getGroupData(): GroupData[] {
-    return this.groupItems.map((groupItem: HTMLCalciteComboboxItemGroupElement["el"]) => ({
+    return this.groupItems.map((groupItem) => ({
       label: groupItem.label,
+      el: groupItem,
     }));
   }
 

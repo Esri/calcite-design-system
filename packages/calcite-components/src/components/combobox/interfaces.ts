@@ -4,14 +4,15 @@ import type { ComboboxItem } from "../combobox-item/combobox-item";
 export type ComboboxChildElement = ComboboxItem["el"] | ComboboxItemGroup["el"];
 export type SelectionDisplay = "all" | "fit" | "single";
 
-export interface ItemData {
+export interface ItemData extends BaseData {
   description: string;
-  label: string;
   metadata: Record<string, unknown>;
   shortHeading: string;
-  value: string;
+  el: ComboboxItem["el"] | ComboboxItemGroup["el"];
 }
 
-export interface GroupData {
+export interface GroupData extends BaseData {}
+
+interface BaseData {
   label: string;
 }
