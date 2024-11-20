@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@arcgis/components-controllers": "4.32.0-next.20",
-    "@arcgis/components-utils": "4.32.0-next.20",
+    "@arcgis/components-utils": "4.32.0-next.22",
     "@arcgis/lumina": "4.32.0-next.20",
     "@esri/calcite-ui-icons": "4.0.0-next.0",
     "@floating-ui/dom": "1.6.12",
