@@ -61,6 +61,9 @@ import { CSS, ICONS, IDS, SLOTS } from "./resources";
 // todo: tests
 // todo: css vars
 
+const groupItemSelector = "calcite-autocomplete-item-group";
+const itemSelector = "calcite-autocomplete-item";
+
 declare global {
   interface DeclareElements {
     "calcite-autocomplete": Autocomplete;
@@ -126,6 +129,10 @@ export class Autocomplete
   referenceEl: Input["el"];
 
   transitionEl: HTMLDivElement;
+
+  get enabledItems(): AutocompleteItem["el"][] {
+    return this.items.filter((item) => !item.disabled);
+  }
 
   // #endregion
 
@@ -399,10 +406,6 @@ export class Autocomplete
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange(this.disabled);
     }
@@ -563,15 +566,21 @@ export class Autocomplete
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const elements = slotChangeGetAssignedElements(event);
+    const assignedElements = slotChangeGetAssignedElements(event);
+    const items: AutocompleteItem["el"][] = [];
+    const groups: AutocompleteItemGroup["el"][] = [];
 
-    this.groups = elements.filter((el): el is AutocompleteItemGroup["el"] =>
-      el.matches("calcite-autocomplete-item-group"),
-    );
+    assignedElements.forEach((element) => {
+      if (element.matches(groupItemSelector)) {
+        groups.push(element as AutocompleteItemGroup["el"]);
+        element.querySelectorAll(itemSelector).forEach((item) => items.push(item));
+      } else if (element.matches(itemSelector)) {
+        items.push(element as AutocompleteItem["el"]);
+      }
+    });
 
-    this.items = elements.filter((el): el is AutocompleteItem["el"] =>
-      el.matches("calcite-autocomplete-item"),
-    );
+    this.groups = groups;
+    this.items = items;
 
     this.updateItems();
     this.updateGroups();
@@ -595,7 +604,7 @@ export class Autocomplete
       return;
     }
 
-    const { open, activeIndex, items } = this;
+    const { open, activeIndex, enabledItems } = this;
 
     switch (key) {
       case "Escape":
@@ -609,7 +618,7 @@ export class Autocomplete
         break;
       case "Enter":
         if (open && activeIndex > -1) {
-          this.value = items[activeIndex].value;
+          this.value = enabledItems[activeIndex].value;
           this.emitChange();
           event.preventDefault();
         } else if (!event.defaultPrevented) {
@@ -620,12 +629,14 @@ export class Autocomplete
         break;
       case "ArrowDown":
         this.open = true;
-        this.activeIndex = activeIndex !== -1 ? Math.min(activeIndex + 1, items.length - 1) : 0;
+        this.activeIndex =
+          activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
         event.preventDefault();
         break;
       case "ArrowUp":
         this.open = true;
-        this.activeIndex = activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : items.length - 1;
+        this.activeIndex =
+          activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
         event.preventDefault();
         break;
     }
@@ -770,7 +781,7 @@ export class Autocomplete
 
   private renderListBoxOptions(): JsxNode {
     return this.items.map((item) => (
-      <li id={item.guid} role="option" tabIndex="-1">
+      <li ariaDisabled={item.disabled} id={item.guid} role="option" tabIndex="-1">
         {item.label ?? item.heading ?? item.description ?? item.value}
       </li>
     ));

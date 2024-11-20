@@ -12,7 +12,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
-import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { guid } from "../../utils/guid";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./autocomplete-item.scss";
@@ -128,7 +127,7 @@ export class AutocompleteItem
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <calcite-stack
+        <div
           class={{
             [CSS.container]: true,
             [CSS.containerActive]: this.active,
@@ -137,14 +136,14 @@ export class AutocompleteItem
           onClick={this.handleClick}
         >
           {this.renderIconStart()}
-          <slot name={SLOTS.contentStart} slot={STACK_SLOTS.contentStart} />
-          <div class={CSS.content}>
+          <slot name={SLOTS.contentStart} />
+          <div class={CSS.contentCenter}>
             <div class={CSS.heading}>{heading}</div>
             <div class={CSS.description}>{description}</div>
           </div>
-          <slot name={SLOTS.contentEnd} slot={STACK_SLOTS.contentEnd} />
+          <slot name={SLOTS.contentEnd} />
           {this.renderIconEnd()}
-        </calcite-stack>
+        </div>
       </InteractiveContainer>
     );
   }
@@ -158,7 +157,6 @@ export class AutocompleteItem
         flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
         icon={iconStart}
         scale={getIconScale(this.scale)}
-        slot={STACK_SLOTS.contentStart}
       />
     ) : null;
   }
@@ -172,7 +170,6 @@ export class AutocompleteItem
         flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
         icon={iconEnd}
         scale={getIconScale(this.scale)}
-        slot={STACK_SLOTS.contentEnd}
       />
     ) : null;
   }

@@ -3,15 +3,15 @@ import { Scale } from "../interfaces";
 export const CSS = {
   container: "container",
   containerActive: "container--active",
-  scale: (scale: Scale) => `scale--${scale}` as const,
-  content: "content",
-  heading: "heading",
+  contentCenter: "content-center",
   description: "description",
-  iconStart: "icon-start",
+  heading: "heading",
   iconEnd: "icon-end",
+  iconStart: "icon-start",
+  scale: (scale: Scale) => `scale--${scale}` as const,
 } as const;
 
 export const SLOTS = {
-  contentStart: "content-start",
   contentEnd: "content-end",
+  contentStart: "content-start",
 } as const;

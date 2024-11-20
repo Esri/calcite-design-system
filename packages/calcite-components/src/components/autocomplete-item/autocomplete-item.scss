@@ -25,12 +25,19 @@
 
 .container {
   @apply flex
-    flex-auto
+    w-full
+    min-w-full
     cursor-pointer
-    focus-base;
+    focus-base
+    text-color-3
+    relative
+    box-border
+    items-center;
+  gap: var(--calcite-autocomplete-item-spacing-unit-l);
   padding-inline: var(--calcite-autocomplete-item-spacing-unit-l);
-  --calcite-stack-padding-inline: var(--calcite-autocomplete-item-spacing-unit-l);
-  --calcite-stack-padding-block: var(--calcite-autocomplete-item-spacing-unit-s);
+  padding-block: var(--calcite-autocomplete-item-spacing-unit-s);
+  @include word-break();
+  justify-content: space-around;
 }
 
 .container:hover {
@@ -42,6 +49,32 @@
   @apply text-color-1
     bg-foreground-2
     focus-inset;
+}
+
+.content-center {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-block: 0;
+}
+
+.description {
+  font-size: var(--calcite-internal-autocomplete-item-description-font-size);
+}
+
+:host(:hover) {
+  .description {
+    color: var(--calcite-color-text-2);
+  }
+}
+
+.heading {
+  color: var(--calcite-color-text-1);
+}
+
+.heading,
+.description {
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 @include base-component();
