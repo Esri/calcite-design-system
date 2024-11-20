@@ -432,7 +432,6 @@ export class InputTimePicker
 
   private openHandler(): void {
     if (this.disabled || this.readOnly) {
-      this.open = false;
       return;
     }
 
