@@ -2054,7 +2054,7 @@ describe("calcite-input", () => {
 
   describe("theme", () => {
     themed(
-      html` <calcite-input placeholder="Placeholder text" prefix-text="prefix" suffix-text="suffix"></calcite-input> `,
+      html` <calcite-input placeholder="Placeholder text" prefix-text="prefix" suffix-text="suffix"></calcite-input>`,
       {
         "--calcite-input-prefix-size": {
           shadowSelector: `.${CSS.prefix}`,
@@ -2064,7 +2064,77 @@ describe("calcite-input", () => {
           shadowSelector: `.${CSS.suffix}`,
           targetProp: "inlineSize",
         },
+        "--calcite-input-prefix-background-color": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-suffix-background-color": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-prefix-text-color": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "color",
+        },
+        "--calcite-input-suffix-text-color": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "color",
+        },
+        "--calcite-input-background-color": {
+          shadowSelector: `input`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-border-color": {
+          shadowSelector: `input`,
+          targetProp: "borderColor",
+        },
+        "--calcite-input-shadow": {
+          shadowSelector: `.${CSS.inputWrapper}`,
+          targetProp: "boxShadow",
+        },
+        // not sure how to target this ::placeholder style
+        /*
+        "--calcite-input-placeholder-text": {
+          shadowSelector: `input`,
+          targetProp: "color",
+        },
+        */
       },
     );
+    themed(html` <calcite-input icon="layer" value="Forty two"></calcite-input>`, {
+      "--calcite-input-corner-radius": {
+        shadowSelector: `input`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-input-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "color",
+      },
+      "--calcite-input-text-color": {
+        shadowSelector: `input`,
+        targetProp: "color",
+      },
+    });
+
+    themed(html` <calcite-input clearable icon="layer" value="Forty two"></calcite-input>`, {
+      "--calcite-input-actions-background-color": {
+        shadowSelector: `.${CSS.clearButton}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-actions-icon-color": {
+        shadowSelector: `.${CSS.clearButton} calcite-icon`,
+        targetProp: "color",
+      },
+    });
+    themed(html` <calcite-input icon="layer" value="42" type="number"></calcite-input>`, {
+      "--calcite-input-actions-background-color": {
+        shadowSelector: `.${CSS.numberButtonItem}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-actions-icon-color": {
+        shadowSelector: `.${CSS.numberButtonItem} calcite-icon`,
+        targetProp: "color",
+      },
+    });
   });
 });
