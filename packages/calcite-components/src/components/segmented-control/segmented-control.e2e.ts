@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
 } from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils";
 import type { SegmentedControl } from "./segmented-control";
 
 describe("calcite-segmented-control", () => {
@@ -180,6 +181,19 @@ describe("calcite-segmented-control", () => {
     expect(eventSpy).not.toHaveReceivedEvent();
     const [first, second, third] = await page.findAll("calcite-segmented-control-item");
 
+    type TestWindow = GlobalTestProps<{
+      eventTimeValues: string[];
+    }>;
+
+    // We use the browser context to assert the value at the time of event emit.
+    // Puppeteer APIs likely don't allow this due to async timing between calls.
+    await page.evaluate(() => {
+      (window as TestWindow).eventTimeValues = [];
+      document.body.addEventListener("calciteSegmentedControlChange", (event: CustomEvent) => {
+        window.eventTimeValues.push(event.target.value);
+      });
+    });
+
     await first.click();
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(await getSelectedItemValue(page)).toBe("1");
@@ -193,6 +207,8 @@ describe("calcite-segmented-control", () => {
     await second.click();
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(await getSelectedItemValue(page)).toBe("2");
+
+    expect(await page.evaluate(() => (window as TestWindow).eventTimeValues)).toEqual(["1", "2"]);
   });
 
   it("updates selection when cleared with undefined", async () => {
