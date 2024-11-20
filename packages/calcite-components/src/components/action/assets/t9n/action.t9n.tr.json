@@ -1,4 +1,5 @@
 {
   "loading": "Yükleniyor",
-  "indicator": "Gösterge mevcut"
+  "indicator": "Gösterge mevcut",
+  "indicatorLabel": "{label} (Gösterge mevcut)"
 }

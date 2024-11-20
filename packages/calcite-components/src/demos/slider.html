@@ -52,6 +52,19 @@
         margin: 60px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed {
+        --calcite-slider-track-color: darkblue;
+        --calcite-slider-track-fill-color: green;
+        --calcite-slider-handle-fill-color: cyan;
+        --calcite-slider-handle-extension-color: rgb(183, 0, 0);
+        --calcite-slider-accent-color: rgb(247, 0, 255);
+        --calcite-slider-tick-color: white;
+        --calcite-slider-tick-border-color: red;
+        --calcite-slider-tick-selected-color: cyan;
+        --calcite-slider-text-color: red;
+        --calcite-slider-graph-color: lime;
+      }
     </style>
     <script src="./_assets/head.ts"></script>
     <script type="module" src="./_assets/demo-form.ts"></script>
@@ -1596,6 +1609,55 @@
             label-handles
             label-ticks
           ></calcite-slider>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">themed</div>
+
+        <div class="child">
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="s"
+            class="themed"
+          >
+          </calcite-slider>
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="m"
+            class="themed"
+          >
+          </calcite-slider>
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="l"
+            class="themed"
+          >
+          </calcite-slider>
         </div>
       </div>
 

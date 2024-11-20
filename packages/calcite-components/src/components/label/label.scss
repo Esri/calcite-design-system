@@ -3,7 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-label-margin-bottom: The spacing below the component.
+ * @prop --calcite-label-margin-bottom: Specifies the component's bottom spacing.
+ * @prop --calcite-label-text-color: Specifies the component's text color.
  */
 
 :host {
@@ -40,13 +41,13 @@
     margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.4"));
   }
 }
-
 :host .container {
   @apply text-color-1
     mt-0
     mx-0
     w-full
     leading-snug;
+  color: var(--calcite-label-text-color, var(--calcite-color-text-1));
 }
 
 :host([layout="default"]) {

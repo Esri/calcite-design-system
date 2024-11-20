@@ -1,4 +1,5 @@
 {
   "loading": "A Carregar",
-  "indicator": "Indicador presente"
+  "indicator": "Indicador presente",
+  "indicatorLabel": "{label} (Indicador presente)"
 }

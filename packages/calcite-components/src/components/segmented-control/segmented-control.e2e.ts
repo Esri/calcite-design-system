@@ -253,6 +253,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
         </calcite-segmented-control>
       `;
+      await waitForFrame();
 
       [first, second] = Array.from(document.querySelectorAll("calcite-segmented-control-item"));
 
@@ -353,6 +354,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
           <calcite-segmented-control-item value="3">three</calcite-segmented-control-item>`;
       });
+      await page.waitForChanges();
 
       await assertArrowSelection(page);
     });
