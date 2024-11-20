@@ -263,12 +263,12 @@ export class ShellPanel extends LitElement {
   private setContentHeight(height: number): void {
     const { contentHeightMax, contentHeightMin } = this;
 
-    const roundedWidth = Math.round(height);
+    const roundedHeight = Math.round(height);
 
     this.contentHeight =
       typeof contentHeightMax === "number" && typeof contentHeightMin === "number"
-        ? clamp(roundedWidth, contentHeightMin, contentHeightMax)
-        : roundedWidth;
+        ? clamp(roundedHeight, contentHeightMin, contentHeightMax)
+        : roundedHeight;
   }
 
   private updateWidths(computedStyle: CSSStyleDeclaration): void {
