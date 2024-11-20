@@ -2092,13 +2092,6 @@ describe("calcite-input", () => {
           shadowSelector: `.${CSS.inputWrapper}`,
           targetProp: "boxShadow",
         },
-        // not sure how to target this ::placeholder style
-        /*
-        "--calcite-input-placeholder-text": {
-          shadowSelector: `input`,
-          targetProp: "color",
-        },
-        */
       },
     );
     themed(html` <calcite-input icon="layer" value="Forty two"></calcite-input>`, {
@@ -2115,7 +2108,6 @@ describe("calcite-input", () => {
         targetProp: "color",
       },
     });
-
     themed(html` <calcite-input clearable icon="layer" value="Forty two"></calcite-input>`, {
       "--calcite-input-actions-background-color": {
         shadowSelector: `.${CSS.clearButton}`,
