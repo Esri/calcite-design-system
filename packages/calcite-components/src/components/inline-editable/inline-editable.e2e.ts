@@ -34,17 +34,13 @@ describe("calcite-inline-editable", () => {
   });
 
   describe("rendering permutations", () => {
-    let page: E2EPage;
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(`
-      <calcite-inline-editable>
-        <calcite-input/>
-      </calcite-inline-editable>
-      `);
-    });
-
     it("renders default props when none are provided", async () => {
+      const page: E2EPage = await newE2EPage();
+      await page.setContent(html`
+        <calcite-inline-editable>
+          <calcite-input />
+        </calcite-inline-editable>
+      `);
       const element = await page.find("calcite-inline-editable");
       await page.waitForChanges();
       expect(element).not.toHaveAttribute("controls");
@@ -85,7 +81,7 @@ describe("calcite-inline-editable", () => {
     });
 
     it("uses a child input's scale when none are provided", async () => {
-      page = await newE2EPage();
+      const page = await newE2EPage();
       await page.setContent(`
       <calcite-label>
         <calcite-inline-editable>
@@ -99,7 +95,7 @@ describe("calcite-inline-editable", () => {
     });
 
     it("renders requested props when valid props are provided", async () => {
-      page = await newE2EPage();
+      const page = await newE2EPage();
       await page.setContent(`
       <calcite-inline-editable controls editing-enabled loading disabled scale="l" >
         <calcite-input/>
