@@ -1,6 +1,6 @@
 {
   "semantic": {
-    "space": {
+    "spacing": {
       "fixed": {
         "xxs": {
           "value": "{core.size.default.4}",
