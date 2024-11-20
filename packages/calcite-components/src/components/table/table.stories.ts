@@ -193,34 +193,6 @@ export const borderedStriped_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const deprecatedZebraStriped_TestOnly = (): string =>
-  html`<calcite-table bordered zebra caption="Bordered striped table">
-    <calcite-table-row slot="table-header">
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-    </calcite-table-row>
-  </calcite-table>`;
-
 export const alignments_TestOnly = (): string =>
   html`<calcite-table numbered>
     <calcite-table-row slot="table-header" caption="Various alignments table">

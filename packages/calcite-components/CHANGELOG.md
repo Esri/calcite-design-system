@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.17...@esri/calcite-components@3.0.0-next.18) (2024-11-20)
+
+### Bug Fixes
+
+- **flow-item:** fix TS error caused by FlowItemLike type ([#10802](https://github.com/Esri/calcite-design-system/issues/10802)) ([22c46c7](https://github.com/Esri/calcite-design-system/commit/22c46c7178ce0f97994d4302f8c164f9e928302b)), closes [#10801](https://github.com/Esri/calcite-design-system/issues/10801) [#10482](https://github.com/Esri/calcite-design-system/issues/10482)
+- **t9n:** make TypeScript inline .json type imports ([#10804](https://github.com/Esri/calcite-design-system/issues/10804)) ([5ad6784](https://github.com/Esri/calcite-design-system/commit/5ad6784f7ba5a2e8a083e00c45d48d476e5f4cf9)), closes [#10803](https://github.com/Esri/calcite-design-system/issues/10803)
+
+## [3.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.16...@esri/calcite-components@3.0.0-next.17) (2024-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **table:** Removes the deprecated property `zebra` from `calcite-table`.
+
+Developers will need to replace `calcite-table`'s "zebra" property with "striped".
+
+- **checkbox:** Removes the deprecated `guid` property from `calcite-checkbox`.
+
+Developers may need to replace `calcite-checkbox`'s "guid" property with a unique "id" property.
+
+- **combobox, dropdown, input-date-picker, input-time-picker, split-button:** Components will no longer close automatically when
+  disabled. Developers relying on this behavior will also need to update
+  the `open` property as well.
+- **combobox, list:** Filtering will no longer include item values by
+  default. If value-filtering is desired, developers will need to
+  configure items' `metadata` property.
+
+### Features
+
+- **slider:** add component tokens ([#10716](https://github.com/Esri/calcite-design-system/issues/10716)) ([cbd5bb0](https://github.com/Esri/calcite-design-system/commit/cbd5bb0a81bc974e8d529e23e7993d84a2a2448c)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **combobox, list:** stop filtering on value by default ([#10791](https://github.com/Esri/calcite-design-system/issues/10791)) ([8ca2805](https://github.com/Esri/calcite-design-system/commit/8ca2805aa36bc5a06b2236ea779a025fe96bd7f2)), closes [#9615](https://github.com/Esri/calcite-design-system/issues/9615)
+
+### Code Refactoring
+
+- **checkbox:** remove deprecated guid property ([#10797](https://github.com/Esri/calcite-design-system/issues/10797)) ([afa1729](https://github.com/Esri/calcite-design-system/commit/afa17294b334bc28441c2b8718b8f66c3acded54)), closes [#9713](https://github.com/Esri/calcite-design-system/issues/9713)
+- **combobox, dropdown, input-date-picker, input-time-picker, split-button:** avoid modifying `open` based on `disabled` prop ([#10793](https://github.com/Esri/calcite-design-system/issues/10793)) ([a62d704](https://github.com/Esri/calcite-design-system/commit/a62d704cb1cb049b14aec56f107f046da0edcd3d)), closes [#7547](https://github.com/Esri/calcite-design-system/issues/7547)
+- **table:** remove deprecated zebra property ([#10795](https://github.com/Esri/calcite-design-system/issues/10795)) ([b280ea4](https://github.com/Esri/calcite-design-system/commit/b280ea4903466f1cc22cebf75d8d98dbd35ab318)), closes [#9713](https://github.com/Esri/calcite-design-system/issues/9713)
+
+## [3.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.15...@esri/calcite-components@3.0.0-next.16) (2024-11-19)
+
+### ⚠ BREAKING CHANGES
+
+- **modal:** This should not require changes, but we are including
+  this in the breaking change release due to the different modal
+  configurations that could be impacted by the default `position` change.
+- **input-time-zone:** Developers using `messageOverrides` will need to make
+  sure they do not reference removed entries.
+- **block:** The component's `label` property is a required property
+  and `heading` is an optional property.
+
+### Features
+
+- **block:** add required label property and mark heading as optional ([#10739](https://github.com/Esri/calcite-design-system/issues/10739)) ([c252ce3](https://github.com/Esri/calcite-design-system/commit/c252ce34da2cd8478d7b68cadc6f5bb4ae599de5)), closes [#8697](https://github.com/Esri/calcite-design-system/issues/8697)
+
+### Bug Fixes
+
+- **modal:** use fixed positioning on host to prevent Safari from clipping content in certain layouts ([#9545](https://github.com/Esri/calcite-design-system/issues/9545)) ([f950e28](https://github.com/Esri/calcite-design-system/commit/f950e288d488816031b50c118a611ecae1b61718)), closes [#9416](https://github.com/Esri/calcite-design-system/issues/9416)
+
+### Code Refactoring
+
+- **input-time-zone:** drop obsolete time zone translations ([#10747](https://github.com/Esri/calcite-design-system/issues/10747)) ([9a34f8f](https://github.com/Esri/calcite-design-system/commit/9a34f8f00d4f694faf4580828d2fef5a8f5ec9e3)), closes [#10438](https://github.com/Esri/calcite-design-system/issues/10438) [#10289](https://github.com/Esri/calcite-design-system/issues/10289)
+
+## [3.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.14...@esri/calcite-components@3.0.0-next.15) (2024-11-18)
+
+### Bug Fixes
+
+- bundle-in non-ESM dependencies ([#10766](https://github.com/Esri/calcite-design-system/issues/10766)) ([cf1fe49](https://github.com/Esri/calcite-design-system/commit/cf1fe49aea96d1b8e32f2e4c9afb79435bbca99e))
+
 ## [3.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.13...@esri/calcite-components@3.0.0-next.14) (2024-11-18)
 
 ### Features
