@@ -2,10 +2,10 @@ import { html } from "../../support/formatting";
 import { boolean } from "../../.storybook/utils";
 
 export const navigationUserTokens = {
+  calciteNavigationAccentColor: "",
   calciteNavigationUserBackgroundColor: "",
   calciteNavigationUserAvatarCornerRadius: "",
   calciteNavigationUserAvatarColor: "",
-  calciteNavigationAccentColor: "",
   calciteNavigationUserFullNameTextColor: "",
   calciteNavigationUserUserNameTextColor: "",
 };
