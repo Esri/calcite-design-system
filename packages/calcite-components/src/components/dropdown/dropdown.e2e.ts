@@ -1,5 +1,6 @@
-import { newE2EPage } from "@stencil/core/testing";
 import dedent from "dedent";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -18,6 +19,8 @@ import {
   isElementFocused,
   skipAnimations,
 } from "../../tests/utils";
+import type { DropdownItem } from "../dropdown-item/dropdown-item";
+import type { Button } from "../button/button";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -836,7 +839,7 @@ describe("calcite-dropdown", () => {
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
 
-      await page.$eval("calcite-button[slot='trigger']", (triggerEl: HTMLCalciteButtonElement) => {
+      await page.$eval("calcite-button[slot='trigger']", (triggerEl: Button["el"]) => {
         // intentionally not pressing to avoid emitting `click`
         triggerEl.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
       });
@@ -1101,7 +1104,7 @@ describe("calcite-dropdown", () => {
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
         const wrapper = document.querySelector(wrapperName);
-        wrapper.shadowRoot.querySelector<HTMLCalciteDropdownItemElement>("#item-3").click();
+        wrapper.shadowRoot.querySelector<DropdownItem["el"]>("#item-3").click();
       },
       wrappedDropdownTemplateHTML,
       wrapperName,

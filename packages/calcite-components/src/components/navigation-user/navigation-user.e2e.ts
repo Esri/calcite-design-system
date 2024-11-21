@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";

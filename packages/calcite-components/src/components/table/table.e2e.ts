@@ -1,11 +1,14 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
 import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
 import { CSS } from "../table-header/resources";
 import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
-import { SLOTS } from "../table/resources";
+import type { TableHeader } from "../table-header/table-header";
+import type { TableCell } from "../table-cell/table-cell";
+import { SLOTS } from "./resources";
 
 describe("calcite-table", () => {
   describe("renders", () => {
@@ -395,7 +398,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
 
       cell.click();
     });
@@ -413,7 +416,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-2");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -430,7 +433,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -447,7 +450,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -511,7 +514,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -528,7 +531,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-2");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -545,7 +548,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -562,7 +565,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -889,7 +892,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
+      const cell = row.shadowRoot.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -941,7 +944,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
+      const cell = row.shadowRoot.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -996,7 +999,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
+      const cell = row.shadowRoot.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -1051,7 +1054,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
+      const cell = row.shadowRoot.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -1432,7 +1435,7 @@ describe("keyboard navigation", () => {
         const pagination = table.shadowRoot.querySelector("calcite-pagination");
         const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
         button?.click();
-        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+        (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
     );
@@ -1486,7 +1489,7 @@ describe("keyboard navigation", () => {
         const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[2];
 
         button?.click();
-        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+        (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
     );
@@ -1873,7 +1876,7 @@ describe("keyboard navigation", () => {
         const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
         button?.click();
-        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+        (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
     );
@@ -2492,7 +2495,7 @@ describe("keyboard navigation", () => {
         const pagination = table.shadowRoot.querySelector("calcite-pagination");
         const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
         button?.click();
-        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+        (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
     );

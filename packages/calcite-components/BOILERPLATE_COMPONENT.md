@@ -7,110 +7,75 @@ Get started building a new Calcite Component using this boilerplate example. The
 The component TSX file.
 
 ```tsx
-import { Component, Element, Event, EventEmitter, Host, Listen, Method, Prop, State, Watch, h } from "@stencil/core";
-
+import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { CSS, TEXT } from "./resources";
 
-@Component({
-  tag: "calcite-example",
-  styleUrl: "example.scss",
-  shadow: true,
-})
-export class Example {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class Example extends LitElement {
+  // #region Public Properties
 
-  @Prop()
-  someProp = true;
+  @property() someProp = true;
 
-  @Prop()
-  textMyString = TEXT.myString;
+  @property() textMyString = TEXT.myString;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element()
-  el: HTMLCalciteExampleElement;
+  // #region State Properties
 
-  internalProp: string;
+  private internalProp: string;
 
-  @Watch("someProp")
-  handleSomeProp(): void {
-    // ...
+  @state() internalRenderableProp = 0;
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("someEvent", this.handleSomeEvent);
   }
 
-  @State()
-  internalRenderableProp = 0;
+  willUpdate(changes: PropertyValues): void {
+    if (changes.has("someProp")) {
+      // ...
+    }
 
-  @Watch("internalRenderableProp")
-  handleInternalSomeProp(): void {
-    // ...
+    if (changes.has("internalRenderableProp")) {
+      // ...
+    }
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  componentWillLoad() {
-    // ...
-  }
+  // #region Events
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  calciteExampleEvent = createEvent({ cancelable: false });
 
-  @Event()
-  calciteExampleEvent: EventEmitter;
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Methods
 
-  @Method()
+  @method()
   async publicMethod(): Promise<void> {
     // ...
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
+
+  // #region Private Methods
 
   internalMethod(): void {
     // ...
   }
 
-  @Listen("someEvent")
-  handleSomeEvent(): void {
-    // ...
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    return <div class={CSS.foo}>{this.someProp ? this.textMyString : null}</div>;
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  render() {
-    return (
-      <Host>
-        <div class={CSS.foo}>{this.someProp ? this.textMyString : null}</div>
-      </Host>
-    );
-  }
+  // #endregion
 }
 ```
 
@@ -141,7 +106,7 @@ export const CSS = {
 ## E2E Test
 
 ```ts
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { CSS, TEXT } from "./resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 

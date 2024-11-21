@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -502,6 +503,10 @@ describe("calcite-tile", () => {
               shadowSelector: `.${CSS.heading}`,
               targetProp: "color",
               state: "hover",
+            },
+            "--calcite-tile-link-text-color": {
+              shadowSelector: "calcite-link",
+              targetProp: "--calcite-link-text-color",
             },
           },
         );

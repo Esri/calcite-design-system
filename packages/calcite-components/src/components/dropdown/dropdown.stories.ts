@@ -4,6 +4,7 @@ import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dropdown } from "./dropdown";
+
 const { scale, clickType, selectionMode } = ATTRIBUTES;
 
 type DropdownStoryArgs = Pick<

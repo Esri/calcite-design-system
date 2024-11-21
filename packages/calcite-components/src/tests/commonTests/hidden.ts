@@ -1,4 +1,5 @@
 import { toHaveNoViolations } from "jest-axe";
+import { expect, it } from "vitest";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
@@ -14,7 +15,6 @@ expect.extend(toHaveNoViolations);
  * describe("honors hidden attribute", () => {
  *    hidden("calcite-accordion")
  * });
- *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTestSetup: ComponentTestSetup): Promise<void> {

@@ -2,6 +2,7 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Table } from "./table";
+
 const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
 
 type TableStoryArgs = Pick<
@@ -166,34 +167,6 @@ export const bordered_TestOnly = (): string =>
 
 export const borderedStriped_TestOnly = (): string =>
   html`<calcite-table bordered striped caption="Bordered striped table">
-    <calcite-table-row slot="table-header">
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-    </calcite-table-row>
-    <calcite-table-row>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell>cell</calcite-table-cell>
-    </calcite-table-row>
-  </calcite-table>`;
-
-export const deprecatedZebraStriped_TestOnly = (): string =>
-  html`<calcite-table bordered zebra caption="Bordered striped table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>

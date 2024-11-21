@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -12,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
+import type { Select } from "./select";
 
 describe("calcite-select", () => {
   const simpleTestMarkup = html`
@@ -71,7 +73,7 @@ describe("calcite-select", () => {
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
     const selectedOptionValue = await page.$eval(
       "calcite-select",
-      (select: HTMLCalciteSelectElement): string => select.selectedOption.value,
+      (select: Select["el"]): string => select.selectedOption.value,
     );
 
     expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
@@ -126,15 +128,15 @@ describe("calcite-select", () => {
     });
 
     it("selects the last selected option when multiple are selected", async () => {
-      const page = await newE2EPage({
-        html: html`
-          <calcite-select>
-            <calcite-option selected>uno</calcite-option>
-            <calcite-option selected>dos</calcite-option>
-            <calcite-option selected>tres</calcite-option>
-          </calcite-select>
-        `,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-select>
+          <calcite-option selected>uno</calcite-option>
+          <calcite-option selected>dos</calcite-option>
+          <calcite-option selected>tres</calcite-option>
+        </calcite-select>
+      `);
+      await page.waitForChanges();
       const selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
@@ -187,6 +189,7 @@ describe("calcite-select", () => {
 
         select.append(number);
       });
+      await page.waitForChanges();
 
       expect(await internalSelect.findAll("option")).toHaveLength(1);
     });
@@ -241,22 +244,22 @@ describe("calcite-select", () => {
     });
 
     it("selects the last selected option when multiple are selected", async () => {
-      const page = await newE2EPage({
-        html: html`
-          <calcite-select>
-            <calcite-option-group label="letters">
-              <calcite-option selected>a</calcite-option>
-              <calcite-option selected>b</calcite-option>
-              <calcite-option selected>c</calcite-option>
-            </calcite-option-group>
-            <calcite-option-group label="numbers">
-              <calcite-option selected>1</calcite-option>
-              <calcite-option selected>2</calcite-option>
-              <calcite-option selected>3</calcite-option>
-            </calcite-option-group>
-          </calcite-select>
-        `,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-select>
+          <calcite-option-group label="letters">
+            <calcite-option selected>a</calcite-option>
+            <calcite-option selected>b</calcite-option>
+            <calcite-option selected>c</calcite-option>
+          </calcite-option-group>
+          <calcite-option-group label="numbers">
+            <calcite-option selected>1</calcite-option>
+            <calcite-option selected>2</calcite-option>
+            <calcite-option selected>3</calcite-option>
+          </calcite-option-group>
+        </calcite-select>
+      `);
+      await page.waitForChanges();
       const selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
@@ -331,6 +334,7 @@ describe("calcite-select", () => {
 
         select.append(letters, numbers);
       });
+      await page.waitForChanges();
 
       expect(await internalSelect.findAll("option")).toHaveLength(2);
       expect(await internalSelect.findAll("optgroup")).toHaveLength(2);
@@ -381,7 +385,7 @@ describe("calcite-select", () => {
 
     type TestWindow = typeof window & { selectedOptionId: string };
 
-    await page.$eval("calcite-select", (select: HTMLCalciteSelectElement) =>
+    await page.$eval("calcite-select", (select: Select["el"]) =>
       select.addEventListener("calciteSelectChange", (event) => {
         (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
           "calcite-option[selected]",

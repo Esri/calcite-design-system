@@ -3,6 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Button } from "./button";
+
 const { appearance, kind, scale, width } = ATTRIBUTES;
 
 interface ButtonStoryArgs

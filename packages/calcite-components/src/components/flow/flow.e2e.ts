@@ -1,10 +1,14 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { isElementFocused } from "../../tests/utils";
+import type { Action } from "../action/action";
+import type { FlowItem } from "../flow-item/flow-item";
 import { CSS } from "./resources";
 import { FlowItemLikeElement } from "./interfaces";
+import type { Flow } from "./flow";
 
 async function slowPageAnimations(page: E2EPage): Promise<void> {
   await page.addStyleTag({
@@ -88,8 +92,8 @@ describe("calcite-flow", () => {
 
       await page.$eval(
         "#two",
-        (elm: HTMLCalciteFlowItemElement, backButtonCSS: string) => {
-          elm.shadowRoot.querySelector<HTMLCalciteActionElement>(`.${backButtonCSS}`)?.click();
+        (elm: FlowItem["el"], backButtonCSS: string) => {
+          elm.shadowRoot.querySelector<Action["el"]>(`.${backButtonCSS}`)?.click();
         },
         ITEM_CSS.backButton,
       );
@@ -136,7 +140,7 @@ describe("calcite-flow", () => {
     it("setting 'beforeBack' should be called in 'back()'", async () => {
       const page = await newE2EPage();
 
-      const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
+      const mockCallBack = vi.fn().mockReturnValue(Promise.resolve());
       await page.exposeFunction("beforeBack", mockCallBack);
 
       await page.setContent(
@@ -148,7 +152,7 @@ describe("calcite-flow", () => {
 
       await page.$eval(
         "#last-item",
-        (elm: HTMLCalciteFlowItemElement) =>
+        (elm: FlowItem["el"]) =>
           (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
       );
 
@@ -163,7 +167,7 @@ describe("calcite-flow", () => {
     it("should handle rejected 'beforeBack' promise'", async () => {
       const page = await newE2EPage();
 
-      const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+      const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
       await page.exposeFunction("beforeBack", mockCallBack);
 
       await page.setContent(
@@ -175,7 +179,7 @@ describe("calcite-flow", () => {
 
       await page.$eval(
         "#two",
-        (elm: HTMLCalciteFlowItemElement) =>
+        (elm: FlowItem["el"]) =>
           (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
       );
 
@@ -267,7 +271,7 @@ describe("calcite-flow", () => {
       expect(frame).not.toHaveClass(CSS.frameRetreating);
       expect(frame).not.toHaveClass(CSS.frameAdvancing);
 
-      await page.$eval("calcite-flow", (elm: HTMLCalciteFlowElement) => elm.back());
+      await page.$eval("calcite-flow", (elm: Flow["el"]) => elm.back());
 
       await page.waitForChanges();
 
@@ -317,6 +321,7 @@ describe("calcite-flow", () => {
       <calcite-flow-item></calcite-flow-item>
       `;
       });
+      await page.waitForChanges();
 
       const items = await page.findAll("calcite-flow-item");
 
@@ -405,7 +410,7 @@ describe("calcite-flow", () => {
 
     await page.evaluate(async () => {
       class CustomFlowItem extends HTMLElement implements FlowItemLikeElement {
-        private flowItemEl: HTMLCalciteFlowItemElement;
+        private flowItemEl: FlowItem["el"];
 
         constructor() {
           super();
@@ -427,7 +432,7 @@ describe("calcite-flow", () => {
                 </calcite-flow-item>
               `;
 
-          this.flowItemEl = shadow.getElementById("internalFlowItem") as HTMLCalciteFlowItemElement;
+          this.flowItemEl = shadow.getElementById("internalFlowItem") as FlowItem["el"];
         }
 
         connectedCallback(): void {
@@ -497,6 +502,7 @@ describe("calcite-flow", () => {
 
       customElements.define("custom-flow-item", CustomFlowItem);
     });
+    await page.waitForChanges();
 
     const flow = await page.find("calcite-flow");
     const displayedItemSelector = "calcite-flow > [selected]";
@@ -509,7 +515,7 @@ describe("calcite-flow", () => {
       async (displayedItemSelector: string, ITEM_CSS) => {
         document
           .querySelector(displayedItemSelector)
-          .shadowRoot.querySelector<HTMLCalciteActionElement>(`.${ITEM_CSS.backButton}`)
+          .shadowRoot.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)
           .click();
       },
       displayedItemSelector,
@@ -526,7 +532,7 @@ describe("calcite-flow", () => {
         document
           .querySelector(displayedItemSelector)
           .shadowRoot.querySelector("calcite-flow-item")
-          .shadowRoot.querySelector<HTMLCalciteActionElement>(`.${ITEM_CSS.backButton}`)
+          .shadowRoot.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)
           .click();
       },
       displayedItemSelector,
