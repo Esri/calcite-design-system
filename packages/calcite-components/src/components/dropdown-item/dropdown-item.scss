@@ -1,6 +1,17 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dropdown-accent-color: Specifies the accent color of the component.
+ * @prop --calcite-dropdown-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-dropdown-background-color-hover: Specifies the background color of the component when hovered.
+ * @prop --calcite-dropdown-text-color-active: Specifies the text color of the component when active.
+ * @prop --calcite-dropdown-text-color: Specifies the text color of the component.
+ */
+
 @mixin item-styling {
-  @apply text-color-3
-    relative
+  @apply relative
     flex
     flex-grow
     cursor-pointer
@@ -8,6 +19,7 @@
     no-underline
     duration-150
     ease-in-out;
+  color: var(--calcite-dropdown-text-color, theme("textColor.color.3"));
 }
 
 :host {
@@ -91,41 +103,49 @@
   @apply focus-inset outline-none;
 
   .container {
-    @apply text-color-1 no-underline;
+    @apply no-underline;
+    color: var(--calcite-dropdown-text-color-active, var(--calcite-text-color-1));
   }
 }
 
 :host(:hover:not([disabled])),
 :host(:active:not([disabled])) {
   .container {
-    @apply bg-foreground-2 text-color-1 no-underline;
+    @apply no-underline;
+    color: var(--calcite-dropdown-text-color-active, var(--calcite-text-color-1));
   }
 
   .dropdown-link {
-    @apply text-color-1;
+    color: var(--calcite-dropdown-text-color-active, var(--calcite-text-color-1));
   }
 }
 
+:host(:hover:not([disabled])) .container {
+  background-color: var(--calcite-dropdown-background-color-hover, var(--calcite-color-foreground-2));
+}
+
 :host(:active:not([disabled])) .container {
-  @apply bg-foreground-3;
+  background-color: var(--calcite-dropdown-background-color-active, var(--calcite-color-foreground-3));
 }
 
 :host([selected]) .container:not(.container--none-selection),
 :host([selected]) .dropdown-link {
-  @apply text-color-1 font-medium;
-  & calcite-icon {
-    color: theme("backgroundColor.brand");
+  @apply font-medium;
+  color: var(--calcite-dropdown-text-color-active, var(--calcite-text-color-1));
+
+  calcite-icon {
+    color: var(--calcite-dropdown-accent-color, theme("backgroundColor.brand"));
   }
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
-  color: theme("borderColor.color.1");
   @apply opacity-100;
+  color: theme("borderColor.color.1");
 }
 
 :host([selected]) .dropdown-item-icon {
-  color: theme("backgroundColor.brand");
   @apply opacity-100;
+  color: var(--calcite-dropdown-accent-color, theme("backgroundColor.brand"));
 }
 
 @include base-component();
