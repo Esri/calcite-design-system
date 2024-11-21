@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.19...@esri/calcite-components@3.0.0-next.20) (2024-11-21)
+
+### Bug Fixes
+
+- **checkbox:** ensure that border shows in high contrast mode ([#10823](https://github.com/Esri/calcite-design-system/issues/10823)) ([ff05231](https://github.com/Esri/calcite-design-system/commit/ff05231369ca0f70c6476a2e4bf213337c78f78d)), closes [#10537](https://github.com/Esri/calcite-design-system/issues/10537)
+
+## [3.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.18...@esri/calcite-components@3.0.0-next.19) (2024-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **progress:** Refactors `progress` to use the value range of 0-100.
+  Developers will need to provide a function to map existing values or use
+  the updated range.
+- **shell-panel:** Removes the following deprecated properties from
+  `calcite-shell-panel`: `detachedHeightScale`, `detached` and the
+  `--calcite-shell-panel-detached-max-height` CSS property.
+
+Developers will need to replace `calcite-shell-panel`'s
+`detachedHeightScale` and `detached` properties with `heightScale` and
+`displayMode`.
+
+- **color-picker:** Removes the following deprecated properties from
+  `calcite-color-picker`: `hideChannels`, `hideHex` and `hideSaved`.
+
+Developers will need to replace `calcite-color-picker`'s `hideChannels`,
+`hideHex`, and `hideSaved` properties with `channelsDisabled`,
+`hexDisabled`, and `savedDisabled`.
+
+- **action-group:** Removes the deprecated `layout` property by converting
+  it to an internal property.
+
+Developers will need to replace `calcite-action-group`'s `layout`
+property with it's parent's `layout` property (i.e., parent `action-pad`
+or `action-bar`).
+
+### Features
+
+- **list, list-item, list-item-group:** add component tokens ([#10669](https://github.com/Esri/calcite-design-system/issues/10669)) ([12e3ff0](https://github.com/Esri/calcite-design-system/commit/12e3ff0167264bc7c268208bb30f7604a3ddaa4a)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **progress:** convert value range to 0-100 ([#10622](https://github.com/Esri/calcite-design-system/issues/10622)) ([f7d1d57](https://github.com/Esri/calcite-design-system/commit/f7d1d57d754cdb7503b1491b3e4606a7d1a795d0)), closes [#7207](https://github.com/Esri/calcite-design-system/issues/7207)
+- **segmented-control:** ensure change event emits after item update ([#10818](https://github.com/Esri/calcite-design-system/issues/10818)) ([0a7dbed](https://github.com/Esri/calcite-design-system/commit/0a7dbed61b0a2902f0c83cc7c4eefa938b3737a2))
+
+### Code Refactoring
+
+- **action-group:** remove deprecated layout property ([#10792](https://github.com/Esri/calcite-design-system/issues/10792)) ([a4d8538](https://github.com/Esri/calcite-design-system/commit/a4d853838ba062c0b007e4401e3975a2c458aceb)), closes [#9173](https://github.com/Esri/calcite-design-system/issues/9173)
+- **color-picker:** remove deprecated properties ([#10790](https://github.com/Esri/calcite-design-system/issues/10790)) ([fc2e306](https://github.com/Esri/calcite-design-system/commit/fc2e3062199876e45f0c9b3495f09f2411739e09)), closes [#9713](https://github.com/Esri/calcite-design-system/issues/9713)
+- **shell-panel:** remove deprecated properties ([#10794](https://github.com/Esri/calcite-design-system/issues/10794)) ([8254164](https://github.com/Esri/calcite-design-system/commit/825416406ef0bc3dc0637e29d61a60ce0def5f37)), closes [#9173](https://github.com/Esri/calcite-design-system/issues/9173)
+
 ## [3.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.17...@esri/calcite-components@3.0.0-next.18) (2024-11-20)
 
 ### Bug Fixes
