@@ -54,9 +54,7 @@
 }
 
 .container:hover {
-  // todo
-  @apply text-color-3
-    bg-foreground-2;
+  @apply bg-foreground-2;
 
   .description {
     color: var(--calcite-color-text-2);
@@ -64,9 +62,7 @@
 }
 
 .container--active {
-  // todo
-  @apply text-color-3
-    bg-foreground-2
+  @apply bg-foreground-2
     focus-inset;
 }
 
