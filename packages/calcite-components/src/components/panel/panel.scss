@@ -87,26 +87,9 @@
 .content-top,
 .content-bottom {
   @apply flex items-start self-stretch;
-}
-
-.content-top {
-  background-color: var(--calcite-panel-background-color, var(--calcite-color-foreground-1));
-  padding: var(--calcite-internal-panel-default-space);
-  border-block: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-}
-
-.content-bottom {
-  background-color: var(--calcite-panel-background-color, var(--calcite-color-foreground-1));
   padding: var(--calcite-internal-panel-default-space);
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-}
-
-.content-wrapper + .footer {
-  border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-}
-
-:host([collapsed]) .content-top {
-  border-block-end: 0;
+  background-color: var(--calcite-panel-background-color, var(--calcite-color-foreground-1));
 }
 
 .container {
@@ -128,6 +111,8 @@
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none))
     var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none)) 0 0;
   background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
+  border-block-end: 1px solid
+    var(--calcite-panel-header-border-block-end, var(--calcite-panel-border-color, var(--calcite-color-border-3)));
 }
 
 .header-container {
@@ -135,18 +120,14 @@
   items-stretch
   justify-start;
   flex: 0 0 auto;
-  border-block-end: 1px solid
-    var((--calcite-panel-header-border-block-end), var(--calcite-panel-border-color, var(--calcite-color-border-3)));
+}
+
+.header-container--border-end {
+  border-block-end: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container {
   @apply w-full;
-  border-block-end: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-}
-
-.action-bar-container ~ .content-top,
-.action-bar-container ~ .content-bottom {
-  border-block-start: 0;
 }
 
 .action-bar-container ::slotted(calcite-action-bar) {
@@ -228,7 +209,8 @@ calcite-action-menu {
   overflow-auto
   h-full
   focus-base
-  text-color-2;
+  text-color-2
+  relative;
   padding: var(--calcite-panel-space, var(--calcite-panel-content-space, 0));
   background: var(--calcite-panel-background-color, var(--calcite-color-background));
 }
