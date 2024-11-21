@@ -782,8 +782,14 @@ export class Autocomplete
   }
 
   private renderListBoxOptions(): JsxNode {
-    return this.enabledItems.map((item) => (
-      <li ariaLabel={item.label} id={item.guid} role="option" tabIndex="-1">
+    return this.items.map((item) => (
+      <li
+        ariaDisabled={item.disabled}
+        ariaLabel={item.label}
+        id={item.guid}
+        role="option"
+        tabIndex="-1"
+      >
         {item.heading}
         {item.description}
       </li>
