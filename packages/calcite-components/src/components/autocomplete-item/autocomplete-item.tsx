@@ -78,7 +78,7 @@ export class AutocompleteItem
    *
    * @private
    */
-  @property({ reflect: true }) scale: Scale = "m";
+  @property() scale: Scale = "m";
 
   /** The component's value. */
   @property() value: string;
