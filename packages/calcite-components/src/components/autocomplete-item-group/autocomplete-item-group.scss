@@ -11,19 +11,19 @@
 .scale--s {
   @apply text-n2h;
   --calcite-autocomplete-item-spacing-unit-l: theme("spacing.2");
-  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.1");
+  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.2");
 }
 
 .scale--m {
   @apply text-n1h;
   --calcite-autocomplete-item-spacing-unit-l: theme("spacing.3");
-  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.2");
+  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.3");
 }
 
 .scale--l {
   @apply text-0h;
   --calcite-autocomplete-item-spacing-unit-l: theme("spacing.4");
-  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.3");
+  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.4");
 }
 
 :host {
