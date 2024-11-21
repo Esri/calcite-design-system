@@ -1,5 +1,14 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-background-color: Specifies the component's background color.
+ * @prop --calcite-list-color: Specifies the component's color.
+ */
+
 :host {
-  @apply flex flex-col bg-foreground-1;
+  @apply flex flex-col;
 }
 
 :host([filter-hidden]) {
@@ -9,7 +18,9 @@
 @include disabled();
 
 .container {
-  @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-medium;
+  @apply text-n1 m-0 flex flex-1 p-3 font-medium;
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-list-color, var(--calcite-color-text-2));
 }
 
 .heading {

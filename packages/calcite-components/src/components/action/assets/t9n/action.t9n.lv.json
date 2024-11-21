@@ -1,4 +1,5 @@
 {
   "loading": "Ielādē",
-  "indicator": "Pieejamais indikators"
+  "indicator": "Pieejamais indikators",
+  "indicatorLabel": "{label} (pieejamais indikators)"
 }

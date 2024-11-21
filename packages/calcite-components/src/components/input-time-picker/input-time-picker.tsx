@@ -52,7 +52,6 @@ import {
   toISOTimeString,
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
-import TimePickerMessages from "../time-picker/assets/t9n/time-picker.t9n.en.json";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
@@ -203,8 +202,7 @@ export class InputTimePicker
   @property({ reflect: true }) max: string;
 
   /** Use this property to override individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides &
-    Partial<typeof TimePickerMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
    * Made into a prop for testing purposes only
@@ -432,7 +430,6 @@ export class InputTimePicker
 
   private openHandler(): void {
     if (this.disabled || this.readOnly) {
-      this.open = false;
       return;
     }
 
@@ -969,6 +966,7 @@ export class InputTimePicker
         <calcite-popover
           autoClose={true}
           focusTrapDisabled={this.focusTrapDisabled}
+          initialFocusTrapFocus={false}
           label={messages.chooseTime}
           lang={this.messages._lang}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}

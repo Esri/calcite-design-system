@@ -52,7 +52,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @property() ancestors: ComboboxChildElement[];
 
-  /** A description for the component, which displays below the label. */
+  /** A description for the component, which displays below the heading. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
