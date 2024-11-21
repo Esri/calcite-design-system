@@ -5,7 +5,7 @@ export const navigationUserTokens = {
   calciteNavigationUserBackgroundColor: "",
   calciteNavigationUserAvatarCornerRadius: "",
   calciteNavigationUserAvatarColor: "",
-  calciteNavigationSelectionBorderColor: "",
+  calciteNavigationAccentColor: "",
   calciteNavigationUserFullNameTextColor: "",
   calciteNavigationUserUserNameTextColor: "",
 };
