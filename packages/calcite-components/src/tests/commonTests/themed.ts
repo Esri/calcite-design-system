@@ -374,7 +374,6 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
 
   if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
-    // We only need to test that the expected value is set somewhere in the computed style
     expect(styles[targetProp]).toContain(expectedValue);
     return;
   }
