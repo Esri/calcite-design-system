@@ -18,32 +18,15 @@ import { CSS } from "./resources";
 
 const simpleHTML = html`
   <calcite-autocomplete label="test autocomplete" id="myAutocomplete" value="two">
-    <calcite-autocomplete-item
-      label="Item 1"
-      value="one"
-      heading="Item 1"
-      description="Item 1 description"
-    ></calcite-autocomplete-item>
-    <calcite-autocomplete-item
-      label="Item 2"
-      value="two"
-      heading="Item 2"
-      description="Item 2 description"
-    ></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
   </calcite-autocomplete>
 `;
 
 const simpleGroupHTML = html`
   <calcite-autocomplete label="hello world">
     <calcite-autocomplete-item-group heading="Enabled Items">
-      <calcite-autocomplete-item
-        label="Item 1"
-        value="1"
-        heading="Item 1"
-        description="Item 1 description"
-        icon-start="information"
-        icon-end="gear"
-      ></calcite-autocomplete-item>
+      <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
