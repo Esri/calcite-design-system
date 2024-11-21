@@ -23,9 +23,9 @@ import {
 } from "../../utils/loadable";
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
-import T9nStrings from "../color-picker/assets/t9n/color-picker.t9n.en.json";
 import type { InputNumber } from "../input-number/input-number";
 import type { InputText } from "../input-text/input-text";
+import type { ColorPicker } from "../color-picker/color-picker";
 import { CSS } from "./resources";
 import { styles } from "./color-picker-hex-input.scss";
 
@@ -85,7 +85,7 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
    *
    * @private
    */
-  @property() messages: typeof T9nStrings;
+  @property() messages: ColorPicker["messages"]["_overrides"];
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem?: NumberingSystem;

@@ -61,7 +61,6 @@ import {
   numberStringFormatter,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import DatePickerMessages from "../date-picker/assets/t9n/date-picker.t9n.en.json";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import {
@@ -209,8 +208,7 @@ export class InputDatePicker
   @property() maxAsDate: Date;
 
   /** Use this property to override individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides &
-    Partial<typeof DatePickerMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**
    * Made into a prop for testing purposes only
@@ -591,7 +589,6 @@ export class InputDatePicker
     onToggleOpenCloseComponent(this);
 
     if (this.disabled || this.readOnly) {
-      this.open = false;
       return;
     }
 

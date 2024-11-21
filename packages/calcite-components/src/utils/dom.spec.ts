@@ -146,6 +146,25 @@ describe("dom", () => {
       `;
       expect(getTestComponentMode()).toBe("light");
     });
+
+    it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", () => {
+      window.matchMedia = vi.fn().mockImplementation((query) => ({
+        matches: query === "(prefers-color-scheme: dark)",
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+      }));
+
+      document.body.innerHTML = html`
+        <div class="calcite-mode-auto">
+          <div>
+            <mode-element></mode-element>
+          </div>
+        </div>
+      `;
+      expect(getTestComponentMode()).toBe("dark");
+    });
   });
 
   describe("toAriaBoolean()", () => {

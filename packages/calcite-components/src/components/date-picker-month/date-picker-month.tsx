@@ -11,10 +11,10 @@ import {
 } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
-import T9nStrings from "../date-picker/assets/t9n/date-picker.t9n.en.json";
 import { HeadingLevel } from "../functional/Heading";
 import type { DatePickerMonthHeader } from "../date-picker-month-header/date-picker-month-header";
 import type { DatePickerDay } from "../date-picker-day/date-picker-day";
+import type { DatePicker } from "../date-picker/date-picker";
 import { CSS } from "./resources";
 import { styles } from "./date-picker-month.scss";
 
@@ -99,7 +99,7 @@ export class DatePickerMonth extends LitElement {
    *
    * @private
    */
-  @property() messages: typeof T9nStrings;
+  @property() messages: DatePicker["messages"]["_overrides"];
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @property() min: Date;
