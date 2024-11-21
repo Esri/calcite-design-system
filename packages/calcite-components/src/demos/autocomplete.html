@@ -533,6 +533,7 @@
             response.forEach((location) => {
               const item = document.createElement("calcite-autocomplete-item");
               item.value = location.magicKey;
+              item.label = location.text;
               item.heading = location.text;
               locatorAutocomplete.appendChild(item);
             });
@@ -595,6 +596,7 @@
             console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
             const selected = results.find((result) => result.magicKey === event.target.value);
             locatorAutocomplete.inputValue = selected?.text;
+            locatorAutocomplete.innerHTML = "";
           });
         });
       </script>

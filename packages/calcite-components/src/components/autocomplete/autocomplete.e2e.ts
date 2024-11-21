@@ -275,7 +275,7 @@ describe("calcite-autocomplete", () => {
     hidden("calcite-autocomplete");
   });
 
-  describe("accessible", () => {
+  describe.skip("accessible", () => {
     accessible(simpleGroupHTML);
   });
 

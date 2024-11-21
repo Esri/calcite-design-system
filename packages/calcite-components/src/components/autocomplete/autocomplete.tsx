@@ -10,6 +10,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
+import { debounce } from "lodash-es";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -46,7 +47,7 @@ import {
   disconnectForm,
   submitForm,
 } from "../../utils/form";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
@@ -54,6 +55,7 @@ import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
+import { createObserver } from "../../utils/observers";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/autocomplete.t9n.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -393,8 +395,11 @@ export class Autocomplete
   }
 
   override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
+
+    this.getAllItems();
 
     if (this.open) {
       this.openHandler();
@@ -406,6 +411,7 @@ export class Autocomplete
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
+    this.getAllItems();
 
     if (this.open) {
       onToggleOpenCloseComponent(this);
@@ -457,6 +463,7 @@ export class Autocomplete
   }
 
   override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this);
@@ -502,6 +509,8 @@ export class Autocomplete
     event.stopPropagation();
     this.emitChange();
   }
+
+  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
 
   onLabelClick(): void {
     this.setFocus();
@@ -573,23 +582,12 @@ export class Autocomplete
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
-    const assignedElements = slotChangeGetAssignedElements(event);
-    const items: AutocompleteItem["el"][] = [];
-    const groups: AutocompleteItemGroup["el"][] = [];
+  private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
-    assignedElements.forEach((element) => {
-      if (element.matches(groupItemSelector)) {
-        groups.push(element as AutocompleteItemGroup["el"]);
-        element.querySelectorAll(itemSelector).forEach((item) => items.push(item));
-      } else if (element.matches(itemSelector)) {
-        items.push(element as AutocompleteItem["el"]);
-      }
-    });
-
-    this.groups = groups;
-    this.items = items;
-
+  private getAllItems(): void {
+    const { el } = this;
+    this.groups = Array.from(el.querySelectorAll(groupItemSelector));
+    this.items = Array.from(el.querySelectorAll(itemSelector));
     this.updateItems();
     this.updateGroups();
   }
@@ -752,7 +750,7 @@ export class Autocomplete
               >
                 <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
                   <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
-                  <slot ariaHidden="true" onSlotChange={this.handleDefaultSlotChange} />
+                  <slot ariaHidden="true" />
                   <slot
                     name={SLOTS.contentBottom}
                     onSlotChange={this.handleContentBottomSlotChange}
