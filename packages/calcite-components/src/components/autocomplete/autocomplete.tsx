@@ -57,7 +57,6 @@ import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/autocomplete.t9n.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
-// todo: scale styles, item styles
 // todo: tests
 // todo: css vars
 

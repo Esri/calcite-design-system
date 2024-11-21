@@ -3,15 +3,20 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
+ * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
  * @prop --calcite-autocomplete-width: Specifies the width of the component's wrapper.
  */
 
 :host {
-  @apply block relative;
+  @apply block
+    relative;
 }
 
 .input-container {
-  @apply relative flex flex-auto;
+  @apply relative
+    flex
+    flex-auto;
 }
 
 .input {
@@ -21,9 +26,9 @@
 @include disabled();
 
 .content-container {
-  @apply bg-foreground-1
-    text-color-1
-    w-full;
+  @apply w-full;
+  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
 }
 
 .floating-ui-container {
@@ -34,9 +39,9 @@
 @include floating-ui-elem-anim(".floating-ui-container");
 
 .calcite-floating-ui-anim {
-  @apply bg-foreground-1
-    max-h-menu
+  @apply max-h-menu
     overflow-y-auto;
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
   inline-size: var(--calcite-autocomplete-width, 100%);
 }
 

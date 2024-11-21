@@ -1,3 +1,14 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
+ * @prop --calcite-autocomplete-description-text-color: Specifies the text color of the component's description.
+ * @prop --calcite-autocomplete-heading-text-color: Specifies the text color of the component's heading.
+ * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
+ */
+
 .scale--s {
   @apply text-n2h;
   --calcite-autocomplete-item-spacing-unit-l: theme("spacing.2");
@@ -29,10 +40,11 @@
     min-w-full
     cursor-pointer
     focus-base
-    text-color-3
     relative
     box-border
     items-center;
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-3));
   gap: var(--calcite-autocomplete-item-spacing-unit-l);
   padding-inline: var(--calcite-autocomplete-item-spacing-unit-l);
   padding-block: var(--calcite-autocomplete-item-spacing-unit-s);
@@ -41,11 +53,12 @@
 }
 
 .description {
+  color: var(--calcite-autocomplete-description-text-color);
   font-size: var(--calcite-internal-autocomplete-item-description-font-size);
 }
 
 .heading {
-  color: var(--calcite-color-text-1);
+  color: var(--calcite-autocomplete-heading-text-color, var(--calcite-color-text-1));
 }
 
 .heading,
@@ -53,17 +66,17 @@
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
-.container:hover {
-  @apply bg-foreground-2;
+:host(:hover) .container {
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
 
   .description {
-    color: var(--calcite-color-text-2);
+    color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));
   }
 }
 
 .container--active {
-  @apply bg-foreground-2
-    focus-inset;
+  @apply focus-inset;
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
 }
 
 .content-center {
