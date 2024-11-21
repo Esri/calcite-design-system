@@ -1,8 +1,8 @@
 /*
 * These properties can be overridden using the component's tag as selector.
 *
+* @prop --calcite-navigation-accent-color: Specifies the component's border color when `active`.
 * @prop --calcite-navigation-background-color: Specifies the component's background color.
-* @prop --calcite-navigation-selection-border-color: Specifies the component's border color when `active`.
 * @prop --calcite-navigation-logo-heading-text-color: Specifies the component's default color for heading text.
 * @prop --calcite-navigation-logo-text-color: Specifies the component's default color for icon and description text.
 *
@@ -62,7 +62,7 @@
 }
 
 :host([active]) .anchor {
-  border-block-end-color: var(--calcite-navigation-selection-border-color, var(--calcite-color-brand));
+  border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
 }
 
 :host([active]),

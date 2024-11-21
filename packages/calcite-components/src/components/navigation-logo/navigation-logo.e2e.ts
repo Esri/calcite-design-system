@@ -126,7 +126,7 @@ describe("calcite-navigation-logo", () => {
 
     describe("active", () => {
       const tokens: ComponentTestTokens = {
-        "--calcite-navigation-selection-border-color": {
+        "--calcite-navigation-accent-color": {
           shadowSelector: `.${CSS.anchor}`,
           targetProp: "borderBlockEndColor",
         },

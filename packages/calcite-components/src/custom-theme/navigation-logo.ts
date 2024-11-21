@@ -2,8 +2,8 @@ import { html } from "../../support/formatting";
 import { boolean } from "../../.storybook/utils";
 
 export const navigationLogoTokens = {
+  calciteNavigationAccentColor: "",
   calciteNavigationBackgroundColor: "",
-  calciteNavigationSelectionBorderColor: "",
   calciteNavigationLogoHeadingTextColor: "",
   calciteNavigationLogoTextColor: "",
 };
