@@ -424,7 +424,11 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
   private renderHeaderSlottedContent(): JsxNode {
     return (
-      <div class={CSS.headerContent} hidden={!this.hasHeaderContent} key="slotted-header-content">
+      <div
+        class={{ [CSS.headerContent]: true, [CSS.headerSlottedContent]: true }}
+        hidden={!this.hasHeaderContent}
+        key="slotted-header-content"
+      >
         <slot name={SLOTS.headerContent} onSlotChange={this.handleHeaderContentSlotChange} />
       </div>
     );
