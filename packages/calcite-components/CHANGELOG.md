@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.20...@esri/calcite-components@3.0.0-next.21) (2024-11-21)
+
+### Bug Fixes
+
+- **input-date-picker:** remove hardcoded strings ([#10741](https://github.com/Esri/calcite-design-system/issues/10741)) ([c1d40d2](https://github.com/Esri/calcite-design-system/commit/c1d40d20d40d32d659c0ea97634e27e560da5a96)), closes [#7708](https://github.com/Esri/calcite-design-system/issues/7708) [#7708](https://github.com/Esri/calcite-design-system/issues/7708)
+
+## [3.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.19...@esri/calcite-components@3.0.0-next.20) (2024-11-21)
+
+### Bug Fixes
+
+- **checkbox:** ensure that border shows in high contrast mode ([#10823](https://github.com/Esri/calcite-design-system/issues/10823)) ([ff05231](https://github.com/Esri/calcite-design-system/commit/ff05231369ca0f70c6476a2e4bf213337c78f78d)), closes [#10537](https://github.com/Esri/calcite-design-system/issues/10537)
+
 ## [3.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.18...@esri/calcite-components@3.0.0-next.19) (2024-11-20)
 
 ### ⚠ BREAKING CHANGES
