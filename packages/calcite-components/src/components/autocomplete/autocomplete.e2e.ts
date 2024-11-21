@@ -1,4 +1,5 @@
 import { describe } from "vitest";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import {
   accessible,
   defaults,
@@ -17,16 +18,24 @@ import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 const simpleHTML = html`
-  <calcite-autocomplete label="test autocomplete" id="myAutocomplete">
+  <calcite-autocomplete label="Item list" id="myAutocomplete">
     <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+    <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
   </calcite-autocomplete>
 `;
 
 const simpleGroupHTML = html`
-  <calcite-autocomplete label="hello world">
-    <calcite-autocomplete-item-group heading="Enabled Items">
-      <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+  <calcite-autocomplete label="Pets">
+    <calcite-autocomplete-item-group heading="Dogs">
+      <calcite-autocomplete-item label="Rover" value="rover" heading="Rover"></calcite-autocomplete-item>
+      <calcite-autocomplete-item label="Fido" value="one" heading="Fido"></calcite-autocomplete-item>
+    </calcite-autocomplete-item-group>
+    <calcite-autocomplete-item-group heading="Cats">
+      <calcite-autocomplete-item label="Felix" value="felix" heading="Felix"></calcite-autocomplete-item>
+      <calcite-autocomplete-item label="Garfield" value="garfield" heading="Garfield"></calcite-autocomplete-item>
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
@@ -187,7 +196,6 @@ describe("calcite-autocomplete", () => {
         propertyName: "iconFlipRtl",
         value: true,
       },
-
       {
         propertyName: "loading",
         value: true,
@@ -249,6 +257,7 @@ describe("calcite-autocomplete", () => {
   });
 
   describe("accessible", () => {
+    accessible(simpleHTML);
     accessible(simpleGroupHTML);
   });
 
@@ -274,4 +283,42 @@ describe("calcite-autocomplete", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
   });
+
+  describe("keyboard navigation", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(simpleHTML);
+    });
+
+    it("should open on focus", async () => {});
+
+    it("should close on tab", async () => {});
+
+    it("should close on escape", async () => {});
+
+    it("should open with down arrow key", async () => {});
+
+    it("should open with up arrow key", async () => {});
+
+    it("should navigate with arrow keys", async () => {});
+
+    it("should navigate with home/end keys", async () => {});
+  });
+
+  it("should close when document is clicked", async () => {});
+
+  it("should set value when item is selected via mouse", async () => {});
+
+  it("should set value when item is selected via keyboard", async () => {});
+
+  it("should set scale on items and item groups", async () => {});
+
+  it("should only display when open and content is present", async () => {});
+
+  it("should emit calciteAutocompleteTextChange", async () => {});
+
+  it("should emit calciteAutocompleteTextInput", async () => {});
+
+  it("should emit calciteAutocompleteChange", async () => {});
 });

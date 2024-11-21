@@ -600,6 +600,9 @@ export class Autocomplete
 
   private setReferenceEl(el: Input["el"]): void {
     this.referenceEl = el;
+    // todo: fixme when supported in jsx
+    const enterKeyHint = this.el.getAttribute("enterkeyhint");
+    el.enterKeyHint = enterKeyHint;
     connectFloatingUI(this);
   }
 
@@ -645,6 +648,16 @@ export class Autocomplete
           activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
         event.preventDefault();
         break;
+      case "Home":
+        this.open = true;
+        this.activeIndex = 0;
+        event.preventDefault();
+        break;
+      case "End":
+        this.open = true;
+        this.activeIndex = enabledItems.length - 1;
+        event.preventDefault();
+        break;
     }
   }
 
@@ -676,8 +689,7 @@ export class Autocomplete
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
 
-    // const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
-    // const enterKeyHint = this.el.getAttribute("enterkeyhint");
+    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
     const inputMode = this.el.getAttribute("inputmode") as
       | "none"
       | "text"
@@ -702,11 +714,10 @@ export class Autocomplete
               ariaExpanded={isOpen}
               ariaHasPopup="listbox"
               autocomplete={this.autocomplete}
-              //autofocus={autofocus}
+              autofocus={autofocus}
               class={CSS.input}
               clearable={true}
               disabled={disabled}
-              //enterkeyhint={enterKeyHint}
               form={this.form}
               icon={this.getIcon()}
               iconFlipRtl={this.iconFlipRtl}
