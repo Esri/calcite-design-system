@@ -21,6 +21,7 @@ export const CSS = {
   footerActions: "footer-actions",
   footerStart: "footer-start",
   footerEnd: "footer-end",
+  headerSlottedContent: "header-slotted-content",
 };
 
 export const IDS = {
