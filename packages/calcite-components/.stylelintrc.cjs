@@ -8,6 +8,8 @@ const customFunctions = [
   "scale-duration",
   "small-modular-scale",
 ];
+
+const customFunctions = [];
 // ⚠️ END OF AUTO-GENERATED CODE
 
 const scssPatternRules = [
