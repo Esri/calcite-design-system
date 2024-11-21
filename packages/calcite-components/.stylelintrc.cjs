@@ -1,14 +1,6 @@
 // @ts-check
 
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
-const customFunctions = [
-  "get-trailing-text-input-padding",
-  "medium-modular-scale",
-  "modular-scale",
-  "scale-duration",
-  "small-modular-scale",
-];
-
 const customFunctions = [];
 // ⚠️ END OF AUTO-GENERATED CODE
 
