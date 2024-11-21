@@ -1,7 +1,7 @@
 // @ts-check
 
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
-
+const customFunctions = [];
 // ⚠️ END OF AUTO-GENERATED CODE
 
 const scssPatternRules = [
