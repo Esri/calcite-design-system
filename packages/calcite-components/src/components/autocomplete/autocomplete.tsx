@@ -144,6 +144,11 @@ export class Autocomplete
   @state() groups: AutocompleteItemGroup["el"][] = [];
 
   @state()
+  get isOpen(): boolean {
+    return this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
+  }
+
+  @state()
   get enabledItems(): AutocompleteItem["el"][] {
     return this.items.filter((item) => !item.disabled);
   }
@@ -662,12 +667,16 @@ export class Autocomplete
     connectFloatingUI(this);
   }
 
+  private setTransitionEl(el: HTMLDivElement): void {
+    this.transitionEl = el;
+  }
+
   // #endregion
 
   // #region Rendering
 
   override render(): JsxNode {
-    const { disabled, listId, inputId } = this;
+    const { disabled, listId, inputId, isOpen } = this;
 
     // const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
     // const enterKeyHint = this.el.getAttribute("enterkeyhint");
@@ -680,9 +689,6 @@ export class Autocomplete
       | "url"
       | "numeric"
       | "decimal";
-
-    const isOpen =
-      this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
 
     return (
       <div class={CSS.container}>
@@ -740,7 +746,10 @@ export class Autocomplete
               }}
               ref={this.setFloatingEl}
             >
-              <div class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: isOpen }}>
+              <div
+                class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: isOpen }}
+                ref={this.setTransitionEl}
+              >
                 <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
                   <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
                   <slot ariaHidden="true" onSlotChange={this.handleDefaultSlotChange} />
@@ -787,6 +796,7 @@ export class Autocomplete
         ariaDisabled={item.disabled}
         ariaLabel={item.label}
         id={item.guid}
+        key={item.guid}
         role="option"
         tabIndex="-1"
       >

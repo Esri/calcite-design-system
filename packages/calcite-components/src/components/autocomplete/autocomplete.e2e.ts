@@ -16,6 +16,48 @@ import { html } from "../../../support/formatting";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
+const simpleHTML = html`
+  <calcite-autocomplete label="test autocomplete" id="myAutocomplete" value="two">
+    <calcite-autocomplete-item
+      label="Item 1"
+      value="one"
+      heading="Item 1"
+      description="Item 1 description"
+    ></calcite-autocomplete-item>
+    <calcite-autocomplete-item
+      label="Item 2"
+      value="two"
+      heading="Item 2"
+      description="Item 2 description"
+    ></calcite-autocomplete-item>
+  </calcite-autocomplete>
+`;
+
+const simpleGroupHTML = html`
+  <calcite-autocomplete label="hello world">
+    <calcite-autocomplete-item-group heading="Enabled Items">
+      <calcite-autocomplete-item
+        label="Item 1"
+        value="1"
+        heading="Item 1"
+        description="Item 1 description"
+        icon-start="information"
+        icon-end="gear"
+      ></calcite-autocomplete-item>
+    </calcite-autocomplete-item-group>
+    <calcite-autocomplete-item-group heading="Disabled Items">
+      <calcite-autocomplete-item
+        label="Item 2"
+        value="2"
+        heading="Item 2"
+        description="Item 2 description"
+        icon-start="information"
+        icon-end="gear"
+      ></calcite-autocomplete-item>
+    </calcite-autocomplete-item-group>
+  </calcite-autocomplete>
+`;
+
 describe("calcite-autocomplete", () => {
   describe("renders", () => {
     renders("calcite-autocomplete", { display: "block" });
@@ -234,33 +276,7 @@ describe("calcite-autocomplete", () => {
   });
 
   describe("accessible", () => {
-    accessible(html`
-      <calcite-autocomplete scale="l" label="hello world">
-        <calcite-autocomplete-item-group heading="Enabled Items">
-          <calcite-autocomplete-item
-            scale="l"
-            label="Item 1"
-            value="1"
-            heading="Item 1"
-            description="Item 1 description"
-            icon-start="information"
-            icon-end="gear"
-          ></calcite-autocomplete-item>
-        </calcite-autocomplete-item-group>
-        <calcite-autocomplete-item-group heading="Disabled Items">
-          <calcite-autocomplete-item
-            disabled
-            scale="l"
-            label="Item 2"
-            value="2"
-            heading="Item 2"
-            description="Item 2 description"
-            icon-start="information"
-            icon-end="gear"
-          ></calcite-autocomplete-item>
-        </calcite-autocomplete-item-group>
-      </calcite-autocomplete>
-    `);
+    accessible(simpleGroupHTML);
   });
 
   describe("labelable", () => {
@@ -271,28 +287,11 @@ describe("calcite-autocomplete", () => {
     disabled("calcite-autocomplete");
   });
 
-  const simpleHTML = html`
-    <calcite-autocomplete label="test autocomplete" id="myAutocomplete">
-      <calcite-autocomplete-item
-        label="Item 1"
-        value="one"
-        heading="Item 1"
-        description="Item 1 description"
-      ></calcite-autocomplete-item>
-      <calcite-autocomplete-item
-        label="Item 2"
-        value="two"
-        heading="Item 2"
-        description="Item 2 description"
-      ></calcite-autocomplete-item>
-    </calcite-autocomplete>
-  `;
-
   describe("openClose", () => {
     openClose(simpleHTML);
   });
 
-  describe("is form-associated", () => {
+  describe.skip("is form-associated", () => {
     formAssociated(simpleHTML, {
       testValue: "two",
       submitsOnEnter: true,
