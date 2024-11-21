@@ -1,18 +1,19 @@
 import { describe } from "vitest";
 import {
-  //accessible,
+  accessible,
   defaults,
   disabled,
   hidden,
   floatingUIOwner,
-  //formAssociated,
+  formAssociated,
   labelable,
-  //openClose,
+  openClose,
   reflects,
   renders,
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-autocomplete", () => {
@@ -23,7 +24,15 @@ describe("calcite-autocomplete", () => {
   describe("defaults", () => {
     defaults("calcite-autocomplete", [
       {
-        propertyName: "clearDisabled",
+        propertyName: "alignment",
+        defaultValue: "start",
+      },
+      {
+        propertyName: "autocomplete",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "disabled",
         defaultValue: false,
       },
       {
@@ -31,12 +40,72 @@ describe("calcite-autocomplete", () => {
         defaultValue: undefined,
       },
       {
+        propertyName: "form",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: false,
+      },
+      {
+        propertyName: "inputValue",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "label",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "loading",
+        defaultValue: false,
+      },
+      {
+        propertyName: "maxLength",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "minLength",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "name",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "open",
+        defaultValue: false,
+      },
+      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
       {
-        propertyName: "flipPlacements",
+        propertyName: "pattern",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "placeholder",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "placement",
+        defaultValue: defaultMenuPlacement,
+      },
+      {
+        propertyName: "prefixText",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "readOnly",
+        defaultValue: false,
+      },
+      {
+        propertyName: "required",
+        defaultValue: false,
       },
       {
         propertyName: "scale",
@@ -47,11 +116,35 @@ describe("calcite-autocomplete", () => {
         defaultValue: "idle",
       },
       {
+        propertyName: "suffixText",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "validationIcon",
         defaultValue: undefined,
       },
       {
         propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: {
+          badInput: false,
+          customError: false,
+          patternMismatch: false,
+          rangeOverflow: false,
+          rangeUnderflow: false,
+          stepMismatch: false,
+          tooLong: false,
+          tooShort: false,
+          typeMismatch: false,
+          valid: false,
+          valueMissing: false,
+        },
+      },
+      {
+        propertyName: "value",
         defaultValue: undefined,
       },
     ]);
@@ -60,11 +153,11 @@ describe("calcite-autocomplete", () => {
   describe("reflects", () => {
     reflects("calcite-autocomplete", [
       {
-        propertyName: "allowCustomValues",
-        value: true,
+        propertyName: "alignment",
+        value: "start",
       },
       {
-        propertyName: "clearDisabled",
+        propertyName: "disabled",
         value: true,
       },
       {
@@ -72,8 +165,25 @@ describe("calcite-autocomplete", () => {
         value: "test-form",
       },
       {
-        propertyName: "maxItems",
-        value: 1,
+        propertyName: "icon",
+        value: "banana",
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: true,
+      },
+
+      {
+        propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "maxLength",
+        value: 2,
+      },
+      {
+        propertyName: "minLength",
+        value: 2,
       },
       {
         propertyName: "name",
@@ -83,17 +193,17 @@ describe("calcite-autocomplete", () => {
         propertyName: "open",
         value: true,
       },
+
       {
-        // needs to run after `open` since it resets `open` after it's asserted value
-        propertyName: "disabled",
-        value: true,
+        propertyName: "overlayPositioning",
+        value: "absolute",
       },
       {
-        propertyName: "placeholderIcon",
-        value: "banana",
+        propertyName: "placement",
+        value: "bottom",
       },
       {
-        propertyName: "placeholderIconFlipRtl",
+        propertyName: "readOnly",
         value: true,
       },
       {
@@ -102,11 +212,7 @@ describe("calcite-autocomplete", () => {
       },
       {
         propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "single",
+        value: "m",
       },
       {
         propertyName: "status",
@@ -127,71 +233,75 @@ describe("calcite-autocomplete", () => {
     hidden("calcite-autocomplete");
   });
 
-  // describe("accessible", () => {
-  //   accessible(html`
-  //     <calcite-combobox label="Trees" value="Trees">
-  //       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-  //     </calcite-combobox>
-  //   `);
-  // });
+  describe("accessible", () => {
+    accessible(html`
+      <calcite-autocomplete scale="l" label="hello world">
+        <calcite-autocomplete-item-group heading="Enabled Items">
+          <calcite-autocomplete-item
+            scale="l"
+            label="Item 1"
+            value="1"
+            heading="Item 1"
+            description="Item 1 description"
+            icon-start="information"
+            icon-end="gear"
+          ></calcite-autocomplete-item>
+        </calcite-autocomplete-item-group>
+        <calcite-autocomplete-item-group heading="Disabled Items">
+          <calcite-autocomplete-item
+            disabled
+            scale="l"
+            label="Item 2"
+            value="2"
+            heading="Item 2"
+            description="Item 2 description"
+            icon-start="information"
+            icon-end="gear"
+          ></calcite-autocomplete-item>
+        </calcite-autocomplete-item-group>
+      </calcite-autocomplete>
+    `);
+  });
 
   describe("labelable", () => {
     labelable("calcite-autocomplete");
   });
 
   describe("disabled", () => {
-    disabled("calcite-autocomplete", {
-      focusTarget: {
-        tab: "calcite-combobox",
-        click: {
-          pointer: "calcite-combobox",
-          method: "calcite-combobox",
-        },
-      },
+    disabled("calcite-autocomplete");
+  });
+
+  const simpleHTML = html`
+    <calcite-autocomplete label="test autocomplete" id="myAutocomplete">
+      <calcite-autocomplete-item
+        label="Item 1"
+        value="one"
+        heading="Item 1"
+        description="Item 1 description"
+      ></calcite-autocomplete-item>
+      <calcite-autocomplete-item
+        label="Item 2"
+        value="two"
+        heading="Item 2"
+        description="Item 2 description"
+      ></calcite-autocomplete-item>
+    </calcite-autocomplete>
+  `;
+
+  describe("openClose", () => {
+    openClose(simpleHTML);
+  });
+
+  describe("is form-associated", () => {
+    formAssociated(simpleHTML, {
+      testValue: "two",
+      submitsOnEnter: true,
+      validation: true,
+      changeValueKeys: ["Space", "Enter"],
     });
   });
 
-  // const simpleComboboxHTML = html`
-  //   <calcite-combobox id="myCombobox">
-  //     <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-  //     <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-  //     <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-  //     <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-  //   </calcite-combobox>
-  // `;
-
-  // describe("openClose", () => {
-  //   openClose(simpleComboboxHTML);
-  // });
-
-  // describe("is form-associated", () => {
-  //   formAssociated(
-  //     html`<calcite-combobox selection-mode="single">
-  //       <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-  //       <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
-  //       <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
-  //     </calcite-combobox>`,
-  //     { testValue: "two", submitsOnEnter: true, validation: true, changeValueKeys: ["Space", "Enter"] },
-  //   );
-  // });
-
   describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      html`
-        <calcite-autocomplete>
-          <calcite-autocomplete-item id="one" icon-start="banana" value="one" heading="One"></calcite-autocomplete-item>
-          <calcite-autocomplete-item
-            id="two"
-            icon-start="beaker"
-            value="two"
-            heading="Two"
-            selected
-          ></calcite-autocomplete-item>
-          <calcite-autocomplete-item id="three" value="three" heading="Three"></calcite-autocomplete-item>
-        </calcite-autocomplete>
-      `,
-      "open",
-      { shadowSelector: `.${CSS.floatingUIContainer}` },
-    );
+    floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
   });
 });

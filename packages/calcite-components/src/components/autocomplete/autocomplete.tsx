@@ -38,6 +38,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import {
+  afterConnectDefaultValueSet,
   FormComponent,
   HiddenFormInputSlot,
   MutableValidityState,
@@ -56,9 +57,6 @@ import { Validation } from "../functional/Validation";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/autocomplete.t9n.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
-
-// todo: tests
-// todo: css vars
 
 const groupItemSelector = "calcite-autocomplete-item-group";
 const itemSelector = "calcite-autocomplete-item";
@@ -129,10 +127,6 @@ export class Autocomplete
 
   transitionEl: HTMLDivElement;
 
-  get enabledItems(): AutocompleteItem["el"][] {
-    return this.items.filter((item) => !item.disabled);
-  }
-
   // #endregion
 
   // #region State Properties
@@ -148,6 +142,11 @@ export class Autocomplete
   @state() items: AutocompleteItem["el"][] = [];
 
   @state() groups: AutocompleteItemGroup["el"][] = [];
+
+  @state()
+  get enabledItems(): AutocompleteItem["el"][] {
+    return this.items.filter((item) => !item.disabled);
+  }
 
   // #endregion
 
@@ -402,6 +401,10 @@ export class Autocomplete
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -443,6 +446,7 @@ export class Autocomplete
   }
 
   loaded(): void {
+    afterConnectDefaultValueSet(this, this.value);
     setComponentLoaded(this);
     connectFloatingUI(this);
   }
@@ -693,7 +697,6 @@ export class Autocomplete
               ariaAutoComplete="list"
               ariaExpanded={isOpen}
               ariaHasPopup="listbox"
-              ariaLabel={this.label}
               autocomplete={this.autocomplete}
               //autofocus={autofocus}
               class={CSS.input}
@@ -779,9 +782,10 @@ export class Autocomplete
   }
 
   private renderListBoxOptions(): JsxNode {
-    return this.items.map((item) => (
-      <li ariaDisabled={item.disabled} id={item.guid} role="option" tabIndex="-1">
-        {item.label ?? item.heading ?? item.description ?? item.value}
+    return this.enabledItems.map((item) => (
+      <li ariaLabel={item.label} id={item.guid} role="option" tabIndex="-1">
+        {item.heading}
+        {item.description}
       </li>
     ));
   }
