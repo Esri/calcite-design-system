@@ -730,12 +730,12 @@ describe("calcite-panel", () => {
         },
         "--calcite-panel-border-color": [
           {
-            shadowSelector: `.${CSS.headerContainer}`,
+            shadowSelector: `.${CSS.header}`,
             targetProp: "borderBlockEndColor",
           },
           {
             shadowSelector: `.${CSS.contentTop}`,
-            targetProp: "borderBlockEndColor",
+            targetProp: "borderBlockStartColor",
           },
           {
             shadowSelector: `.${CSS.contentBottom}`,
