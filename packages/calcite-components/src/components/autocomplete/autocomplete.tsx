@@ -789,19 +789,21 @@ export class Autocomplete
   }
 
   private renderListBoxOptions(): JsxNode {
-    return this.items.map((item) => (
-      <li
-        ariaDisabled={item.disabled}
-        ariaLabel={item.label}
-        id={item.guid}
-        key={item.guid}
-        role="option"
-        tabIndex="-1"
-      >
-        {item.heading}
-        {item.description}
-      </li>
-    ));
+    return this.items
+      .filter((item) => !!(item.label || item.heading))
+      .map((item) => (
+        <li
+          ariaDisabled={item.disabled}
+          ariaLabel={item.label}
+          id={item.guid}
+          key={item.guid}
+          role="option"
+          tabIndex="-1"
+        >
+          {item.heading}
+          {item.description}
+        </li>
+      ));
   }
 
   // #endregion

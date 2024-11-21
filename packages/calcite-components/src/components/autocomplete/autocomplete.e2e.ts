@@ -17,7 +17,7 @@ import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 const simpleHTML = html`
-  <calcite-autocomplete label="test autocomplete" id="myAutocomplete" value="two">
+  <calcite-autocomplete label="test autocomplete" id="myAutocomplete">
     <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
   </calcite-autocomplete>
@@ -248,7 +248,7 @@ describe("calcite-autocomplete", () => {
     hidden("calcite-autocomplete");
   });
 
-  describe.skip("accessible", () => {
+  describe("accessible", () => {
     accessible(simpleGroupHTML);
   });
 
@@ -264,12 +264,10 @@ describe("calcite-autocomplete", () => {
     openClose(simpleHTML);
   });
 
-  describe.skip("is form-associated", () => {
+  describe("is form-associated", () => {
     formAssociated(simpleHTML, {
       testValue: "two",
       submitsOnEnter: true,
-      validation: true,
-      changeValueKeys: ["Space", "Enter"],
     });
   });
 
