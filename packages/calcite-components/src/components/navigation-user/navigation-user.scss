@@ -43,8 +43,8 @@
 
 calcite-avatar {
   @apply px-4;
-  border-radius: var(--calcite-navigation-user-avatar-corner-radius, var(--calcite-avatar-corner-radius));
-  color: var(--calcite-navigation-user-avatar-color, var(--calcite-avatar-color));
+  --calcite-avatar-corner-radius: var(--calcite-navigation-user-avatar-corner-radius);
+  --calcite-avatar-color: var(--calcite-navigation-user-avatar-color);
 }
 
 calcite-avatar ~ .text-container {
