@@ -45,16 +45,6 @@ const simpleGroupHTML = html`
         icon-end="gear"
       ></calcite-autocomplete-item>
     </calcite-autocomplete-item-group>
-    <calcite-autocomplete-item-group heading="Disabled Items">
-      <calcite-autocomplete-item
-        label="Item 2"
-        value="2"
-        heading="Item 2"
-        description="Item 2 description"
-        icon-start="information"
-        icon-end="gear"
-      ></calcite-autocomplete-item>
-    </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
 
