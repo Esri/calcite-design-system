@@ -29,7 +29,7 @@
  */
 
 :host {
-  @apply relative flex w-full h-full flex-auto overflow-hidden;
+  @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
 }
@@ -92,13 +92,17 @@
 }
 
 .container {
-  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden box-border;
+  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden box-border  text-n1 text-color-2;
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
   box-sizing: border-box;
   font-size: var(--calcite-font-size--1);
+}
+
+.container * {
+  @apply box-border;
 }
 
 .container[hidden] {
