@@ -24,11 +24,11 @@ export class AutocompleteItemGroup extends LitElement {
   // #region Public Properties
 
   /**
-   * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
+   * When `true`, signifies that the group should not have extra spacing. Used for styling.
    *
    * @private
    */
-  @property({ reflect: true }) afterEmptyGroup = false;
+  @property() disableSpacing = false;
 
   /** The component's text. */
   @property() heading: string;
@@ -56,7 +56,11 @@ export class AutocompleteItemGroup extends LitElement {
     return (
       <div
         aria-label={this.label ?? this.heading}
-        class={{ [CSS.container]: true, [`scale--${scale}`]: true }}
+        class={{
+          [CSS.container]: true,
+          [CSS.containerNoSpacing]: this.disableSpacing,
+          [`scale--${scale}`]: true,
+        }}
         role="group"
       >
         <div class={CSS.heading} role="presentation">

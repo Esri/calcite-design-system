@@ -10,20 +10,20 @@
 
 .scale--s {
   @apply text-n2h;
-  --calcite-autocomplete-item-spacing-unit-l: theme("spacing.2");
-  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-autocomplete-item-group-spacing-unit-l: theme("spacing.2");
+  --calcite-internal-autocomplete-item-group-spacing-unit-s: theme("spacing.2");
 }
 
 .scale--m {
   @apply text-n1h;
-  --calcite-autocomplete-item-spacing-unit-l: theme("spacing.3");
-  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-autocomplete-item-group-spacing-unit-l: theme("spacing.3");
+  --calcite-internal-autocomplete-item-group-spacing-unit-s: theme("spacing.3");
 }
 
 .scale--l {
   @apply text-0h;
-  --calcite-autocomplete-item-spacing-unit-l: theme("spacing.4");
-  --calcite-autocomplete-item-spacing-unit-s: theme("spacing.4");
+  --calcite-internal-autocomplete-item-group-spacing-unit-l: theme("spacing.4");
+  --calcite-internal-autocomplete-item-group-spacing-unit-s: theme("spacing.4");
 }
 
 :host {
@@ -36,6 +36,11 @@
   @apply flex
     flex-col;
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+  padding-block-start: var(--calcite-internal-autocomplete-item-group-spacing-unit-l);
+}
+
+.container--no-spacing {
+  padding-block-start: 0;
 }
 
 .heading {
@@ -49,12 +54,8 @@
     font-bold;
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-2));
   border-block-end-color: var(--calcite-autocomplete-border-color, var(--calcite-color-border-3));
-  padding-block: var(--calcite-autocomplete-item-spacing-unit-l);
-  padding-inline: var(--calcite-autocomplete-item-spacing-unit-s);
-}
-
-::slotted(calcite-autocomplete-item-group:not([after-empty-group])) {
-  padding-block-start: var(--calcite-autocomplete-item-spacing-unit-l);
+  padding-block: var(--calcite-internal-autocomplete-item-group-spacing-unit-l);
+  padding-inline: var(--calcite-internal-autocomplete-item-group-spacing-unit-s);
 }
 
 @include base-component();

@@ -542,13 +542,13 @@ export class Autocomplete
       group.scale = this.scale;
 
       if (index === 0) {
-        group.afterEmptyGroup = false;
+        group.disableSpacing = true;
       }
 
       const nextGroupItem = items[index + 1];
 
       if (nextGroupItem) {
-        nextGroupItem.afterEmptyGroup = group.children.length === 0;
+        nextGroupItem.disableSpacing = group.children.length === 0;
       }
     });
   }

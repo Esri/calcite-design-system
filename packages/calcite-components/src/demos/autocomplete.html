@@ -488,23 +488,10 @@
       <script type="module">
         import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
 
-        async function getSuggestions(locatorAutocomplete) {
-          locatorAutocomplete.innerHTML = "";
+        async function getSuggestions(locatorAutocomplete, fragment) {
+          fragment.innerHTML = "";
 
           locatorAutocomplete.open = true;
-
-          if (!locatorAutocomplete.inputValue) {
-            const emptyText = document.createElement("calcite-notice");
-            emptyText.open = true;
-            emptyText.icon = "information";
-            emptyText.kind = "brand";
-            emptyText.innerHTML = `
-              <div slot="title">Empty text</div>
-        <div slot="message">Enter some text</div>`;
-            emptyText.slot = "content-bottom";
-            locatorAutocomplete.appendChild(emptyText);
-            return;
-          }
 
           const response = await suggestLocations(
             "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
@@ -514,25 +501,17 @@
           );
 
           if (response.length === 0) {
-            locatorAutocomplete.innerHTML = "";
-            const noResults = document.createElement("calcite-notice");
-            noResults.open = true;
-            noResults.kind = "danger";
-            noResults.icon = "exclamation-mark-triangle";
-            noResults.innerHTML = `
-              <div slot="title">No results</div>
-        <div slot="message">Try something else</div>`;
-            noResults.slot = "content-top";
-            locatorAutocomplete.appendChild(noResults);
+            fragment.innerHTML = `<calcite-notice open kind="danger" icon="exclamation-mark-triangle" slot="content-top"><div slot="title">No results</div>
+        <div slot="message">Try something else</div>
+            </calcite-notice`;
           } else {
-            locatorAutocomplete.innerHTML = "";
-            response.forEach((location) => {
-              const item = document.createElement("calcite-autocomplete-item");
-              item.value = location.magicKey;
-              item.label = location.text;
-              item.heading = location.text;
-              locatorAutocomplete.appendChild(item);
-            });
+            const itemHTML = response
+              .slice(0, 5)
+              .map((location) => {
+                return `<calcite-autocomplete-item label="${location.text}" heading="${location.text}" value="${location.magicKey}"></calcite-autocomplete-item>`;
+              })
+              .join("");
+            fragment.innerHTML = itemHTML;
           }
 
           return response;
@@ -553,12 +532,15 @@
         locatorAutocompletes.forEach((locatorAutocomplete) => {
           let results, lastSuggestQuery;
 
+          const fragment = document.createElement("div");
+          locatorAutocomplete.appendChild(fragment);
+
           locatorAutocomplete.addEventListener("calciteAutocompleteTextChange", async (event) => {
             const inputValue = event.target.inputValue;
 
             if (!inputValue) {
               locatorAutocomplete.value = "";
-              locatorAutocomplete.innerHTML = "";
+              fragment.innerHTML = "";
               return;
             }
           });
@@ -569,13 +551,16 @@
 
             if (!inputValue) {
               locatorAutocomplete.value = "";
-              locatorAutocomplete.innerHTML = "";
+              fragment.innerHTML = `
+          <calcite-notice slot="content-bottom" open icon="information" kind="brand"><div slot="title">Empty text</div>
+        <div slot="message">Enter some text</div></calcite-notice>`;
+              return;
               return;
             }
 
             locatorAutocomplete.loading = true;
 
-            const suggestQuery = getSuggestions(locatorAutocomplete);
+            const suggestQuery = getSuggestions(locatorAutocomplete, fragment);
             lastSuggestQuery = suggestQuery;
 
             setTimeout(() => {
@@ -592,7 +577,7 @@
             console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
             const selected = results.find((result) => result.magicKey === event.target.value);
             locatorAutocomplete.inputValue = selected?.text;
-            locatorAutocomplete.innerHTML = "";
+            fragment.innerHTML = "";
           });
         });
       </script>
