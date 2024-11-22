@@ -1,5 +1,5 @@
 import { PropertyValues } from "lit";
-import { Fragment, JsxNode, LitElement, property, setAttribute } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement, property, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -169,8 +169,8 @@ export class Loader extends LitElement {
     return (
       <>
         <div class={CSS.rings}>
-          {this.renderRing("track", isDeterminate)}
-          {this.renderRing("progress", isDeterminate)}
+          {this.renderRing("track")}
+          {this.renderRing("progress")}
           {!inline && isDeterminate && <div class={CSS.percentage}>{this.formatValue()}</div>}
         </div>
         {!inline && text && <div class={CSS.text}>{text}</div>}
