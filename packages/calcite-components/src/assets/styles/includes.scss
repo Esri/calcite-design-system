@@ -198,13 +198,13 @@
 $common-animatable-props: "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start, inset-size, opacity, outline-color, transform";
 
 // Mixin for default component transitions with support for customization:
-// - Use $merge-props to add or override specific properties (comma-separated string).
+// - Use $extra-props to add specific properties (comma-separated string).
 // - Use $target-props to replace the default base properties entirely (comma-separated string).
-@mixin transition-default($target-props: $common-animatable-props, $merge-props: null) {
+@mixin transition-default($target-props: $common-animatable-props, $extra-props: null) {
   $merged-props: $target-props;
 
-  @if $merge-props != null {
-    $merged-props: join($target-props, $merge-props, comma);
+  @if $extra-props != null {
+    $merged-props: join($target-props, $extra-props, comma);
   }
 
   transition-property: #{$merged-props};

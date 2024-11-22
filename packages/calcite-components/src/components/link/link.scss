@@ -29,7 +29,7 @@
     text-decoration: none;
   }
 
-  @include transition-default($overrides: "background-size");
+  @include transition-default($merge-props: "background-size");
 }
 
 // focus styles
