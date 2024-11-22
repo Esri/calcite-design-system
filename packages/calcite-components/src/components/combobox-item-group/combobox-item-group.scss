@@ -1,21 +1,15 @@
 .scale--s {
   @apply text-n2h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent: theme("spacing.2");
 }
 
 .scale--m {
   @apply text-n1h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-item-spacing-indent: theme("spacing.3");
 }
 
 .scale--l {
   @apply text-0h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-item-spacing-indent: theme("spacing.4");
 }
 
@@ -45,8 +39,7 @@
     flex-1
     border-b
     font-bold;
-  padding-block: var(--calcite-combobox-item-spacing-unit-l);
-  padding-inline: var(--calcite-combobox-item-spacing-unit-s);
+  padding: var(--calcite-combobox-item-spacing-indent);
   margin-inline-start: var(--calcite-combobox-item-indent-value);
 }
 
