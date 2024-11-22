@@ -110,13 +110,14 @@
 
 .content,
 .custom-content {
-  @apply text-n2-wrap
-    flex
+  @apply flex
     flex-auto
     flex-col
     justify-center
     px-3
     py-2;
+  font-size: var(--calcite-font-size--2);
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .label,
@@ -137,7 +138,6 @@
 }
 
 .description {
-  @apply mt-0.5;
   color: var(--calcite-list-description-text-color, var(--calcite-color-text-3));
 }
 
