@@ -488,9 +488,19 @@
       <script type="module">
         import { suggestLocations } from "https://js.arcgis.com/4.29/@arcgis/core/rest/locator.js";
 
-        async function getSuggestions(locatorAutocomplete, fragment) {
-          fragment.innerHTML = "";
+        function removeOldItems(locatorAutocomplete) {
+          locatorAutocomplete.querySelectorAll(".temporary").forEach((element) => element.remove());
+        }
 
+        function emptyText(locatorAutocomplete) {
+          locatorAutocomplete.value = "";
+          removeOldItems(locatorAutocomplete);
+          return;
+        }
+
+        async function getSuggestions(locatorAutocomplete, suggestController) {
+          const signal = suggestController.signal;
+          removeOldItems(locatorAutocomplete);
           locatorAutocomplete.open = true;
 
           const response = await suggestLocations(
@@ -498,23 +508,34 @@
             {
               text: locatorAutocomplete.inputValue,
             },
+            { signal },
           );
 
-          if (response.length === 0) {
-            fragment.innerHTML = `<calcite-notice open kind="danger" icon="exclamation-mark-triangle" slot="content-top"><div slot="title">No results</div>
-        <div slot="message">Try something else</div>
-            </calcite-notice`;
-          } else {
-            const itemHTML = response
-              .slice(0, 5)
-              .map((location) => {
-                return `<calcite-autocomplete-item label="${location.text}" heading="${location.text}" value="${location.magicKey}"></calcite-autocomplete-item>`;
-              })
-              .join("");
-            fragment.innerHTML = itemHTML;
+          if (suggestController.aborted) {
+            return;
           }
 
-          return response;
+          if (response.length === 0) {
+            const noResults = document.createElement("calcite-notice");
+            noResults.className = "temporary";
+            noResults.open = true;
+            noResults.kind = "danger";
+            noResults.icon = "exclamation-mark-triangle";
+            noResults.innerHTML = `
+              <div slot="title">No results</div>
+        <div slot="message">Try something else</div>`;
+            noResults.slot = "content-top";
+            locatorAutocomplete.appendChild(noResults);
+          } else {
+            response.slice(0, 5).forEach((location) => {
+              const item = document.createElement("calcite-autocomplete-item");
+              item.className = "temporary";
+              item.value = location.magicKey;
+              item.label = location.text;
+              item.heading = location.text;
+              locatorAutocomplete.appendChild(item);
+            });
+          }
         }
 
         const locateForms = document.querySelectorAll(".locate-form");
@@ -530,17 +551,13 @@
         const locatorAutocompletes = document.querySelectorAll(".locator-autocomplete");
 
         locatorAutocompletes.forEach((locatorAutocomplete) => {
-          let results, lastSuggestQuery;
-
-          const fragment = document.createElement("div");
-          locatorAutocomplete.appendChild(fragment);
+          let loadingTimer, controller;
 
           locatorAutocomplete.addEventListener("calciteAutocompleteTextChange", async (event) => {
             const inputValue = event.target.inputValue;
 
             if (!inputValue) {
-              locatorAutocomplete.value = "";
-              fragment.innerHTML = "";
+              emptyText(locatorAutocomplete);
               return;
             }
           });
@@ -550,34 +567,34 @@
             const inputValue = event.target.inputValue;
 
             if (!inputValue) {
-              locatorAutocomplete.value = "";
-              fragment.innerHTML = `
-          <calcite-notice slot="content-bottom" open icon="information" kind="brand"><div slot="title">Empty text</div>
-        <div slot="message">Enter some text</div></calcite-notice>`;
-              return;
+              emptyText(locatorAutocomplete);
               return;
             }
 
             locatorAutocomplete.loading = true;
 
-            const suggestQuery = getSuggestions(locatorAutocomplete, fragment);
-            lastSuggestQuery = suggestQuery;
+            if (controller) {
+              controller.abort();
+            }
 
-            setTimeout(() => {
-              if (suggestQuery !== lastSuggestQuery) {
-                return;
-              }
+            clearTimeout(loadingTimer);
+
+            controller = new AbortController();
+            const signal = controller.signal;
+            await getSuggestions(locatorAutocomplete, controller);
+
+            loadingTimer = setTimeout(() => {
               locatorAutocomplete.loading = false;
             }, 500);
-
-            results = await suggestQuery;
           });
 
           locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
             console.log({ name: "calciteAutocompleteChange", event, value: event.target.value });
-            const selected = results.find((result) => result.magicKey === event.target.value);
-            locatorAutocomplete.inputValue = selected?.text;
-            fragment.innerHTML = "";
+            const selected = Array.from(locatorAutocomplete.querySelectorAll("calcite-autocomplete-item")).find(
+              (item) => item.value === event.target.value,
+            );
+            locatorAutocomplete.inputValue = selected?.heading;
+            removeOldItems(locatorAutocomplete);
           });
         });
       </script>
