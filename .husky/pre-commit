@@ -1,18 +1,5 @@
 #!/usr/bin/env sh
 
-update_stylelint_config_if_sass_file_edited() {
-  staged_files="$(
-    git diff --cached --name-only --diff-filter=ACM -- packages/**/*.scss
-  )"
-
-  if [ -n "$staged_files" ]; then
-    npm run util:update-stylelint-custom-sass-functions
-    git add "packages/calcite-components/.stylelintrc.cjs" >/dev/null 2>&1 || true
-  fi
-
-  unset staged_files
-}
-
 check_ui_icon_name_consistency() {
   # this pattern checks for `<iconName>-<size>.svg` or `<iconName>-<size>-f.svg` for filled icons
   # where `<iconName>` is kebab-case, `<size>` is 16, 24, or 32
@@ -52,6 +39,5 @@ check_ui_icon_name_consistency() {
 
 lint-staged
 check_ui_icon_name_consistency
-update_stylelint_config_if_sass_file_edited
 
 exit 0
