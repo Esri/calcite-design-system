@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -10,6 +11,8 @@ import {
   reflects,
   renders,
 } from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils";
+import type { SegmentedControl } from "./segmented-control";
 
 describe("calcite-segmented-control", () => {
   describe("defaults", () => {
@@ -160,7 +163,7 @@ describe("calcite-segmented-control", () => {
   async function getSelectedItemValue(page: E2EPage): Promise<string> {
     return page.$eval(
       "calcite-segmented-control",
-      (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
+      (segmentedControl: SegmentedControl["el"]) => segmentedControl.selectedItem.value,
     );
   }
 
@@ -178,6 +181,19 @@ describe("calcite-segmented-control", () => {
     expect(eventSpy).not.toHaveReceivedEvent();
     const [first, second, third] = await page.findAll("calcite-segmented-control-item");
 
+    type TestWindow = GlobalTestProps<{
+      eventTimeValues: string[];
+    }>;
+
+    // We use the browser context to assert the value at the time of event emit.
+    // Puppeteer APIs likely don't allow this due to async timing between calls.
+    await page.evaluate(() => {
+      (window as TestWindow).eventTimeValues = [];
+      document.body.addEventListener("calciteSegmentedControlChange", (event: CustomEvent) => {
+        (window as TestWindow).eventTimeValues.push((event.target as SegmentedControl["el"]).value);
+      });
+    });
+
     await first.click();
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(await getSelectedItemValue(page)).toBe("1");
@@ -191,6 +207,8 @@ describe("calcite-segmented-control", () => {
     await second.click();
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(await getSelectedItemValue(page)).toBe("2");
+
+    expect(await page.evaluate(() => (window as TestWindow).eventTimeValues)).toEqual(["1", "2"]);
   });
 
   it("updates selection when cleared with undefined", async () => {
@@ -251,6 +269,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
         </calcite-segmented-control>
       `;
+      await waitForFrame();
 
       [first, second] = Array.from(document.querySelectorAll("calcite-segmented-control-item"));
 
@@ -345,12 +364,13 @@ describe("calcite-segmented-control", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-segmented-control></calcite-segmented-control>`);
 
-      await page.$eval("calcite-segmented-control", (segmentedControl: HTMLCalciteSegmentedControlElement) => {
+      await page.$eval("calcite-segmented-control", (segmentedControl: SegmentedControl["el"]) => {
         segmentedControl.innerHTML = `
         <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
           <calcite-segmented-control-item value="3">three</calcite-segmented-control-item>`;
       });
+      await page.waitForChanges();
 
       await assertArrowSelection(page);
     });

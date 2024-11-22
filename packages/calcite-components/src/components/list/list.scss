@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-background-color: Specifies the component's background color.
+ */
+
 :host {
   @apply block;
 }
@@ -6,6 +14,7 @@
 
 .container {
   position: relative;
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
 }
 
 .table-container {
@@ -31,8 +40,8 @@
 .sticky-pos {
   @apply sticky
   top-0
-  z-sticky
-  bg-foreground-1;
+  z-sticky;
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
 }
 
 .assistive-text {

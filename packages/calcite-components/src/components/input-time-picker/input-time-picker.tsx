@@ -37,7 +37,12 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { NumberingSystem, numberStringFormatter, SupportedLocale } from "../../utils/locale";
+import {
+  getSupportedLocale,
+  NumberingSystem,
+  numberStringFormatter,
+  SupportedLocale,
+} from "../../utils/locale";
 import {
   formatTimePart,
   formatTimeString,
@@ -47,8 +52,6 @@ import {
   toISOTimeString,
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
-import TimePickerMessages from "../time-picker/assets/t9n/time-picker.t9n.en.json";
-import { getSupportedLocale } from "../../utils/locale";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
@@ -137,7 +140,6 @@ interface DayjsTimeParts {
   millisecond: number;
 }
 
-/** TODO: [MIGRATION] This component had a `@Component()` decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs */
 export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
@@ -161,13 +163,6 @@ export class InputTimePicker
   labelEl: Label["el"];
 
   private localeConfig: ILocale;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>();
 
   private popoverEl: Popover["el"];
 
@@ -207,8 +202,14 @@ export class InputTimePicker
   @property({ reflect: true }) max: string;
 
   /** Use this property to override individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides &
-    Partial<typeof TimePickerMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Specifies the minimum value.
@@ -365,11 +366,6 @@ export class InputTimePicker
     await this.loadDateTimeLocaleData();
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -380,11 +376,15 @@ export class InputTimePicker
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.handleDisabledAndReadOnlyChange(this.disabled);
+      if (!this.disabled) {
+        this.open = false;
+      }
     }
 
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
-      this.handleDisabledAndReadOnlyChange(this.readOnly);
+      if (!this.readOnly) {
+        this.open = false;
+      }
     }
 
     if (changes.has("numberingSystem")) {
@@ -430,17 +430,12 @@ export class InputTimePicker
 
   private openHandler(): void {
     if (this.disabled || this.readOnly) {
-      this.open = false;
       return;
     }
 
-    // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
-    this.popoverEl.open = this.open;
-  }
-
-  private handleDisabledAndReadOnlyChange(value: boolean): void {
-    if (!value) {
-      this.open = false;
+    if (this.popoverEl) {
+      // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
+      this.popoverEl.open = this.open;
     }
   }
 
@@ -855,10 +850,16 @@ export class InputTimePicker
   }
 
   private setInputEl(el: InputText["el"]): void {
+    if (!el) {
+      return;
+    }
     this.calciteInputEl = el;
   }
 
   private setCalciteTimePickerEl(el: TimePicker["el"]): void {
+    if (!el) {
+      return;
+    }
     this.calciteTimePickerEl = el;
   }
 
@@ -965,6 +966,7 @@ export class InputTimePicker
         <calcite-popover
           autoClose={true}
           focusTrapDisabled={this.focusTrapDisabled}
+          initialFocusTrapFocus={false}
           label={messages.chooseTime}
           lang={this.messages._lang}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}

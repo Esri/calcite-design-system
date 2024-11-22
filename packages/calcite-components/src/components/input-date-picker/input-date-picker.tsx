@@ -25,13 +25,13 @@ import {
   defaultMenuPlacement,
   disconnectFloatingUI,
   filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
-  FlipPlacement,
+  hideFloatingUI,
   MenuPlacement,
   OverlayPositioning,
   reposition,
-  hideFloatingUI,
 } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -55,13 +55,12 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
+  getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
-  getDateFormatSupportedLocale,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import DatePickerMessages from "../date-picker/assets/t9n/date-picker.t9n.en.json";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import {
@@ -85,7 +84,7 @@ import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/input-date-picker.t9n.en.json";
-import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
 declare global {
   interface DeclareElements {
@@ -93,7 +92,6 @@ declare global {
   }
 }
 
-/** TODO: [MIGRATION] This component had a `@Component()` decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs */
 export class InputDatePicker
   extends LitElement
   implements
@@ -147,13 +145,6 @@ export class InputDatePicker
 
   labelEl: Label["el"];
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
   openTransitionProp = "opacity";
 
   private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
@@ -205,7 +196,7 @@ export class InputDatePicker
   @property({ reflect: true }) form: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -217,8 +208,14 @@ export class InputDatePicker
   @property() maxAsDate: Date;
 
   /** Use this property to override individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides &
-    Partial<typeof DatePickerMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
   @property({ reflect: true }) min: string;
@@ -449,11 +446,6 @@ export class InputDatePicker
     this.onMaxChanged(this.max);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -495,7 +487,7 @@ export class InputDatePicker
       changes.has("overlayPositioning") &&
       (this.hasUpdated || this.overlayPositioning !== "absolute")
     ) {
-      this.overlayPositioningHandler();
+      this.reposition(true);
     }
 
     if (changes.has("numberingSystem") || changes.has("messages")) {
@@ -507,7 +499,7 @@ export class InputDatePicker
     }
 
     if (changes.has("messages")) {
-      this.effectiveLocaleChange();
+      this.loadLocaleData();
     }
   }
 
@@ -597,14 +589,9 @@ export class InputDatePicker
     onToggleOpenCloseComponent(this);
 
     if (this.disabled || this.readOnly) {
-      this.open = false;
       return;
     }
 
-    this.reposition(true);
-  }
-
-  private overlayPositioningHandler(): void {
     this.reposition(true);
   }
 
@@ -631,10 +618,6 @@ export class InputDatePicker
 
   private calciteInternalInputBlurHandler(): void {
     this.commitValue();
-  }
-
-  private effectiveLocaleChange(): void {
-    this.loadLocaleData();
   }
 
   private handleDateTimeFormatChange(): void {
@@ -813,7 +796,7 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape") {
+    } else if (key === "Escape" && this.focusTrapDisabled) {
       this.open = false;
       event.preventDefault();
       this.restoreInputFocus(true);
@@ -1144,7 +1127,7 @@ export class InputDatePicker
                   !this.range &&
                   this.renderToggleIcon(this.open && this.focusedInput === "start")}
                 <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                  Date Format: {this.localeData?.placeholder}
+                  {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
                 </span>
               </div>
               <div

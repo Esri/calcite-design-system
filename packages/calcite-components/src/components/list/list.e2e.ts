@@ -1,12 +1,16 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, hidden, renders, focusable, disabled, defaults, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
+import type { ListItem } from "../list-item/list-item";
 import { ListDragDetail } from "./interfaces";
+import { CSS } from "./resources";
+import type { List } from "./list";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -400,9 +404,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
 
     async function getSelectedItemValues(): Promise<string[]> {
-      return await page.$eval("calcite-list", (list: HTMLCalciteListElement) =>
-        list.selectedItems.map((item) => item.value),
-      );
+      return await page.$eval("calcite-list", (list: List["el"]) => list.selectedItems.map((item) => item.value));
     }
 
     const list = await page.find("calcite-list");
@@ -463,9 +465,9 @@ describe("calcite-list", () => {
     let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
     expect(visibleItems).toHaveLength(3);
-    visibleItems.forEach(async (item) => {
+    for (const item of visibleItems) {
       expect(await item.getProperty("description")).toBe("list1");
-    });
+    }
 
     list.setProperty("filterText", matchingFont);
     await page.waitForChanges();
@@ -473,24 +475,26 @@ describe("calcite-list", () => {
 
     visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
     expect(visibleItems).toHaveLength(2);
-    visibleItems.forEach(async (item) => {
+    for (const item of visibleItems) {
       expect(await item.getProperty("description")).toBe("list1");
-    });
+    }
 
     list.innerHTML = html`
       <calcite-list-item value="item4" label="${matchingFont}" description="list2"></calcite-list-item>
       <calcite-list-item value="item5" label="${matchingFont} 2" description="list2"></calcite-list-item>
       <calcite-list-item value="item6" label="Other Font" description="list2"></calcite-list-item>
     `;
+
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
     expect(await list.getProperty("filterText")).toBe(matchingFont);
     visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
     expect(visibleItems).toHaveLength(2);
-    visibleItems.forEach(async (item) => {
+    for (const item of visibleItems) {
       expect(await item.getProperty("description")).toBe("list2");
-    });
+    }
   });
 
   it("filters initially", async () => {
@@ -510,7 +514,7 @@ describe("calcite-list", () => {
           value="value-1"
         ></calcite-list-item>
         <calcite-list-item
-          id="value-match"
+          id="value-not-matched-by-default"
           label="label-3"
           description="description-3"
           value="match"
@@ -528,12 +532,12 @@ describe("calcite-list", () => {
     const list = await page.find("calcite-list");
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    expect(await list.getProperty("filteredItems")).toHaveLength(3);
-    expect(await list.getProperty("filteredData")).toHaveLength(3);
+    expect(await list.getProperty("filteredItems")).toHaveLength(2);
+    expect(await list.getProperty("filteredData")).toHaveLength(2);
 
     const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
+    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
   });
 
   it("filters initially with filterProps", async () => {
@@ -553,7 +557,7 @@ describe("calcite-list", () => {
           value="value-1"
         ></calcite-list-item>
         <calcite-list-item
-          id="value-match"
+          id="value-not-matched-by-default"
           label="label-3"
           description="description-3"
           value="match"
@@ -582,7 +586,7 @@ describe("calcite-list", () => {
   });
 
   it("should support shift click to select multiple items", async () => {
-    const clickItemContent = (item: HTMLCalciteListItemElement, selector: string) => {
+    const clickItemContent = (item: ListItem["el"], selector: string) => {
       item.shadowRoot.querySelector(selector).dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true }));
     };
 
@@ -1209,7 +1213,7 @@ describe("calcite-list", () => {
       const page = await createSimpleList();
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-      await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+      await page.$eval("calcite-list", (list: List["el"]) => {
         const testWindow = window as TestWindow;
         testWindow.calledTimes = 0;
         testWindow.newIndex = -1;
@@ -1379,7 +1383,7 @@ describe("calcite-list", () => {
       let totalMoves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-      await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+      await page.$eval("calcite-list", (list: List["el"]) => {
         const testWindow = window as TestWindow;
         testWindow.calledTimes = 0;
         list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
@@ -1402,7 +1406,7 @@ describe("calcite-list", () => {
         const event = page.waitForEvent(eventName);
         await page.$eval(
           `calcite-list-item[value="one"]`,
-          (item1: HTMLCalciteListItemElement, reorder, eventName) => {
+          (item1: ListItem["el"], reorder, eventName) => {
             item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
           },
           reorder,
@@ -1471,7 +1475,7 @@ describe("calcite-list", () => {
       let list2Moves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-      await page.$eval("#list1", (list: HTMLCalciteListElement) => {
+      await page.$eval("#list1", (list: List["el"]) => {
         const testWindow = window as TestWindow;
         testWindow.list1CalledTimes = 0;
         list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
@@ -1485,7 +1489,7 @@ describe("calcite-list", () => {
       });
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-      await page.$eval("#list2", (list: HTMLCalciteListElement) => {
+      await page.$eval("#list2", (list: List["el"]) => {
         const testWindow = window as TestWindow;
         testWindow.list2CalledTimes = 0;
         list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
@@ -1511,8 +1515,8 @@ describe("calcite-list", () => {
         const event = page.waitForEvent(eventName);
         await page.$eval(
           `#${listItemId}`,
-          (item: HTMLCalciteListItemElement, moveToListId, eventName) => {
-            const element = document.querySelector<HTMLCalciteListElement>(`#${moveToListId}`);
+          (item: ListItem["el"], moveToListId, eventName) => {
+            const element = document.querySelector<List["el"]>(`#${moveToListId}`);
             item.dispatchEvent(
               new CustomEvent(eventName, {
                 detail: {
@@ -1572,6 +1576,17 @@ describe("calcite-list", () => {
 
       await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
       await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-list`, {
+        "--calcite-list-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+      });
     });
   });
 });

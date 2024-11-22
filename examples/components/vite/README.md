@@ -22,7 +22,7 @@ npm install @esri/calcite-components
 Import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below).
 
 ```js
-// src/main.ts
+// main.ts
 import { setAssetPath } from "@esri/calcite-components/dist/components";
 
 setAssetPath(location.href);
@@ -31,15 +31,17 @@ setAssetPath(location.href);
 Next, import the components used in your application:
 
 ```js
-// src/components/HelloWorld.vue
+// main.ts
 import "@esri/calcite-components/dist/components/calcite-button";
 import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-date-picker";
+import "@esri/calcite-components/dist/components/calcite-loader";
 ```
 
 Lastly, import the global Calcite components stylesheet (only do this once):
 
 ```js
+// main.ts
 import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 

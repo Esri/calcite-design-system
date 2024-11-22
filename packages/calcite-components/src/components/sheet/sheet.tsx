@@ -27,6 +27,7 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { componentOnReady } from "../../utils/component";
 import { CSS } from "./resources";
 import { DisplayMode } from "./interfaces";
 import { styles } from "./sheet.scss";
@@ -123,8 +124,6 @@ export class Sheet
 
   /**
    * Specifies the label of the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -199,7 +198,7 @@ export class Sheet
 
   constructor() {
     super();
-    this.listenOn(window, "keydown", this.handleEscape);
+    this.listen("keydown", this.keyDownHandler);
   }
 
   override connectedCallback(): void {
@@ -218,15 +217,10 @@ export class Sheet
     setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      requestAnimationFrame(() => this.openSheet());
+      this.openSheet();
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -237,7 +231,7 @@ export class Sheet
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      this.handleOpenedChange();
+      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -256,6 +250,19 @@ export class Sheet
 
   // #region Private Methods
 
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (
+      this.open &&
+      !this.escapeDisabled &&
+      event.key === "Escape" &&
+      !event.defaultPrevented &&
+      this.focusTrapDisabled
+    ) {
+      this.open = false;
+      event.preventDefault();
+    }
+  };
+
   private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
@@ -273,23 +280,6 @@ export class Sheet
       this.openSheet();
     } else {
       this.closeSheet();
-    }
-  }
-
-  private handleOpenedChange(): void {
-    onToggleOpenCloseComponent(this);
-  }
-
-  private handleEscape(event: KeyboardEvent): void {
-    if (
-      this.open &&
-      !this.escapeDisabled &&
-      event.key === "Escape" &&
-      !event.defaultPrevented &&
-      this.focusTrapDisabled
-    ) {
-      this.open = false;
-      event.preventDefault();
     }
   }
 
@@ -319,7 +309,8 @@ export class Sheet
     this.transitionEl = el;
   }
 
-  private openSheet(): void {
+  private async openSheet(): Promise<void> {
+    await componentOnReady(this.el);
     this.el.addEventListener(
       "calciteSheetOpen",
       this.openEnd,
