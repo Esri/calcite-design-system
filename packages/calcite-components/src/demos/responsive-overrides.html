@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Responsive Overrides</title>
+    <style>
+      .parent-flex {
+        display: flex;
+        width: 80%;
+        padding: 25px 0;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .child-flex {
+        flex: 0 0 85%;
+        padding: 0 20px;
+      }
+
+      .vertical-child-flex {
+        flex: 0 0 30%;
+        padding: 0 20px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
+      }
+
+      hr {
+        margin: 50px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+
+      #example-stepper {
+        margin: 1rem;
+      }
+
+      #example-label {
+        margin: 1rem;
+      }
+
+      calcite-shell {
+        height: 800px;
+        max-height: 70vh;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!--
+      **************************************************
+      * SMALL horizontal-single
+      **************************************************
+    -->
+      <!-- headers -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text"></div>
+        <div class="child-flex">Responsive examples</div>
+      </div>
+
+      <calcite-shell style="position: relative">
+        <calcite-shell-panel
+          slot="panel-end"
+          resizable
+          position="end"
+          width-scale="l"
+          style="position: relative; --calcite-shell-panel-min-width: 0; --calcite-shell-panel-max-width: 1800px"
+        >
+          <calcite-panel heading="Responsive overrides" description="Resize the Shell Panel to see components adjust">
+            <calcite-label id="example-label">
+              Meter
+              <calcite-meter
+                unitLabel="GB"
+                group-separator
+                id="example-meter"
+                min="0"
+                max="100"
+                low="25"
+                high="75"
+                value="50"
+              ></calcite-meter>
+            </calcite-label>
+            <calcite-stepper numbered icon scale="s" id="example-stepper">
+              <calcite-stepper-item heading="Choose method" complete>
+                <calcite-notice open width="full">
+                  <div slot="message">Step 1 Content Goes Here</div>
+                </calcite-notice>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Compile member list" complete>
+                <calcite-notice open width="full">
+                  <div slot="message">Step 2 Content Goes Here</div>
+                </calcite-notice>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+                <calcite-notice open width="full">
+                  <div slot="message">Step 3 Content Goes Here</div>
+                </calcite-notice>
+              </calcite-stepper-item>
+              <calcite-stepper-item heading="Confirm and complete">
+                <calcite-notice open width="full">
+                  <div slot="message">Step 4 Content Goes Here</div>
+                </calcite-notice>
+              </calcite-stepper-item>
+            </calcite-stepper>
+          </calcite-panel>
+        </calcite-shell-panel>
+        <calcite-dialog slot="dialogs" open heading="example" id="example-dialog"></calcite-dialog>
+      </calcite-shell>
+    </demo-dom-swapper>
+    <script>
+      const exampleMeter = document.getElementById("example-meter");
+      const exampleStepper = document.getElementById("example-stepper");
+      const exampleDialog = document.getElementById("example-dialog");
+
+      exampleMeter.responsiveOverrides = {
+        xxsmall: [
+          {
+            property: "appearance",
+            value: "solid",
+          },
+          {
+            property: "unitLabel",
+            value: "gb",
+          },
+          {
+            property: "rangeLabels",
+            value: false,
+          },
+          {
+            property: "valueLabel",
+            value: true,
+          },
+          {
+            property: "valueLabelType",
+            value: "percent",
+          },
+        ],
+        xsmall: [
+          {
+            property: "appearance",
+            value: "solid",
+          },
+          {
+            property: "unitLabel",
+            value: "GB",
+          },
+          {
+            property: "rangeLabels",
+            value: true,
+          },
+          {
+            property: "valueLabel",
+            value: true,
+          },
+          {
+            property: "valueLabelType",
+            value: "units",
+          },
+        ],
+        small: [
+          {
+            property: "appearance",
+            value: "outline",
+          },
+          {
+            property: "unitLabel",
+            value: "gigabytes",
+          },
+          {
+            property: "rangeLabels",
+            value: true,
+          },
+          {
+            property: "valueLabel",
+            value: true,
+          },
+          {
+            property: "valueLabel",
+            value: "percent",
+          },
+          { property: "rangeLabelType", value: "units" },
+        ],
+        medium: [
+          {
+            property: "appearance",
+            value: "outline-fill",
+          },
+          {
+            property: "unitLabel",
+            value: "GIGABYTES",
+          },
+          {
+            property: "rangeLabels",
+            value: true,
+          },
+          {
+            property: "valueLabel",
+            value: true,
+          },
+        ],
+        large: [
+          {
+            property: "appearance",
+            value: "outline",
+          },
+          {
+            property: "unitLabel",
+            value: "G I G A B Y T E S",
+          },
+          {
+            property: "rangeLabels",
+            value: true,
+          },
+          {
+            property: "valueLabel",
+            value: true,
+          },
+        ],
+      };
+
+      exampleStepper.responsiveOverrides = {
+        xxsmall: [
+          {
+            property: "layout",
+            value: "horizontal-single",
+            type: "self",
+          },
+          {
+            property: "numbered",
+            value: false,
+            type: "self",
+          },
+          {
+            property: "icon",
+            value: false,
+            type: "self",
+          },
+        ],
+        xsmall: [
+          {
+            property: "layout",
+            value: "horizontal-single",
+            type: "self",
+          },
+          {
+            property: "numbered",
+            value: true,
+            type: "self",
+          },
+          {
+            property: "icon",
+            value: true,
+            type: "self",
+          },
+        ],
+        small: [
+          {
+            property: "layout",
+            value: "vertical",
+            type: "self",
+          },
+          {
+            property: "numbered",
+            value: false,
+            type: "self",
+          },
+          {
+            property: "icon",
+            value: false,
+            type: "self",
+          },
+        ],
+        medium: [
+          {
+            property: "layout",
+            value: "vertical",
+            type: "self",
+          },
+          {
+            property: "numbered",
+            value: true,
+            type: "self",
+          },
+          {
+            property: "icon",
+            value: true,
+            type: "self",
+          },
+        ],
+        large: [
+          {
+            property: "layout",
+            value: "horizontal",
+            type: "self",
+          },
+          {
+            property: "numbered",
+            value: true,
+            type: "self",
+          },
+          {
+            property: "icon",
+            value: true,
+            type: "self",
+          },
+        ],
+      };
+      exampleDialog.responsiveOverrides = {
+        xxsmall: [
+          {
+            property: "modal",
+            value: true,
+            type: "viewport",
+          },
+          {
+            property: "heading",
+            value: "viewport is xxsmall",
+            type: "viewport",
+          },
+          {
+            property: "placement",
+            value: "top",
+            type: "viewport",
+          },
+        ],
+        xsmall: [
+          {
+            property: "modal",
+            value: true,
+            type: "viewport",
+          },
+          {
+            property: "heading",
+            value: "viewport is xsmall",
+            type: "viewport",
+          },
+        ],
+        small: [
+          {
+            property: "modal",
+            value: false,
+            type: "viewport",
+          },
+          {
+            property: "heading",
+            value: "viewport is small",
+            type: "viewport",
+          },
+        ],
+        medium: [
+          {
+            property: "modal",
+            value: true,
+            type: "viewport",
+          },
+          {
+            property: "heading",
+            value: "viewport is medium",
+            type: "viewport",
+          },
+        ],
+        large: [
+          {
+            property: "modal",
+            value: false,
+            type: "viewport",
+          },
+          {
+            property: "heading",
+            value: "viewport is large",
+            type: "viewport",
+          },
+        ],
+      };
+    </script>
+  </body>
+</html>

@@ -23,6 +23,7 @@ import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { breakpoints } from "../../utils/responsive";
 import { CSS } from "./resources";
 import { MeterFillType, MeterLabelType } from "./interfaces";
 import { styles } from "./meter.scss";
@@ -73,7 +74,9 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
     locale: SupportedLocale;
   };
 
-  private resizeObserver = createObserver("resize", () => this.resizeHandler());
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler),
+  );
 
   private valueLabelEl = createRef<HTMLDivElement>();
 
@@ -167,6 +170,9 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
   /** When `valueLabel` is `true`, specifies the format of displayed label. */
   @property({ reflect: true }) valueLabelType: MeterLabelType = "percent";
 
+  /** Specifies the component's responsive overrides. */
+  @property() responsiveOverrides: any;
+
   // #endregion
 
   // #region Lifecycle
@@ -227,9 +233,10 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
     this.updateLabels();
   }
 
-  private resizeHandler(): void {
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
     this.updateLabels();
-  }
+    this.handleResponsiveOverrides(width);
+  };
 
   private updateLabels(): void {
     if (this.valueLabelEl.value) {
@@ -366,6 +373,33 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
     } else {
       valueLabelEl.style.insetInlineStart = `${valuePosition}% `;
       valueLabelEl.style.removeProperty("inset-inline-end");
+    }
+  }
+
+  private handleResponsiveOverrides(width: number): void {
+    if (!width || !this.responsiveOverrides) {
+      return;
+    }
+    const breakpointsKeys = breakpoints.width ? Object.keys(breakpoints.width) : [];
+    for (const key of breakpointsKeys) {
+      if (width >= breakpoints.width[key]) {
+        if (!this.responsiveOverrides[key]) {
+          return;
+        }
+        Object.entries(this.responsiveOverrides[key]).forEach((item) => {
+          if (item[1]["type"] === "self") {
+            console.log("responsive request type is SELF");
+          } else if (item[1]["type"] === "viewport") {
+            console.log("responsive request type is VIEWPORT");
+          }
+          const property = item[1]["property"];
+          if (!(property in this)) {
+            return;
+          }
+          this[property] = item[1]["value"] as any;
+        });
+        return;
+      }
     }
   }
 

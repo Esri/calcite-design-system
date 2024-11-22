@@ -8,6 +8,7 @@ import { NumberingSystem } from "../../utils/locale";
 import { useT9n } from "../../controllers/useT9n";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
+import { breakpoints } from "../../utils/responsive";
 import { CSS } from "./resources";
 import { StepBar } from "./functional/step-bar";
 import {
@@ -48,6 +49,10 @@ export class Stepper extends LitElement {
   private multipleViewMode = false;
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler),
+  );
 
   // #endregion
 
@@ -90,6 +95,9 @@ export class Stepper extends LitElement {
    * @readonly
    */
   @property() selectedItem: StepperItem["el"] = null;
+
+  /** Specifies the component's responsive overrides. */
+  @property() responsiveOverrides: any;
 
   // #endregion
 
@@ -194,6 +202,7 @@ export class Stepper extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
+    this.resizeObserver?.observe(this.el);
     this.updateItems();
   }
 
@@ -240,6 +249,7 @@ export class Stepper extends LitElement {
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
   }
 
   // #endregion
@@ -398,6 +408,36 @@ export class Stepper extends LitElement {
     this.setStepperItemNumberingSystem();
   }
 
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
+    this.handleResponsiveOverrides(width);
+  };
+
+  private handleResponsiveOverrides(width: number): void {
+    if (!width || !this.responsiveOverrides) {
+      return;
+    }
+    const breakpointsKeys = breakpoints.width ? Object.keys(breakpoints.width) : [];
+    for (const key of breakpointsKeys) {
+      if (width >= breakpoints.width[key]) {
+        if (!this.responsiveOverrides[key]) {
+          return;
+        }
+        Object.entries(this.responsiveOverrides[key]).forEach((item) => {
+          if (item[1]["type"] === "self") {
+            console.log("responsive request type is SELF");
+          } else if (item[1]["type"] === "viewport") {
+            console.log("responsive request type is VIEWPORT");
+          }
+          const property = item[1]["property"];
+          if (!(property in this)) {
+            return;
+          }
+          this[property] = item[1]["value"] as any;
+        });
+        return;
+      }
+    }
+  }
   // #endregion
 
   // #region Rendering
