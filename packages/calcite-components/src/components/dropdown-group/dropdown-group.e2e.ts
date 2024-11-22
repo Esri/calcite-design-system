@@ -2,6 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 
 describe("calcite-dropdown-group", () => {
   describe("defaults", () => {
@@ -64,5 +65,24 @@ describe("calcite-dropdown-group", () => {
     items = await page.findAll("calcite-dropdown-item");
     expect(items.length).toBe(3);
     items.forEach(async (item) => expect(await item.getProperty("selectionMode")).toBe("none"));
+  });
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-title-text-color": {
+        targetProp: "color",
+        shadowSelector: `.dropdown-title`,
+      },
+      "--calcite-dropdown-border-color": [
+        {
+          targetProp: "borderColor",
+          shadowSelector: `.dropdown-title`,
+        },
+        {
+          targetProp: "backgroundColor",
+          shadowSelector: `.dropdown-separator`,
+        },
+      ],
+    };
+    themed(`calcite-dropdown-group`, tokens);
   });
 });

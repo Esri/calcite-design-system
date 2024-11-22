@@ -1,6 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {
@@ -49,5 +50,37 @@ describe("calcite-dropdown-item", () => {
     await calciteDropdownItemSelectEvent;
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
+  });
+  describe("theme", () => {
+    describe("selected", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-dropdown-accent-color": {
+          targetProp: "color",
+          shadowSelector: `.container:not(.container--none-selection) calcite-icon`,
+        },
+      };
+      themed(`<calcite-dropdown-item selected></calcite-dropdown-item>`, tokens);
+    });
+    describe("link", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-dropdown-accent-color": {
+          targetProp: "color",
+          shadowSelector: `.dropdown-link calcite-icon`,
+        },
+      };
+      themed(`<calcite-dropdown-item href="/test" selected></calcite-dropdown-item>`, tokens);
+    });
+    describe("item", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-dropdown-accent-color": {
+          targetProp: "color",
+          shadowSelector: `.dropdown-item-icon`,
+        },
+      };
+      themed(
+        `<calcite-dropdown selection-mode="multiple"><calcite-dropdown-item selected></calcite-dropdown-item></calcite-dropdown>`,
+        tokens,
+      );
+    });
   });
 });

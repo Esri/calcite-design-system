@@ -12,6 +12,7 @@ import {
   openClose,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
@@ -21,6 +22,8 @@ import {
 } from "../../tests/utils";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -1443,5 +1446,19 @@ describe("calcite-dropdown", () => {
       await page.waitForChanges();
       expect(await isElementFocused(page, "#item-2")).toBe(true);
     });
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-width": {
+        targetProp: "inlineSize",
+        shadowSelector: `.${CSS.content}`,
+      },
+      "--calcite-dropdown-background-color": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.content}`,
+      },
+    };
+    themed(`calcite-dropdown`, tokens);
   });
 });
