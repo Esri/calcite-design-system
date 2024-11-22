@@ -41,6 +41,7 @@ import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
+import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 
@@ -127,7 +128,11 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${datePicker} ${tabs} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
         ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
       </div>
-      ${alert} ${navigation} ${navigationLogos}
+      <div class="demo-column">
+      ${navigation} ${navigationLogos} ${navigationUsers}
+       </div>
+      ${alert} 
+
     </div>
   </div>`;
 
@@ -155,6 +160,7 @@ const componentTokens = {
   ...switchTokens,
   ...textAreaTokens,
   ...navigationLogoTokens,
+  ...navigationUserTokens,
   ...tooltipTokens,
   ...tileTokens,
   ...navigationTokens,
