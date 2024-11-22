@@ -12,10 +12,6 @@ import tailwindConfig from "./tailwind.config";
 const nonEsmDependencies = ["color", "interactjs"];
 
 export default defineConfig({
-  ssr: {
-    noExternal: nonEsmDependencies,
-  },
-
   plugins: [
     useLumina({
       build: {
