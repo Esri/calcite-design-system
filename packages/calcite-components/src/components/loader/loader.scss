@@ -92,7 +92,6 @@
   stroke: var(--calcite-color-brand);
   transform: rotate(-90deg);
   transition: all var(--calcite-internal-animation-timing-fast) linear;
-  will-change: contents;
 }
 
 :host([type="indeterminate"]) {
