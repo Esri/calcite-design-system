@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.23...@esri/calcite-components@3.0.0-next.24) (2024-11-22)
+
+### Features
+
+- **navigation-logo:** add component tokens ([#10582](https://github.com/Esri/calcite-design-system/issues/10582)) ([0638891](https://github.com/Esri/calcite-design-system/commit/06388915ddcc5f06a849e09d9e241c5f676daae7)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.22...@esri/calcite-components@3.0.0-next.23) (2024-11-22)
+
+### ⚠ BREAKING CHANGES
+
+- **radio-button:** Removes the deprecated property `guid` from
+  `calcite-radio-button`.
+
+Developers may need to replace `calcite-radio-button`'s `guid` property
+with a unique `id` property.
+
+### Features
+
+- **navigation-user:** add component tokens ([#10608](https://github.com/Esri/calcite-design-system/issues/10608)) ([32d96a9](https://github.com/Esri/calcite-design-system/commit/32d96a9f75d678682b89f8c3a4abc3fe79dc0187)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **panel:** Add component tokens ([#10822](https://github.com/Esri/calcite-design-system/issues/10822)) ([e8228b1](https://github.com/Esri/calcite-design-system/commit/e8228b1091905a0c76fb9933ae6616d724ec0ea6)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **block:** label property should not be required ([#10833](https://github.com/Esri/calcite-design-system/issues/10833)) ([e5465c7](https://github.com/Esri/calcite-design-system/commit/e5465c72031722b911e49302655d466fea74c4b0)), closes [#8697](https://github.com/Esri/calcite-design-system/issues/8697)
+
+### Code Refactoring
+
+- **radio-button:** remove deprecated guid property ([#10799](https://github.com/Esri/calcite-design-system/issues/10799)) ([bbef6cd](https://github.com/Esri/calcite-design-system/commit/bbef6cd3409c0ad8c10a3d7c251f04f3a76d38a9)), closes [#9713](https://github.com/Esri/calcite-design-system/issues/9713)
+
 ## [3.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.21...@esri/calcite-components@3.0.0-next.22) (2024-11-21)
 
 **Note:** Version bump only for package @esri/calcite-components
