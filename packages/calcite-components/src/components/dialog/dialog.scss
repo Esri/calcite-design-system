@@ -195,8 +195,7 @@ calcite-panel {
   }
 
   @media screen and (max-width: $width + 2 * $baseline) {
-    .width-#{$size},
-    .width {
+    .width-#{$size} {
       @apply m-0
           h-full
           max-h-full
@@ -204,6 +203,8 @@ calcite-panel {
           max-w-full;
       inset-inline-start: 0;
       inset-block-start: var(--calcite-internal-dialog-animation-offset);
+    }
+    .width-#{$size}.dialog {
       &--opening {
         &-active {
           inset-block-start: 0;

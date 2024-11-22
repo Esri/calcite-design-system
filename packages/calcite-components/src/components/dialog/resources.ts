@@ -8,7 +8,7 @@ export const CSS = {
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
   assistiveText: "assistive-text",
-  openingActive: "width--opening-active",
+  openingActive: "dialog--opening-active",
 };
 
 export const SLOTS = {
