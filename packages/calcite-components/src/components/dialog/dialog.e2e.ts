@@ -1108,7 +1108,7 @@ describe("calcite-dialog", () => {
         },
         "--calcite-dialog-footer-space": {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-footer-padding",
+          targetProp: "--calcite-panel-footer-space",
         },
         "--calcite-dialog-offset-x": {
           shadowSelector: `.${CSS.dialog}`,

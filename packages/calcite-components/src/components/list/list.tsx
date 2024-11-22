@@ -689,15 +689,11 @@ export class List
   private updateFilteredItems(): void {
     const { visibleItems, filteredData, filterText } = this;
 
-    const values = filteredData.map((item) => item.value);
-
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems =
-      visibleItems.filter((item) => !filterText || values.includes(item.value)) || [];
-
+    const filteredItems = !filterText ? visibleItems || [] : filteredData.map((item) => item.el);
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
@@ -731,15 +727,23 @@ export class List
     this.updateFilteredData();
   }
 
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
   private performFilter(): void {
-    const { filterEl, filterText, filterProps } = this;
+    const { filterEl, filterText, effectiveFilterProps } = this;
 
     if (!filterEl) {
       return;
     }
 
     filterEl.value = filterText;
-    filterEl.filterProps = filterProps;
+    filterEl.filterProps = effectiveFilterProps;
     this.filterAndUpdateData();
   }
 
@@ -761,7 +765,7 @@ export class List
       label: item.label,
       description: item.description,
       metadata: item.metadata,
-      value: item.value,
+      el: item,
     }));
   }
 
@@ -964,7 +968,7 @@ export class List
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
-      filterProps,
+      effectiveFilterProps,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -996,7 +1000,7 @@ export class List
                       <calcite-filter
                         ariaLabel={filterPlaceholder}
                         disabled={disabled}
-                        filterProps={filterProps}
+                        filterProps={effectiveFilterProps}
                         items={dataForFilter}
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}

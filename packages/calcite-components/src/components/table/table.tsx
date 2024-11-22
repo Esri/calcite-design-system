@@ -151,13 +151,6 @@ export class Table extends LitElement implements LoadableComponent {
   /** When `true`, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
-  /**
-   * When `true`, displays striped styling in the component.
-   *
-   * @deprecated Use the `striped` property instead.
-   */
-  @property({ reflect: true }) zebra = false;
-
   // #endregion
 
   // #region Events
@@ -494,7 +487,7 @@ export class Table extends LitElement implements LoadableComponent {
         <div
           class={{
             [CSS.bordered]: this.bordered,
-            [CSS.striped]: this.striped || this.zebra,
+            [CSS.striped]: this.striped,
             [CSS.tableContainer]: true,
           }}
         >

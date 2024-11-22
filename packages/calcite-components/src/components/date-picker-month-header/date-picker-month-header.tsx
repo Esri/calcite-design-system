@@ -20,7 +20,6 @@ import {
 import { closestElementCrossShadowBoundary, getTextWidth } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import T9nStrings from "../date-picker/assets/t9n/date-picker.t9n.en.json";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { Position, Scale } from "../interfaces";
@@ -89,7 +88,7 @@ export class DatePickerMonthHeader extends LitElement {
    * @private
    * @readonly
    */
-  @property() messages: typeof T9nStrings;
+  @property() messages: DatePicker["messages"]["_overrides"];
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @property() min: Date;

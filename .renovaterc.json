@@ -31,7 +31,15 @@
   "ignorePaths": ["packages/calcite-ui-icons/**", "examples/**"],
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
+      "groupName": "ArcGIS",
+      "matchPackageNames": ["@arcgis/**"]
+    },
+    {
+      "groupName": "eslint",
+      "matchPackageNames": ["/eslint/"]
+    },
+    {
+      "matchPackageNames": ["*"],
       "semanticCommitType": "build",
       "semanticCommitScope": "deps",
       "addLabels": ["chore"]

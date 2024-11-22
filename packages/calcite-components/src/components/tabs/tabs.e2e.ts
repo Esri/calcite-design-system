@@ -205,17 +205,12 @@ describe("calcite-tabs", () => {
 
     await page.waitForChanges();
 
-    const finalSelectedItem = await page.evaluate(
-      async (templateHTML: string): Promise<{ tabTitle: string; tab: string }> => {
-        const wrapperName = "tab-wrapping-component";
-
+    const wrapperName = "tab-wrapping-component";
+    await page.evaluate(
+      async (wrapperName, templateHTML: string): Promise<void> => {
         customElements.define(
           wrapperName,
           class extends HTMLElement {
-            constructor() {
-              super();
-            }
-
             connectedCallback(): void {
               this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
             }
@@ -223,34 +218,21 @@ describe("calcite-tabs", () => {
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
-
-        const wrapper = document.querySelector(wrapperName);
-
-        async function waitForAnimationFrames(count) {
-          async function frame() {
-            if (count > 0) {
-              await new Promise((resolve) => requestAnimationFrame(resolve));
-              count--;
-              await frame();
-            }
-          }
-
-          await frame();
-        }
-
-        wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
-        await waitForAnimationFrames(4);
-
-        const tabTitle = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
-        await waitForAnimationFrames(2);
-
-        const tab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
-        return { tabTitle, tab };
       },
+      wrapperName,
       wrappedTabTemplateHTML,
     );
-    expect(finalSelectedItem.tabTitle).toBe("title-2");
-    expect(finalSelectedItem.tab).toBe("tab-2");
+    await page.waitForChanges();
+
+    const nestedTabTitle2 = await page.find(`${wrapperName} >>> #title-2`);
+    await nestedTabTitle2.click();
+    await page.waitForChanges();
+
+    const nestedSelectedTabTitle = await page.find(`${wrapperName} >>> calcite-tab-title[selected]`);
+    const nestedSelectedTab = await page.find(`${wrapperName} >>> calcite-tab[selected]`);
+
+    expect(nestedSelectedTabTitle.id).toBe("title-2");
+    expect(nestedSelectedTab.id).toBe("tab-2");
   });
 
   it("item selection should work with nested tabs", async () => {
