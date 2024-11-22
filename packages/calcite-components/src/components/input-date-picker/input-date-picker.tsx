@@ -1,17 +1,15 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
 import { FocusTrap } from "focus-trap";
+import { PropertyValues } from "lit";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  stringOrBoolean,
+} from "@arcgis/lumina";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -21,7 +19,7 @@ import {
   dateToISO,
   inRange,
 } from "../../utils/date";
-import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -57,25 +55,15 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
-  connectLocalized,
   getSupportedNumberingSystem,
-  disconnectLocalized,
-  LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
   getDateFormatSupportedLocale,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
+import DatePickerMessages from "../date-picker/assets/t9n/date-picker.t9n.en.json";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -89,19 +77,25 @@ import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { isBrowser } from "../../utils/browser";
-import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
-import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { DatePicker } from "../date-picker/date-picker";
+import type { InputText } from "../input-text/input-text";
+import type { Label } from "../label/label";
+import type { Input } from "../input/input";
+import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
+import T9nStrings from "./assets/t9n/input-date-picker.t9n.en.json";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 
-@Component({
-  tag: "calcite-input-date-picker",
-  styleUrl: "input-date-picker.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-  assetsDirs: ["assets"],
-})
+declare global {
+  interface DeclareElements {
+    "calcite-input-date-picker": InputDatePicker;
+  }
+}
+
+/** TODO: [MIGRATION] This component had a `@Component()` decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs */
 export class InputDatePicker
+  extends LitElement
   implements
     FloatingUIComponent,
     FocusTrapComponent,
@@ -109,181 +103,193 @@ export class InputDatePicker
     InteractiveComponent,
     LabelableComponent,
     LoadableComponent,
-    LocalizedComponent,
-    OpenCloseComponent,
-    T9nComponent
+    OpenCloseComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private commonDateSeparators = [".", "-", "/"];
+
+  private currentOpenInput: "start" | "end";
+
+  private datePickerEl: DatePicker["el"];
+
+  private dateTimeFormat: Intl.DateTimeFormat;
+
+  defaultValue: InputDatePicker["value"];
+
+  private dialogId = `date-picker-dialog--${guid()}`;
+
+  private endInput: InputText["el"];
+
+  private endWrapper: HTMLDivElement;
+
+  private filteredFlipPlacements: FlipPlacement[];
+
+  floatingEl: HTMLDivElement;
+
+  private focusOnOpen = false;
+
+  focusTrap: FocusTrap;
+
+  private focusTrapDeactivates = (): void => {
+    this.open = false;
+  };
+
+  formEl: HTMLFormElement;
+
+  labelEl: Label["el"];
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /**
-   * When `true`, prevents focus trapping.
-   */
-  @Prop({ reflect: true }) focusTrapDisabled = false;
+  openTransitionProp = "opacity";
 
-  @Watch("focusTrapDisabled")
-  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
+  private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
-  }
+  private rangeStartValueChangedByUser = false;
+
+  referenceEl: HTMLDivElement;
+
+  private startInput: InputText["el"];
+
+  private startWrapper: HTMLDivElement;
+
+  transitionEl: HTMLDivElement;
+
+  private userChangedValue = false;
+
+  private _value: string | string[] = "";
+
+  private valueAsDateChangedExternally = false;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() datePickerActiveDate: Date;
+
+  @state() focusedInput: "start" | "end" = "start";
+
+  @state() private localeData: DateLocaleData;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available. */
+  @property() flipPlacements: FlipPlacement[];
+
+  /** When `true`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true }) form: string;
+  @property({ reflect: true }) form: string;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ reflect: true }) headingLevel: HeadingLevel;
+
+  /** Defines the layout of the component. */
+  @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  /** Specifies the latest allowed date ("yyyy-mm-dd"). */
+  @property({ reflect: true }) max: string;
+
+  /** Specifies the latest allowed date as a full date object. */
+  @property() maxAsDate: Date;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Partial<typeof DatePickerMessages>;
+
+  /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
+  @property({ reflect: true }) min: string;
+
+  /** Specifies the earliest allowed date as a full date object. */
+  @property() minAsDate: Date;
+
+  /** Specifies the monthStyle used by the component. */
+  @property() monthStyle: "abbreviated" | "wide" = "wide";
+
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
+  @property({ reflect: true }) name: string;
+
+  /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
+  @property({ reflect: true }) numberingSystem: NumberingSystem;
+
+  /** When `true`, displays the `calcite-date-picker` component. */
+  @property({ reflect: true }) open = false;
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   */
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies the placement of the `calcite-date-picker` relative to the component.
+   *
+   * @default "bottom-start"
+   */
+  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+
+  /**
+   * When `true`, disables the default behavior on the third click of narrowing or extending the range.
+   * Instead starts a new range.
+   */
+  @property() proximitySelectionDisabled = false;
+
+  /** When `true`, activates a range for the component. */
+  @property({ reflect: true }) range = false;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop({ reflect: true }) readOnly = false;
+  @property({ reflect: true }) readOnly = false;
 
-  @Watch("disabled")
-  @Watch("readOnly")
-  handleDisabledAndReadOnlyChange(value: boolean): void {
-    if (!value) {
-      this.open = false;
-    }
-  }
+  /** When `true`, the component must have a value in order for the form to submit. */
+  @property({ reflect: true }) required = false;
 
-  /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
-  @Prop({ mutable: true }) value: string | string[] = "";
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  @Watch("value")
-  valueWatcher(newValue: string | string[]): void {
-    if (!this.userChangedValue) {
-      let newValueAsDate: Date | Date[];
-
-      if (Array.isArray(newValue)) {
-        newValueAsDate = getValueAsDateRange(newValue);
-      } else if (newValue) {
-        newValueAsDate = dateFromISO(newValue);
-      } else {
-        newValueAsDate = undefined;
-      }
-
-      if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
-        this.valueAsDate = newValueAsDate;
-      }
-
-      this.localizeInputValues();
-    }
-    this.userChangedValue = false;
-  }
-
-  @Watch("valueAsDate")
-  valueAsDateWatcher(valueAsDate: Date | Date[]): void {
-    const newValue = Array.isArray(valueAsDate)
-      ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
-      : dateToISO(valueAsDate);
-    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
-
-    if (this.value !== newValue) {
-      this.valueAsDateChangedExternally = true;
-      this.value = newValue;
-      this.valueAsDateChangedExternally = false;
-    }
-  }
-
-  /**
-   * Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() flipPlacements: FlipPlacement[];
-
-  @Watch("flipPlacements")
-  flipPlacementsHandler(): void {
-    this.setFilteredPlacements();
-    this.reposition(true);
-  }
-
-  /**
-   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
-
-  /** The component's value as a full date object. */
-  @Prop({ mutable: true }) valueAsDate: Date | Date[];
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<InputDatePickerMessages & DatePickerMessages>;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: InputDatePickerMessages;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  /** Specifies the earliest allowed date as a full date object. */
-  @Prop({ mutable: true }) minAsDate: Date;
-
-  /** Specifies the latest allowed date as a full date object. */
-  @Prop({ mutable: true }) maxAsDate: Date;
-
-  /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
-  @Prop({ reflect: true }) min: string;
-
-  @Watch("min")
-  onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
-  }
-
-  /** Specifies the latest allowed date ("yyyy-mm-dd"). */
-  @Prop({ reflect: true }) max: string;
-
-  @Watch("max")
-  onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
-  }
-
-  /**
-   * Specifies the monthStyle used by the component.
-   */
-  @Prop() monthStyle: "abbreviated" | "wide" = "wide";
-
-  /** When `true`, displays the `calcite-date-picker` component. */
-  @Prop({ mutable: true, reflect: true }) open = false;
-
-  @Watch("open")
-  openHandler(): void {
-    onToggleOpenCloseComponent(this);
-
-    if (this.disabled || this.readOnly) {
-      this.open = false;
-      return;
-    }
-
-    this.reposition(true);
-  }
-
-  /** Specifies the validation message to display under the component. */
-  @Prop() validationMessage: string;
+  /** Specifies the status of the input field, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
+    | IconNameOrString
+    | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage: string;
 
   /**
    * The current validation state of the component.
@@ -291,8 +297,7 @@ export class InputDatePicker
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity: MutableValidityState = {
+  @property() validity: MutableValidityState = {
     valid: false,
     badInput: false,
     customError: false,
@@ -306,132 +311,26 @@ export class InputDatePicker
     valueMissing: false,
   };
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
-  @Prop({ reflect: true }) name: string;
-
-  /**
-   * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
-   *
-   */
-  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ reflect: true }) status: Status = "idle";
-
-  /**
-   * Specifies the placement of the `calcite-date-picker` relative to the component.
-   *
-   * @default "bottom-start"
-   */
-  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
-
-  /** When `true`, activates a range for the component. */
-  @Prop({ reflect: true }) range = false;
-
-  /** When `true`, the component must have a value in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
-
-  /**
-   * Determines the type of positioning to use for the overlaid content.
-   *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
-   */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
-
-  @Watch("overlayPositioning")
-  overlayPositioningHandler(): void {
-    this.reposition(true);
+  /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
+  @property()
+  get value(): string | string[] {
+    return this._value;
   }
 
-  /**
-   * When `true`, disables the default behavior on the third click of narrowing or extending the range.
-   * Instead starts a new range.
-   */
-  @Prop() proximitySelectionDisabled = false;
-
-  /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
-    const target = event.target as HTMLCalciteInputElement;
-    const value = target.value;
-    const parsedValue = this.parseNumerals(value);
-    const formattedValue = this.formatNumerals(parsedValue);
-
-    target.value = formattedValue;
-
-    const { year } = datePartsFromLocalizedString(value, this.localeData);
-
-    if (year && year.length < 4) {
-      return;
+  set value(value: string | string[]) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value);
     }
-
-    const date = dateFromLocalizedString(value, this.localeData);
-
-    if (inRange(date, this.min, this.max)) {
-      this.datePickerActiveDate = date;
-    }
-  };
-
-  private calciteInternalInputBlurHandler = (): void => {
-    this.commitValue();
-  };
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when the component's `value` changes.
-   */
-  @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
-
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteInputDatePickerBeforeClose: EventEmitter<void>;
-
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteInputDatePickerClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteInputDatePickerBeforeOpen: EventEmitter<void>;
-
-  /** Fires when the component is open and animation is complete. */
-  @Event({ cancelable: false }) calciteInputDatePickerOpen: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
   }
+
+  /** The component's value as a full date object. */
+  @property() valueAsDate: Date | Date[];
+
+  // #endregion
+
+  // #region Public Methods
 
   /**
    * Updates the position of the component.
@@ -439,7 +338,7 @@ export class InputDatePicker
    * @param delayed If true, the repositioning is delayed.
    * @returns void
    */
-  @Method()
+  @method()
   async reposition(delayed = false): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
@@ -457,15 +356,44 @@ export class InputDatePicker
     );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
+  }
 
-  connectedCallback(): void {
-    connectLocalized(this);
+  // #endregion
 
+  // #region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteInputDatePickerBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteInputDatePickerBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component's `value` changes. */
+  calciteInputDatePickerChange = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteInputDatePickerClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is open and animation is complete. */
+  calciteInputDatePickerOpen = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("blur", this.blurHandler);
+    this.listen("keydown", this.keyDownHandler);
+    this.handleDateTimeFormatChange();
+  }
+
+  override connectedCallback(): void {
     const { open } = this;
     open && this.openHandler();
 
@@ -498,13 +426,11 @@ export class InputDatePicker
 
     connectLabel(this);
     connectForm(this);
-    connectMessages(this);
-
     this.setFilteredPlacements();
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: this.effectiveLocale,
+      locale: this.messages._lang,
       useGrouping: false,
     };
 
@@ -515,249 +441,203 @@ export class InputDatePicker
     connectFloatingUI(this);
   }
 
-  async componentWillLoad(): Promise<void> {
+  async load(): Promise<void> {
     setUpLoadableComponent(this);
-    await Promise.all([this.loadLocaleData(), setUpMessages(this)]);
+    this.handleDateTimeFormatChange();
+    await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
   }
 
-  componentDidLoad(): void {
+  /**
+   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
+   *
+   * @param changes
+   */
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
+      this.handleFocusTrapDisabled(this.focusTrapDisabled);
+    }
+
+    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+      this.handleDisabledAndReadOnlyChange(this.disabled);
+    }
+
+    if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
+      this.handleDisabledAndReadOnlyChange(this.readOnly);
+    }
+
+    if (changes.has("valueAsDate")) {
+      this.valueAsDateWatcher(this.valueAsDate);
+    }
+
+    if (changes.has("flipPlacements")) {
+      this.flipPlacementsHandler();
+    }
+
+    if (changes.has("min")) {
+      this.onMinChanged(this.min);
+    }
+
+    if (changes.has("max")) {
+      this.onMaxChanged(this.max);
+    }
+
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      this.openHandler();
+    }
+
+    if (
+      changes.has("overlayPositioning") &&
+      (this.hasUpdated || this.overlayPositioning !== "absolute")
+    ) {
+      this.overlayPositioningHandler();
+    }
+
+    if (changes.has("numberingSystem") || changes.has("messages")) {
+      this.handleDateTimeFormatChange();
+    }
+
+    if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
+      this.setReferenceEl();
+    }
+
+    if (changes.has("messages")) {
+      this.effectiveLocaleChange();
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
     setComponentLoaded(this);
     this.localizeInputValues();
     connectFloatingUI(this);
   }
 
-  disconnectedCallback(): void {
+  override disconnectedCallback(): void {
     deactivateFocusTrap(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
+  // #endregion
+
+  // #region Private Methods
+
+  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
-  render(): VNode {
-    const { disabled, effectiveLocale, messages, numberingSystem, readOnly } = this;
-    numberStringFormatter.numberFormatOptions = {
-      numberingSystem,
-      locale: effectiveLocale,
-      useGrouping: false,
-    };
-
-    return (
-      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler}>
-        <InteractiveContainer disabled={this.disabled}>
-          {this.localeData && (
-            <div class={CSS.container}>
-              <div class={CSS.inputContainer}>
-                <div
-                  class={CSS.inputWrapper}
-                  data-position="start"
-                  onClick={this.onInputWrapperClick}
-                  onPointerDown={this.onInputWrapperPointerDown}
-                  ref={this.setStartWrapper}
-                >
-                  <calcite-input-text
-                    aria-autocomplete="none"
-                    aria-controls={this.dialogId}
-                    aria-describedby={this.placeholderTextId}
-                    aria-errormessage={IDS.validationMessage}
-                    aria-expanded={toAriaBoolean(this.open)}
-                    aria-haspopup="dialog"
-                    aria-invalid={toAriaBoolean(this.status === "invalid")}
-                    class={{
-                      [CSS.input]: true,
-                      [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
-                      [CSS.inputNoRightBorder]: this.range,
-                    }}
-                    disabled={disabled}
-                    icon="calendar"
-                    onCalciteInputTextInput={this.calciteInternalInputInputHandler}
-                    onCalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
-                    onCalciteInternalInputTextFocus={this.startInputFocus}
-                    placeholder={this.localeData?.placeholder}
-                    readOnly={readOnly}
-                    ref={this.setStartInput}
-                    role="combobox"
-                    scale={this.scale}
-                    status={this.status}
-                  />
-                  {!this.readOnly &&
-                    !this.range &&
-                    this.renderToggleIcon(this.open && this.focusedInput === "start")}
-                  <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                    Date Format: {this.localeData?.placeholder}
-                  </span>
-                </div>
-                <div
-                  aria-hidden={toAriaBoolean(!this.open)}
-                  aria-label={messages.chooseDate}
-                  aria-live="polite"
-                  aria-modal="true"
-                  class={CSS.menu}
-                  id={this.dialogId}
-                  ref={this.setFloatingEl}
-                  role="dialog"
-                >
-                  <div
-                    class={{
-                      [CSS.calendarWrapper]: true,
-                      [FloatingCSS.animation]: true,
-                      [FloatingCSS.animationActive]: this.open,
-                    }}
-                    ref={this.setTransitionEl}
-                  >
-                    <calcite-date-picker
-                      activeDate={this.datePickerActiveDate}
-                      activeRange={this.focusedInput}
-                      headingLevel={this.headingLevel}
-                      layout={this.layout}
-                      max={this.max}
-                      maxAsDate={this.maxAsDate}
-                      messageOverrides={this.messageOverrides}
-                      min={this.min}
-                      minAsDate={this.minAsDate}
-                      monthStyle={this.monthStyle}
-                      numberingSystem={numberingSystem}
-                      onCalciteDatePickerChange={this.handleDateChange}
-                      onCalciteDatePickerRangeChange={this.handleDateRangeChange}
-                      proximitySelectionDisabled={this.proximitySelectionDisabled}
-                      range={this.range}
-                      ref={this.setDatePickerRef}
-                      scale={this.scale}
-                      tabIndex={this.open ? undefined : -1}
-                      valueAsDate={this.valueAsDate}
-                    />
-                  </div>
-                </div>
-                {this.range && (
-                  <div class={CSS.dividerContainer}>
-                    <div class={CSS.divider} />
-                  </div>
-                )}
-                {this.range && (
-                  <div
-                    class={CSS.inputWrapper}
-                    data-position="end"
-                    onClick={this.onInputWrapperClick}
-                    onPointerDown={this.onInputWrapperPointerDown}
-                    ref={this.setEndWrapper}
-                  >
-                    <calcite-input-text
-                      aria-autocomplete="none"
-                      aria-controls={this.dialogId}
-                      aria-expanded={toAriaBoolean(this.open)}
-                      aria-haspopup="dialog"
-                      class={{
-                        [CSS.input]: true,
-                        [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
-                        [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
-                        [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
-                      }}
-                      disabled={disabled}
-                      icon="calendar"
-                      onCalciteInputTextInput={this.calciteInternalInputInputHandler}
-                      onCalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
-                      onCalciteInternalInputTextFocus={this.endInputFocus}
-                      placeholder={this.localeData?.placeholder}
-                      readOnly={readOnly}
-                      ref={this.setEndInput}
-                      role="combobox"
-                      scale={this.scale}
-                      status={this.status}
-                    />
-                    {!this.readOnly &&
-                      this.layout === "horizontal" &&
-                      this.renderToggleIcon(this.open)}
-                  </div>
-                )}
-              </div>
-              {this.range && this.layout === "vertical" && (
-                <div class={CSS.verticalChevronContainer}>
-                  <calcite-icon
-                    icon={this.open ? "chevron-up" : "chevron-down"}
-                    scale={getIconScale(this.scale)}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-          <HiddenFormInputSlot component={this} />
-          {this.validationMessage && this.status === "invalid" ? (
-            <Validation
-              icon={this.validationIcon}
-              id={IDS.validationMessage}
-              message={this.validationMessage}
-              scale={this.scale}
-              status={this.status}
-            />
-          ) : null}
-        </InteractiveContainer>
-      </Host>
-    );
+  private handleDisabledAndReadOnlyChange(value: boolean): void {
+    if (!value) {
+      this.open = false;
+    }
   }
 
-  renderToggleIcon(open: boolean): VNode {
-    return (
-      // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
-      <span class={CSS.toggleIcon} tabIndex={-1}>
-        <calcite-icon
-          class={CSS.chevronIcon}
-          icon={open ? "chevron-up" : "chevron-down"}
-          scale={getIconScale(this.scale)}
-        />
-      </span>
-    );
+  private valueWatcher(newValue: string | string[]): void {
+    if (!this.userChangedValue) {
+      let newValueAsDate: Date | Date[];
+
+      if (Array.isArray(newValue)) {
+        newValueAsDate = getValueAsDateRange(newValue);
+      } else if (newValue) {
+        newValueAsDate = dateFromISO(newValue);
+      } else {
+        newValueAsDate = undefined;
+      }
+
+      if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
+        this.valueAsDate = newValueAsDate;
+      }
+
+      this.localizeInputValues();
+    }
+    this.userChangedValue = false;
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
+  private valueAsDateWatcher(valueAsDate: Date | Date[]): void {
+    const newValue = Array.isArray(valueAsDate)
+      ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
+      : dateToISO(valueAsDate);
+    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
 
-  @Element() el: HTMLCalciteInputDatePickerElement;
+    if (this.value !== newValue) {
+      this.valueAsDateChangedExternally = true;
+      this.value = newValue;
+      this.valueAsDateChangedExternally = false;
+    }
+  }
 
-  private currentOpenInput: "start" | "end";
+  private flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+    this.reposition(true);
+  }
 
-  private datePickerEl: HTMLCalciteDatePickerElement;
+  private onMinChanged(min: string): void {
+    this.minAsDate = dateFromISO(min);
+  }
 
-  private dialogId = `date-picker-dialog--${guid()}`;
+  private onMaxChanged(max: string): void {
+    this.maxAsDate = dateFromISO(max);
+  }
 
-  filteredFlipPlacements: FlipPlacement[];
+  private openHandler(): void {
+    onToggleOpenCloseComponent(this);
 
-  private focusOnOpen = false;
+    if (this.disabled || this.readOnly) {
+      this.open = false;
+      return;
+    }
 
-  focusTrap: FocusTrap;
+    this.reposition(true);
+  }
 
-  labelEl: HTMLCalciteLabelElement;
+  private overlayPositioningHandler(): void {
+    this.reposition(true);
+  }
 
-  formEl: HTMLFormElement;
+  private calciteInternalInputInputHandler(event: CustomEvent<any>): void {
+    const target = event.target as Input["el"];
+    const value = target.value;
+    const parsedValue = this.parseNumerals(value);
+    const formattedValue = this.formatNumerals(parsedValue);
 
-  defaultValue: InputDatePicker["value"];
+    target.value = formattedValue;
 
-  private dateTimeFormat: Intl.DateTimeFormat;
+    const { year } = datePartsFromLocalizedString(value, this.localeData);
 
-  @State() datePickerActiveDate: Date;
+    if (year && year.length < 4) {
+      return;
+    }
 
-  @State() defaultMessages: InputDatePickerMessages;
+    const date = dateFromLocalizedString(value, this.localeData);
 
-  @State() effectiveLocale = "";
+    if (inRange(date, this.min, this.max)) {
+      this.datePickerActiveDate = date;
+    }
+  }
 
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
+  private calciteInternalInputBlurHandler(): void {
+    this.commitValue();
+  }
+
+  private effectiveLocaleChange(): void {
     this.loadLocaleData();
   }
 
-  @Watch("effectiveLocale")
-  @Watch("numberingSystem")
-  handleDateTimeFormatChange(): void {
+  private handleDateTimeFormatChange(): void {
     const formattingOptions: Intl.DateTimeFormatOptions = {
       // we explicitly set numberingSystem to prevent the browser-inferred value
       // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
@@ -765,37 +645,12 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(this.effectiveLocale),
+      getDateFormatSupportedLocale(this.messages._lang),
       formattingOptions,
     );
   }
 
-  @State() focusedInput: "start" | "end" = "start";
-
-  @State() private localeData: DateLocaleData;
-
-  private startInput: HTMLCalciteInputTextElement;
-
-  private endInput: HTMLCalciteInputTextElement;
-
-  floatingEl: HTMLDivElement;
-
-  referenceEl: HTMLDivElement;
-
-  private startWrapper: HTMLDivElement;
-
-  private endWrapper: HTMLDivElement;
-
-  private userChangedValue = false;
-
-  private rangeStartValueChangedByUser = false;
-
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLDivElement;
-
-  @Watch("layout")
-  setReferenceEl(): void {
+  private setReferenceEl(): void {
     const { focusedInput, layout, endWrapper, startWrapper } = this;
 
     this.referenceEl =
@@ -806,21 +661,11 @@ export class InputDatePicker
     requestAnimationFrame(() => connectFloatingUI(this));
   }
 
-  private valueAsDateChangedExternally = false;
-
-  private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private onInputWrapperPointerDown = (): void => {
+  private onInputWrapperPointerDown(): void {
     this.currentOpenInput = this.focusedInput;
-  };
+  }
 
-  private onInputWrapperClick = (event: MouseEvent) => {
+  private onInputWrapperClick(event: MouseEvent) {
     const { range, endInput, startInput, currentOpenInput } = this;
     const currentTarget = event.currentTarget as HTMLDivElement;
     const position = currentTarget.getAttribute("data-position") as "start" | "end";
@@ -835,19 +680,19 @@ export class InputDatePicker
     if (!range || !this.open || currentOpenInput === position) {
       this.open = !this.open;
     }
-  };
+  }
 
-  setFilteredPlacements = (): void => {
+  private setFilteredPlacements(): void {
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
       : null;
-  };
+  }
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
+  private setTransitionEl(el: HTMLDivElement): void {
     this.transitionEl = el;
-  };
+  }
 
   onLabelClick(): void {
     this.setFocus();
@@ -885,17 +730,17 @@ export class InputDatePicker
     syncHiddenFormInput("date", this, input);
   }
 
-  setStartInput = (el: HTMLCalciteInputTextElement): void => {
+  private setStartInput(el: InputText["el"]): void {
     this.startInput = el;
-  };
+  }
 
-  setEndInput = (el: HTMLCalciteInputTextElement): void => {
+  private setEndInput(el: InputText["el"]): void {
     this.endInput = el;
-  };
+  }
 
-  private blurHandler = (): void => {
+  private blurHandler(): void {
     this.open = false;
-  };
+  }
 
   private commitValue(): void {
     const { focusedInput, value } = this;
@@ -940,7 +785,7 @@ export class InputDatePicker
     }
   }
 
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     const { defaultPrevented, key } = event;
 
     if (defaultPrevented) {
@@ -973,32 +818,32 @@ export class InputDatePicker
       event.preventDefault();
       this.restoreInputFocus(true);
     }
-  };
+  }
 
-  startInputFocus = (): void => {
+  private startInputFocus(): void {
     this.focusedInput = "start";
-  };
+  }
 
-  endInputFocus = (): void => {
+  private endInputFocus(): void {
     this.focusedInput = "end";
-  };
+  }
 
-  setFloatingEl = (el: HTMLDivElement): void => {
+  private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-  };
+  }
 
-  setStartWrapper = (el: HTMLDivElement): void => {
+  private setStartWrapper(el: HTMLDivElement): void {
     this.startWrapper = el;
     this.setReferenceEl();
-  };
+  }
 
-  setEndWrapper = (el: HTMLDivElement): void => {
+  private setEndWrapper(el: HTMLDivElement): void {
     this.endWrapper = el;
     this.setReferenceEl();
-  };
+  }
 
-  setDatePickerRef = (el: HTMLCalciteDatePickerElement): void => {
+  private setDatePickerRef(el: DatePicker["el"]): void {
     this.datePickerEl = el;
     connectFocusTrap(this, {
       focusTrapEl: el,
@@ -1011,7 +856,7 @@ export class InputDatePicker
         onDeactivate: this.focusTrapDeactivates,
       },
     });
-  };
+  }
 
   private async loadLocaleData(): Promise<void> {
     if (!isBrowser()) {
@@ -1019,10 +864,10 @@ export class InputDatePicker
     }
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: this.effectiveLocale,
+      locale: this.messages._lang,
       useGrouping: false,
     };
-    this.localeData = await getLocaleData(this.effectiveLocale);
+    this.localeData = await getLocaleData(this.messages._lang);
     this.localizeInputValues();
   }
 
@@ -1031,17 +876,17 @@ export class InputDatePicker
    *
    * @param event CalciteDatePicker custom change event
    */
-  handleDateChange = (event: CustomEvent<void>): void => {
+  private handleDateChange(event: CustomEvent<void>): void {
     if (this.range) {
       return;
     }
 
     event.stopPropagation();
 
-    this.setValue((event.target as HTMLCalciteDatePickerElement).valueAsDate as Date);
+    this.setValue((event.target as DatePicker["el"]).valueAsDate as Date);
     this.localizeInputValues();
     this.restoreInputFocus();
-  };
+  }
 
   private shouldFocusRangeStart(): boolean {
     const startValue = this.value[0];
@@ -1055,19 +900,19 @@ export class InputDatePicker
     return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
   }
 
-  private handleDateRangeChange = (event: CustomEvent<void>): void => {
+  private handleDateRangeChange(event: CustomEvent<void>): void {
     if (!this.range) {
       return;
     }
 
     event.stopPropagation();
 
-    const value = (event.target as HTMLCalciteDatePickerElement).valueAsDate as Date[];
+    const value = (event.target as DatePicker["el"]).valueAsDate as Date[];
 
     this.setRangeValue(value);
     this.localizeInputValues();
     this.restoreInputFocus();
-  };
+  }
 
   private restoreInputFocus(isDatePickerClosed = false): void {
     if (!this.range) {
@@ -1111,15 +956,15 @@ export class InputDatePicker
     this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
 
-  private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
+  private setInputValue(newValue: string, input: "start" | "end" = "start"): void {
     const inputEl = this[`${input}Input`];
     if (!inputEl) {
       return;
     }
     inputEl.value = newValue;
-  };
+  }
 
-  private setRangeValue = (valueAsDate: Date[]): void => {
+  private setRangeValue(valueAsDate: Date[]): void {
     if (!this.range) {
       return;
     }
@@ -1162,9 +1007,9 @@ export class InputDatePicker
         this.setInputValue(oldValue);
       }
     }
-  };
+  }
 
-  private setValue = (value: Date | string): void => {
+  private setValue(value: Date | string): void {
     if (this.range) {
       return;
     }
@@ -1187,7 +1032,7 @@ export class InputDatePicker
       this.value = oldValue;
       this.setInputValue(oldValue as string);
     }
-  };
+  }
 
   private warnAboutInvalidValue(value: string): void {
     console.warn(
@@ -1195,10 +1040,8 @@ export class InputDatePicker
     );
   }
 
-  private commonDateSeparators = [".", "-", "/"];
-
-  private formatNumerals = (value: string): string =>
-    value
+  private formatNumerals(value: string): string {
+    return value
       ? value
           .split("")
           .map((char: string) =>
@@ -1210,9 +1053,10 @@ export class InputDatePicker
           )
           .join("")
       : "";
+  }
 
-  private parseNumerals = (value: string): string =>
-    value
+  private parseNumerals(value: string): string {
+    return value
       ? value
           .split("")
           .map((char: string) =>
@@ -1220,6 +1064,7 @@ export class InputDatePicker
           )
           .join("")
       : "";
+  }
 
   private getNormalizedDate(value: string): string {
     if (!value) {
@@ -1235,8 +1080,192 @@ export class InputDatePicker
     return `${normalizedYear}-${month}-${day}`;
   }
 
-  private focusInput = (): void => {
+  private focusInput(): void {
     const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
     focusedInput.setFocus();
-  };
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const {
+      disabled,
+      messages: { _lang: effectiveLocale },
+      messages,
+      numberingSystem,
+      readOnly,
+    } = this;
+    numberStringFormatter.numberFormatOptions = {
+      numberingSystem,
+      locale: effectiveLocale,
+      useGrouping: false,
+    };
+
+    return (
+      <InteractiveContainer disabled={this.disabled}>
+        {this.localeData && (
+          <div class={CSS.container}>
+            <div class={CSS.inputContainer}>
+              <div
+                class={CSS.inputWrapper}
+                data-position="start"
+                onClick={this.onInputWrapperClick}
+                onPointerDown={this.onInputWrapperPointerDown}
+                ref={this.setStartWrapper}
+              >
+                <calcite-input-text
+                  aria-controls={this.dialogId}
+                  aria-describedby={this.placeholderTextId}
+                  aria-errormessage={IDS.validationMessage}
+                  ariaAutoComplete="none"
+                  ariaExpanded={this.open}
+                  ariaHasPopup="dialog"
+                  ariaInvalid={this.status === "invalid"}
+                  class={{
+                    [CSS.input]: true,
+                    [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
+                    [CSS.inputNoRightBorder]: this.range,
+                  }}
+                  disabled={disabled}
+                  icon="calendar"
+                  oncalciteInputTextInput={this.calciteInternalInputInputHandler}
+                  oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
+                  oncalciteInternalInputTextFocus={this.startInputFocus}
+                  placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
+                  ref={this.setStartInput}
+                  role="combobox"
+                  scale={this.scale}
+                  status={this.status}
+                />
+                {!this.readOnly &&
+                  !this.range &&
+                  this.renderToggleIcon(this.open && this.focusedInput === "start")}
+                <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+                  Date Format: {this.localeData?.placeholder}
+                </span>
+              </div>
+              <div
+                ariaHidden={!this.open}
+                ariaLabel={messages.chooseDate}
+                ariaLive="polite"
+                ariaModal="true"
+                class={CSS.menu}
+                id={this.dialogId}
+                ref={this.setFloatingEl}
+                role="dialog"
+              >
+                <div
+                  class={{
+                    [CSS.calendarWrapper]: true,
+                    [FloatingCSS.animation]: true,
+                    [FloatingCSS.animationActive]: this.open,
+                  }}
+                  ref={this.setTransitionEl}
+                >
+                  <calcite-date-picker
+                    activeDate={this.datePickerActiveDate}
+                    activeRange={this.focusedInput}
+                    headingLevel={this.headingLevel}
+                    layout={this.layout}
+                    max={this.max}
+                    maxAsDate={this.maxAsDate}
+                    messageOverrides={this.messageOverrides}
+                    min={this.min}
+                    minAsDate={this.minAsDate}
+                    monthStyle={this.monthStyle}
+                    numberingSystem={numberingSystem}
+                    oncalciteDatePickerChange={this.handleDateChange}
+                    oncalciteDatePickerRangeChange={this.handleDateRangeChange}
+                    proximitySelectionDisabled={this.proximitySelectionDisabled}
+                    range={this.range}
+                    ref={this.setDatePickerRef}
+                    scale={this.scale}
+                    tabIndex={this.open ? undefined : -1}
+                    valueAsDate={this.valueAsDate}
+                  />
+                </div>
+              </div>
+              {this.range && (
+                <div class={CSS.dividerContainer}>
+                  <div class={CSS.divider} />
+                </div>
+              )}
+              {this.range && (
+                <div
+                  class={CSS.inputWrapper}
+                  data-position="end"
+                  onClick={this.onInputWrapperClick}
+                  onPointerDown={this.onInputWrapperPointerDown}
+                  ref={this.setEndWrapper}
+                >
+                  <calcite-input-text
+                    aria-controls={this.dialogId}
+                    ariaAutoComplete="none"
+                    ariaExpanded={this.open}
+                    ariaHasPopup="dialog"
+                    class={{
+                      [CSS.input]: true,
+                      [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
+                      [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
+                      [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
+                    }}
+                    disabled={disabled}
+                    icon="calendar"
+                    oncalciteInputTextInput={this.calciteInternalInputInputHandler}
+                    oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
+                    oncalciteInternalInputTextFocus={this.endInputFocus}
+                    placeholder={this.localeData?.placeholder}
+                    readOnly={readOnly}
+                    ref={this.setEndInput}
+                    role="combobox"
+                    scale={this.scale}
+                    status={this.status}
+                  />
+                  {!this.readOnly &&
+                    this.layout === "horizontal" &&
+                    this.renderToggleIcon(this.open)}
+                </div>
+              )}
+            </div>
+            {this.range && this.layout === "vertical" && (
+              <div class={CSS.verticalChevronContainer}>
+                <calcite-icon
+                  icon={this.open ? "chevron-up" : "chevron-down"}
+                  scale={getIconScale(this.scale)}
+                />
+              </div>
+            )}
+          </div>
+        )}
+        <HiddenFormInputSlot component={this} />
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </InteractiveContainer>
+    );
+  }
+
+  private renderToggleIcon(open: boolean): JsxNode {
+    return (
+      // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
+      <span class={CSS.toggleIcon} tabIndex={-1}>
+        <calcite-icon
+          class={CSS.chevronIcon}
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
+      </span>
+    );
+  }
+
+  // #endregion
 }

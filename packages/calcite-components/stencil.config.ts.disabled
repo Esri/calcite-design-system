@@ -1,3 +1,6 @@
+// @ts-nocheck
+// TODO: [MIGRATION] migrate to vite.config.ts and delete this file
+// TODO: [MIGRATION] in Stencil your component folders might have had 'readme.md' files. These are not used in Lumina and can be deleted.
 import { execSync } from "child_process";
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil-community/postcss";

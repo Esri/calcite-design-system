@@ -1,8 +1,10 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
+import type { Sheet } from "./sheet";
 
 describe("calcite-sheet properties", () => {
   describe("defaults", () => {
@@ -149,7 +151,7 @@ describe("calcite-sheet properties", () => {
 
   it("calls the beforeClose method prior to closing via click", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-sheet open></calcite-sheet>
@@ -157,10 +159,8 @@ describe("calcite-sheet properties", () => {
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose),
+      (elm: Sheet["el"]) =>
+        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
     );
     await page.waitForChanges();
     expect(await sheet.getProperty("opened")).toBe(true);
@@ -173,7 +173,7 @@ describe("calcite-sheet properties", () => {
 
   it("calls the beforeClose method prior to closing via escape", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-sheet open></calcite-sheet>
@@ -181,10 +181,8 @@ describe("calcite-sheet properties", () => {
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose),
+      (elm: Sheet["el"]) =>
+        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
     );
     await skipAnimations(page);
     await page.waitForEvent("calciteSheetOpen");
@@ -199,7 +197,7 @@ describe("calcite-sheet properties", () => {
 
   it("calls the beforeClose method prior to closing via attribute", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-sheet open></calcite-sheet>
@@ -207,10 +205,8 @@ describe("calcite-sheet properties", () => {
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose),
+      (elm: Sheet["el"]) =>
+        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
     );
     await page.waitForChanges();
     sheet.setProperty("open", true);
@@ -225,15 +221,14 @@ describe("calcite-sheet properties", () => {
   it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
 
-    const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+    const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
 
     await page.setContent(`<calcite-sheet open></calcite-sheet>`);
 
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: Sheet["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const sheet = await page.find("calcite-sheet");
@@ -251,8 +246,7 @@ describe("calcite-sheet properties", () => {
 
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: Sheet["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const sheet = await page.find("calcite-sheet");
@@ -373,7 +367,7 @@ describe("calcite-sheet properties", () => {
 
       type SheetEventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
-      await page.$eval("calcite-sheet", (sheet: HTMLCalciteSheetElement) => {
+      await page.$eval("calcite-sheet", (sheet: Sheet["el"]) => {
         const receivedEvents: string[] = [];
         (window as SheetEventOrderWindow).events = receivedEvents;
 
