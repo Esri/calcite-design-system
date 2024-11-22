@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.24...@esri/calcite-components@3.0.0-next.25) (2024-11-22)
+
+### Bug Fixes
+
+- fix core transitions across components ([#10836](https://github.com/Esri/calcite-design-system/issues/10836)) ([47fe92d](https://github.com/Esri/calcite-design-system/commit/47fe92da9f362b213b1568ceafc5c07e2fa97301)), closes [#10837](https://github.com/Esri/calcite-design-system/issues/10837)
+- **link:** fix underline animation ([#10835](https://github.com/Esri/calcite-design-system/issues/10835)) ([e2ed393](https://github.com/Esri/calcite-design-system/commit/e2ed39360f63f499448953f00e3f31e3d6fa6148)), closes [#7284](https://github.com/Esri/calcite-design-system/issues/7284)
+
 ## [3.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.23...@esri/calcite-components@3.0.0-next.24) (2024-11-22)
 
 ### Features
