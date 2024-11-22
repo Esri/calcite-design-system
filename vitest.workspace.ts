@@ -8,7 +8,5 @@ import { workspaces } from "./package.json";
  * @see https://vitest.dev/guide/workspace.html
  */
 export default defineWorkspace(
-  workspaces
-    .filter((workspace) => !workspace.includes("calcite-components-angular"))
-    .map((workspace) => `${workspace}/vite.config.ts`),
+  workspaces.map((workspace) => `${workspace}/vite.config.ts`),
 );

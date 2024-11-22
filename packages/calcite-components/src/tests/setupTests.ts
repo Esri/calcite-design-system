@@ -13,9 +13,7 @@ const reported = new Set();
 
 beforeEach(() => {
   console.warn = vi.fn((...args) => {
-    /**
-     * Only log once if component is triggering re-render in updated()
-     */
+    /** Only log once if component is triggering re-render in updated() */
     if (typeof args[0] === "string" && args[0].includes("scheduled an update (generally because a property was set)")) {
       if (reported.has(args[0])) {
         return;

@@ -9,21 +9,23 @@
   try {
     const __dirname = dirname(fileURLToPath(import.meta.url));
 
-    const outFile = resolve(__dirname, "..", "dist", "docs", "translations-json.json");
+    const outFile = resolve(__dirname, "..", "dist", "docs", "translations.json");
     const assetsPaths = resolve(__dirname, "..", "dist", "calcite", "assets");
     const components = await readdir(assetsPaths);
 
     const data = {};
-    const messagesFilenameRegex = /messages_(.*)\.json/;
 
     for (const component of components) {
       const t9nPath = resolve(assetsPaths, component, "t9n");
+
       if (existsSync(t9nPath)) {
         data[component] = {};
         const messagesFileMain = JSON.parse(await readFile(resolve(t9nPath, "messages.json"), { encoding: "utf-8" }));
         Object.keys(messagesFileMain).forEach((key) => (data[component][key] = {}));
 
         const messagesFilenames = (await readdir(t9nPath, { withFileTypes: true })).map((dirent) => dirent.name);
+        const messagesFilenameRegex = new RegExp(`${component}\\.t9n\\.(.*)\\.json`);
+
         for (const messagesFilename of messagesFilenames) {
           const messagesFilenameMatch = messagesFilename.match(messagesFilenameRegex);
 
