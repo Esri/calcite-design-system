@@ -1,6 +1,5 @@
 import type { Label } from "../components/label/label";
 import { closestElementCrossShadowBoundary, isBefore, queryElementRoots } from "./dom";
-import { componentOnReady } from "./component";
 
 export interface LabelableComponent {
   /** When true, disabled prevents interaction. */
@@ -208,7 +207,7 @@ function onLabelDisconnected(this: LabelableComponent): void {
  * @param label - the label element
  */
 export async function associateExplicitLabelToUnlabeledComponent(label: Label["el"]): Promise<void> {
-  await componentOnReady(label);
+  await label.componentOnReady();
 
   const alreadyLabeled = labelToLabelables.has(label);
 
