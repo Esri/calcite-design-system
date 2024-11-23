@@ -168,57 +168,49 @@ export const nestedItems = (): string => html`
       label="Level 1 item 2"
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     >
-      <calcite-list mode="nested">
+      <calcite-list-item
+        open
+        label="Level 2 item 1"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      >
         <calcite-list-item
           open
-          label="Level 2 item 1"
+          label="Level 3 item 1"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        ></calcite-list-item>
+        <calcite-list-item
+          open
+          label="Level 3 item 2"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         >
-          <calcite-list mode="nested">
+          <calcite-list-item
+            open
+            label="Level 4 item 1"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          >
             <calcite-list-item
               open
-              label="Level 3 item 1"
+              label="Level 5 item 1"
               description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
             ></calcite-list-item>
-            <calcite-list-item
-              open
-              label="Level 3 item 2"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            >
-              <calcite-list mode="nested">
-                <calcite-list-item
-                  open
-                  label="Level 4 item 1"
-                  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                >
-                  <calcite-list mode="nested">
-                    <calcite-list-item
-                      open
-                      label="Level 5 item 1"
-                      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                    ></calcite-list-item>
-                  </calcite-list>
-                </calcite-list-item>
-              </calcite-list>
-              <calcite-list-item
-                open
-                label="Level 4 item 2"
-                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              ></calcite-list-item>
-              <calcite-list-item
-                open
-                label="Level 4 item 3"
-                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              ></calcite-list-item>
-            </calcite-list-item>
-            <calcite-list-item
-              open
-              label="Level 3 item 3"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            ></calcite-list-item>
-          </calcite-list>
+          </calcite-list-item>
+          <calcite-list-item
+            open
+            label="Level 4 item 2"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          ></calcite-list-item>
+          <calcite-list-item
+            open
+            label="Level 4 item 3"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          ></calcite-list-item>
         </calcite-list-item>
-      </calcite-list>
+        <calcite-list-item
+          open
+          label="Level 3 item 3"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        ></calcite-list-item>
+      </calcite-list-item>
       <calcite-list-item
         open
         label="Level 2 item 2"
@@ -659,22 +651,20 @@ export const filteredChildListItems_TestOnly = (): string =>
           </calcite-dropdown>
         </calcite-list-item>
         <calcite-list-item label="Rivers" value="rivers" open>
-          <calcite-list mode="nested">
-            <calcite-list-item label="Estuaries" value="estuaries">
-              <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
-                <calcite-action
-                  slot="trigger"
-                  appearance="transparent"
-                  icon="ellipsis"
-                  scale="s"
-                  text="Trails layer"
-                ></calcite-action>
-                <calcite-dropdown-group scale="s" selection-mode="none">
-                  <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
-                </calcite-dropdown-group>
-              </calcite-dropdown>
-            </calcite-list-item>
-          </calcite-list>
+          <calcite-list-item label="Estuaries" value="estuaries">
+            <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+              <calcite-action
+                slot="trigger"
+                appearance="transparent"
+                icon="ellipsis"
+                scale="s"
+                text="Trails layer"
+              ></calcite-action>
+              <calcite-dropdown-group scale="s" selection-mode="none">
+                <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-dropdown>
+          </calcite-list-item>
         </calcite-list-item>
       </calcite-list-item-group>
       <calcite-list-item-group heading="Tables">
@@ -714,7 +704,6 @@ export const filteredChildListItems_TestOnly = (): string =>
         </calcite-list-item>
       </calcite-list-item-group> </calcite-list
     ><calcite-list
-      mode="nested"
       filter-enabled
       filter-text="water"
       filter-placeholder="Find content"
@@ -752,22 +741,20 @@ export const filteredChildListItems_TestOnly = (): string =>
           </calcite-dropdown>
         </calcite-list-item>
         <calcite-list-item label="Rivers" value="rivers" open>
-          <calcite-list mode="nested">
-            <calcite-list-item label="Estuaries" value="estuaries">
-              <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
-                <calcite-action
-                  slot="trigger"
-                  appearance="transparent"
-                  icon="ellipsis"
-                  scale="s"
-                  text="Trails layer"
-                ></calcite-action>
-                <calcite-dropdown-group scale="s" selection-mode="none">
-                  <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
-                </calcite-dropdown-group>
-              </calcite-dropdown>
-            </calcite-list-item>
-          </calcite-list>
+          <calcite-list-item label="Estuaries" value="estuaries">
+            <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+              <calcite-action
+                slot="trigger"
+                appearance="transparent"
+                icon="ellipsis"
+                scale="s"
+                text="Trails layer"
+              ></calcite-action>
+              <calcite-dropdown-group scale="s" selection-mode="none">
+                <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-dropdown>
+          </calcite-list-item>
         </calcite-list-item>
       </calcite-list-item-group>
       <calcite-list-item-group heading="Tables">
@@ -1081,7 +1068,7 @@ export const filteredListItemsNoResults_TestOnly = (): string =>
   </calcite-list>`;
 
 export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</h4>
-  <calcite-list>
+  <calcite-list mode="nested">
     <calcite-list-item label="List Item" open>
       <calcite-list-item label="List Item"></calcite-list-item>
       <calcite-list-item label="List Item"></calcite-list-item>
