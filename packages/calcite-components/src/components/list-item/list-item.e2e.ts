@@ -373,6 +373,41 @@ describe("calcite-list-item", () => {
     expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
   });
 
+  it("should not fire calciteListItemToggle event without nested items", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item mode="nested"></calcite-list-item>`,
+    });
+
+    const listItem = await page.find("calcite-list-item");
+    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
+
+    expect(await listItem.getProperty("open")).toBe(false);
+
+    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+
+    expect(openButton.getAttribute("title")).toBe(null);
+
+    await openButton.click();
+    expect(await listItem.getProperty("open")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+
+    await openButton.click();
+    expect(await listItem.getProperty("open")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+  });
+
+  it("flat list should not render open container", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item mode="flat"
+        ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
+      ></calcite-list-item>`,
+    });
+
+    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+
+    expect(openButton).toBe(null);
+  });
+
   describe("themed", () => {
     describe(`selection-appearance="icon"`, () => {
       themed(
