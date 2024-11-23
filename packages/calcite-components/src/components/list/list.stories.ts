@@ -243,23 +243,18 @@ export const groupedItems = (): string => html`
         label="Cras iaculis ultricies nulla."
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       >
-        <calcite-list mode="nested">
+        <calcite-list-item
+          open
+          expanded
+          label="Ut aliquam sollicitudin leo."
+          description="Aliquam tincidunt mauris eu risus."
+        >
           <calcite-list-item
             open
-            expanded
-            label="Ut aliquam sollicitudin leo."
-            description="Aliquam tincidunt mauris eu risus."
-          >
-            <calcite-list mode="nested">
-              <calcite-list-item
-                open
-                label="Vestibulum commodo felis quis tortor."
-                description="Vestibulum auctor dapibus neque."
-              ></calcite-list-item>
-            </calcite-list>
-          </calcite-list-item>
-        </calcite-list>
-      </calcite-list-item>
+            label="Vestibulum commodo felis quis tortor."
+            description="Vestibulum auctor dapibus neque."
+          ></calcite-list-item></calcite-list-item
+      ></calcite-list-item>
     </calcite-list-item-group>
     <calcite-list-item-group heading="Digits">
       <calcite-list-item
