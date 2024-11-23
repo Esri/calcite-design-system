@@ -33,7 +33,7 @@ import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/list.t9n.en.json";
-import { ListDragDetail, ListMoveDetail } from "./interfaces";
+import { ListDragDetail, ListMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -99,6 +99,7 @@ export class List
       filterEl,
       filterEnabled,
       moveToItems,
+      mode,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -112,6 +113,7 @@ export class List
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
+        item.mode = mode;
       }
     });
 
@@ -238,6 +240,9 @@ export class List
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  /** Specifies the nesting behavior. */
+  @property({ reflect: true }) mode: ListMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
@@ -385,7 +390,8 @@ export class List
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
-        (this.hasUpdated || this.selectionAppearance !== "icon"))
+        (this.hasUpdated || this.selectionAppearance !== "icon")) ||
+      (changes.has("mode") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }

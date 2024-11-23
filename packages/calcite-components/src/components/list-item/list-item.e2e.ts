@@ -57,6 +57,10 @@ describe("calcite-list-item", () => {
         propertyName: "unavailable",
         defaultValue: false,
       },
+      {
+        propertyName: "mode",
+        defaultValue: undefined,
+      },
     ]);
   });
 

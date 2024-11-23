@@ -1,6 +1,16 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, focusable, disabled, defaults, t9n, themed } from "../../tests/commonTests";
+import {
+  accessible,
+  hidden,
+  renders,
+  focusable,
+  disabled,
+  defaults,
+  t9n,
+  themed,
+  reflects,
+} from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
@@ -75,6 +85,19 @@ describe("calcite-list", () => {
       {
         propertyName: "filterProps",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "mode",
+        defaultValue: "flat",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-list", [
+      {
+        propertyName: "mode",
+        value: "nested",
       },
     ]);
   });
