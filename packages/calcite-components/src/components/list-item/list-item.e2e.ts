@@ -352,7 +352,7 @@ describe("calcite-list-item", () => {
 
   it("should fire calciteListItemToggle event when opened and closed", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-list-item
+      html: html`<calcite-list-item mode="nested"
         ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });

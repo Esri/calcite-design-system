@@ -975,7 +975,7 @@ describe("calcite-list", () => {
     it("should navigate via ArrowRight and ArrowLeft", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list>
+        <calcite-list mode="nested">
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
               appearance="transparent"
@@ -1039,7 +1039,7 @@ describe("calcite-list", () => {
     it("should navigate a draggable list via ArrowRight and ArrowLeft", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list drag-enabled>
+        <calcite-list mode="nested" drag-enabled>
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
               appearance="transparent"
