@@ -7,7 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import {
   componentFocusable,
@@ -170,6 +170,9 @@ export class ListItem
 
   /** When `true`, the item is open to show child components. */
   @property({ reflect: true }) open = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
   @property({ reflect: true }) selected = false;
