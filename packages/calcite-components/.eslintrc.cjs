@@ -73,6 +73,18 @@ module.exports = {
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
+    "jsdoc/no-restricted-syntax": [
+      "error",
+      {
+        contexts: [
+          {
+            context: "any",
+            comment: `JsdocBlock:has(JsdocTag[tag="required"]):has(JsdocTag[tag="deprecated"])`,
+            message: "A property cannot be required and deprecated. Use `component#warnIfMissingRequiredProp` to handle required messaging.",
+          },
+        ],
+      },
+    ],
     "jsdoc/require-jsdoc": "off",
     "jsdoc/require-param-type": "off",
     "jsdoc/require-property-type": "off",
