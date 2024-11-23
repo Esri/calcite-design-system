@@ -475,7 +475,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
         }}
         key="queue-count"
       >
-        <calcite-chip scale={this.scale} value={queueText}>
+        <calcite-chip label={queueText} scale={this.scale} value={queueText}>
           {queueText}
         </calcite-chip>
       </div>

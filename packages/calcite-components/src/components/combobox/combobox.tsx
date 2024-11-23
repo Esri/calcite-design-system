@@ -1447,6 +1447,7 @@ export class Combobox
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={itemLabel}
+          label={label}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onFocusIn={() => (this.activeChipIndex = i)}
           oncalciteChipClose={() => this.calciteChipCloseHandler(item)}
@@ -1480,6 +1481,7 @@ export class Combobox
             !compactSelectionDisplay
           ),
         }}
+        label={label}
         ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1503,6 +1505,7 @@ export class Combobox
             compactSelectionDisplay
           ),
         }}
+        label={label}
         scale={scale}
         title={label}
         value=""
@@ -1555,6 +1558,7 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        label={label}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1596,6 +1600,7 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        label={label}
         scale={scale}
         title={label}
         value=""

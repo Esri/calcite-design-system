@@ -389,6 +389,8 @@ export class Rating
   // #region Rendering
 
   override render(): JsxNode {
+    const countString = this.count?.toString();
+
     return (
       <InteractiveContainer disabled={this.disabled}>
         <span class="wrapper">
@@ -442,9 +444,9 @@ export class Rating
             )}
 
             {(this.count || this.average) && this.showChip ? (
-              <calcite-chip scale={this.scale} value={this.count?.toString()}>
+              <calcite-chip label={countString} scale={this.scale} value={countString}>
                 {!!this.average && <span class="number--average">{this.average.toString()}</span>}
-                {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
+                {!!this.count && <span class="number--count">({countString})</span>}
               </calcite-chip>
             ) : null}
           </fieldset>
