@@ -2,7 +2,7 @@ import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
-import { createEvent, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { focusFirstTabbable } from "../../utils/dom";
 import {
   activateFocusTrap,

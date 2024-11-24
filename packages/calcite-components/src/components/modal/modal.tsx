@@ -2,6 +2,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
   createEvent,
+  h,
   JsxNode,
   LitElement,
   method,

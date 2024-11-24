@@ -1,5 +1,13 @@
 import { PropertyValues } from "lit";
-import { createEvent, JsxNode, LitElement, method, property, setAttribute } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  setAttribute,
+} from "@arcgis/lumina";
 import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
 import {
   activateFocusTrap,
