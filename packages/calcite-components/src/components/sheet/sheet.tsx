@@ -283,7 +283,7 @@ export class Sheet
   }
 
   private async openSheet(): Promise<void> {
-    await this.el.componentOnReady();
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteSheetOpen",
       this.openEnd,

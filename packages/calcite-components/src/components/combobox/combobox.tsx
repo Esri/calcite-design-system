@@ -683,7 +683,7 @@ export class Combobox
       return;
     }
 
-    await this.el.componentOnReady();
+    await this.componentOnReady();
 
     if (!this.allowCustomValues && this.filterText) {
       this.clearInputValue();

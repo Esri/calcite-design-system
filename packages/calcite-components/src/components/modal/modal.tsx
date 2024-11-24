@@ -405,7 +405,7 @@ export class Modal
   }
 
   private async openModal(): Promise<void> {
-    await this.el.componentOnReady();
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteModalOpen",
       this.openEnd,

@@ -705,7 +705,7 @@ export class Dialog
   }
 
   private async openDialog(): Promise<void> {
-    await this.el.componentOnReady();
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteDialogOpen",
       this.openEnd,
