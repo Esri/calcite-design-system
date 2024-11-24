@@ -182,7 +182,7 @@
 }
 
 :host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
-  color: var(--calcite-list-icon-color, var(--calcite-color-border-1));
+  color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
 }
 
 :host([selected]:hover) .selection-container,
