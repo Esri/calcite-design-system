@@ -20,6 +20,7 @@ import { MoveTo } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
+import { getIconScale } from "../../utils/component";
 import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
 import { getDepth, hasListItemChildren } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -706,7 +707,7 @@ export class ListItem
                 ? ICONS.unselectedMultiple
                 : ICONS.unselectedSingle
           }
-          scale="s"
+          scale={getIconScale(this.scale)}
         />
       </div>
     );
