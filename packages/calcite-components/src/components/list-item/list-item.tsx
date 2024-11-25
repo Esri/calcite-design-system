@@ -735,6 +735,7 @@ export class ListItem
           oncalciteSortHandleOpen={this.handleSortHandleOpen}
           overlayPositioning="fixed"
           ref={this.setSortHandleEl}
+          scale={this.scale}
           setPosition={setPosition}
           setSize={setSize}
         />
