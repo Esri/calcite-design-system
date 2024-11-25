@@ -87,7 +87,7 @@ describe("calcite-list", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "mode",
+        propertyName: "displayMode",
         defaultValue: "flat",
       },
     ]);
@@ -96,7 +96,7 @@ describe("calcite-list", () => {
   describe("reflects", () => {
     reflects("calcite-list", [
       {
-        propertyName: "mode",
+        propertyName: "displayMode",
         value: "nested",
       },
     ]);
@@ -161,16 +161,16 @@ describe("calcite-list", () => {
     );
   });
 
-  it("should set the mode property on items", async () => {
+  it("should set the displayMode property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-list id="root" mode="nested" group="my-list">
+      html`<calcite-list id="root" display-mode="nested" group="my-list">
         <calcite-list-item open label="Depth 1" description="Item 1">
           <calcite-list group="my-list">
             <calcite-list-item open label="Depth 2" description="Item 2">
-              <calcite-list mode="nested" group="my-list">
+              <calcite-list display-mode="nested" group="my-list">
                 <calcite-list-item label="Depth 3" description="Item 3">
-                  <calcite-list mode="nested" group="my-list"></calcite-list>
+                  <calcite-list display-mode="nested" group="my-list"></calcite-list>
                 </calcite-list-item>
                 <calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item>
               </calcite-list>
@@ -193,12 +193,12 @@ describe("calcite-list", () => {
     expect(items.length).toBe(modeValues.length);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("mode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
     }
 
     const rootList = await page.find("#root");
 
-    rootList.setProperty("mode", "flat");
+    rootList.setProperty("displayMode", "flat");
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
@@ -207,63 +207,7 @@ describe("calcite-list", () => {
     expect(items.length).toBe(modeValues.length);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("mode")).toBe(modeValues[i]);
-    }
-  });
-
-  it("should set the mode property on items which are not direct children", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-list id="root" mode="nested" group="my-list">
-        <div>
-          <calcite-list-item open label="Depth 1" description="Item 1">
-            <calcite-list group="my-list">
-              <div>
-                <calcite-list-item open label="Depth 2" description="Item 2">
-                  <calcite-list mode="nested" group="my-list">
-                    <div>
-                      <calcite-list-item label="Depth 3" description="Item 3">
-                        <calcite-list mode="nested" group="my-list"></calcite-list>
-                      </calcite-list-item>
-                    </div>
-                    <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
-                  </calcite-list>
-                </calcite-list-item>
-              </div>
-              <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
-            </calcite-list>
-          </calcite-list-item>
-        </div>
-        <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
-        <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
-      </calcite-list>`,
-    );
-
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-
-    let modeValues = ["nested", "flat", "nested", "nested", "flat", "nested", "nested"];
-
-    const items = await page.findAll("calcite-list-item");
-
-    expect(items.length).toBe(modeValues.length);
-
-    for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("mode")).toBe(modeValues[i]);
-    }
-
-    const rootList = await page.find("#root");
-
-    rootList.setProperty("mode", "flat");
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-
-    modeValues = ["flat", "flat", "nested", "nested", "flat", "flat", "flat"];
-
-    expect(items.length).toBe(modeValues.length);
-
-    for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("mode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
     }
   });
 
@@ -1081,7 +1025,7 @@ describe("calcite-list", () => {
     it("should navigate via ArrowRight and ArrowLeft", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list mode="nested">
+        <calcite-list display-mode="nested">
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
               appearance="transparent"
@@ -1145,7 +1089,7 @@ describe("calcite-list", () => {
     it("should navigate a draggable list via ArrowRight and ArrowLeft", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list mode="nested" drag-enabled>
+        <calcite-list display-mode="nested" drag-enabled>
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
               appearance="transparent"

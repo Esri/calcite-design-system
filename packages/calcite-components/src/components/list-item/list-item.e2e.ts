@@ -58,7 +58,7 @@ describe("calcite-list-item", () => {
         defaultValue: false,
       },
       {
-        propertyName: "mode",
+        propertyName: "displayMode",
         defaultValue: undefined,
       },
     ]);
@@ -352,7 +352,7 @@ describe("calcite-list-item", () => {
 
   it("should fire calciteListItemToggle event when opened and closed", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-list-item mode="nested"
+      html: html`<calcite-list-item display-mode="nested"
         ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });
@@ -375,7 +375,7 @@ describe("calcite-list-item", () => {
 
   it("should not fire calciteListItemToggle event without nested items", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-list-item mode="nested"></calcite-list-item>`,
+      html: html`<calcite-list-item display-mode="nested"></calcite-list-item>`,
     });
 
     const listItem = await page.find("calcite-list-item");
@@ -398,7 +398,7 @@ describe("calcite-list-item", () => {
 
   it("flat list should not render open container", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-list-item mode="flat"
+      html: html`<calcite-list-item display-mode="flat"
         ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });

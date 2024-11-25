@@ -20,7 +20,7 @@ import { MoveTo } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
-import { ListMode } from "../list/interfaces";
+import { ListDisplayMode } from "../list/interfaces";
 import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
 import { getDepth, hasListItemChildren } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -167,7 +167,7 @@ export class ListItem
    *
    * @private
    */
-  @property() mode: ListMode;
+  @property() displayMode: ListDisplayMode;
 
   /**
    * Sets the item to display a border.
@@ -373,7 +373,7 @@ export class ListItem
       this.sortHandleOpenHandler();
     }
 
-    if (changes.has("mode") && this.hasUpdated) {
+    if (changes.has("displayMode") && this.hasUpdated) {
       this.handleOpenableChange(this.defaultSlotEl.value);
     }
   }
@@ -531,7 +531,7 @@ export class ListItem
       return;
     }
 
-    this.openable = this.mode === "nested" && hasListItemChildren(slotEl);
+    this.openable = this.displayMode === "nested" && hasListItemChildren(slotEl);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -751,9 +751,9 @@ export class ListItem
   }
 
   private renderOpen(): JsxNode {
-    const { el, open, openable, messages, mode } = this;
+    const { el, open, openable, messages, displayMode } = this;
 
-    if (mode !== "nested") {
+    if (displayMode !== "nested") {
       return null;
     }
 
