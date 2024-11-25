@@ -1,5 +1,6 @@
 import { describe } from "vitest";
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { defaults, hidden, renders, themed } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-autocomplete-item-group", () => {
   describe("defaults", () => {
@@ -17,5 +18,22 @@ describe("calcite-autocomplete-item-group", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-autocomplete-item-group");
+  });
+
+  describe("theme", () => {
+    themed("calcite-autocomplete-item-group", {
+      "--calcite-autocomplete-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-autocomplete-border-color": {
+        shadowSelector: `.${CSS.heading}`,
+        targetProp: "borderBlockEndColor",
+      },
+      "--calcite-autocomplete-text-color": {
+        shadowSelector: `.${CSS.heading}`,
+        targetProp: "color",
+      },
+    });
   });
 });

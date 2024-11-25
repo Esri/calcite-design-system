@@ -12,12 +12,15 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
+  focusable,
+  slots,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { Input } from "../input/input";
 import { skipAnimations } from "../../tests/utils";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
 const simpleHTML = html`
@@ -259,6 +262,33 @@ describe("calcite-autocomplete", () => {
     hidden("calcite-autocomplete");
   });
 
+  describe("slots", () => {
+    slots("calcite-autocomplete", SLOTS);
+  });
+
+  describe("theme", () => {
+    themed("calcite-autocomplete", {
+      "--calcite-autocomplete-background-color": [
+        {
+          shadowSelector: `.${CSS.contentContainer}`,
+          targetProp: "backgroundColor",
+        },
+        {
+          shadowSelector: `.${CSS.contentAnimation}`,
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-autocomplete-text-color": {
+        shadowSelector: `.${CSS.contentContainer}`,
+        targetProp: "color",
+      },
+      "--calcite-autocomplete-width": {
+        shadowSelector: `.${CSS.contentAnimation}`,
+        targetProp: "inlineSize",
+      },
+    });
+  });
+
   describe("accessible", () => {
     accessible(simpleHTML);
     accessible(simpleGroupHTML);
@@ -285,6 +315,10 @@ describe("calcite-autocomplete", () => {
 
   describe("owns a floating-ui", () => {
     floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
+  });
+
+  describe("is focusable", () => {
+    focusable("calcite-autocomplete");
   });
 
   describe("keyboard navigation", () => {

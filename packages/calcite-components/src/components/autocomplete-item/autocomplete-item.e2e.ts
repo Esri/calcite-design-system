@@ -1,6 +1,6 @@
 import { describe } from "vitest";
-import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
-import { SLOTS } from "./resources";
+import { defaults, disabled, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-autocomplete-item", () => {
   describe("defaults", () => {
@@ -41,5 +41,30 @@ describe("calcite-autocomplete-item", () => {
 
   describe("disabled", () => {
     disabled("calcite-autocomplete-item", { focusTarget: "none" });
+  });
+
+  describe("slots", () => {
+    slots("calcite-autocomplete-item", SLOTS);
+  });
+
+  describe("theme", () => {
+    themed("calcite-autocomplete-item", {
+      "--calcite-autocomplete-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-autocomplete-description-text-color": {
+        shadowSelector: `.${CSS.description}`,
+        targetProp: "color",
+      },
+      "--calcite-autocomplete-heading-text-color": {
+        shadowSelector: `.${CSS.heading}`,
+        targetProp: "color",
+      },
+      "--calcite-autocomplete-text-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "color",
+      },
+    });
   });
 });
