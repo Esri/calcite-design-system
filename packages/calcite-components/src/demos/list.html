@@ -401,9 +401,9 @@
             <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
               <calcite-action
                 appearance="transparent"
-                icon="drag"
-                text="drag"
-                label="drag"
+                icon="information"
+                text="information"
+                label="information"
                 scale="s"
                 slot="actions-start"
               >
@@ -429,9 +429,9 @@
             <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
               <calcite-action
                 appearance="transparent"
-                icon="drag"
-                text="drag"
-                label="drag"
+                icon="information"
+                text="information"
+                label="information"
                 scale="s"
                 slot="actions-start"
               >
@@ -457,9 +457,9 @@
             <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
               <calcite-action
                 appearance="transparent"
-                icon="drag"
-                text="drag"
-                label="drag"
+                icon="information"
+                text="information"
+                label="information"
                 scale="s"
                 slot="actions-start"
               >
@@ -489,11 +489,15 @@
         <div class="child right-aligned-text">nested</div>
 
         <div class="child">
-          <calcite-list label="test" selection-mode="multiple">
+          <calcite-list mode="nested" label="test" selection-mode="multiple">
             <calcite-list-item label="Hi!" description="hello world">
-              <calcite-list-item label="Hi!" description="hello world">
-                <calcite-list-item label="Hi!" description="hello world"></calcite-list-item>
-              </calcite-list-item>
+              <calcite-list mode="nested">
+                <calcite-list-item label="Hi!" description="hello world">
+                  <calcite-list mode="nested">
+                    <calcite-list-item label="Hi!" description="hello world"></calcite-list-item>
+                  </calcite-list>
+                </calcite-list-item>
+              </calcite-list>
             </calcite-list-item>
           </calcite-list>
         </div>
@@ -521,24 +525,32 @@
         <div class="child right-aligned-text">grouped and nested</div>
 
         <div class="child">
-          <calcite-list selection-mode="single">
+          <calcite-list mode="nested" selection-mode="single">
             <calcite-list-item heading="test" description="hello world">
               <calcite-icon
                 icon="embark"
                 slot="content-start"
                 style="color: var(--calcite-color-status-success)"
               ></calcite-icon>
-              <calcite-list-item heading="test" description="hello world">
-                <calcite-icon
-                  icon="embark"
-                  slot="content-start"
-                  style="color: var(--calcite-color-status-success)"
-                ></calcite-icon>
+              <calcite-list mode="nested">
                 <calcite-list-item heading="test" description="hello world">
-                  <calcite-icon icon="embark" slot="content-start" style="color: var(--calcite-color-status-success)">
-                  </calcite-icon>
+                  <calcite-icon
+                    icon="embark"
+                    slot="content-start"
+                    style="color: var(--calcite-color-status-success)"
+                  ></calcite-icon>
+                  <calcite-list mode="nested">
+                    <calcite-list-item heading="test" description="hello world">
+                      <calcite-icon
+                        icon="embark"
+                        slot="content-start"
+                        style="color: var(--calcite-color-status-success)"
+                      >
+                      </calcite-icon>
+                    </calcite-list-item>
+                  </calcite-list>
                 </calcite-list-item>
-              </calcite-list-item>
+              </calcite-list>
             </calcite-list-item>
             <calcite-list-item-group heading="My Group">
               <calcite-list-item heading="test" description="hello world">
@@ -598,6 +610,7 @@
       </div>
 
       <!-- custom content -->
+
       <div class="parent">
         <style>
           .list-chip {
@@ -645,6 +658,7 @@
 
         <div class="child">
           <calcite-list
+            mode="nested"
             filter-enabled
             filter-placeholder="Find content"
             selection-appearance="border"
@@ -681,20 +695,22 @@
                 </calcite-dropdown>
               </calcite-list-item>
               <calcite-list-item label="Rivers" value="rivers" open>
-                <calcite-list-item label="Estuaries" value="estuaries">
-                  <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
-                    <calcite-action
-                      slot="trigger"
-                      appearance="transparent"
-                      icon="ellipsis"
-                      scale="s"
-                      text="Trails layer"
-                    ></calcite-action>
-                    <calcite-dropdown-group scale="s" selection-mode="none">
-                      <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
-                    </calcite-dropdown-group>
-                  </calcite-dropdown>
-                </calcite-list-item>
+                <calcite-list mode="nested">
+                  <calcite-list-item label="Estuaries" value="estuaries">
+                    <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+                      <calcite-action
+                        slot="trigger"
+                        appearance="transparent"
+                        icon="ellipsis"
+                        scale="s"
+                        text="Trails layer"
+                      ></calcite-action>
+                      <calcite-dropdown-group scale="s" selection-mode="none">
+                        <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+                      </calcite-dropdown-group>
+                    </calcite-dropdown>
+                  </calcite-list-item>
+                </calcite-list>
               </calcite-list-item>
             </calcite-list-item-group>
             <calcite-list-item-group heading="Tables">
@@ -813,11 +829,11 @@
         <div class="child right-aligned-text">nested & draggable</div>
 
         <div class="child">
-          <calcite-list drag-enabled group="nested" label="List 1" selection-mode="multiple">
+          <calcite-list mode="nested" drag-enabled group="nested" label="List 1" selection-mode="multiple">
             <calcite-list-item open label="Hi! 1" description="hello world">
-              <calcite-list label="List 2" drag-enabled group="nested" selection-mode="multiple">
+              <calcite-list mode="nested" label="List 2" drag-enabled group="nested" selection-mode="multiple">
                 <calcite-list-item open label="Hi! 2" description="hello world">
-                  <calcite-list label="List 3" drag-enabled group="nested" selection-mode="multiple">
+                  <calcite-list mode="nested" label="List 3" drag-enabled group="nested" selection-mode="multiple">
                     <calcite-list-item label="Hi! 3" description="hello world">
                       <calcite-list label="List 4" drag-enabled group="nested" selection-mode="multiple"></calcite-list>
                     </calcite-list-item>
@@ -852,7 +868,7 @@
         <div class="child right-aligned-text">Themed: icon</div>
 
         <div class="child">
-          <calcite-list selection-mode="multiple" selection-appearance="icon" class="themed-list">
+          <calcite-list mode="nested" selection-mode="multiple" selection-appearance="icon" class="themed-list">
             <calcite-list-item-group heading="Outdoor recreation">
               <calcite-list-item
                 selected
@@ -916,18 +932,20 @@
                   icon="layer"
                   text="Lodges layer"
                 ></calcite-action>
-                <calcite-list-item
-                  label="Guest lodges"
-                  description="Small houses available for visitors to book for stays."
-                  value="lodges"
-                >
-                  <calcite-action
-                    appearance="transparent"
-                    slot="actions-end"
-                    icon="layer"
-                    text="Lodges layer"
-                  ></calcite-action>
-                </calcite-list-item>
+                <calcite-list mode="nested">
+                  <calcite-list-item
+                    label="Guest lodges"
+                    description="Small houses available for visitors to book for stays."
+                    value="lodges"
+                  >
+                    <calcite-action
+                      appearance="transparent"
+                      slot="actions-end"
+                      icon="layer"
+                      text="Lodges layer"
+                    ></calcite-action>
+                  </calcite-list-item>
+                </calcite-list>
               </calcite-list-item>
               <calcite-list-item
                 label="Yurts"
@@ -950,7 +968,7 @@
         <div class="child right-aligned-text">Themed: border</div>
 
         <div class="child">
-          <calcite-list selection-mode="multiple" selection-appearance="border" class="themed-list">
+          <calcite-list mode="nested" selection-mode="multiple" selection-appearance="border" class="themed-list">
             <calcite-list-item-group heading="Outdoor recreation">
               <calcite-list-item
                 selected
@@ -1014,18 +1032,20 @@
                   icon="layer"
                   text="Lodges layer"
                 ></calcite-action>
-                <calcite-list-item
-                  label="Guest lodges"
-                  description="Small houses available for visitors to book for stays."
-                  value="lodges"
-                >
-                  <calcite-action
-                    appearance="transparent"
-                    slot="actions-end"
-                    icon="layer"
-                    text="Lodges layer"
-                  ></calcite-action>
-                </calcite-list-item>
+                <calcite-list mode="nested">
+                  <calcite-list-item
+                    label="Guest lodges"
+                    description="Small houses available for visitors to book for stays."
+                    value="lodges"
+                  >
+                    <calcite-action
+                      appearance="transparent"
+                      slot="actions-end"
+                      icon="layer"
+                      text="Lodges layer"
+                    ></calcite-action>
+                  </calcite-list-item>
+                </calcite-list>
               </calcite-list-item>
               <calcite-list-item
                 label="Yurts"

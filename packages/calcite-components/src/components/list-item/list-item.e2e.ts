@@ -57,6 +57,10 @@ describe("calcite-list-item", () => {
         propertyName: "unavailable",
         defaultValue: false,
       },
+      {
+        propertyName: "displayMode",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -348,7 +352,7 @@ describe("calcite-list-item", () => {
 
   it("should fire calciteListItemToggle event when opened and closed", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-list-item
+      html: html`<calcite-list-item display-mode="nested"
         ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });
@@ -367,6 +371,41 @@ describe("calcite-list-item", () => {
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
+  });
+
+  it("should not fire calciteListItemToggle event without nested items", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item display-mode="nested"></calcite-list-item>`,
+    });
+
+    const listItem = await page.find("calcite-list-item");
+    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
+
+    expect(await listItem.getProperty("open")).toBe(false);
+
+    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+
+    expect(openButton.getAttribute("title")).toBe(null);
+
+    await openButton.click();
+    expect(await listItem.getProperty("open")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+
+    await openButton.click();
+    expect(await listItem.getProperty("open")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+  });
+
+  it("flat list should not render open container", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item display-mode="flat"
+        ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
+      ></calcite-list-item>`,
+    });
+
+    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+
+    expect(openButton).toBe(null);
   });
 
   describe("themed", () => {
