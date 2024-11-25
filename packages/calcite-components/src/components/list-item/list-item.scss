@@ -177,10 +177,6 @@
   padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xxs);
 }
 
-.selection-container--single {
-  color: transparent;
-}
-
 :host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
   color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
 }
