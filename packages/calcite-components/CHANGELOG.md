@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.25...@esri/calcite-components@3.0.0-next.26) (2024-11-23)
+
+### ⚠ BREAKING CHANGES
+
+- **chip:** The `label` property is now required and `value` is
+  optional.
+
+### Code Refactoring
+
+- **chip:** make label property required and value optional ([#10787](https://github.com/Esri/calcite-design-system/issues/10787)) ([31f0fe4](https://github.com/Esri/calcite-design-system/commit/31f0fe4d2a520bbb88b95c91788dfbcd8304c136)), closes [#8696](https://github.com/Esri/calcite-design-system/issues/8696)
+
 ## [3.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.24...@esri/calcite-components@3.0.0-next.25) (2024-11-22)
 
 ### Bug Fixes
