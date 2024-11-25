@@ -85,8 +85,7 @@
     flex
     flex-auto
     font-normal
-    items-stretch
-    p-0;
+    items-stretch;
   color: var(--calcite-list-content-text-color, var(--calcite-color-text-2));
 }
 
@@ -113,9 +112,7 @@
   @apply flex
     flex-auto
     flex-col
-    justify-center
-    px-3
-    py-2;
+    justify-center;
   font-size: var(--calcite-font-size--2);
   line-height: var(--calcite-font-line-height-relative-snug);
 }
@@ -131,6 +128,10 @@
 }
 
 :host([scale="s"]) {
+  .content-container {
+    padding-block: var(--calcite-spacing-xxs);
+    padding-inline: 0 var(--calcite-spacing-sm);
+  }
   .content,
   .custom-content,
   .label {
@@ -140,7 +141,17 @@
     font-size: var(--calcite-font-size--3);
   }
 }
+:host([scale="m"]) {
+  .content-container {
+    padding-block: var(--calcite-spacing-sm);
+    padding-inline: 0 var(--calcite-spacing-md);
+  }
+}
 :host([scale="l"]) {
+  .content-container {
+    padding-block: theme("spacing[2.5]");
+    padding-inline: 0 var(--calcite-spacing-xl);
+  }
   .content,
   .custom-content,
   .label {
