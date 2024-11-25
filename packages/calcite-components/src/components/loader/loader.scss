@@ -15,12 +15,6 @@ $stroke-width: 3;
 $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --calcite-internal-duration-factor: 0;
-  }
-}
-
 :host {
   @apply relative mx-auto hidden items-center justify-center opacity-100;
   min-block-size: var(--calcite-loader-size);
