@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.26...@esri/calcite-components@3.0.0-next.27) (2024-11-25)
+
+### Bug Fixes
+
+- **Popover:** Popover reopens when trigger is clicked and autoClose = true ([#10842](https://github.com/Esri/calcite-design-system/issues/10842)) ([8ece94f](https://github.com/Esri/calcite-design-system/commit/8ece94fb78638d86a5df84e00efcaa2028f14357)), closes [#10841](https://github.com/Esri/calcite-design-system/issues/10841)
+
 ## [3.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.25...@esri/calcite-components@3.0.0-next.26) (2024-11-23)
 
 ### ⚠ BREAKING CHANGES
