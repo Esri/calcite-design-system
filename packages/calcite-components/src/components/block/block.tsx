@@ -110,8 +110,6 @@ export class Block
 
   /**
    * Specifies an accessible name for the component.
-   *
-   * @required
    */
   @property() label: string;
 
