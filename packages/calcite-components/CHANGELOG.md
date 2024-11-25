@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.26...@esri/calcite-components@3.0.0-next.27) (2024-11-25)
+
+### Bug Fixes
+
+- **Popover:** Popover reopens when trigger is clicked and autoClose = true ([#10842](https://github.com/Esri/calcite-design-system/issues/10842)) ([8ece94f](https://github.com/Esri/calcite-design-system/commit/8ece94fb78638d86a5df84e00efcaa2028f14357)), closes [#10841](https://github.com/Esri/calcite-design-system/issues/10841)
+
+## [3.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.25...@esri/calcite-components@3.0.0-next.26) (2024-11-23)
+
+### ⚠ BREAKING CHANGES
+
+- **chip:** The `label` property is now required and `value` is
+  optional.
+
+### Code Refactoring
+
+- **chip:** make label property required and value optional ([#10787](https://github.com/Esri/calcite-design-system/issues/10787)) ([31f0fe4](https://github.com/Esri/calcite-design-system/commit/31f0fe4d2a520bbb88b95c91788dfbcd8304c136)), closes [#8696](https://github.com/Esri/calcite-design-system/issues/8696)
+
+## [3.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.24...@esri/calcite-components@3.0.0-next.25) (2024-11-22)
+
+### Bug Fixes
+
+- fix core transitions across components ([#10836](https://github.com/Esri/calcite-design-system/issues/10836)) ([47fe92d](https://github.com/Esri/calcite-design-system/commit/47fe92da9f362b213b1568ceafc5c07e2fa97301)), closes [#10837](https://github.com/Esri/calcite-design-system/issues/10837)
+- **link:** fix underline animation ([#10835](https://github.com/Esri/calcite-design-system/issues/10835)) ([e2ed393](https://github.com/Esri/calcite-design-system/commit/e2ed39360f63f499448953f00e3f31e3d6fa6148)), closes [#7284](https://github.com/Esri/calcite-design-system/issues/7284)
+
+## [3.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.23...@esri/calcite-components@3.0.0-next.24) (2024-11-22)
+
+### Features
+
+- **navigation-logo:** add component tokens ([#10582](https://github.com/Esri/calcite-design-system/issues/10582)) ([0638891](https://github.com/Esri/calcite-design-system/commit/06388915ddcc5f06a849e09d9e241c5f676daae7)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.22...@esri/calcite-components@3.0.0-next.23) (2024-11-22)
+
+### ⚠ BREAKING CHANGES
+
+- **radio-button:** Removes the deprecated property `guid` from
+  `calcite-radio-button`.
+
+Developers may need to replace `calcite-radio-button`'s `guid` property
+with a unique `id` property.
+
+### Features
+
+- **navigation-user:** add component tokens ([#10608](https://github.com/Esri/calcite-design-system/issues/10608)) ([32d96a9](https://github.com/Esri/calcite-design-system/commit/32d96a9f75d678682b89f8c3a4abc3fe79dc0187)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **panel:** Add component tokens ([#10822](https://github.com/Esri/calcite-design-system/issues/10822)) ([e8228b1](https://github.com/Esri/calcite-design-system/commit/e8228b1091905a0c76fb9933ae6616d724ec0ea6)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **block:** label property should not be required ([#10833](https://github.com/Esri/calcite-design-system/issues/10833)) ([e5465c7](https://github.com/Esri/calcite-design-system/commit/e5465c72031722b911e49302655d466fea74c4b0)), closes [#8697](https://github.com/Esri/calcite-design-system/issues/8697)
+
+### Code Refactoring
+
+- **radio-button:** remove deprecated guid property ([#10799](https://github.com/Esri/calcite-design-system/issues/10799)) ([bbef6cd](https://github.com/Esri/calcite-design-system/commit/bbef6cd3409c0ad8c10a3d7c251f04f3a76d38a9)), closes [#9713](https://github.com/Esri/calcite-design-system/issues/9713)
+
+## [3.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.21...@esri/calcite-components@3.0.0-next.22) (2024-11-21)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.20...@esri/calcite-components@3.0.0-next.21) (2024-11-21)
+
+### Bug Fixes
+
+- **input-date-picker:** remove hardcoded strings ([#10741](https://github.com/Esri/calcite-design-system/issues/10741)) ([c1d40d2](https://github.com/Esri/calcite-design-system/commit/c1d40d20d40d32d659c0ea97634e27e560da5a96)), closes [#7708](https://github.com/Esri/calcite-design-system/issues/7708) [#7708](https://github.com/Esri/calcite-design-system/issues/7708)
+
 ## [3.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.19...@esri/calcite-components@3.0.0-next.20) (2024-11-21)
 
 ### Bug Fixes

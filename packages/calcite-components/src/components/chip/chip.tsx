@@ -91,7 +91,11 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   /** Specifies the kind of the component, which will apply to border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
-  /** Accessible name for the component. */
+  /**
+   * Accessible name for the component.
+   *
+   * @required
+   */
   @property() label: string;
 
   /** Use this property to override individual strings used by the component. */
@@ -124,11 +128,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
     SelectionMode
   > = "none";
 
-  /**
-   * The component's value.
-   *
-   * @required
-   */
+  /** The component's value. */
   @property() value: any;
 
   // #endregion

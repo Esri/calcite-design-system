@@ -1127,7 +1127,7 @@ export class InputDatePicker
                   !this.range &&
                   this.renderToggleIcon(this.open && this.focusedInput === "start")}
                 <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                  Date Format: {this.localeData?.placeholder}
+                  {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
                 </span>
               </div>
               <div

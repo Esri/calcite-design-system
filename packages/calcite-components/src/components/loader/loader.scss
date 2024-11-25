@@ -11,12 +11,6 @@
 
 @import "../../assets/styles/animation";
 
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --calcite-internal-duration-factor: 0;
-  }
-}
-
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;
   flex-direction: column;
