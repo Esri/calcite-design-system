@@ -1,5 +1,15 @@
+/*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-navigation-accent-color: Specifies the component's border color when `active`.
+* @prop --calcite-navigation-background-color: Specifies the component's background color.
+* @prop --calcite-navigation-logo-heading-text-color: Specifies the component's default color for heading text.
+* @prop --calcite-navigation-logo-text-color: Specifies the component's default color for icon and description text.
+*
+*/
+
 :host {
-  @apply inline-flex outline-none;
+  @apply inline-flex outline-none focus-base;
 }
 
 .anchor {
@@ -9,28 +19,26 @@
     justify-center
     cursor-pointer
     transition-default
-    focus-base
-    no-underline
+    no-underline 
     text-0h;
-  color: inherit;
-  border-block-end: 2px solid transparent;
+  border-block-end: 2px solid var(--calcite-color-transparent);
+  background-color: var(
+    --calcite-navigation-background-color,
+    var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
+  );
 }
 
-.anchor:hover,
-.anchor:focus {
-  @apply bg-foreground-2;
-}
-.anchor:focus {
+:host(:focus) {
   @apply focus-inset;
-}
-
-.anchor:active {
-  @apply bg-foreground-3;
 }
 
 .image,
 .icon {
   @apply flex h-7 m-0 px-4;
+  color: var(
+    --calcite-navigation-logo-text-color,
+    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, inherit))
+  );
 }
 
 .image ~ .icon {
@@ -42,14 +50,26 @@
   @apply ps-0;
 }
 
+:host(:hover),
+:host(:focus) {
+  .anchor {
+    --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-2);
+  }
+}
+
 :host(:active) .anchor {
-  @apply text-color-1;
+  --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-3);
 }
 
 :host([active]) .anchor {
-  @apply text-color-1;
-  border-color: var(--calcite-color-brand);
-  --calcite-icon-color: var(--calcite-color-brand);
+  border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
+}
+
+:host([active]),
+:host(:active) {
+  .icon {
+    --calcite-internal-navigation-logo-text-color: var(--calcite-color-brand);
+  }
 }
 
 .container {
@@ -65,8 +85,8 @@
   @apply text-0
   ms-0
   truncate
-  text-color-1
   font-medium;
+  color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
 }
 
 .standalone {
@@ -75,6 +95,7 @@
 
 .description {
   @apply text-color-2 truncate;
+  color: var(--calcite-navigation-logo-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-font-size--1);
 }
 

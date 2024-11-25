@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.0.0-next.18",
+  "version": "3.0.0-next.29",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -53,8 +53,6 @@
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "vitest run",
-    "posttest": "npm run test:prerender",
-    "test:prerender": "vite build --ssr",
     "test:watch": "vitest",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**.js",
     "util:clean-readmes": "git restore src/components/*/readme.md",
@@ -70,9 +68,9 @@
     "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "4.32.0-next.20",
-    "@arcgis/components-utils": "4.32.0-next.20",
-    "@arcgis/lumina": "4.32.0-next.20",
+    "@arcgis/components-controllers": "4.32.0-next.24",
+    "@arcgis/components-utils": "4.32.0-next.24",
+    "@arcgis/lumina": "4.32.0-next.24",
     "@esri/calcite-ui-icons": "4.0.0-next.0",
     "@floating-ui/dom": "1.6.12",
     "@floating-ui/utils": "0.2.8",
@@ -89,7 +87,7 @@
     "type-fest": "4.18.2"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "2.3.0-next.0",
+    "@esri/calcite-design-tokens": "2.3.0-next.2",
     "@esri/eslint-plugin-calcite-components": "2.0.0-next.1",
     "vitest": "^2.1.3"
   },

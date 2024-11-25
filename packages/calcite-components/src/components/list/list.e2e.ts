@@ -1,6 +1,16 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  hidden,
+  renders,
+  focusable,
+  disabled,
+  defaults,
+  t9n,
+  themed,
+  reflects,
+} from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
@@ -9,6 +19,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
 import { ListDragDetail } from "./interfaces";
+import { CSS } from "./resources";
 import type { List } from "./list";
 
 const placeholder = placeholderImage({
@@ -75,6 +86,19 @@ describe("calcite-list", () => {
         propertyName: "filterProps",
         defaultValue: undefined,
       },
+      {
+        propertyName: "displayMode",
+        defaultValue: "flat",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-list", [
+      {
+        propertyName: "displayMode",
+        value: "nested",
+      },
     ]);
   });
 
@@ -135,153 +159,203 @@ describe("calcite-list", () => {
       </calcite-list>`,
       { focusTarget: "child" },
     );
+  });
 
-    it("should set the dragHandle property on items", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-list id="root" drag-enabled group="my-list">
-          <calcite-list-item open label="Depth 1" description="Item 1">
-            <calcite-list group="my-list">
-              <calcite-list-item open label="Depth 2" description="Item 2">
-                <calcite-list drag-enabled group="my-list">
-                  <calcite-list-item label="Depth 3" description="Item 3">
-                    <calcite-list drag-enabled group="my-list"></calcite-list>
-                  </calcite-list-item>
-                  <calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item>
-                </calcite-list>
-              </calcite-list-item>
-              <calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item>
-            </calcite-list>
-          </calcite-list-item>
-          <calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item>
-          <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
-        </calcite-list>`,
-      );
-
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
-
-      let dragHandleValues = [true, false, true, true, false, true, true];
-
-      const items = await page.findAll("calcite-list-item");
-
-      expect(items.length).toBe(dragHandleValues.length);
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
-      }
-
-      const rootList = await page.find("#root");
-
-      rootList.setProperty("dragEnabled", false);
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
-
-      dragHandleValues = [false, false, true, true, false, false, false];
-
-      expect(items.length).toBe(dragHandleValues.length);
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
-      }
-    });
-
-    it("should set the dragHandle property on items which are not direct children", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-list id="root" drag-enabled group="my-list">
-          <div>
-            <calcite-list-item open label="Depth 1" description="Item 1">
-              <calcite-list group="my-list">
-                <div>
-                  <calcite-list-item open label="Depth 2" description="Item 2">
-                    <calcite-list drag-enabled group="my-list">
-                      <div>
-                        <calcite-list-item label="Depth 3" description="Item 3">
-                          <calcite-list drag-enabled group="my-list"></calcite-list>
-                        </calcite-list-item>
-                      </div>
-                      <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
-                    </calcite-list>
-                  </calcite-list-item>
-                </div>
-                <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
+  it("should set the displayMode property on items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list id="root" display-mode="nested" group="my-list">
+        <calcite-list-item open label="Depth 1" description="Item 1">
+          <calcite-list group="my-list">
+            <calcite-list-item open label="Depth 2" description="Item 2">
+              <calcite-list display-mode="nested" group="my-list">
+                <calcite-list-item label="Depth 3" description="Item 3">
+                  <calcite-list display-mode="nested" group="my-list"></calcite-list>
+                </calcite-list-item>
+                <calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item>
               </calcite-list>
             </calcite-list-item>
-          </div>
-          <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
-          <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
-        </calcite-list>`,
-      );
+            <calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item>
+        <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
+      </calcite-list>`,
+    );
 
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
 
-      let dragHandleValues = [true, false, true, true, false, true, true];
+    let modeValues = ["nested", "flat", "nested", "nested", "flat", "nested", "nested"];
 
-      const items = await page.findAll("calcite-list-item");
+    const items = await page.findAll("calcite-list-item");
 
-      expect(items.length).toBe(dragHandleValues.length);
+    expect(items.length).toBe(modeValues.length);
 
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
-      }
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+    }
 
-      const rootList = await page.find("#root");
+    const rootList = await page.find("#root");
 
-      rootList.setProperty("dragEnabled", false);
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+    rootList.setProperty("displayMode", "flat");
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
 
-      dragHandleValues = [false, false, true, true, false, false, false];
+    modeValues = ["flat", "flat", "nested", "nested", "flat", "flat", "flat"];
 
-      expect(items.length).toBe(dragHandleValues.length);
+    expect(items.length).toBe(modeValues.length);
 
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
-      }
-    });
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+    }
+  });
 
-    it("disabling and enabling an item restores actions from being tabbable", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-list selection-mode="multiple">
-          <calcite-list-item label="first">
-            <calcite-action id="action-1" icon="information" slot="actions-end"></calcite-action>
+  it("should set the dragHandle property on items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list id="root" drag-enabled group="my-list">
+        <calcite-list-item open label="Depth 1" description="Item 1">
+          <calcite-list group="my-list">
+            <calcite-list-item open label="Depth 2" description="Item 2">
+              <calcite-list drag-enabled group="my-list">
+                <calcite-list-item label="Depth 3" description="Item 3">
+                  <calcite-list drag-enabled group="my-list"></calcite-list>
+                </calcite-list-item>
+                <calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item>
+              </calcite-list>
+            </calcite-list-item>
+            <calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item>
+        <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
+      </calcite-list>`,
+    );
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    let dragHandleValues = [true, false, true, true, false, true, true];
+
+    const items = await page.findAll("calcite-list-item");
+
+    expect(items.length).toBe(dragHandleValues.length);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+    }
+
+    const rootList = await page.find("#root");
+
+    rootList.setProperty("dragEnabled", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    dragHandleValues = [false, false, true, true, false, false, false];
+
+    expect(items.length).toBe(dragHandleValues.length);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+    }
+  });
+
+  it("should set the dragHandle property on items which are not direct children", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list id="root" drag-enabled group="my-list">
+        <div>
+          <calcite-list-item open label="Depth 1" description="Item 1">
+            <calcite-list group="my-list">
+              <div>
+                <calcite-list-item open label="Depth 2" description="Item 2">
+                  <calcite-list drag-enabled group="my-list">
+                    <div>
+                      <calcite-list-item label="Depth 3" description="Item 3">
+                        <calcite-list drag-enabled group="my-list"></calcite-list>
+                      </calcite-list-item>
+                    </div>
+                    <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
+                  </calcite-list>
+                </calcite-list-item>
+              </div>
+              <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
+            </calcite-list>
           </calcite-list-item>
-          <calcite-list-item label="second">
-            <calcite-action id="action-2" icon="information" slot="actions-end"></calcite-action>
-          </calcite-list-item>
-          <calcite-list-item label="third">
-            <calcite-action id="action-3" icon="information" slot="actions-end"></calcite-action>
-          </calcite-list-item>
-        </calcite-list>
-      `);
+        </div>
+        <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
+        <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
+      </calcite-list>`,
+    );
 
-      const [firstItem, secondItem] = await page.findAll("calcite-list-item");
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
 
-      await firstItem.callMethod("setFocus");
-      await page.waitForChanges();
+    let dragHandleValues = [true, false, true, true, false, true, true];
 
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
+    const items = await page.findAll("calcite-list-item");
 
-      expect(await getFocusedElementProp(page, "id")).toBe("action-3");
+    expect(items.length).toBe(dragHandleValues.length);
 
-      secondItem.setProperty("disabled", true);
-      await page.waitForChanges();
-      secondItem.setProperty("disabled", false);
-      await page.waitForChanges();
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+    }
 
-      await firstItem.callMethod("setFocus");
-      await page.waitForChanges();
+    const rootList = await page.find("#root");
 
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
+    rootList.setProperty("dragEnabled", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
 
-      expect(await getFocusedElementProp(page, "id")).toBe("action-3");
-    });
+    dragHandleValues = [false, false, true, true, false, false, false];
+
+    expect(items.length).toBe(dragHandleValues.length);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+    }
+  });
+
+  it("disabling and enabling an item restores actions from being tabbable", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-list selection-mode="multiple">
+        <calcite-list-item label="first">
+          <calcite-action id="action-1" icon="information" slot="actions-end"></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item label="second">
+          <calcite-action id="action-2" icon="information" slot="actions-end"></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item label="third">
+          <calcite-action id="action-3" icon="information" slot="actions-end"></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+    `);
+
+    const [firstItem, secondItem] = await page.findAll("calcite-list-item");
+
+    await firstItem.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+
+    expect(await getFocusedElementProp(page, "id")).toBe("action-3");
+
+    secondItem.setProperty("disabled", true);
+    await page.waitForChanges();
+    secondItem.setProperty("disabled", false);
+    await page.waitForChanges();
+
+    await firstItem.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+
+    expect(await getFocusedElementProp(page, "id")).toBe("action-3");
   });
 
   it("should border nested list items", async () => {
@@ -951,7 +1025,7 @@ describe("calcite-list", () => {
     it("should navigate via ArrowRight and ArrowLeft", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list>
+        <calcite-list display-mode="nested">
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
               appearance="transparent"
@@ -1015,7 +1089,7 @@ describe("calcite-list", () => {
     it("should navigate a draggable list via ArrowRight and ArrowLeft", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list drag-enabled>
+        <calcite-list display-mode="nested" drag-enabled>
           <calcite-list-item id="one" value="one" label="One" description="hello world">
             <calcite-action
               appearance="transparent"
@@ -1575,6 +1649,17 @@ describe("calcite-list", () => {
 
       await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
       await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-list`, {
+        "--calcite-list-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+      });
     });
   });
 });

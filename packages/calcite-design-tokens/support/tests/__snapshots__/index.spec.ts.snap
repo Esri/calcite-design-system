@@ -68,12 +68,12 @@ exports[`generated tokens CSS core should match 1`] = `
   --calcite-opacity-8: 0.08;
   --calcite-opacity-4: 0.04;
   --calcite-opacity-0: 0;
-  --calcite-font-text-case-capitalize: capitalize;
-  --calcite-font-text-case-lowercase: lowercase;
-  --calcite-font-text-case-uppercase: uppercase;
-  --calcite-font-text-case-none: none;
-  --calcite-font-text-decoration-underline: underline;
-  --calcite-font-text-decoration-none: none;
+  --calcite-font-text-case-capitalize: capitalize; /* Deprecated */
+  --calcite-font-text-case-lowercase: lowercase; /* Deprecated */
+  --calcite-font-text-case-uppercase: uppercase; /* Deprecated */
+  --calcite-font-text-case-none: none; /* Deprecated */
+  --calcite-font-text-decoration-underline: underline; /* Deprecated */
+  --calcite-font-text-decoration-none: none; /* Deprecated */
   --calcite-font-weight-heavy: 900;
   --calcite-font-weight-black: 900; /* only for Avenir Next World (secondary font family) */
   --calcite-font-weight-extrabold: 800; /* only for Avenir Next World (secondary font family) */
@@ -433,16 +433,16 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-opacity-dark: 0.85;
   --calcite-opacity-half: 0.5;
   --calcite-opacity-light: 0.4;
-  --calcite-font-text-case-capitalize: capitalize;
-  --calcite-font-text-case-lowercase: lowercase;
-  --calcite-font-text-case-uppercase: uppercase;
-  --calcite-font-text-case-none: none;
-  --calcite-font-text-decoration-underline: underline;
-  --calcite-font-text-decoration-none: none;
-  --calcite-font-paragraph-spacing-normal: 4px;
-  --calcite-font-letter-spacing-wide: 0.4;
-  --calcite-font-letter-spacing-normal: 0;
-  --calcite-font-letter-spacing-tight: -0.4;
+  --calcite-font-text-case-capitalize: capitalize; /* Deprecated */
+  --calcite-font-text-case-lowercase: lowercase; /* Deprecated */
+  --calcite-font-text-case-uppercase: uppercase; /* Deprecated */
+  --calcite-font-text-case-none: none; /* Deprecated */
+  --calcite-font-text-decoration-underline: underline; /* Deprecated */
+  --calcite-font-text-decoration-none: none; /* Deprecated */
+  --calcite-font-paragraph-spacing-normal: 4px; /* Deprecated */
+  --calcite-font-letter-spacing-wide: 0.4; /* Deprecated */
+  --calcite-font-letter-spacing-normal: 0; /* Deprecated */
+  --calcite-font-letter-spacing-tight: -0.4; /* Deprecated */
   --calcite-font-line-height-relative-loose: 2; /* 2 */
   --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
   --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
@@ -461,7 +461,7 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-font-size: 14px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size-xs: 10px;
-  --calcite-font-weight-bold: 700;
+  --calcite-font-weight-bold: 600;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-regular: 400;
@@ -781,12 +781,12 @@ export const calciteFontWeightBold = "700";
 export const calciteFontWeightExtrabold = "800"; // only for Avenir Next World (secondary font family)
 export const calciteFontWeightBlack = "900"; // only for Avenir Next World (secondary font family)
 export const calciteFontWeightHeavy = "900";
-export const calciteFontTextDecorationNone = "none";
-export const calciteFontTextDecorationUnderline = "underline";
-export const calciteFontTextCaseNone = "none";
-export const calciteFontTextCaseUppercase = "uppercase";
-export const calciteFontTextCaseLowercase = "lowercase";
-export const calciteFontTextCaseCapitalize = "capitalize";
+export const calciteFontTextDecorationNone = "none"; // Deprecated
+export const calciteFontTextDecorationUnderline = "underline"; // Deprecated
+export const calciteFontTextCaseNone = "none"; // Deprecated
+export const calciteFontTextCaseUppercase = "uppercase"; // Deprecated
+export const calciteFontTextCaseLowercase = "lowercase"; // Deprecated
+export const calciteFontTextCaseCapitalize = "capitalize"; // Deprecated
 export const calciteOpacity0 = "0";
 export const calciteOpacity4 = "0.04";
 export const calciteOpacity8 = "0.08";
@@ -935,7 +935,7 @@ export const calciteFontWeightNormal = "400"; // For backwards compatibility onl
 export const calciteFontWeightRegular = "400";
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
-export const calciteFontWeightBold = "700";
+export const calciteFontWeightBold = "600";
 export const calciteFontSizeXs = "10px";
 export const calciteFontSizeSm = "12px";
 export const calciteFontSize = "14px";
@@ -954,16 +954,16 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
-export const calciteFontLetterSpacingTight = "-0.4";
-export const calciteFontLetterSpacingNormal = "0";
-export const calciteFontLetterSpacingWide = "0.4";
-export const calciteFontParagraphSpacingNormal = "4px";
-export const calciteFontTextDecorationNone = "none";
-export const calciteFontTextDecorationUnderline = "underline";
-export const calciteFontTextCaseNone = "none";
-export const calciteFontTextCaseUppercase = "uppercase";
-export const calciteFontTextCaseLowercase = "lowercase";
-export const calciteFontTextCaseCapitalize = "capitalize";
+export const calciteFontLetterSpacingTight = "-0.4"; // Deprecated
+export const calciteFontLetterSpacingNormal = "0"; // Deprecated
+export const calciteFontLetterSpacingWide = "0.4"; // Deprecated
+export const calciteFontParagraphSpacingNormal = "4px"; // Deprecated
+export const calciteFontTextDecorationNone = "none"; // Deprecated
+export const calciteFontTextDecorationUnderline = "underline"; // Deprecated
+export const calciteFontTextCaseNone = "none"; // Deprecated
+export const calciteFontTextCaseUppercase = "uppercase"; // Deprecated
+export const calciteFontTextCaseLowercase = "lowercase"; // Deprecated
+export const calciteFontTextCaseCapitalize = "capitalize"; // Deprecated
 export const calciteOpacityLight = "0.4";
 export const calciteOpacityHalf = "0.5";
 export const calciteOpacityDark = "0.85";
@@ -1068,7 +1068,7 @@ export const calciteTypographyHierarchyHeading4 = {"fontWeight":"500","lineHeigh
 export const calciteTypographyHierarchyHeading5 = {"fontWeight":"500","lineHeight":"1.375"};
 export const calciteTypographyHierarchyBodySnug = {"lineHeight":"1.375"};
 export const calciteTypographyHierarchyBody = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
-export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","textCase":"uppercase","fontWeight":"700"};
+export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","textCase":"uppercase","fontWeight":"600"};
 export const calciteTypographyHierarchyCaption = {"lineHeight":"1.375","fontSize":"12px"};
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
@@ -1203,15 +1203,25 @@ export const calciteFontLineHeightRelativeNormal : string;
 export const calciteFontLineHeightRelativeRelaxed : string;
 /** 2 */
 export const calciteFontLineHeightRelativeLoose : string;
+/** Deprecated */
 export const calciteFontLetterSpacingTight : string;
+/** Deprecated */
 export const calciteFontLetterSpacingNormal : string;
+/** Deprecated */
 export const calciteFontLetterSpacingWide : string;
+/** Deprecated */
 export const calciteFontParagraphSpacingNormal : string;
+/** Deprecated */
 export const calciteFontTextDecorationNone : string;
+/** Deprecated */
 export const calciteFontTextDecorationUnderline : string;
+/** Deprecated */
 export const calciteFontTextCaseNone : string;
+/** Deprecated */
 export const calciteFontTextCaseUppercase : string;
+/** Deprecated */
 export const calciteFontTextCaseLowercase : string;
+/** Deprecated */
 export const calciteFontTextCaseCapitalize : string;
 export const calciteOpacityLight : string;
 export const calciteOpacityHalf : string;
@@ -1604,11 +1614,17 @@ export const calciteFontWeightExtrabold : string;
 /** only for Avenir Next World (secondary font family) */
 export const calciteFontWeightBlack : string;
 export const calciteFontWeightHeavy : string;
+/** Deprecated */
 export const calciteFontTextDecorationNone : string;
+/** Deprecated */
 export const calciteFontTextDecorationUnderline : string;
+/** Deprecated */
 export const calciteFontTextCaseNone : string;
+/** Deprecated */
 export const calciteFontTextCaseUppercase : string;
+/** Deprecated */
 export const calciteFontTextCaseLowercase : string;
+/** Deprecated */
 export const calciteFontTextCaseCapitalize : string;
 export const calciteOpacity0 : string;
 export const calciteOpacity4 : string;
@@ -1749,12 +1765,12 @@ $calcite-opacity-10: 0.1;
 $calcite-opacity-8: 0.08;
 $calcite-opacity-4: 0.04;
 $calcite-opacity-0: 0;
-$calcite-font-text-case-capitalize: capitalize;
-$calcite-font-text-case-lowercase: lowercase;
-$calcite-font-text-case-uppercase: uppercase;
-$calcite-font-text-case-none: none;
-$calcite-font-text-decoration-underline: underline;
-$calcite-font-text-decoration-none: none;
+$calcite-font-text-case-capitalize: capitalize; // Deprecated
+$calcite-font-text-case-lowercase: lowercase; // Deprecated
+$calcite-font-text-case-uppercase: uppercase; // Deprecated
+$calcite-font-text-case-none: none; // Deprecated
+$calcite-font-text-decoration-underline: underline; // Deprecated
+$calcite-font-text-decoration-none: none; // Deprecated
 $calcite-font-weight-heavy: 900;
 $calcite-font-weight-black: 900; // only for Avenir Next World (secondary font family)
 $calcite-font-weight-extrabold: 800; // only for Avenir Next World (secondary font family)
@@ -2107,16 +2123,16 @@ $calcite-opacity-full: 1;
 $calcite-opacity-dark: 0.85;
 $calcite-opacity-half: 0.5;
 $calcite-opacity-light: 0.4;
-$calcite-font-text-case-capitalize: capitalize;
-$calcite-font-text-case-lowercase: lowercase;
-$calcite-font-text-case-uppercase: uppercase;
-$calcite-font-text-case-none: none;
-$calcite-font-text-decoration-underline: underline;
-$calcite-font-text-decoration-none: none;
-$calcite-font-paragraph-spacing-normal: 4px;
-$calcite-font-letter-spacing-wide: 0.4;
-$calcite-font-letter-spacing-normal: 0;
-$calcite-font-letter-spacing-tight: -0.4;
+$calcite-font-text-case-capitalize: capitalize; // Deprecated
+$calcite-font-text-case-lowercase: lowercase; // Deprecated
+$calcite-font-text-case-uppercase: uppercase; // Deprecated
+$calcite-font-text-case-none: none; // Deprecated
+$calcite-font-text-decoration-underline: underline; // Deprecated
+$calcite-font-text-decoration-none: none; // Deprecated
+$calcite-font-paragraph-spacing-normal: 4px; // Deprecated
+$calcite-font-letter-spacing-wide: 0.4; // Deprecated
+$calcite-font-letter-spacing-normal: 0; // Deprecated
+$calcite-font-letter-spacing-tight: -0.4; // Deprecated
 $calcite-font-line-height-relative-loose: 2; // 2
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
@@ -2135,7 +2151,7 @@ $calcite-font-size-md: 16px;
 $calcite-font-size: 14px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size-xs: 10px;
-$calcite-font-weight-bold: 700;
+$calcite-font-weight-bold: 600;
 $calcite-font-weight-semibold: 600;
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
