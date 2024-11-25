@@ -281,7 +281,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-    const depth = getDepth(this.el) || 1;
+    const depth = getDepth(this.el) === 0 ? 1 : getDepth(this.el) + 1;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaHidden = "true";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
