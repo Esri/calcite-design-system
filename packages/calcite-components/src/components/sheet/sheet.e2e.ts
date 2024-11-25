@@ -285,12 +285,22 @@ describe("calcite-sheet properties", () => {
 
   it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet focus-trap-disabled></calcite-sheet>`);
+    await page.setContent(
+      html`<calcite-sheet open label="hello world" focus-trap-disabled
+        ><calcite-panel heading="Ultrices neque"
+          ><p>Lorem ipsum dolor sit amet.</p>
+          <calcite-button slot="footer" width="half">tincidunt lobortis</calcite-button>
+        </calcite-panel></calcite-sheet
+      >`,
+    );
     await skipAnimations(page);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
     expect(await sheet.isVisible()).toBe(true);
+    expect(await sheet.getProperty("open")).toBe(true);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     expect(await sheet.isVisible()).toBe(false);

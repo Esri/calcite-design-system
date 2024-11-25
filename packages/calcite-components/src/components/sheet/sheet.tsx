@@ -253,13 +253,13 @@ export class Sheet
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
-    if (defaultPrevented) {
+    if (defaultPrevented || this.escapeDisabled) {
       return;
     }
 
-    if (this.open && !this.escapeDisabled && key === "Escape") {
-      this.open = false;
+    if (this.open && key === "Escape") {
       event.preventDefault();
+      this.open = false;
     }
   };
 
