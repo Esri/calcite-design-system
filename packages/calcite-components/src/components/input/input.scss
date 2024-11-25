@@ -233,8 +233,7 @@ input:focus {
     block;
 }
 
-.icon,
-.resize-icon-wrapper {
+.icon {
   @apply z-default; // needed for firefox to display the icon properly
 }
 
@@ -499,42 +498,6 @@ input[type="number"] {
 
 input[type="date"]::-webkit-input-placeholder {
   visibility: hidden !important;
-}
-
-// textarea resize icon
-textarea::-webkit-resizer {
-  @apply absolute
-    bottom-0
-    box-border
-    py-0
-    px-1;
-  inset-inline-end: 0;
-}
-
-.resize-icon-wrapper {
-  inset-block-end: 2px;
-  inset-inline-end: 2px;
-
-  @apply bg-foreground-1
-    text-color-3
-    pointer-events-none
-    absolute
-    h-3
-    w-3;
-
-  & calcite-icon {
-    inset-block-end: theme("spacing.1");
-    inset-inline-end: theme("spacing.1");
-    transform: rotate(-45deg);
-  }
-}
-
-.calcite--rtl {
-  .resize-icon-wrapper {
-    & calcite-icon {
-      transform: rotate(45deg);
-    }
-  }
 }
 
 :host([type="color"]) input {
