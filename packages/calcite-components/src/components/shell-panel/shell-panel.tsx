@@ -7,7 +7,8 @@ import {
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { clamp } from "../../utils/math";
-import { Layout, Position, Scale } from "../interfaces";
+import { getDimensionClass } from "../../utils/dynamicClasses";
+import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionBar } from "../action-bar/action-bar";
@@ -173,7 +174,11 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
-  /** When `layout` is `horizontal`, specifies the maximum height of the component. */
+  /**
+   * When `layout` is `horizontal`, specifies the maximum height of the component.
+   *
+   * @deprecated Use the `height` property instead.
+   */
   @property({ reflect: true }) heightScale: Scale;
 
   /** The direction of the component. */
@@ -195,8 +200,18 @@ export class ShellPanel extends LitElement {
   /** When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** When `layout` is `vertical`, specifies the width of the component. */
+  /** Specifies the height of the component. */
+  @property({ reflect: true }) height: Height;
+
+  /**
+   * When `layout` is `vertical`, specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
+   */
   @property({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   // #endregion
 
@@ -563,6 +578,12 @@ export class ShellPanel extends LitElement {
           [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
+          [getDimensionClass("width", this.width, this.widthScale)]: !!(
+            this.width || this.widthScale
+          ),
+          [getDimensionClass("height", this.height, this.heightScale)]: !!(
+            this.height || this.heightScale
+          ),
         }}
         hidden={collapsed}
         key="content"

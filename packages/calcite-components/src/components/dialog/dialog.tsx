@@ -19,8 +19,9 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { Kind, Scale } from "../interfaces";
+import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -230,8 +231,15 @@ export class Dialog
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
+   */
   @property({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
 
   // #endregion
 
@@ -785,7 +793,12 @@ export class Dialog
           ariaDescription={description}
           ariaLabel={heading}
           ariaModal={this.modal}
-          class={CSS.dialog}
+          class={{
+            [CSS.dialog]: true,
+            [getDimensionClass("width", this.width, this.widthScale)]: !!(
+              this.width || this.widthScale
+            ),
+          }}
           onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
           role="dialog"
