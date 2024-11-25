@@ -486,7 +486,9 @@ export class Autocomplete
   private openHandler(): void {
     onToggleOpenCloseComponent(this);
 
-    this.activeIndex = -1;
+    if (!this.open) {
+      this.activeIndex = -1;
+    }
 
     if (this.disabled) {
       this.open = false;
@@ -601,6 +603,10 @@ export class Autocomplete
   private setReferenceEl(el: Input["el"]): void {
     this.referenceEl = el;
     // todo: fixme when supported in jsx
+    if (!el) {
+      return;
+    }
+
     const enterKeyHint = this.el.getAttribute("enterkeyhint");
     el.enterKeyHint = enterKeyHint;
     connectFloatingUI(this);
@@ -756,7 +762,11 @@ export class Autocomplete
               ref={this.setFloatingEl}
             >
               <div
-                class={{ [FloatingCSS.animation]: true, [FloatingCSS.animationActive]: isOpen }}
+                class={{
+                  [CSS.contentAnimation]: true,
+                  [FloatingCSS.animation]: true,
+                  [FloatingCSS.animationActive]: isOpen,
+                }}
                 ref={this.setTransitionEl}
               >
                 <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>

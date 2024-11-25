@@ -14,6 +14,7 @@ export const CSS = {
   inputContainer: "input-container",
   input: "input",
   contentContainer: "content-container",
+  contentAnimation: "content-animation",
   content: "content",
   contentHidden: "content--hidden",
   floatingUIContainer: "floating-ui-container",
