@@ -9172,12 +9172,12 @@
     "release": "3.33.0"
   },
   "2d": {
-    "alias": ["4.0.0", "numbers", "flat", "two dimensional"],
+    "alias": ["4.0.0", "numbers", "flat"],
     "category": "Numbers",
     "release": "4.0.0"
   },
   "3d": {
-    "alias": ["4.0.0", "numbers", "three dimensional", "interactive"],
+    "alias": ["4.0.0", "numbers", "interactive"],
     "category": "Numbers",
     "release": "4.0.0"
   },
@@ -9247,7 +9247,7 @@
     "release": "4.0.0"
   },
   "shapes-2d-3d": {
-    "alias": ["4.0.0", "objects", "two dimensional", "three dimensional", "cube", "pyramid", "circle", "objects"],
+    "alias": ["4.0.0", "objects", "cube", "pyramid", "circle", "objects"],
     "category": "Objects",
     "release": "4.0.0"
   },
@@ -9277,7 +9277,7 @@
     "release": "4.0.0"
   },
   "water-drop": {
-    "alias": ["4.0.0", "objects", "droplet", "h2o", "public works"],
+    "alias": ["4.0.0", "objects", "droplet", "h2o"],
     "category": "Objects",
     "release": "4.0.0"
   },
