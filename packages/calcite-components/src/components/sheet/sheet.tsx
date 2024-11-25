@@ -1,11 +1,11 @@
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
   JsxNode,
+  LitElement,
+  method,
+  property,
   setAttribute,
 } from "@arcgis/lumina";
 import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
@@ -28,7 +28,6 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { componentOnReady } from "../../utils/component";
 import { CSS } from "./resources";
 import { DisplayMode } from "./interfaces";
 import { styles } from "./sheet.scss";
@@ -307,7 +306,7 @@ export class Sheet
   }
 
   private async openSheet(): Promise<void> {
-    await componentOnReady(this.el);
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteSheetOpen",
       this.openEnd,
