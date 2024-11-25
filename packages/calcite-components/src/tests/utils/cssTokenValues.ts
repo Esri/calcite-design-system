@@ -7,10 +7,13 @@
  */
 export function getTokenValue(token: string): string {
   const tokenValueMap = {
+    // granular patterns for the same token must be listed first to match correctly
     background$: "rgb(252, 244, 52)",
     "text-color$": "rgb(239, 118, 39)",
     "border-color$": "rgb(156, 89, 209)",
     "background-color$": "rgb(252, 244, 52)",
+    "start-icon-color$": "rgb(213, 156, 74)",
+    "end-icon-color$": "rgb(98, 213, 180)",
     color$: "rgb(0, 191, 255)",
     hover$: "rgb(255, 105, 180)",
     pressed$: "rgb(44, 44, 44)",

@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
+import { disabled, HYDRATED_ATTR, renders, hidden, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -343,5 +343,20 @@ describe("calcite-tab-title", () => {
 
     await page.keyboard.press("Enter");
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
+  });
+
+  describe("theme", () => {
+    describe("start/end icons", () => {
+      themed(html` <calcite-tab-title icon-start="banana" icon-end="3d-glasses">close me</calcite-tab-title>`, {
+        "--calcite-tab-end-icon-color": {
+          shadowSelector: `.${CSS.iconEnd}`,
+          targetProp: "color",
+        },
+        "--calcite-tab-start-icon-color": {
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "color",
+        },
+      });
+    });
   });
 });
