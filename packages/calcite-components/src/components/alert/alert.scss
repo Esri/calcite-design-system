@@ -7,12 +7,12 @@
  * @prop --calcite-alert-background-color: Specifies the component's background color.
  * @prop --calcite-alert-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-alert-shadow: Specifies the component's shadow.
+ * @prop --calcite-alert-offset-size: Specifies the component's bottom spacing
  */
 
 $border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
-  --calcite-internal-alert-edge-distance: theme("spacing.8");
   @apply block;
 
   inline-size: var(--calcite-alert-width);
@@ -44,7 +44,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   border-block-start: 0 solid transparent;
   border-inline: $border-style;
   border-block-end: $border-style;
-  max-inline-size: calc(100% - (var(--calcite-internal-alert-edge-distance) * 2));
+  max-inline-size: calc(100% - (var(--calcite-alert-offset-size, theme("spacing.8")) * 2));
   transition:
     opacity var(--calcite-internal-animation-timing-slow) $easing-function,
     all var(--calcite-animation-timing) ease-in-out;
@@ -55,19 +55,19 @@ $border-style: 1px solid var(--calcite-color-border-3);
     inset-inline-start: 0;
   }
   &[class*="bottom"] {
-    transform: translate3d(0, var(--calcite-internal-alert-edge-distance), 0);
-    inset-block-end: var(--calcite-internal-alert-edge-distance);
+    transform: translate3d(0, var(--calcite-alert-offset-size, theme("spacing.8")), 0);
+    inset-block-end: var(--calcite-alert-offset-size, theme("spacing.8"));
   }
   &[class*="top"] {
-    transform: translate3d(0, calc(-1 * var(--calcite-internal-alert-edge-distance)), 0);
-    inset-block-start: var(--calcite-internal-alert-edge-distance);
+    transform: translate3d(0, calc(-1 * var(--calcite-alert-offset-size, theme("spacing.8"))), 0);
+    inset-block-start: var(--calcite-alert-offset-size, theme("spacing.8"));
   }
   &[class*="start"] {
-    inset-inline-start: var(--calcite-internal-alert-edge-distance);
+    inset-inline-start: var(--calcite-alert-offset-size, theme("spacing.8"));
     inset-inline-end: auto;
   }
   &[class*="end"] {
-    inset-inline-end: var(--calcite-internal-alert-edge-distance);
+    inset-inline-end: var(--calcite-alert-offset-size, theme("spacing.8"));
     inset-inline-start: auto;
   }
 }
@@ -248,10 +248,10 @@ $border-style: 1px solid var(--calcite-color-border-3);
     @apply border-t-2 opacity-100;
     pointer-events: initial;
     &[class*="bottom"] {
-      transform: translate3d(0, calc(-1 * var(--calcite-internal-alert-edge-distance)), inherit);
+      transform: translate3d(0, calc(-1 * var(--calcite-alert-offset-size, theme("spacing.8"))), inherit);
     }
     &[class*="top"] {
-      transform: translate3d(0, var(--calcite-internal-alert-edge-distance), inherit);
+      transform: translate3d(0, var(--calcite-alert-offset-size, theme("spacing.8")), inherit);
     }
   }
 }
