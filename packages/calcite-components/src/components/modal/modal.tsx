@@ -1,14 +1,14 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
   setAttribute,
+  state,
 } from "@arcgis/lumina";
 import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
@@ -34,7 +34,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
-import { componentOnReady, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
 import T9nStrings from "./assets/t9n/modal.t9n.en.json";
@@ -406,7 +406,7 @@ export class Modal
   }
 
   private async openModal(): Promise<void> {
-    await componentOnReady(this.el);
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteModalOpen",
       this.openEnd,
