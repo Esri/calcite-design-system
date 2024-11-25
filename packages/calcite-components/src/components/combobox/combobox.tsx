@@ -3,13 +3,13 @@ import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
@@ -55,7 +55,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
-import { componentOnReady, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -683,7 +683,7 @@ export class Combobox
       return;
     }
 
-    await componentOnReady(this.el);
+    await this.componentOnReady();
 
     if (!this.allowCustomValues && this.filterText) {
       this.clearInputValue();
