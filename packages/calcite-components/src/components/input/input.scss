@@ -316,6 +316,10 @@ input:focus {
   color: var(--calcite-input-icon-color, var(--calcite-color-text-3));
 }
 
+.icon {
+  @apply z-default; // needed for firefox to display the icon properly
+}
+
 // hide browser default clear
 
 input[type="text"]::-ms-clear,
