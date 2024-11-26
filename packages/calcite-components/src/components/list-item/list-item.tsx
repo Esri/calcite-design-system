@@ -190,7 +190,7 @@ export class ListItem
    *
    * @private
    */
-  @property() selectionMode: Extract<
+  @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = null;
