@@ -293,16 +293,19 @@ describe("calcite-sheet properties", () => {
         </calcite-panel></calcite-sheet
       >`,
     );
-    await skipAnimations(page);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
+
     await page.keyboard.press("Tab");
     await page.waitForChanges();
+
     expect(await sheet.isVisible()).toBe(true);
     expect(await sheet.getProperty("open")).toBe(true);
+
     await page.keyboard.press("Escape");
     await page.waitForChanges();
+
     expect(await sheet.isVisible()).toBe(false);
     expect(await sheet.getProperty("open")).toBe(false);
   });

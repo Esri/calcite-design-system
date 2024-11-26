@@ -1002,12 +1002,12 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
     popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
-    expect(await popover.isVisible()).toBe(true);
+    expect(await popover.getProperty("open")).toBe(true);
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
-    expect(await popover.isVisible()).toBe(false);
+    expect(await popover.getProperty("open")).toBe(false);
   });
 });
