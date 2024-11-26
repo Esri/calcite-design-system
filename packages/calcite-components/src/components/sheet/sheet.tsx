@@ -253,7 +253,7 @@ export class Sheet
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
-    if (defaultPrevented || this.escapeDisabled) {
+    if (defaultPrevented || this.escapeDisabled || !this.focusTrapDisabled) {
       return;
     }
 

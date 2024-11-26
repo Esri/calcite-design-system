@@ -729,7 +729,7 @@ export class InputTimePicker
     } else if (key === "ArrowDown") {
       this.open = true;
       event.preventDefault();
-    } else if (this.open && key === "Escape") {
+    } else if (this.open && this.focusTrapDisabled && key === "Escape") {
       this.open = false;
       event.preventDefault();
     }

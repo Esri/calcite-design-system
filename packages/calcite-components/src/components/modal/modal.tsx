@@ -81,7 +81,7 @@ export class Modal
   });
 
   private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
+    if (event.defaultPrevented || this.escapeDisabled || !this.focusTrapDisabled) {
       return false;
     }
     event.preventDefault();
