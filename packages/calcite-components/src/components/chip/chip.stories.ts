@@ -42,6 +42,7 @@ export const simple = (args: ChipStoryArgs): string => html`
       scale="${args.scale}"
       appearance="${args.appearance}"
       kind="${args.kind}"
+      label="My great chip"
       ${boolean("closable", args.closable)}
       ${boolean("selected", args.selected)}
       >My great chip</calcite-chip
@@ -51,13 +52,15 @@ export const simple = (args: ChipStoryArgs): string => html`
 
 export const withIcon = (): string => html`
   <div style="background-color:white;padding:100px">
-    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral"> My great chip</calcite-chip>
+    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral" label="My great chip">
+      My great chip</calcite-chip
+    >
   </div>
 `;
 
 export const withImage = (): string => html`
   <div style="background-color:white;padding:100px">
-    <calcite-chip scale="m" appearance="solid" kind="neutral">
+    <calcite-chip scale="m" appearance="solid" kind="neutral" label="My great chip">
       <img slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
       My great chip</calcite-chip
     >
@@ -67,7 +70,7 @@ export const withImage = (): string => html`
 export const withAvatar = (): string => {
   return html`
     <div style="background-color:white;padding:100px">
-      <calcite-chip scale="m" appearance="solid" kind="neutral">
+      <calcite-chip scale="m" appearance="solid" kind="neutral" label="Username">
         <calcite-avatar
           slot="image"
           scale="m"
@@ -83,7 +86,7 @@ export const withAvatar = (): string => {
 export const withAvatarAndIcon = (): string => {
   return html`
     <div style="background-color:white;padding:100px">
-      <calcite-chip scale="m" appearance="solid" kind="neutral" icon="layer">
+      <calcite-chip scale="m" appearance="solid" kind="neutral" icon="layer" label="Username">
         <calcite-avatar
           slot="image"
           scale="m"
@@ -98,7 +101,7 @@ export const withAvatarAndIcon = (): string => {
 
 export const withClosable = (): string => html`
   <div style="background-color:white;padding:100px">
-    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral" closable>
+    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral" label="My great chip" closable>
       My great chip</calcite-chip
     >
   </div>
@@ -107,7 +110,7 @@ export const withClosable = (): string => html`
 export const withAvatarAndIconAndClosable = (): string => {
   return html`
     <div style="background-color:white;padding:100px">
-      <calcite-chip scale="m" appearance="solid" kind="neutral" closable icon="layer">
+      <calcite-chip scale="m" appearance="solid" kind="neutral" label="Username" closable icon="layer">
         <calcite-avatar
           slot="image"
           scale="m"
@@ -120,11 +123,11 @@ export const withAvatarAndIconAndClosable = (): string => {
   `;
 };
 export const overriddenIconColor = (): string =>
-  html`<calcite-chip icon="banana" style="--calcite-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
+  html`<calcite-chip icon="banana" style="--calcite-icon-color: #ac9f42" label="Banana" closable>Banana</calcite-chip>`;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
-    <calcite-chip class="calcite-mode-dark">My great chip</calcite-chip>
+    <calcite-chip class="calcite-mode-dark" label="My great chip">My great chip</calcite-chip>
   </div>
 `;
 

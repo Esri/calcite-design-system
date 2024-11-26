@@ -13,8 +13,8 @@ describe("calcite-chip", () => {
     hidden("calcite-chip");
   });
 
-  describe("accessible without calcite-label", () => {
-    accessible(`<calcite-chip>doritos</calcite-chip>`);
+  describe("accessible with icon only", () => {
+    accessible(`<calcite-chip label="Gray basemap" icon="basemap"></calcite-chip>`);
   });
 
   describe("slots", () => {
