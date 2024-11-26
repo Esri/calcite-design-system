@@ -13,6 +13,7 @@ import {
 import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
+import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { buttons } from "./custom-theme/button";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
@@ -109,7 +110,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${notices} ${segmentedControl}
+        ${accordion} ${actionBar} ${autocomplete} ${notices} ${segmentedControl}
         <div style="display: flex">
           ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
@@ -128,11 +129,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${datePicker} ${tabs} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
         ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
       </div>
-      <div class="demo-column">
-      ${navigation} ${navigationLogos} ${navigationUsers}
-       </div>
-      ${alert} 
-
+      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers}</div>
+      ${alert}
     </div>
   </div>`;
 
@@ -145,6 +143,7 @@ const componentTokens = {
   ...actionGroupTokens,
   ...actionMenuTokens,
   ...actionPadTokens,
+  ...autocompleteTokens,
   ...avatarTokens,
   ...cardTokens,
   ...alertTokens,
