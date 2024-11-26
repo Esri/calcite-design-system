@@ -175,7 +175,7 @@ describe("calcite-autocomplete", () => {
       },
       {
         propertyName: "value",
-        defaultValue: undefined,
+        defaultValue: "",
       },
     ]);
   });
