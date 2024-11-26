@@ -183,7 +183,7 @@ export class ListItem
    *
    * @private
    */
-  @property() selectionAppearance: SelectionAppearance = null;
+  @property({ reflect: true }) selectionAppearance: SelectionAppearance = null;
 
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
