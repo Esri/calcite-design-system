@@ -21,6 +21,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
+import { ListDisplayMode } from "../list/interfaces";
 import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
 import { getDepth, hasListItemChildren } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -161,6 +162,13 @@ export class ListItem
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
   @property() metadata: Record<string, unknown>;
+
+  /**
+   * Specifies the nesting behavior.
+   *
+   * @private
+   */
+  @property() displayMode: ListDisplayMode;
 
   /**
    * Sets the item to display a border.
@@ -368,6 +376,10 @@ export class ListItem
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
     }
+
+    if (changes.has("displayMode") && this.hasUpdated) {
+      this.handleOpenableChange(this.defaultSlotEl.value);
+    }
   }
 
   override updated(): void {
@@ -523,7 +535,7 @@ export class ListItem
       return;
     }
 
-    this.openable = hasListItemChildren(slotEl);
+    this.openable = this.displayMode === "nested" && hasListItemChildren(slotEl);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -744,21 +756,36 @@ export class ListItem
   }
 
   private renderOpen(): JsxNode {
-    const { el, open, openable, messages } = this;
-    const dir = getElementDir(el);
-    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
-    const tooltip = open ? messages.collapse : messages.expand;
+    const { el, open, openable, messages, displayMode } = this;
 
-    return openable ? (
+    if (displayMode !== "nested") {
+      return null;
+    }
+
+    const dir = getElementDir(el);
+
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+          ? ICONS.closedRTL
+          : ICONS.closedLTR
+      : ICONS.blank;
+
+    const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
+
+    const openClickHandler = openable ? this.handleToggleClick : undefined;
+
+    return (
       <div
         class={CSS.openContainer}
         key="open-container"
-        onClick={this.handleToggleClick}
+        onClick={openClickHandler}
         title={tooltip}
       >
         <calcite-icon icon={icon} key={icon} scale="s" />
       </div>
-    ) : null;
+    );
   }
 
   private renderActionsStart(): JsxNode {

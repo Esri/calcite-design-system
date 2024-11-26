@@ -401,13 +401,20 @@ export class Table extends LitElement implements LoadableComponent {
       <div class={CSS.selectionArea}>
         <calcite-chip
           kind={this.selectedCount > 0 ? "brand" : "neutral"}
+          label={selectionText}
           scale={this.scale}
           value={selectionText}
         >
           {selectionText}
         </calcite-chip>
         {outOfViewCount > 0 && (
-          <calcite-chip icon="hide-empty" scale={this.scale} title={outOfView} value={outOfView}>
+          <calcite-chip
+            icon="hide-empty"
+            label={outOfView}
+            scale={this.scale}
+            title={outOfView}
+            value={outOfView}
+          >
             {localizedOutOfView}
           </calcite-chip>
         )}

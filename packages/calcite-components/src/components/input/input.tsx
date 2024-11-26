@@ -1094,55 +1094,46 @@ export class Input
         : (literal`textarea` as unknown as "textarea");
 
     const childEl =
-      this.type !== "number"
-        ? [
-            <DynamicHtmlTag
-              accept={this.accept}
-              aria-errormessage={IDS.validationMessage}
-              ariaInvalid={this.status === "invalid"}
-              ariaLabel={getLabelText(this)}
-              autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
-              autofocus={autofocus}
-              class={{
-                [CSS.editingEnabled]: this.editingEnabled,
-                [CSS.inlineChild]: !!this.inlineEditableEl,
-              }}
-              defaultValue={this.defaultValue}
-              disabled={this.disabled ? true : null}
-              enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-              inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
-              max={this.maxString}
-              maxLength={this.maxLength}
-              min={this.minString}
-              minLength={this.minLength}
-              multiple={this.multiple}
-              name={this.name}
-              onBlur={this.inputBlurHandler}
-              onChange={this.inputChangeHandler}
-              onFocus={this.inputFocusHandler}
-              onInput={this.inputInputHandler}
-              onKeyDown={this.inputKeyDownHandler}
-              onKeyUp={this.inputKeyUpHandler}
-              pattern={this.pattern}
-              placeholder={this.placeholder || ""}
-              readOnly={this.readOnly}
-              ref={this.setChildElRef}
-              required={this.required ? true : null}
-              spellcheck={this.el.spellcheck}
-              step={this.step}
-              tabIndex={
-                this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null
-              }
-              type={this.type}
-              value={this.value}
-            />,
-            this.isTextarea ? (
-              <div class={CSS.resizeIconWrapper}>
-                <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
-              </div>
-            ) : null,
-          ]
-        : null;
+      this.type !== "number" ? (
+        <DynamicHtmlTag
+          accept={this.accept}
+          aria-errormessage={IDS.validationMessage}
+          ariaInvalid={this.status === "invalid"}
+          ariaLabel={getLabelText(this)}
+          autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
+          autofocus={autofocus}
+          class={{
+            [CSS.editingEnabled]: this.editingEnabled,
+            [CSS.inlineChild]: !!this.inlineEditableEl,
+          }}
+          defaultValue={this.defaultValue}
+          disabled={this.disabled ? true : null}
+          enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+          inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+          max={this.maxString}
+          maxLength={this.maxLength}
+          min={this.minString}
+          minLength={this.minLength}
+          multiple={this.multiple}
+          name={this.name}
+          onBlur={this.inputBlurHandler}
+          onChange={this.inputChangeHandler}
+          onFocus={this.inputFocusHandler}
+          onInput={this.inputInputHandler}
+          onKeyDown={this.inputKeyDownHandler}
+          onKeyUp={this.inputKeyUpHandler}
+          pattern={this.pattern}
+          placeholder={this.placeholder || ""}
+          readOnly={this.readOnly}
+          ref={this.setChildElRef}
+          required={this.required ? true : null}
+          spellcheck={this.el.spellcheck}
+          step={this.step}
+          tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
+          type={this.type}
+          value={this.value}
+        />
+      ) : null;
 
     return (
       <InteractiveContainer disabled={this.disabled}>
