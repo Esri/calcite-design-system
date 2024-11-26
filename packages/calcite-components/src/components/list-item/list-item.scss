@@ -143,7 +143,11 @@
     padding-inline-start: var(--calcite-spacing-sm);
   }
 }
-:host([scale="s"][selection-mode="none"][drag-handle]),
+:host([scale="s"][drag-handle]) {
+  .container {
+    padding-inline-start: unset;
+  }
+}
 :host([scale="s"][selection-appearance="border"]:not([drag-handle])) {
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
@@ -174,9 +178,9 @@
     padding-inline-start: var(--calcite-spacing-md);
   }
 }
-:host([scale="m"][selection-mode="none"][drag-handle]) {
+:host([scale="m"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="m"][selection-appearance="border"]:not([drag-handle])) {
@@ -207,9 +211,9 @@
     padding-inline-start: var(--calcite-spacing-xl);
   }
 }
-:host([scale="l"][selection-mode="none"][drag-handle]) {
+:host([scale="l"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-spacing-xxs);
   }
 }
 
