@@ -399,7 +399,7 @@ export class Autocomplete
     connectLabel(this);
     connectForm(this);
 
-    this.getAllItems();
+    this.getAllItemsDebounced();
 
     if (this.open) {
       this.openHandler();
@@ -411,7 +411,7 @@ export class Autocomplete
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.getAllItems();
+    this.getAllItemsDebounced();
 
     if (this.open) {
       onToggleOpenCloseComponent(this);
@@ -707,91 +707,89 @@ export class Autocomplete
       | "decimal";
 
     return (
-      <div class={CSS.container}>
-        <InteractiveContainer disabled={disabled}>
-          <div class={CSS.inputContainer}>
-            <slot name={SLOTS.actionsStart} />
-            <calcite-input
-              alignment={this.alignment}
-              aria-activedescendant={this.activeDescendant}
-              aria-controls={listId}
-              aria-owns={listId}
-              ariaAutoComplete="list"
-              ariaExpanded={isOpen}
-              ariaHasPopup="listbox"
-              autocomplete={this.autocomplete}
-              autofocus={autofocus}
-              class={CSS.input}
-              clearable={true}
-              disabled={disabled}
-              form={this.form}
-              icon={this.getIcon()}
-              iconFlipRtl={this.iconFlipRtl}
-              id={inputId}
-              inputMode={inputMode}
-              label={this.label}
-              loading={this.loading}
-              maxLength={this.maxLength}
-              messageOverrides={this.messages}
-              minLength={this.minLength}
-              name={this.name}
-              onKeyDown={this.keyDownHandler}
-              oncalciteInputChange={this.changeHandler}
-              oncalciteInputInput={this.inputHandler}
-              oncalciteInternalInputFocus={this.handleInputFocus}
-              pattern={this.pattern}
-              placeholder={this.placeholder}
-              prefixText={this.prefixText}
-              readOnly={this.readOnly}
-              ref={this.setReferenceEl}
-              role="combobox"
-              scale={this.scale}
-              status={this.status}
-              suffixText={this.suffixText}
-              type="search"
-              value={this.inputValue}
-            />
-            {this.renderListBox()}
-            <slot name={SLOTS.actionsEnd} />
+      <InteractiveContainer disabled={disabled}>
+        <div class={CSS.inputContainer}>
+          <slot name={SLOTS.actionsStart} />
+          <calcite-input
+            alignment={this.alignment}
+            aria-activedescendant={this.activeDescendant}
+            aria-controls={listId}
+            aria-owns={listId}
+            ariaAutoComplete="list"
+            ariaExpanded={isOpen}
+            ariaHasPopup="listbox"
+            autocomplete={this.autocomplete}
+            autofocus={autofocus}
+            class={CSS.input}
+            clearable={true}
+            disabled={disabled}
+            form={this.form}
+            icon={this.getIcon()}
+            iconFlipRtl={this.iconFlipRtl}
+            id={inputId}
+            inputMode={inputMode}
+            label={this.label}
+            loading={this.loading}
+            maxLength={this.maxLength}
+            messageOverrides={this.messages}
+            minLength={this.minLength}
+            name={this.name}
+            onKeyDown={this.keyDownHandler}
+            oncalciteInputChange={this.changeHandler}
+            oncalciteInputInput={this.inputHandler}
+            oncalciteInternalInputFocus={this.handleInputFocus}
+            pattern={this.pattern}
+            placeholder={this.placeholder}
+            prefixText={this.prefixText}
+            readOnly={this.readOnly}
+            ref={this.setReferenceEl}
+            role="combobox"
+            scale={this.scale}
+            status={this.status}
+            suffixText={this.suffixText}
+            type="search"
+            value={this.inputValue}
+          />
+          {this.renderListBox()}
+          <slot name={SLOTS.actionsEnd} />
+          <div
+            class={{
+              [CSS.contentContainer]: true,
+              [CSS.floatingUIContainer]: true,
+              [CSS.floatingUIContainerActive]: isOpen,
+            }}
+            ref={this.setFloatingEl}
+          >
             <div
               class={{
-                [CSS.contentContainer]: true,
-                [CSS.floatingUIContainer]: true,
-                [CSS.floatingUIContainerActive]: isOpen,
+                [CSS.contentAnimation]: true,
+                [FloatingCSS.animation]: true,
+                [FloatingCSS.animationActive]: isOpen,
               }}
-              ref={this.setFloatingEl}
+              ref={this.setTransitionEl}
             >
-              <div
-                class={{
-                  [CSS.contentAnimation]: true,
-                  [FloatingCSS.animation]: true,
-                  [FloatingCSS.animationActive]: isOpen,
-                }}
-                ref={this.setTransitionEl}
-              >
-                <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
-                  <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
-                  <slot ariaHidden="true" />
-                  <slot
-                    name={SLOTS.contentBottom}
-                    onSlotChange={this.handleContentBottomSlotChange}
-                  />
-                </div>
+              <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
+                <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
+                <slot ariaHidden="true" />
+                <slot
+                  name={SLOTS.contentBottom}
+                  onSlotChange={this.handleContentBottomSlotChange}
+                />
               </div>
             </div>
           </div>
-          <HiddenFormInputSlot component={this} />
-          {this.validationMessage && this.status === "invalid" ? (
-            <Validation
-              icon={this.validationIcon}
-              id={IDS.validationMessage}
-              message={this.validationMessage}
-              scale={this.scale}
-              status={this.status}
-            />
-          ) : null}
-        </InteractiveContainer>
-      </div>
+        </div>
+        <HiddenFormInputSlot component={this} />
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </InteractiveContainer>
     );
   }
 

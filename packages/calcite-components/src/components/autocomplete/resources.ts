@@ -10,7 +10,6 @@ export const ICONS = {
 } as const;
 
 export const CSS = {
-  container: "container",
   inputContainer: "input-container",
   input: "input",
   contentContainer: "content-container",

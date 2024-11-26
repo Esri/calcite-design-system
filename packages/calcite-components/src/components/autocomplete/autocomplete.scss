@@ -9,14 +9,15 @@
  */
 
 :host {
-  @apply block
-    relative;
+  @apply relative
+    block;
 }
 
 .input-container {
   @apply relative
     flex
-    flex-auto;
+    flex-auto
+    flex-nowrap;
 }
 
 .input {
