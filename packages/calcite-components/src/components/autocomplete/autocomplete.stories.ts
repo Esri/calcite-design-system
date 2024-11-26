@@ -105,28 +105,13 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
       validation-message="${args.validationMessage}"
       value="${args.value}"
     >
-      <div slot="content-top">Content top</div>
-      <div slot="content-bottom">Content bottom</div>
-      <calcite-autocomplete-item-group heading="Enabled Items">
-        <calcite-autocomplete-item
-          scale="l"
-          label="Item 1"
-          value="1"
-          heading="Item 1"
-          description="Item 1 description"
-          icon-start="information"
-          icon-end="gear"
-        ></calcite-autocomplete-item>
+      <calcite-autocomplete-item-group heading="Dogs">
+        <calcite-autocomplete-item label="Rover" value="rover" heading="Rover"></calcite-autocomplete-item>
+        <calcite-autocomplete-item label="Fido" value="one" heading="Fido"></calcite-autocomplete-item>
       </calcite-autocomplete-item-group>
-      <calcite-autocomplete-item-group heading="Disabled Items">
-        <calcite-autocomplete-item
-          disabled
-          scale="l"
-          label="Item 2"
-          value="2"
-          heading="Item 2"
-          description="Item 2 description"
-        ></calcite-autocomplete-item>
+      <calcite-autocomplete-item-group heading="Cats">
+        <calcite-autocomplete-item label="Felix" value="felix" heading="Felix"></calcite-autocomplete-item>
+        <calcite-autocomplete-item label="Garfield" value="garfield" heading="Garfield"></calcite-autocomplete-item>
       </calcite-autocomplete-item-group>
     </calcite-autocomplete>
   </div>

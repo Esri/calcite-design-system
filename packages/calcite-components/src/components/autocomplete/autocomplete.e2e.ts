@@ -282,10 +282,6 @@ describe("calcite-autocomplete", () => {
         shadowSelector: `.${CSS.contentContainer}`,
         targetProp: "color",
       },
-      "--calcite-autocomplete-width": {
-        shadowSelector: `.${CSS.contentAnimation}`,
-        targetProp: "inlineSize",
-      },
     });
   });
 

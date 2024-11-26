@@ -5,7 +5,6 @@
  *
  * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
  * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
- * @prop --calcite-autocomplete-width: Specifies the width of the component's wrapper.
  */
 
 :host {
@@ -27,7 +26,8 @@
 @include disabled();
 
 .content-container {
-  @apply w-full;
+  @apply w-full
+    box-border;
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
 }
@@ -41,9 +41,9 @@
 
 .calcite-floating-ui-anim {
   @apply max-h-menu
-    overflow-y-auto;
+    overflow-y-auto
+    w-full;
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
-  inline-size: var(--calcite-autocomplete-width, 100%);
 }
 
 .content--hidden {

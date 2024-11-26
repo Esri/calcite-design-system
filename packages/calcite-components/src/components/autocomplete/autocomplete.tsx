@@ -465,6 +465,7 @@ export class Autocomplete
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this);
@@ -473,6 +474,16 @@ export class Autocomplete
   // #endregion
 
   // #region Private Methods
+
+  private setFloatingElSize(): void {
+    const { referenceEl, floatingEl } = this;
+
+    if (!referenceEl || !floatingEl) {
+      return;
+    }
+
+    floatingEl.style.inlineSize = `${referenceEl.clientWidth}px`;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -496,6 +507,7 @@ export class Autocomplete
       return;
     }
 
+    this.setFloatingElSize();
     this.reposition(true);
   }
 
@@ -514,6 +526,10 @@ export class Autocomplete
   }
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
+
+  private resizeObserver = createObserver("resize", () => {
+    this.setFloatingElSize();
+  });
 
   onLabelClick(): void {
     this.setFocus();
@@ -603,14 +619,18 @@ export class Autocomplete
 
   private setReferenceEl(el: Input["el"]): void {
     this.referenceEl = el;
-    // todo: fixme when supported in jsx
+
     if (!el) {
       return;
     }
 
+    this.resizeObserver?.observe(el);
+
+    connectFloatingUI(this);
+
+    // todo: fixme when supported in jsx
     const enterKeyHint = this.el.getAttribute("enterkeyhint");
     el.enterKeyHint = enterKeyHint;
-    connectFloatingUI(this);
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

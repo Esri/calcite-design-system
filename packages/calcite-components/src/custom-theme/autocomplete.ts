@@ -7,7 +7,6 @@ export const autocompleteTokens = {
   calciteAutocompleteDescriptionTextColor: "",
   calciteAutocompleteHeadingTextColor: "",
   calciteAutocompleteTextColor: "",
-  calciteAutocompleteWidth: "",
 };
 
 export const autocomplete = html`<calcite-autocomplete label="Pets">
