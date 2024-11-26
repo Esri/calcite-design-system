@@ -354,10 +354,10 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
           ? "radio"
           : this.interactive
             ? "button"
-            : undefined;
+            : "img";
     return (
       <InteractiveContainer disabled={disabled}>
-        <span
+        <div
           ariaChecked={
             this.selectionMode !== "none" && this.interactive ? this.selected : undefined
           }
@@ -392,7 +392,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </span>
           {this.closable && this.renderCloseButton()}
-        </span>
+        </div>
       </InteractiveContainer>
     );
   }
