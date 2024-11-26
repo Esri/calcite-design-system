@@ -281,7 +281,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-
     const depth = getDepth(this.el);
 
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -296,9 +295,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             [CSS.container]: true,
             [CSS.scale(this.scale)]: true,
           }}
-          style={{
-            "--calcite-combobox-item-spacing-indent-multiplier": `${depth}`,
-          }}
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(showDot, iconPath)}
