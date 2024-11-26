@@ -408,7 +408,13 @@ export class Dialog
   }
 
   private handleOpenedChange(value: boolean): void {
-    this.transitionEl.classList.toggle(CSS.openingActive, value);
+    const { transitionEl } = this;
+
+    if (!transitionEl) {
+      return;
+    }
+
+    transitionEl.classList.toggle(CSS.openingActive, value);
     onToggleOpenCloseComponent(this);
   }
 
