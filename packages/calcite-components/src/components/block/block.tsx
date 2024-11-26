@@ -190,12 +190,14 @@ export class Block
     this.transitionEl = this.el;
   }
 
-  async load(): Promise<void> {
+  load(): void {
     setUpLoadableComponent(this);
 
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+
+    this.handleWarningMessage();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -205,6 +207,10 @@ export class Block
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       onToggleOpenCloseComponent(this);
+    }
+
+    if (changes.has("heading") || changes.has("label")) {
+      this.handleWarningMessage();
     }
   }
 
@@ -350,6 +356,14 @@ export class Block
         scale="s"
       />
     );
+  }
+
+  private handleWarningMessage(): void {
+    if (!this.heading && !this.label) {
+      console.warn(
+        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
+      );
+    }
   }
 
   override render(): JsxNode {
