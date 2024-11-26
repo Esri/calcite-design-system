@@ -80,11 +80,6 @@
   @apply flex;
 }
 
-.actions-content-container {
-  display: flex;
-  flex: 1 1 auto;
-}
-
 .content-container {
   @apply select-none
     flex
@@ -131,12 +126,10 @@
 }
 
 :host([scale="s"]) {
-  .actions-content-container {
-    gap: var(--calcite-spacing-sm);
-  }
   .content-container {
     gap: var(--calcite-spacing-sm);
     padding-block: var(--calcite-spacing-xxs);
+    padding-inline: var(--calcite-spacing-sm);
   }
   .content,
   .custom-content,
@@ -148,12 +141,10 @@
   }
 }
 :host([scale="m"]) {
-  .actions-content-container {
-    gap: var(--calcite-spacing-sm);
-  }
   .content-container {
     gap: var(--calcite-spacing-sm);
     padding-block: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-spacing-sm);
   }
   .content,
   .custom-content {
@@ -167,12 +158,10 @@
   }
 }
 :host([scale="l"]) {
-  .actions-content-container {
-    gap: var(--calcite-spacing-xl);
-  }
   .content-container {
     gap: var(--calcite-spacing-md);
     padding-block: theme("spacing[2.5]");
+    padding-inline: var(--calcite-spacing-xl);
   }
   .content,
   .custom-content,

@@ -959,11 +959,9 @@ export class ListItem
             {this.renderDragHandle()}
             {this.renderSelected()}
             {this.renderOpen()}
-            <div class={CSS.actionsContentContainer}>
-              {this.renderActionsStart()}
-              {this.renderContentContainer()}
-              {this.renderActionsEnd()}
-            </div>
+            {this.renderActionsStart()}
+            {this.renderContentContainer()}
+            {this.renderActionsEnd()}
           </div>
           {this.renderContentBottom()}
         </div>
