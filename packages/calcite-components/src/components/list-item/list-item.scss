@@ -87,6 +87,7 @@
     font-normal
     items-stretch;
   color: var(--calcite-list-content-text-color, var(--calcite-color-text-2));
+  min-block-size: 2rem;
 }
 
 .content-container--unavailable {
