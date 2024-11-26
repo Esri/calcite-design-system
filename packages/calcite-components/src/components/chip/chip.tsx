@@ -357,7 +357,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
             : undefined;
     return (
       <InteractiveContainer disabled={disabled}>
-        <div
+        <span
           ariaChecked={
             this.selectionMode !== "none" && this.interactive ? this.selected : undefined
           }
@@ -392,7 +392,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </span>
           {this.closable && this.renderCloseButton()}
-        </div>
+        </span>
       </InteractiveContainer>
     );
   }
