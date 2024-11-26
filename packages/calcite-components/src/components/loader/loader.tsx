@@ -116,8 +116,8 @@ export class Loader extends LitElement {
   private getSize(scale: string) {
     return {
       s: 32,
-      m: 56,
-      l: 80,
+      m: 64,
+      l: 96,
     }[scale];
   }
 
@@ -125,7 +125,7 @@ export class Loader extends LitElement {
     return {
       s: 12,
       m: 16,
-      l: 20,
+      l: 24,
     }[scale];
   }
 
