@@ -1,4 +1,4 @@
-import { paramCase } from "change-case";
+import { kebabCase } from "change-case";
 
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";
 import { getTypographyReferences } from "../typography/utils.js";
@@ -9,7 +9,7 @@ import { EOL } from "os";
 
 export function handleTypography(token: TransformedToken, args: MappedFormatterArguments): string {
   const strObj = Object.keys(token.value).reduce((acc, typeKey) => {
-    const propName = paramCase(typeKey);
+    const propName = kebabCase(typeKey);
     const value = typeof token.value === "string" ? token.value : token.value[typeKey];
     const originalValue =
       typeof token.original.value === "string" ? token.original.value : token.original.value[typeKey];
