@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.29...@esri/calcite-components@3.0.0-next.30) (2024-11-25)
+
+### Features
+
+- **input:** Improve display of resize handle for type textarea ([#10866](https://github.com/Esri/calcite-design-system/issues/10866)) ([d53c497](https://github.com/Esri/calcite-design-system/commit/d53c4972fffa011c460038b617296f838ba1ec2e)), closes [#10864](https://github.com/Esri/calcite-design-system/issues/10864) [#9974](https://github.com/Esri/calcite-design-system/issues/9974)
+
 ## [3.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.28...@esri/calcite-components@3.0.0-next.29) (2024-11-25)
 
 ### ⚠ BREAKING CHANGES
