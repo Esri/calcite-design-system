@@ -457,7 +457,7 @@ export class Autocomplete
   }
 
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.value);
+    afterConnectDefaultValueSet(this, this.value || "");
     setComponentLoaded(this);
     connectFloatingUI(this);
   }
