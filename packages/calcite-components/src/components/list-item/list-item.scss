@@ -49,22 +49,17 @@
   background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-1));
 }
 
-.container--border {
-  border-inline-start-width: theme("borderWidth.4");
-  border-inline-start-style: solid;
-}
-
 .container--border-selected {
-  border-inline-start-color: var(--calcite-list-selection-border-color, var(--calcite-color-brand));
+  box-shadow: inset 4px 0 0 0 var(--calcite-list-selection-border-color, var(--calcite-color-brand));
 }
 
 .container--border-unselected {
-  border-inline-start-color: transparent;
+  box-shadow: inset 4px 0 0 0 transparent;
 }
 
 .container:hover {
   &.container--border-unselected {
-    border-inline-start-color: var(--calcite-list-selection-border-color, var(--calcite-color-border-1));
+    box-shadow: inset 4px 0 0 0 var(--calcite-list-selection-border-color, var(--calcite-color-border-1));
   }
 }
 
