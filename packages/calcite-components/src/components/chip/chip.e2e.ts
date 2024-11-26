@@ -67,19 +67,6 @@ describe("calcite-chip", () => {
     expect(eventSpy).toHaveReceivedEvent();
   });
 
-  it("should emit event after the close button is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
-
-    const eventSpy = await page.spyOnEvent("calciteChipClose", "window");
-
-    const closeButton = await page.find(`calcite-chip >>> .${CSS.close}`);
-
-    await closeButton.click();
-
-    expect(eventSpy).toHaveReceivedEvent();
-  });
-
   it("should receive focus when clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
@@ -98,6 +85,9 @@ describe("calcite-chip", () => {
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("kind", "neutral");
     expect(element).toEqualAttribute("scale", "m");
+
+    const close = await page.find(`calcite-chip >>> .${CSS.close}`);
+    expect(close).toBeNull();
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -128,12 +118,31 @@ describe("calcite-chip", () => {
     expect(close).not.toBeNull();
   });
 
-  it("does not render a close button when not requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+  describe("closing", () => {
+    it("via mouse", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
+      const chip = await page.find("calcite-chip");
+      const eventSpy = await chip.spyOnEvent("calciteChipClose");
 
-    const close = await page.find("calcite-chip >>> button.close");
-    expect(close).toBeNull();
+      await page.click(`calcite-chip >>> .${CSS.close}`);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      await chip.callMethod("setFocus");
+      await chip.press("Delete");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
+
+    it("can be closed via keyboard", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-chip closable close-on-delete>cheetos</calcite-chip>`);
+      const chip = await page.find("calcite-chip");
+      const eventSpy = await chip.spyOnEvent("calciteChipClose");
+
+      await chip.callMethod("setFocus");
+      await chip.press("Delete");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
   });
 
   describe("CSS properties for light/dark mode", () => {
