@@ -167,6 +167,12 @@
     padding-inline-start: var(--calcite-spacing-md);
   }
 }
+:host([scale="s"][selection-mode="none"][drag-handle]),
+:host([scale="m"][selection-mode="none"][drag-handle]) {
+  .container {
+    padding-inline-start: var(--calcite-spacing-xxs);
+  }
+}
 :host([scale="l"]) {
   .content-container {
     gap: var(--calcite-spacing-md);
@@ -185,6 +191,11 @@
 :host([scale="l"][selection-mode="none"]) {
   .container {
     padding-inline-start: var(--calcite-spacing-xl);
+  }
+}
+:host([scale="l"][selection-mode="none"][drag-handle]) {
+  .container {
+    padding-inline-start: var(--calcite-spacing-sm);
   }
 }
 

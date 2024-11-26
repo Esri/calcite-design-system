@@ -130,7 +130,7 @@ export class ListItem
    *
    * @private
    */
-  @property() dragHandle = false;
+  @property({ reflect: true }) dragHandle = false;
 
   /**
    * Hides the component when filtered.
