@@ -281,7 +281,11 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-    const depth = getDepth(this.el) === 0 ? 1 : getDepth(this.el) + 1;
+
+    const descendantOfGroup = this.el.parentElement.nodeName === "CALCITE-COMBOBOX-ITEM-GROUP";
+    const depth = getDepth(this.el);
+    const indentLevel = depth === 0 ? 1 : descendantOfGroup ? depth : depth + 1;
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaHidden = "true";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -294,7 +298,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             [CSS.container]: true,
             [CSS.scale(this.scale)]: true,
           }}
-          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${indentLevel}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(showDot, iconPath)}
