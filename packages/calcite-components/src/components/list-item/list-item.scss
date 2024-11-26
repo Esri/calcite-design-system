@@ -144,7 +144,7 @@
   .content-container {
     gap: var(--calcite-spacing-sm);
     padding-block: var(--calcite-spacing-sm);
-    padding-inline: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-spacing-sm) var(--calcite-spacing-md);
   }
   .content,
   .custom-content {
@@ -161,7 +161,7 @@
   .content-container {
     gap: var(--calcite-spacing-md);
     padding-block: theme("spacing[2.5]");
-    padding-inline: var(--calcite-spacing-xl);
+    padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xl);
   }
   .content,
   .custom-content,
