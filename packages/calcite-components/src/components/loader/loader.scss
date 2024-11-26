@@ -114,6 +114,10 @@
     inline-size: var(--calcite-loader-size-inline);
     block-size: var(--calcite-loader-size-inline);
   }
+
+  .ring--progress {
+    stroke: currentColor;
+  }
 }
 
 :host([complete]) {
