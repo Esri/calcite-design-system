@@ -756,7 +756,7 @@ export class ListItem
   }
 
   private renderOpen(): JsxNode {
-    const { el, open, openable, messages, displayMode } = this;
+    const { el, open, openable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -772,6 +772,8 @@ export class ListItem
           : ICONS.closedLTR
       : ICONS.blank;
 
+    const iconScale = scale === "l" ? "m" : "s";
+
     const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
 
     const openClickHandler = openable ? this.handleToggleClick : undefined;
@@ -783,7 +785,7 @@ export class ListItem
         onClick={openClickHandler}
         title={tooltip}
       >
-        <calcite-icon icon={icon} key={icon} scale="s" />
+        <calcite-icon icon={icon} key={icon} scale={iconScale} />
       </div>
     );
   }
