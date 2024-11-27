@@ -364,6 +364,7 @@
 
 .open-container {
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
+  padding-inline: var(--calcite-spacing-xxs);
 }
 
 :host(:not([disabled])) .container:hover .open-container {
