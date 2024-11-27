@@ -273,6 +273,9 @@
   .description {
     font-size: var(--calcite-font-size--1);
   }
+  .nested-container {
+    margin-inline-start: 1.75rem;
+  }
 }
 :host([scale="l"][display-mode="flat"]) {
   .container {
