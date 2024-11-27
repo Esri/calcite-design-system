@@ -826,6 +826,7 @@ export class ListItem
             key="close-action"
             label={messages.close}
             onClick={this.handleCloseClick}
+            scale={this.scale}
             text={messages.close}
           />
         ) : null}
