@@ -265,6 +265,11 @@ export class Modal
 
   // #region Lifecycle
 
+  constructor() {
+    super();
+    this.listen("keydown", this.keyDownHandler);
+  }
+
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
@@ -328,6 +333,21 @@ export class Modal
   // #endregion
 
   // #region Private Methods
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (
+      !defaultPrevented &&
+      this.focusTrapDisabled &&
+      this.open &&
+      !this.escapeDisabled &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
 
   private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
