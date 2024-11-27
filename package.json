@@ -85,6 +85,7 @@
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
     "cpy-cli": "5.0.0",
+    "cross-env": "7.0.3",
     "dedent": "1.5.3",
     "eslint": "9.15.0",
     "eslint-config-prettier": "9.1.0",
