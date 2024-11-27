@@ -173,7 +173,7 @@
   .footer {
     font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-0));
     padding-block: var(--calcite-spacing-md);
-    padding-inline: var(--calcite-spacing-xl);
+    padding-inline: var(--calcite-spacing-lg);
   }
 
   .footer {
@@ -184,7 +184,7 @@
   .footer,
   .character-limit {
     font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-0));
-    padding-inline-start: var(--calcite-spacing-xl);
+    padding-inline-start: var(--calcite-spacing-lg);
   }
 }
 

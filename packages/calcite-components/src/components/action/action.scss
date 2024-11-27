@@ -175,7 +175,7 @@ button {
   .button {
     @apply text-n2h font-normal;
     padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.2"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xxs));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -186,7 +186,7 @@ button {
   .button {
     @apply text-n1h font-normal;
     padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.4"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-md));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-md));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -197,7 +197,7 @@ button {
   .button {
     @apply text-0h font-normal;
     padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.5"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xl));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xl));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
