@@ -354,7 +354,11 @@ export class Modal
       return;
     }
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    if (focusTrapDisabled) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
   }
 
   private handleHeaderSlotChange(event: Event): void {
@@ -459,7 +463,7 @@ export class Modal
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
-      } catch (_error) {
+      } catch {
         // close prevented
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;

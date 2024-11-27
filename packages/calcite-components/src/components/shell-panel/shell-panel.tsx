@@ -68,7 +68,9 @@ export class ShellPanel extends LitElement {
     event.preventDefault();
     const { separatorEl } = this;
 
-    separatorEl && document.activeElement !== separatorEl && separatorEl.focus();
+    if (separatorEl && document.activeElement !== separatorEl) {
+      separatorEl.focus();
+    }
 
     if (this.layout === "horizontal") {
       this.setInitialContentHeight();
@@ -115,9 +117,11 @@ export class ShellPanel extends LitElement {
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset;
 
-    layout === "horizontal"
-      ? this.setContentHeight(initialContentHeight + adjustedOffset)
-      : this.setContentWidth(initialContentWidth + adjustedOffset);
+    if (layout === "horizontal") {
+      this.setContentHeight(initialContentHeight + adjustedOffset);
+    } else {
+      this.setContentWidth(initialContentWidth + adjustedOffset);
+    }
   };
 
   private separatorPointerUp = (event: PointerEvent): void => {
@@ -268,9 +272,11 @@ export class ShellPanel extends LitElement {
       return;
     }
 
-    this.layout === "horizontal"
-      ? this.updateHeights(computedStyle)
-      : this.updateWidths(computedStyle);
+    if (this.layout === "horizontal") {
+      this.updateHeights(computedStyle);
+    } else {
+      this.updateWidths(computedStyle);
+    }
 
     this.requestUpdate();
   }
@@ -446,9 +452,11 @@ export class ShellPanel extends LitElement {
   }
 
   private separatorKeyDown(event: KeyboardEvent): void {
-    this.layout === "horizontal"
-      ? this.initialKeydownHeight(event)
-      : this.initialKeydownWidth(event);
+    if (this.layout === "horizontal") {
+      this.initialKeydownHeight(event);
+    } else {
+      this.initialKeydownWidth(event);
+    }
   }
 
   private setInitialContentHeight(): void {

@@ -374,7 +374,11 @@ export class Popover
       return;
     }
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    if (focusTrapDisabled) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
   }
 
   private flipPlacementsHandler(): void {

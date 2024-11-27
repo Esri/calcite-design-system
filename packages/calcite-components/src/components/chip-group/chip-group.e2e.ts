@@ -298,7 +298,6 @@ describe("calcite-chip-group", () => {
       expect(await chip3.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
       await selectedItemAsserter([]);
-      3;
     });
   });
 
