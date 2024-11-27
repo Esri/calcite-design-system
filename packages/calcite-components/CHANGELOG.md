@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.36...@esri/calcite-components@3.0.0-next.37) (2024-11-27)
+
+### Bug Fixes
+
+- **chip:** provide label context to assistive technologies ([#10888](https://github.com/Esri/calcite-design-system/issues/10888)) ([c468bf8](https://github.com/Esri/calcite-design-system/commit/c468bf86ddd9c37033826ded12bc15358f830ab6)), closes [#8696](https://github.com/Esri/calcite-design-system/issues/8696)
+
 ## [3.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.35...@esri/calcite-components@3.0.0-next.36) (2024-11-27)
 
 ### Features
