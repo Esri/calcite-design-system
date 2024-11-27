@@ -35,8 +35,12 @@
       "matchPackageNames": ["@arcgis/**"]
     },
     {
-      "groupName": "eslint",
+      "groupName": "ESLint",
       "matchPackageNames": ["/eslint/"]
+    },
+    {
+      "groupName": "Stylelint",
+      "matchPackageNames": ["/stylelint/"]
     },
     {
       "matchPackageNames": ["*"],
