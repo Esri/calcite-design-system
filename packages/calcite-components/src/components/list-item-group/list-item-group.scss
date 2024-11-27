@@ -31,6 +31,11 @@
     padding-block: var(--calcite-spacing-sm) var(--calcite-spacing-xxs);
   }
 }
+:host([scale="s"]:not(:first-child)) {
+  .container {
+    padding-block-start: var(--calcite-spacing-sm);
+  }
+}
 :host([scale="m"]) {
   .container {
     padding-inline: var(--calcite-spacing-md);
@@ -39,12 +44,22 @@
     padding-block: var(--calcite-spacing-lg) var(--calcite-spacing-sm);
   }
 }
+:host([scale="m"]:not(:first-child)) {
+  .container {
+    padding-block-start: var(--calcite-spacing-md);
+  }
+}
 :host([scale="l"]) {
   .container {
     padding-inline: var(--calcite-spacing-lg);
   }
   .heading {
     padding-block: var(--calcite-spacing-xl) var(--calcite-spacing-sm-plus, 0.625rem);
+  }
+}
+:host([scale="l"]:not(:first-child)) {
+  .container {
+    padding-block-start: var(--calcite-spacing-md-plus, 0.875rem);
   }
 }
 
