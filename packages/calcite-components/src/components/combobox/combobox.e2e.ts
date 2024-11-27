@@ -1106,7 +1106,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
 
       const item = await page.find("calcite-combobox-item:first-child");
-      expect(await item.getProperty("textLabel")).toBe("K");
+      expect(await item.getProperty("heading")).toBe("K");
 
       const combobox = await page.find("calcite-combobox");
 
@@ -1135,7 +1135,7 @@ describe("calcite-combobox", () => {
       const customValue = await page.find("calcite-combobox-item:first-child");
       const item1 = await page.find("calcite-combobox-item#one");
 
-      expect(await customValue.getProperty("textLabel")).toBe("K");
+      expect(await customValue.getProperty("heading")).toBe("K");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await customValue.getProperty("selected")).toBe(true);
