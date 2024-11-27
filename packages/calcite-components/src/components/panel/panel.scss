@@ -54,8 +54,8 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-panel-default-space: var(--calcite-spacing-md-plus);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-md);
+  --calcite-internal-panel-default-space: var(--calcite-spacing-md);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-md-plus);
 
   .header-content {
     .heading {
