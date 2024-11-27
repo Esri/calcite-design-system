@@ -18,9 +18,12 @@
 @include disabled();
 
 .container {
-  @apply text-n1 m-0 flex flex-1 font-medium;
+  @apply m-0 flex flex-1;
   background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-list-color, var(--calcite-color-text-2));
+}
+.heading {
+  font-weight: var(--calcite-font-weight-medium);
 }
 
 :host([scale="s"]) {
@@ -28,6 +31,8 @@
     padding-inline: var(--calcite-spacing-sm);
   }
   .heading {
+    font-size: var(--calcite-font-size-sm);
+    line-height: var(--calcite-font-line-height-fixed-base);
     padding-block: var(--calcite-spacing-sm) var(--calcite-spacing-xxs);
   }
 }
@@ -41,6 +46,8 @@
     padding-inline: var(--calcite-spacing-md);
   }
   .heading {
+    font-size: var(--calcite-font-size);
+    line-height: var(--calcite-font-line-height-fixed-base);
     padding-block: var(--calcite-spacing-lg) var(--calcite-spacing-sm);
   }
 }
@@ -54,6 +61,8 @@
     padding-inline: var(--calcite-spacing-lg);
   }
   .heading {
+    font-size: var(--calcite-font-size-md);
+    line-height: var(--calcite-font-line-height-fixed-lg);
     padding-block: var(--calcite-spacing-xl) var(--calcite-spacing-sm-plus, 0.625rem);
   }
 }
