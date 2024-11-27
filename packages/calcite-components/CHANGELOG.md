@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.35...@esri/calcite-components@3.0.0-next.36) (2024-11-27)
+
+### Features
+
+- **tab-title:** add icon start/end custom CSS prop ([#10871](https://github.com/Esri/calcite-design-system/issues/10871)) ([c988ad1](https://github.com/Esri/calcite-design-system/commit/c988ad1af9866cbb63a953caa0301fe0e2efcbbe)), closes [#10497](https://github.com/Esri/calcite-design-system/issues/10497)
+
+### Bug Fixes
+
+- **input-date-picker, input-time-picker, modal, sheet:** closes on escape when focusTrap is disabled ([#10578](https://github.com/Esri/calcite-design-system/issues/10578)) ([5acda5b](https://github.com/Esri/calcite-design-system/commit/5acda5b5f3bc212245e960aa750280c1b2e68667)), closes [#10522](https://github.com/Esri/calcite-design-system/issues/10522)
+
+## [3.0.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.34...@esri/calcite-components@3.0.0-next.35) (2024-11-27)
+
+### Features
+
+- **chip:** add `closeOnDelete` prop ([#10877](https://github.com/Esri/calcite-design-system/issues/10877)) ([f0e9d0b](https://github.com/Esri/calcite-design-system/commit/f0e9d0b3ac90ed569023a77bda54aa8d639d258a))
+- **loader:** update loader to adhere to the latest spec ([#10851](https://github.com/Esri/calcite-design-system/issues/10851)) ([9a9d6b2](https://github.com/Esri/calcite-design-system/commit/9a9d6b277fe05119e60eac2c984e37ab4e26f68d)), closes [#4470](https://github.com/Esri/calcite-design-system/issues/4470) [#8735](https://github.com/Esri/calcite-design-system/issues/8735)
+
+### Bug Fixes
+
+- **alert:** add public --calcite-alert-offset-size css token ([#10872](https://github.com/Esri/calcite-design-system/issues/10872)) ([4278981](https://github.com/Esri/calcite-design-system/commit/4278981bac28daaba515168199c4d3221921d951)), closes [#10520](https://github.com/Esri/calcite-design-system/issues/10520)
+- **combobox-item:** fix icon color css override ([#10874](https://github.com/Esri/calcite-design-system/issues/10874)) ([b0d5802](https://github.com/Esri/calcite-design-system/commit/b0d5802f808fd352b85b655d7af914700ffd150e)), closes [#7854](https://github.com/Esri/calcite-design-system/issues/7854)
+
+## [3.0.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.33...@esri/calcite-components@3.0.0-next.34) (2024-11-26)
+
+### Bug Fixes
+
+- **combobox:** use `heading` as fallback for UI labels ([#10879](https://github.com/Esri/calcite-design-system/issues/10879)) ([2a1d844](https://github.com/Esri/calcite-design-system/commit/2a1d844b1a0e06e6aa0caba38ce603f0cd37b526)), closes [#10321](https://github.com/Esri/calcite-design-system/issues/10321)
+
+## [3.0.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.32...@esri/calcite-components@3.0.0-next.33) (2024-11-26)
+
+### Bug Fixes
+
+- **dialog:** update content background color to match modal ([#10856](https://github.com/Esri/calcite-design-system/issues/10856)) ([0fd6560](https://github.com/Esri/calcite-design-system/commit/0fd6560619f72dc72afc1d00243c7cc3899fd7fe)), closes [#10809](https://github.com/Esri/calcite-design-system/issues/10809)
+
+## [3.0.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.31...@esri/calcite-components@3.0.0-next.32) (2024-11-26)
+
+### Features
+
+- **input:** Add component tokens ([#10820](https://github.com/Esri/calcite-design-system/issues/10820)) ([4b5ce2c](https://github.com/Esri/calcite-design-system/commit/4b5ce2cf878a6445e65b20334d39e57059fa0fa6)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.0.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.30...@esri/calcite-components@3.0.0-next.31) (2024-11-26)
 
 ### Bug Fixes

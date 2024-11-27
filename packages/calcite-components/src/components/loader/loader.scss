@@ -11,25 +11,20 @@
 
 @import "../../assets/styles/animation";
 
-$stroke-width: 3;
-$loader-scale: 54;
-$loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
-
 :host {
-  @apply relative mx-auto hidden items-center justify-center opacity-100;
+  @apply flex relative mx-auto items-center justify-center opacity-100;
+  flex-direction: column;
   min-block-size: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);
-  stroke: var(--calcite-color-brand);
-  stroke-width: $stroke-width;
+  stroke-width: var(--calcite-internal-stroke-width);
   fill: none;
   transform: scale(1, 1);
-  animation: loader-color-shift scale-duration(--calcite-internal-animation-timing-slow, 2) alternate-reverse infinite
-    linear;
   padding-block: var(--calcite-loader-padding, theme("spacing.16"));
-  will-change: contents;
 }
 
 :host([scale="s"]) {
+  --calcite-internal-stroke-width: 3;
+  --calcite-internal-text-offset: var(--calcite-spacing-xxs);
   --calcite-loader-font-size: var(--calcite-font-size--3);
   --calcite-loader-size: theme("spacing.8");
   --calcite-loader-size-inline: theme("spacing.3");
@@ -37,6 +32,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([scale="m"]) {
+  --calcite-internal-stroke-width: 6;
+  --calcite-internal-text-offset: var(--calcite-spacing-sm);
   --calcite-loader-font-size: theme("fontSize.0");
   --calcite-loader-size: theme("spacing.16");
   --calcite-loader-size-inline: theme("spacing.4");
@@ -44,29 +41,23 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([scale="l"]) {
+  --calcite-internal-stroke-width: 8;
+  --calcite-internal-text-offset: var(--calcite-spacing-md);
   --calcite-loader-font-size: theme("fontSize.2");
   --calcite-loader-size: theme("spacing.24");
   --calcite-loader-size-inline: theme("spacing.6");
   --calcite-internal-loader-value-line-height: 1.71875rem; // 27.5px
 }
 
-:host([no-padding]) {
-  @apply py-0;
-}
-
-:host {
-  @apply flex;
-}
-
-.loader__text {
+.text {
   @apply text-n2h
   text-color-1
   block
   text-center;
-  margin-block-start: calc(var(--calcite-loader-size) + theme("spacing.6"));
+  margin-block-start: var(--calcite-internal-text-offset);
 }
 
-.loader__percentage {
+.percentage {
   @apply block text-center text-color-1;
   font-size: var(--calcite-loader-font-size);
   inline-size: var(--calcite-loader-size);
@@ -74,73 +65,59 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   align-self: center;
 }
 
-.loader__svgs {
-  @apply absolute overflow-visible opacity-100;
+.rings {
+  @apply relative flex overflow-visible opacity-100;
   inline-size: var(--calcite-loader-size);
   block-size: var(--calcite-loader-size);
-  inset-inline-start: 50%;
-  margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-duration: scale-duration(--calcite-internal-animation-timing-slow, 6.66);
-  animation-name: loader-clockwise;
-  display: flex;
 }
 
-.loader__svg {
+.ring {
   @apply absolute top-0 origin-center overflow-visible;
   inset-inline-start: 0;
   inline-size: var(--calcite-loader-size);
   block-size: var(--calcite-loader-size);
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-
-  &--1 {
-    animation-name: loader-offset-1;
-  }
-  &--2 {
-    animation-name: loader-offset-2;
-  }
-  &--3 {
-    animation-name: loader-offset-3;
-  }
 }
 
-:host([type="determinate"]),
-:host([type="determinate-value"]) {
-  @apply animate-none;
-  stroke: var(--calcite-color-border-3);
-  .loader__svgs {
-    @apply animate-none;
-  }
-  .loader__svg--3 {
-    @apply animate-none;
-    stroke: var(--calcite-color-brand);
-    stroke-dasharray: $loader-circumference;
-    transform: rotate(-90deg);
-    transition: all var(--calcite-internal-animation-timing-fast) linear;
+.ring--track {
+  stroke: var(--calcite-color-transparent-press);
+}
+
+.ring--progress {
+  stroke: var(--calcite-color-brand);
+  transform: rotate(-90deg);
+  transition: all var(--calcite-internal-animation-timing-fast) linear;
+}
+
+:host([type="indeterminate"]) {
+  .ring--progress {
+    animation: loader-clockwise scale-duration(--calcite-internal-animation-timing-slow, 2) linear infinite;
   }
 }
 
 :host([inline]) {
-  @apply relative m-0 animate-none stroke-current stroke-2 py-0;
+  --calcite-internal-stroke-width: 2;
+
+  @apply relative m-0 stroke-current stroke-2 py-0;
   block-size: var(--calcite-loader-size-inline);
   min-block-size: var(--calcite-loader-size-inline);
   inline-size: var(--calcite-loader-size-inline);
-  margin-inline-end: calc(var(--calcite-loader-size-inline) * 0.5);
   vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
-}
 
-:host([inline]) .loader__svgs {
-  @apply top-0 m-0;
-  inset-inline-start: 0;
-  inline-size: var(--calcite-loader-size-inline);
-  block-size: var(--calcite-loader-size-inline);
-}
+  .rings {
+    @apply top-0 m-0;
+    inset-inline-start: 0;
+    inline-size: var(--calcite-loader-size-inline);
+    block-size: var(--calcite-loader-size-inline);
+  }
 
-:host([inline]) .loader__svg {
-  inline-size: var(--calcite-loader-size-inline);
-  block-size: var(--calcite-loader-size-inline);
+  .ring {
+    inline-size: var(--calcite-loader-size-inline);
+    block-size: var(--calcite-loader-size-inline);
+  }
+
+  .ring--progress {
+    stroke: currentColor;
+  }
 }
 
 :host([complete]) {
@@ -150,79 +127,30 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   transition:
     opacity var(--calcite-internal-animation-timing-medium) linear 1000ms,
     transform var(--calcite-internal-animation-timing-medium) linear 1000ms;
-}
 
-:host([complete]) .loader__svgs {
-  @apply opacity-0;
-  transform: scale(0.75, 0.75);
-  transform-origin: center;
-  transition:
-    opacity calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms,
-    transform calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms;
-}
-
-:host([complete]) .loader__percentage {
-  color: theme("colors.brand");
-  transform: scale(1.05, 1.05);
-  transform-origin: center;
-  transition:
-    color var(--calcite-internal-animation-timing-medium) linear,
-    transform var(--calcite-internal-animation-timing-medium) linear;
-}
-
-/**
-  Segment variables
-  - i         index (1-3)
-  - size      length of the segment (0 - 100)
-  - growth    how much the segment grows during the animation
-              (size + growth should not exceed 100)
-  - duration  how long the segment takes to rotate 360° (seconds)
-*/
-@mixin generate-segment($i, $size, $growth, $duration) {
-  $circumference: calc($loader-circumference / $loader-scale) * 100;
-  $length: ($size * 0.01) * $circumference;
-  $end: $length + ($growth * 0.01) * $circumference;
-
-  .loader__svg--#{$i} {
-    stroke-dasharray: $length $circumference - $end;
-    animation-duration: $duration;
+  .rings {
+    @apply opacity-0;
+    transform: scale(0.75, 0.75);
+    transform-origin: center;
+    transition:
+      opacity calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms,
+      transform calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms;
   }
-  @keyframes loader-offset-#{$i} {
-    0% {
-      stroke-dasharray: $length $circumference - $length;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dasharray: $end $circumference - $end;
-      stroke-dashoffset: -$circumference * 0.5 - ($length - $end) * 0.5;
-    }
-    100% {
-      stroke-dasharray: $length $circumference - $length;
-      stroke-dashoffset: -$circumference;
-    }
-  }
-}
 
-@include generate-segment(1, 10, 40, scale-duration(--calcite-internal-animation-timing-slow, 4.8));
-@include generate-segment(2, 20, 30, scale-duration(--calcite-internal-animation-timing-slow, 6.4));
-@include generate-segment(3, 05, 45, scale-duration(--calcite-internal-animation-timing-slow, 7.734));
-
-@keyframes loader-color-shift {
-  0% {
-    stroke: var(--calcite-color-brand);
-  }
-  33% {
-    stroke: var(--calcite-color-brand-press);
-  }
-  66% {
-    stroke: var(--calcite-color-brand-hover);
-  }
-  100% {
-    stroke: var(--calcite-color-brand);
+  .percentage {
+    color: theme("colors.brand");
+    transform: scale(1.05, 1.05);
+    transform-origin: center;
+    transition:
+      color var(--calcite-internal-animation-timing-medium) linear,
+      transform var(--calcite-internal-animation-timing-medium) linear;
   }
 }
 
 @keyframes loader-clockwise {
+  0% {
+    transform: rotate(0deg);
+  }
   100% {
     transform: rotate(360deg);
   }
