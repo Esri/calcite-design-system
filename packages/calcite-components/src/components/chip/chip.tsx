@@ -71,7 +71,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** When `true`, the component closes when the Delete key is pressed while focused. */
+  /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
   @property({ reflect: true }) closeOnDelete = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -225,8 +225,9 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
           this.handleEmittingEvent();
           event.preventDefault();
           break;
+        case "Backspace":
         case "Delete":
-          if (this.closable && this.closeOnDelete) {
+          if (this.closable && !this.closed && this.closeOnDelete) {
             event.preventDefault();
             this.close();
           }

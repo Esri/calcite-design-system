@@ -123,6 +123,13 @@ describe("calcite-chip", () => {
       await chip.callMethod("setFocus");
       await chip.press("Delete");
       expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      await chip.setProperty("closed", false);
+      await page.waitForChanges();
+
+      await chip.callMethod("setFocus");
+      await chip.press("Backspace");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
     });
 
     it("can be closed via keyboard", async () => {
@@ -134,6 +141,13 @@ describe("calcite-chip", () => {
       await chip.callMethod("setFocus");
       await chip.press("Delete");
       expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      await chip.setProperty("closed", false);
+      await page.waitForChanges();
+
+      await chip.callMethod("setFocus");
+      await chip.press("Backspace");
+      expect(eventSpy).toHaveReceivedEventTimes(2);
     });
   });
 
