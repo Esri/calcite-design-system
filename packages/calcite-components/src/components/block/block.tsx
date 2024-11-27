@@ -23,6 +23,7 @@ import {
 } from "../../utils/floating-ui";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/block.t9n.en.json";
 import { styles } from "./block.scss";
@@ -197,7 +198,11 @@ export class Block
       onToggleOpenCloseComponent(this);
     }
 
-    this.handleWarningMessage();
+    if (!this.heading && !this.label) {
+      logger.warn(
+        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
+      );
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -207,10 +212,6 @@ export class Block
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       onToggleOpenCloseComponent(this);
-    }
-
-    if (changes.has("heading") || changes.has("label")) {
-      this.handleWarningMessage();
     }
   }
 
@@ -356,14 +357,6 @@ export class Block
         scale="s"
       />
     );
-  }
-
-  private handleWarningMessage(): void {
-    if (!this.heading && !this.label) {
-      console.warn(
-        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
-      );
-    }
   }
 
   override render(): JsxNode {
