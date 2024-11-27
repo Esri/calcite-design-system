@@ -1016,6 +1016,7 @@ export class List
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
+                        scale={this.scale}
                         value={filterText}
                       />
                       <slot
