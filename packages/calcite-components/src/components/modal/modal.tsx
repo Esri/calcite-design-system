@@ -81,7 +81,7 @@ export class Modal
   });
 
   private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled || !this.focusTrapDisabled) {
+    if (event.defaultPrevented || this.escapeDisabled) {
       return false;
     }
     event.preventDefault();
@@ -337,7 +337,7 @@ export class Modal
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
-    if (defaultPrevented) {
+    if (defaultPrevented || !this.focusTrapDisabled) {
       return;
     }
 
