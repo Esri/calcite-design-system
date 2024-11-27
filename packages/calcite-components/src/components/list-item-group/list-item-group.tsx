@@ -5,6 +5,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { MAX_COLUMNS } from "../list-item/resources";
+import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./list-item-group.scss";
 
@@ -35,6 +36,9 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
 
   /** The header text for all nested `calcite-list-item` rows. */
   @property({ reflect: true }) heading: string;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 
