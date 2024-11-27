@@ -18,6 +18,7 @@ import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
+import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -127,6 +128,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">
         ${datePicker} ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon}
         ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
+        ${comboboxItem}
       </div>
       <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers}</div>
       ${alert}

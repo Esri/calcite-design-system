@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.33...@esri/calcite-components@3.0.0-next.34) (2024-11-26)
+
+### Bug Fixes
+
+- **combobox:** use `heading` as fallback for UI labels ([#10879](https://github.com/Esri/calcite-design-system/issues/10879)) ([2a1d844](https://github.com/Esri/calcite-design-system/commit/2a1d844b1a0e06e6aa0caba38ce603f0cd37b526)), closes [#10321](https://github.com/Esri/calcite-design-system/issues/10321)
+
+## [3.0.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.32...@esri/calcite-components@3.0.0-next.33) (2024-11-26)
+
+### Bug Fixes
+
+- **dialog:** update content background color to match modal ([#10856](https://github.com/Esri/calcite-design-system/issues/10856)) ([0fd6560](https://github.com/Esri/calcite-design-system/commit/0fd6560619f72dc72afc1d00243c7cc3899fd7fe)), closes [#10809](https://github.com/Esri/calcite-design-system/issues/10809)
+
+## [3.0.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.31...@esri/calcite-components@3.0.0-next.32) (2024-11-26)
+
+### Features
+
+- **input:** Add component tokens ([#10820](https://github.com/Esri/calcite-design-system/issues/10820)) ([4b5ce2c](https://github.com/Esri/calcite-design-system/commit/4b5ce2cf878a6445e65b20334d39e57059fa0fa6)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.0.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.30...@esri/calcite-components@3.0.0-next.31) (2024-11-26)
+
+### Bug Fixes
+
+- **dialog:** fix error when initially opened ([#10868](https://github.com/Esri/calcite-design-system/issues/10868)) ([1152ce0](https://github.com/Esri/calcite-design-system/commit/1152ce0cf02a29aa9f10a27f2e5018c11d3b0545)), closes [#10860](https://github.com/Esri/calcite-design-system/issues/10860)
+
+## [3.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.29...@esri/calcite-components@3.0.0-next.30) (2024-11-25)
+
+### Features
+
+- **input:** Improve display of resize handle for type textarea ([#10866](https://github.com/Esri/calcite-design-system/issues/10866)) ([d53c497](https://github.com/Esri/calcite-design-system/commit/d53c4972fffa011c460038b617296f838ba1ec2e)), closes [#10864](https://github.com/Esri/calcite-design-system/issues/10864) [#9974](https://github.com/Esri/calcite-design-system/issues/9974)
+
+## [3.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.28...@esri/calcite-components@3.0.0-next.29) (2024-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **list:** Choose a `displayMode` of "nested" or "flat" according
+  to space and nesting requirements.
+
+### Features
+
+- **list:** add displayMode property to choose between flat and nested lists ([#10852](https://github.com/Esri/calcite-design-system/issues/10852)) ([832f2c9](https://github.com/Esri/calcite-design-system/commit/832f2c9bc0d302da6ff882357db3bb1d19e89cf7)), closes [#9173](https://github.com/Esri/calcite-design-system/issues/9173)
+
 ## [3.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.27...@esri/calcite-components@3.0.0-next.28) (2024-11-25)
 
 ### Features

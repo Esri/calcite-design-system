@@ -1,8 +1,8 @@
 import interact from "interactjs";
-import type { Interactable, ResizeEvent, DragEvent } from "@interactjs/types";
+import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { focusFirstTabbable } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -22,7 +22,6 @@ import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
-import { componentOnReady } from "../../utils/component";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -409,7 +408,13 @@ export class Dialog
   }
 
   private handleOpenedChange(value: boolean): void {
-    this.transitionEl.classList.toggle(CSS.openingActive, value);
+    const { transitionEl } = this;
+
+    if (!transitionEl) {
+      return;
+    }
+
+    transitionEl.classList.toggle(CSS.openingActive, value);
     onToggleOpenCloseComponent(this);
   }
 
@@ -714,7 +719,7 @@ export class Dialog
   }
 
   private async openDialog(): Promise<void> {
-    await componentOnReady(this.el);
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteDialogOpen",
       this.openEnd,
