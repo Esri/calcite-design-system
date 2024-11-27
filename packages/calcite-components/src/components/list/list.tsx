@@ -106,9 +106,7 @@ export class List
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
     items.forEach((item) => {
-      if (item.scale === scale) {
-        item.scale = scale;
-      }
+      item.scale = scale;
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;

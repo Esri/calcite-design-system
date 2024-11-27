@@ -180,7 +180,11 @@ export class ListItem
   /** When `true`, the item is open to show child components. */
   @property({ reflect: true }) open = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @internal
+   * */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
