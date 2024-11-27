@@ -337,13 +337,15 @@ export class Modal
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
-    if (defaultPrevented || !this.focusTrapDisabled) {
-      return;
-    }
-
-    if (this.open && !this.escapeDisabled && key === "Escape" && this.focusTrapDisabled) {
-      this.open = false;
+    if (
+      !defaultPrevented &&
+      this.focusTrapDisabled &&
+      this.open &&
+      !this.escapeDisabled &&
+      key === "Escape"
+    ) {
       event.preventDefault();
+      this.open = false;
     }
   };
 
