@@ -323,9 +323,6 @@
 .description,
 .content-bottom {
   @apply word-break font-sans font-normal;
-  &:only-child {
-    @apply m-0 py-1;
-  }
 }
 
 :host([selected]) .label {
