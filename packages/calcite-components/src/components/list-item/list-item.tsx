@@ -776,7 +776,7 @@ export class ListItem
           : ICONS.closedLTR
       : ICONS.blank;
 
-    const iconScale = scale === "l" ? "m" : "s";
+    const iconScale = getIconScale(scale);
 
     const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
 
