@@ -257,7 +257,7 @@ export class List
   @property() openable = false;
 
   /** Specifies the size of the component. */
-  @property() scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The currently selected items.
