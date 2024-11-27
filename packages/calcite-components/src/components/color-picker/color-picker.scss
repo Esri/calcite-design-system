@@ -7,9 +7,8 @@
 :host([scale="s"]) {
   --calcite-color-picker-spacing: 8px;
 
-  .container {
-    inline-size: 160px;
-  }
+  inline-size: 200px;
+  min-inline-size: 200px;
 
   .saved-colors {
     @apply gap-1;
@@ -20,19 +19,17 @@
 :host([scale="m"]) {
   --calcite-color-picker-spacing: 12px;
 
-  .container {
-    inline-size: 272px;
-  }
+  inline-size: 240px;
+  min-inline-size: 240px;
 }
 
 :host([scale="l"]) {
   --calcite-color-picker-spacing: 16px;
 
-  @apply text-n1h;
+  inline-size: 304px;
+  min-inline-size: 304px;
 
-  .container {
-    inline-size: 464px;
-  }
+  @apply text-n1h;
 
   .section {
     &:first-of-type {
@@ -66,7 +63,9 @@
 
 .container {
   @apply bg-foreground-1;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  block-size: min-content;
   border: 1px solid var(--calcite-color-border-1);
 }
 
