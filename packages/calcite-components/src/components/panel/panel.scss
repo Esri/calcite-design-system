@@ -88,7 +88,7 @@
   @apply flex items-start self-stretch;
   padding: var(--calcite-internal-panel-default-space);
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-  background-color: var(--calcite-color-foreground-1);
+  background-color: var(--calcite-panel-background-color, var(--calcite-color-foreground-1));
 }
 
 .container {
