@@ -954,11 +954,15 @@ export class ListItem
       filterHidden,
       bordered,
       disabled,
+      hasContentBottom,
     } = this;
 
-    const showBorder = selectionMode !== "none" && selectionAppearance === "border";
-    const borderSelected = showBorder && selected;
-    const borderUnselected = showBorder && !selected;
+    const wrapperBordered = bordered && hasContentBottom;
+    const contentContainerWrapperBordered = bordered && !hasContentBottom;
+
+    const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
+    const selectionBorderSelected = showSelectionBorder && selected;
+    const selectionBorderUnselected = showSelectionBorder && !selected;
 
     const containerInteractive =
       interactionMode === "interactive" ||
@@ -968,7 +972,7 @@ export class ListItem
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
+        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
             ariaExpanded={openable ? open : null}
             ariaLabel={label}
@@ -978,9 +982,9 @@ export class ListItem
               [CSS.row]: true,
               [CSS.container]: true,
               [CSS.containerHover]: containerInteractive,
-              [CSS.containerBorder]: showBorder,
-              [CSS.containerBorderSelected]: borderSelected,
-              [CSS.containerBorderUnselected]: borderUnselected,
+              [CSS.containerBorder]: showSelectionBorder,
+              [CSS.containerBorderSelected]: selectionBorderSelected,
+              [CSS.containerBorderUnselected]: selectionBorderUnselected,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
@@ -994,8 +998,15 @@ export class ListItem
             {this.renderSelected()}
             {this.renderOpen()}
             {this.renderActionsStart()}
-            {this.renderContentContainer()}
-            {this.renderActionsEnd()}
+            <div
+              class={{
+                [CSS.contentContainerWrapper]: true,
+                [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
+              }}
+            >
+              {this.renderContentContainer()}
+              {this.renderActionsEnd()}
+            </div>
           </div>
           {this.renderContentBottom()}
         </div>

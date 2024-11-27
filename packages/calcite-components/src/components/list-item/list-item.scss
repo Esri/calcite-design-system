@@ -90,6 +90,14 @@
   color: var(--calcite-list-icon-color, var(--calcite-color-brand));
 }
 
+.content-container-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+}
+.content-container-wrapper--bordered {
+  border-block-end: 1px solid var(--calcite-list-border-color, var(--calcite-color-border-3));
+}
+
 .content-container {
   @apply select-none
     flex
