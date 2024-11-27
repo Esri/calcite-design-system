@@ -3,8 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-end-icon-color: Specifies the component's `iconEnd` color. Fallback to `--calcite-icon-color`.
- * @prop --calcite-tab-start-icon-color: Specifies the component's `iconStart` color. Fallback to `--calcite-icon-color`.
+ * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color. Fallback to `--calcite-icon-color`.
+ * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color. Fallback to `--calcite-icon-color`.
  */
 
 :host {
@@ -230,12 +230,12 @@
 
 .content--has-text .calcite-tab-title--icon.icon-start {
   margin-inline-end: var(--calcite-spacing-sm);
-  color: var(--calcite-tab-start-icon-color, var(--calcite-icon-color));
+  color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color));
 }
 
 .content--has-text .calcite-tab-title--icon.icon-end {
   margin-inline-start: var(--calcite-spacing-sm);
-  color: var(--calcite-tab-end-icon-color, var(--calcite-icon-color));
+  color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color));
 }
 
 .close-button {

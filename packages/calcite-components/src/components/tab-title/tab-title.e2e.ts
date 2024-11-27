@@ -348,11 +348,11 @@ describe("calcite-tab-title", () => {
   describe("theme", () => {
     describe("start/end icons", () => {
       themed(html` <calcite-tab-title icon-start="banana" icon-end="3d-glasses">close me</calcite-tab-title>`, {
-        "--calcite-tab-end-icon-color": {
+        "--calcite-tab-icon-color-end": {
           shadowSelector: `.${CSS.iconEnd}`,
           targetProp: "color",
         },
-        "--calcite-tab-start-icon-color": {
+        "--calcite-tab-icon-color-start": {
           shadowSelector: `.${CSS.iconStart}`,
           targetProp: "color",
         },
