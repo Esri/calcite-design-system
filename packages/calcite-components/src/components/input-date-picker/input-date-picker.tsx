@@ -796,7 +796,7 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape") {
+    } else if (this.open && key === "Escape") {
       this.open = false;
       event.preventDefault();
       this.restoreInputFocus(true);
