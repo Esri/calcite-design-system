@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.37...@esri/calcite-components@3.0.0-next.38) (2024-11-27)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker:** The default width and height of the `color-picker` have
+  been updated. Developers should review and adjust their layouts to
+  accommodate these changes.
+
+### Features
+
+- **color-picker:** update color field dimensions ([#10903](https://github.com/Esri/calcite-design-system/issues/10903)) ([7fc2ab8](https://github.com/Esri/calcite-design-system/commit/7fc2ab8f383d6466de210151ff64f6751515b7fa)), closes [#9415](https://github.com/Esri/calcite-design-system/issues/9415)
+
 ## [3.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.36...@esri/calcite-components@3.0.0-next.37) (2024-11-27)
 
 ### Bug Fixes
