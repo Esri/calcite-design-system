@@ -75,6 +75,21 @@
   @apply flex;
 }
 
+.selection-container {
+  @apply flex py-0;
+  color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
+}
+
+:host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
+  color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
+}
+
+:host([selected]:hover) .selection-container,
+:host([selected]:hover) .selection-container--single,
+:host([selected]) .selection-container {
+  color: var(--calcite-list-icon-color, var(--calcite-color-brand));
+}
+
 .content-container {
   @apply select-none
     flex
@@ -138,21 +153,47 @@
     font-size: var(--calcite-font-size--3);
   }
 }
-:host([scale="s"][selection-mode="none"]) {
+:host([scale="s"][display-mode="flat"]) {
   .container {
     padding-inline-start: var(--calcite-spacing-sm);
   }
+  .selection-container {
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
 }
-:host([scale="s"][drag-handle]) {
+:host([scale="s"][display-mode="flat"][drag-handle]) {
   .container {
     padding-inline-start: unset;
   }
-}
-:host([scale="s"][selection-appearance="border"]:not([drag-handle])) {
-  .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+  .selection-container {
+    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
+:host([scale="s"][display-mode="nested"]) {
+  .container {
+    padding-inline-start: unset;
+  }
+  .selection-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][display-mode="nested"][selection-appearance="icon"]) {
+  .container {
+    padding-inline-start: var(--calcite-spacing-sm);
+  }
+  .selection-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][display-mode="nested"][drag-handle]) {
+  .container {
+    padding-inline-start: unset;
+  }
+  .selection-container {
+    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
+  }
+}
+
 :host([scale="m"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
@@ -258,22 +299,6 @@
 .content-container--has-center-content .content-start,
 .content-container--has-center-content .content-end {
   @apply flex-initial;
-}
-
-.selection-container {
-  @apply flex py-0;
-  color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
-  padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xxs);
-}
-
-:host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
-  color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
-}
-
-:host([selected]:hover) .selection-container,
-:host([selected]:hover) .selection-container--single,
-:host([selected]) .selection-container {
-  color: var(--calcite-list-icon-color, var(--calcite-color-brand));
 }
 
 .open-container {

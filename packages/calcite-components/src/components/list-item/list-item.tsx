@@ -168,7 +168,7 @@ export class ListItem
    *
    * @private
    */
-  @property() displayMode: ListDisplayMode;
+  @property({ reflect: true }) displayMode: ListDisplayMode;
 
   /**
    * Sets the item to display a border.
