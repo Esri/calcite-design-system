@@ -23,7 +23,7 @@ import {
 } from "../../utils/floating-ui";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import { logger } from "../../utils/logger";
+import { warnIfMissingProps } from "../../utils/component";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/block.t9n.en.json";
 import { styles } from "./block.scss";
@@ -198,11 +198,12 @@ export class Block
       onToggleOpenCloseComponent(this);
     }
 
-    if (!this.heading && !this.label) {
-      logger.warn(
-        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
-      );
-    }
+    warnIfMissingProps(
+      this,
+      "heading",
+      "Please provide a heading or label for the component to be accessible.",
+      "label",
+    );
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
