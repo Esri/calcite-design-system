@@ -97,7 +97,6 @@
     font-normal
     items-stretch;
   color: var(--calcite-list-content-text-color, var(--calcite-color-text-2));
-  min-block-size: 2rem;
 }
 
 .content-container--unavailable {
@@ -141,6 +140,7 @@
   }
   .content-container {
     gap: var(--calcite-spacing-sm);
+    min-block-size: 32px;
     padding-block: var(--calcite-spacing-xxs);
     padding-inline-end: var(--calcite-spacing-sm);
   }
@@ -200,6 +200,7 @@
   }
   .content-container {
     gap: var(--calcite-spacing-sm);
+    min-block-size: 40px;
     padding-block: var(--calcite-spacing-sm);
     padding-inline-end: var(--calcite-spacing-md);
   }
@@ -260,6 +261,7 @@
   }
   .content-container {
     gap: var(--calcite-spacing-md);
+    min-block-size: 56px;
     padding-block: theme("spacing[2.5]");
     padding-inline-end: var(--calcite-spacing-xl);
   }
