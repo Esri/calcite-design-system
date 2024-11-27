@@ -33,7 +33,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "4.32.0-next.27",
+    "@arcgis/lumina-compiler": "4.32.0-next.29",
     "@cspell/eslint-plugin": "8.16.0",
     "@esri/calcite-base": "1.2.0",
     "@esri/calcite-colors": "6.1.0",
@@ -85,6 +85,7 @@
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
     "cpy-cli": "5.0.0",
+    "cross-env": "7.0.3",
     "dedent": "1.5.3",
     "eslint": "9.15.0",
     "eslint-config-prettier": "9.1.0",
@@ -116,8 +117,8 @@
     "storybook": "8.4.5",
     "storybook-addon-rtl": "1.0.1",
     "style-dictionary": "3.9.2",
-    "stylelint": "15.11.0",
-    "stylelint-config-recommended-scss": "12.0.0",
+    "stylelint": "16.10.0",
+    "stylelint-config-recommended-scss": "14.1.0",
     "stylelint-use-logical-spec": "5.0.1",
     "tailwindcss": "3.4.15",
     "ts-jest": "29.1.2",
