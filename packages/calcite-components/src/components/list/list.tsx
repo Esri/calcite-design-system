@@ -9,7 +9,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { openAncestors, updateListItemChildren } from "../list-item/utils";
 import {
@@ -100,11 +100,13 @@ export class List
       filterEnabled,
       moveToItems,
       displayMode,
+      scale,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
     items.forEach((item) => {
+      item.scale = scale;
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
@@ -253,6 +255,9 @@ export class List
    * @private
    */
   @property() openable = false;
+
+  /** Specifies the size of the component. */
+  @property() scale: Scale = "m";
 
   /**
    * The currently selected items.
