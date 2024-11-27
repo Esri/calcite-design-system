@@ -40,9 +40,7 @@
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-space: var(--calcite-spacing-sm);
-  --calcite-internal-panel-header-vertical-padding: var(
-    --calcite-spacing-sm-plus
-  ); // this should use a spacing token once made available
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-sm-plus);
 
   .header-content {
     .heading {
@@ -56,8 +54,8 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-panel-default-space: var(--calcite-spacing-md);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-lg);
+  --calcite-internal-panel-default-space: var(--calcite-spacing-md-plus);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-md);
 
   .header-content {
     .heading {
