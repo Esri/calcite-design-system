@@ -7,7 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import {
   componentFocusable,
@@ -20,6 +20,7 @@ import { MoveTo } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
+import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
 import { getDepth, hasListItemChildren } from "./utils";
@@ -130,7 +131,7 @@ export class ListItem
    *
    * @private
    */
-  @property() dragHandle = false;
+  @property({ reflect: true }) dragHandle = false;
 
   /**
    * Hides the component when filtered.
@@ -167,7 +168,7 @@ export class ListItem
    *
    * @private
    */
-  @property() displayMode: ListDisplayMode;
+  @property({ reflect: true }) displayMode: ListDisplayMode;
 
   /**
    * Sets the item to display a border.
@@ -179,6 +180,13 @@ export class ListItem
   /** When `true`, the item is open to show child components. */
   @property({ reflect: true }) open = false;
 
+  /**
+   * Specifies the size of the component.
+   *
+   * @internal
+   * */
+  @property({ reflect: true }) scale: Scale = "m";
+
   /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
@@ -187,14 +195,14 @@ export class ListItem
    *
    * @private
    */
-  @property() selectionAppearance: SelectionAppearance = null;
+  @property({ reflect: true }) selectionAppearance: SelectionAppearance = null;
 
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
    *
    * @private
    */
-  @property() selectionMode: Extract<
+  @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = null;
@@ -715,7 +723,7 @@ export class ListItem
                 ? ICONS.unselectedMultiple
                 : ICONS.unselectedSingle
           }
-          scale="s"
+          scale={getIconScale(this.scale)}
         />
       </div>
     );
@@ -743,6 +751,7 @@ export class ListItem
           oncalciteSortHandleOpen={this.handleSortHandleOpen}
           overlayPositioning="fixed"
           ref={this.setSortHandleEl}
+          scale={this.scale}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -751,7 +760,7 @@ export class ListItem
   }
 
   private renderOpen(): JsxNode {
-    const { el, open, openable, messages, displayMode } = this;
+    const { el, open, openable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -767,6 +776,8 @@ export class ListItem
           : ICONS.closedLTR
       : ICONS.blank;
 
+    const iconScale = getIconScale(scale);
+
     const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
 
     const openClickHandler = openable ? this.handleToggleClick : undefined;
@@ -778,7 +789,7 @@ export class ListItem
         onClick={openClickHandler}
         title={tooltip}
       >
-        <calcite-icon icon={icon} key={icon} scale="s" />
+        <calcite-icon icon={icon} key={icon} scale={iconScale} />
       </div>
     );
   }
@@ -821,6 +832,7 @@ export class ListItem
             key="close-action"
             label={messages.close}
             onClick={this.handleCloseClick}
+            scale={this.scale}
             text={messages.close}
           />
         ) : null}
@@ -942,11 +954,15 @@ export class ListItem
       filterHidden,
       bordered,
       disabled,
+      hasContentBottom,
     } = this;
 
-    const showBorder = selectionMode !== "none" && selectionAppearance === "border";
-    const borderSelected = showBorder && selected;
-    const borderUnselected = showBorder && !selected;
+    const wrapperBordered = bordered && hasContentBottom;
+    const contentContainerWrapperBordered = bordered && !hasContentBottom;
+
+    const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
+    const selectionBorderSelected = showSelectionBorder && selected;
+    const selectionBorderUnselected = showSelectionBorder && !selected;
 
     const containerInteractive =
       interactionMode === "interactive" ||
@@ -956,7 +972,7 @@ export class ListItem
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
+        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
             ariaExpanded={openable ? open : null}
             ariaLabel={label}
@@ -966,9 +982,9 @@ export class ListItem
               [CSS.row]: true,
               [CSS.container]: true,
               [CSS.containerHover]: containerInteractive,
-              [CSS.containerBorder]: showBorder,
-              [CSS.containerBorderSelected]: borderSelected,
-              [CSS.containerBorderUnselected]: borderUnselected,
+              [CSS.containerBorder]: showSelectionBorder,
+              [CSS.containerBorderSelected]: selectionBorderSelected,
+              [CSS.containerBorderUnselected]: selectionBorderUnselected,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
@@ -982,8 +998,15 @@ export class ListItem
             {this.renderSelected()}
             {this.renderOpen()}
             {this.renderActionsStart()}
-            {this.renderContentContainer()}
-            {this.renderActionsEnd()}
+            <div
+              class={{
+                [CSS.contentContainerWrapper]: true,
+                [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
+              }}
+            >
+              {this.renderContentContainer()}
+              {this.renderActionsEnd()}
+            </div>
           </div>
           {this.renderContentBottom()}
         </div>
