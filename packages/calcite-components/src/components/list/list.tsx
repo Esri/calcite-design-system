@@ -43,7 +43,8 @@ declare global {
 }
 
 const listItemSelector = "calcite-list-item";
-const parentSelector = "calcite-list-item-group, calcite-list-item";
+const listItemGroupSelector = "calcite-list-item-group";
+const parentSelector = `${listItemGroupSelector}, calcite-list-item`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -781,7 +782,7 @@ export class List
   }
 
   private updateGroupItems(): void {
-    const { el, group } = this;
+    const { el, group, scale } = this;
 
     const rootNode = getRootNode(el);
 
@@ -796,6 +797,12 @@ export class List
       label: element.label ?? element.id,
       id: el.id || guid(),
     }));
+
+    const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+
+    groupItems.forEach((item) => {
+      item.scale = scale;
+    });
   }
 
   private focusRow(focusEl: ListItem["el"]): void {

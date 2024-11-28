@@ -37,7 +37,11 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
   /** The header text for all nested `calcite-list-item` rows. */
   @property({ reflect: true }) heading: string;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @internal
+   * */
   @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
