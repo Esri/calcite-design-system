@@ -1,7 +1,7 @@
 import {
-  calciteSizeXxxs,
-  calciteSizeXxs,
-  calciteSizeSm,
+  calciteSpacingBase,
+  calciteSpacingXxs,
+  calciteSpacingSm,
 } from "@esri/calcite-design-tokens/dist/es6/global.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
@@ -352,15 +352,31 @@ export class DatePickerMonthHeader extends LitElement {
     }
   }
 
+  private getPx(value: string): string {
+    const num = Number(value.replace(/[rem|px]/g, ""));
+    const base = 16;
+
+    if (value.includes("rem")) {
+      return `${num * base}px`;
+    }
+
+    return `${num}px`;
+  }
+
   private getYearSelectPadding(): string {
+    let padding;
     switch (this.scale) {
       case "l":
-        return calciteSizeSm;
+        padding = calciteSpacingSm;
+        break;
       case "s":
-        return calciteSizeXxxs;
+        padding = calciteSpacingBase;
+        break;
       default:
-        return calciteSizeXxs;
+        padding = calciteSpacingXxs;
+        break;
     }
+    return this.getPx(padding);
   }
 
   // #endregion

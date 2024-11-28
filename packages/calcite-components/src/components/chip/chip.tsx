@@ -364,7 +364,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
           ? "radio"
           : this.interactive
             ? "button"
-            : undefined;
+            : "img";
     return (
       <InteractiveContainer disabled={disabled}>
         <div
