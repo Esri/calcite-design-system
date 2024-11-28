@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.39...@esri/calcite-components@3.0.0-next.40) (2024-11-28)
+
+### ⚠ BREAKING CHANGES
+
+- **list, list-item, list-item-group, filter:** The spacing changes affect content in the
+  `actions-start` slot in addition to other rendered elements. Some
+  styling updates may need to be applied to slotted actions or other
+  adjustments based on the new scales.
+
+### Features
+
+- **list, list-item, list-item-group, filter:** add scales, update padding and spacing, update font sizes ([#10853](https://github.com/Esri/calcite-design-system/issues/10853)) ([9c3342c](https://github.com/Esri/calcite-design-system/commit/9c3342c9f8c7c03a6ec8e9500fc46a4ab4e7983e)), closes [#7100](https://github.com/Esri/calcite-design-system/issues/7100)
+
 ## [3.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.38...@esri/calcite-components@3.0.0-next.39) (2024-11-27)
 
 ### ⚠ BREAKING CHANGES
