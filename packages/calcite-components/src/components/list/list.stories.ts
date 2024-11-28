@@ -16,6 +16,7 @@ interface ListStoryArgs
     | "interactionMode"
     | "label"
     | "loading"
+    | "scale"
     | "selectionAppearance"
     | "selectionMode"
   > {
@@ -80,6 +81,7 @@ export const simple = (args: ListStoryArgs): string => html`
     display-mode="${args.displayMode}"
     interaction-mode="${args.interactionMode}"
     label="${args.label}"
+    scale="${args.scale}
     selection-appearance="${args.selectionAppearance}"
     selection-mode="${args.selectionMode}"
   >
