@@ -3,6 +3,87 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.38...@esri/calcite-components@3.0.0-next.39) (2024-11-27)
+
+### ⚠ BREAKING CHANGES
+
+- **tokens:** Size and Space token values have changed. Line Height
+  tokens exported for JS and ES6 are now unitless.
+
+### Size
+
+calcite-size-px: 1px;
+calcite-size-xxxs: 0.75rem; // 12px was 2px
+calcite-size-xxs: 0.875rem; // 14px was 4px
+calcite-size-xs: 1rem; // 16px was 6px
+calcite-size-sm: 1.5rem; // 24px was 8px
+calcite-size-sm-plus; // removed
+calcite-size-md: 2rem; // 32px was 12px
+calcite-size-md-plus; // removed
+calcite-size-lg: 2.75rem; // 44px was 16px
+calcite-size-xl: 3rem; // 48px was 20px
+calcite-size-xxl: 4rem; // 64px was 24px
+calcite-size-xxxl: 6rem; // 96px was 32px
+
+### Space
+
+calcite-spacing-none: 0; // new
+calcite-spacing-px: 1px;
+calcite-spacing-base: 2px;
+calcite-spacing-xxs: 0.25rem; // 4px
+calcite-spacing-xs: 0.375rem; // 6px
+calcite-spacing-sm: 0.5rem; // 8px
+calcite-spacing-sm-plus: 0.625rem; // new
+calcite-spacing-md: 0.75rem; // 12px
+calcite-spacing-md-plus: 0.875rem; // new
+calcite-spacing-lg: 1rem; // 16px was 14px
+calcite-spacing-xl: 1.25rem; // 20px was 16px
+calcite-spacing-xxl: 1.5rem; // 24px was 20px
+calcite-spacing-xxxl: 2rem; // 32px
+
+### Pixel based tokens are now categorized under "fixed"
+
+calcite-size-fixed-xxxl: 32px; // deprecated
+calcite-size-fixed-xxl: 24px; // deprecated
+calcite-size-fixed-xl: 20px; // deprecated
+calcite-size-fixed-lg: 16px; // deprecated
+calcite-size-fixed-md: 12px; // deprecated
+calcite-size-fixed-sm: 8px; // deprecated
+calcite-size-fixed-xs: 6px; // deprecated
+calcite-size-fixed-xxs: 4px; // deprecated
+calcite-size-fixed-xxxs: 2px; // deprecated
+
+calcite-spacing-fixed-lg: 14px; // deprecated
+calcite-spacing-fixed-md: 12px; // deprecated
+calcite-spacing-fixed-sm: 8px; // deprecated
+calcite-spacing-fixed-xl: 16px; // deprecated
+calcite-spacing-fixed-xs: 6px; // deprecated
+calcite-spacing-fixed-xxl: 20px; // deprecated
+calcite-spacing-fixed-xxs: 4px; // deprecated
+calcite-spacing-fixed-xxxl: 32px; // deprecated
+
+### Bug Fixes
+
+- **tokens:** correct space and size tokens ([#10727](https://github.com/Esri/calcite-design-system/issues/10727)) ([febb217](https://github.com/Esri/calcite-design-system/commit/febb217121fb5109f02e23573a0185db2ee80684)), closes [#10012](https://github.com/Esri/calcite-design-system/issues/10012) [#10014](https://github.com/Esri/calcite-design-system/issues/10014)
+
+## [3.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.37...@esri/calcite-components@3.0.0-next.38) (2024-11-27)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker:** The default width and height of the `color-picker` have
+  been updated. Developers should review and adjust their layouts to
+  accommodate these changes.
+
+### Features
+
+- **color-picker:** update color field dimensions ([#10903](https://github.com/Esri/calcite-design-system/issues/10903)) ([7fc2ab8](https://github.com/Esri/calcite-design-system/commit/7fc2ab8f383d6466de210151ff64f6751515b7fa)), closes [#9415](https://github.com/Esri/calcite-design-system/issues/9415)
+
+## [3.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.36...@esri/calcite-components@3.0.0-next.37) (2024-11-27)
+
+### Bug Fixes
+
+- **chip:** provide label context to assistive technologies ([#10888](https://github.com/Esri/calcite-design-system/issues/10888)) ([c468bf8](https://github.com/Esri/calcite-design-system/commit/c468bf86ddd9c37033826ded12bc15358f830ab6)), closes [#8696](https://github.com/Esri/calcite-design-system/issues/8696)
+
 ## [3.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.35...@esri/calcite-components@3.0.0-next.36) (2024-11-27)
 
 ### Features
