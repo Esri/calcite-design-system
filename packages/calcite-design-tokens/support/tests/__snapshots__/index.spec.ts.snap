@@ -311,7 +311,8 @@ exports[`generated tokens CSS core should match 1`] = `
   --calcite-color-neutral-blk-010: #f3f3f3;
   --calcite-color-neutral-blk-005: #f8f8f8;
   --calcite-color-neutral-blk-000: #ffffff;
-  --calcite-shadow-4: 0 12px 32px -2px rgba(var(--calcite-color-neutral-blk-240), 0.1);
+  --calcite-shadow-4: 0 12px 32px -2px
+    rgba(var(--calcite-color-neutral-blk-240), 0.1);
   --calcite-shadow-3: 0 4px 20px 0
     rgba(var(--calcite-color-neutral-blk-240), 0.08);
   --calcite-shadow-2: 0 4px 16px 0
@@ -2008,7 +2009,8 @@ $calcite-color-neutral-blk-020: #eaeaea;
 $calcite-color-neutral-blk-010: #f3f3f3;
 $calcite-color-neutral-blk-005: #f8f8f8;
 $calcite-color-neutral-blk-000: #ffffff;
-$calcite-shadow-4: 0 12px 32px -2px rgba(var(--calcite-color-neutral-blk-240), 0.1);
+$calcite-shadow-4: 0 12px 32px -2px
+  rgba(var(--calcite-color-neutral-blk-240), 0.1);
 $calcite-shadow-3: 0 4px 20px 0 rgba(var(--calcite-color-neutral-blk-240), 0.08);
 $calcite-shadow-2: 0 4px 16px 0 rgba(var(--calcite-color-neutral-blk-240), 0.08);
 $calcite-shadow-1: 0 2px 8px 0 rgba(var(--calcite-color-neutral-blk-240), 0.04);
