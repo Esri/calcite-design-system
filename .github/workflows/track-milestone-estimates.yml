@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   issues:
     types: [closed]
+  milestone:
+    types: [closed]
 jobs:
   estimates:
     runs-on: ubuntu-latest
