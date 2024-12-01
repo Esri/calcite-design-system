@@ -392,7 +392,10 @@ export class InputDatePicker
 
   override connectedCallback(): void {
     const { open } = this;
-    open && this.openHandler();
+
+    if (open) {
+      this.openHandler();
+    }
 
     if (this.min) {
       this.minAsDate = dateFromISO(this.min);
@@ -409,7 +412,7 @@ export class InputDatePicker
         const date = dateFromISO(this.value);
         const dateInRange = dateFromRange(date, this.minAsDate, this.maxAsDate);
         this.valueAsDate = dateInRange;
-      } catch (error) {
+      } catch {
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
@@ -529,7 +532,11 @@ export class InputDatePicker
       return;
     }
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    if (focusTrapDisabled) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
   }
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {

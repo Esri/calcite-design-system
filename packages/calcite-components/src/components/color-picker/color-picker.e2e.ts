@@ -1836,9 +1836,9 @@ describe("calcite-color-picker", () => {
               customValueClearingFn?: () => Promise<void>,
             ): Promise<void> => {
               async function clearValue(): Promise<void> {
-                customValueClearingFn
-                  ? await customValueClearingFn()
-                  : await clearAndEnterHexOrChannelValue(page, calciteInputOrSlider, "");
+                await (customValueClearingFn
+                  ? customValueClearingFn()
+                  : clearAndEnterHexOrChannelValue(page, calciteInputOrSlider, ""));
               }
 
               const initialInputValue = await calciteInputOrSlider.getProperty("value");

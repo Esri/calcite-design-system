@@ -12,7 +12,10 @@ export function initModeChangeEvent(): void {
     document.body.dispatchEvent(new CustomEvent("calciteModeChange", { bubbles: true, detail: { mode } }));
 
   const modeChangeHandler = (newMode: string): void => {
-    currentMode !== newMode && emitModeChange(newMode);
+    if (currentMode !== newMode) {
+      emitModeChange(newMode);
+    }
+
     currentMode = newMode;
   };
 

@@ -284,7 +284,11 @@ export class Sheet
       return;
     }
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    if (focusTrapDisabled) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
   }
 
   private toggleSheet(value: boolean): void {
@@ -351,7 +355,7 @@ export class Sheet
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
-      } catch (_error) {
+      } catch {
         // close prevented
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;

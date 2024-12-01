@@ -706,7 +706,11 @@ export class Slider
     }
 
     const valueProp = el.getAttribute("data-value-prop") as ActiveSliderProperty;
-    valueProp === "minValue" ? (this.minHandle = el) : (this.maxHandle = el);
+    if (valueProp === "minValue") {
+      this.minHandle = el;
+    } else {
+      this.maxHandle = el;
+    }
   }
 
   /**

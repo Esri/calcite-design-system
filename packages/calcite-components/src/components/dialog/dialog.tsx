@@ -740,7 +740,7 @@ export class Dialog
     if (this.beforeClose) {
       try {
         await this.beforeClose();
-      } catch (_error) {
+      } catch {
         // close prevented
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;
@@ -757,9 +757,11 @@ export class Dialog
   }
 
   private updateOverflowHiddenClass(): void {
-    this.opened && !this.embedded && this.modal
-      ? this.addOverflowHiddenClass()
-      : this.removeOverflowHiddenClass();
+    if (this.opened && !this.embedded && this.modal) {
+      this.addOverflowHiddenClass();
+    } else {
+      this.removeOverflowHiddenClass();
+    }
   }
 
   private addOverflowHiddenClass(): void {
