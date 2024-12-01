@@ -176,7 +176,7 @@ export class DatePickerMonth extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("activeDate") && (this.hasUpdated || this.activeDate !== new Date())) {
+    if (changes.has("activeDate")) {
       this.updateFocusedDateWithActive(this.activeDate);
     }
 
