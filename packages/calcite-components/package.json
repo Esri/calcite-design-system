@@ -89,7 +89,7 @@
   "devDependencies": {
     "@esri/calcite-design-tokens": "3.0.0-next.1",
     "@esri/eslint-plugin-calcite-components": "2.0.0-next.1",
-    "vitest": "^2.1.3"
+    "vitest": "^2.1.5"
   },
   "volta": {
     "extends": "../../package.json"
