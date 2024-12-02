@@ -36,4 +36,8 @@ const loadDemoToggles = () => {
   document.getElementById("close-header")?.addEventListener("click", removeHeader);
 };
 
-document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", loadDemoToggles) : loadDemoToggles();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadDemoToggles);
+} else {
+  loadDemoToggles();
+}

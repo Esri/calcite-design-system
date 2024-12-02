@@ -20,16 +20,6 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: "module",
   },
-  plugins: [
-    "@esri/calcite-components",
-    "@typescript-eslint",
-    "eslint-plugin-react",
-    "import",
-    "jest",
-    "jsdoc",
-    "prettier",
-    "unicorn",
-  ],
   rules: {
     "@esri/calcite-components/ban-events": [
       "warn",
@@ -44,7 +34,6 @@ module.exports = {
     ],
     "@esri/calcite-components/enforce-ref-last-prop": "off",
     "@esri/calcite-components/strict-boolean-attributes": "off",
-    "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
@@ -62,11 +51,9 @@ module.exports = {
         ],
       },
     ],
-    "@typescript-eslint/lines-between-class-members": ["error", "always"],
     "@typescript-eslint/method-signature-style": ["error", "property"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
-    "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
     "import/order": ["error", { "newlines-between": "never" }],
@@ -90,7 +77,6 @@ module.exports = {
     "jsdoc/require-property-type": "off",
     "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
-    "lines-between-class-members": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [
@@ -168,6 +154,16 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    "@esri/calcite-components",
+    "@typescript-eslint",
+    "eslint-plugin-react",
+    "import",
+    "jest",
+    "jsdoc",
+    "prettier",
+    "unicorn",
+  ],
   settings: {
     react: {
       pragma: "h",

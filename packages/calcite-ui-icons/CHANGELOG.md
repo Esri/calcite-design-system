@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.0...@esri/calcite-ui-icons@4.0.0-next.1) (2024-11-26)
+
+### Features
+
+- add Plan Editor icons ([#10873](https://github.com/Esri/calcite-design-system/issues/10873)) ([8ab27bd](https://github.com/Esri/calcite-design-system/commit/8ab27bd74a5f34b3bddb6016f2df433fb621b25a))
+
 ## [4.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.33.0-next.8...@esri/calcite-ui-icons@4.0.0-next.0) (2024-11-15)
 
 ### ⚠ BREAKING CHANGES

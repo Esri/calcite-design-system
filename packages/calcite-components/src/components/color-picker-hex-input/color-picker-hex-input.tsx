@@ -247,9 +247,11 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
   }
 
   private onInputFocus(event: Event): void {
-    event.type === "calciteInternalInputTextFocus"
-      ? this.hexInputNode.selectText()
-      : this.opacityInputNode.selectText();
+    if (event.type === "calciteInternalInputTextFocus") {
+      this.hexInputNode.selectText();
+    } else {
+      this.opacityInputNode.selectText();
+    }
   }
 
   private onHexInputInput(): void {

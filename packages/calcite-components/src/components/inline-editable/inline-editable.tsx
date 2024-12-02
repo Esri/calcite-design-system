@@ -292,7 +292,7 @@ export class InlineEditable
         this.disableEditing();
         this.enableEditingButton.value.setFocus();
       }
-    } catch (error) {
+    } catch {
       // we handle error in finally block
     } finally {
       this.loading = false;

@@ -47,7 +47,7 @@ export class DemoTheme extends HTMLElement {
 
       try {
         tokensList = JSON.parse(newValue);
-      } catch (error) {
+      } catch {
         tokensList = newValue.split(",").map((t) => t.trim());
       }
 

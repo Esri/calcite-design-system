@@ -9,7 +9,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { openAncestors, updateListItemChildren } from "../list-item/utils";
 import {
@@ -43,7 +43,8 @@ declare global {
 }
 
 const listItemSelector = "calcite-list-item";
-const parentSelector = "calcite-list-item-group, calcite-list-item";
+const listItemGroupSelector = "calcite-list-item-group";
+const parentSelector = `${listItemGroupSelector}, calcite-list-item`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -100,11 +101,13 @@ export class List
       filterEnabled,
       moveToItems,
       displayMode,
+      scale,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
     items.forEach((item) => {
+      item.scale = scale;
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
@@ -253,6 +256,9 @@ export class List
    * @private
    */
   @property() openable = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The currently selected items.
@@ -776,7 +782,7 @@ export class List
   }
 
   private updateGroupItems(): void {
-    const { el, group } = this;
+    const { el, group, scale } = this;
 
     const rootNode = getRootNode(el);
 
@@ -791,6 +797,12 @@ export class List
       label: element.label ?? element.id,
       id: el.id || guid(),
     }));
+
+    const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+
+    groupItems.forEach((item) => {
+      item.scale = scale;
+    });
   }
 
   private focusRow(focusEl: ListItem["el"]): void {
@@ -1011,6 +1023,7 @@ export class List
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
+                        scale={this.scale}
                         value={filterText}
                       />
                       <slot

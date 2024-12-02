@@ -19,6 +19,7 @@ import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
+import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -37,7 +38,7 @@ import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
-import { tabs } from "./custom-theme/tabs";
+import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
@@ -126,8 +127,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${chips} ${pagination} ${slider}
       </div>
       <div class="demo-column">
-        ${datePicker} ${tabs} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
-        ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
+        ${datePicker} ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon}
+        ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
+        ${comboboxItem}
       </div>
       <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers}</div>
       ${alert}
@@ -136,34 +138,35 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
 
 const componentTokens = {
   ...globalTokens,
-  ...accordionTokens,
   ...accordionItemTokens,
-  ...actionTokens,
+  ...accordionTokens,
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
   ...actionPadTokens,
+  ...actionTokens,
+  ...alertTokens,
   ...autocompleteTokens,
   ...avatarTokens,
   ...cardTokens,
-  ...alertTokens,
-  ...chipTokens,
   ...checkboxTokens,
+  ...chipTokens,
   ...handleTokens,
+  ...inputTokens,
   ...labelTokens,
   ...linkTokens,
   ...listTokens,
+  ...navigationLogoTokens,
+  ...navigationTokens,
+  ...navigationUserTokens,
   ...popoverTokens,
   ...progressTokens,
-  ...inputTokens,
-  ...switchTokens,
-  ...textAreaTokens,
-  ...navigationLogoTokens,
-  ...navigationUserTokens,
-  ...tooltipTokens,
-  ...tileTokens,
-  ...navigationTokens,
   ...sliderTokens,
+  ...switchTokens,
+  ...tabsTokens,
+  ...textAreaTokens,
+  ...tileTokens,
+  ...tooltipTokens,
 };
 
 export default {
