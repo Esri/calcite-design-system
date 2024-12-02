@@ -309,7 +309,7 @@ export class Autocomplete
   };
 
   /** The component's value. */
-  @property() value: string;
+  @property() value = "";
 
   // #endregion
 
@@ -396,7 +396,6 @@ export class Autocomplete
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.value = this.value || "";
     connectLabel(this);
     connectForm(this);
 
