@@ -1,5 +1,5 @@
 import { PropertyValues } from "lit";
-import { LitElement, property, Fragment, h, JsxNode, setAttribute } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement, property, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -116,8 +116,8 @@ export class Loader extends LitElement {
   private getSize(scale: string) {
     return {
       s: 32,
-      m: 56,
-      l: 80,
+      m: 64,
+      l: 96,
     }[scale];
   }
 
@@ -125,7 +125,7 @@ export class Loader extends LitElement {
     return {
       s: 12,
       m: 16,
-      l: 20,
+      l: 24,
     }[scale];
   }
 
@@ -147,19 +147,12 @@ export class Loader extends LitElement {
   // #region Rendering
 
   override render(): JsxNode {
-    const { el, inline, label, scale, text, type, value } = this;
+    const { el, inline, label, text, type, value } = this;
 
     const id = el.id || guid();
-    const radiusRatio = 0.45;
-    const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
-    const radius = size * radiusRatio;
-    const viewbox = `0 0 ${size} ${size}`;
-    const isDeterminate = type.startsWith("determinate");
-    const circumference = 2 * radius * Math.PI;
-    const progress = (value / 100) * circumference;
-    const remaining = circumference - progress;
+    const isDeterminate = type !== "indeterminate";
+
     const valueNow = Math.floor(value);
-    const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -175,24 +168,45 @@ export class Loader extends LitElement {
 
     return (
       <>
-        <div class={CSS.loaderParts}>
-          {[1, 2, 3].map((index) => (
-            <svg
-              ariaHidden="true"
-              class={{
-                [CSS.loaderPart]: true,
-                [CSS.loaderPartId(index)]: true,
-              }}
-              style={isDeterminate && index === 3 ? determinateStyle : undefined}
-              viewBox={viewbox}
-            >
-              <circle cx={size / 2} cy={size / 2} r={radius} />
-            </svg>
-          ))}
-          {isDeterminate && <div class={CSS.loaderPercentage}>{this.formatValue()}</div>}
+        <div class={CSS.rings}>
+          {this.renderRing("track")}
+          {this.renderRing("progress")}
+          {!inline && isDeterminate && <div class={CSS.percentage}>{this.formatValue()}</div>}
         </div>
-        {text && <div class={CSS.loaderText}>{text}</div>}
+        {!inline && text && <div class={CSS.text}>{text}</div>}
       </>
+    );
+  }
+
+  private renderRing(type: "track" | "progress"): JsxNode {
+    const { inline, scale, value } = this;
+
+    const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
+    const radiusRatio = 0.45;
+    const radius = size * radiusRatio;
+
+    let style: { "stroke-dasharray": string } | undefined;
+
+    if (type === "progress") {
+      const circumference = 2 * radius * Math.PI;
+      const progress = ((this.type.startsWith("determinate") ? value : 24) / 100) * circumference;
+      const remaining = circumference - progress;
+      style = { "stroke-dasharray": `${progress} ${remaining}` };
+    }
+
+    return (
+      <svg
+        ariaHidden="true"
+        class={{
+          [CSS.ring]: true,
+          [CSS.trackRing]: type === "track",
+          [CSS.progressRing]: type === "progress",
+        }}
+        style={style}
+        viewBox={`0 0 ${size} ${size}`}
+      >
+        <circle cx={size / 2} cy={size / 2} r={radius} />
+      </svg>
     );
   }
 

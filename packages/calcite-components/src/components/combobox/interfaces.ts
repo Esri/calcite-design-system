@@ -11,7 +11,7 @@ export interface ItemData extends BaseData {
   el: ComboboxItem["el"] | ComboboxItemGroup["el"];
 }
 
-export interface GroupData extends BaseData {}
+export type GroupData = BaseData;
 
 interface BaseData {
   label: string;

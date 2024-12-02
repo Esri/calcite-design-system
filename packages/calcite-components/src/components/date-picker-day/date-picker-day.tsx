@@ -168,7 +168,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent, L
 
   private keyDownHandler(event: KeyboardEvent): void {
     if (isActivationKey(event.key)) {
-      !this.disabled && this.calciteInternalDaySelect.emit();
+      if (!this.disabled) {
+        this.calciteInternalDaySelect.emit();
+      }
       event.preventDefault();
     }
   }

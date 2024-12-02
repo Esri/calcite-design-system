@@ -43,8 +43,12 @@ class DomSwapper extends HTMLElement {
       if (!this._headStyles) {
         this._headStyles = this.recreateDemoStyle();
       }
+
       const slot = this.shadowRoot?.querySelector("slot");
-      slot && this.shadowRoot?.append(...this._headStyles, ...slot.assignedNodes());
+      if (slot) {
+        this.shadowRoot?.append(...this._headStyles, ...slot.assignedNodes());
+      }
+
       this._context = "shadow";
     }
   }

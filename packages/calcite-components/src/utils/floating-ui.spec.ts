@@ -2,6 +2,7 @@ import { describe, expect, it, beforeEach, vi } from "vitest";
 import { waitForAnimationFrame } from "../tests/utils";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
+import type { positionFloatingUI } from "./floating-ui";
 import { FloatingUIComponent } from "./floating-ui";
 
 const {
@@ -13,7 +14,6 @@ const {
   filterValidFlipPlacements,
   getEffectivePlacement,
   placements,
-  positionFloatingUI,
   reposition,
 } = floatingUI;
 

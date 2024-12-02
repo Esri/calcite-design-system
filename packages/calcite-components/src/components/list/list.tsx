@@ -9,7 +9,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { openAncestors, updateListItemChildren } from "../list-item/utils";
 import {
@@ -33,7 +33,7 @@ import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/list.t9n.en.json";
-import { ListDragDetail, ListMoveDetail } from "./interfaces";
+import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -43,12 +43,13 @@ declare global {
 }
 
 const listItemSelector = "calcite-list-item";
-const parentSelector = "calcite-list-item-group, calcite-list-item";
+const listItemGroupSelector = "calcite-list-item-group";
+const parentSelector = `${listItemGroupSelector}, calcite-list-item`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
- * @slot - A slot for adding `calcite-list-item` elements.
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
@@ -99,11 +100,14 @@ export class List
       filterEl,
       filterEnabled,
       moveToItems,
+      displayMode,
+      scale,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
     items.forEach((item) => {
+      item.scale = scale;
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
@@ -112,6 +116,7 @@ export class List
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
+        item.displayMode = displayMode;
       }
     });
 
@@ -239,6 +244,9 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /** Specifies the nesting behavior. */
+  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
+
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
@@ -248,6 +256,9 @@ export class List
    * @private
    */
   @property() openable = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The currently selected items.
@@ -385,7 +396,8 @@ export class List
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
-        (this.hasUpdated || this.selectionAppearance !== "icon"))
+        (this.hasUpdated || this.selectionAppearance !== "icon")) ||
+      (changes.has("displayMode") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }
@@ -770,7 +782,7 @@ export class List
   }
 
   private updateGroupItems(): void {
-    const { el, group } = this;
+    const { el, group, scale } = this;
 
     const rootNode = getRootNode(el);
 
@@ -785,6 +797,12 @@ export class List
       label: element.label ?? element.id,
       id: el.id || guid(),
     }));
+
+    const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+
+    groupItems.forEach((item) => {
+      item.scale = scale;
+    });
   }
 
   private focusRow(focusEl: ListItem["el"]): void {
@@ -1005,6 +1023,7 @@ export class List
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
+                        scale={this.scale}
                         value={filterText}
                       />
                       <slot

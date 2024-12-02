@@ -1,14 +1,14 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
   setAttribute,
+  state,
 } from "@arcgis/lumina";
 import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
@@ -34,7 +34,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
-import { componentOnReady, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
 import T9nStrings from "./assets/t9n/modal.t9n.en.json";
@@ -265,6 +265,11 @@ export class Modal
 
   // #region Lifecycle
 
+  constructor() {
+    super();
+    this.listen("keydown", this.keyDownHandler);
+  }
+
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
@@ -329,12 +334,31 @@ export class Modal
 
   // #region Private Methods
 
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (
+      !defaultPrevented &&
+      this.focusTrapDisabled &&
+      this.open &&
+      !this.escapeDisabled &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
+
   private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    if (focusTrapDisabled) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
   }
 
   private handleHeaderSlotChange(event: Event): void {
@@ -406,7 +430,7 @@ export class Modal
   }
 
   private async openModal(): Promise<void> {
-    await componentOnReady(this.el);
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteModalOpen",
       this.openEnd,
@@ -439,7 +463,7 @@ export class Modal
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
-      } catch (_error) {
+      } catch {
         // close prevented
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;

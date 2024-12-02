@@ -62,7 +62,7 @@ export async function createTimeZoneItems(
 
     return groups
       .map<TimeZoneItem<string>>(({ label: timeZone }) => {
-        const label = toUserFriendlyName(timeZone);
+        const label = timeZone;
         const value = timeZone;
 
         return {

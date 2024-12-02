@@ -9,7 +9,7 @@ import {
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
@@ -138,7 +138,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    * The component's text.
    *
    * @deprecated Use `heading` instead.
-   * @required
    */
   @property({ reflect: true }) textLabel: string;
 
@@ -169,6 +168,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   override connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
+  }
+
+  load(): void {
+    warnIfMissingRequiredProp(this, "value", "textLabel");
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
