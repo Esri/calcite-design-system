@@ -1,13 +1,13 @@
 import { fixupPluginRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
-import js from "@eslint/js";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import jsPlugin from "@eslint/js";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import _import from "eslint-plugin-import";
-import jest from "eslint-plugin-jest";
-import jsdoc from "eslint-plugin-jsdoc";
-import prettier from "eslint-plugin-prettier";
-import unicorn from "eslint-plugin-unicorn";
+import importPlugin from "eslint-plugin-import";
+import jestPlugin from "eslint-plugin-jest";
+import jsdocPlugin from "eslint-plugin-jsdoc";
+import prettierPlugin from "eslint-plugin-prettier";
+import unicornPlugin from "eslint-plugin-unicorn";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,8 +15,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
+  recommendedConfig: jsPlugin.configs.recommended,
+  allConfig: jsPlugin.configs.all,
 });
 
 export default [
@@ -29,20 +29,21 @@ export default [
     "plugin:jest/recommended",
     "prettier",
   ),
-  jsdoc.configs["flat/recommended"],
+  jsdocPlugin.configs["flat/recommended"],
   {
+    files: ["**/*.{ts,tsx,mjs,cjs"],
     plugins: {
-      "@typescript-eslint": typescriptEslint,
-      import: fixupPluginRules(_import),
-      jest,
-      jsdoc,
-      prettier,
-      unicorn,
+      "@typescript-eslint": tsPlugin,
+      import: fixupPluginRules(importPlugin),
+      jest: jestPlugin,
+      jsdoc: jsdocPlugin,
+      prettier: prettierPlugin,
+      unicorn: unicornPlugin,
     },
 
     languageOptions: {
       globals: {
-        ...jest.environments.globals.globals,
+        ...jestPlugin.environments.globals.globals,
       },
 
       parser: tsParser,

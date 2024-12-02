@@ -46,7 +46,7 @@ module.exports = {
         repo,
         name: label,
       });
-    } catch (e) {
+    } catch {
       await github.rest.issues.createLabel({
         owner,
         repo,

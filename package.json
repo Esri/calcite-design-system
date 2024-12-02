@@ -12,6 +12,7 @@
     "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"{,documentation}/*.md\" --fix --dot --ignore-path .gitignore",
     "lint:yml": "prettier --write \".github/**/*.yml\" >/dev/null",
+    "lint:js": "eslint -c .github/scripts/eslint.config.cjs --fix .github/scripts/ && prettier --write \".github/**/*.{c,m,}js\" >/dev/null",
     "lint:json": "prettier --write \"*.json\" >/dev/null",
     "version:latest": "./support/release.sh version",
     "publish:latest": "./support/release.sh publish",

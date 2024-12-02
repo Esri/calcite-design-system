@@ -11,6 +11,7 @@ const compat = new FlatCompat({
 module.exports = [
   ...compat.extends("eslint:recommended", "plugin:prettier/recommended"),
   {
+    files: ["**/*.{c,m,}js"],
     languageOptions: {
       globals: {
         ...globals.node,
