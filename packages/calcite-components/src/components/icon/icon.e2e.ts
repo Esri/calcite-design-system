@@ -72,7 +72,7 @@ describe("calcite-icon", () => {
       expect(path.getAttribute("d")).toBe(iconPathData);
     });
 
-    describe("loads icon when it's close to viewport", async () => {
+    describe("icon-loading when it's close to viewport", async () => {
       it("default (no preload)", async () => {
         const page = await newE2EPage();
         await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
