@@ -317,7 +317,7 @@ describe("calcite-list", () => {
     }
   });
 
-  it("should set the scale property on items", async () => {
+  it.only("should set the scale property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-list id="root" display-mode="nested" group="my-list">
@@ -349,6 +349,15 @@ describe("calcite-list", () => {
     }
 
     const rootList = await page.find("#root");
+    rootList.setProperty("scale", "s");
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("scale")).toBe("s");
+    }
+
     rootList.setProperty("scale", "m");
 
     await page.waitForChanges();
