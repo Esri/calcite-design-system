@@ -96,7 +96,7 @@
     "eslint-plugin-react": "7.37.2",
     "eslint-plugin-unicorn": "56.0.1",
     "globby": "14.0.2",
-    "happy-dom": "15.7.4",
+    "happy-dom": "15.11.7",
     "husky": "9.1.7",
     "jest": "29.7.0",
     "jest-axe": "9.0.0",
