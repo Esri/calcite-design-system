@@ -397,7 +397,8 @@ export class List
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon")) ||
-      (changes.has("displayMode") && this.hasUpdated)
+      (changes.has("displayMode") && this.hasUpdated) ||
+      (changes.has("scale") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }
