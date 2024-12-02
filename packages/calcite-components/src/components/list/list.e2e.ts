@@ -317,7 +317,7 @@ describe("calcite-list", () => {
     }
   });
 
-  it.only("should set the scale property on items", async () => {
+  it("should set the scale property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-list id="root" display-mode="nested" group="my-list">
