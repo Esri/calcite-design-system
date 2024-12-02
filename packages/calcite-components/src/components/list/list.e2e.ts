@@ -317,6 +317,57 @@ describe("calcite-list", () => {
     }
   });
 
+  it("should set the scale property on items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list id="root" display-mode="nested" group="my-list">
+        <calcite-list-item open label="Depth 1" description="Item 1">
+          <calcite-list group="my-list">
+            <calcite-list-item open label="Depth 2" description="Item 2">
+              <calcite-list display-mode="nested" group="my-list">
+                <calcite-list-item label="Depth 3" description="Item 3">
+                  <calcite-list display-mode="nested" group="my-list"></calcite-list>
+                </calcite-list-item>
+                <calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item>
+              </calcite-list>
+            </calcite-list-item>
+            <calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item>
+        <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
+      </calcite-list>`,
+    );
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    const items = await page.findAll("calcite-list-item");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("scale")).toBe("m");
+    }
+
+    const rootList = await page.find("#root");
+    rootList.setProperty("scale", "m");
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("scale")).toBe("m");
+    }
+
+    rootList.setProperty("scale", "l");
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("scale")).toBe("l");
+    }
+  });
+
   it("disabling and enabling an item restores actions from being tabbable", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
