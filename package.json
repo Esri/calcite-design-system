@@ -47,7 +47,6 @@
     "@storybook/addon-docs": "8.4.5",
     "@storybook/addon-mdx-gfm": "8.4.5",
     "@storybook/addon-themes": "8.4.5",
-    "@storybook/addon-webpack5-compiler-babel": "3.0.3",
     "@storybook/blocks": "8.4.5",
     "@storybook/builder-vite": "8.4.5",
     "@storybook/html": "8.4.5",
@@ -107,7 +106,6 @@
     "postcss": "8.4.49",
     "prettier": "3.4.1",
     "puppeteer": "23.4.1",
-    "quicktype-core": "23.0.170",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rimraf": "5.0.10",
@@ -125,8 +123,7 @@
     "tsx": "4.19.2",
     "turbo": "1.13.4",
     "typescript": "5.6.3",
-    "vite": "5.4.11",
-    "workbox-build": "7.1.1"
+    "vite": "5.4.11"
   },
   "license": "SEE LICENSE.md",
   "overrides": {
