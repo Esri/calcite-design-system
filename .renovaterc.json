@@ -9,17 +9,10 @@
   ],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": "auto",
-  "enabledManagers": [
-    "npm",
-    "github-actions"
-  ],
+  "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
-  "schedule": [
-    "before 5am every weekday"
-  ],
-  "labels": [
-    "dependencies"
-  ],
+  "schedule": ["before 5am every weekday"],
+  "labels": ["dependencies"],
   "ignoreDeps": [
     "@types/jest",
     "@types/node",
@@ -35,32 +28,25 @@
     "ts-jest",
     "typescript"
   ],
-  "ignorePaths": [
-    "packages/calcite-ui-icons/**",
-    "examples/**"
-  ],
+  "ignorePaths": ["packages/calcite-ui-icons/**", "examples/**"],
   "packageRules": [
     {
       "groupName": "ArcGIS",
-      "matchPackageNames": [
-        "@arcgis/**"
-      ]
+      "matchPackageNames": ["@arcgis/**"]
     },
     {
-      "groupName": "eslint",
-      "matchPackageNames": [
-        "/eslint/"
-      ]
+      "groupName": "ESLint",
+      "matchPackageNames": ["/eslint/"]
     },
     {
-      "matchPackageNames": [
-        "*"
-      ],
+      "groupName": "Stylelint",
+      "matchPackageNames": ["/stylelint/"]
+    },
+    {
+      "matchPackageNames": ["*"],
       "semanticCommitType": "build",
       "semanticCommitScope": "deps",
-      "addLabels": [
-        "chore"
-      ]
+      "addLabels": ["chore"]
     }
   ]
 }

@@ -27,7 +27,6 @@ module.exports = {
     "unicorn",
   ],
   rules: {
-    "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
