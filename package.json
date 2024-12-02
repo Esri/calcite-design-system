@@ -111,7 +111,7 @@
     "rimraf": "5.0.10",
     "rollup": "4.27.4",
     "semver": "7.6.3",
-    "shell-quote": "1.8.1",
+    "shell-quote": "1.8.2",
     "storybook": "8.4.5",
     "storybook-addon-rtl": "1.0.1",
     "style-dictionary": "3.9.2",
