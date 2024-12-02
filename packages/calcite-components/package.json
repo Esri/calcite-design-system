@@ -46,7 +46,7 @@
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
-    "lint:ts": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
+    "lint:ts": "eslint --ext .ts,.tsx.mjs,.cjs --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "prepublish": "./support/cleanupDistFiles.sh",
     "screenshot-tests": "npm run build-storybook",
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
