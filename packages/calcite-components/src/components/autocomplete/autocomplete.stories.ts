@@ -23,6 +23,7 @@ type AutocompleteStoryArgs = Pick<
   | "placement"
   | "prefixText"
   | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "suffixText"
@@ -38,15 +39,19 @@ export default {
     disabled: false,
     inputValue: "",
     loading: false,
+    open: false,
     overlayPositioning: overlayPositioning.defaultValue,
     placeholder: "Placeholder text",
     placement: defaultMenuPlacement,
     prefixText: "",
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     suffixText: "",
     validationIcon: "",
     validationMessage: "",
+    value: "",
   },
   argTypes: {
     alignment: {
@@ -83,37 +88,49 @@ export default {
 
 export const simple = (args: AutocompleteStoryArgs): string => html`
   <div style="width:350px">
-    <calcite-autocomplete
-      ${boolean("disabled", args.disabled)}
-      ${boolean("loading", args.loading)}
-      ${boolean("open", args.open)}
-      ${boolean("read-only", args.readOnly)}
-      alignment="${args.alignment}"
-      input-value="${args.inputValue}"
-      label="${args.label}"
-      max-length="${args.maxLength}"
-      min-length="${args.minLength}"
-      name="${args.name}"
-      overlay-positioning="${args.overlayPositioning}"
-      placeholder="${args.placeholder}"
-      placement="${args.placement}"
-      prefix-text="${args.prefixText}"
-      scale="${args.scale}"
-      status="${args.status}"
-      suffix-text="${args.suffixText}"
-      validation-icon="${args.validationIcon}"
-      validation-message="${args.validationMessage}"
-      value="${args.value}"
-    >
-      <calcite-autocomplete-item-group heading="Dogs">
-        <calcite-autocomplete-item label="Rover" value="rover" heading="Rover"></calcite-autocomplete-item>
-        <calcite-autocomplete-item label="Fido" value="one" heading="Fido"></calcite-autocomplete-item>
-      </calcite-autocomplete-item-group>
-      <calcite-autocomplete-item-group heading="Cats">
-        <calcite-autocomplete-item label="Felix" value="felix" heading="Felix"></calcite-autocomplete-item>
-        <calcite-autocomplete-item label="Garfield" value="garfield" heading="Garfield"></calcite-autocomplete-item>
-      </calcite-autocomplete-item-group>
-    </calcite-autocomplete>
+    <form class="locate-form">
+      <calcite-autocomplete
+        ${boolean("disabled", args.disabled)}
+        ${boolean("loading", args.loading)}
+        ${boolean("open", args.open)}
+        ${boolean("read-only", args.readOnly)}
+        ${boolean("required", args.required)}
+        alignment="${args.alignment}"
+        input-value="${args.inputValue}"
+        label="${args.label}"
+        max-length="${args.maxLength}"
+        min-length="${args.minLength}"
+        name="${args.name}"
+        overlay-positioning="${args.overlayPositioning}"
+        placeholder="${args.placeholder}"
+        placement="${args.placement}"
+        prefix-text="${args.prefixText}"
+        scale="${args.scale}"
+        status="${args.status}"
+        suffix-text="${args.suffixText}"
+        validation-icon="${args.validationIcon}"
+        validation-message="${args.validationMessage}"
+        value="${args.value}"
+      >
+        <calcite-autocomplete-item-group heading="Dogs">
+          <calcite-autocomplete-item label="Rover" value="rover" heading="Rover"></calcite-autocomplete-item>
+          <calcite-autocomplete-item label="Fido" value="one" heading="Fido"></calcite-autocomplete-item>
+        </calcite-autocomplete-item-group>
+        <calcite-autocomplete-item-group heading="Cats">
+          <calcite-autocomplete-item label="Felix" value="felix" heading="Felix"></calcite-autocomplete-item>
+          <calcite-autocomplete-item label="Garfield" value="garfield" heading="Garfield"></calcite-autocomplete-item>
+        </calcite-autocomplete-item-group>
+      </calcite-autocomplete>
+    </form>
+    <script>
+      document.querySelectorAll(".locate-form").forEach((form) => {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const data = new FormData(event.target);
+          console.log([...data.entries()]);
+        });
+      });
+    </script>
   </div>
 `;
 
