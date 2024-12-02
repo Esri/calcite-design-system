@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.41...@esri/calcite-components@3.0.0-next.42) (2024-12-02)
+
+### Bug Fixes
+
+- **combobox-item-group:** cascade scale from combobox ([#10908](https://github.com/Esri/calcite-design-system/issues/10908)) ([8860dbb](https://github.com/Esri/calcite-design-system/commit/8860dbbcff112759f93a37dd01636a6d17a9d2b2)), closes [#10897](https://github.com/Esri/calcite-design-system/issues/10897)
+- **list:** update child list components when scale property changes ([#10935](https://github.com/Esri/calcite-design-system/issues/10935)) ([521f8df](https://github.com/Esri/calcite-design-system/commit/521f8df92f3fec62bc631119e374a7f8735a20fb)), closes [#10932](https://github.com/Esri/calcite-design-system/issues/10932)
+
 ## [3.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.40...@esri/calcite-components@3.0.0-next.41) (2024-12-02)
 
 ### Bug Fixes
