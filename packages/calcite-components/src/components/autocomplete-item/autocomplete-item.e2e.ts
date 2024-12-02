@@ -53,6 +53,11 @@ describe("calcite-autocomplete-item", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "backgroundColor",
       },
+      "--calcite-autocomplete-background-color-hover": {
+        shadowSelector: `.${CSS.container}`,
+        state: "hover",
+        targetProp: "backgroundColor",
+      },
       "--calcite-autocomplete-description-text-color": {
         shadowSelector: `.${CSS.description}`,
         targetProp: "color",
@@ -64,6 +69,15 @@ describe("calcite-autocomplete-item", () => {
       "--calcite-autocomplete-text-color": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "color",
+      },
+    });
+  });
+
+  describe("active theme", () => {
+    themed("<calcite-autocomplete-item active></calcite-autocomplete-item>", {
+      "--calcite-autocomplete-background-color-focus": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
       },
     });
   });
