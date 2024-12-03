@@ -643,6 +643,21 @@ export const customLabelsAndTicks = (): string => html`
     min-label="Temperature"
   ></calcite-slider>
 
+  <br />
+  <br />
+
+  <label>Label formatter (single value + long label)</label>
+  <calcite-slider id="singleFormattedLongLabelSlider" label-handles label-ticks></calcite-slider>
+
+  <label>Label formatter (min/max value + long label)</label>
+  <calcite-slider
+    id="minMaxFormattedLongLabelSlider"
+    label-handles
+    label-ticks
+    min-value="0"
+    max-value="100"
+  ></calcite-slider>
+
   <script>
     const singleValueSlider = document.getElementById("singleFormattedLabelSlider");
 
@@ -667,6 +682,18 @@ export const customLabelsAndTicks = (): string => html`
       if (type === "tick") {
         return value === minMaxValueSlider.max ? value + "ºF" : value + "º";
       }
+    };
+
+    const singleValueLongLabelSlider = document.getElementById("singleFormattedLongLabelSlider");
+
+    singleValueLongLabelSlider.labelFormatter = function (value) {
+      return "long " + value + " label";
+    };
+
+    const minMaxValueLongLabelSlider = document.getElementById("minMaxFormattedLongLabelSlider");
+
+    minMaxValueLongLabelSlider.labelFormatter = function (value) {
+      return "long " + value + " label";
     };
   </script>
 `;
