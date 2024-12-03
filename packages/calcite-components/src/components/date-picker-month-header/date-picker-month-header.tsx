@@ -343,9 +343,7 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        isDirectionLeft
-          ? await this.nextMonthAction.setFocus()
-          : await this.prevMonthAction.setFocus();
+        await (isDirectionLeft ? this.nextMonthAction.setFocus() : this.prevMonthAction.setFocus());
       } else {
         this.yearInputEl.value.focus();
       }

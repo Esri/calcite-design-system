@@ -437,7 +437,7 @@ describe("calcite-list-item", () => {
             state: { press: { attribute: "class", value: CSS.content } },
           },
           "--calcite-list-border-color": {
-            shadowSelector: `.${CSS.wrapper}`,
+            shadowSelector: `.${CSS.contentContainerWrapper}`,
             targetProp: "borderBlockEndColor",
           },
           "--calcite-list-content-text-color": {
@@ -474,7 +474,7 @@ describe("calcite-list-item", () => {
         {
           "--calcite-list-selection-border-color": {
             shadowSelector: `.${CSS.container}`,
-            targetProp: "borderInlineStartColor",
+            targetProp: "boxShadow",
           },
         },
       );
