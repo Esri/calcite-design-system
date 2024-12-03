@@ -271,7 +271,7 @@
     gap: var(--calcite-spacing-md);
     min-block-size: 56px;
     padding-block: theme("spacing[2.5]");
-    padding-inline-end: var(--calcite-spacing-xl);
+    padding-inline-end: var(--calcite-spacing-lg);
   }
   .content,
   .custom-content,
@@ -287,7 +287,7 @@
 }
 :host([scale="l"][display-mode="flat"]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xl);
+    padding-inline-start: var(--calcite-spacing-lg);
   }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-md);
@@ -312,7 +312,7 @@
 }
 :host([scale="l"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"])) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xl);
+    padding-inline-start: var(--calcite-spacing-lg);
   }
   .selection-container {
     padding-inline: unset;
