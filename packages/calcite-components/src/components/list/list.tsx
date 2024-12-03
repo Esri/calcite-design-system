@@ -250,13 +250,6 @@ export class List
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /**
-   * One of the items within the list can be opened.
-   *
-   * @private
-   */
-  @property() openable = false;
-
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
