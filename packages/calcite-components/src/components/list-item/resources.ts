@@ -6,6 +6,8 @@ export const CSS = {
   containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
+  contentContainerWrapper: "content-container-wrapper",
+  contentContainerWrapperBordered: "content-container-wrapper--bordered",
   contentContainer: "content-container",
   contentContainerUnavailable: "content-container--unavailable",
   contentContainerSelectable: "content-container--selectable",
@@ -44,9 +46,9 @@ export const MAX_COLUMNS = 0;
 
 export const ICONS = {
   selectedMultiple: "check-square-f",
-  selectedSingle: "bullet-point-large",
+  selectedSingle: "circle-inset-large",
   unselectedMultiple: "square",
-  unselectedSingle: "bullet-point-large",
+  unselectedSingle: "circle",
   closedLTR: "chevron-right",
   closedRTL: "chevron-left",
   open: "chevron-down",

@@ -189,6 +189,7 @@ describe("calcite-select", () => {
 
         select.append(number);
       });
+      await page.waitForChanges();
 
       expect(await internalSelect.findAll("option")).toHaveLength(1);
     });
@@ -333,6 +334,7 @@ describe("calcite-select", () => {
 
         select.append(letters, numbers);
       });
+      await page.waitForChanges();
 
       expect(await internalSelect.findAll("option")).toHaveLength(2);
       expect(await internalSelect.findAll("optgroup")).toHaveLength(2);

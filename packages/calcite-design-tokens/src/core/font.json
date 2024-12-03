@@ -556,6 +556,7 @@
         "none": {
           "value": "none",
           "type": "textDecoration",
+          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -580,6 +581,7 @@
         "underline": {
           "value": "underline",
           "type": "textDecoration",
+          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -606,6 +608,7 @@
         "none": {
           "value": "none",
           "type": "textCase",
+          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -630,6 +633,7 @@
         "uppercase": {
           "value": "uppercase",
           "type": "textCase",
+          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -654,6 +658,7 @@
         "lowercase": {
           "value": "lowercase",
           "type": "textCase",
+          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -678,6 +683,7 @@
         "capitalize": {
           "value": "capitalize",
           "type": "textCase",
+          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",

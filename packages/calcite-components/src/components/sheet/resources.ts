@@ -6,6 +6,7 @@ export const CSS = {
   content: "content",
   containerEmbedded: "container--embedded",
   resizeHandle: "resize-handle",
+  height: "height",
 };
 
 export const sheetResizeStep = 10;

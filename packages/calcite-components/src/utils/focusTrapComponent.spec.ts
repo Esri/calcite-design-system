@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, vi } from "vitest";
+import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 import { GlobalTestProps } from "../tests/utils";
 import {
   activateFocusTrap,
@@ -60,7 +60,13 @@ describe("focusTrapComponent", () => {
   });
 
   describe("configuration", () => {
-    beforeEach(() => vi.resetModules());
+    beforeEach(() => {
+      vi.resetModules();
+    });
+
+    afterEach(() => {
+      vi.unmock("focus-trap");
+    });
 
     it("supports custom global trap stack", async () => {
       const customFocusTrapStack = [];
@@ -70,6 +76,14 @@ describe("focusTrapComponent", () => {
       (globalThis as TestGlobal).calciteConfig = {
         focusTrapStack: customFocusTrapStack,
       };
+
+      vi.mock("focus-trap", async () => {
+        const actual = await vi.importActual<typeof import("focus-trap")>("focus-trap");
+        return {
+          ...actual,
+          createFocusTrap: vi.fn(actual.createFocusTrap),
+        };
+      });
 
       const focusTrap = await import("focus-trap");
       const createFocusTrapSpy = vi.spyOn(focusTrap, "createFocusTrap");

@@ -72,4 +72,8 @@
   }
 }
 
+:host([layout="horizontal"]) ::slotted(calcite-action-group) {
+  border-inline-end: var(--calcite-size-px);
+}
+
 @include base-component();

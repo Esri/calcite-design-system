@@ -9,7 +9,7 @@ import {
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
@@ -52,7 +52,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @property() ancestors: ComboboxChildElement[];
 
-  /** A description for the component, which displays below the label. */
+  /** A description for the component, which displays below the heading. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -138,7 +138,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    * The component's text.
    *
    * @deprecated Use `heading` instead.
-   * @required
    */
   @property({ reflect: true }) textLabel: string;
 
@@ -169,6 +168,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   override connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
+  }
+
+  load(): void {
+    warnIfMissingRequiredProp(this, "value", "textLabel");
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -222,7 +225,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       <calcite-icon
         class={{
           [CSS.custom]: !!this.icon,
-          [CSS.iconActive]: this.icon && this.selected,
+          [CSS.iconSelected]: this.icon && this.selected,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -232,26 +235,15 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     ) : null;
   }
 
-  private renderSelectIndicator(showDot: boolean): JsxNode;
-
-  private renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): JsxNode;
-
-  private renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): JsxNode {
-    return showDot ? (
-      <span
-        class={{
-          [CSS.icon]: true,
-          [CSS.dot]: true,
-        }}
-      />
-    ) : (
+  private renderSelectIndicator(icon: IconNameOrString): JsxNode {
+    return (
       <calcite-icon
         class={{
           [CSS.icon]: true,
-          [CSS.iconActive]: this.selected,
+          [CSS.iconSelected]: this.selected,
         }}
         flipRtl={this.iconFlipRtl}
-        icon={iconPath}
+        icon={icon}
         key="indicator"
         scale={getIconScale(this.scale)}
       />
@@ -269,11 +261,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   override render(): JsxNode {
     const { disabled, heading, label, textLabel, value } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const defaultIcon = isSingleSelect ? undefined : "check";
+    const icon = disabled || isSingleSelect ? undefined : "check";
+    const selectionIcon = isSingleSelect ? "bullet-point" : "check";
     const headingText = heading || textLabel;
-    const iconPath = disabled ? undefined : defaultIcon;
     const itemLabel = label || value;
-    const showDot = isSingleSelect && !disabled;
 
     const classes = {
       [CSS.label]: true,
@@ -297,8 +288,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-            {this.renderSelectIndicator(showDot, iconPath)}
-            {this.renderIcon(iconPath)}
+            {this.renderSelectIndicator(selectionIcon)}
+            {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
               <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
               {this.description ? (

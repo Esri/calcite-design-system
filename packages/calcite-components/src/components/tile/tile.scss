@@ -11,12 +11,17 @@
  * @prop --calcite-tile-link-color: When `href` is present, specifies the component's link color.
  * @prop --calcite-tile-shadow: Specifies the shadow around the component.
  * @prop --calcite-tile-text-color: Specifies the component's `description` and `icon` text color, but not the `heading` text color.
+ * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
  */
 
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
   display: inline-block;
+}
+
+calcite-link {
+  --calcite-link-text-color: var(--calcite-tile-link-text-color);
 }
 
 .container {
@@ -168,11 +173,11 @@
   max-inline-size: 520px;
   min-inline-size: 160px;
   .container {
-    padding: var(--calcite-spacing-xl);
+    padding: var(--calcite-spacing-lg);
   }
   .content-container--has-content,
   .row {
-    gap: var(--calcite-spacing-xl);
+    gap: var(--calcite-spacing-lg);
   }
   .heading {
     font-size: var(--calcite-font-size-0);
@@ -183,7 +188,7 @@
     line-height: 1.20313rem;
   }
   .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
-    margin-block-end: var(--calcite-spacing-xl);
+    margin-block-end: var(--calcite-spacing-lg);
   }
 }
 

@@ -2,13 +2,13 @@ import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
   method,
   state,
   JsxNode,
+  LitElement,
+  property,
   setAttribute,
 } from "@arcgis/lumina";
 import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
@@ -28,11 +28,11 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { LogicalFlowPosition, Scale } from "../interfaces";
+import { getDimensionClass } from "../../utils/dynamicClasses";
+import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
-import { componentOnReady } from "../../utils/component";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/sheet.t9n.en.json";
@@ -146,8 +146,15 @@ export class Sheet
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** When `position` is `"block-start"` or `"block-end"`, specifies the height of the component. */
+  /**
+   * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   *
+   * @deprecated Use the `height` property instead.
+   */
   @property({ reflect: true }) heightScale: Scale = "m";
+
+  /** Specifies the height of the component. */
+  @property({ reflect: true }) height: Height;
 
   /**
    * Specifies the label of the component.
@@ -190,7 +197,16 @@ export class Sheet
   @property({ reflect: true }) resizable = false;
 
   /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
+
+  /**
+   * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
+   */
   @property({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, Scale>;
 
   // #endregion
 
@@ -228,6 +244,11 @@ export class Sheet
   // #endregion
 
   // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("keydown", this.keyDownHandler);
+  }
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -288,12 +309,31 @@ export class Sheet
 
   // #region Private Methods
 
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (
+      !defaultPrevented &&
+      !this.escapeDisabled &&
+      this.focusTrapDisabled &&
+      this.open &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
+
   private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    if (focusTrapDisabled) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
   }
 
   private toggleSheet(value: boolean): void {
@@ -518,7 +558,7 @@ export class Sheet
   }
 
   private async openSheet(): Promise<void> {
-    await componentOnReady(this.el);
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteSheetOpen",
       this.openEnd,
@@ -543,7 +583,7 @@ export class Sheet
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
-      } catch (_error) {
+      } catch {
         // close prevented
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;
@@ -590,6 +630,12 @@ export class Sheet
           [CSS.containerOpen]: this.opened,
           [CSS.containerEmbedded]: this.embedded,
           [CSS_UTILITY.rtl]: dir === "rtl",
+          [getDimensionClass("width", this.width, this.widthScale)]: !!(
+            this.width || this.widthScale
+          ),
+          [getDimensionClass("height", this.height, this.heightScale)]: !!(
+            this.height || this.heightScale
+          ),
         }}
         ref={this.setTransitionEl}
       >

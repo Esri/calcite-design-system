@@ -196,7 +196,7 @@ export class InlineEditable
     }
   }
 
-  private handleDefaultSlotChange(event: Event): void {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const inputElement = slotChangeGetAssignedElements(event).filter((el): el is Input["el"] =>
       el.matches("calcite-input"),
     )[0];
@@ -207,6 +207,7 @@ export class InlineEditable
       return;
     }
 
+    await inputElement.componentOnReady();
     inputElement.editingEnabled = this.editingEnabled;
     inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
@@ -291,7 +292,7 @@ export class InlineEditable
         this.disableEditing();
         this.enableEditingButton.value.setFocus();
       }
-    } catch (error) {
+    } catch {
       // we handle error in finally block
     } finally {
       this.loading = false;

@@ -8,7 +8,6 @@ import {
   disconnectForm,
   HiddenFormInputSlot,
 } from "../../utils/form";
-import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -79,13 +78,6 @@ export class RadioButton
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
-
-  /**
-   * The `id` of the component. When omitted, a globally unique identifier is used.
-   *
-   * @deprecated No longer necessary.
-   */
-  @property({ reflect: true }) guid: string;
 
   /**
    * The hovered state of the component.
@@ -189,7 +181,6 @@ export class RadioButton
 
   override connectedCallback(): void {
     this.rootNode = this.el.getRootNode() as HTMLElement;
-    this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     if (this.name) {
       this.checkLastRadioButton();
     }
@@ -355,7 +346,7 @@ export class RadioButton
 
   private uncheckOtherRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
-    const otherRadioButtons = radioButtons.filter((radioButton) => radioButton.guid !== this.guid);
+    const otherRadioButtons = radioButtons.filter((radioButton) => radioButton !== this.el);
     otherRadioButtons.forEach((otherRadioButton) => {
       if (otherRadioButton.checked) {
         otherRadioButton.checked = false;
@@ -367,7 +358,7 @@ export class RadioButton
   private updateTabIndexOfOtherRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
     const otherFocusableRadioButtons = radioButtons.filter(
-      (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled,
+      (radioButton) => radioButton !== this.el && !radioButton.disabled,
     );
     otherFocusableRadioButtons.forEach((radioButton) => {
       radioButton.manager?.component.requestUpdate();

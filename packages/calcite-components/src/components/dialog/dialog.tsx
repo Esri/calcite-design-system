@@ -1,8 +1,8 @@
 import interact from "interactjs";
-import type { Interactable, ResizeEvent, DragEvent } from "@interactjs/types";
+import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -19,9 +19,9 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { Kind, Scale } from "../interfaces";
-import { componentOnReady } from "../../utils/component";
+import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -231,8 +231,15 @@ export class Dialog
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
+   */
   @property({ reflect: true }) widthScale: Scale = "m";
+
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, Scale>;
 
   // #endregion
 
@@ -401,7 +408,13 @@ export class Dialog
   }
 
   private handleOpenedChange(value: boolean): void {
-    this.transitionEl.classList.toggle(CSS.openingActive, value);
+    const { transitionEl } = this;
+
+    if (!transitionEl) {
+      return;
+    }
+
+    transitionEl.classList.toggle(CSS.openingActive, value);
     onToggleOpenCloseComponent(this);
   }
 
@@ -698,7 +711,7 @@ export class Dialog
   }
 
   private async openDialog(): Promise<void> {
-    await componentOnReady(this.el);
+    await this.componentOnReady();
     this.el.addEventListener(
       "calciteDialogOpen",
       this.openEnd,
@@ -719,7 +732,7 @@ export class Dialog
     if (this.beforeClose) {
       try {
         await this.beforeClose();
-      } catch (_error) {
+      } catch {
         // close prevented
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;
@@ -736,9 +749,11 @@ export class Dialog
   }
 
   private updateOverflowHiddenClass(): void {
-    this.opened && !this.embedded && this.modal
-      ? this.addOverflowHiddenClass()
-      : this.removeOverflowHiddenClass();
+    if (this.opened && !this.embedded && this.modal) {
+      this.addOverflowHiddenClass();
+    } else {
+      this.removeOverflowHiddenClass();
+    }
   }
 
   private addOverflowHiddenClass(): void {
@@ -778,7 +793,12 @@ export class Dialog
           ariaDescription={description}
           ariaLabel={heading}
           ariaModal={this.modal}
-          class={CSS.dialog}
+          class={{
+            [CSS.dialog]: true,
+            [getDimensionClass("width", this.width, this.widthScale)]: !!(
+              this.width || this.widthScale
+            ),
+          }}
           onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
           role="dialog"

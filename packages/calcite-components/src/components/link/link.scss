@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-link-text-color: Specifies the component's text color.
+ */
+
 :host {
   display: inline;
 }
@@ -6,7 +14,6 @@
 :host a,
 :host span {
   @apply font-inherit
-    transition-default
     relative
     flex
     cursor-pointer
@@ -21,6 +28,8 @@
   &:hover {
     text-decoration: none;
   }
+
+  @include transition-default($extra-props: "background-size");
 }
 
 // focus styles
@@ -40,7 +49,7 @@ calcite-icon {
 }
 
 .calcite-link--icon {
-  @apply transition-default align-middle;
+  @apply align-middle;
   margin-block-start: -0.25em;
 }
 
@@ -56,13 +65,12 @@ calcite-icon {
 :host {
   span,
   a {
-    @apply text-color-link
-      transition-default
-      relative
+    @apply relative
       inline
       border-none
       bg-transparent
       p-0;
+    color: var(--calcite-link-text-color, var(--calcite-color-text-link));
     line-height: inherit;
     white-space: initial;
     background-image: linear-gradient(currentColor, currentColor),
