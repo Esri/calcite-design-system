@@ -251,6 +251,12 @@ function getTimeZoneShortOffset(
   locale: SupportedLocale,
   referenceDateInMs: number = Date.now(),
 ): string {
+  // workaround for https://issues.chromium.org/issues/381620359
+  // see https://github.com/Esri/calcite-design-system/issues/10895 for more info
+  if (timeZone === "Factory") {
+    timeZone = "Etc/GMT";
+  }
+
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
   return parts.find(({ type }) => type === "timeZoneName").value;
