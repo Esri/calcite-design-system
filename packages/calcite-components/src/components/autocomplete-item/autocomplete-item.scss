@@ -77,7 +77,6 @@
 
 .container--active {
   @apply focus-inset;
-  background-color: var(--calcite-autocomplete-background-color-hover, var(--calcite-color-foreground-2));
 }
 
 .content-center {
