@@ -171,7 +171,7 @@ export class Sheet
   @property({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
+  @property({ reflect: true }) width: Extract<Width, Scale>;
 
   // #endregion
 
