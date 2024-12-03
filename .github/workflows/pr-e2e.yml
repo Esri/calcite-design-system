@@ -16,7 +16,7 @@ jobs:
           testable_changes="$(
             git diff --name-only HEAD "$(
               git merge-base HEAD origin/${{ github.base_ref }}
-            )" -- . ':!*.md*' ':!**/calcite-ui-icons/**'
+            )" -- . ':!*.md*' ':!**/calcite-ui-icons/**' ':!**/examples/**'
           )"
 
           echo "changed files: $testable_changes"
