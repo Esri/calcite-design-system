@@ -7,6 +7,7 @@ import {
   method,
   JsxNode,
   setAttribute,
+  state,
 } from "@arcgis/lumina";
 import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
@@ -24,7 +25,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName, IconNameOrString } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { CSS } from "./resources";
 import { styles } from "./dropdown-item.scss";
@@ -47,6 +48,8 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
 
   /** if href is requested, track the rendered child link */
   private childLink = createRef<HTMLAnchorElement>();
+
+  @state() hovered = false;
 
   /** id of containing group */
   private parentDropdownGroupEl: DropdownGroup["el"];
@@ -145,6 +148,8 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
     super();
     this.listen("click", this.onClick);
     this.listen("keydown", this.keyDownHandler);
+    this.listen("pointerover", this.handlePointerOver);
+    this.listen("pointerout", this.handlePointerOut);
     this.listenOn<CustomEvent>(
       document.body,
       "calciteInternalDropdownItemChange",
@@ -172,6 +177,14 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
   // #endregion
 
   // #region Private Methods
+
+  private handlePointerOver(): void {
+    this.hovered = true;
+  }
+
+  private handlePointerOut(): void {
+    this.hovered = false;
+  }
 
   private onClick(): void {
     this.emitRequestedItem();
@@ -333,17 +346,34 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
             [CSS.containerNone]: selectionMode === "none",
           }}
         >
-          {selectionMode !== "none" ? (
-            <calcite-icon
-              class={CSS.icon}
-              icon={selectionMode === "multiple" ? "check" : "bullet-point"}
-              scale={getIconScale(this.scale)}
-            />
-          ) : null}
+          {this.renderSelectionIcon()}
           {contentEl}
         </div>
       </InteractiveContainer>
     );
+  }
+
+  private renderSelectionIcon(): JsxNode {
+    const { hovered, selected, selectionMode, scale } = this;
+
+    if (selectionMode === "none") {
+      return null;
+    }
+
+    const icon: IconName =
+      selectionMode === "multiple"
+        ? selected
+          ? "check-square-f"
+          : hovered
+            ? "check-square"
+            : "square"
+        : selected || hovered
+          ? scale === "l"
+            ? "bullet-point-large"
+            : "bullet-point"
+          : "blank";
+
+    return <calcite-icon class={CSS.icon} icon={icon} scale={getIconScale(scale)} />;
   }
 
   // #endregion
