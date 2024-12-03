@@ -75,7 +75,7 @@ describe("calcite-autocomplete-item", () => {
 
   describe("active theme", () => {
     themed("<calcite-autocomplete-item active></calcite-autocomplete-item>", {
-      "--calcite-autocomplete-background-color-focus": {
+      "--calcite-autocomplete-background-color-hover": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "backgroundColor",
       },

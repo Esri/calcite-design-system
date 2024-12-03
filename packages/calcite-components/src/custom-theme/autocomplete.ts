@@ -4,7 +4,6 @@ import { SLOTS } from "../components/autocomplete/resources";
 export const autocompleteTokens = {
   calciteAutocompleteBackgroundColor: "",
   calciteAutocompleteBackgroundColorHover: "",
-  calciteAutoCompleteBackgroundColorFocus: "",
   calciteAutocompleteBorderColor: "",
   calciteAutocompleteDescriptionTextColor: "",
   calciteAutocompleteHeadingTextColor: "",
