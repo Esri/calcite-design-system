@@ -1,4 +1,5 @@
 import { toHaveNoViolations } from "jest-axe";
+import { expect, it, vi, Mock } from "vitest";
 import { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -13,14 +14,13 @@ expect.extend(toHaveNoViolations);
  * describe("throttleCancelled"), () => {
  *    throttleCancelled(`<color-picker></color-picker>`);
  * });
- *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
 export function throttleCancelled(componentTestSetup: ComponentTestSetup): void {
   it("should cancel throttle when component is disconnected", async () => {
-    const cancel = jest.fn();
+    const cancel = vi.fn();
 
-    jest.mock("lodash/throttle", () => (fn: { cancel: jest.Mock<any> }) => {
+    vi.mock("lodash/throttle", () => (fn: { cancel: Mock<any> }) => {
       fn.cancel = cancel;
       return cancel;
     });

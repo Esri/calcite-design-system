@@ -3,6 +3,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
+
 const { selectionMode, interactionMode, selectionAppearance } = ATTRIBUTES;
 
 interface ListStoryArgs

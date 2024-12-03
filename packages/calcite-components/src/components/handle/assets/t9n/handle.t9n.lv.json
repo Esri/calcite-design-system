@@ -1,0 +1,8 @@
+{
+  "dragHandle": "Pārvietošana: {itemLabel}",
+  "dragHandleUntitled": "Pārvietošana",
+  "dragHandleActive": "{itemLabel} pārkārtošana, pašreizējā pozīcija: {position} no {total}.",
+  "dragHandleChange": "{itemLabel}, jauna pozīcija: {position} no {total}. Nospiediet atstarpes taustiņu, lai apstiprinātu.",
+  "dragHandleCommit": "{itemLabel}, pašreizējā pozīcija: {position} no {total}.",
+  "dragHandleIdle": "{itemLabel}, nospiediet atstarpes taustiņu un izmantojiet bulttaustiņus, lai pārkārtotu saturu. Pašreizējā pozīcija: {position} no {total}."
+}
