@@ -67,8 +67,7 @@ module.exports = {
           {
             context: "any",
             comment: `JsdocBlock:has(JsdocTag[tag="required"]):has(JsdocTag[tag="deprecated"])`,
-            message:
-              "A property cannot be required and deprecated. Use `component#warnIfMissingRequiredProp` to handle required messaging.",
+            message: "A property cannot be required and deprecated. Use `component#warnIfMissingRequiredProp` to handle required messaging.",
           },
         ],
       },
