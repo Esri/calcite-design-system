@@ -158,7 +158,7 @@ export class Select
   @property() value: string = null;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
-  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   // #endregion
 
