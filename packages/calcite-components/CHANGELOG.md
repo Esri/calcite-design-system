@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.45...@esri/calcite-components@3.0.0-next.46) (2024-12-03)
+
+### Bug Fixes
+
+- **sort-handle:** pass scale to handle action ([#10942](https://github.com/Esri/calcite-design-system/issues/10942)) ([23ec01b](https://github.com/Esri/calcite-design-system/commit/23ec01b8001946ff57b88626d2ee875474660cc3)), closes [#10723](https://github.com/Esri/calcite-design-system/issues/10723)
+
+## [3.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.44...@esri/calcite-components@3.0.0-next.45) (2024-12-03)
+
+### Bug Fixes
+
+- **slider:** avoid breaking thumb label on edges ([#10922](https://github.com/Esri/calcite-design-system/issues/10922)) ([4f96cd3](https://github.com/Esri/calcite-design-system/commit/4f96cd31df0abbee80034977f295094fe2652b37)), closes [#9239](https://github.com/Esri/calcite-design-system/issues/9239)
+
+## [3.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.43...@esri/calcite-components@3.0.0-next.44) (2024-12-03)
+
+### Features
+
+- **combobox-item:** update selection state according to spec ([#10945](https://github.com/Esri/calcite-design-system/issues/10945)) ([1bfdaca](https://github.com/Esri/calcite-design-system/commit/1bfdaca5b31e25c2ebc4eb62f865544bea4bcb9e))
+- **menu-item:** enhance component's interactive states ([#10933](https://github.com/Esri/calcite-design-system/issues/10933)) ([581cea2](https://github.com/Esri/calcite-design-system/commit/581cea2540b374ef19d71810b41963a4ea484d95)), closes [#10001](https://github.com/Esri/calcite-design-system/issues/10001)
+
+### Bug Fixes
+
+- **dropdown-item:** keep focus ring when selected dropdown item is hovered ([#10951](https://github.com/Esri/calcite-design-system/issues/10951)) ([7c2a8aa](https://github.com/Esri/calcite-design-system/commit/7c2a8aac1f0626647552cfcf9ac041378ee31e24))
+- **panel:** add correct heading and description line height and alignment ([#10944](https://github.com/Esri/calcite-design-system/issues/10944)) ([0d295b8](https://github.com/Esri/calcite-design-system/commit/0d295b860c206059f682036d6f03e29db442a5d5)), closes [#9862](https://github.com/Esri/calcite-design-system/issues/9862)
+
+## [3.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.42...@esri/calcite-components@3.0.0-next.43) (2024-12-03)
+
+### Bug Fixes
+
+- **button, dialog, dropdown, notice, select, sheet, shell-panel, split-button:** fix width types ([#10937](https://github.com/Esri/calcite-design-system/issues/10937)) ([b779cbf](https://github.com/Esri/calcite-design-system/commit/b779cbff3a15b63867e7e6e9c5d0097c9c3b7f5e)), closes [#10934](https://github.com/Esri/calcite-design-system/issues/10934)
+
 ## [3.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.41...@esri/calcite-components@3.0.0-next.42) (2024-12-02)
 
 ### Bug Fixes

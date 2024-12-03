@@ -207,7 +207,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       <calcite-icon
         class={{
           [CSS.custom]: !!this.icon,
-          [CSS.iconActive]: this.icon && this.selected,
+          [CSS.iconSelected]: this.icon && this.selected,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -217,26 +217,15 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     ) : null;
   }
 
-  private renderSelectIndicator(showDot: boolean): JsxNode;
-
-  private renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): JsxNode;
-
-  private renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): JsxNode {
-    return showDot ? (
-      <span
-        class={{
-          [CSS.icon]: true,
-          [CSS.dot]: true,
-        }}
-      />
-    ) : (
+  private renderSelectIndicator(icon: IconNameOrString): JsxNode {
+    return (
       <calcite-icon
         class={{
           [CSS.icon]: true,
-          [CSS.iconActive]: this.selected,
+          [CSS.iconSelected]: this.selected,
         }}
         flipRtl={this.iconFlipRtl}
-        icon={iconPath}
+        icon={icon}
         key="indicator"
         scale={getIconScale(this.scale)}
       />
@@ -254,11 +243,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   override render(): JsxNode {
     const { disabled, heading, label, textLabel, value } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const defaultIcon = isSingleSelect ? undefined : "check";
+    const icon = disabled || isSingleSelect ? undefined : "check";
+    const selectionIcon = isSingleSelect ? "bullet-point" : "check";
     const headingText = heading || textLabel;
-    const iconPath = disabled ? undefined : defaultIcon;
     const itemLabel = label || value;
-    const showDot = isSingleSelect && !disabled;
 
     const classes = {
       [CSS.label]: true,
@@ -282,8 +270,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-            {this.renderSelectIndicator(showDot, iconPath)}
-            {this.renderIcon(iconPath)}
+            {this.renderSelectIndicator(selectionIcon)}
+            {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
               <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
               {this.description ? (

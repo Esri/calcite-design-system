@@ -162,7 +162,7 @@ export class Dropdown
   @property({ reflect: true }) widthScale: Scale;
 
   /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Extract<"s" | "m" | "l", Width>;
+  @property({ reflect: true }) width: Extract<Width, Scale>;
 
   // #endregion
 
