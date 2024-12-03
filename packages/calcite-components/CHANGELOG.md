@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.43...@esri/calcite-components@3.0.0-next.44) (2024-12-03)
+
+### Features
+
+- **combobox-item:** update selection state according to spec ([#10945](https://github.com/Esri/calcite-design-system/issues/10945)) ([1bfdaca](https://github.com/Esri/calcite-design-system/commit/1bfdaca5b31e25c2ebc4eb62f865544bea4bcb9e))
+- **menu-item:** enhance component's interactive states ([#10933](https://github.com/Esri/calcite-design-system/issues/10933)) ([581cea2](https://github.com/Esri/calcite-design-system/commit/581cea2540b374ef19d71810b41963a4ea484d95)), closes [#10001](https://github.com/Esri/calcite-design-system/issues/10001)
+
+### Bug Fixes
+
+- **dropdown-item:** keep focus ring when selected dropdown item is hovered ([#10951](https://github.com/Esri/calcite-design-system/issues/10951)) ([7c2a8aa](https://github.com/Esri/calcite-design-system/commit/7c2a8aac1f0626647552cfcf9ac041378ee31e24))
+- **panel:** add correct heading and description line height and alignment ([#10944](https://github.com/Esri/calcite-design-system/issues/10944)) ([0d295b8](https://github.com/Esri/calcite-design-system/commit/0d295b860c206059f682036d6f03e29db442a5d5)), closes [#9862](https://github.com/Esri/calcite-design-system/issues/9862)
+
 ## [3.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.42...@esri/calcite-components@3.0.0-next.43) (2024-12-03)
 
 ### Bug Fixes
