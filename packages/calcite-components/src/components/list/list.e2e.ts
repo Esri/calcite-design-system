@@ -186,14 +186,12 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    let modeValues = ["nested", "flat", "nested", "nested", "flat", "nested", "nested"];
-
     const items = await page.findAll("calcite-list-item");
 
-    expect(items.length).toBe(modeValues.length);
+    expect(items.length).toBe(7);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe("nested");
     }
 
     const rootList = await page.find("#root");
@@ -202,12 +200,10 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    modeValues = ["flat", "flat", "nested", "nested", "flat", "flat", "flat"];
-
-    expect(items.length).toBe(modeValues.length);
+    expect(items.length).toBe(7);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe("flat");
     }
   });
 
