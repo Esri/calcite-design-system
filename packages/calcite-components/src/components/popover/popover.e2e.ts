@@ -687,7 +687,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(html`
-      <calcite-popover reference-element="ref">Content</calcite-popover>
+      <calcite-popover auto-close reference-element="ref">Content</calcite-popover>
       <button id="ref">Button</button>
     `);
 
