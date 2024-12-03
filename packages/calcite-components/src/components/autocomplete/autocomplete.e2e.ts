@@ -268,19 +268,101 @@ describe("calcite-autocomplete", () => {
 
   describe("theme", () => {
     themed("calcite-autocomplete", {
-      "--calcite-autocomplete-background-color": [
-        {
-          shadowSelector: `.${CSS.contentContainer}`,
-          targetProp: "backgroundColor",
-        },
-        {
-          shadowSelector: `.${CSS.contentAnimation}`,
-          targetProp: "backgroundColor",
-        },
-      ],
+      "--calcite-autocomplete-background-color": {
+        shadowSelector: `.${CSS.contentAnimation}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-autocomplete-corner-radius": {
+        shadowSelector: `.${CSS.contentAnimation}`,
+        targetProp: "borderRadius",
+      },
       "--calcite-autocomplete-text-color": {
-        shadowSelector: `.${CSS.contentContainer}`,
+        shadowSelector: `.${CSS.contentAnimation}`,
         targetProp: "color",
+      },
+      "--calcite-autocomplete-input-prefix-size": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-prefix-size",
+      },
+      "--calcite-autocomplete-input-suffix-size": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-suffix-size",
+      },
+      "--calcite-autocomplete-input-background-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-background-color",
+      },
+      "--calcite-autocomplete-input-border-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-border-color",
+      },
+      "--calcite-autocomplete-input-corner-radius": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-corner-radius",
+      },
+      "--calcite-autocomplete-input-shadow": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-shadow",
+      },
+      "--calcite-autocomplete-input-icon-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-icon-color",
+      },
+      "--calcite-autocomplete-input-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-color",
+      },
+      "--calcite-autocomplete-input-placeholder-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-placeholder-text-color",
+      },
+      "--calcite-autocomplete-input-actions-background-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-actions-background-color",
+      },
+      "--calcite-autocomplete-input-actions-background-color-hover": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-actions-background-color-hover",
+      },
+      "--calcite-autocomplete-input-actions-background-color-press": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-actions-background-color-press",
+      },
+      "--calcite-autocomplete-input-actions-icon-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-actions-icon-color",
+      },
+      "--calcite-autocomplete-input-actions-icon-color-hover": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-actions-icon-color-hover",
+      },
+      "--calcite-autocomplete-input-actions-icon-color-press": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-actions-icon-color-press",
+      },
+      "--calcite-autocomplete-input-loading-background-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-loading-background-color",
+      },
+      "--calcite-autocomplete-input-loading-fill-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-loading-fill-color",
+      },
+      "--calcite-autocomplete-input-prefix-background-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-prefix-background-color",
+      },
+      "--calcite-autocomplete-input-prefix-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-prefix-text-color",
+      },
+      "--calcite-autocomplete-input-suffix-background-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-suffix-background-color",
+      },
+      "--calcite-autocomplete-input-suffix-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-suffix-text-color",
       },
     });
   });

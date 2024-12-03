@@ -5,16 +5,34 @@ export const autocompleteTokens = {
   calciteAutocompleteBackgroundColor: "",
   calciteAutocompleteBackgroundColorHover: "",
   calciteAutocompleteBorderColor: "",
+  calciteAutocompleteCornerRadius: "",
   calciteAutocompleteDescriptionTextColor: "",
   calciteAutocompleteHeadingTextColor: "",
   calciteAutocompleteTextColor: "",
+  calciteAutocompleteInputBackgroundColor: "",
+  calciteAutocompleteInputBorderColor: "",
+  calciteAutocompleteInputCornerRadius: "",
+  calciteAutocompleteInputShadow: "",
+  calciteAutocompleteInputIconColor: "",
+  calciteAutocompleteInputTextColor: "",
+  calciteAutocompleteInputPlaceholderTextColor: "",
+  calciteAutocompleteInputActionsBackgroundColor: "",
+  calciteAutocompleteInputActionsBackgroundColorHover: "",
+  calciteAutocompleteInputActionsBackgroundColorPress: "",
+  calciteAutocompleteInputActionsIconColor: "",
+  calciteAutocompleteInputActionsIconColorHover: "",
+  calciteAutocompleteInputActionsIconColorPress: "",
+  calciteAutocompleteInputLoadingBackgroundColor: "",
+  calciteAutocompleteInputLoadingFillColor: "",
+  calciteAutocompleteInputPrefixBackgroundColor: "",
+  calciteAutocompleteInputPrefixTextColor: "",
+  calciteAutocompleteInputSuffixBackgroundColor: "",
+  calciteAutocompleteInputSuffixTextColor: "",
 };
 
 export const autocomplete = html`<calcite-autocomplete label="Pets">
   <div slot="${SLOTS.contentTop}">Top</div>
   <div slot="${SLOTS.contentBottom}">Bottom</div>
-  <calcite-button kind="neutral" appearance="solid" icon-start="banana" slot="${SLOTS.actionsStart}"></calcite-button>
-  <calcite-button kind="neutral" appearance="solid" icon-start="banana" slot="${SLOTS.actionsEnd}"></calcite-button>
   <calcite-autocomplete-item-group heading="Dogs">
     <calcite-autocomplete-item label="Rover" value="rover" heading="Rover"></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Fido" value="one" heading="Fido"></calcite-autocomplete-item>

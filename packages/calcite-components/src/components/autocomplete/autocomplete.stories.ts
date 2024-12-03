@@ -192,62 +192,17 @@ const kitchenSinkHTML = html`
     <div class="child right-aligned-text">Content start/end</div>
     <div class="child">
       <form class="locate-form">
-        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location">
-          <calcite-button
-            kind="neutral"
-            appearance="outline-fill"
-            scale="s"
-            icon-start="banana"
-            slot="actions-start"
-          ></calcite-button>
-          <calcite-button
-            kind="neutral"
-            appearance="outline-fill"
-            scale="s"
-            icon-start="banana"
-            slot="actions-end"
-          ></calcite-button>
-        </calcite-autocomplete>
+        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location"></calcite-autocomplete>
       </form>
     </div>
     <div class="child">
       <form class="locate-form">
-        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location">
-          <calcite-button
-            kind="neutral"
-            appearance="outline-fill"
-            scale="m"
-            icon-start="banana"
-            slot="actions-start"
-          ></calcite-button>
-          <calcite-button
-            kind="neutral"
-            appearance="outline-fill"
-            scale="m"
-            icon-start="banana"
-            slot="actions-end"
-          ></calcite-button>
-        </calcite-autocomplete>
+        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location"></calcite-autocomplete>
       </form>
     </div>
     <div class="child">
       <form class="locate-form">
-        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location">
-          <calcite-button
-            kind="neutral"
-            appearance="outline-fill"
-            scale="l"
-            icon-start="banana"
-            slot="actions-start"
-          ></calcite-button>
-          <calcite-button
-            kind="neutral"
-            appearance="outline-fill"
-            scale="l"
-            icon-start="banana"
-            slot="actions-end"
-          ></calcite-button>
-        </calcite-autocomplete>
+        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location"></calcite-autocomplete>
       </form>
     </div>
   </div>

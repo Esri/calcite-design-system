@@ -1,6 +1,4 @@
 export const SLOTS = {
-  actionsEnd: "actions-end",
-  actionsStart: "actions-start",
   contentBottom: "content-bottom",
   contentTop: "content-top",
 } as const;

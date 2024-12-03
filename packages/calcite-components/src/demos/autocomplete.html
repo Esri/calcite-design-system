@@ -71,70 +71,6 @@
       </div>
 
       <div class="parent">
-        <div class="child right-aligned-text">Actions start/end</div>
-        <div class="child">
-          <form class="locate-form">
-            <calcite-autocomplete scale="s" class="locator-autocomplete" name="location">
-              <calcite-button
-                kind="neutral"
-                appearance="solid"
-                scale="s"
-                icon-start="banana"
-                slot="actions-start"
-              ></calcite-button>
-              <calcite-button
-                kind="neutral"
-                appearance="solid"
-                scale="s"
-                icon-start="banana"
-                slot="actions-end"
-              ></calcite-button>
-            </calcite-autocomplete>
-          </form>
-        </div>
-        <div class="child">
-          <form class="locate-form">
-            <calcite-autocomplete scale="m" class="locator-autocomplete" name="location">
-              <calcite-button
-                kind="neutral"
-                appearance="solid"
-                scale="m"
-                icon-start="banana"
-                slot="actions-start"
-              ></calcite-button>
-              <calcite-button
-                kind="neutral"
-                appearance="solid"
-                scale="m"
-                icon-start="banana"
-                slot="actions-end"
-              ></calcite-button>
-            </calcite-autocomplete>
-          </form>
-        </div>
-        <div class="child">
-          <form class="locate-form">
-            <calcite-autocomplete scale="l" class="locator-autocomplete" name="location">
-              <calcite-button
-                kind="neutral"
-                appearance="solid"
-                scale="l"
-                icon-start="banana"
-                slot="actions-start"
-              ></calcite-button>
-              <calcite-button
-                kind="neutral"
-                appearance="solid"
-                scale="l"
-                icon-start="banana"
-                slot="actions-end"
-              ></calcite-button>
-            </calcite-autocomplete>
-          </form>
-        </div>
-      </div>
-
-      <div class="parent">
         <div class="child right-aligned-text">Placeholder</div>
         <div class="child">
           <form class="locate-form">
@@ -399,9 +335,36 @@
           .themed-autocomplete {
             --calcite-autocomplete-background-color: blue;
             --calcite-autocomplete-background-color-hover: purple;
+            --calcite-autocomplete-corner-radius: 8px;
+
             --calcite-autocomplete-description-text-color: yellow;
             --calcite-autocomplete-heading-text-color: pink;
             --calcite-autocomplete-text-color: orange;
+
+            --calcite-autocomplete-input-background-color: lightyellow;
+            --calcite-autocomplete-input-border-color: green;
+            --calcite-autocomplete-input-corner-radius: 8px;
+            --calcite-autocomplete-input-shadow: var(--calcite-shadow-md);
+
+            --calcite-autocomplete-input-icon-color: orange;
+            --calcite-autocomplete-input-text-color: blue;
+            --calcite-autocomplete-input-placeholder-text-color: red;
+
+            --calcite-autocomplete-input-prefix-background-color: lightpink;
+            --calcite-autocomplete-input-prefix-text-color: red;
+
+            --calcite-autocomplete-input-suffix-background-color: lightblue;
+            --calcite-autocomplete-input-suffix-text-color: blue;
+
+            --calcite-autocomplete-input-actions-background-color: purple;
+            --calcite-autocomplete-input-actions-background-color-hover: pink;
+            --calcite-autocomplete-input-actions-background-color-press: red;
+            --calcite-autocomplete-input-actions-icon-color: pink;
+            --calcite-autocomplete-input-actions-icon-color-hover: purple;
+            --calcite-autocomplete-input-actions-icon-color-press: green;
+
+            --calcite-autocomplete-input-loading-background-color: black;
+            --calcite-autocomplete-input-loading-fill-color: pink;
           }
         </style>
         <div class="child right-aligned-text">Themed</div>
