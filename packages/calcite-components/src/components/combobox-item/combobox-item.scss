@@ -120,10 +120,6 @@ ul:focus {
   color: theme("backgroundColor.brand");
 }
 
-:host(:hover[disabled]) .icon {
-  @apply opacity-100;
-}
-
 .filter-match {
   font-weight: var(--calcite-font-weight-bold);
   color: var(--calcite-color-text-1);
