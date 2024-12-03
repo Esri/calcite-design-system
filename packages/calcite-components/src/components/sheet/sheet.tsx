@@ -640,12 +640,7 @@ export class Sheet
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div
-          class={{
-            [CSS.content]: true,
-          }}
-          ref={this.setContentEl}
-        >
+        <div class={CSS.content} ref={this.setContentEl}>
           <slot />
           {resizable ? (
             <div
@@ -666,7 +661,9 @@ export class Sheet
               tabIndex={0}
               touch-action="none"
             >
-              <calcite-icon icon={this.getResizeIcon()} scale="s" />
+              <div class={CSS.resizeHandleBar}>
+                <calcite-icon icon={this.getResizeIcon()} scale="s" />
+              </div>
             </div>
           ) : null}
         </div>
