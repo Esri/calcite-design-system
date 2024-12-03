@@ -46,6 +46,8 @@
   }
   &:focus {
     @apply text-color-2 focus-inset border-b-4;
+    padding-block-start: theme("spacing.1");
+    border-block-end-width: theme("spacing.1");
   }
   &:active {
     @apply bg-foreground-3 text-color-1;
