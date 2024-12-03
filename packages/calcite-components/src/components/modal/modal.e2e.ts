@@ -1,8 +1,10 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, vi } from "vitest";
+import { defaults, focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+import type { Modal } from "./modal";
 
 describe("calcite-modal", () => {
   describe("renders", () => {
@@ -24,6 +26,15 @@ describe("calcite-modal", () => {
 
   describe("translation support", () => {
     t9n("calcite-modal");
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-modal", [
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+    ]);
   });
 
   it("should hide closeButton when disabled", async () => {
@@ -120,7 +131,7 @@ describe("calcite-modal", () => {
 
   it("calls the beforeClose method prior to closing via click", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-modal open></calcite-modal>
@@ -128,10 +139,8 @@ describe("calcite-modal", () => {
     const modal = await page.find("calcite-modal");
     await page.$eval(
       "calcite-modal",
-      (el: HTMLCalciteModalElement) =>
-        (el.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
-        ).beforeClose),
+      (el: Modal["el"]) =>
+        (el.beforeClose = (window as GlobalTestProps<{ beforeClose: Modal["el"]["beforeClose"] }>).beforeClose),
     );
     await page.waitForChanges();
     modal.setProperty("open", true);
@@ -146,7 +155,7 @@ describe("calcite-modal", () => {
 
   it("calls the beforeClose method prior to closing via ESC key", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-modal></calcite-modal>
@@ -154,10 +163,8 @@ describe("calcite-modal", () => {
     const modal = await page.find("calcite-modal");
     await page.$eval(
       "calcite-modal",
-      (el: HTMLCalciteModalElement) =>
-        (el.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
-        ).beforeClose),
+      (el: Modal["el"]) =>
+        (el.beforeClose = (window as GlobalTestProps<{ beforeClose: Modal["el"]["beforeClose"] }>).beforeClose),
     );
     await skipAnimations(page);
     await page.waitForChanges();
@@ -174,7 +181,7 @@ describe("calcite-modal", () => {
 
   it("calls the beforeClose method prior to closing via attribute", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
     <calcite-modal open></calcite-modal>
@@ -182,10 +189,8 @@ describe("calcite-modal", () => {
     const modal = await page.find("calcite-modal");
     await page.$eval(
       "calcite-modal",
-      (el: HTMLCalciteModalElement) =>
-        (el.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
-        ).beforeClose),
+      (el: Modal["el"]) =>
+        (el.beforeClose = (window as GlobalTestProps<{ beforeClose: Modal["el"]["beforeClose"] }>).beforeClose),
     );
     await page.waitForChanges();
     modal.setProperty("open", true);
@@ -200,15 +205,14 @@ describe("calcite-modal", () => {
   it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
 
-    const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+    const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
 
     await page.setContent(`<calcite-modal open></calcite-modal>`);
 
     await page.$eval(
       "calcite-modal",
-      (elm: HTMLCalciteModalElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: Modal["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const modal = await page.find("calcite-modal");
@@ -226,8 +230,7 @@ describe("calcite-modal", () => {
 
     await page.$eval(
       "calcite-modal",
-      (elm: HTMLCalciteModalElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: Modal["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const modal = await page.find("calcite-modal");
@@ -327,7 +330,6 @@ describe("calcite-modal", () => {
 
     it("subsequently opening a modal dynamically gets focus trapped", async () => {
       const page = await newE2EPage();
-      await skipAnimations(page);
       await page.setContent(html`
         <calcite-modal open id="modal1">
           <div slot="header">Modal 1</div>
@@ -336,6 +338,9 @@ describe("calcite-modal", () => {
           </div>
         </calcite-modal>
       `);
+      let openEvent = page.waitForEvent("calciteModalOpen");
+      await skipAnimations(page);
+      await page.waitForChanges();
 
       await page.evaluate(() => {
         const btn = document.getElementById("openButton");
@@ -351,10 +356,12 @@ describe("calcite-modal", () => {
           modal2.open = true;
         });
       });
+      await page.waitForChanges();
+      await openEvent;
 
-      await page.waitForEvent("calciteModalOpen");
+      openEvent = page.waitForEvent("calciteModalOpen");
       await page.click("#openButton");
-      await page.waitForEvent("calciteModalOpen");
+      await openEvent;
 
       expect(await isElementFocused(page, "#modal2")).toBe(true);
     });
@@ -411,6 +418,22 @@ describe("calcite-modal", () => {
     await page.waitForChanges();
     await openedEvent;
     expect(await modal.isVisible()).toBe(true);
+  });
+
+  it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal focus-trap-disabled></calcite-modal>`);
+    await skipAnimations(page);
+    const modal = await page.find("calcite-modal");
+
+    modal.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await modal.isVisible()).toBe(true);
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(await modal.isVisible()).toBe(false);
+    expect(await modal.getProperty("open")).toBe(false);
   });
 
   it("closes when Escape key is pressed and modal is open on page load", async () => {

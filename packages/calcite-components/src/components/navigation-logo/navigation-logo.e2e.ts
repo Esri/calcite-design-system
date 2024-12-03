@@ -1,5 +1,9 @@
+import { describe } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "../../../src/components/navigation-logo/resources";
+import { boolean } from "../../../.storybook/utils";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
@@ -66,5 +70,72 @@ describe("calcite-navigation-logo", () => {
         defaultValue: undefined,
       },
     ]);
+  });
+
+  describe("theme", () => {
+    const navigationLogoHtml = (active = false): string => html`
+      <calcite-navigation-logo
+        heading="Walt's Chips"
+        description="Eastern Potato Chip Company"
+        icon="layers"
+        ${boolean("active", active)}
+      >
+      </calcite-navigation-logo>
+    `;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-background-color": [
+          {
+            shadowSelector: `.${CSS.anchor}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${CSS.anchor}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.anchor}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.anchor } },
+          },
+        ],
+        "--calcite-navigation-logo-text-color": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `calcite-icon`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `calcite-icon`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.anchor } },
+          },
+        ],
+        "--calcite-navigation-logo-heading-text-color": {
+          shadowSelector: `.${CSS.heading}`,
+          targetProp: "color",
+        },
+      };
+      themed(navigationLogoHtml(), tokens);
+    });
+
+    describe("active", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-accent-color": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-navigation-logo-text-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      };
+      themed(navigationLogoHtml(true), tokens);
+    });
   });
 });

@@ -929,7 +929,10 @@ export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
     <calcite-icon icon="number-circle-3" slot="content-end"></calcite-icon>
   </calcite-combobox-item>
 `;
-withDescriptionShortLabelAndContentEndSlot.decorators = [allScaleComboboxBuilder];
 withDescriptionShortLabelAndContentEndSlot.args = {
   selectionMode: ["single", "multiple"],
+};
+withDescriptionShortLabelAndContentEndSlot.decorators = [allScaleComboboxBuilder];
+withDescriptionShortLabelAndContentEndSlot.parameters = {
+  chromatic: { delay: 1000 },
 };

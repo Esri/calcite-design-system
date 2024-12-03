@@ -1,5 +1,17 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import {
+  accessible,
+  disabled,
+  formAssociated,
+  hidden,
+  HYDRATED_ATTR,
+  labelable,
+  themed,
+} from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import type { Switch } from "./switch";
+import { CSS } from "./resources";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -58,7 +70,7 @@ describe("calcite-switch", () => {
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
 
-    await page.$eval("calcite-switch", (component: HTMLCalciteSwitchElement) => {
+    await page.$eval("calcite-switch", (component: Switch["el"]) => {
       component.click();
     });
 
@@ -130,5 +142,36 @@ describe("calcite-switch", () => {
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`calcite-switch`, {
+        "--calcite-switch-background-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-switch-border-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-switch-corner-radius": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-switch-handle-background-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-switch-handle-border-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-switch-handle-shadow": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+        },
+      });
+    });
   });
 });

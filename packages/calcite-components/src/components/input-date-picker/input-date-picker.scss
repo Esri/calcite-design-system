@@ -90,13 +90,13 @@
 
 .divider {
   @apply inline-block w-px;
-  margin-block: var(--calcite-size-xxs);
+  margin-block: var(--calcite-spacing-xxs);
   background-color: var(--calcite-color-border-2);
 }
 
 :host([layout="vertical"]) .divider-container {
   @apply w-full h-px border-t-0 border-b-0 border-l border-r-0;
-  padding-inline: var(--calcite-size-md);
+  padding-inline: var(--calcite-spacing-md);
   & .divider {
     @apply w-full h-px my-0;
   }
@@ -115,19 +115,9 @@
 .menu-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui-container();
-  @include floating-ui-wrapper();
-  @apply invisible;
 }
 
 @include floating-ui-elem-anim(".menu-container");
-
-:host([open]) .menu-container {
-  @include floating-ui-wrapper-active();
-}
-
-.menu-container--active {
-  @include floating-ui-wrapper-active();
-}
 
 .input .calcite-input__wrapper {
   @apply mt-0;
@@ -135,7 +125,7 @@
 
 .vertical-chevron-container {
   @apply flex items-center border border-solid border-color-input border-l-0;
-  padding-inline: var(--calcite-size-md);
+  padding-inline: var(--calcite-spacing-md);
   background-color: var(--calcite-color-foreground-1);
 
   calcite-icon {
@@ -150,14 +140,14 @@
 :host([range][layout="vertical"][scale="s"]) {
   .vertical-chevron-container,
   .divider-container {
-    padding-inline: var(--calcite-size-sm);
+    padding-inline: var(--calcite-spacing-sm);
   }
 }
 
 :host([range][layout="vertical"][scale="l"]) {
   .vertical-chevron-container,
   .divider-container {
-    padding-inline: var(--calcite-size-lg);
+    padding-inline: var(--calcite-spacing-lg);
   }
 }
 

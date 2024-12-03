@@ -57,7 +57,6 @@ declare global {
  * @slot footer-start - A slot for adding content to the start of the component's footer.
  * @slot footer-end - A slot for adding content to the end of the component's footer.
  */
-/** TODO: [MIGRATION] This component had a `@Component()` decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs */
 export class TextArea
   extends LitElement
   implements
@@ -75,10 +74,6 @@ export class TextArea
 
   // #region Private Properties
 
-  /**
-   * TODO: [MIGRATION] the codemod converted this Stencil \@Watch() to attribute watcher because it didn't find the following properties in your component: autofocus, spellcheck.
-   * If this is meant to be a property watcher, it's likely that you had a typo in the property name, or the property has since been removed but the watcher remained.
-   */
   attributeWatch = useWatchAttributes(
     ["autofocus", "spellcheck"],
     this.handleGlobalAttributesChanged,
@@ -95,13 +90,6 @@ export class TextArea
   labelEl: Label["el"];
 
   private localizedCharacterLengthObj: CharacterLengthObj;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>();
 
   private resizeObserver = createObserver("resize", async () => {
     await componentLoaded(this);
@@ -181,6 +169,13 @@ export class TextArea
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * Specifies the minimum number of characters allowed.
@@ -386,7 +381,7 @@ export class TextArea
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.isCharacterLimitExceeded()) {
-      input.setCustomValidity(this.replacePlaceHoldersInMessages());
+      input.setCustomValidity(this.replacePlaceholdersInMessages());
     }
 
     syncHiddenFormInput("textarea", this, input);
@@ -397,7 +392,7 @@ export class TextArea
       return;
     }
     this.textAreaEl = el;
-    this.resizeObserver.observe(el);
+    this.resizeObserver?.observe(el);
   }
 
   private setTextAreaHeight(): void {
@@ -418,8 +413,9 @@ export class TextArea
     const { height: textAreaHeight, width: textAreaWidth } =
       this.textAreaEl.getBoundingClientRect();
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } =
-      this.footerEl.value.getBoundingClientRect();
+    const { height: footerHeight, width: footerWidth } = this.footerEl.value
+      ? this.footerEl.value.getBoundingClientRect()
+      : { height: 0, width: 0 };
 
     return {
       textAreaHeight,
@@ -431,7 +427,7 @@ export class TextArea
     };
   }
 
-  private replacePlaceHoldersInMessages(): string {
+  private replacePlaceholdersInMessages(): string {
     return this.messages.tooLong
       .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength)
       .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength);
@@ -511,7 +507,7 @@ export class TextArea
         <HiddenFormInputSlot component={this} />
         {this.isCharacterLimitExceeded() && (
           <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
-            {this.replacePlaceHoldersInMessages()}
+            {this.replacePlaceholdersInMessages()}
           </span>
         )}
         {this.validationMessage && this.status === "invalid" ? (

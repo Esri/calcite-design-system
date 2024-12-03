@@ -21,9 +21,9 @@
 
 ## Events
 
-| Event              | Description                  | Type                |
-| ------------------ | ---------------------------- | ------------------- |
-| `calciteDaySelect` | Fires when user selects day. | `CustomEvent<void>` |
+| Event                      | Description                  | Type                |
+| -------------------------- | ---------------------------- | ------------------- |
+| `calciteInternalDaySelect` | Fires when user selects day. | `CustomEvent<void>` |
 
 ## Methods
 

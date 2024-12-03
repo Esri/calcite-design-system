@@ -9165,5 +9165,130 @@
     ],
     "category": "GIS",
     "release": "3.33.0"
+  },
+  "user-risk": {
+    "alias": ["3.33.0", "people", "risk", "population", "caution", "danger", "user"],
+    "category": "People",
+    "release": "3.33.0"
+  },
+  "2d": {
+    "alias": ["4.0.0", "numbers", "flat"],
+    "category": "Numbers",
+    "release": "4.0.0"
+  },
+  "3d": {
+    "alias": ["4.0.0", "numbers", "interactive"],
+    "category": "Numbers",
+    "release": "4.0.0"
+  },
+  "area-hash-filled": {
+    "alias": ["4.0.0", "generic", "select", "selected", "construction", "space"],
+    "category": "Generic",
+    "release": "4.0.0"
+  },
+  "area-hash-filled-plus": {
+    "alias": ["4.0.0", "generic", "add", "adding", "select", "selected", "construction", "space"],
+    "category": "Generic",
+    "release": "4.0.0"
+  },
+  "bulldozer": {
+    "alias": ["4.0.0", "objects", "dirt", "construction", "building", "deconstruction", "mover"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "bulldozer-area": {
+    "alias": ["4.0.0", "objects", "dirt", "construction", "building", "deconstruction", "mover"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "bus": {
+    "alias": ["4.0.0", "objects", "transportation", "public transit", "vehicle"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "circle-area-hash-filled": {
+    "alias": ["4.0.0", "gis", "select", "map", "area"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "cube-plus": {
+    "alias": ["4.0.0", "objects", "3d", "add", "interactive"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "government-building": {
+    "alias": ["4.0.0", "generic", "place", "architecture", "place"],
+    "category": "Generic",
+    "release": "4.0.0"
+  },
+  "layout-duplicate": {
+    "alias": ["4.0.0", "generic", "object", "multiply"],
+    "category": "Generic",
+    "release": "4.0.0"
+  },
+  "medical": {
+    "alias": ["4.0.0", "symbols", "pharmacy", "health", "cross", "medicine"],
+    "category": "Symbols",
+    "release": "4.0.0"
+  },
+  "money": {
+    "alias": ["4.0.0", "symbols", "cash", "finance"],
+    "category": "Symbols",
+    "release": "4.0.0"
+  },
+  "person-view": {
+    "alias": ["4.0.0", "people", "interactive", "interacting", "3d", "rotate"],
+    "category": "People",
+    "release": "4.0.0"
+  },
+  "pie-chart-section-hash-filled": {
+    "alias": ["4.0.0", "gis", "graph", "selected", "area"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "shapes-2d-3d": {
+    "alias": ["4.0.0", "objects", "cube", "pyramid", "circle", "objects"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "soccer": {
+    "alias": ["4.0.0", "objects", "activities", "sports", "ball", "activity"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "speech-bubble-empty": {
+    "alias": ["4.0.0", "generic", "talk", "chat", "faq", "information"],
+    "category": "Generic",
+    "release": "4.0.0"
+  },
+  "square-hash-filled": {
+    "alias": ["4.0.0", "gis", "select", "map", "area"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "square-hash-filled-area": {
+    "alias": ["4.0.0", "gis", "duplicate", "selected", "object", "area", "construction", "map"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "tree": {
+    "alias": ["4.0.0", "objects", "landscape", "area", "park"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "water-drop": {
+    "alias": ["4.0.0", "objects", "droplet", "h2o"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "white-cursor-selection": {
+    "alias": ["4.0.0", "gis", "select", "map", "area"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "wind": {
+    "alias": ["4.0.0", "weather", "weather", "conditions", "forecast"],
+    "category": "Weather",
+    "release": "4.0.0"
   }
 }

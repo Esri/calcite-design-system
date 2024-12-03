@@ -5,9 +5,6 @@
  *
  * @prop --calcite-scrim-background: Specifies the background color of the scrim.
  */
-:host {
-  --calcite-scrim-background: var(--calcite-color-transparent-scrim);
-}
 
 :host {
   @apply absolute

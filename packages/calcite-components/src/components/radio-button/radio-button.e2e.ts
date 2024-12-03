@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -12,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils";
+import type { RadioButton } from "./radio-button";
 
 describe("calcite-radio-button", () => {
   describe("renders", () => {
@@ -100,9 +102,12 @@ describe("calcite-radio-button", () => {
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+
       expect(await getFocusedElementProp(page, "id")).toBe("shrubs");
+
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+
       expect(await getFocusedElementProp(page, "id")).toBe("submit");
 
       await page.evaluate(() => {
@@ -114,10 +119,11 @@ describe("calcite-radio-button", () => {
         firstRadioButton.insertAdjacentHTML("beforebegin", newRadioButton);
       });
 
+      await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
       await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
+
       expect(await getFocusedElementProp(page, "id")).toBe("plants");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
@@ -154,8 +160,11 @@ describe("calcite-radio-button", () => {
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+
       expect(await getFocusedElementProp(page, "id")).toBe("flowers");
+
       await page.keyboard.press("Tab");
+
       expect(await getFocusedElementProp(page, "id")).toBe("submit");
 
       await page.evaluate(() => {
@@ -167,10 +176,11 @@ describe("calcite-radio-button", () => {
         firstRadioButton.insertAdjacentHTML("beforebegin", newRadioButton);
       });
 
+      await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
       await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
+
       expect(await getFocusedElementProp(page, "id")).toBe("flowers");
     });
   });
@@ -180,7 +190,6 @@ describe("calcite-radio-button", () => {
       { propertyName: "checked", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "focused", value: true },
-      { propertyName: "guid", value: "reflects-guid" },
       { propertyName: "hidden", value: true },
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
@@ -365,7 +374,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector<HTMLCalciteRadioButtonElement>("calcite-radio-button[value=two]");
+      const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]");
       second.checked = true;
     });
     await page.waitForChanges();
@@ -385,7 +394,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector<HTMLCalciteRadioButtonElement>("calcite-radio-button[value=one]");
+      const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]");
       second.checked = false;
     });
     await page.waitForChanges();

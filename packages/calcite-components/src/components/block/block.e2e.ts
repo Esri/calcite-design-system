@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
@@ -211,7 +212,7 @@ describe("calcite-block", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
     await skipAnimations(page);
-    const messages = await import(`./assets/block/t9n/messages.json`);
+    const messages = await import("./assets/t9n/messages.json");
 
     const element = await page.find("calcite-block");
     const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
@@ -402,6 +403,20 @@ describe("calcite-block", () => {
     const contentStyles = await content.getComputedStyle();
     const contentPadding = await contentStyles.getPropertyValue("padding");
     expect(contentPadding).toEqual(overrideStyle);
+  });
+
+  it("should set aria-label", async () => {
+    const label = "Spatial";
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-block label=${label} open>
+        <calcite-notice open>
+          <div slot="message">Use layer effects sparingly, for emphasis</div>
+        </calcite-notice>
+      </calcite-block>`,
+    );
+    const article = await page.find(`calcite-block >>> article`);
+    expect(article.getAttribute("aria-label")).toEqual(label);
   });
 
   describe("translation support", () => {

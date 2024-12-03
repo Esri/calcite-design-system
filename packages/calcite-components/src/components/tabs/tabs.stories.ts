@@ -4,6 +4,7 @@ import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/u
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tabs } from "./tabs";
+
 const { layout, position, scale } = ATTRIBUTES;
 
 type TabsStoryArgs = Pick<Tabs, "layout" | "position" | "scale">;
@@ -33,14 +34,23 @@ export default {
   },
 };
 
-export const simpleDarkModeRTL_TestOnly = (args: TabsStoryArgs): string => html`
-  <calcite-tabs
-    dir="rtl"
-    class="calcite-mode-dark"
-    layout="${args.layout}"
-    position="${args.position}"
-    scale="${args.scale}"
-  >
+export const simple = (args: TabsStoryArgs): string => html`
+  <calcite-tabs layout="${args.layout}" position="${args.position}" scale="${args.scale}">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title disabled>Disabled Tab</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab selected><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+  </calcite-tabs>
+`;
+
+export const simpleDarkModeRTL_TestOnly = (): string => html`
+  <calcite-tabs dir="rtl" class="calcite-mode-dark">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>

@@ -15,13 +15,9 @@
 :host .calcite-dropdown-wrapper {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui-container();
-  @include floating-ui-wrapper();
 }
 
 @include floating-ui-elem-anim(".calcite-dropdown-wrapper");
-:host([open]) .calcite-dropdown-wrapper {
-  @include floating-ui-wrapper-active();
-}
 
 :host .calcite-dropdown-content {
   @apply bg-foreground-1
@@ -44,13 +40,13 @@
 }
 
 // width
-:host([width-scale="s"]) {
+.width-s {
   --calcite-dropdown-width: theme("spacing.48");
 }
-:host([width-scale="m"]) {
+.width-m {
   --calcite-dropdown-width: theme("spacing.56");
 }
-:host([width-scale="l"]) {
+.width-l {
   --calcite-dropdown-width: theme("spacing.64");
 }
 

@@ -3,13 +3,13 @@ import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
@@ -22,6 +22,7 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   reposition,
@@ -54,7 +55,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
-import { componentOnReady, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -63,7 +64,7 @@ import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from ".
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/combobox.t9n.en.json";
-import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
+import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
@@ -80,17 +81,6 @@ declare global {
   }
 }
 
-interface ItemData {
-  description: string;
-  label: string;
-  metadata: Record<string, unknown>;
-  shortHeading: string;
-  value: string;
-}
-
-const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement["el"] =>
-  el.tagName === ComboboxItemGroup;
-
 const itemUidPrefix = "combobox-item-";
 const chipUidPrefix = "combobox-chip-";
 const labelUidPrefix = "combobox-label-";
@@ -98,7 +88,6 @@ const listboxUidPrefix = "combobox-listbox-";
 const inputUidPrefix = "combobox-input-";
 
 /** @slot - A slot for adding `calcite-combobox-item`s. */
-/** TODO: [MIGRATION] This component had a `@Component()` decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs */
 export class Combobox
   extends LitElement
   implements
@@ -131,6 +120,13 @@ export class Combobox
 
   private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
+  private filterItems(text: string, setOpenToEmptyState = false, emit = true): void {
+    const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
+      item && filteredData.some(({ el }) => item === el);
+
+    this.filter(find, text, setOpenToEmptyState, emit);
+  }
+
   private filter = debounce(
     (
       find: (item: ComboboxChildElement, filteredData: ItemData[]) => boolean,
@@ -138,7 +134,12 @@ export class Combobox
       setOpenToEmptyState = false,
       emit = true,
     ): void => {
-      const filteredData = filter(this.data, text);
+      const filteredData = filter([...this.data, ...this.groupData], text, [
+        "description",
+        "label",
+        "metadata",
+        "shortHeading",
+      ]);
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
@@ -187,7 +188,7 @@ export class Combobox
 
   private filteredFlipPlacements: FlipPlacement[];
 
-  private floatingEl: HTMLDivElement;
+  floatingEl: HTMLDivElement;
 
   formEl: HTMLFormElement;
 
@@ -215,6 +216,8 @@ export class Combobox
     );
   };
 
+  private groupData: GroupData[];
+
   private guid = guid();
 
   private ignoreSelectedEventsFlag = false;
@@ -229,13 +232,6 @@ export class Combobox
 
   private maxCompactBreakpoint: number;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>();
-
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   onLabelClick = (): void => {
@@ -246,7 +242,7 @@ export class Combobox
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
-  private referenceEl: HTMLDivElement;
+  referenceEl: HTMLDivElement;
 
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
@@ -340,8 +336,6 @@ export class Combobox
 
   /**
    * Accessible name for the component.
-   * TODO: [MIGRATION] This property was marked as required in your Stencil component. If you didn't mean it to be required, feel free to remove `@required` tag.
-   * Otherwise, read the documentation about required properties: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-properties--docs#string-properties
    *
    * @required
    */
@@ -352,6 +346,13 @@ export class Combobox
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Specifies the name of the component.
@@ -561,7 +562,7 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   async load(): Promise<void> {
@@ -570,11 +571,6 @@ export class Combobox
     this.filterItems(this.filterText, false, false);
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -589,21 +585,21 @@ export class Combobox
     }
 
     if (changes.has("maxItems") && (this.hasUpdated || this.maxItems !== 0)) {
-      this.maxItemsHandler();
+      this.setMaxScrollerHeight();
     }
 
     if (
       changes.has("overlayPositioning") &&
       (this.hasUpdated || this.overlayPositioning !== "absolute")
     ) {
-      this.overlayPositioningHandler();
+      this.reposition(true);
     }
 
     if (
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "multiple")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
-      this.handlePropsChange();
+      this.updateItems();
     }
 
     if (changes.has("flipPlacements")) {
@@ -630,7 +626,7 @@ export class Combobox
 
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
     setComponentLoaded(this);
   }
 
@@ -639,7 +635,8 @@ export class Combobox
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
-    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+
+    disconnectFloatingUI(this);
     this.filter.cancel();
   }
 
@@ -656,7 +653,6 @@ export class Combobox
     onToggleOpenCloseComponent(this);
 
     if (this.disabled) {
-      this.open = false;
       return;
     }
 
@@ -667,18 +663,6 @@ export class Combobox
     if (!value) {
       this.open = false;
     }
-  }
-
-  private maxItemsHandler(): void {
-    this.setMaxScrollerHeight();
-  }
-
-  private overlayPositioningHandler(): void {
-    this.reposition(true);
-  }
-
-  private handlePropsChange(): void {
-    this.updateItems();
   }
 
   private valueHandler(value: string | string[]): void {
@@ -711,7 +695,7 @@ export class Combobox
       return;
     }
 
-    await componentOnReady(this.el);
+    await this.componentOnReady();
 
     if (!this.allowCustomValues && this.filterText) {
       this.clearInputValue();
@@ -940,6 +924,7 @@ export class Combobox
 
   onClose(): void {
     this.calciteComboboxClose.emit();
+    hideFloatingUI(this);
   }
 
   private async setMaxScrollerHeight(): Promise<void> {
@@ -1086,7 +1071,7 @@ export class Combobox
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   private setCompactSelectionDisplay({
@@ -1105,19 +1090,23 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    this.resizeObserver.observe(el);
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
     this.listContainerEl = el;
     this.transitionEl = el;
   }
 
   private setChipContainerEl(el: HTMLDivElement): void {
-    this.resizeObserver.observe(el);
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
     this.chipContainerEl = el;
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    connectFloatingUI(this);
   }
 
   private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
@@ -1191,16 +1180,6 @@ export class Combobox
     return [...this.groupItems, ...this.items];
   }
 
-  private filterItems(text: string, setOpenToEmptyState = false, emit = true): void {
-    const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
-      item &&
-      filteredData.some(({ label, value }) =>
-        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
-      );
-
-    this.filter(find, text, setOpenToEmptyState, emit);
-  }
-
   private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
     if (
       !item ||
@@ -1264,6 +1243,7 @@ export class Combobox
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
     this.data = this.getData();
+    this.groupData = this.getGroupData();
     this.selectedItems = this.getSelectedItems();
     this.filteredItems = this.getFilteredItems();
     this.needsIcon = this.getNeedsIcon();
@@ -1272,6 +1252,8 @@ export class Combobox
       item.selectionMode = this.selectionMode;
       item.scale = this.scale;
     });
+
+    this.groupItems.forEach((groupItem) => (groupItem.scale = this.scale));
 
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
@@ -1294,10 +1276,17 @@ export class Combobox
     return this.items.map((item) => ({
       description: item.description,
       filterDisabled: item.filterDisabled,
-      label: item.textLabel,
+      label: item.heading || item.textLabel,
       metadata: item.metadata,
       shortHeading: item.shortHeading,
-      value: item.value,
+      el: item, // used for matching items to data
+    }));
+  }
+
+  private getGroupData(): GroupData[] {
+    return this.groupItems.map((groupItem) => ({
+      label: groupItem.label,
+      el: groupItem,
     }));
   }
 
@@ -1324,7 +1313,7 @@ export class Combobox
   }
 
   private addCustomChip(value: string, focus?: boolean): void {
-    const existingItem = this.items.find((el) => el.textLabel === value);
+    const existingItem = this.items.find((el) => (el.heading || el.textLabel) === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
@@ -1336,7 +1325,7 @@ export class Combobox
         "calcite-combobox-item",
       );
       item.value = value;
-      item.textLabel = value;
+      item.heading = value;
       item.selected = true;
       this.el.prepend(item);
       this.resetText();
@@ -1472,6 +1461,7 @@ export class Combobox
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={itemLabel}
+          label={label}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onFocusIn={() => (this.activeChipIndex = i)}
           oncalciteChipClose={() => this.calciteChipCloseHandler(item)}
@@ -1505,6 +1495,7 @@ export class Combobox
             !compactSelectionDisplay
           ),
         }}
+        label={label}
         ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1528,6 +1519,7 @@ export class Combobox
             compactSelectionDisplay
           ),
         }}
+        label={label}
         scale={scale}
         title={label}
         value=""
@@ -1580,6 +1572,7 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        label={label}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1621,6 +1614,7 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        label={label}
         scale={scale}
         title={label}
         value=""
@@ -1696,7 +1690,7 @@ export class Combobox
         role="option"
         tabIndex="-1"
       >
-        {item.textLabel}
+        {item.heading || item.textLabel}
       </li>
     ));
   }
@@ -1710,14 +1704,7 @@ export class Combobox
     };
 
     return (
-      <div
-        ariaHidden="true"
-        class={{
-          "floating-ui-container": true,
-          "floating-ui-container--active": open,
-        }}
-        ref={setFloatingEl}
-      >
+      <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />

@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, hidden, renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
@@ -20,7 +21,7 @@ describe("calcite-progress", () => {
   });
 
   describe("theme", () => {
-    themed(html`<calcite-progress text="optional text" type="determinate" value="0.5"></calcite-progress>`, {
+    themed(html`<calcite-progress text="optional text" type="determinate" value="50"></calcite-progress>`, {
       "--calcite-progress-background-color": {
         shadowSelector: `.${CSS.track}`,
         targetProp: "backgroundColor",

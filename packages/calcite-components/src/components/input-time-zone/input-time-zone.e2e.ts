@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -124,7 +125,7 @@ describe("calcite-input-time-zone", () => {
     });
   });
 
-  describe("t9n", () => {
+  describe("translation support", () => {
     t9n(simpleTestProvider);
   });
 
@@ -279,7 +280,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(name));
+            expect(await timeZoneItem.getProperty("textLabel")).toMatch(name);
           });
         });
       });
@@ -297,7 +298,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(testTimeZoneItems[1].name));
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].name);
       });
 
       it("ignores invalid values", async () => {
@@ -313,7 +314,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(testTimeZoneItems[0].name));
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[0].name);
       });
     });
 
@@ -482,10 +483,9 @@ describe("calcite-input-time-zone", () => {
       );
 
       const input = await page.find("calcite-input-time-zone");
-      await input.callMethod("setFocus");
-
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
 
+      await input.callMethod("setFocus");
       await input.press("Escape");
       await page.waitForChanges();
 
@@ -531,7 +531,10 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(initialTimeZoneItem.name);
         await page.setContent(
-          html`<calcite-input-time-zone value="${initialTimeZoneItem.offset}"></calcite-input-time-zone> `,
+          html`<calcite-input-time-zone
+            value="${initialTimeZoneItem.offset}"
+            reference-date="2024-10-01"
+          ></calcite-input-time-zone>`,
         );
 
         const input = await page.find("calcite-input-time-zone");

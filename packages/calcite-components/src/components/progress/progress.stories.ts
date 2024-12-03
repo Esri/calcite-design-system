@@ -2,6 +2,7 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Progress } from "./progress";
+
 const { determinateType } = ATTRIBUTES;
 
 type ProgressStoryArgs = Pick<Progress, "type" | "value" | "text">;
@@ -10,7 +11,7 @@ export default {
   title: "Components/Progress",
   args: {
     type: determinateType.defaultValue,
-    value: 0.8,
+    value: 80,
     text: "",
   },
   argTypes: {
@@ -19,7 +20,7 @@ export default {
       control: { type: "select" },
     },
     value: {
-      control: { type: "range", min: 0, max: 1, step: 0.01 },
+      control: { type: "range", min: 0, max: 100, step: 1 },
     },
   },
 };
@@ -32,7 +33,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   <calcite-progress
     class="calcite-mode-dark"
     type="determinate"
-    value="0.2"
+    value="20"
     text="% Complete (optional text)"
   ></calcite-progress>
 `;

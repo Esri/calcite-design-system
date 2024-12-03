@@ -27,7 +27,7 @@
         text-align: right;
       }
     </style>
-    <script src="./_assets/head.js"></script>
+    <script src="./_assets/head.ts"></script>
   </head>
 
   <body>
@@ -185,6 +185,30 @@
         </div>
         <div class="child">
           <button disabled id="tooltip-auto-end-disabled-native-ref">auto</button>
+        </div>
+      </div>
+
+      <!-- themed -->
+      <div class="parent">
+        <div class="child right-aligned-text">themed</div>
+
+        <style>
+          .themed-tooltip {
+            --calcite-tooltip-background-color: lightpink;
+            --calcite-tooltip-border-color: blue;
+            --calcite-tooltip-corner-radius: 10px;
+            --calcite-tooltip-text-color: green;
+            --calcite-tooltip-z-index: 999;
+          }
+        </style>
+
+        <div class="child">
+          <button id="tooltip-themed">themed</button>
+          <calcite-tooltip class="themed-tooltip" placement="auto" reference-element="tooltip-themed">
+            <p>placement: auto</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.
+          </calcite-tooltip>
         </div>
       </div>
 

@@ -46,12 +46,17 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                         | Description                                          |
-| ---------------------------- | ---------------------------------------------------- |
-| `--calcite-select-font-size` | The font size of `calcite-option`s in the component. |
-| `--calcite-select-spacing`   | The padding around the selected option text.         |
+| Name                          | Description                                          |
+| ----------------------------- | ---------------------------------------------------- |
+| `--calcite-select-font-size`  | The font size of `calcite-option`s in the component. |
+| `--calcite-select-spacing`    | The padding around the selected option text.         |
+| `--calcite-select-text-color` | The text color of the component.                     |
 
 ## Dependencies
+
+### Used by
+
+- [calcite-date-picker-month-header](../date-picker-month-header)
 
 ### Depends on
 
@@ -65,6 +70,7 @@ graph TD;
   calcite-select --> calcite-icon
   calcite-select --> calcite-input-message
   calcite-input-message --> calcite-icon
+  calcite-date-picker-month-header --> calcite-select
   style calcite-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

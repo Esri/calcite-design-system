@@ -1,6 +1,6 @@
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
+import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
-import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
 
@@ -45,24 +45,24 @@ export async function getNormalizer(mode: TimeZoneMode): Promise<(timeZone: Time
     return (timeZone: TimeZone) => timeZone;
   }
 
-  const { normalize } = await import("timezone-groups/dist/utils/time-zones.mjs");
+  const { normalize } = await import("timezone-groups/utils/time-zones");
   return normalize;
 }
 
 export async function createTimeZoneItems(
   locale: SupportedLocale,
-  messages: InputTimeZoneMessages,
+  messages: InputTimeZone["messages"],
   mode: TimeZoneMode,
   referenceDate: Date,
   standardTime: OffsetStyle,
 ): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
   if (mode === "name") {
-    const { groupByName } = await import("timezone-groups/dist/groupByName/index.mjs");
+    const { groupByName } = await import("timezone-groups/groupByName");
     const groups = await groupByName();
 
     return groups
       .map<TimeZoneItem<string>>(({ label: timeZone }) => {
-        const label = toUserFriendlyName(timeZone);
+        const label = timeZone;
         const value = timeZone;
 
         return {
@@ -88,8 +88,8 @@ export async function createTimeZoneItems(
 
   if (mode === "region") {
     const [{ groupByRegion }, { getCountry, global: globalLabel }] = await Promise.all([
-      import("timezone-groups/dist/groupByRegion/index.mjs"),
-      import("timezone-groups/dist/utils/region.mjs"),
+      import("timezone-groups/groupByRegion"),
+      import("timezone-groups/utils/region"),
     ]);
     const groups = await groupByRegion();
 
@@ -149,8 +149,8 @@ export async function createTimeZoneItems(
   }
 
   const [{ groupByOffset }, { DateEngine }] = await Promise.all([
-    import("timezone-groups/dist/groupByOffset/index.mjs"),
-    import("timezone-groups/dist/groupByOffset/strategy/native/index.mjs"),
+    import("timezone-groups/groupByOffset"),
+    import("timezone-groups/groupByOffset/strategy/native"),
   ]);
 
   const groups = await groupByOffset({
@@ -203,23 +203,27 @@ export async function createTimeZoneItems(
     .sort((groupA, groupB) => groupA.value - groupB.value);
 }
 
-function getTimeZoneLabel(timeZone: string, messages: InputTimeZoneMessages): string {
+function getTimeZoneLabel(timeZone: string, messages: InputTimeZone["messages"]): string {
   return messages[timeZone] || getCity(timeZone);
 }
 
-export function getSelectedRegionTimeZoneLabel(city: string, country: string, messages: InputTimeZoneMessages): string {
+export function getSelectedRegionTimeZoneLabel(
+  city: string,
+  country: string,
+  messages: InputTimeZone["messages"],
+): string {
   const template = messages.timeZoneRegionLabel;
   return template.replace("{city}", city).replace("{country}", getMessageOrKeyFallback(messages, country));
 }
 
-export function getMessageOrKeyFallback(messages: InputTimeZoneMessages, key: string): string {
+export function getMessageOrKeyFallback(messages: InputTimeZone["messages"], key: string): string {
   return messages[key] || key;
 }
 
 /**
  * Exported for testing purposes only
  *
- * @internal
+ * @private
  */
 export function getCity(timeZone: string): string {
   return timeZone.split("/").pop();
@@ -228,13 +232,17 @@ export function getCity(timeZone: string): string {
 /**
  * Exported for testing purposes only
  *
- * @internal
+ * @private
  */
 export function toUserFriendlyName(timeZoneName: string): string {
   return timeZoneName.replace(/_/g, " ");
 }
 
-function createTimeZoneOffsetLabel(messages: InputTimeZoneMessages, offsetLabel: string, groupLabel: string): string {
+function createTimeZoneOffsetLabel(
+  messages: InputTimeZone["messages"],
+  offsetLabel: string,
+  groupLabel: string,
+): string {
   return messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
 }
 

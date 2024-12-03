@@ -102,18 +102,6 @@ describe("calcite-color-picker", () => {
         defaultValue: false,
       },
       {
-        propertyName: "hideChannels",
-        defaultValue: false,
-      },
-      {
-        propertyName: "hideHex",
-        defaultValue: false,
-      },
-      {
-        propertyName: "hideSaved",
-        defaultValue: false,
-      },
-      {
         propertyName: "savedDisabled",
         defaultValue: false,
       },
@@ -912,18 +900,16 @@ describe("calcite-color-picker", () => {
     });
 
     it("value as property", async () => {
-      // initialize page with calcite-color-picker to make it available in the evaluate callback below
       const page = await newE2EPage({
-        html: "<calcite-color-picker></calcite-color-picker>",
+        html: "",
       });
-      await page.setContent("");
 
       await page.evaluate(async (color) => {
         const picker = document.createElement("calcite-color-picker");
         picker.value = color;
         document.body.append(picker);
 
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await picker.componentOnReady();
       }, initialColor);
 
       expect(await getInternalColorAsHex(page)).toBe(initialColor);
@@ -1850,9 +1836,9 @@ describe("calcite-color-picker", () => {
               customValueClearingFn?: () => Promise<void>,
             ): Promise<void> => {
               async function clearValue(): Promise<void> {
-                customValueClearingFn
-                  ? await customValueClearingFn()
-                  : await clearAndEnterHexOrChannelValue(page, calciteInputOrSlider, "");
+                await (customValueClearingFn
+                  ? customValueClearingFn()
+                  : clearAndEnterHexOrChannelValue(page, calciteInputOrSlider, ""));
               }
 
               const initialInputValue = await calciteInputOrSlider.getProperty("value");
@@ -2243,7 +2229,7 @@ describe("calcite-color-picker", () => {
 
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
-        const hideSectionProp = `hide${section.charAt(0).toUpperCase() + section.slice(1)}`;
+        const hideSectionProp = `${section.charAt(0) + section.slice(1)}Disabled`;
 
         color.setProperty(hideSectionProp, !sectionVisibility[section]);
         await page.waitForChanges();
@@ -2293,15 +2279,15 @@ describe("calcite-color-picker", () => {
         await scope.press("ArrowDown");
         expect(await picker.getProperty("value")).toBe("#ffffff");
         await scope.press("ArrowDown");
-        expect(await picker.getProperty("value")).toBe("#ededed");
+        expect(await picker.getProperty("value")).toBe("#ebebeb");
         await scope.press("ArrowDown");
-        expect(await picker.getProperty("value")).toBe("#dbdbdb");
+        expect(await picker.getProperty("value")).toBe("#d6d6d6");
         await scope.press("ArrowUp");
-        expect(await picker.getProperty("value")).toBe("#ededed");
+        expect(await picker.getProperty("value")).toBe("#ebebeb");
         await scope.press("ArrowRight");
-        expect(await picker.getProperty("value")).toBe("#e4eaed");
+        expect(await picker.getProperty("value")).toBe("#e1e7eb");
         await scope.press("ArrowLeft");
-        expect(await picker.getProperty("value")).toBe("#ededed");
+        expect(await picker.getProperty("value")).toBe("#ebebeb");
       });
 
       it("allows nudging color's saturation even if it does not change RGB value", async () => {
@@ -2330,7 +2316,7 @@ describe("calcite-color-picker", () => {
         await page.setContent(`<calcite-color-picker value="#000"></calcite-color-picker>`);
         const scope = await page.find(`calcite-color-picker >>> .${CSS.hueScope}`);
 
-        const nudgeAQuarterOfSlider = async () => {
+        const nudgeAThirdOfSlider = async () => {
           let totalNudgesByTen = 12;
 
           while (totalNudgesByTen--) {
@@ -2344,16 +2330,16 @@ describe("calcite-color-picker", () => {
 
         expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.thumb.radius - 0.5, 0);
 
-        await nudgeAQuarterOfSlider();
-        expect(await getScopeLeftOffset()).toBeCloseTo(70, 0);
+        await nudgeAThirdOfSlider();
+        expect(await getScopeLeftOffset()).toBeCloseTo(58.9, 0);
 
-        await nudgeAQuarterOfSlider();
-        expect(await getScopeLeftOffset()).toBeCloseTo(141, 0);
+        await nudgeAThirdOfSlider();
+        expect(await getScopeLeftOffset()).toBeCloseTo(118.5, 0);
 
-        await nudgeAQuarterOfSlider();
+        await nudgeAThirdOfSlider();
         // hue wraps around, so we nudge it back to assert position at the edge
         await scope.press("ArrowLeft");
-        expect(await getScopeLeftOffset()).toBeCloseTo(204.5, 0);
+        expect(await getScopeLeftOffset()).toBeCloseTo(170.5, 0);
 
         // nudge it to wrap around
         await scope.press("ArrowRight");

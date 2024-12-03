@@ -414,7 +414,7 @@ export function formAssociated(
     await submitButton.click();
     await page.waitForChanges();
 
-    await expectValidationProps(page, component, { message, icon: "", status: "invalid" });
+    await expectValidationProps(page, component, { message, icon: true, status: "invalid" });
   }
 
   async function assertClearsValidationOnValueChange(
@@ -488,6 +488,6 @@ export function formAssociated(
 
     expect(await element.getProperty("status")).toBe(testProps?.status ?? "idle");
     expect(await element.getProperty("validationMessage")).toBe(testProps?.message ?? "");
-    expect(element.getAttribute("validation-icon")).toBe(testProps?.icon ?? null);
+    expect(await element.getProperty("validationIcon")).toBe(testProps?.icon ?? false);
   }
 }

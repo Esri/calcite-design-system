@@ -67,7 +67,6 @@ declare global {
 
 const throttleFor60FpsInMs = 16;
 
-/** TODO: [MIGRATION] This component had a `@Component()` decorator with a "assetsDirs" prop. It needs to be migrated manually. Please refer to https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-assets--docs */
 export class ColorPicker extends LitElement implements InteractiveComponent, LoadableComponent {
   // #region Static Members
 
@@ -202,13 +201,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   private isClearable: boolean;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */ /** TODO: [MIGRATION] This component has been updated to use the useT9n() controller. Documentation: https://qawebgis.esri.com/arcgis-components/?path=/docs/references-t9n-for-components--docs */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
   private mode: SupportedMode = CSSColorMode.HEX;
 
   private opacityScopeNode: HTMLDivElement;
@@ -304,29 +296,15 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   /** When `true`, hides the hex input. */
   @property() hexDisabled = false;
 
-  /**
-   * When `true`, hides the RGB/HSV channel inputs.
-   *
-   * @deprecated use `channelsDisabled` instead
-   */
-  @property({ reflect: true }) hideChannels = false;
-
-  /**
-   * When `true`, hides the hex input.
-   *
-   * @deprecated use `hexDisabled` instead
-   */
-  @property({ reflect: true }) hideHex = false;
-
-  /**
-   * When `true`, hides the saved colors section.
-   *
-   * @deprecated use `savedDisabled` instead
-   */
-  @property({ reflect: true }) hideSaved = false;
-
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
@@ -429,11 +407,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     }
   }
 
-  /**
-   * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
-   *
-   * @param changes
-   */
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -1454,9 +1427,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
         thumb: { radius: thumbRadius },
       },
       hexDisabled,
-      hideChannels,
-      hideHex,
-      hideSaved,
       hueScopeLeft,
       messages,
       alphaChannel,
@@ -1477,9 +1447,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
       (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === undefined;
     const vertical = scopeOrientation === "vertical";
-    const noHex = hexDisabled || hideHex;
-    const noChannels = channelsDisabled || hideChannels;
-    const noSaved = savedDisabled || hideSaved;
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
       colorFieldScopeTop,
@@ -1573,7 +1540,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
               ) : null}
             </div>
           </div>
-          {noHex && noChannels ? null : (
+          {hexDisabled && channelsDisabled ? null : (
             <div
               class={{
                 [CSS.controlSection]: true,
@@ -1581,7 +1548,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
               }}
             >
               <div class={CSS.hexAndChannelsGroup}>
-                {noHex ? null : (
+                {hexDisabled ? null : (
                   <div class={CSS.hexOptions}>
                     <calcite-color-picker-hex-input
                       allowEmpty={this.isClearable}
@@ -1595,7 +1562,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
                     />
                   </div>
                 )}
-                {noChannels ? null : (
+                {channelsDisabled ? null : (
                   <calcite-tabs
                     class={{
                       [CSS.colorModeContainer]: true,
@@ -1614,7 +1581,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
               </div>
             </div>
           )}
-          {noSaved ? null : (
+          {savedDisabled ? null : (
             <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
               <div class={CSS.header}>
                 <label>{messages.saved}</label>

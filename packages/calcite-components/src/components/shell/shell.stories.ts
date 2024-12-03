@@ -4,6 +4,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+
 const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
 interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "resizable"> {
@@ -55,6 +56,7 @@ export default {
     chromatic: {
       delay: 1000,
     },
+    layout: "fullscreen",
   },
 };
 
@@ -1232,18 +1234,18 @@ position:relative;
             <calcite-block drag-handle heading="Attributes" summary="2/98" collapsible>
               <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
               <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
-              <calcite-value-list drag-enabled>
-                <calcite-value-list-item
+              <calcite-list drag-enabled>
+                <calcite-list-item
                   label="2018 Total Households (Esri)"
                   value="Households"
                   description="{TOTHH_CY}"
-                ></calcite-value-list-item>
-                <calcite-value-list-item
+                ></calcite-list-item>
+                <calcite-list-item
                   label="2018 Average Household Size (Esri)"
                   value="Household"
                   description="{AVGHHSZ_CY}"
-                ></calcite-value-list-item>
-              </calcite-value-list>
+                ></calcite-list-item>
+              </calcite-list>
               <div class="row">
                 <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" kind="neutral"
                   >Select attributes</calcite-button
@@ -1849,8 +1851,8 @@ export const panelWithPopoverZIndex = (): string =>
         </calcite-flow>
       </calcite-shell-panel> </calcite-shell
     ><calcite-popover open reference-element="button" offset-distance="-50" offset-skidding="15" style="z-index: 100">
-      <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel>
-    </calcite-popover>`;
+      <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel
+    ></calcite-popover>`;
 
 export const popoverZIndex = (): string =>
   html`<calcite-shell>
@@ -1866,7 +1868,9 @@ export const popoverZIndex = (): string =>
     </calcite-shell-panel>
 
     <!--  Popover here  -->
-    <calcite-popover reference-element="target-element" open><p>This is a popover</p></calcite-popover>
+    <calcite-popover overlay-positioning="fixed" reference-element="target-element" open
+      ><p>This is a popover</p></calcite-popover
+    >
 
     <calcite-shell-panel slot="panel-end" position="end" id="shell-panel-end" collapsed>
       <calcite-action-bar slot="action-bar">

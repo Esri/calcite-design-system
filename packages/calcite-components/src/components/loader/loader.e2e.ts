@@ -1,5 +1,7 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { hidden, renders } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-loader", () => {
   describe("renders", () => {
@@ -14,7 +16,7 @@ describe("calcite-loader", () => {
   it("displays label from text prop", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader text="testing"></calcite-loader>`);
-    const elm = await page.find("calcite-loader >>> .loader__text");
+    const elm = await page.find(`calcite-loader >>> .${CSS.text}`);
     expect(elm).toEqualText("testing");
   });
 
