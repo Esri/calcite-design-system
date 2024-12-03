@@ -83,7 +83,7 @@
     "interactjs": "1.10.27",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.6",
-    "timezone-groups": "0.10.2",
+    "timezone-groups": "0.10.4",
     "type-fest": "4.18.2"
   },
   "devDependencies": {
