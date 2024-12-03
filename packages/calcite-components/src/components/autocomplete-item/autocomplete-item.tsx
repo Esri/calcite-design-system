@@ -123,14 +123,14 @@ export class AutocompleteItem
   // #region Rendering
 
   override render(): JsxNode {
-    const { description, heading, disabled } = this;
+    const { active, description, heading, disabled } = this;
 
     return (
       <InteractiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerActive]: this.active,
+            [CSS.containerActive]: active && !disabled,
             [CSS.scale(this.scale)]: true,
           }}
           onClick={this.handleClick}

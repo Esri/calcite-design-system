@@ -67,7 +67,7 @@
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
-:host(:hover) .container {
+:host(:hover:not([disabled])) .container {
   background-color: var(--calcite-autocomplete-background-color-hover, var(--calcite-color-foreground-2));
 
   .description {
