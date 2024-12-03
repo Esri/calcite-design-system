@@ -112,6 +112,7 @@
   max-block-size: calc(100% - 1.5rem);
   min-block-size: calc(100% - 1.5rem);
 }
+
 :host([display-mode="float"][position^="block"]) .container {
   inline-size: calc(100% - 1.5rem);
   max-inline-size: calc(100% - 1.5rem);
