@@ -95,6 +95,10 @@ ul:focus {
     shadow-none;
 }
 
+.label:active {
+  background-color: var(--calcite-color-foreground-3);
+}
+
 .icon {
   @apply inline-flex
     opacity-0
@@ -107,31 +111,13 @@ ul:focus {
   margin-block-start: -1px;
 }
 
-.icon--active {
+.icon--selected {
   @apply text-color-1;
-}
-
-.icon--dot {
-  @apply flex justify-center;
-  min-inline-size: var(--calcite-combobox-item-selector-icon-size);
-}
-
-.icon--dot::before {
-  text-align: start;
-  content: "\2022";
-}
-
-.label--active .icon {
-  @apply opacity-100;
 }
 
 .label--selected .icon {
   @apply opacity-100;
   color: theme("backgroundColor.brand");
-}
-
-:host(:hover[disabled]) .icon {
-  @apply opacity-100;
 }
 
 .filter-match {
