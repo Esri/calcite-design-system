@@ -395,6 +395,52 @@
       </div>
 
       <div class="parent">
+        <style>
+          .themed-autocomplete {
+            --calcite-autocomplete-background-color: blue;
+            --calcite-autocomplete-background-color-hover: purple;
+            --calcite-autocomplete-description-text-color: yellow;
+            --calcite-autocomplete-heading-text-color: pink;
+            --calcite-autocomplete-text-color: orange;
+          }
+        </style>
+        <div class="child right-aligned-text">Themed</div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="s"
+              prefix-text="A"
+              suffix-text="Z"
+              class="locator-autocomplete themed-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="m"
+              prefix-text="A"
+              suffix-text="Z"
+              class="locator-autocomplete themed-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+        <div class="child">
+          <form class="locate-form">
+            <calcite-autocomplete
+              scale="l"
+              prefix-text="A"
+              suffix-text="Z"
+              class="locator-autocomplete themed-autocomplete"
+              name="location"
+            ></calcite-autocomplete>
+          </form>
+        </div>
+      </div>
+
+      <div class="parent">
         <div class="child right-aligned-text">Open</div>
         <div class="child">
           <form class="locate-form">
