@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.44...@esri/calcite-components@3.0.0-next.45) (2024-12-03)
+
+### Bug Fixes
+
+- **slider:** avoid breaking thumb label on edges ([#10922](https://github.com/Esri/calcite-design-system/issues/10922)) ([4f96cd3](https://github.com/Esri/calcite-design-system/commit/4f96cd31df0abbee80034977f295094fe2652b37)), closes [#9239](https://github.com/Esri/calcite-design-system/issues/9239)
+
 ## [3.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.43...@esri/calcite-components@3.0.0-next.44) (2024-12-03)
 
 ### Features
