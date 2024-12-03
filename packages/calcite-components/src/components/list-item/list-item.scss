@@ -260,7 +260,7 @@
     padding-inline-start: var(--calcite-spacing-xxs);
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
+    padding-inline: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="l"]) {
