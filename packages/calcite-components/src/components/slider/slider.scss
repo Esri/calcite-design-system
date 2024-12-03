@@ -125,6 +125,8 @@
   transform: translate(var(--calcite-slider-thumb-x-offset), var(--calcite-slider-thumb-y-offset));
 
   .handle__label {
+    white-space: nowrap;
+
     &.static,
     &.transformed {
       @apply absolute
