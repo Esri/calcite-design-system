@@ -1,17 +1,18 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import cspellPluginRecommended from "@cspell/eslint-plugin/recommended";
 import { fixupPluginRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import jsPlugin from "@eslint/js";
-import jsdocPlugin from "eslint-plugin-jsdoc";
 import calcitePlugin from "@esri/eslint-plugin-calcite-components";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import importPlugin from "eslint-plugin-import";
 import jestPlugin from "eslint-plugin-jest";
+import jsdocPlugin from "eslint-plugin-jsdoc";
 import prettierPlugin from "eslint-plugin-prettier";
 import reactPlugin from "eslint-plugin-react";
 import unicornPlugin from "eslint-plugin-unicorn";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,23 +26,26 @@ export default [
   {
     ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
   },
+
   ...compat.extends(
     "eslint:recommended",
-    "plugin:@cspell/recommended",
     "plugin:@esri/calcite-components/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:jest/recommended",
     "prettier",
   ),
+
+  cspellPluginRecommended,
+  jestPlugin.configs["flat/recommended"],
   jsdocPlugin.configs["flat/recommended"],
+
   {
-    files: ["**/*.{ts,tsx,mjs,cjs"],
+    files: ["**/*.{ts,tsx,mjs,cjs}"],
     plugins: {
       "@esri/calcite-components": calcitePlugin,
       "@typescript-eslint": tsPlugin,
+      import: fixupPluginRules(importPlugin),
       react: reactPlugin,
       jsdoc: jsdocPlugin,
-      import: fixupPluginRules(importPlugin),
       jest: jestPlugin,
       prettier: prettierPlugin,
       unicorn: unicornPlugin,
@@ -74,26 +78,13 @@ export default [
     },
 
     rules: {
-      "@esri/calcite-components/ban-events": [
-        "warn",
-        {
-          event: "keyup",
-          message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
-        },
-        {
-          event: "keypress",
-          message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
-        },
-      ],
-
-      "@esri/calcite-components/enforce-ref-last-prop": "off",
-      "@esri/calcite-components/strict-boolean-attributes": "off",
-
+      "@typescript-eslint/method-signature-style": ["error", "property"],
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unnecessary-type-assertion": "error",
       "@typescript-eslint/explicit-module-boundary-types": [
         "error",
         {
           allowArgumentsExplicitlyTypedAsAny: true,
-
           allowedNames: [
             "connectedCallback",
             "disconnectedCallback",
@@ -108,18 +99,12 @@ export default [
         },
       ],
 
-      "@typescript-eslint/method-signature-style": ["error", "property"],
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unnecessary-type-assertion": "error",
-      curly: "error",
-
       "import/no-dynamic-require": [
         "error",
         {
           esmodule: true,
         },
       ],
-
       "import/order": [
         "error",
         {
@@ -127,10 +112,18 @@ export default [
         },
       ],
 
-      "jest/expect-expect": "off",
-      "jest/no-export": "warn",
+      "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param-type": "off",
+      "jsdoc/require-property-type": "off",
+      "jsdoc/require-returns-type": "off",
       "jsdoc/check-tag-names": "off",
-
+      "jsdoc/tag-lines": [
+        "error",
+        "any",
+        {
+          startLines: 1,
+        },
+      ],
       "jsdoc/no-restricted-syntax": [
         "error",
         {
@@ -145,31 +138,21 @@ export default [
         },
       ],
 
-      "jsdoc/require-jsdoc": "off",
-      "jsdoc/require-param-type": "off",
-      "jsdoc/require-property-type": "off",
-      "jsdoc/require-returns-type": "off",
+      "jest/expect-expect": "off",
+      "jest/no-export": "warn",
 
-      "jsdoc/tag-lines": [
-        "error",
-        "any",
-        {
-          startLines: 1,
-        },
-      ],
-
+      curly: "error",
+      "one-var": ["error", "never"],
       "no-eval": "error",
       "no-implied-eval": "error",
-
+      "no-new-func": "error",
+      "no-unneeded-ternary": "error",
       "no-multiple-empty-lines": [
         "error",
         {
           max: 1,
         },
       ],
-
-      "no-new-func": "error",
-
       "no-restricted-imports": [
         "error",
         {
@@ -183,9 +166,25 @@ export default [
         },
       ],
 
-      "no-unneeded-ternary": "error",
-      "one-var": ["error", "never"],
+      "@esri/calcite-components/enforce-ref-last-prop": "off",
+      "@esri/calcite-components/strict-boolean-attributes": "off",
+      "@esri/calcite-components/ban-events": [
+        "warn",
+        {
+          event: "keyup",
+          message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
+        },
+        {
+          event: "keypress",
+          message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
+        },
+      ],
 
+      "react/jsx-props-no-spreading": "error",
+      "react/jsx-sort-props": "error",
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
+      "react/self-closing-comp": "error",
       "react/forbid-component-props": [
         "warn",
         {
@@ -201,7 +200,6 @@ export default [
           ],
         },
       ],
-
       "react/forbid-dom-props": [
         "warn",
         {
@@ -218,13 +216,7 @@ export default [
         },
       ],
 
-      "react/jsx-props-no-spreading": "error",
-      "react/jsx-sort-props": "error",
-      "react/jsx-uses-react": "error",
-      "react/jsx-uses-vars": "error",
-      "react/self-closing-comp": "error",
       "unicorn/prefer-ternary": "error",
-
       "unicorn/prevent-abbreviations": [
         "error",
         {
@@ -247,13 +239,14 @@ export default [
       ],
     },
   },
+
   {
     files: ["**/*.e2e.ts", "src/tests/**/*"],
-
     rules: {
       "@esri/calcite-components/no-dynamic-createelement": "off",
     },
   },
+
   ...compat.extends("plugin:@typescript-eslint/disable-type-checked").map((config) => ({
     ...config,
     files: ["**/*.cjs"],

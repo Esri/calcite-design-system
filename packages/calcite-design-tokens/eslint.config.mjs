@@ -1,3 +1,4 @@
+import cspellPluginRecommended from "@cspell/eslint-plugin/recommended";
 import { fixupPluginRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import jsPlugin from "@eslint/js";
@@ -23,15 +24,14 @@ export default [
   {
     ignores: ["**/dist"],
   },
-  ...compat.extends(
-    "plugin:@cspell/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:jest/recommended",
-    "prettier",
-  ),
+
+  ...compat.extends("plugin:@typescript-eslint/recommended", "prettier"),
+  cspellPluginRecommended,
+  jestPlugin.configs["flat/recommended"],
   jsdocPlugin.configs["flat/recommended"],
+
   {
-    files: ["**/*.{ts,tsx,mjs,cjs"],
+    files: ["**/*.{ts,tsx,mjs,cjs}"],
     plugins: {
       "@typescript-eslint": tsPlugin,
       import: fixupPluginRules(importPlugin),
@@ -64,17 +64,15 @@ export default [
     },
 
     rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-unnecessary-type-assertion": "error",
       "@typescript-eslint/explicit-module-boundary-types": [
         "error",
         {
           allowArgumentsExplicitlyTypedAsAny: true,
         },
       ],
-
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-unnecessary-type-assertion": "error",
-      curly: "error",
 
       "import/no-dynamic-require": [
         "error",
@@ -83,13 +81,10 @@ export default [
         },
       ],
 
-      "jest/expect-expect": "off",
-      "jest/no-export": "warn",
       "jsdoc/check-tag-names": "off",
       "jsdoc/require-jsdoc": "off",
       "jsdoc/require-param-type": "off",
       "jsdoc/require-returns-type": "off",
-
       "jsdoc/tag-lines": [
         "error",
         "any",
@@ -98,10 +93,16 @@ export default [
         },
       ],
 
-      "lines-between-class-members": ["error", "always"],
-      "no-eval": "error",
-      "no-implied-eval": "error",
+      "jest/expect-expect": "off",
+      "jest/no-export": "warn",
 
+      curly: "error",
+      "lines-between-class-members": ["error", "always"],
+      "one-var": ["error", "never"],
+      "no-eval": "error",
+      "no-new-func": "error",
+      "no-unneeded-ternary": "error",
+      "no-implied-eval": "error",
       "no-multiple-empty-lines": [
         "error",
         {
@@ -109,27 +110,20 @@ export default [
         },
       ],
 
-      "no-new-func": "error",
-      "no-unneeded-ternary": "error",
-      "one-var": ["error", "never"],
       "unicorn/prefer-ternary": "error",
-
       "unicorn/prevent-abbreviations": [
         "error",
         {
           allowList: {
             e2ePage: true,
           },
-
           extendDefaultReplacements: false,
-
           replacements: {
             e: {
               error: true,
               event: true,
             },
           },
-
           checkProperties: false,
           checkFilenames: false,
         },
