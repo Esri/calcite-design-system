@@ -59,7 +59,7 @@ describe("calcite-list-item", () => {
       },
       {
         propertyName: "displayMode",
-        defaultValue: undefined,
+        defaultValue: "flat",
       },
     ]);
   });
@@ -394,6 +394,28 @@ describe("calcite-list-item", () => {
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+  });
+
+  it("should set displayMode on slotted list", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item><calcite-list></calcite-list></calcite-list-item>`,
+    });
+
+    const listItem = await page.find("calcite-list-item");
+    const list = await page.find("calcite-list");
+
+    expect(await listItem.getProperty("displayMode")).toBe("flat");
+    expect(await list.getProperty("displayMode")).toBe("flat");
+
+    listItem.setProperty("displayMode", "nested");
+    await page.waitForChanges();
+
+    expect(await list.getProperty("displayMode")).toBe("nested");
+
+    listItem.setProperty("displayMode", "flat");
+    await page.waitForChanges();
+
+    expect(await list.getProperty("displayMode")).toBe("flat");
   });
 
   it("flat list should not render open container", async () => {
