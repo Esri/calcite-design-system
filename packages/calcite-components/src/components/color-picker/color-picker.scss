@@ -50,6 +50,8 @@
   }
 
   .color-hex-options {
+    inline-size: 100%;
+
     @apply flex
       flex-shrink
       flex-col
