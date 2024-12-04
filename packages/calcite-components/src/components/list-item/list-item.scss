@@ -183,17 +183,11 @@
   }
 }
 :host([scale="s"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"])) {
-  .container {
-    padding-inline-start: var(--calcite-spacing-sm);
-  }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="s"][display-mode="nested"][drag-handle]) {
-  .container {
-    padding-inline-start: unset;
-  }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
