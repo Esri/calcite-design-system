@@ -241,9 +241,6 @@
   .container {
     padding-inline-start: var(--calcite-spacing-md);
   }
-  .selection-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
 }
 :host([scale="m"][display-mode="nested"][drag-handle]) {
   .container {
