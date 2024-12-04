@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.49...@esri/calcite-components@3.0.0-next.50) (2024-12-04)
+
+### Bug Fixes
+
+- **action:** create localized template for aria-label ([#10969](https://github.com/Esri/calcite-design-system/issues/10969)) ([c86baa6](https://github.com/Esri/calcite-design-system/commit/c86baa69cdba805ec640861d33f32d33f38312e4)), closes [#9071](https://github.com/Esri/calcite-design-system/issues/9071)
+
 ## [3.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.48...@esri/calcite-components@3.0.0-next.49) (2024-12-04)
 
 ### Bug Fixes
