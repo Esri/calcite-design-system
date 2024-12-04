@@ -273,7 +273,9 @@ export class Table extends LitElement implements LoadableComponent {
   private getSlottedRows(el: HTMLSlotElement): TableRow["el"][] {
     return el
       ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
+      ?.filter(
+        (el) => el?.matches("calcite-table-row") && !(el as TableRow["el"])?.hideItem,
+      ) as TableRow["el"][];
   }
 
   private updateRows(): void {

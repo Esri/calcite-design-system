@@ -33,6 +33,41 @@ describe("calcite-table", () => {
       </calcite-table>`,
       { display: "flex" },
     );
+
+    it("renders only non-hidden rows", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-table caption="Simple table">
+          <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
+            <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row id="row-1">
+            <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+            <calcite-table-cell id="cell-1b">cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row id="row-2" hide-item>
+            <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+            <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row id="row-3" hide-item>
+            <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+            <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row id="row-4">
+            <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
+            <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
+      );
+
+      await page.waitForChanges();
+      const items = await page.findAll("calcite-table-row");
+      for (let i = 0; i < items.length; i++) {
+        const style = await items[i].getComputedStyle();
+        expect(style["display"]).toBe(i === 2 || i === 3 ? "none" : "contents");
+      }
+    });
   });
 
   describe("defaults", () => {
@@ -1535,7 +1570,7 @@ describe("keyboard navigation", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
   });
 
-  it("navigates correctly skipping disabled rows", async () => {
+  it("navigates correctly skipping disabled and hidden rows", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
@@ -1559,6 +1594,14 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
         </calcite-table-row>
+        <calcite-table-row id="row-5" hide-item>
+          <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-6">
+          <calcite-table-cell id="cell-6a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-6b">cell</calcite-table-cell>
+        </calcite-table-row>
       </calcite-table>`,
     );
 
@@ -1570,25 +1613,25 @@ describe("keyboard navigation", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-6b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-6a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-6b");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
   });
 
-  it("navigates correctly skipping disabled rows when disabled rows in last body position", async () => {
+  it("navigates correctly skipping disabled/hidden rows when disabled/hidden rows in last body position", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
@@ -1611,6 +1654,10 @@ describe("keyboard navigation", () => {
         <calcite-table-row id="row-4" disabled>
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-5" hide-item>
+          <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>`,
     );
@@ -1642,9 +1689,8 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
-    await page.keyboard.down("ControlRight");
+    page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
-    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
   });

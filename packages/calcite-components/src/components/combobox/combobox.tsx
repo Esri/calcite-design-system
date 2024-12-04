@@ -1293,7 +1293,7 @@ export class Combobox
     const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
       this.el.querySelectorAll(ComboboxItem),
     );
-    return items.filter((item) => !item.disabled);
+    return items.filter((item) => !item.disabled && !item.hideItem);
   }
 
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
