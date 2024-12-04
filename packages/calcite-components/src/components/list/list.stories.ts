@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
 
-const { selectionMode, interactionMode, selectionAppearance } = ATTRIBUTES;
+const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
   extends Pick<
@@ -36,6 +36,7 @@ export default {
     interactionMode: interactionMode.values[0],
     label: "My List",
     loading: false,
+    scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.defaultValue,
     selectionMode: selectionMode.values[1],
   },
@@ -52,6 +53,10 @@ export default {
     },
     displayMode: {
       options: ["flat", "nested"],
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
     selectionAppearance: {
@@ -81,7 +86,7 @@ export const simple = (args: ListStoryArgs): string => html`
     display-mode="${args.displayMode}"
     interaction-mode="${args.interactionMode}"
     label="${args.label}"
-    scale="${args.scale}
+    scale="${args.scale}"
     selection-appearance="${args.selectionAppearance}"
     selection-mode="${args.selectionMode}"
   >
