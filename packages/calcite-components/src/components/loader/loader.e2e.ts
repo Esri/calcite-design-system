@@ -60,7 +60,7 @@ describe("calcite-loader", () => {
   });
 });
 
-describe.only("themed", () => {
+describe("themed", () => {
   describe("default", () => {
     themed(html`<calcite-loader></calcite-loader>`, {
       "--calcite-loader-track-color": {
