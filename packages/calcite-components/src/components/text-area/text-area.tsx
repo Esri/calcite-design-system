@@ -381,10 +381,10 @@ export class TextArea
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
-    if (this.isCharacterOverLimit()) {
+    if (this.isCharacterOverMaxLimit()) {
       input.setCustomValidity(this.replacePlaceholdersInLongMessages());
     }
-    if (this.isCharacterUnderLimit()) {
+    if (this.isCharacterUnderMinLimit()) {
       input.setCustomValidity(this.replacePlaceholdersInShortMessages());
     }
 
@@ -443,11 +443,11 @@ export class TextArea
       .replace("{minLength}", this.localizedCharacterLengthObj.minLength);
   }
 
-  private isCharacterOverLimit(): boolean {
+  private isCharacterOverMaxLimit(): boolean {
     return this.value?.length > this.maxLength;
   }
 
-  private isCharacterUnderLimit(): boolean {
+  private isCharacterUnderMinLimit(): boolean {
     return this.value?.length < this.minLength;
   }
 
@@ -464,14 +464,17 @@ export class TextArea
           aria-describedby={this.guid}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={
-            this.status === "invalid" || this.isCharacterOverLimit() || this.isCharacterUnderLimit()
+            this.status === "invalid" ||
+            this.isCharacterOverMaxLimit() ||
+            this.isCharacterUnderMinLimit()
           }
           ariaLabel={getLabelText(this)}
           autofocus={this.el.autofocus}
           class={{
             [CSS.textArea]: true,
             [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]: this.isCharacterOverLimit() || this.isCharacterUnderLimit(),
+            [CSS.textAreaInvalid]:
+              this.isCharacterOverMaxLimit() || this.isCharacterUnderMinLimit(),
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.textAreaOnly]: !hasFooter,
           }}
@@ -522,12 +525,12 @@ export class TextArea
           {this.renderCharacterLimit()}
         </footer>
         <HiddenFormInputSlot component={this} />
-        {this.isCharacterOverLimit() && (
+        {this.isCharacterOverMaxLimit() && (
           <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
             {this.replacePlaceholdersInLongMessages()}
           </span>
         )}
-        {this.isCharacterUnderLimit() && (
+        {this.isCharacterUnderMinLimit() && (
           <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
             {this.replacePlaceholdersInShortMessages()}
           </span>
@@ -552,7 +555,8 @@ export class TextArea
         <span class={CSS.characterLimit}>
           <span
             class={{
-              [CSS.characterPastLimit]: this.isCharacterOverLimit() || this.isCharacterUnderLimit(),
+              [CSS.characterPastLimit]:
+                this.isCharacterOverMaxLimit() || this.isCharacterUnderMinLimit(),
             }}
           >
             {this.localizedCharacterLengthObj.currentLength}
