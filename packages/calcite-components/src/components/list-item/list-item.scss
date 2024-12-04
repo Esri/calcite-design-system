@@ -161,7 +161,7 @@
     font-size: var(--calcite-font-size--3);
   }
 }
-:host([scale="s"][display-mode="flat"]) {
+:host([scale="s"][display-mode="flat"]:not([drag-handle])) {
   .container {
     padding-inline-start: var(--calcite-spacing-sm);
   }
@@ -170,9 +170,6 @@
   }
 }
 :host([scale="s"][display-mode="flat"][drag-handle]) {
-  .container {
-    padding-inline-start: unset;
-  }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
@@ -182,14 +179,17 @@
     padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
-:host([scale="s"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"])) {
+:host([scale="s"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
+  .container {
+    padding-inline-start: var(--calcite-spacing-sm);
+  }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="s"][display-mode="nested"][drag-handle]) {
   .selection-container {
-    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="m"]) {
