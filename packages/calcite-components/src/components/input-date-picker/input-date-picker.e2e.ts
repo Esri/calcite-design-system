@@ -478,6 +478,36 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
+  describe("focusTrap", () => {
+    it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-input-date-picker value="2000-11-27" focus-trap-disabled></calcite-input-date-picker>`,
+      );
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+      expect(await calendar.isVisible()).toBe(false);
+
+      await inputDatePicker.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+      expect(await calendar.isVisible()).toBe(false);
+    });
+  });
+
   describe("close after selection", () => {
     it("should close the date picker after selecting a date", async () => {
       const page = await newE2EPage();

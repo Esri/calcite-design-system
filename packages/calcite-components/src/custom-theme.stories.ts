@@ -18,6 +18,7 @@ import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
+import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -27,18 +28,21 @@ import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
+import { list, listTokens } from "./custom-theme/list";
 import { loader } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
-import { slider } from "./custom-theme/slider";
+import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
-import { tabs } from "./custom-theme/tabs";
+import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
+import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
+import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 
@@ -122,38 +126,45 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${chips} ${pagination} ${slider}
       </div>
       <div class="demo-column">
-        ${datePicker} ${tabs} ${label} ${link} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
-        ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
+        ${datePicker} ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon}
+        ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
+        ${comboboxItem}
       </div>
-      ${alert} ${navigation}
+      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers}</div>
+      ${alert}
     </div>
   </div>`;
 
 const componentTokens = {
   ...globalTokens,
-  ...accordionTokens,
   ...accordionItemTokens,
-  ...actionTokens,
+  ...accordionTokens,
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
   ...actionPadTokens,
+  ...actionTokens,
+  ...alertTokens,
   ...avatarTokens,
   ...cardTokens,
-  ...alertTokens,
-  ...chipTokens,
   ...checkboxTokens,
+  ...chipTokens,
   ...handleTokens,
+  ...inputTokens,
   ...labelTokens,
   ...linkTokens,
+  ...listTokens,
+  ...navigationLogoTokens,
+  ...navigationTokens,
+  ...navigationUserTokens,
   ...popoverTokens,
   ...progressTokens,
-  ...inputTokens,
+  ...sliderTokens,
   ...switchTokens,
+  ...tabsTokens,
   ...textAreaTokens,
-  ...tooltipTokens,
   ...tileTokens,
-  ...navigationTokens,
+  ...tooltipTokens,
 };
 
 export default {

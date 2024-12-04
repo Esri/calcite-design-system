@@ -1,6 +1,6 @@
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
+import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
-import T9nStrings from "./assets/t9n/input-time-zone.t9n.en.json";
 
 const hourToMinutes = 60;
 
@@ -51,7 +51,7 @@ export async function getNormalizer(mode: TimeZoneMode): Promise<(timeZone: Time
 
 export async function createTimeZoneItems(
   locale: SupportedLocale,
-  messages: typeof T9nStrings,
+  messages: InputTimeZone["messages"],
   mode: TimeZoneMode,
   referenceDate: Date,
   standardTime: OffsetStyle,
@@ -62,7 +62,7 @@ export async function createTimeZoneItems(
 
     return groups
       .map<TimeZoneItem<string>>(({ label: timeZone }) => {
-        const label = toUserFriendlyName(timeZone);
+        const label = timeZone;
         const value = timeZone;
 
         return {
@@ -203,16 +203,20 @@ export async function createTimeZoneItems(
     .sort((groupA, groupB) => groupA.value - groupB.value);
 }
 
-function getTimeZoneLabel(timeZone: string, messages: typeof T9nStrings): string {
+function getTimeZoneLabel(timeZone: string, messages: InputTimeZone["messages"]): string {
   return messages[timeZone] || getCity(timeZone);
 }
 
-export function getSelectedRegionTimeZoneLabel(city: string, country: string, messages: typeof T9nStrings): string {
+export function getSelectedRegionTimeZoneLabel(
+  city: string,
+  country: string,
+  messages: InputTimeZone["messages"],
+): string {
   const template = messages.timeZoneRegionLabel;
   return template.replace("{city}", city).replace("{country}", getMessageOrKeyFallback(messages, country));
 }
 
-export function getMessageOrKeyFallback(messages: typeof T9nStrings, key: string): string {
+export function getMessageOrKeyFallback(messages: InputTimeZone["messages"], key: string): string {
   return messages[key] || key;
 }
 
@@ -234,7 +238,11 @@ export function toUserFriendlyName(timeZoneName: string): string {
   return timeZoneName.replace(/_/g, " ");
 }
 
-function createTimeZoneOffsetLabel(messages: typeof T9nStrings, offsetLabel: string, groupLabel: string): string {
+function createTimeZoneOffsetLabel(
+  messages: InputTimeZone["messages"],
+  offsetLabel: string,
+  groupLabel: string,
+): string {
   return messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
 }
 
@@ -243,6 +251,12 @@ function getTimeZoneShortOffset(
   locale: SupportedLocale,
   referenceDateInMs: number = Date.now(),
 ): string {
+  // workaround for https://issues.chromium.org/issues/381620359
+  // see https://github.com/Esri/calcite-design-system/issues/10895 for more info
+  if (timeZone === "Factory") {
+    timeZone = "Etc/GMT";
+  }
+
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
   return parts.find(({ type }) => type === "timeZoneName").value;

@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 import type { Sheet } from "./sheet";
@@ -41,7 +41,36 @@ describe("calcite-sheet properties", () => {
         propertyName: "opened",
         defaultValue: false,
       },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "heightScale",
+        defaultValue: "m",
+      },
     ]);
+
+    describe("reflects", () => {
+      reflects("calcite-sheet", [
+        {
+          propertyName: "height",
+          value: "m",
+        },
+        {
+          propertyName: "heightScale",
+          value: "m",
+        },
+        {
+          propertyName: "width",
+          value: "m",
+        },
+        {
+          propertyName: "widthScale",
+          value: "m",
+        },
+      ]);
+    });
   });
 
   describe("renders", () => {
@@ -281,6 +310,33 @@ describe("calcite-sheet properties", () => {
     sheet.setProperty("open", true);
     await page.waitForChanges();
     expect(await sheet.isVisible()).toBe(true);
+  });
+
+  it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-sheet open label="hello world" focus-trap-disabled
+        ><calcite-panel heading="Ultrices neque"
+          ><p>Lorem ipsum dolor sit amet.</p>
+          <calcite-button slot="footer" width="half">tincidunt lobortis</calcite-button>
+        </calcite-panel></calcite-sheet
+      >`,
+    );
+    const sheet = await page.find("calcite-sheet");
+    sheet.setProperty("open", true);
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await sheet.isVisible()).toBe(true);
+    expect(await sheet.getProperty("open")).toBe(true);
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+
+    expect(await sheet.isVisible()).toBe(false);
+    expect(await sheet.getProperty("open")).toBe(false);
   });
 
   it("should close when the scrim is clicked", async () => {

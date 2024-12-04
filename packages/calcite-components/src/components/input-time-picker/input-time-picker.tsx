@@ -59,7 +59,6 @@ import {
   toISOTimeString,
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
-import TimePickerMessages from "../time-picker/assets/t9n/time-picker.t9n.en.json";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
@@ -226,8 +225,7 @@ export class InputTimePicker
   @property({ reflect: true }) max: string;
 
   /** Use this property to override individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides &
-    Partial<typeof TimePickerMessages>;
+  @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
    * Made into a prop for testing purposes only
@@ -451,7 +449,6 @@ export class InputTimePicker
 
   private openHandler(): void {
     if (this.disabled || this.readOnly) {
-      this.open = false;
       return;
     }
 
@@ -737,6 +734,9 @@ export class InputTimePicker
       }
     } else if (key === "ArrowDown") {
       this.open = true;
+      event.preventDefault();
+    } else if (this.open && this.focusTrapDisabled && key === "Escape") {
+      this.open = false;
       event.preventDefault();
     }
   }

@@ -235,7 +235,11 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
-      this.closed ? this.close() : this.open();
+      if (this.closed) {
+        this.close();
+      } else {
+        this.open();
+      }
     }
   }
 
@@ -300,7 +304,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
     try {
       await beforeClose();
-    } catch (_error) {
+    } catch {
       // close prevented
       requestAnimationFrame(() => {
         this.closed = false;
@@ -424,7 +428,11 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
   private renderHeaderSlottedContent(): JsxNode {
     return (
-      <div class={CSS.headerContent} hidden={!this.hasHeaderContent} key="slotted-header-content">
+      <div
+        class={{ [CSS.headerContent]: true, [CSS.headerSlottedContent]: true }}
+        hidden={!this.hasHeaderContent}
+        key="slotted-header-content"
+      >
         <slot name={SLOTS.headerContent} onSlotChange={this.handleHeaderContentSlotChange} />
       </div>
     );

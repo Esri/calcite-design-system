@@ -14,7 +14,6 @@
 :host a,
 :host span {
   @apply font-inherit
-    transition-default
     relative
     flex
     cursor-pointer
@@ -29,6 +28,8 @@
   &:hover {
     text-decoration: none;
   }
+
+  @include transition-default($extra-props: "background-size");
 }
 
 // focus styles
@@ -48,7 +49,7 @@ calcite-icon {
 }
 
 .calcite-link--icon {
-  @apply transition-default align-middle;
+  @apply align-middle;
   margin-block-start: -0.25em;
 }
 
@@ -64,8 +65,7 @@ calcite-icon {
 :host {
   span,
   a {
-    @apply transition-default
-      relative
+    @apply relative
       inline
       border-none
       bg-transparent

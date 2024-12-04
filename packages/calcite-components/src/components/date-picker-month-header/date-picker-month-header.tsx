@@ -1,7 +1,7 @@
 import {
-  calciteSizeXxxs,
-  calciteSizeXxs,
-  calciteSizeSm,
+  calciteSpacingBase,
+  calciteSpacingXxs,
+  calciteSpacingSm,
 } from "@esri/calcite-design-tokens/dist/es6/global.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
@@ -20,7 +20,6 @@ import {
 import { closestElementCrossShadowBoundary, getTextWidth } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import T9nStrings from "../date-picker/assets/t9n/date-picker.t9n.en.json";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { Position, Scale } from "../interfaces";
@@ -89,7 +88,7 @@ export class DatePickerMonthHeader extends LitElement {
    * @private
    * @readonly
    */
-  @property() messages: typeof T9nStrings;
+  @property() messages: DatePicker["messages"]["_overrides"];
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @property() min: Date;
@@ -344,24 +343,38 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        isDirectionLeft
-          ? await this.nextMonthAction.setFocus()
-          : await this.prevMonthAction.setFocus();
+        await (isDirectionLeft ? this.nextMonthAction.setFocus() : this.prevMonthAction.setFocus());
       } else {
         this.yearInputEl.value.focus();
       }
     }
   }
 
+  private getPx(value: string): string {
+    const num = Number(value.replace(/[rem|px]/g, ""));
+    const base = 16;
+
+    if (value.includes("rem")) {
+      return `${num * base}px`;
+    }
+
+    return `${num}px`;
+  }
+
   private getYearSelectPadding(): string {
+    let padding;
     switch (this.scale) {
       case "l":
-        return calciteSizeSm;
+        padding = calciteSpacingSm;
+        break;
       case "s":
-        return calciteSizeXxxs;
+        padding = calciteSpacingBase;
+        break;
       default:
-        return calciteSizeXxs;
+        padding = calciteSpacingXxs;
+        break;
     }
+    return this.getPx(padding);
   }
 
   // #endregion

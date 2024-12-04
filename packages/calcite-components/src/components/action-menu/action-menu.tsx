@@ -78,7 +78,11 @@ export class ActionMenu extends LitElement implements LoadableComponent {
       }
 
       const action = actionElements[activeMenuItemIndex];
-      action ? action.click() : this.toggleOpen(false);
+      if (action) {
+        action.click();
+      } else {
+        this.toggleOpen(false);
+      }
     }
 
     if (key === "Tab") {

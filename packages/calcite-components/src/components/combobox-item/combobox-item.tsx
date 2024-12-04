@@ -9,7 +9,7 @@ import {
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
@@ -32,12 +32,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   // #endregion
 
-  // #region Private Properties
-
-  private _selected = false;
-
-  // #endregion
-
   // #region State Properties
 
   @state() hasContent = false;
@@ -52,7 +46,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @property() ancestors: ComboboxChildElement[];
 
-  /** A description for the component, which displays below the label. */
+  /** A description for the component, which displays below the heading. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -94,18 +88,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true })
-  get selected(): boolean {
-    return this._selected;
-  }
-
-  set selected(selected: boolean) {
-    const oldSelected = this._selected;
-    if (selected !== oldSelected) {
-      this._selected = selected;
-      this.selectedWatchHandler();
-    }
-  }
+  @property({ reflect: true }) selected: boolean = false;
 
   /**
    * Specifies the selection mode of the component, where:
@@ -138,7 +121,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    * The component's text.
    *
    * @deprecated Use `heading` instead.
-   * @required
    */
   @property({ reflect: true }) textLabel: string;
 
@@ -171,6 +153,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.ancestors = getAncestors(this.el);
   }
 
+  load(): void {
+    warnIfMissingRequiredProp(this, "value", "textLabel");
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -178,6 +164,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
       changes.has("textLabel")
     ) {
       this.calciteInternalComboboxItemChange.emit();
@@ -191,9 +178,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
-  private selectedWatchHandler(): void {
-    this.calciteComboboxItemChange.emit();
-  }
 
   private handleDefaultSlotChange(event: Event): void {
     this.hasContent = slotChangeHasContent(event);
@@ -207,6 +191,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     }
 
     this.selected = !this.selected;
+    this.calciteComboboxItemChange.emit();
   }
 
   private itemClickHandler(): void {
@@ -222,7 +207,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       <calcite-icon
         class={{
           [CSS.custom]: !!this.icon,
-          [CSS.iconActive]: this.icon && this.selected,
+          [CSS.iconSelected]: this.icon && this.selected,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -232,26 +217,15 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     ) : null;
   }
 
-  private renderSelectIndicator(showDot: boolean): JsxNode;
-
-  private renderSelectIndicator(showDot: boolean, iconPath: IconNameOrString): JsxNode;
-
-  private renderSelectIndicator(showDot: boolean, iconPath?: IconNameOrString): JsxNode {
-    return showDot ? (
-      <span
-        class={{
-          [CSS.icon]: true,
-          [CSS.dot]: true,
-        }}
-      />
-    ) : (
+  private renderSelectIndicator(icon: IconNameOrString): JsxNode {
+    return (
       <calcite-icon
         class={{
           [CSS.icon]: true,
-          [CSS.iconActive]: this.selected,
+          [CSS.iconSelected]: this.selected,
         }}
         flipRtl={this.iconFlipRtl}
-        icon={iconPath}
+        icon={icon}
         key="indicator"
         scale={getIconScale(this.scale)}
       />
@@ -269,11 +243,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   override render(): JsxNode {
     const { disabled, heading, label, textLabel, value } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const defaultIcon = isSingleSelect ? undefined : "check";
+    const icon = disabled || isSingleSelect ? undefined : "check";
+    const selectionIcon = isSingleSelect ? "bullet-point" : "check";
     const headingText = heading || textLabel;
-    const iconPath = disabled ? undefined : defaultIcon;
     const itemLabel = label || value;
-    const showDot = isSingleSelect && !disabled;
 
     const classes = {
       [CSS.label]: true,
@@ -297,8 +270,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-            {this.renderSelectIndicator(showDot, iconPath)}
-            {this.renderIcon(iconPath)}
+            {this.renderSelectIndicator(selectionIcon)}
+            {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
               <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
               {this.description ? (

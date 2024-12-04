@@ -90,7 +90,6 @@ export class Block
   /**
    * The component header text.
    *
-   * @required
    */
   @property() heading: string;
 
@@ -108,6 +107,11 @@ export class Block
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
+
+  /**
+   * Specifies an accessible name for the component.
+   */
+  @property() label: string;
 
   /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
@@ -353,6 +357,7 @@ export class Block
       collapsible,
       loading,
       open,
+      label,
       heading,
       messages,
       description,
@@ -378,7 +383,7 @@ export class Block
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? <calcite-handle label={heading} /> : null}
+        {this.dragHandle ? <calcite-handle label={heading || label} /> : null}
         {collapsible ? (
           <button
             aria-controls={IDS.content}
@@ -422,6 +427,7 @@ export class Block
     return (
       <InteractiveContainer disabled={this.disabled}>
         <article
+          aria-label={label}
           ariaBusy={loading}
           class={{
             [CSS.container]: true,
