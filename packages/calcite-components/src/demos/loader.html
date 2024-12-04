@@ -27,10 +27,17 @@
         align-items: flex-end;
       }
 
-      .green {
-        --calcite-color-brand: #50ba5f;
-        --calcite-color-brand-hover: #1a6324;
-        --calcite-color-brand-press: #338033;
+      .themed {
+        --calcite-loader-font-size: 1.5rem;
+        --calcite-loader-size: 9rem;
+        --calcite-loader-size-inline: 4rem;
+        --calcite-loader-progress-color-inline: pink;
+        --calcite-loader-spacing: 30px;
+        --calcite-loader-color: red;
+        --calcite-loader-track-color: navy;
+        --calcite-loader-progress-color: orange;
+        --calcite-loader-text-spacing: 20px;
+        --calcite-loader-text-weight: bold;
       }
     </style>
     <script src="./_assets/head.ts"></script>
@@ -138,15 +145,23 @@
         <div class="child right-aligned-text">Custom theme</div>
 
         <div class="child">
-          <calcite-loader label="loading" scale="s" class="green"></calcite-loader>
+          <calcite-loader label="loading" scale="s" inline class="themed"></calcite-loader>
+          <p>Inline</p>
         </div>
 
         <div class="child">
-          <calcite-loader label="loading" scale="m" class="green"></calcite-loader>
+          <calcite-loader label="loading" scale="s" text="Indeterminate + text" class="themed"></calcite-loader>
         </div>
 
         <div class="child">
-          <calcite-loader label="loading" scale="l" class="green"></calcite-loader>
+          <calcite-loader
+            label="loading"
+            scale="l"
+            text="Determinate-value + text"
+            type="determinate-value"
+            value="30"
+            class="themed"
+          ></calcite-loader>
         </div>
       </div>
 

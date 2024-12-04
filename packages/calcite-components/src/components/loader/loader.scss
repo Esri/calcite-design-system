@@ -4,9 +4,15 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
- * @prop --calcite-loader-size: The width and height of a non-inline loader.
- * @prop --calcite-loader-size-inline: The width and height of an inline loader
- * @prop --calcite-loader-padding : Specifies the padding of the loader.
+ * @prop --calcite-loader-size: Specifies the width and height of the component when not set to inline.
+ * @prop --calcite-loader-spacing: Specifies the the component's padding.
+ * @prop --calcite-loader-progress-color-inline: Specifies the width and height of the component when set to inline.
+ * @prop --calcite-loader-size-inline: Specifies the width and height of the component when set to inline.
+ * @prop --calcite-loader-text-spacing: Specifies the component's text margin.
+ * @prop --calcite-loader-text-weight: Specifies the component's font weight.
+ * @prop --calcite-loader-color: Specifies the component's text color.
+ * @prop --calcite-loader-progress-color: Specifies the component's prgress ring color.
+ * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
 
 @import "../../assets/styles/animation";
@@ -19,7 +25,7 @@
   stroke-width: var(--calcite-internal-stroke-width);
   fill: none;
   transform: scale(1, 1);
-  padding-block: var(--calcite-loader-padding, theme("spacing.16"));
+  padding-block: var(--calcite-loader-spacing, theme("spacing.16"));
 }
 
 :host([scale="s"]) {
@@ -51,18 +57,20 @@
 
 .text {
   @apply text-n2h
-  text-color-1
   block
   text-center;
-  margin-block-start: var(--calcite-internal-text-offset);
+  margin-block-start: var(--calcite-loader-text-spacing, var(--calcite-internal-text-offset));
+  font-weight: var(--calcite-loader-text-weight, var(--calcite-font-weight-normal));
+  color: var(--calcite-loader-color, var(--calcite-color-text-1));
 }
 
 .percentage {
-  @apply block text-center text-color-1;
+  @apply block text-center;
   font-size: var(--calcite-loader-font-size);
   inline-size: var(--calcite-loader-size);
   line-height: var(--calcite-internal-loader-value-line-height);
   align-self: center;
+  color: var(--calcite-loader-color, var(--calcite-color-text-1));
 }
 
 .rings {
@@ -79,11 +87,11 @@
 }
 
 .ring--track {
-  stroke: var(--calcite-color-transparent-press);
+  stroke: var(--calcite-loader-track-color, var(--calcite-color-transparent-press));
 }
 
 .ring--progress {
-  stroke: var(--calcite-color-brand);
+  stroke: var(--calcite-loader-progress-color, var(--calcite-color-brand));
   transform: rotate(-90deg);
   transition: all var(--calcite-internal-animation-timing-fast) linear;
 }
@@ -116,7 +124,7 @@
   }
 
   .ring--progress {
-    stroke: currentColor;
+    stroke: var(--calcite-loader-progress-color-inline, currentColor);
   }
 }
 
