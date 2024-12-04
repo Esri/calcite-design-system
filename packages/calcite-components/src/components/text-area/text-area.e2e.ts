@@ -87,7 +87,7 @@ describe("calcite-text-area", () => {
     accessible(
       html`<calcite-label>
         add notes
-        <calcite-text-area max-length="50" required name="something"></calcite-text-area>
+        <calcite-text-area min-length="5" max-length="50" required name="something"></calcite-text-area>
       </calcite-label>`,
     );
   });
@@ -162,6 +162,23 @@ describe("calcite-text-area", () => {
     await page.waitForChanges();
 
     expect(await element.getProperty("value")).toBe("rocky mountains");
+  });
+
+  it("should be able to enter characters below min-length", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-text-area></calcite-text-area>");
+
+    const element = await page.find("calcite-text-area");
+    element.setAttribute("min-length", "5");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    await page.keyboard.type("rock");
+    await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe("rock");
   });
 
   it("should have footer--slotted class when slotted at both start and end", async () => {
@@ -273,8 +290,40 @@ describe("calcite-text-area", () => {
       });
     });
 
-    describe("over limit", () => {
+    describe("min-chars", () => {
+      themed(html`<calcite-text-area min-length="5"></calcite-text-area>`, {
+        "--calcite-text-area-divider-color": {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-text-area-footer-border-color": [
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "borderBottomColor",
+          },
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "borderLeftColor",
+          },
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "borderRightColor",
+          },
+        ],
+      });
+    });
+
+    describe("over max limit", () => {
       themed(html`<calcite-text-area max-length="4" value="12345"></calcite-text-area>`, {
+        "--calcite-text-area-character-limit-text-color": {
+          shadowSelector: `.${CSS.characterLimit}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("under min limit", () => {
+      themed(html`<calcite-text-area min-length="4" value="12345"></calcite-text-area>`, {
         "--calcite-text-area-character-limit-text-color": {
           shadowSelector: `.${CSS.characterLimit}`,
           targetProp: "color",
