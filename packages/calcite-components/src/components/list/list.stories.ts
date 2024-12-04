@@ -4001,6 +4001,159 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list scale="s" drag-enabled selection-mode="single" label="test" filter-enabled>
+        <calcite-list-item label="small1" value="small1" description="small hello world 1">
+          <calcite-icon
+            icon="banana"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item label="small2" value="small2" description="small hello world 2">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+            --calcite-color-status-success
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item label="small3" value="small3" description="small hello world 3">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+            --calcite-color-status-success
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item disabled label="small4" value="small4" description="small hello world 4: disabled">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item unavailable label="small4" value="small5" description="small hello world 5: unavailable">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+          <div slot="title">No Results</div>
+          <div slot="message">Try a different filter</div>
+        </calcite-notice>
+      </calcite-list>
+    </div>
+  </div>
+
+  <!-- filter enabled -->
+  <div class="parent">
+    <div class="child right-aligned-text">filter enabled medium scale</div>
+
+    <div class="child">
+      <calcite-list drag-enabled selection-mode="single" label="test" filter-enabled>
+        <calcite-list-item label="medium1" value="medium1" description="medium hello world 1">
+          <calcite-icon
+            icon="banana"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item label="medium2" value="medium2" description="medium hello world 2">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+            --calcite-color-status-success
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item label="medium3" value="medium3" description="medium hello world 3">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+            --calcite-color-status-success
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item disabled label="medium4" value="medium4" description="medium hello world 4: disabled">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item unavailable label="medium4" value="medium5" description="medium hello world 5: unavailable">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+          <div slot="title">No Results</div>
+          <div slot="message">Try a different filter</div>
+        </calcite-notice>
+      </calcite-list>
+    </div>
+  </div>
+
+  <!-- filter enabled -->
+  <div class="parent">
+    <div class="child right-aligned-text">filter enabled large scale</div>
+
+    <div class="child">
+      <calcite-list scale="l" drag-enabled selection-mode="single" label="test" filter-enabled>
+        <calcite-list-item label="large1" value="large1" description="large hello world 1">
+          <calcite-icon
+            icon="banana"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item label="large2" value="large2" description="large hello world 2">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+            --calcite-color-status-success
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item label="large3" value="large3" description="large hello world 3">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+            --calcite-color-status-success
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item disabled label="large4" value="large4" description="large hello world 4: disabled">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-list-item unavailable label="large4" value="large5" description="large hello world 5: unavailable">
+          <calcite-icon
+            icon="compass"
+            slot="content-start"
+            style="color: var(--calcite-color-status-success)"
+          ></calcite-icon>
+        </calcite-list-item>
+        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+          <div slot="title">No Results</div>
+          <div slot="message">Try a different filter</div>
+        </calcite-notice>
+      </calcite-list>
+    </div>
+  </div>
+
+  <!-- filter enabled -->
+  <div class="parent">
+    <div class="child right-aligned-text">filter enabled slotted actions small scale</div>
+
+    <div class="child">
+      <calcite-list scale="s" drag-enabled selection-mode="single" label="test" filter-enabled>
         <calcite-action
           appearance="transparent"
           icon="banana"
@@ -4080,7 +4233,7 @@ export const scales = (): string => html`
 
   <!-- filter enabled -->
   <div class="parent">
-    <div class="child right-aligned-text">filter enabled medium scale</div>
+    <div class="child right-aligned-text">filter enabled slotted actions medium scale</div>
 
     <div class="child">
       <calcite-list drag-enabled selection-mode="single" label="test" filter-enabled>
@@ -4159,7 +4312,7 @@ export const scales = (): string => html`
 
   <!-- filter enabled -->
   <div class="parent">
-    <div class="child right-aligned-text">filter enabled large scale</div>
+    <div class="child right-aligned-text">filter enabled slotted actions large scale</div>
 
     <div class="child">
       <calcite-list scale="l" drag-enabled selection-mode="single" label="test" filter-enabled>
