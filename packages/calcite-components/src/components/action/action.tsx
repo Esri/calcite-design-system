@@ -251,8 +251,9 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
       messages,
     } = this;
     const labelFallback = label || text;
+
     const ariaLabel = labelFallback
-      ? `${labelFallback}${indicator ? ` (${messages.indicator})` : ""}`
+      ? messages.indicatorLabel.replace("{label}", labelFallback)
       : "";
 
     const buttonClasses = {
