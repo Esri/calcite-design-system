@@ -237,7 +237,7 @@
     padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
-:host([scale="m"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"])) {
+:host([scale="m"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
   .container {
     padding-inline-start: var(--calcite-spacing-md);
   }
