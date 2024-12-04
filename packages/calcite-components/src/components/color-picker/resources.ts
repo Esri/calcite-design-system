@@ -1,5 +1,9 @@
 import Color from "color";
-import { calciteSpacingSm, calciteSpacingMd, calciteSpacingLg } from "@esri/calcite-design-tokens/dist/es6/global";
+import {
+  calciteSpacingFixedSm,
+  calciteSpacingFixedMd,
+  calciteSpacingFixedLg,
+} from "@esri/calcite-design-tokens/dist/es6/global";
 
 export const CSS = {
   channel: "channel",
@@ -59,7 +63,7 @@ export const OPACITY_LIMITS = {
 
 export const DIMENSIONS = {
   s: {
-    gap: parseInt(calciteSpacingSm),
+    gap: parseInt(calciteSpacingFixedSm),
     slider: {
       height: 12,
     },
@@ -71,7 +75,7 @@ export const DIMENSIONS = {
     },
   },
   m: {
-    gap: parseInt(calciteSpacingMd),
+    gap: parseInt(calciteSpacingFixedMd),
     slider: {
       height: 12,
     },
@@ -83,7 +87,7 @@ export const DIMENSIONS = {
     },
   },
   l: {
-    gap: parseInt(calciteSpacingLg),
+    gap: parseInt(calciteSpacingFixedLg),
     slider: {
       height: 12,
     },
