@@ -97,7 +97,7 @@
   padding-inline-start: var(--calcite-spacing-md);
 }
 
-.character--over-limit {
+.character--past-limit {
   font-weight: var(--calcite-font-weight-bold);
   color: var(--calcite-color-status-danger);
 }

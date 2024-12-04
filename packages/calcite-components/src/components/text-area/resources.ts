@@ -7,7 +7,7 @@ export const CSS = {
   resizeDisabled: "resize--disabled",
   resizeDisabledX: "resize--disabled-x",
   resizeDisabledY: "resize--disabled-y",
-  characterOverLimit: "character--over-limit",
+  characterPastLimit: "character--past-limit",
   readOnly: "readonly",
   textAreaInvalid: "text-area--invalid",
   footerSlotted: "footer--slotted",

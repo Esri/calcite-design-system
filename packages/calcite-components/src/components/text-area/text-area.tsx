@@ -550,7 +550,11 @@ export class TextArea
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
-          <span class={{ [CSS.characterOverLimit]: this.isCharacterOverLimit() }}>
+          <span
+            class={{
+              [CSS.characterPastLimit]: this.isCharacterOverLimit() || this.isCharacterUnderLimit(),
+            }}
+          >
             {this.localizedCharacterLengthObj.currentLength}
           </span>
           {"/"}
