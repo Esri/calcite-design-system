@@ -229,12 +229,26 @@
   @apply flex-col-reverse;
 }
 
+:host([resizable][position="inline-start"]),
+:host([resizable][position="inline-end"]) {
+  .content {
+    padding-inline-end: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
+:host([resizable][position="block-start"]),
+:host([resizable][position="block-end"]) {
+  .content {
+    padding-block-end: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
 .resize-handle {
   @apply absolute flex justify-center items-center select-none box-border;
   --calcite-internal-sheet-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
-  z-index: var(--calcite-z-index);
+  z-index: var(--calcite-z-index-overlay);
 }
 
 .resize-handle:active,
@@ -245,10 +259,7 @@
 }
 
 .resize-handle:focus {
-  @apply outline-none;
-  .resize-handle-bar {
-    @apply focus-base focus-inset;
-  }
+  @apply focus-base focus-inset;
 }
 
 .resize-handle-bar {
