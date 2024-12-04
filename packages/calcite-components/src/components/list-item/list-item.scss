@@ -178,9 +178,6 @@
   }
 }
 :host([scale="s"][display-mode="nested"]) {
-  .container {
-    padding-inline-start: unset;
-  }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }
@@ -201,7 +198,6 @@
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
-
 :host([scale="m"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
