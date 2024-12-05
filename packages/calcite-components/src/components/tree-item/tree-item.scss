@@ -25,9 +25,6 @@
   .children-container {
     margin-inline-start: theme("margin.3");
   }
-}
-
-:host([scale="s"][lines]) {
   .children-container ::slotted(*) {
     padding-inline-start: 0.5rem;
   }
@@ -46,8 +43,6 @@
   .children-container {
     margin-inline-start: theme("margin.4");
   }
-}
-:host([scale="m"][lines]) {
   .children-container ::slotted(*) {
     padding-inline-start: 0.6rem;
   }
@@ -66,9 +61,6 @@
   .children-container {
     margin-inline-start: theme("margin.6");
   }
-}
-
-:host([scale="l"][lines]) {
   .children-container ::slotted(*) {
     padding-inline-start: 0.8rem;
   }
