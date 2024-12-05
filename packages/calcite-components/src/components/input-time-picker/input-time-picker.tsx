@@ -386,7 +386,7 @@ export class InputTimePicker
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    await this.loadDateTimeLocaleData();
+    await this.updateLocale();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -487,7 +487,7 @@ export class InputTimePicker
   }
 
   private async effectiveLocaleWatcher(locale: SupportedLocale): Promise<void> {
-    await this.loadDateTimeLocaleData();
+    await this.loadLocaleData();
 
     this.setInputValue(
       localizeTimeString({
@@ -557,8 +557,8 @@ export class InputTimePicker
     this.setLocalizedInputValue({ isoTimeString: value });
   }
 
-  async updateLocale(locale: SupportedLocale): Promise<void> {
-    await this.loadDateTimeLocaleData();
+  async updateLocale(locale: SupportedLocale = this.messages._lang): Promise<void> {
+    await this.loadLocaleData();
     if (!this.hourFormat) {
       this.hourFormat = getLocaleHourFormat(locale);
     }
@@ -752,7 +752,7 @@ export class InputTimePicker
     return dayjsLocale;
   }
 
-  private async loadDateTimeLocaleData(): Promise<void> {
+  private async loadLocaleData(): Promise<void> {
     let supportedLocale = getSupportedLocale(this.messages._lang).toLowerCase();
 
     supportedLocale = this.getSupportedDayjsLocale(supportedLocale);
