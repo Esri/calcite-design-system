@@ -228,8 +228,10 @@ export class List
    * Specifies an accessible name for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   *
+   * @required
    */
-  @property() label!: string;
+  @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;

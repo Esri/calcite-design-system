@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.50...@esri/calcite-components@3.0.0-next.51) (2024-12-04)
+
+### Bug Fixes
+
+- **list-item:** correct spacing errors in medium and large scales ([#10962](https://github.com/Esri/calcite-design-system/issues/10962)) ([54e2f0d](https://github.com/Esri/calcite-design-system/commit/54e2f0da3204de1e50bc6395a3259a435cbc6544)), closes [#10940](https://github.com/Esri/calcite-design-system/issues/10940)
+
 ## [3.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.49...@esri/calcite-components@3.0.0-next.50) (2024-12-04)
 
 ### Bug Fixes
