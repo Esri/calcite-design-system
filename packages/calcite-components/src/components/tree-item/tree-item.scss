@@ -188,13 +188,13 @@
 }
 
 :host([scale="s"]) .node-container {
-  padding-inline-start: theme("padding.1");
+  padding: theme("padding.1");
 }
 :host([scale="m"]) .node-container {
-  padding-inline-start: theme("padding.2");
+  padding: theme("padding.2");
 }
 :host([scale="l"]) .node-container {
-  padding-inline-start: theme("padding.3");
+  padding: theme("padding.3");
 }
 
 // dropdown with children
