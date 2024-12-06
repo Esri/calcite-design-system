@@ -321,7 +321,7 @@ export class ListItem
   calciteInternalListItemToggle = createEvent({ cancelable: false });
 
   /** Fires when the close button is clicked. */
-  calciteListItemCollapse = createEvent({ cancelable: false });
+  calciteListItemCollapsed = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });
@@ -378,14 +378,23 @@ export class ListItem
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("expanded")) {
+      this.open = this.expanded;
+    }
+
+    if (changes.has("collapsible")) {
+      this.closable = this.collapsible;
+    }
+
+    if (changes.has("collapsed")) {
+      this.closed = this.collapsed;
+    }
+
     if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
       this.activeHandler(this.active);
     }
 
-    if (
-      (changes.has("closed") || changes.has("collapsed")) &&
-      (this.hasUpdated || this.closed !== false || this.collapsed !== false)
-    ) {
+    if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
       this.handleCollapsedChange();
     }
 
@@ -393,11 +402,7 @@ export class ListItem
       this.handleDisabledChange();
     }
 
-    if (
-      changes.has("open") ||
-      (changes.has("expanded") &&
-        (this.hasUpdated || this.open !== false || this.expanded !== false))
-    ) {
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.handleExpandedChange();
     }
 
@@ -518,8 +523,8 @@ export class ListItem
   }
 
   private handleCollapseClick(): void {
-    this.closed = this.collapsed = true;
-    this.calciteListItemCollapse.emit();
+    this.closed = true;
+    this.calciteListItemCollapsed.emit();
   }
 
   private handleContentSlotChange(event: Event): void {
@@ -578,8 +583,8 @@ export class ListItem
     this.toggle();
   }
 
-  private toggle(value = !this.open || !this.expanded): void {
-    this.open = this.expanded = value;
+  private toggle(value = !this.open): void {
+    this.open = value;
     this.calciteListItemToggle.emit();
   }
 
@@ -631,7 +636,6 @@ export class ListItem
       actionsStartEl: { value: actionsStartEl },
       actionsEndEl: { value: actionsEndEl },
       open,
-      expanded,
       expandable,
     } = this;
 
@@ -649,7 +653,7 @@ export class ListItem
       event.preventDefault();
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
-        if ((!open || !expanded) && expandable) {
+        if (!open && expandable) {
           this.toggle(true);
           this.focusCell(null);
         } else if (cells[0]) {
@@ -663,7 +667,7 @@ export class ListItem
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
         this.focusCell(null);
-        if ((open || expanded) && expandable) {
+        if (open && expandable) {
           this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
@@ -789,7 +793,7 @@ export class ListItem
   }
 
   private renderExpanded(): JsxNode {
-    const { el, open, expanded, expandable, messages, displayMode, scale } = this;
+    const { el, open, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -798,7 +802,7 @@ export class ListItem
     const dir = getElementDir(el);
 
     const icon = expandable
-      ? open || expanded
+      ? open
         ? ICONS.open
         : dir === "rtl"
           ? ICONS.collapsedRTL
@@ -807,11 +811,7 @@ export class ListItem
 
     const iconScale = getIconScale(scale);
 
-    const tooltip = expandable
-      ? open || expanded
-        ? messages.collapse
-        : messages.expand
-      : undefined;
+    const tooltip = expandable ? (open ? messages.collapse : messages.expand) : undefined;
 
     const expandedClickHandler = expandable ? this.handleToggleClick : undefined;
 
@@ -845,19 +845,19 @@ export class ListItem
   }
 
   private renderActionsEnd(): JsxNode {
-    const { label, hasActionsEnd, closable, collapsible, messages } = this;
+    const { label, hasActionsEnd, closable, messages } = this;
     return (
       <div
         ariaLabel={label}
         class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
-        hidden={!(hasActionsEnd || closable || collapsible)}
+        hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         onFocusIn={this.focusCellActionsEnd}
         ref={this.actionsEndEl}
         role="gridcell"
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        {closable || collapsible ? (
+        {closable ? (
           <calcite-action
             appearance="transparent"
             class={CSS.collapse}
@@ -914,7 +914,7 @@ export class ListItem
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerExpanded]: this.expandable && (this.open || this.expanded),
+          [CSS.nestedContainerExpanded]: this.expandable && this.open,
         }}
       >
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
@@ -976,7 +976,6 @@ export class ListItem
     const {
       expandable,
       open,
-      expanded,
       level,
       active,
       label,
@@ -985,7 +984,6 @@ export class ListItem
       selectionMode,
       interactionMode,
       closed,
-      collapsed,
       filterHidden,
       bordered,
       disabled,
@@ -1009,7 +1007,7 @@ export class ListItem
       <InteractiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
-            ariaExpanded={expandable ? open || expanded : null}
+            ariaExpanded={expandable ? open : null}
             ariaLabel={label}
             ariaLevel={level}
             ariaSelected={selected}
@@ -1021,7 +1019,7 @@ export class ListItem
               [CSS.containerBorderSelected]: selectionBorderSelected,
               [CSS.containerBorderUnselected]: selectionBorderUnselected,
             }}
-            hidden={closed || collapsed || filterHidden}
+            hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
             onFocusIn={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
