@@ -343,6 +343,8 @@ export class Input
    * Specifies the component type.
    *
    * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
+   *
+   * @deprecated The `"textarea"` value is deprecated, use the `text-area` component instead.
    */
   @property({ reflect: true }) type:
     | "color"
