@@ -69,7 +69,7 @@ describe("calcite-filter", () => {
 
   it("honors label property", async () => {
     const page = await newE2EPage();
-    const label = "hell world";
+    const label = "hello world";
     await page.setContent(`<calcite-filter label="${label}"></calcite-filter>`);
 
     const input = await page.find(`calcite-filter >>> calcite-input`);
