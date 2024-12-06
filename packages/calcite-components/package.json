@@ -83,12 +83,14 @@
     "interactjs": "1.10.27",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.6",
+    "tabulator-tables": "6.3.0",
     "timezone-groups": "0.10.4",
     "type-fest": "4.18.2"
   },
   "devDependencies": {
     "@esri/calcite-design-tokens": "3.0.0-next.2",
     "@esri/eslint-plugin-calcite-components": "2.0.0-next.1",
+    "@types/tabulator-tables": "6.2.3",
     "vitest": "^2.1.5"
   },
   "volta": {

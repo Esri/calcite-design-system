@@ -1,0 +1,15 @@
+:host {
+  @apply flex;
+}
+
+.container {
+  @apply flex flex-col w-full h-full;
+}
+
+table {
+  @apply w-full border-collapse;
+  overflow-x: scroll;
+}
+
+@include base-component();
+@import "../../../../../node_modules/tabulator-tables/dist/css/tabulator.min.css";
