@@ -71,7 +71,7 @@
     "@typescript-eslint/parser": "8.16.0",
     "@typescript-eslint/rule-tester": "8.16.0",
     "@typescript-eslint/utils": "8.16.0",
-    "@vitest/coverage-v8": "2.1.6",
+    "@vitest/coverage-v8": "2.1.8",
     "@whitespace/storybook-addon-html": "6.1.1",
     "autoprefixer": "10.4.20",
     "axe-core": "4.10.2",
