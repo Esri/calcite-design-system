@@ -79,7 +79,7 @@
     "cheerio": "1.0.0",
     "chokidar": "4.0.1",
     "chromatic": "11.19.0",
-    "concurrently": "8.2.2",
+    "concurrently": "9.1.0",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
     "cpy-cli": "5.0.0",
