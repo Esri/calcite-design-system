@@ -1,12 +1,42 @@
+:host([scale="s"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.25rem;
+  --calcite-internal-tree-item-children-container-padding: 1.25rem;
+  --calcite-internal-tree-item-line-left-position: 0.75rem;
+}
+
+:host([scale="m"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.5rem;
+  --calcite-internal-tree-item-children-container-padding: 1.5rem;
+  --calcite-internal-tree-item-line-left-position: 1rem;
+}
+
+:host([scale="l"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.75rem;
+  --calcite-internal-tree-item-children-container-padding: 2.25rem;
+  --calcite-internal-tree-item-line-left-position: 1.5rem;
+}
+
 :host {
   @apply text-color-3
     block
     max-w-full
     cursor-pointer;
+
+  .children-container ::slotted(*) {
+    padding-inline-start: var(--calcite-internal-tree-item-children-container-padding);
+  }
 }
 
 .node-actions-container {
   @apply flex;
+
+  .node-container,
+  .checkbox-container {
+    gap: var(--calcite-internal-tree-item-spacing-unit);
+  }
+  .node-container {
+    padding: var(--calcite-internal-tree-item-spacing-unit);
+  }
 }
 
 @include calcite-hydrated-hidden();
@@ -17,16 +47,6 @@
 
   .node-actions-container {
     @apply min-h-[1.5rem];
-    .node-container,
-    .checkbox-container {
-      gap: 0.25rem;
-    }
-  }
-  .children-container {
-    margin-inline-start: theme("margin.3");
-  }
-  .children-container ::slotted(*) {
-    padding-inline-start: 0.5rem;
   }
 }
 
@@ -35,16 +55,6 @@
 
   .node-actions-container {
     @apply min-h-[2rem];
-    .node-container,
-    .checkbox-container {
-      gap: 0.5rem;
-    }
-  }
-  .children-container {
-    margin-inline-start: theme("margin.4");
-  }
-  .children-container ::slotted(*) {
-    padding-inline-start: 0.6rem;
   }
 }
 
@@ -53,16 +63,6 @@
 
   .node-actions-container {
     @apply min-h-[2.75rem];
-    .node-container,
-    .checkbox-container {
-      gap: 0.75rem;
-    }
-  }
-  .children-container {
-    margin-inline-start: theme("margin.6");
-  }
-  .children-container ::slotted(*) {
-    padding-inline-start: 0.8rem;
   }
 }
 
@@ -76,6 +76,7 @@
         z-default;
     // ensure lines don't overlap focus outline
     block-size: 96%;
+    left: var(--calcite-internal-tree-item-line-left-position);
     content: "";
     background-color: var(--calcite-color-border-2);
   }
@@ -185,16 +186,6 @@
     @apply opacity-100;
     color: theme("colors.brand");
   }
-}
-
-:host([scale="s"]) .node-container {
-  padding: theme("padding.1");
-}
-:host([scale="m"]) .node-container {
-  padding: theme("padding.2");
-}
-:host([scale="l"]) .node-container {
-  padding: theme("padding.3");
 }
 
 // dropdown with children
