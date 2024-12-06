@@ -39,7 +39,7 @@ export default {
     disabled: false,
     inputValue: "",
     loading: false,
-    open: false,
+    open: true,
     overlayPositioning: overlayPositioning.defaultValue,
     placeholder: "Placeholder text",
     placement: defaultMenuPlacement,
