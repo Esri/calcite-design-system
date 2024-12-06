@@ -166,7 +166,7 @@
     font-size: var(--calcite-font-size--3);
   }
 }
-:host([scale="s"][display-mode="flat"]) {
+:host([scale="s"][display-mode="flat"]:not([drag-handle])) {
   .container {
     padding-inline-start: var(--calcite-spacing-sm);
   }
@@ -175,22 +175,16 @@
   }
 }
 :host([scale="s"][display-mode="flat"][drag-handle]) {
-  .container {
-    padding-inline-start: unset;
-  }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
 :host([scale="s"][display-mode="nested"]) {
-  .container {
-    padding-inline-start: unset;
-  }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
-:host([scale="s"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"])) {
+:host([scale="s"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
   .container {
     padding-inline-start: var(--calcite-spacing-sm);
   }
@@ -199,14 +193,10 @@
   }
 }
 :host([scale="s"][display-mode="nested"][drag-handle]) {
-  .container {
-    padding-inline-start: unset;
-  }
   .selection-container {
-    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-spacing-xxs);
   }
 }
-
 :host([scale="m"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
@@ -252,12 +242,9 @@
     padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
-:host([scale="m"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"])) {
+:host([scale="m"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
   .container {
     padding-inline-start: var(--calcite-spacing-md);
-  }
-  .selection-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="m"][display-mode="nested"][drag-handle]) {
@@ -265,7 +252,7 @@
     padding-inline-start: var(--calcite-spacing-xxs);
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
+    padding-inline: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="l"]) {
@@ -276,7 +263,7 @@
     gap: var(--calcite-spacing-md);
     min-block-size: 56px;
     padding-block: theme("spacing[2.5]");
-    padding-inline-end: var(--calcite-spacing-xl);
+    padding-inline-end: var(--calcite-spacing-lg);
   }
   .content,
   .custom-content,
@@ -292,7 +279,7 @@
 }
 :host([scale="l"][display-mode="flat"]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xl);
+    padding-inline-start: var(--calcite-spacing-lg);
   }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-md);
@@ -306,21 +293,14 @@
     padding-inline-end: var(--calcite-spacing-md);
   }
 }
-:host([scale="l"][display-mode="nested"]),
-:host([scale="l"][display-mode="nested"][drag-handle]) {
+:host([scale="l"][display-mode="nested"]) {
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
   }
-  .selection-container {
-    padding-inline: unset;
-  }
 }
-:host([scale="l"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"])) {
+:host([scale="l"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xl);
-  }
-  .selection-container {
-    padding-inline: unset;
+    padding-inline-start: var(--calcite-spacing-lg);
   }
 }
 

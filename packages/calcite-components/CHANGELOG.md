@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.50...@esri/calcite-components@3.0.0-next.51) (2024-12-04)
+
+### Bug Fixes
+
+- **list-item:** correct spacing errors in medium and large scales ([#10962](https://github.com/Esri/calcite-design-system/issues/10962)) ([54e2f0d](https://github.com/Esri/calcite-design-system/commit/54e2f0da3204de1e50bc6395a3259a435cbc6544)), closes [#10940](https://github.com/Esri/calcite-design-system/issues/10940)
+
+## [3.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.49...@esri/calcite-components@3.0.0-next.50) (2024-12-04)
+
+### Bug Fixes
+
+- **action:** create localized template for aria-label ([#10969](https://github.com/Esri/calcite-design-system/issues/10969)) ([c86baa6](https://github.com/Esri/calcite-design-system/commit/c86baa69cdba805ec640861d33f32d33f38312e4)), closes [#9071](https://github.com/Esri/calcite-design-system/issues/9071)
+
+## [3.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.48...@esri/calcite-components@3.0.0-next.49) (2024-12-04)
+
+### Bug Fixes
+
+- **filter:** remove unnecessary inline margin from internal label element ([#10963](https://github.com/Esri/calcite-design-system/issues/10963)) ([dbcbdf5](https://github.com/Esri/calcite-design-system/commit/dbcbdf50e27e79a91909f2ebe2d99b67b06e9065)), closes [#10941](https://github.com/Esri/calcite-design-system/issues/10941)
+
+## [3.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.47...@esri/calcite-components@3.0.0-next.48) (2024-12-04)
+
+### Bug Fixes
+
+- **combobox:** fix sporadic change event emitted on initialization ([#10952](https://github.com/Esri/calcite-design-system/issues/10952)) ([e84ed58](https://github.com/Esri/calcite-design-system/commit/e84ed583d688c39b8bb60a089349bc8dd93b7cb7)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+
+## [3.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.46...@esri/calcite-components@3.0.0-next.47) (2024-12-03)
+
+### Bug Fixes
+
+- **input-time-zone:** add workaround for `Factory` time zone error in Chrome ([#10964](https://github.com/Esri/calcite-design-system/issues/10964)) ([5190748](https://github.com/Esri/calcite-design-system/commit/51907482fcbf98cb811c784328899eee27936735)), closes [#10895](https://github.com/Esri/calcite-design-system/issues/10895)
+
+## [3.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.45...@esri/calcite-components@3.0.0-next.46) (2024-12-03)
+
+### Bug Fixes
+
+- **sort-handle:** pass scale to handle action ([#10942](https://github.com/Esri/calcite-design-system/issues/10942)) ([23ec01b](https://github.com/Esri/calcite-design-system/commit/23ec01b8001946ff57b88626d2ee875474660cc3)), closes [#10723](https://github.com/Esri/calcite-design-system/issues/10723)
+
 ## [3.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.44...@esri/calcite-components@3.0.0-next.45) (2024-12-03)
 
 ### Bug Fixes
