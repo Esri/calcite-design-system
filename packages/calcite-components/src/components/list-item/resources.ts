@@ -13,7 +13,7 @@ export const CSS = {
   contentContainerSelectable: "content-container--selectable",
   contentContainerHasCenterContent: "content-container--has-center-content",
   nestedContainer: "nested-container",
-  nestedContainerOpen: "nested-container--open",
+  nestedContainerExpanded: "nested-container--expanded",
   content: "content",
   row: "row",
   gridCell: "grid-cell",
@@ -27,9 +27,9 @@ export const CSS = {
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
   selectionContainerSingle: "selection-container--single",
-  openContainer: "open-container",
+  expandedContainer: "expanded-container",
   dragContainer: "drag-container",
-  close: "close",
+  collapse: "collapse",
 };
 
 export const SLOTS = {
@@ -49,8 +49,8 @@ export const ICONS = {
   selectedSingle: "circle-inset-large",
   unselectedMultiple: "square",
   unselectedSingle: "circle",
-  closedLTR: "chevron-right",
-  closedRTL: "chevron-left",
+  collapsedLTR: "chevron-right",
+  collapsedRTL: "chevron-left",
   open: "chevron-down",
   blank: "blank",
   close: "x",

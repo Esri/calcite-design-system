@@ -89,7 +89,7 @@ export class ListItem
 
   @state() level: number = null;
 
-  @state() openable = false;
+  @state() expandable = false;
 
   @state() parentListEl: List["el"];
 
@@ -111,11 +111,25 @@ export class ListItem
    */
   @property() bordered = false;
 
-  /** When `true`, a close button is added to the component. */
+  /**
+   * When `true`, a close button is added to the component.
+   *
+   * @deprecated Use `collapsible` prop instead.
+   */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** When `true`, a close button is added to the component. */
+  @property({ reflect: true }) collapsible = false;
+
+  /**
+   * When `true`, hides the component.
+   *
+   * @deprecated Use `collapsed` prop instead.
+   */
   @property({ reflect: true }) closed = false;
+
+  /** When `true`, hides the component. */
+  @property({ reflect: true }) collapsed = false;
 
   /** A description for the component. Displays below the label text. */
   @property() description: string;
@@ -177,8 +191,15 @@ export class ListItem
    */
   @property() moveToItems: MoveTo[] = [];
 
-  /** When `true`, the item is open to show child components. */
+  /**
+   * When `true`, the item is open to show child components.
+   *
+   * @deprecated Use `expanded` prop instead.
+   */
   @property({ reflect: true }) open = false;
+
+  /** When `true`, the item is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
 
   /**
    * Specifies the size of the component.
@@ -300,7 +321,7 @@ export class ListItem
   calciteInternalListItemToggle = createEvent({ cancelable: false });
 
   /** Fires when the close button is clicked. */
-  calciteListItemClose = createEvent({ cancelable: false });
+  calciteListItemCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });
@@ -361,16 +382,23 @@ export class ListItem
       this.activeHandler(this.active);
     }
 
-    if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
-      this.handleClosedChange();
+    if (
+      (changes.has("closed") || changes.has("collapsed")) &&
+      (this.hasUpdated || this.closed !== false || this.collapsed !== false)
+    ) {
+      this.handleCollapsedChange();
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange();
     }
 
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.handleOpenChange();
+    if (
+      changes.has("open") ||
+      (changes.has("expanded") &&
+        (this.hasUpdated || this.open !== false || this.expanded !== false))
+    ) {
+      this.handleExpandedChange();
     }
 
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
@@ -382,7 +410,7 @@ export class ListItem
     }
 
     if (changes.has("displayMode") && this.hasUpdated) {
-      this.handleOpenableChange(this.defaultSlotEl.value);
+      this.handleExpandableChange(this.defaultSlotEl.value);
     }
   }
 
@@ -404,7 +432,7 @@ export class ListItem
     }
   }
 
-  private handleClosedChange(): void {
+  private handleCollapsedChange(): void {
     this.emitCalciteInternalListItemChange();
   }
 
@@ -412,7 +440,7 @@ export class ListItem
     this.emitCalciteInternalListItemChange();
   }
 
-  private handleOpenChange(): void {
+  private handleExpandedChange(): void {
     this.emitCalciteInternalListItemToggle();
   }
 
@@ -431,7 +459,7 @@ export class ListItem
 
   private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
     event.stopPropagation();
-    this.handleOpenableChange(this.defaultSlotEl.value);
+    this.handleExpandableChange(this.defaultSlotEl.value);
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
@@ -489,9 +517,9 @@ export class ListItem
     this.calciteInternalListItemChange.emit();
   }
 
-  private handleCloseClick(): void {
-    this.closed = true;
-    this.calciteListItemClose.emit();
+  private handleCollapseClick(): void {
+    this.closed = this.collapsed = true;
+    this.calciteListItemCollapse.emit();
   }
 
   private handleContentSlotChange(event: Event): void {
@@ -534,24 +562,24 @@ export class ListItem
     }
   }
 
-  private handleOpenableChange(slotEl: HTMLSlotElement): void {
+  private handleExpandableChange(slotEl: HTMLSlotElement): void {
     if (!slotEl) {
       return;
     }
 
-    this.openable = this.displayMode === "nested" && hasListItemChildren(slotEl);
+    this.expandable = this.displayMode === "nested" && hasListItemChildren(slotEl);
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    this.handleOpenableChange(event.target as HTMLSlotElement);
+    this.handleExpandableChange(event.target as HTMLSlotElement);
   }
 
   private handleToggleClick(): void {
     this.toggle();
   }
 
-  private toggle(value = !this.open): void {
-    this.open = value;
+  private toggle(value = !this.open || !this.expanded): void {
+    this.open = this.expanded = value;
     this.calciteListItemToggle.emit();
   }
 
@@ -603,7 +631,8 @@ export class ListItem
       actionsStartEl: { value: actionsStartEl },
       actionsEndEl: { value: actionsEndEl },
       open,
-      openable,
+      expanded,
+      expandable,
     } = this;
 
     const cells = this.getGridCells();
@@ -620,7 +649,7 @@ export class ListItem
       event.preventDefault();
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
-        if (!open && openable) {
+        if ((!open || !expanded) && expandable) {
           this.toggle(true);
           this.focusCell(null);
         } else if (cells[0]) {
@@ -634,7 +663,7 @@ export class ListItem
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
         this.focusCell(null);
-        if (open && openable) {
+        if ((open || expanded) && expandable) {
           this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
@@ -759,8 +788,8 @@ export class ListItem
     ) : null;
   }
 
-  private renderOpen(): JsxNode {
-    const { el, open, openable, messages, displayMode, scale } = this;
+  private renderExpanded(): JsxNode {
+    const { el, open, expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -768,25 +797,29 @@ export class ListItem
 
     const dir = getElementDir(el);
 
-    const icon = openable
-      ? open
+    const icon = expandable
+      ? open || expanded
         ? ICONS.open
         : dir === "rtl"
-          ? ICONS.closedRTL
-          : ICONS.closedLTR
+          ? ICONS.collapsedRTL
+          : ICONS.collapsedLTR
       : ICONS.blank;
 
     const iconScale = getIconScale(scale);
 
-    const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
+    const tooltip = expandable
+      ? open || expanded
+        ? messages.collapse
+        : messages.expand
+      : undefined;
 
-    const openClickHandler = openable ? this.handleToggleClick : undefined;
+    const expandedClickHandler = expandable ? this.handleToggleClick : undefined;
 
     return (
       <div
-        class={CSS.openContainer}
-        key="open-container"
-        onClick={openClickHandler}
+        class={CSS.expandedContainer}
+        key="expanded-container"
+        onClick={expandedClickHandler}
         title={tooltip}
       >
         <calcite-icon icon={icon} key={icon} scale={iconScale} />
@@ -812,26 +845,26 @@ export class ListItem
   }
 
   private renderActionsEnd(): JsxNode {
-    const { label, hasActionsEnd, closable, messages } = this;
+    const { label, hasActionsEnd, closable, collapsible, messages } = this;
     return (
       <div
         ariaLabel={label}
         class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
-        hidden={!(hasActionsEnd || closable)}
+        hidden={!(hasActionsEnd || closable || collapsible)}
         key="actions-end-container"
         onFocusIn={this.focusCellActionsEnd}
         ref={this.actionsEndEl}
         role="gridcell"
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        {closable ? (
+        {closable || collapsible ? (
           <calcite-action
             appearance="transparent"
-            class={CSS.close}
+            class={CSS.collapse}
             icon={ICONS.close}
             key="close-action"
             label={messages.close}
-            onClick={this.handleCloseClick}
+            onClick={this.handleCollapseClick}
             scale={this.scale}
             text={messages.close}
           />
@@ -881,7 +914,7 @@ export class ListItem
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerOpen]: this.openable && this.open,
+          [CSS.nestedContainerExpanded]: this.expandable && (this.open || this.expanded),
         }}
       >
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
@@ -941,8 +974,9 @@ export class ListItem
 
   override render(): JsxNode {
     const {
-      openable,
+      expandable,
       open,
+      expanded,
       level,
       active,
       label,
@@ -951,6 +985,7 @@ export class ListItem
       selectionMode,
       interactionMode,
       closed,
+      collapsed,
       filterHidden,
       bordered,
       disabled,
@@ -974,7 +1009,7 @@ export class ListItem
       <InteractiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
-            ariaExpanded={openable ? open : null}
+            ariaExpanded={expandable ? open || expanded : null}
             ariaLabel={label}
             ariaLevel={level}
             ariaSelected={selected}
@@ -986,7 +1021,7 @@ export class ListItem
               [CSS.containerBorderSelected]: selectionBorderSelected,
               [CSS.containerBorderUnselected]: selectionBorderUnselected,
             }}
-            hidden={closed || filterHidden}
+            hidden={closed || collapsed || filterHidden}
             onFocus={this.focusCellNull}
             onFocusIn={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
@@ -996,7 +1031,7 @@ export class ListItem
           >
             {this.renderDragHandle()}
             {this.renderSelected()}
-            {this.renderOpen()}
+            {this.renderExpanded()}
             {this.renderActionsStart()}
             <div
               class={{
