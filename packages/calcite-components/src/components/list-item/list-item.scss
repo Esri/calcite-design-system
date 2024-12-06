@@ -142,6 +142,11 @@
   color: var(--calcite-list-description-text-color, var(--calcite-color-text-3));
 }
 
+.icon {
+  align-self: center;
+  color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
+}
+
 :host([scale="s"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
@@ -325,8 +330,14 @@
   @apply word-break font-sans font-normal;
 }
 
-:host([selected]) .label {
-  @apply font-medium;
+:host([selected]) {
+  .label {
+    @apply font-medium;
+  }
+
+  .icon {
+    color: var(--calcite-list-icon-color, var(--calcite-color-text-1));
+  }
 }
 
 :host([selected]) .description {
