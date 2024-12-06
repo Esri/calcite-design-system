@@ -183,7 +183,7 @@ export class List
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
-  /** Specifies an accessible name for the filter.*/
+  /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
 
   /** Placeholder text for the component's filter input field. */
