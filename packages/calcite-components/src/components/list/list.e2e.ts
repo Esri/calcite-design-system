@@ -161,6 +161,15 @@ describe("calcite-list", () => {
     );
   });
 
+  it("honors filterLabel property", async () => {
+    const page = await newE2EPage();
+    const label = "hell world";
+    await page.setContent(`<calcite-list filter-label="${label}"></calcite-list>`);
+
+    const filter = await page.find(`calcite-list >>> calcite-filter`);
+    expect(await filter.getProperty("label")).toBe(label);
+  });
+
   it("should set the displayMode property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
