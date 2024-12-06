@@ -4,7 +4,6 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
- * @prop --calcite-autocomplete-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-autocomplete-description-text-color: Specifies the text color of the component's description.
  * @prop --calcite-autocomplete-heading-text-color: Specifies the text color of the component's heading.
  * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
@@ -68,7 +67,7 @@
 }
 
 :host(:hover:not([disabled])) .container {
-  background-color: var(--calcite-autocomplete-background-color-hover, var(--calcite-color-foreground-2));
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
 
   .description {
     color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));

@@ -53,11 +53,6 @@ describe("calcite-autocomplete-item", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-autocomplete-background-color-hover": {
-        shadowSelector: `.${CSS.container}`,
-        state: "hover",
-        targetProp: "backgroundColor",
-      },
       "--calcite-autocomplete-description-text-color": {
         shadowSelector: `.${CSS.description}`,
         targetProp: "color",
