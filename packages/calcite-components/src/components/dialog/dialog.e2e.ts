@@ -579,7 +579,7 @@ describe("calcite-dialog", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-dialog close-disabled>
-          <div slot="content">
+          <div slot="custom-content">
             <button id="${button1Id}">Focus1</button>
             <button id="${button2Id}">Focus2</button>
           </div>
