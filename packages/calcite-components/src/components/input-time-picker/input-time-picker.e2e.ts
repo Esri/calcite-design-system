@@ -580,16 +580,13 @@ describe("calcite-input-time-picker", () => {
           expect(changeEvent).toHaveReceivedEventTimes(0);
 
           const initialDelocalizedValue = await inputTimePicker.getProperty("value");
-          const expectedLocalizedInitialValue =
-            locale === "es-MX" // test environment treats es-MX as es
-              ? "02:02:30.001 p. m."
-              : localizeTimeString({
-                  fractionalSecondDigits: 3,
-                  hour12: true,
-                  includeSeconds: true,
-                  locale,
-                  value: initialDelocalizedValue,
-                });
+          const expectedLocalizedInitialValue = localizeTimeString({
+            fractionalSecondDigits: 3,
+            hour12: true,
+            includeSeconds: true,
+            locale,
+            value: initialDelocalizedValue,
+          });
 
           expect(initialDelocalizedValue).toBe("14:02:30.001");
           expect(await getInputValue(page)).toBe(expectedLocalizedInitialValue);
@@ -616,16 +613,13 @@ describe("calcite-input-time-picker", () => {
           expect(changeEvent).toHaveReceivedEventTimes(1);
 
           const delocalizedValue = await inputTimePicker.getProperty("value");
-          const expectedLocalizedValue =
-            locale === "es-MX" // test environment treats es-MX as es
-              ? "02:30:45.002 p. m."
-              : localizeTimeString({
-                  fractionalSecondDigits: 3,
-                  hour12: true,
-                  includeSeconds: true,
-                  locale,
-                  value: delocalizedValue,
-                });
+          const expectedLocalizedValue = localizeTimeString({
+            fractionalSecondDigits: 3,
+            hour12: true,
+            includeSeconds: true,
+            locale,
+            value: delocalizedValue,
+          });
 
           expect(delocalizedValue).toBe("14:30:45.002");
           expect(await getInputValue(page)).toBe(expectedLocalizedValue);
@@ -756,16 +750,13 @@ describe("calcite-input-time-picker", () => {
           await inputTimePicker.setProperty("hourFormat", "12");
           await page.waitForChanges();
 
-          const expectedInputValue =
-            locale === "es-MX"
-              ? "04:15:30.003 p. m." // test environment treats es-MX as es
-              : localizeTimeString({
-                  fractionalSecondDigits: 3,
-                  hour12: true,
-                  includeSeconds: true,
-                  locale,
-                  value: await inputTimePicker.getProperty("value"),
-                });
+          const expectedInputValue = localizeTimeString({
+            fractionalSecondDigits: 3,
+            hour12: true,
+            includeSeconds: true,
+            locale,
+            value: await inputTimePicker.getProperty("value"),
+          });
 
           expect(await getInputValue(page)).toBe(expectedInputValue);
         });
