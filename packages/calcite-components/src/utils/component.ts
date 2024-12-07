@@ -26,28 +26,3 @@ export function warnIfMissingRequiredProp<C extends LitElement>(
     logger.warn(`[${component.el.localName}] "${newProp.toString()}" or "${deprecatedProp.toString()}" is required.`);
   }
 }
-
-/**
- * This utility logs a warning message when a property is missing and allows for a custom message to be provided.
- *
- * Note: this should only be used for cases where missing property or properties affects the component's functionality but is not required.
- *
- * @param component the component with the missing property
- * @param prop the property that is missing
- * @param message the custom message about functionality impact
- * @param prop2 the second property that is missing
- */
-export function warnIfMissingProps<C extends LitElement>(
-  component: C,
-  prop: keyof C,
-  message?: string,
-  prop2?: keyof C,
-): void {
-  const isSecondPropMissing = prop2 && !component[prop2];
-
-  if (!component[prop]) {
-    logger.warn(
-      `[${component.el.localName}] is missing "${prop.toString()}" ${isSecondPropMissing ? `& "${prop2.toString()}" properties` : "property"}. ${message || ""}`,
-    );
-  }
-}
