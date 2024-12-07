@@ -164,7 +164,7 @@ describe("calcite-list", () => {
   it("honors filterLabel property", async () => {
     const page = await newE2EPage();
     const label = "hello world";
-    await page.setContent(`<calcite-list filter-label="${label}"></calcite-list>`);
+    await page.setContent(`<calcite-list filter-enabled filter-label="${label}"></calcite-list>`);
 
     const filter = await page.find(`calcite-list >>> calcite-filter`);
     expect(await filter.getProperty("label")).toBe(label);
