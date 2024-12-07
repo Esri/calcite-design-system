@@ -1,19 +1,25 @@
 :host([scale="s"]) {
   --calcite-internal-tree-item-spacing-unit: 0.25rem;
+  --calcite-internal-tree-item-padding-block: 0.25rem;
   --calcite-internal-tree-item-children-container-padding: 1.25rem;
   --calcite-internal-tree-item-line-left-position: 0.75rem;
+  @apply text-n2h;
 }
 
 :host([scale="m"]) {
   --calcite-internal-tree-item-spacing-unit: 0.5rem;
+  --calcite-internal-tree-item-padding-block: 0.5rem;
   --calcite-internal-tree-item-children-container-padding: 1.5rem;
   --calcite-internal-tree-item-line-left-position: 1rem;
+  @apply text-n1h;
 }
 
 :host([scale="l"]) {
   --calcite-internal-tree-item-spacing-unit: 0.75rem;
+  --calcite-internal-tree-item-padding-block: 0.625rem;
   --calcite-internal-tree-item-children-container-padding: 2.25rem;
   --calcite-internal-tree-item-line-left-position: 1.5rem;
+  @apply text-0h;
 }
 
 :host {
@@ -35,36 +41,13 @@
     gap: var(--calcite-internal-tree-item-spacing-unit);
   }
   .node-container {
-    padding: var(--calcite-internal-tree-item-spacing-unit);
+    padding-inline: var(--calcite-internal-tree-item-spacing-unit);
+    padding-block: var(--calcite-internal-tree-item-padding-block);
   }
 }
 
 @include calcite-hydrated-hidden();
 @include disabled();
-
-:host([scale="s"]) {
-  @apply text-n2h;
-
-  .node-actions-container {
-    @apply min-h-[1.5rem];
-  }
-}
-
-:host([scale="m"]) {
-  @apply text-n1h;
-
-  .node-actions-container {
-    @apply min-h-[2rem];
-  }
-}
-
-:host([scale="l"]) {
-  @apply text-0h;
-
-  .node-actions-container {
-    @apply min-h-[2.75rem];
-  }
-}
 
 :host([lines]) {
   .children-container::after {
