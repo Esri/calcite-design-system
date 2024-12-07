@@ -244,7 +244,7 @@
 }
 
 .resize-handle {
-  @apply absolute flex justify-center items-center select-none box-border;
+  @apply absolute flex justify-center items-center select-none box-border outline-none;
   --calcite-internal-sheet-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
@@ -258,13 +258,13 @@
   }
 }
 
-.resize-handle:focus {
-  @apply focus-base focus-inset;
-}
-
 .resize-handle-bar {
   @apply flex bg-background justify-center items-center pointer-events-none;
   color: var(--calcite-color-border-input);
+}
+
+.resize-handle:focus .resize-handle-bar {
+  @apply focus-base focus-inset;
 }
 
 :host([position="inline-start"]) {
