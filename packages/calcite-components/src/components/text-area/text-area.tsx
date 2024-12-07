@@ -383,8 +383,7 @@ export class TextArea
     input.setCustomValidity("");
     if (this.isCharacterOverMaxLimit()) {
       input.setCustomValidity(this.replacePlaceholdersInLongMessages());
-    }
-    if (this.isCharacterUnderMinLimit()) {
+    } else if (this.isCharacterUnderMinLimit()) {
       input.setCustomValidity(this.replacePlaceholdersInShortMessages());
     }
 
@@ -555,7 +554,7 @@ export class TextArea
         <span class={CSS.characterLimit}>
           <span
             class={{
-              [CSS.characterPastLimit]:
+              [CSS.characterLimitInvalid]:
                 this.isCharacterOverMaxLimit() || this.isCharacterUnderMinLimit(),
             }}
           >
