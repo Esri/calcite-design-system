@@ -60,11 +60,11 @@ export const DIMENSIONS = {
   s: {
     slider: {
       height: 12,
-      width: 104,
+      width: 142,
     },
     colorField: {
-      height: 80,
-      width: 160,
+      height: 110,
+      width: 198,
     },
     thumb: {
       radius: 7,
@@ -76,11 +76,11 @@ export const DIMENSIONS = {
   m: {
     slider: {
       height: 12,
-      width: 204,
+      width: 170,
     },
     colorField: {
-      height: 150,
-      width: 272,
+      height: 132,
+      width: 238,
     },
     thumb: {
       radius: 7,
@@ -92,11 +92,11 @@ export const DIMENSIONS = {
   l: {
     slider: {
       height: 12,
-      width: 384,
+      width: 222,
     },
     colorField: {
-      height: 200,
-      width: 464,
+      height: 168,
+      width: 302,
     },
     thumb: {
       radius: 7,

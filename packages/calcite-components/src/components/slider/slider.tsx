@@ -706,7 +706,11 @@ export class Slider
     }
 
     const valueProp = el.getAttribute("data-value-prop") as ActiveSliderProperty;
-    valueProp === "minValue" ? (this.minHandle = el) : (this.maxHandle = el);
+    if (valueProp === "minValue") {
+      this.minHandle = el;
+    } else {
+      this.maxHandle = el;
+    }
   }
 
   /**
@@ -991,15 +995,14 @@ export class Slider
    * @private
    */
   private getHostOffset(leftBounds: number, rightBounds: number): number {
-    const hostBounds = this.el.getBoundingClientRect();
-    const buffer = 7;
+    const { left, right } = this.el.getBoundingClientRect();
 
-    if (leftBounds + buffer < hostBounds.left) {
-      return hostBounds.left - leftBounds - buffer;
+    if (leftBounds < left) {
+      return left - leftBounds;
     }
 
-    if (rightBounds - buffer > hostBounds.right) {
-      return -(rightBounds - hostBounds.right) + buffer;
+    if (rightBounds > right) {
+      return -(rightBounds - right);
     }
 
     return 0;

@@ -55,11 +55,38 @@
       .locale {
         flex: 0 0 20%;
       }
+
+      .themed {
+        --calcite-input-background-color: lightyellow;
+        --calcite-input-border-color: green;
+        --calcite-input-corner-radius: 8px;
+        --calcite-input-shadow: var(--calcite-shadow-md);
+
+        --calcite-input-icon-color: orange;
+        --calcite-input-text-color: blue;
+        --calcite-input-placeholder-text-color: red;
+
+        --calcite-input-prefix-background-color: lightpink;
+        --calcite-input-prefix-text-color: red;
+
+        --calcite-input-suffix-background-color: lightblue;
+        --calcite-input-suffix-text-color: blue;
+
+        --calcite-input-actions-background-color: purple;
+        --calcite-input-actions-background-color-hover: pink;
+        --calcite-input-actions-background-color-press: red;
+        --calcite-input-actions-icon-color: pink;
+        --calcite-input-actions-icon-color-hover: purple;
+        --calcite-input-actions-icon-color-press: green;
+
+        --calcite-input-loading-background-color: black;
+        --calcite-input-loading-fill-color: pink;
+      }
     </style>
 
-    <script src="./_assets/head.ts"></script>
-    <script type="module" src="./_assets/demo-form.ts"></script>
-    <script type="module" src="./_assets/demo-spacer.ts"></script>
+    <script src="./_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
     <script>
       const locales = [
         "ar",
@@ -130,6 +157,15 @@
         <div class="child-flex font">Large</div>
       </div>
 
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Enable theming</div>
+        <div class="child-flex">
+          <calcite-segmented-control id="theming-toggle">
+            <calcite-segmented-control-item value="Unthemed" checked>Unthemed</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="Themed">Themed</calcite-segmented-control-item>
+          </calcite-segmented-control>
+        </div>
+      </div>
       <!-- Standard -->
       <div class="parent-flex">
         <div class="child-flex font right-aligned-text">Standard</div>
@@ -180,6 +216,126 @@
         </div>
       </div>
 
+      <!-- Standard with clearable -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard with clearable</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="s"
+              clearable
+              value="Populated value"
+            ></calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="m"
+              clearable
+              value="Populated value"
+            ></calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="l"
+              clearable
+              value="Populated value"
+            ></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Standard with loading -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard with loading</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="s" loading></calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="m" loading></calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="l" loading></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Standard Prefix/Suffix with clearable populated -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard Prefix/Suffix with clearable populated</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input
+              clearable
+              value="Populated value"
+              type="text"
+              placeholder="Placeholder"
+              scale="s"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input
+              clearable
+              value="Populated value"
+              type="text"
+              placeholder="Placeholder"
+              scale="m"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input
+              clearable
+              value="Populated value"
+              type="text"
+              placeholder="Placeholder"
+              scale="l"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
       <!-- Standard Prefix/Suffix -->
       <div class="parent-flex">
         <div class="child-flex font right-aligned-text">Standard Prefix/Suffix</div>
@@ -204,6 +360,56 @@
             Input Label
             <calcite-input type="text" placeholder="Placeholder" scale="l" prefix-text="Prefix" suffix-text="Suffix">
             </calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Standard Prefix/Suffix -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard Prefix</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="s" prefix-text="Prefix"> </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="m" prefix-text="Prefix"> </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="l" prefix-text="Prefix"> </calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Standard Prefix/Suffix -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard Suffix</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="s" suffix-text="Suffix"> </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="m" suffix-text="Suffix"> </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="l" suffix-text="Suffix"> </calcite-input>
           </calcite-label>
         </div>
       </div>
@@ -1598,6 +1804,20 @@
     </demo-dom-swapper>
   </body>
   <script>
+    const themingToggle = document.getElementById("theming-toggle");
+    const allInputs = document.querySelectorAll("calcite-input");
+
     document.addEventListener("calciteInputInput", ({ target }) => console.log(`input: ${target.value}`));
+
+    themingToggle.addEventListener("calciteSegmentedControlChange", ({ target }) => {
+      const val = target.value;
+      allInputs.forEach((input) => {
+        if (val === "Themed") {
+          input.classList.add("themed");
+        } else {
+          input.classList.remove("themed");
+        }
+      });
+    });
   </script>
 </html>

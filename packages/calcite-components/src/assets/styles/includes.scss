@@ -1,4 +1,3 @@
-@import "@esri/calcite-colors/dist/colors";
 @import "@esri/calcite-base/dist/index";
 @import "@esri/calcite-design-tokens/dist/scss/index";
 @import "@esri/calcite-design-tokens/dist/scss/core";
@@ -164,7 +163,7 @@
       focus-base
       items-center
       m-0
-      rounded-half 
+      rounded-half
       transition-default;
 
     background-color: var(--calcite-close-background-color, var(--calcite-color-transparent));

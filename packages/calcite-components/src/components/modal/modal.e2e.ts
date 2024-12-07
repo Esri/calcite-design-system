@@ -420,6 +420,22 @@ describe("calcite-modal", () => {
     expect(await modal.isVisible()).toBe(true);
   });
 
+  it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal focus-trap-disabled></calcite-modal>`);
+    await skipAnimations(page);
+    const modal = await page.find("calcite-modal");
+
+    modal.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await modal.isVisible()).toBe(true);
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(await modal.isVisible()).toBe(false);
+    expect(await modal.getProperty("open")).toBe(false);
+  });
+
   it("closes when Escape key is pressed and modal is open on page load", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal open></calcite-modal>`);

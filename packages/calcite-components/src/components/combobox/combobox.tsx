@@ -1241,6 +1241,8 @@ export class Combobox
       item.scale = this.scale;
     });
 
+    this.groupItems.forEach((groupItem) => (groupItem.scale = this.scale));
+
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
@@ -1299,7 +1301,7 @@ export class Combobox
   }
 
   private addCustomChip(value: string, focus?: boolean): void {
-    const existingItem = this.items.find((el) => el.textLabel === value);
+    const existingItem = this.items.find((el) => (el.heading || el.textLabel) === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
@@ -1311,7 +1313,7 @@ export class Combobox
         "calcite-combobox-item",
       );
       item.value = value;
-      item.textLabel = value;
+      item.heading = value;
       item.selected = true;
       this.el.prepend(item);
       this.resetText();
@@ -1676,7 +1678,7 @@ export class Combobox
         role="option"
         tabIndex="-1"
       >
-        {item.textLabel}
+        {item.heading || item.textLabel}
       </li>
     ));
   }
