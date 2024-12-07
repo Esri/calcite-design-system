@@ -627,10 +627,7 @@ describe("calcite-input-time-picker", () => {
           await page.keyboard.press("Enter");
           await page.waitForChanges();
 
-          // test environment changes value to 02:30:45 a. m. for some reason even though this isn't happening in real browsers
-          let expectedChangeEventCount = locale === "es-MX" ? 2 : 1;
-
-          expect(changeEvent).toHaveReceivedEventTimes(expectedChangeEventCount);
+          expect(changeEvent).toHaveReceivedEventTimes(1);
 
           await selectText(inputTimePicker);
           await page.keyboard.press("Backspace");
@@ -648,22 +645,16 @@ describe("calcite-input-time-picker", () => {
           await input.focus();
           await page.waitForChanges();
 
-          // test environment changes value to 02:30:45 a. m. for some reason even though this isn't happening in real browsers
-          expectedChangeEventCount = locale === "es-MX" ? 3 : 2;
-
-          expect(changeEvent).toHaveReceivedEventTimes(expectedChangeEventCount);
+          expect(changeEvent).toHaveReceivedEventTimes(2);
 
           const delocalizedValueAfterBlur = await inputTimePicker.getProperty("value");
-          const expectedLocalizedValueAfterBlur =
-            locale === "es-MX" // test environment treats es-MX as es
-              ? "04:15:30.003 p. m."
-              : localizeTimeString({
-                  fractionalSecondDigits: 3,
-                  hour12: true,
-                  includeSeconds: true,
-                  locale,
-                  value: delocalizedValueAfterBlur,
-                });
+          const expectedLocalizedValueAfterBlur = localizeTimeString({
+            fractionalSecondDigits: 3,
+            hour12: true,
+            includeSeconds: true,
+            locale,
+            value: delocalizedValueAfterBlur,
+          });
 
           expect(delocalizedValueAfterBlur).toBe("16:15:30.003");
           expect(await getInputValue(page)).toBe(expectedLocalizedValueAfterBlur);
