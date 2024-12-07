@@ -264,7 +264,7 @@
 }
 
 .resize-handle:focus .resize-handle-bar {
-  @apply focus-base focus-inset;
+  @apply focus-base focus-normal;
 }
 
 :host([position="inline-start"]) {
