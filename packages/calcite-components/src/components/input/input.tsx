@@ -344,7 +344,7 @@ export class Input
    *
    * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
    *
-   *  The `"textarea"` type is [Deprecated], use the `calcite-text-area` component instead.
+   *  `"textarea"` [Deprecated] use the `calcite-text-area` component instead.
    */
   @property({ reflect: true }) type:
     | "color"
