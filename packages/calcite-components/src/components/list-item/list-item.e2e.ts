@@ -59,7 +59,7 @@ describe("calcite-list-item", () => {
       },
       {
         propertyName: "displayMode",
-        defaultValue: undefined,
+        defaultValue: "flat",
       },
     ]);
   });
@@ -352,17 +352,17 @@ describe("calcite-list-item", () => {
 
   it("should fire calciteListItemToggle event when opened and closed", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-list-item display-mode="nested"
-        ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
+      html: html`<calcite-list-item id="test" display-mode="nested"
+        ><calcite-list display-mode="nested"><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });
 
-    const listItem = await page.find("calcite-list-item");
+    const listItem = await page.find("#test");
     const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
     expect(await listItem.getProperty("open")).toBe(false);
 
-    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+    const openButton = await page.find(`#test >>> .${CSS.openContainer}`);
 
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(true);
@@ -394,6 +394,28 @@ describe("calcite-list-item", () => {
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+  });
+
+  it("should set displayMode on slotted list", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item><calcite-list></calcite-list></calcite-list-item>`,
+    });
+
+    const listItem = await page.find("calcite-list-item");
+    const list = await page.find("calcite-list");
+
+    expect(await listItem.getProperty("displayMode")).toBe("flat");
+    expect(await list.getProperty("displayMode")).toBe("flat");
+
+    listItem.setProperty("displayMode", "nested");
+    await page.waitForChanges();
+
+    expect(await list.getProperty("displayMode")).toBe("nested");
+
+    listItem.setProperty("displayMode", "flat");
+    await page.waitForChanges();
+
+    expect(await list.getProperty("displayMode")).toBe("flat");
   });
 
   it("flat list should not render open container", async () => {
