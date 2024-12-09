@@ -24,7 +24,7 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
-import { getDepth, hasListItemChildren } from "./utils";
+import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
 
@@ -35,8 +35,6 @@ declare global {
 }
 
 const focusMap = new Map<List["el"], number>();
-const listSelector = "calcite-list";
-
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
@@ -169,7 +167,7 @@ export class ListItem
    *
    * @private
    */
-  @property({ reflect: true }) displayMode: ListDisplayMode;
+  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /**
    * Sets the item to display a border.
@@ -549,7 +547,14 @@ export class ListItem
       return;
     }
 
-    this.openable = this.displayMode === "nested" && hasListItemChildren(slotEl);
+    const children = getListItemChildren(slotEl);
+
+    children.lists.forEach((list) => {
+      list.displayMode = this.displayMode;
+    });
+
+    this.openable =
+      this.displayMode === "nested" && (children.lists.length > 0 || children.items.length > 0);
   }
 
   private handleDefaultSlotChange(event: Event): void {
