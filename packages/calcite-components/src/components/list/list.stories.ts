@@ -1074,7 +1074,16 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s" selected>
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1092,7 +1101,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1113,7 +1130,16 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m" selected>
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1131,7 +1157,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1152,7 +1186,16 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l" selected>
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1170,7 +1213,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1198,7 +1249,15 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list display-mode="nested" scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1222,6 +1281,8 @@ export const scales = (): string => html`
           value="small"
           description="small hello world"
           scale="s"
+          icon-start="banana"
+          icon-end="banana"
           selected
         >
           <calcite-action
@@ -1240,7 +1301,15 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="small child" value="small" description="small hello world" scale="s">
+          <calcite-list-item
+            closable
+            label="small child"
+            value="small"
+            description="small hello world"
+            scale="s"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1263,6 +1332,8 @@ export const scales = (): string => html`
               value="small"
               description="small hello world"
               scale="s"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1285,7 +1356,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1309,6 +1388,8 @@ export const scales = (): string => html`
           value="medium"
           description="medium hello world"
           scale="m"
+          icon-start="banana"
+          icon-end="banana"
           selected
         >
           <calcite-action
@@ -1327,7 +1408,15 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="medium child" value="medium" description="medium hello world" scale="m">
+          <calcite-list-item
+            closable
+            label="medium child"
+            value="medium"
+            description="medium hello world"
+            scale="m"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1350,6 +1439,8 @@ export const scales = (): string => html`
               value="medium"
               description="medium hello world"
               scale="m"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1372,7 +1463,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1396,6 +1495,8 @@ export const scales = (): string => html`
           value="large"
           description="large hello world"
           scale="l"
+          icon-start="banana"
+          icon-end="banana"
           selected
         >
           <calcite-action
@@ -1414,7 +1515,15 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="large child" value="large" description="large hello world" scale="l">
+          <calcite-list-item
+            closable
+            label="large child"
+            value="large"
+            description="large hello world"
+            scale="l"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1437,6 +1546,8 @@ export const scales = (): string => html`
               value="large"
               description="large hello world"
               scale="l"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1467,7 +1578,14 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list drag-enabled scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1485,7 +1603,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small" value="small" description="small hello world" selected>
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1503,7 +1629,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1524,7 +1657,14 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list drag-enabled selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1542,7 +1682,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" selected>
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1560,7 +1708,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1581,7 +1736,14 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list drag-enabled scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1599,7 +1761,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large" value="large" description="large hello world" selected>
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1617,7 +1787,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1645,7 +1822,15 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list display-mode="nested" drag-enabled scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1669,6 +1854,8 @@ export const scales = (): string => html`
           value="small"
           description="small hello world"
           scale="s"
+          icon-start="banana"
+          icon-end="banana"
           selected
         >
           <calcite-action
@@ -1687,7 +1874,15 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="small child" value="small" description="small hello world" scale="s">
+          <calcite-list-item
+            closable
+            label="small child"
+            value="small"
+            description="small hello world"
+            scale="s"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1710,6 +1905,8 @@ export const scales = (): string => html`
               value="small"
               description="small hello world"
               scale="s"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1732,7 +1929,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" drag-enabled selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1756,6 +1961,8 @@ export const scales = (): string => html`
           value="medium"
           description="medium hello world"
           scale="m"
+          icon-start="banana"
+          icon-end="banana"
           selected
         >
           <calcite-action
@@ -1774,7 +1981,15 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="medium child" value="medium" description="medium hello world" scale="m">
+          <calcite-list-item
+            closable
+            label="medium child"
+            value="medium"
+            description="medium hello world"
+            scale="m"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1797,6 +2012,8 @@ export const scales = (): string => html`
               value="medium"
               description="medium hello world"
               scale="m"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1819,7 +2036,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" drag-enabled scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1843,6 +2068,8 @@ export const scales = (): string => html`
           value="large"
           description="large hello world"
           scale="l"
+          icon-start="banana"
+          icon-end="banana"
           selected
         >
           <calcite-action
@@ -1861,7 +2088,15 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="large child" value="large" description="large hello world" scale="l">
+          <calcite-list-item
+            closable
+            label="large child"
+            value="large"
+            description="large hello world"
+            scale="l"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1884,6 +2119,8 @@ export const scales = (): string => html`
               value="large"
               description="large hello world"
               scale="l"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
