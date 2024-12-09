@@ -13,10 +13,16 @@ module.exports = async ({ github, context }) => {
   } = payload;
 
   const pullRequestBody = payload.pull_request.body;
-  const ommitComment = `\n\nBEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE`;
+  const omitComment = `\n\nBEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE`;
+  const omitCommentRegex = /BEGIN_COMMIT_OVERRIDE/gm;
 
   if (!pullRequestBody) {
-    console.log("No issue body was found");
+    console.log("No issue body was found, ending run.");
+    return;
+  }
+
+  if (pullRequestBody.match(omitCommentRegex)) {
+    console.log("This PR is already omitted from the changelog, ending run.");
     return;
   }
 
@@ -27,7 +33,7 @@ module.exports = async ({ github, context }) => {
       pull_number: number,
     };
 
-    const newPullRequestBody = pullRequestBody + ommitComment;
+    const newPullRequestBody = `${pullRequestBody}${omitComment}`;
 
     await github.rest.pulls.update({
       ...pullRequestProps,
