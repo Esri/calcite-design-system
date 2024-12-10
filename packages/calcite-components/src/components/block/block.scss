@@ -4,20 +4,15 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-block-border-color: Specifies the border color of the component.
- * @prop --calcite-block-content-space: Specifies the space of the component's `default` slot.
- * @prop --calcite-block-content-start-space: Specifies the space of the component's content-start.
  * @prop --calcite-block-content-start-color: Specifies the text-color of the component's content-start.
- * @prop --calcite-block-description-color: Specifies the text color of the component's description.
- * @prop --calcite-block-description-space: Specifies the space of the component's description.
- * @prop --calcite-block-header-space: Specifies the space of the component's header.
  * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-block-header-background-color-hover: Specifies the background color of the component's header when hovered.
- * @prop --calcite-block-header-icon-color: Specifies the text color of the component's header icon.
  * @prop --calcite-block-header-color: Specifies the text color of the component's header.
- * @prop --calcite-block-icon-space: Specifies the space of the component's icon.
- * @prop --calcite-block-icon-color: Specifies the text color of the component's icon.
- * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
-
+ * @prop --calcite-block-header-description-color: Specifies the text color of the component's header description.
+ * @prop --calcite-block-header-icon-color: Specifies the text color of the component's header icon.
+ * @prop --calcite-block-icon-color-end: Specifies the text color of the component's end icon.
+ * @prop --calcite-block-icon-color-start: Specifies the text color of the component's start icon.
+ * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
  */
 
 :host {
@@ -40,7 +35,7 @@
 }
 
 .header--has-text {
-  padding: var(--calcite-block-header-space, var(--calcite-spacing-md));
+  padding: var(--calcite-spacing-md);
 }
 
 .header,
@@ -57,24 +52,30 @@
 }
 
 .content-start {
-  margin-inline-end: var(--calcite-block-content-start-space, var(--calcite-spacing-md));
+  margin-inline-end: var(--calcite-spacing-md);
 }
 
 .icon,
-.icon--start,
+.icon--start {
+  margin-inline-end: var(--calcite-spacing-md);
+}
+
 .icon--end {
-  margin-inline-end: var(--calcite-block-icon-space, var(--calcite-spacing-md));
+  margin-inline-end: var(--calcite-spacing-md);
 }
 
 .icon {
   & calcite-loader {
-    margin-inline-end: var((--calcite-block-icon-space), var(--calcite-spacing-xxxs));
+    margin-inline-end: var(--calcite-spacing-xxxs);
   }
 }
 
-.icon--start,
+.icon--start {
+  color: var(--calcite-block-icon-color-start, var(--calcite-color-text-3));
+}
+
 .icon--end {
-  color: var(--calcite-block-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-icon-color-end, var(--calcite-color-text-3));
 }
 
 .actions-end {
@@ -89,12 +90,12 @@
     flex-nowrap
     items-center
     justify-between
-    border-none;
+    border-none
+    m-0
+    p-0;
 
   text-align: initial;
   background-color: var(--calcite-block-header-background-color, transparent);
-  margin: var(--calcite-block-header-space, 0);
-  padding: var(--calcite-block-header-space, 0);
 
   &:hover {
     background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-foreground-2));
@@ -124,19 +125,19 @@ calcite-handle {
     font-medium
     leading-tight
     duration-150
-    ease-in-out;
+    ease-in-out
+    p-0;
 
   color: var(--calcite-block-header-color, var(--calcite-color-text-2));
-  padding: var(--calcite-block-header-space, 0);
 }
 
 .description {
   @apply text-n2-wrap
+    p-0
     word-break;
 
-  color: var(--calcite-block-description-color, var(--calcite-color-text-3));
-  padding: var(--calcite-block-description-space, 0);
-  margin-block-start: var(--calcite-block-description-space, var(calcite-spacing-base));
+  color: var(--calcite-block-header-description-color, var(--calcite-color-text-3));
+  margin-block-start: var(calcite-spacing-base);
 }
 
 .icon {
@@ -190,8 +191,8 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative min-h-0;
-  padding-block: var(--calcite-block-content-space, var(--calcite-spacing-sm));
-  padding-inline: var(---calcite-block-content-space, var(--calcite-spacing-md));
+  padding-block: var(--calcite-spacing-sm);
+  padding-inline: var(--calcite-spacing-md);
 }
 
 .content-start {

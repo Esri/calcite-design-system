@@ -12,6 +12,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -421,5 +422,37 @@ describe("calcite-block", () => {
 
   describe("translation support", () => {
     t9n("calcite-block");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-block heading="heading" description="description" open collapsible icon-end="pen" icon-start="pen">
+            <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+            <div>content</div>
+          </calcite-block>
+        `,
+        {
+          "--calcite-block-border-color": {
+            targetProp: "borderColor",
+          },
+          "--calcite-block-content-start-color": { shadowSelector: `.${CSS.contentStart}`, targetProp: "color" },
+          "--calcite-block-header-background-color": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+          },
+          // "--calcite-block-header-background-color-hover": {
+          //   shadowSelector: `.${CSS.toggle}`,
+          //   targetProp: "color",
+          //   state: "hover",
+          // },
+          "--calcite-block-header-description-color": { shadowSelector: `.${CSS.description}`, targetProp: "color" },
+          "--calcite-block-header-icon-color": { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
+          "--calcite-block-icon-color-end": { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
+          "--calcite-block-icon-color-start": { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+        },
+      );
+    });
   });
 });
