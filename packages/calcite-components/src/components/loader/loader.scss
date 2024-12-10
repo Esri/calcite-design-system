@@ -10,7 +10,7 @@
  * @prop --calcite-loader-progress-color-inline: Specifies the width and height of the component when set to inline.
  * @prop --calcite-loader-text-spacing: Specifies the component's text margin.
  * @prop --calcite-loader-text-weight: Specifies the component's font weight.
- * @prop --calcite-loader-color: Specifies the component's text color.
+ * @prop --calcite-loader-text-color: Specifies the component's text color.
  * @prop --calcite-loader-progress-color: Specifies the component's progress ring color.
  * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
@@ -61,7 +61,7 @@
   text-center;
   margin-block-start: var(--calcite-loader-text-spacing, var(--calcite-internal-text-offset));
   font-weight: var(--calcite-loader-text-weight, var(--calcite-font-weight-normal));
-  color: var(--calcite-loader-color, var(--calcite-color-text-1));
+  color: var(--calcite-loader-text-color, var(--calcite-color-text-1));
 }
 
 .percentage {
@@ -70,7 +70,7 @@
   inline-size: var(--calcite-loader-size);
   line-height: var(--calcite-internal-loader-value-line-height);
   align-self: center;
-  color: var(--calcite-loader-color, var(--calcite-color-text-1));
+  color: var(--calcite-loader-text-color, var(--calcite-color-text-1));
 }
 
 .rings {

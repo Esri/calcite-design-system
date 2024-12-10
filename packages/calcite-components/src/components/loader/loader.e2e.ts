@@ -77,7 +77,7 @@ describe("themed", () => {
   describe("text", () => {
     describe("text color", () => {
       themed(html`<calcite-loader label="loading" scale="l" text="Themed loader"></calcite-loader>`, {
-        "--calcite-loader-color": {
+        "--calcite-loader-text-color": {
           shadowSelector: `.${CSS.text}`,
           targetProp: "color",
         },
@@ -117,7 +117,7 @@ describe("themed", () => {
           value="30"
         ></calcite-loader>`,
         {
-          "--calcite-loader-color": {
+          "--calcite-loader-text-color": {
             shadowSelector: `.${CSS.percentage}`,
             targetProp: "color",
           },
