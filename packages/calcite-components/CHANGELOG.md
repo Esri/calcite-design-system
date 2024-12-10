@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.54...@esri/calcite-components@3.0.0-next.55) (2024-12-10)
+
+### Features
+
+- **list-item:** add iconStart, iconEnd and iconFlipRtl props ([#11004](https://github.com/Esri/calcite-design-system/issues/11004)) ([b7ec930](https://github.com/Esri/calcite-design-system/commit/b7ec930f6e3fdec388ef692bac4a37e4141c6a22)), closes [#9175](https://github.com/Esri/calcite-design-system/issues/9175)
+
 ## [3.0.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.53...@esri/calcite-components@3.0.0-next.54) (2024-12-10)
 
 **Note:** Version bump only for package @esri/calcite-components
