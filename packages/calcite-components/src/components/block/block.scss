@@ -8,6 +8,7 @@
  * @prop --calcite-block-content-start-space: Specifies the space of the component's content-start.
  * @prop --calcite-block-content-start-color: Specifies the text-color of the component's content-start.
  * @prop --calcite-block-description-color: Specifies the text color of the component's description.
+ * @prop --calcite-block-description-space: Specifies the space of the component's description.
  * @prop --calcite-block-header-space: Specifies the space of the component's header.
  * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-block-header-background-color-hover: Specifies the background color of the component's header when hovered.
@@ -131,11 +132,11 @@ calcite-handle {
 
 .description {
   @apply text-n2-wrap
-    word-break
-    mt-0.5
-    p-0;
+    word-break;
 
   color: var(--calcite-block-description-color, var(--calcite-color-text-3));
+  padding: var(--calcite-block-description-space, 0);
+  margin-block-start: var(--calcite-block-description-space, var(calcite-spacing-base));
 }
 
 .icon {
@@ -216,7 +217,7 @@ calcite-action-menu {
   @apply my-2;
 
   .header .title .heading {
-    @apply text-color-1;
+    color: var(--calcite-block-header-color, var(--calcite-color-text-1));
   }
 }
 
