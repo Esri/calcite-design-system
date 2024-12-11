@@ -187,6 +187,13 @@ export class List
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
+  /** todo */
+  @property() filterFunction: (
+    data: Array<object>,
+    value: string,
+    filterProps?: string[],
+  ) => object[];
+
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
@@ -978,6 +985,7 @@ export class List
       disabled,
       dataForFilter,
       filterEnabled,
+      filterFunction,
       filterPlaceholder,
       filterText,
       filteredItems,
@@ -1016,6 +1024,7 @@ export class List
                       <calcite-filter
                         ariaLabel={filterPlaceholder}
                         disabled={disabled}
+                        filterFunction={filterFunction}
                         filterProps={effectiveFilterProps}
                         items={dataForFilter}
                         oncalciteFilterChange={this.handleFilterChange}

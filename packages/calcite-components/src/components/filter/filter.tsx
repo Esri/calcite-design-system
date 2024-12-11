@@ -41,7 +41,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), emit, onFilter),
+      this.updateFiltered(value, emit, onFilter),
     DEBOUNCE.filter,
   );
 
@@ -55,6 +55,13 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
+
+  /** todo */
+  @property() filterFunction: (
+    data: Array<object>,
+    value: string,
+    filterProps?: string[],
+  ) => object[];
 
   /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */
   @property() filterProps: string[];
@@ -122,7 +129,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
     return new Promise((resolve) => {
       this.value = value;
       /** TODO: [MIGRATION] we bypass the debounced function to work around an issue with debounce using the last args passed when invoking the debounced fn, causing the promise to not resolve */
-      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), false, resolve);
+      this.updateFiltered(value, false, resolve);
     });
   }
 
@@ -147,7 +154,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
+    this.updateFiltered(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -209,7 +216,9 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
     this.setFocus();
   }
 
-  private updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
+  private updateFiltered(value: string, emit = false, callback?: () => void): void {
+    const filtered = (this.filterFunction ?? filter)(this.items ?? [], value, this.filterProps);
+
     this.filteredItems = filtered;
     if (emit) {
       this.calciteFilterChange.emit();
