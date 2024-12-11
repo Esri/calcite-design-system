@@ -13,6 +13,8 @@ export type FractionalSecondDigits = 1 | 2 | 3;
 
 export type HourFormat = "12" | "24";
 
+export const hourFormats: HourFormat[] = ["12", "24"];
+
 export interface LocalizedTime {
   localizedHour: string;
   localizedHourSuffix: string;
