@@ -4,15 +4,11 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-block-border-color: Specifies the border color of the component.
- * @prop --calcite-block-content-start-color: Specifies the text-color of the component's content-start.
  * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-block-header-background-color-hover: Specifies the background color of the component's header when hovered.
- * @prop --calcite-block-header-color: Specifies the text color of the component's header.
- * @prop --calcite-block-header-description-color: Specifies the text color of the component's header description.
- * @prop --calcite-block-header-icon-color: Specifies the text color of the component's header icon.
- * @prop --calcite-block-icon-color-end: Specifies the text color of the component's end icon.
- * @prop --calcite-block-icon-color-start: Specifies the text color of the component's start icon.
+ * @prop --calcite-block-header-text-color: Specifies the text color of the component's header.
  * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
+ * @prop --calcite-block-text-color: Specifies the text color of the component.
  */
 
 :host {
@@ -56,10 +52,7 @@
 }
 
 .icon,
-.icon--start {
-  margin-inline-end: var(--calcite-spacing-md);
-}
-
+.icon--start,
 .icon--end {
   margin-inline-end: var(--calcite-spacing-md);
 }
@@ -70,12 +63,9 @@
   }
 }
 
-.icon--start {
-  color: var(--calcite-block-icon-color-start, var(--calcite-color-text-3));
-}
-
+.icon--start,
 .icon--end {
-  color: var(--calcite-block-icon-color-end, var(--calcite-color-text-3));
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
 .actions-end {
@@ -136,7 +126,7 @@ calcite-handle {
     p-0
     word-break;
 
-  color: var(--calcite-block-header-description-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
   margin-block-start: var(calcite-spacing-base);
 }
 
@@ -178,11 +168,11 @@ calcite-handle {
   ease-in-out;
 
   margin-inline-end: var(--calcite-spacing-md);
-  color: var(--calcite-block-header-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-header-text-color, var(--calcite-color-text-3));
 }
 
 .toggle:hover .toggle-icon {
-  color: var(--calcite-block-header-icon-color, var(--calcite-color-text-1));
+  color: var(--calcite-block-header-text-color, var(--calcite-color-text-1));
 }
 
 .container {
@@ -198,7 +188,7 @@ calcite-handle {
 .content-start {
   @apply flex items-center;
 
-  color: var(--calcite-block-content-start-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
 .control-container {
@@ -218,7 +208,7 @@ calcite-action-menu {
   @apply my-2;
 
   .header .title .heading {
-    color: var(--calcite-block-header-color, var(--calcite-color-text-1));
+    color: var(--calcite-block-header-text-color, var(--calcite-color-text-1));
   }
 }
 
