@@ -1190,11 +1190,11 @@ export const customLabelsAndTicks = (): string => html`
       <br />
 
       <label>Label formatter (single value + long label)</label>
-      <calcite-slider id="singleFormattedLongLabelSlider" label-handles label-ticks></calcite-slider>
+      <calcite-slider class="singleFormattedLongLabelSlider" label-handles label-ticks></calcite-slider>
 
       <label>Label formatter (min/max value + long label)</label>
       <calcite-slider
-        id="minMaxFormattedLongLabelSlider"
+        class="minMaxFormattedLongLabelSlider"
         label-handles
         label-ticks
         min-value="0"
@@ -1231,11 +1231,8 @@ export const customLabelsAndTicks = (): string => html`
         step="1"
         min-label="Temperature"
         layout="vertical"
-        style="margin-top: 6.25rem"
+        style="margin-top: 6.25rem; margin-bottom: 7.5rem"
       ></calcite-slider>
-
-      <br />
-      <br />
 
       <label>Label formatter (single value + long label)</label>
       <calcite-slider
@@ -1243,7 +1240,7 @@ export const customLabelsAndTicks = (): string => html`
         label-handles
         label-ticks
         layout="vertical"
-        style="margin-top: 6.25rem"
+        style="margin-top: 7.25rem; margin-bottom: 7.5rem"
       ></calcite-slider>
 
       <label>Label formatter (min/max value + long label)</label>
@@ -1254,7 +1251,7 @@ export const customLabelsAndTicks = (): string => html`
         min-value="0"
         max-value="100"
         layout="vertical"
-        style="margin-top: 6.25rem"
+        style="margin-top: 7.25rem; margin-bottom: 7.5rem"
       ></calcite-slider>
     </div>
   </div>
