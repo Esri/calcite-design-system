@@ -1,9 +1,9 @@
-import dayjs from "dayjs/esm";
-import customParseFormat from "dayjs/esm/plugin/customParseFormat";
-import localeData from "dayjs/esm/plugin/localeData";
-import localizedFormat from "dayjs/esm/plugin/localizedFormat";
-import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
-import updateLocale from "dayjs/esm/plugin/updateLocale";
+import dayjs from "dayjs/esm/index.js";
+import customParseFormat from "dayjs/esm/plugin/customParseFormat/index.js";
+import localeData from "dayjs/esm/plugin/localeData/index.js";
+import localizedFormat from "dayjs/esm/plugin/localizedFormat/index.js";
+import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat/index.js";
+import updateLocale from "dayjs/esm/plugin/updateLocale/index.js";
 import { PropertyValues } from "lit";
 import {
   LitElement,
