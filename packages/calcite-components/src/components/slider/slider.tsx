@@ -100,7 +100,9 @@ export class Slider
 
     event.preventDefault();
     if (this.dragProp) {
-      const value = this.mapToRange(event.clientX || event.pageX);
+      const valueToTranslate =
+        this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
+      const value = this.mapToRange(valueToTranslate);
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -129,9 +131,9 @@ export class Slider
   formEl: HTMLFormElement;
 
   /**
-   * Returns a string representing the localized label value based if the groupSeparator prop is parsed.
+   * @returns Returns a string representing the localized label value based if the groupSeparator prop is parsed.
    *
-   * @param value
+   * @param value the value to format
    */
   private formatValue = (value: number): string => {
     numberStringFormatter.numberFormatOptions = {
@@ -319,6 +321,9 @@ export class Slider
   /** The component's value. */
   @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
 
+  /** The orientation of the slider */
+  @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
   // #endregion
 
   // #region Public Methods
@@ -477,8 +482,9 @@ export class Slider
       return;
     }
 
-    const x = event.clientX || event.pageX;
-    const position = this.mapToRange(x);
+    const pointerPos =
+      this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
+    const position = this.mapToRange(pointerPos);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -495,7 +501,7 @@ export class Slider
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
-    this.focusActiveHandle(x);
+    this.focusActiveHandle(pointerPos);
   }
 
   private handleTouchStart(event: TouchEvent): void {
@@ -737,13 +743,16 @@ export class Slider
   /**
    * Translate a pixel position to value along the range
    *
-   * @param x
+   * @param pixel
    * @private
    */
-  private mapToRange(x: number): number {
+  private mapToRange(pixel: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.getBoundingClientRect();
-    const percent = (x - left) / width;
+    const rect = this.trackEl.getBoundingClientRect();
+    const percent =
+      this.layout === "horizontal"
+        ? (pixel - rect.left) / rect.width
+        : (rect.bottom - pixel) / rect.height;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
     const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
@@ -803,7 +812,9 @@ export class Slider
   }
 
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
-    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
+    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
+      `.handle__label--${name}:not(.static):not(.transformed)`,
+    );
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.static`,
     );
@@ -811,12 +822,34 @@ export class Slider
       `.handle__label--${name}.transformed`,
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
-    const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
-    label.style.transform = `translateX(${labelStaticOffset}px)`;
-    labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
+    const labelStaticOffset = this.getHostOffset(
+      this.layout === "horizontal" ? labelStaticBounds.left : labelStaticBounds.top,
+      this.layout === "horizontal" ? labelStaticBounds.right : labelStaticBounds.bottom,
+    );
+
+    let verticalLabelStaticOffset = 0;
+    if (this.layout === "vertical" && !this.precise) {
+      const trackBoundingBox = this.trackEl.getBoundingClientRect();
+      verticalLabelStaticOffset = Math.max(labelStaticBounds.right - trackBoundingBox.left + 8, 0);
+    }
+
+    const transform =
+      this.layout === "vertical"
+        ? `translateX(${labelStaticOffset}px) translateY(-${verticalLabelStaticOffset}px) rotate(90deg)`
+        : `translateX(${labelStaticOffset}px)`;
+    label.style.transform = transform;
+    labelTransformed.style.transform = transform;
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
+    if (this.layout === "horizontal") {
+      this.hyphenateHorizontalCollidingRangeHandleLabels();
+    } else {
+      this.hyphenateVerticalCollidingRangeHandleLabels();
+    }
+  }
+
+  private hyphenateHorizontalCollidingRangeHandleLabels(): void {
     const { shadowRoot } = this.el;
 
     const mirror = this.shouldMirror();
@@ -934,6 +967,61 @@ export class Slider
     }
   }
 
+  private hyphenateVerticalCollidingRangeHandleLabels(): void {
+    const minHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.thumbMinValue}`,
+    );
+    const maxHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(`.${CSS.thumbValue}`);
+
+    if (!minHandle || !maxHandle) {
+      return;
+    }
+
+    const minHandleBounds = minHandle.getBoundingClientRect();
+    const maxHandleBounds = maxHandle.getBoundingClientRect();
+    const { shadowRoot } = this.el;
+    const mirror = this.shouldMirror();
+    const leftModifier = mirror ? "value" : "minValue";
+    const rightModifier = mirror ? "minValue" : "value";
+
+    const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}`,
+    );
+    const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}.static`,
+    );
+    const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}`,
+    );
+    const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}.static`,
+    );
+
+    if (intersects(minHandleBounds, maxHandleBounds)) {
+      leftValueLabel.textContent = `${leftValueLabelStatic.textContent} \u2014 ${rightValueLabelStatic.textContent}`;
+      rightValueLabel.style.visibility = "hidden";
+      const width = this.getStringWidth(
+        leftValueLabel.textContent,
+        window.getComputedStyle(leftValueLabel)["font"],
+      );
+      leftValueLabel.style.transform = `translateY(-${width / 2}px) rotate(90deg)`;
+      leftValueLabel.style.width = `${width}px`;
+    } else if (rightValueLabel.style.visibility === "hidden") {
+      leftValueLabel.textContent = leftValueLabelStatic.textContent;
+      leftValueLabel.style.transform = leftValueLabelStatic.style.transform;
+      leftValueLabel.style.width = leftValueLabelStatic.style.width;
+      rightValueLabel.style.visibility = "visible";
+    }
+  }
+
+  private getStringWidth(text: string, font: string): number {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
+  }
+
   /** Hides bounding tick labels that are obscured by either handle. */
   private hideObscuredBoundingTickLabels(): void {
     const valueIsRange = isRange(this.value);
@@ -988,47 +1076,55 @@ export class Slider
   }
 
   /**
-   * Returns an integer representing the number of pixels to offset on the left or right side based on desired position behavior.
+   * Returns an integer representing the number of pixels to offset on the left/top or right/bottom side based on desired position behavior.
    *
-   * @param leftBounds
-   * @param rightBounds
+   * @param startBounds
+   * @param endBounds
    * @private
    */
-  private getHostOffset(leftBounds: number, rightBounds: number): number {
-    const { left, right } = this.el.getBoundingClientRect();
+  private getHostOffset(startBounds: number, endBounds: number): number {
+    const hostBounds = this.el.getBoundingClientRect();
+    const hostStart = this.layout === "horizontal" ? hostBounds.left : hostBounds.top;
+    const hostEnd = this.layout === "horizontal" ? hostBounds.right : hostBounds.bottom;
 
-    if (leftBounds < left) {
-      return left - leftBounds;
+    if (startBounds < hostStart) {
+      return hostStart - startBounds;
     }
 
-    if (rightBounds > right) {
-      return -(rightBounds - right);
+    if (endBounds > hostEnd) {
+      return -(endBounds - hostEnd);
     }
 
     return 0;
   }
 
   /**
-   * Returns an integer representing the number of pixels that the two given span elements are overlapping, taking into account
+   * @returns an integer representing the number of pixels that the two given span elements are overlapping, taking into account
    * a space in between the two spans equal to the font-size set on them to account for the space needed to render a hyphen.
    *
-   * @param leftLabel
-   * @param rightLabel
+   * @param leftLabel the left label element
+   * @param rightLabel the right label element
    */
   private getRangeLabelOverlap(leftLabel: HTMLSpanElement, rightLabel: HTMLSpanElement): number {
     const leftLabelBounds = leftLabel.getBoundingClientRect();
     const rightLabelBounds = rightLabel.getBoundingClientRect();
-    const leftLabelFontSize = this.getFontSizeForElement(leftLabel);
-    const rangeLabelOverlap = leftLabelBounds.right + leftLabelFontSize - rightLabelBounds.left;
+    const labelFontSize =
+      this.layout === "horizontal"
+        ? this.getFontSizeForElement(leftLabel)
+        : this.getFontSizeForElement(rightLabel);
+    const rangeLabelOverlap =
+      this.layout === "horizontal"
+        ? leftLabelBounds.right + labelFontSize - rightLabelBounds.left
+        : rightLabelBounds.bottom + labelFontSize - leftLabelBounds.top;
 
     return Math.max(rangeLabelOverlap, 0);
   }
 
   /**
-   * Returns a boolean value representing if the minLabel span element is obscured (being overlapped) by the given handle div element.
+   * @returns a boolean value representing if the minLabel span element is obscured (being overlapped) by the given handle div element.
    *
-   * @param minLabel
-   * @param handle
+   * @param minLabel the minimum label element
+   * @param handle the handle element
    */
   private isMinTickLabelObscured(minLabel: HTMLSpanElement, handle: HTMLDivElement): boolean {
     const minLabelBounds = minLabel.getBoundingClientRect();
@@ -1037,10 +1133,10 @@ export class Slider
   }
 
   /**
-   * Returns a boolean value representing if the maxLabel span element is obscured (being overlapped) by the given handle div element.
+   * @returns a boolean value representing if the maxLabel span element is obscured (being overlapped) by the given handle div element.
    *
-   * @param maxLabel
-   * @param handle
+   * @param maxLabel the maximum label element
+   * @param handle the handle element
    */
   private isMaxTickLabelObscured(maxLabel: HTMLSpanElement, handle: HTMLDivElement): boolean {
     const maxLabelBounds = maxLabel.getBoundingClientRect();
@@ -1081,7 +1177,8 @@ export class Slider
     const thumbTypes = this.buildThumbType("max");
     const thumb = this.renderThumb({
       type: thumbTypes,
-      thumbPlacement: thumbTypes.includes("histogram") ? "below" : "above",
+      thumbPlacement:
+        this.layout === "horizontal" && thumbTypes.includes("histogram") ? "below" : "above",
       maxInterval,
       minInterval,
       mirror,
@@ -1092,7 +1189,9 @@ export class Slider
       ? this.renderThumb({
           type: minThumbTypes,
           thumbPlacement:
-            minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
+            (this.layout === "horizontal" &&
+              (minThumbTypes.includes("histogram") || minThumbTypes.includes("precise"))) ||
+            (this.layout === "vertical" && valueIsRange && this.precise)
               ? "below"
               : "above",
           maxInterval,
@@ -1233,7 +1332,12 @@ export class Slider
 
     const labels = isLabeled
       ? [
-          <span ariaHidden="true" class={thumbLabelClasses}>
+          <span
+            aria-hidden="true"
+            class={{
+              [thumbLabelClasses]: true,
+            }}
+          >
             {displayedValue}
           </span>,
           <span ariaHidden="true" class={`${thumbLabelClasses} ${CSS.static}`}>
@@ -1258,7 +1362,7 @@ export class Slider
     return (
       <div
         ariaLabel={ariaLabel}
-        ariaOrientation="horizontal"
+        ariaOrientation={this.layout}
         ariaValueMax={this.max}
         ariaValueMin={this.min}
         ariaValueNow={ariaValuenow}
@@ -1316,6 +1420,7 @@ export class Slider
           [CSS.tickLabel]: true,
           [CSS.tickMin]: isMinTickLabel,
           [CSS.tickMax]: isMaxTickLabel,
+          [CSS.tickLabelVertical]: this.layout === "vertical",
         }}
       >
         {this.internalLabelFormatter(tick, "tick")}
