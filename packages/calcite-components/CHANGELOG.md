@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.55...@esri/calcite-components@3.0.0-next.56) (2024-12-11)
+
+### Features
+
+- **combobox-item, combobox-item-group:** update padding indentation for nested groups & items ([#10847](https://github.com/Esri/calcite-design-system/issues/10847)) ([83669cb](https://github.com/Esri/calcite-design-system/commit/83669cbc38314450e675bfa6e18839dcdea2464a)), closes [#7099](https://github.com/Esri/calcite-design-system/issues/7099)
+
+## [3.0.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.54...@esri/calcite-components@3.0.0-next.55) (2024-12-10)
+
+### Features
+
+- **list-item:** add iconStart, iconEnd and iconFlipRtl props ([#11004](https://github.com/Esri/calcite-design-system/issues/11004)) ([b7ec930](https://github.com/Esri/calcite-design-system/commit/b7ec930f6e3fdec388ef692bac4a37e4141c6a22)), closes [#9175](https://github.com/Esri/calcite-design-system/issues/9175)
+
+## [3.0.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.53...@esri/calcite-components@3.0.0-next.54) (2024-12-10)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.0.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.52...@esri/calcite-components@3.0.0-next.53) (2024-12-09)
+
+### Features
+
+- **list:** add filterLabel property ([#11002](https://github.com/Esri/calcite-design-system/issues/11002)) ([49c6093](https://github.com/Esri/calcite-design-system/commit/49c6093b1da37848b14d2a0ba02833617b93548a)), closes [#8076](https://github.com/Esri/calcite-design-system/issues/8076) [#11001](https://github.com/Esri/calcite-design-system/issues/11001)
+
+## [3.0.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.51...@esri/calcite-components@3.0.0-next.52) (2024-12-06)
+
+### Features
+
+- **filter:** add label property ([#11001](https://github.com/Esri/calcite-design-system/issues/11001)) ([ab20b8e](https://github.com/Esri/calcite-design-system/commit/ab20b8e744ac779cca46000d0afe2db2dfc3fc70)), closes [#8076](https://github.com/Esri/calcite-design-system/issues/8076)
+
 ## [3.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.50...@esri/calcite-components@3.0.0-next.51) (2024-12-04)
 
 ### Bug Fixes
