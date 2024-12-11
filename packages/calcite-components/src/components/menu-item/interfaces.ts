@@ -1,7 +1,7 @@
-import type { CalciteMenuItem } from "./menu-item";
+import type { MenuItem } from "./menu-item";
 
 export interface MenuItemCustomEvent {
   event: KeyboardEvent;
-  children?: CalciteMenuItem["el"][];
+  children?: MenuItem["el"][];
   isSubmenuOpen?: boolean;
 }
