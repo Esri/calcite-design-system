@@ -878,7 +878,7 @@ export class InputTimePicker
     }
   }
 
-  private getLocalizedTimeString = (params?: GetLocalizedTimeStringParameters): string => {
+  private getLocalizedTimeString(params?: GetLocalizedTimeStringParameters): string {
     const hour12 = params?.hourFormat === "12" || (this.hourFormat && this.hourFormat === "12");
     const locale = params?.locale ?? this.messages._lang;
     const numberingSystem = params?.numberingSystem ?? this.numberingSystem;
@@ -893,7 +893,7 @@ export class InputTimePicker
         value,
       }) ?? ""
     );
-  };
+  }
 
   onLabelClick(): void {
     this.setFocus();
