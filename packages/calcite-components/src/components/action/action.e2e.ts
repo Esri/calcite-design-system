@@ -319,6 +319,10 @@ describe("calcite-action", () => {
             targetProp: "borderStartStartRadius",
           },
         ],
+      });
+    });
+    describe("deprecated", () => {
+      themed(html`calcite-action`, {
         "--calcite-action-corner-radius-end-end": [
           {
             shadowSelector: `.${CSS.button}`,

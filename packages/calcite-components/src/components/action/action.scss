@@ -6,12 +6,17 @@
  * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
  * @prop --calcite-action-background-color: Specifies the component's background color.
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
- * @prop --calcite-action-background-color-pressed: Specifies the component's background color when active.
+ * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
+ * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
+ * @prop --calcite-action-background-color: Specifies the component's background color.
+ * @prop --calcite-action-corner-radius-end-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end end.
+ * @prop --calcite-action-corner-radius-end-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end start.
+ * @prop --calcite-action-corner-radius-start-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius-start-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start start.
  * @prop --calcite-action-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-action-corner-radius-end-end: Specifies the component's corner radius end end.
- * @prop --calcite-action-corner-radius-end-start: Specifies the component's corner radius end start.
- * @prop --calcite-action-corner-radius-start-end: Specifies the component's corner radius start end.
- * @prop --calcite-action-corner-radius-start-start: Specifies the component's corner radius start start.
+ * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
+ * @prop --calcite-action-text-color-press: Specifies the component's text color when hovered.
+ * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color: Specifies the component's text color.
  * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
  */
@@ -39,6 +44,7 @@ button {
     --calcite-action-corner-radius-start-start,
     var(--calcite-action-corner-radius, var(--calcite-corner-radius))
   );
+  border-radius: var(--calcite-action-corner-radius);
 }
 
 @mixin action-indicator() {
