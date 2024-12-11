@@ -565,11 +565,6 @@ input[type="number"] {
   box-shadow: var(--calcite-input-shadow, var(--calcite-shadow-none));
 }
 
-// hide the default date picker
-input::-webkit-calendar-picker-indicator {
-  @apply hidden;
-}
-
 input[type="date"]::-webkit-input-placeholder {
   visibility: hidden !important;
 }
