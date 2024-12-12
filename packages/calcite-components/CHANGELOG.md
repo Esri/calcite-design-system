@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.58...@esri/calcite-components@3.0.0-next.59) (2024-12-12)
+
+### Bug Fixes
+
+- **accordion-item:** split header content padding ([#10865](https://github.com/Esri/calcite-design-system/issues/10865)) ([e9e307c](https://github.com/Esri/calcite-design-system/commit/e9e307ce83396dbf53402538fd75c02200625fe5)), closes [#10762](https://github.com/Esri/calcite-design-system/issues/10762)
+
 ## [3.0.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.57...@esri/calcite-components@3.0.0-next.58) (2024-12-12)
 
 ### Features
