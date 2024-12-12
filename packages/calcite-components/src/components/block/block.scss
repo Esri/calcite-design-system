@@ -9,6 +9,7 @@
  * @prop --calcite-block-header-text-color: Specifies the text color of the component's header.
  * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color: Specifies the text color of the component.
+ * @prop --calcite-block-text-color-hover: Specifies the text color component when hovered
  */
 
 :host {
@@ -118,7 +119,7 @@ calcite-handle {
     ease-in-out
     p-0;
 
-  color: var(--calcite-block-header-color, var(--calcite-color-text-2));
+  color: var(--calcite-block-header-text-color, var(--calcite-color-text-2));
 }
 
 .description {
@@ -168,11 +169,11 @@ calcite-handle {
   ease-in-out;
 
   margin-inline-end: var(--calcite-spacing-md);
-  color: var(--calcite-block-header-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
 .toggle:hover .toggle-icon {
-  color: var(--calcite-block-header-text-color, var(--calcite-color-text-1));
+  color: var(--calcite-block-text-color-hover, var(--calcite-color-text-1));
 }
 
 .container {
@@ -208,7 +209,7 @@ calcite-action-menu {
   @apply my-2;
 
   .header .title .heading {
-    color: var(--calcite-block-header-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-block-text-color, var(--calcite-color-text-1));
   }
 }
 

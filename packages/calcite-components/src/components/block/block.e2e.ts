@@ -441,16 +441,24 @@ describe("calcite-block", () => {
             shadowSelector: `.${CSS.toggle}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-block-header-text-color": [
-            { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
-          ],
+          "--calcite-block-header-background-color-hover": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          "--calcite-block-header-text-color": [{ shadowSelector: `.${CSS.heading}`, targetProp: "color" }],
           "--calcite-block-text-color": [
             { shadowSelector: `.${CSS.description}`, targetProp: "color" },
             { shadowSelector: `.${CSS.contentStart}`, targetProp: "color" },
             { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
             { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
           ],
+          "--calcite-block-text-color-hover": {
+            shadowSelector: `.${CSS.toggleIcon}`,
+            targetProp: "color",
+            state: "hover",
+          },
         },
       );
     });
