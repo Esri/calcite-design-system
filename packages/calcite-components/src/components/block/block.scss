@@ -209,7 +209,7 @@ calcite-action-menu {
   @apply my-2;
 
   .header .title .heading {
-    color: var(--calcite-block-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-block-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
