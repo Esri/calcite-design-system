@@ -103,8 +103,9 @@ export const groupSeparator_TestOnly = (): string => html`
   </calcite-text-area>
 `;
 
-export const exceedingMaxLength_TestOnly = (): string => html`
+export const invalidCharLength_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
+  <calcite-text-area value="Rocky" min-length="10"> </calcite-text-area>
 `;
 
 export const chineseLang_TestOnly = (): string => html`
