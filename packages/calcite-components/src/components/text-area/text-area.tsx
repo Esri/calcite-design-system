@@ -449,8 +449,7 @@ export class TextArea
   }
 
   private replacePlaceholdersInShortMessages(): string {
-    const tooShortMessage = this.messages.tooShort;
-    return this.replacePlaceholders(tooShortMessage, {
+    return this.replacePlaceholders(this.messages.tooShort, {
       "{currentLength}": this.localizedCharacterLengthObj.currentLength,
       "{minLength}": this.localizedCharacterLengthObj.minLength,
     });
