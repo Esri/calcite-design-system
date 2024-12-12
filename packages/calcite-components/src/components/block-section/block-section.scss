@@ -3,16 +3,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-block-section-background-color: Specifies the component's background color.
  * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
  * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
- * @prop --calcite-block-section-header-text-color-hover: Specifies the component's header text color on hover.
  * @prop --calcite-block-section-text-color: Specifies the component's text color.
+ * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
  */
 
 :host {
-  @apply bg-foreground-1 text-n1 box-border block;
+  @apply text-n1 box-border block;
 
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
 }
 
 calcite-switch {
@@ -32,18 +34,18 @@ calcite-switch {
   border-block-end-color: var(--calcite-block-section-border-color, var(--calcite-color-border-3));
 
   .toggle {
-    color: var(--calcite-color-text-1);
+    color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
 
     &:hover {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
     }
   }
 
   .chevron-icon {
-    color: var(calcite-block-section-text-color, var(--calcite-color-text-3));
+    color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
 
     &:hover {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -53,14 +55,16 @@ calcite-switch {
 }
 
 .toggle {
-  @apply font-sans w-full border-0 bg-transparent;
+  @apply font-sans w-full border-0;
 
   gap: var(--calcite-spacing-md);
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-block-section-background-color, transparent);
+
   font-weight: var(--calcite-font-weight-normal);
 
   &:hover {
-    color: var(--calcite-color-text-1);
+    color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -81,7 +85,7 @@ calcite-switch {
     @apply focus-outset;
   }
   &:hover {
-    color: var(--calcite-block-section-header-text-color-hover, var(--calcite-color-text-1));
+    color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -94,8 +98,10 @@ calcite-switch {
 }
 
 .toggle-container {
-  @apply flex items-center relative bg-transparent;
+  @apply flex items-center relative;
+
   word-break: break-word;
+  background-color: var(--calcite-block-section-background-color, transparent);
 
   .toggle--switch__content {
     @apply flex flex-auto items-center;
@@ -106,10 +112,10 @@ calcite-switch {
   .chevron-icon {
     @apply flex items-center;
 
-    color: var(calcite-block-section-text-color, var(--calcite-color-text-3));
+    color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
 
     &:hover {
-      color: var(--calcite-block-section-header-text-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
     }
   }
 }
