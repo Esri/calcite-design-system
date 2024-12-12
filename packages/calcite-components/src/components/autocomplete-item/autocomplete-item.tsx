@@ -58,7 +58,11 @@ export class AutocompleteItem
    */
   @property() guid = `autocomplete-item-${guid()}`;
 
-  /** Specifies heading text for the component. */
+  /**
+   * Specifies heading text for the component.
+   *
+   * @required
+   */
   @property() heading: string;
 
   /** Specifies an icon to display at the end of the component. */
