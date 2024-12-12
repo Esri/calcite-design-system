@@ -3,8 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
- * @prop --calcite-action-background-color: Specifies the component's background color.
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
  * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
  * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
@@ -18,7 +16,6 @@
  * @prop --calcite-action-text-color-press: Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color: Specifies the component's text color.
- * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
  */
 
 :host {
@@ -28,23 +25,13 @@
 
 :host,
 button {
-  border-end-end-radius: var(
-    --calcite-action-corner-radius-end-end,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
+  border-radius: var(
+    --calcite-action-corner-radius,
+    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius))
   );
-  border-end-start-radius: var(
-    --calcite-action-corner-radius-end-start,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
-  );
-  border-start-end-radius: var(
-    --calcite-action-corner-radius-start-end,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
-  );
-  border-start-start-radius: var(
-    --calcite-action-corner-radius-start-start,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
-  );
-  border-radius: var(--calcite-action-corner-radius);
 }
 
 @mixin action-indicator() {
