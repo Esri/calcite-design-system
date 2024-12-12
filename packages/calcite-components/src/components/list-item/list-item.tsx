@@ -7,7 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode, InteractionMode, Scale } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import {
   componentFocusable,
@@ -15,6 +15,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -23,7 +24,7 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
-import { getDepth, hasListItemChildren } from "./utils";
+import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
 
@@ -34,8 +35,6 @@ declare global {
 }
 
 const focusMap = new Map<List["el"], number>();
-const listSelector = "calcite-list";
-
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
@@ -168,7 +167,7 @@ export class ListItem
    *
    * @private
    */
-  @property({ reflect: true }) displayMode: ListDisplayMode;
+  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /**
    * Sets the item to display a border.
@@ -229,6 +228,15 @@ export class ListItem
 
   /** The component's value. */
   @property() value: any;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /** Specifies an icon to display at the end of the component. */
+  @property({ reflect: true }) iconEnd: IconNameOrString;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   // #endregion
 
@@ -539,7 +547,14 @@ export class ListItem
       return;
     }
 
-    this.openable = this.displayMode === "nested" && hasListItemChildren(slotEl);
+    const children = getListItemChildren(slotEl);
+
+    children.lists.forEach((list) => {
+      list.displayMode = this.displayMode;
+    });
+
+    this.openable =
+      this.displayMode === "nested" && (children.lists.length > 0 || children.items.length > 0);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -858,6 +873,34 @@ export class ListItem
     );
   }
 
+  private renderIconStart(): JsxNode {
+    const { iconStart, iconFlipRtl, scale } = this;
+
+    return iconStart ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={iconStart}
+        key="icon-start"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
+  }
+
+  private renderIconEnd(): JsxNode {
+    const { iconEnd, iconFlipRtl, scale } = this;
+
+    return iconEnd ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={iconEnd}
+        key="icon-end"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
+  }
+
   private renderContentEnd(): JsxNode {
     const { hasContentEnd } = this;
     return (
@@ -914,7 +957,9 @@ export class ListItem
     const content = [
       this.renderContentStart(),
       this.renderCustomContent(),
+      this.renderIconStart(),
       this.renderContentProperties(),
+      this.renderIconEnd(),
       this.renderContentEnd(),
     ];
 

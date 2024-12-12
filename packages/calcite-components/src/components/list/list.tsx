@@ -11,7 +11,13 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { openAncestors, updateListItemChildren } from "../list-item/utils";
+import {
+  listItemGroupSelector,
+  listItemSelector,
+  listSelector,
+  openAncestors,
+  updateListItemChildren,
+} from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -42,9 +48,7 @@ declare global {
   }
 }
 
-const listItemSelector = "calcite-list-item";
-const listItemGroupSelector = "calcite-list-item-group";
-const parentSelector = `${listItemGroupSelector}, calcite-list-item`;
+const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -111,7 +115,7 @@ export class List
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
-      if (item.closest("calcite-list") === el) {
+      if (item.closest(listSelector) === el) {
         item.moveToItems = moveToItems.filter(
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
@@ -183,6 +187,9 @@ export class List
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
+  /** Specifies an accessible name for the filter input field. */
+  @property({ reflect: true }) filterLabel: string;
+
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
@@ -228,8 +235,10 @@ export class List
    * Specifies an accessible name for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   *
+   * @required
    */
-  @property() label!: string;
+  @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -599,7 +608,7 @@ export class List
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest("calcite-list");
+    this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -977,6 +986,7 @@ export class List
       filterPlaceholder,
       filterText,
       filteredItems,
+      filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
@@ -1014,6 +1024,7 @@ export class List
                         disabled={disabled}
                         filterProps={effectiveFilterProps}
                         items={dataForFilter}
+                        label={filterLabel}
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}

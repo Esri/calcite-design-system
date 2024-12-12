@@ -3,9 +3,9 @@ import type { List } from "../list/list";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "./list-item";
 
-const listSelector = "calcite-list";
-const listItemGroupSelector = "calcite-list-item-group";
-const listItemSelector = "calcite-list-item";
+export const listSelector = "calcite-list";
+export const listItemGroupSelector = "calcite-list-item-group";
+export const listItemSelector = "calcite-list-item";
 
 export function openAncestors(el: ListItem["el"]): void {
   const ancestor = el.parentElement?.closest(listItemSelector);
@@ -18,7 +18,10 @@ export function openAncestors(el: ListItem["el"]): void {
   openAncestors(ancestor);
 }
 
-export function hasListItemChildren(slotEl: HTMLSlotElement): boolean {
+export function getListItemChildren(slotEl: HTMLSlotElement): {
+  lists: List["el"][];
+  items: ListItem["el"][];
+} {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
   const groupChildren = assignedElements
@@ -30,7 +33,10 @@ export function hasListItemChildren(slotEl: HTMLSlotElement): boolean {
 
   const listChildren = assignedElements.filter((el): el is List["el"] => el?.matches(listSelector));
 
-  return [...listChildren, ...groupChildren, ...listItemChildren].length > 0;
+  return {
+    lists: listChildren,
+    items: groupChildren.concat(listItemChildren),
+  };
 }
 
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {

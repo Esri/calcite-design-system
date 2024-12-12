@@ -1,10 +1,10 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { CalciteMenu } from "./menu";
+import { Menu } from "./menu";
 
 const { layout } = ATTRIBUTES;
 
-type MenuStoryArgs = Pick<CalciteMenu, "layout">;
+type MenuStoryArgs = Pick<Menu, "layout">;
 
 export default {
   title: "Components/Menu",
