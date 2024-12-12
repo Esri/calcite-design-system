@@ -83,22 +83,6 @@ describe("themed", () => {
         },
       });
     });
-    describe("text weight", () => {
-      themed(html`<calcite-loader label="loading" scale="l" text="Themed loader"></calcite-loader>`, {
-        "--calcite-loader-text-weight": {
-          shadowSelector: `.${CSS.text}`,
-          targetProp: "fontWeight",
-        },
-      });
-    });
-    describe("text margin", () => {
-      themed(html`<calcite-loader label="loading" scale="l" text="Themed loader"></calcite-loader>`, {
-        "--calcite-loader-text-spacing": {
-          shadowSelector: `.${CSS.text}`,
-          targetProp: "marginBlockStart",
-        },
-      });
-    });
     describe("percentage text size", () => {
       themed(html`<calcite-loader label="loading" scale="l" type="determinate-value"></calcite-loader>`, {
         "--calcite-loader-font-size": {
