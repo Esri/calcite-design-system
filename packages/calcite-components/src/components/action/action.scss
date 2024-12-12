@@ -150,6 +150,10 @@ button {
 }
 
 :host([appearance="transparent"]) {
+  &:host([active]) .button {
+    background-color: var(--calcite-color-transparent-press);
+  }
+
   .button {
     @apply bg-transparent
       transition-shadow
@@ -175,7 +179,7 @@ button {
   .button {
     @apply text-n2h font-normal;
     padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.2"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xxs));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -186,7 +190,7 @@ button {
   .button {
     @apply text-n1h font-normal;
     padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.4"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-md));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-md));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -197,7 +201,7 @@ button {
   .button {
     @apply text-0h font-normal;
     padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.5"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-size-xl));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xl));
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
@@ -256,14 +260,22 @@ button {
   .button,
   .button:hover,
   .button:focus {
-    @apply opacity-disabled bg-foreground-1 cursor-default;
+    @apply opacity-disabled cursor-default;
+    background-color: var(
+      --calcite-action-background-color,
+      var(--calcite-action-background-color, var(--calcite-color-foreground-1))
+    );
   }
 
   &:host([active]) {
     .button,
     .button:hover,
     .button:focus {
-      @apply opacity-disabled bg-foreground-3;
+      @apply opacity-disabled;
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+      );
     }
   }
 }

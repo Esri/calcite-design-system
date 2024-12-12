@@ -82,7 +82,7 @@ export class Flow extends LitElement implements LoadableComponent {
 
     try {
       await beforeBack.call(selectedItem);
-    } catch (_error) {
+    } catch {
       // back prevented
       return;
     }

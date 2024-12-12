@@ -7,7 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import {
   componentFocusable,
@@ -15,13 +15,16 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
+import { getIconScale } from "../../utils/component";
+import { ListDisplayMode } from "../list/interfaces";
 import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
-import { getDepth, hasListItemChildren } from "./utils";
+import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
 
@@ -32,8 +35,6 @@ declare global {
 }
 
 const focusMap = new Map<List["el"], number>();
-const listSelector = "calcite-list";
-
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
@@ -129,7 +130,7 @@ export class ListItem
    *
    * @private
    */
-  @property() dragHandle = false;
+  @property({ reflect: true }) dragHandle = false;
 
   /**
    * Hides the component when filtered.
@@ -162,6 +163,13 @@ export class ListItem
   @property() metadata: Record<string, unknown>;
 
   /**
+   * Specifies the nesting behavior.
+   *
+   * @private
+   */
+  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
+
+  /**
    * Sets the item to display a border.
    *
    * @private
@@ -171,6 +179,13 @@ export class ListItem
   /** When `true`, the item is open to show child components. */
   @property({ reflect: true }) open = false;
 
+  /**
+   * Specifies the size of the component.
+   *
+   * @internal
+   * */
+  @property({ reflect: true }) scale: Scale = "m";
+
   /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
@@ -179,14 +194,14 @@ export class ListItem
    *
    * @private
    */
-  @property() selectionAppearance: SelectionAppearance = null;
+  @property({ reflect: true }) selectionAppearance: SelectionAppearance = null;
 
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
    *
    * @private
    */
-  @property() selectionMode: Extract<
+  @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = null;
@@ -213,6 +228,15 @@ export class ListItem
 
   /** The component's value. */
   @property() value: any;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /** Specifies an icon to display at the end of the component. */
+  @property({ reflect: true }) iconEnd: IconNameOrString;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   // #endregion
 
@@ -363,6 +387,10 @@ export class ListItem
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
+    }
+
+    if (changes.has("displayMode") && this.hasUpdated) {
+      this.handleOpenableChange(this.defaultSlotEl.value);
     }
   }
 
@@ -519,7 +547,14 @@ export class ListItem
       return;
     }
 
-    this.openable = hasListItemChildren(slotEl);
+    const children = getListItemChildren(slotEl);
+
+    children.lists.forEach((list) => {
+      list.displayMode = this.displayMode;
+    });
+
+    this.openable =
+      this.displayMode === "nested" && (children.lists.length > 0 || children.items.length > 0);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -703,7 +738,7 @@ export class ListItem
                 ? ICONS.unselectedMultiple
                 : ICONS.unselectedSingle
           }
-          scale="s"
+          scale={getIconScale(this.scale)}
         />
       </div>
     );
@@ -731,6 +766,7 @@ export class ListItem
           oncalciteSortHandleOpen={this.handleSortHandleOpen}
           overlayPositioning="fixed"
           ref={this.setSortHandleEl}
+          scale={this.scale}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -739,21 +775,38 @@ export class ListItem
   }
 
   private renderOpen(): JsxNode {
-    const { el, open, openable, messages } = this;
-    const dir = getElementDir(el);
-    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
-    const tooltip = open ? messages.collapse : messages.expand;
+    const { el, open, openable, messages, displayMode, scale } = this;
 
-    return openable ? (
+    if (displayMode !== "nested") {
+      return null;
+    }
+
+    const dir = getElementDir(el);
+
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+          ? ICONS.closedRTL
+          : ICONS.closedLTR
+      : ICONS.blank;
+
+    const iconScale = getIconScale(scale);
+
+    const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
+
+    const openClickHandler = openable ? this.handleToggleClick : undefined;
+
+    return (
       <div
         class={CSS.openContainer}
         key="open-container"
-        onClick={this.handleToggleClick}
+        onClick={openClickHandler}
         title={tooltip}
       >
-        <calcite-icon icon={icon} key={icon} scale="s" />
+        <calcite-icon icon={icon} key={icon} scale={iconScale} />
       </div>
-    ) : null;
+    );
   }
 
   private renderActionsStart(): JsxNode {
@@ -794,6 +847,7 @@ export class ListItem
             key="close-action"
             label={messages.close}
             onClick={this.handleCloseClick}
+            scale={this.scale}
             text={messages.close}
           />
         ) : null}
@@ -817,6 +871,34 @@ export class ListItem
         <slot name={SLOTS.content} onSlotChange={this.handleContentSlotChange} />
       </div>
     );
+  }
+
+  private renderIconStart(): JsxNode {
+    const { iconStart, iconFlipRtl, scale } = this;
+
+    return iconStart ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={iconStart}
+        key="icon-start"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
+  }
+
+  private renderIconEnd(): JsxNode {
+    const { iconEnd, iconFlipRtl, scale } = this;
+
+    return iconEnd ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={iconEnd}
+        key="icon-end"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
   }
 
   private renderContentEnd(): JsxNode {
@@ -875,7 +957,9 @@ export class ListItem
     const content = [
       this.renderContentStart(),
       this.renderCustomContent(),
+      this.renderIconStart(),
       this.renderContentProperties(),
+      this.renderIconEnd(),
       this.renderContentEnd(),
     ];
 
@@ -915,11 +999,15 @@ export class ListItem
       filterHidden,
       bordered,
       disabled,
+      hasContentBottom,
     } = this;
 
-    const showBorder = selectionMode !== "none" && selectionAppearance === "border";
-    const borderSelected = showBorder && selected;
-    const borderUnselected = showBorder && !selected;
+    const wrapperBordered = bordered && hasContentBottom;
+    const contentContainerWrapperBordered = bordered && !hasContentBottom;
+
+    const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
+    const selectionBorderSelected = showSelectionBorder && selected;
+    const selectionBorderUnselected = showSelectionBorder && !selected;
 
     const containerInteractive =
       interactionMode === "interactive" ||
@@ -929,7 +1017,7 @@ export class ListItem
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: bordered }}>
+        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
             ariaExpanded={openable ? open : null}
             ariaLabel={label}
@@ -939,9 +1027,9 @@ export class ListItem
               [CSS.row]: true,
               [CSS.container]: true,
               [CSS.containerHover]: containerInteractive,
-              [CSS.containerBorder]: showBorder,
-              [CSS.containerBorderSelected]: borderSelected,
-              [CSS.containerBorderUnselected]: borderUnselected,
+              [CSS.containerBorder]: showSelectionBorder,
+              [CSS.containerBorderSelected]: selectionBorderSelected,
+              [CSS.containerBorderUnselected]: selectionBorderUnselected,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
@@ -955,8 +1043,15 @@ export class ListItem
             {this.renderSelected()}
             {this.renderOpen()}
             {this.renderActionsStart()}
-            {this.renderContentContainer()}
-            {this.renderActionsEnd()}
+            <div
+              class={{
+                [CSS.contentContainerWrapper]: true,
+                [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
+              }}
+            >
+              {this.renderContentContainer()}
+              {this.renderActionsEnd()}
+            </div>
           </div>
           {this.renderContentBottom()}
         </div>

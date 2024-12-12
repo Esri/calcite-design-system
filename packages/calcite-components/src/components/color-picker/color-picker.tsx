@@ -296,27 +296,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   /** When `true`, hides the hex input. */
   @property() hexDisabled = false;
 
-  /**
-   * When `true`, hides the RGB/HSV channel inputs.
-   *
-   * @deprecated use `channelsDisabled` instead
-   */
-  @property({ reflect: true }) hideChannels = false;
-
-  /**
-   * When `true`, hides the hex input.
-   *
-   * @deprecated use `hexDisabled` instead
-   */
-  @property({ reflect: true }) hideHex = false;
-
-  /**
-   * When `true`, hides the saved colors section.
-   *
-   * @deprecated use `savedDisabled` instead
-   */
-  @property({ reflect: true }) hideSaved = false;
-
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
@@ -1447,9 +1426,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
         thumb: { radius: thumbRadius },
       },
       hexDisabled,
-      hideChannels,
-      hideHex,
-      hideSaved,
       hueScopeLeft,
       messages,
       alphaChannel,
@@ -1470,9 +1446,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
       (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === undefined;
     const vertical = scopeOrientation === "vertical";
-    const noHex = hexDisabled || hideHex;
-    const noChannels = channelsDisabled || hideChannels;
-    const noSaved = savedDisabled || hideSaved;
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
       colorFieldScopeTop,
@@ -1566,7 +1539,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
               ) : null}
             </div>
           </div>
-          {noHex && noChannels ? null : (
+          {hexDisabled && channelsDisabled ? null : (
             <div
               class={{
                 [CSS.controlSection]: true,
@@ -1574,7 +1547,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
               }}
             >
               <div class={CSS.hexAndChannelsGroup}>
-                {noHex ? null : (
+                {hexDisabled ? null : (
                   <div class={CSS.hexOptions}>
                     <calcite-color-picker-hex-input
                       allowEmpty={this.isClearable}
@@ -1588,7 +1561,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
                     />
                   </div>
                 )}
-                {noChannels ? null : (
+                {channelsDisabled ? null : (
                   <calcite-tabs
                     class={{
                       [CSS.colorModeContainer]: true,
@@ -1607,7 +1580,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
               </div>
             </div>
           )}
-          {noSaved ? null : (
+          {savedDisabled ? null : (
             <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
               <div class={CSS.header}>
                 <label>{messages.saved}</label>

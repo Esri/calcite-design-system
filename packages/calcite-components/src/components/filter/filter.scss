@@ -6,12 +6,27 @@
 @include disabled();
 
 .container {
-  @apply flex w-full p-2;
+  @apply flex w-full;
+}
+
+:host([scale="s"]) {
+  .container {
+    padding: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"]) {
+  .container {
+    padding: var(--calcite-spacing-md);
+  }
+}
+:host([scale="l"]) {
+  .container {
+    padding: var(--calcite-spacing-lg);
+  }
 }
 
 label {
   @apply relative
-    mx-1
     my-0
     flex w-full
     items-center

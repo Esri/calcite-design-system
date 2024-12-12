@@ -277,9 +277,11 @@ export default {
           "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
         },
         ".transition-default": {
-          transition:
-            // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
-            "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start inset-size, opacity, outline-color, transform var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s",
+          // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
+          "transition-property":
+            "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start, inset-size, opacity, outline-color, transform",
+          "transition-duration": "var(--calcite-animation-timing)",
+          "transition-timing-function": "ease-in-out",
         },
       };
       addUtilities(newUtilities);

@@ -1,6 +1,6 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
@@ -26,12 +26,25 @@ describe("calcite-shell-panel", () => {
         defaultValue: false,
       },
       {
-        propertyName: "detached",
-        defaultValue: false,
-      },
-      {
         propertyName: "displayMode",
         defaultValue: "dock",
+      },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-shell-panel", [
+      {
+        propertyName: "widthScale",
+        value: "m",
+      },
+      {
+        propertyName: "width",
+        value: "m",
       },
     ]);
   });
@@ -144,7 +157,7 @@ describe("calcite-shell-panel", () => {
     `);
   });
 
-  it("should have detached class when detached", async () => {
+  it("should have floatContent class when detached", async () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
@@ -155,13 +168,9 @@ describe("calcite-shell-panel", () => {
 
     const panel = await page.find("calcite-shell-panel");
 
-    expect(await panel.getProperty("detached")).toBe(false);
-
     panel.setProperty("displayMode", "float-content");
 
     await page.waitForChanges();
-
-    expect(await panel.getProperty("detached")).toBe(true);
 
     detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatContent}`);
 

@@ -9,9 +9,15 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { openAncestors, updateListItemChildren } from "../list-item/utils";
+import {
+  listItemGroupSelector,
+  listItemSelector,
+  listSelector,
+  openAncestors,
+  updateListItemChildren,
+} from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -34,8 +40,8 @@ import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { Filter } from "../filter/filter";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/list.t9n.en.json";
-import { ListDragDetail, ListMoveDetail } from "./interfaces";
 import type { ListElement } from "./interfaces";
+import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -46,12 +52,12 @@ declare global {
 
 const listItemSelector = "calcite-list-item";
 const groupItemSelector = "calcite-list-item-group";
-const parentSelector = "calcite-list-item-group, calcite-list-item";
+const parentSelector = `${groupItemSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
- * @slot - A slot for adding `calcite-list-item` elements.
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
@@ -104,20 +110,24 @@ export class List
       filterEl,
       filterEnabled,
       moveToItems,
+      displayMode,
+      scale,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
     this.groupItems = Array.from(this.el.querySelectorAll(groupItemSelector));
 
     items.forEach((item) => {
+      item.scale = scale;
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
-      if (item.closest("calcite-list") === el) {
+      if (item.closest(listSelector) === el) {
         item.moveToItems = moveToItems.filter(
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
+        item.displayMode = displayMode;
       }
     });
 
@@ -184,6 +194,9 @@ export class List
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
+  /** Specifies an accessible name for the filter input field. */
+  @property({ reflect: true }) filterLabel: string;
+
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
@@ -237,8 +250,10 @@ export class List
    * Specifies an accessible name for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   *
+   * @required
    */
-  @property() label!: string;
+  @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -253,15 +268,14 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /** Specifies the nesting behavior. */
+  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
+
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /**
-   * One of the items within the list can be opened.
-   *
-   * @private
-   */
-  @property() openable = false;
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The currently selected items.
@@ -399,7 +413,9 @@ export class List
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
-        (this.hasUpdated || this.selectionAppearance !== "icon"))
+        (this.hasUpdated || this.selectionAppearance !== "icon")) ||
+      (changes.has("displayMode") && this.hasUpdated) ||
+      (changes.has("scale") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }
@@ -607,7 +623,7 @@ export class List
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest("calcite-list");
+    this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -709,9 +725,7 @@ export class List
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems =
-      visibleItems.filter((item) => !filterText || values.includes(item.value)) || [];
-
+    const filteredItems = !filterText ? visibleItems || [] : filteredData.map((item) => item.el);
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
@@ -777,15 +791,23 @@ export class List
     this.updateFilteredData();
   }
 
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
   private performFilter(): void {
-    const { filterEl, filterText, filterProps } = this;
+    const { filterEl, filterText, effectiveFilterProps } = this;
 
     if (!filterEl) {
       return;
     }
 
     filterEl.value = filterText;
-    filterEl.filterProps = filterProps;
+    filterEl.filterProps = effectiveFilterProps;
     this.filterAndUpdateData();
   }
 
@@ -807,7 +829,7 @@ export class List
       label: item.label,
       description: item.description,
       metadata: item.metadata,
-      value: item.value,
+      el: item,
     }));
   }
 
@@ -818,7 +840,7 @@ export class List
   };
 
   private updateGroupItems(): void {
-    const { el, group } = this;
+    const { el, group, scale } = this;
 
     const rootNode = getRootNode(el);
 
@@ -833,6 +855,12 @@ export class List
       label: element.label ?? element.id,
       id: el.id || guid(),
     }));
+
+    const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+
+    groupItems.forEach((item) => {
+      item.scale = scale;
+    });
   }
 
   private focusRow(focusEl: ListItem["el"]): void {
@@ -1013,10 +1041,11 @@ export class List
       filterPlaceholder,
       filterText,
       filteredResults,
+      filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
-      filterProps,
+      effectiveFilterProps,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -1048,11 +1077,13 @@ export class List
                       <calcite-filter
                         ariaLabel={filterPlaceholder}
                         disabled={disabled}
-                        filterProps={filterProps}
+                        filterProps={effectiveFilterProps}
                         items={dataForFilter}
+                        label={filterLabel}
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
+                        scale={this.scale}
                         value={filterText}
                       />
                       <slot

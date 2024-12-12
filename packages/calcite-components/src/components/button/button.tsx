@@ -184,8 +184,8 @@ export class Button
    */
   @property({ reflect: true }) type = "button";
 
-  /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Width = "auto";
+  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   // #endregion
 

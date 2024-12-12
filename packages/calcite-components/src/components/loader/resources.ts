@@ -1,8 +1,10 @@
 export const CSS = {
+  container: "container",
   loader: "loader",
-  loaderParts: "loader__svgs",
-  loaderPart: "loader__svg",
-  loaderPartId: (partId: number) => `${CSS.loaderPart}--${partId}` as const,
-  loaderText: "loader__text",
-  loaderPercentage: "loader__percentage",
+  percentage: "percentage",
+  progressRing: "ring--progress",
+  ring: "ring",
+  rings: "rings",
+  text: "text",
+  trackRing: "ring--track",
 };

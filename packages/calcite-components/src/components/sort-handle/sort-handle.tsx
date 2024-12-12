@@ -281,7 +281,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             class={CSS.handle}
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
-            scale="s"
+            scale={scale}
             slot="trigger"
             text={text}
             title={text}
