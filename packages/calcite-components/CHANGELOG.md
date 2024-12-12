@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.57...@esri/calcite-components@3.0.0-next.58) (2024-12-12)
+
+### Features
+
+- **tree,tree-item:** update indentation ([#10990](https://github.com/Esri/calcite-design-system/issues/10990)) ([5970cd3](https://github.com/Esri/calcite-design-system/commit/5970cd3d42abaa147062905835a5c3cda398d586)), closes [#7096](https://github.com/Esri/calcite-design-system/issues/7096)
+
+### Bug Fixes
+
+- **action:** active styles present with transparent appearance ([#10988](https://github.com/Esri/calcite-design-system/issues/10988)) ([796b89b](https://github.com/Esri/calcite-design-system/commit/796b89bc829cade5bbf2d39db6f0b395f13e689e)), closes [#10982](https://github.com/Esri/calcite-design-system/issues/10982)
+
+### Reverts
+
+- fix(input): fix broken selector ([#11029](https://github.com/Esri/calcite-design-system/issues/11029)) ([1030746](https://github.com/Esri/calcite-design-system/commit/1030746bf384f7fc5b71680b82d141bdc7d56b8f))
+
 ## [3.0.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.56...@esri/calcite-components@3.0.0-next.57) (2024-12-11)
 
 ### Features
