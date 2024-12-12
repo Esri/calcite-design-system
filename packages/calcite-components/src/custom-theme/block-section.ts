@@ -7,7 +7,7 @@ export const blockTokens = {
   calciteBlockSectionTextColor: "",
 };
 
-export const block = html` <calcite-block-section
+export const block = html`<calcite-block-section
   text="Planes, trains, and automobiles"
   open
   icon-end="pen"

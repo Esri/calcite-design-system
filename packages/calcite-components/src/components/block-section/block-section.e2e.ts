@@ -233,4 +233,83 @@ describe("calcite-block-section", () => {
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
+
+  // describe("theme", () => {
+  //   describe("default", () => {
+  //     themed(
+  //       html`
+  //         <calcite-block-section
+  //           text="Planes, trains, and automobiles"
+  //           open
+  //           icon-end="pen"
+  //           icon-start="pen"
+  //           toggle-display="switch"
+  //           text="a block-section"
+  //           status="valid"
+  //         >
+  //         </calcite-block-section>
+  //       `,
+  //       {
+  //         "--calcite-block-section-border-color": {
+  //           targetProp: "borderColor",
+  //         },
+  //         "--calcite-block-section-background-color": [
+  //           {
+  //             targetProp: "backgroundColor",
+  //           },
+  //           {
+  //             shadowSelector: `.${CSS.toggle}`,
+  //             targetProp: "backgroundColor",
+  //           },
+  //           {
+  //             shadowSelector: `.${CSS.toggleContainer}`,
+  //             targetProp: "backgroundColor",
+  //           },
+  //         ],
+  //         "--calcite-block-section-header-text-color": [
+  //           {
+  //             targetProp: "color",
+  //           },
+  //           {
+  //             shadowSelector: `.${CSS.toggle}`,
+  //             targetProp: "color",
+  //           },
+  //         ],
+  //         "--calcite-block-section-text-color": [
+  //           { shadowSelector: `.${CSS.toggle}`, targetProp: "color" },
+  //           { shadowSelector: `.${CSS.chevronIcon}`, targetProp: "color" },
+  //           { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
+  //           { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+  //         ],
+  //         "--calcite-block-text-color-hover": [
+  //           {
+  //             shadowSelector: `.${CSS.toggle}`,
+  //             targetProp: "color",
+  //             state: "hover",
+  //           },
+  //           {
+  //             shadowSelector: `.${CSS.chevronIcon}`,
+  //             targetProp: "color",
+  //             state: "hover",
+  //           },
+  //           {
+  //             shadowSelector: `.${CSS.sectionHeader}`,
+  //             targetProp: "color",
+  //             state: "hover",
+  //           },
+  //           {
+  //             shadowSelector: `.${CSS.iconEnd}`,
+  //             targetProp: "color",
+  //             state: "hover",
+  //           },
+  //           {
+  //             shadowSelector: `.${CSS.iconStart}`,
+  //             targetProp: "color",
+  //             state: "hover",
+  //           },
+  //         ],
+  //       },
+  //     );
+  //   });
+  // });
 });
