@@ -10,11 +10,11 @@ import { styles } from "./navigation-user.scss";
 
 declare global {
   interface DeclareElements {
-    "calcite-navigation-user": CalciteNavigationUser;
+    "calcite-navigation-user": NavigationUser;
   }
 }
 
-export class CalciteNavigationUser extends LitElement implements LoadableComponent {
+export class NavigationUser extends LitElement implements LoadableComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
