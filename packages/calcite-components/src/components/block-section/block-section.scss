@@ -1,7 +1,18 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
+ * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
+ * @prop --calcite-block-section-header-text-color-hover: Specifies the component's header text color on hover.
+ * @prop --calcite-block-section-text-color: Specifies the component's text color.
+ */
+
 :host {
   @apply bg-foreground-1 text-n1 box-border block;
 
-  color: var(--calcite-color-text-2);
+  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
 }
 
 calcite-switch {
@@ -14,10 +25,11 @@ calcite-switch {
 }
 
 :host([open]) {
-  @apply border-b-color-3
-    border-0
+  @apply border-0
     border-b
     border-solid;
+
+  border-block-end-color: var(--calcite-block-section-border-color, var(--calcite-color-border-3));
 
   .toggle {
     color: var(--calcite-color-text-1);
@@ -28,7 +40,7 @@ calcite-switch {
   }
 
   .chevron-icon {
-    color: var(--calcite-color-text-3);
+    color: var(calcite-block-section-text-color, var(--calcite-color-text-3));
 
     &:hover {
       color: var(--calcite-color-text-1);
@@ -44,7 +56,7 @@ calcite-switch {
   @apply font-sans w-full border-0 bg-transparent;
 
   gap: var(--calcite-spacing-md);
-  color: var(--calcite-color-text-2);
+  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
   font-weight: var(--calcite-font-weight-normal);
 
   &:hover {
@@ -69,7 +81,7 @@ calcite-switch {
     @apply focus-outset;
   }
   &:hover {
-    color: var(--calcite-color-text-1);
+    color: var(--calcite-block-section-header-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -94,10 +106,10 @@ calcite-switch {
   .chevron-icon {
     @apply flex items-center;
 
-    color: var(--calcite-color-text-3);
+    color: var(calcite-block-section-text-color, var(--calcite-color-text-3));
 
     &:hover {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-block-section-header-text-color-hover, var(--calcite-color-text-1));
     }
   }
 }
