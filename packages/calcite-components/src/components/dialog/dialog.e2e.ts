@@ -1,5 +1,5 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, vi } from "vitest";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   accessible,
   defaults,
@@ -527,7 +527,7 @@ describe("calcite-dialog", () => {
     });
   });
 
-  describe("calcite-dialog accessibility checks", () => {
+  describe("focus trapping", () => {
     it("traps focus within the dialog when open", async () => {
       const button1Id = "button1";
       const button2Id = "button2";
@@ -651,6 +651,34 @@ describe("calcite-dialog", () => {
       await openEvent;
 
       expect(await isElementFocused(page, "#dialog2")).toBe(true);
+    });
+
+    describe("outside click closing", () => {
+      let page: E2EPage;
+      let dialog: E2EElement;
+
+      beforeEach(async () => {
+        page = await newE2EPage();
+        // we use a large page to ensure dialog isn't fullscreen
+        await page.setViewport({ width: 1200, height: 1200 });
+      });
+
+      async function testOutsideClickClose(modal: boolean): Promise<void> {
+        await page.setContent(`<calcite-dialog ${modal ? "modal" : ""} open></calcite-dialog>`);
+        await skipAnimations(page);
+        await page.waitForChanges();
+        dialog = await page.find("calcite-dialog");
+        const closeEvent = page.waitForEvent("calciteDialogClose");
+
+        await page.mouse.click(0, 0);
+        await closeEvent;
+
+        expect(await dialog.getProperty("open")).toBe(false);
+      }
+
+      it("closes when dialog is modal", () => testOutsideClickClose(true));
+
+      it("closes when dialog is non-modal", () => testOutsideClickClose(false));
     });
   });
 

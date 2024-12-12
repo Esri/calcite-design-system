@@ -306,8 +306,8 @@ export class Dialog
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
-        clickOutsideDeactivates: false,
+        // when modal, scrim has its own close handler, so we let it handle closing on click
+        clickOutsideDeactivates: () => !this.modal,
         escapeDeactivates: this.escapeDeactivates,
         onDeactivate: this.focusTrapDeactivates,
       },
