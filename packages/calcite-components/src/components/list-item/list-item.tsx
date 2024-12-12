@@ -7,7 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode, InteractionMode, Scale } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import {
   componentFocusable,
@@ -15,6 +15,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -227,6 +228,15 @@ export class ListItem
 
   /** The component's value. */
   @property() value: any;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /** Specifies an icon to display at the end of the component. */
+  @property({ reflect: true }) iconEnd: IconNameOrString;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   // #endregion
 
@@ -863,6 +873,34 @@ export class ListItem
     );
   }
 
+  private renderIconStart(): JsxNode {
+    const { iconStart, iconFlipRtl, scale } = this;
+
+    return iconStart ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={iconStart}
+        key="icon-start"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
+  }
+
+  private renderIconEnd(): JsxNode {
+    const { iconEnd, iconFlipRtl, scale } = this;
+
+    return iconEnd ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={iconEnd}
+        key="icon-end"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
+  }
+
   private renderContentEnd(): JsxNode {
     const { hasContentEnd } = this;
     return (
@@ -919,7 +957,9 @@ export class ListItem
     const content = [
       this.renderContentStart(),
       this.renderCustomContent(),
+      this.renderIconStart(),
       this.renderContentProperties(),
+      this.renderIconEnd(),
       this.renderContentEnd(),
     ];
 
