@@ -161,7 +161,7 @@ export class TextArea
   @property() label: string;
 
   /**
-   * Specifies the maximum number of characters allowed. Must be greater than or equal to the value of `minlength`, if present and valid.
+   * Specifies the maximum number of characters allowed. Must be greater than or equal to the value of `minLength`, if present and valid.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
@@ -178,7 +178,7 @@ export class TextArea
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
-   * Specifies the minimum number of characters allowed. Must be less than or equal to the value of `maxlength`, if present and valid.
+   * Specifies the minimum number of characters allowed. Must be less than or equal to the value of `maxLength`, if present and valid.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
