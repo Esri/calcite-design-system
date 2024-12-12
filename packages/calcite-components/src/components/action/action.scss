@@ -150,6 +150,10 @@ button {
 }
 
 :host([appearance="transparent"]) {
+  &:host([active]) .button {
+    background-color: var(--calcite-color-transparent-press);
+  }
+
   .button {
     @apply bg-transparent
       transition-shadow
