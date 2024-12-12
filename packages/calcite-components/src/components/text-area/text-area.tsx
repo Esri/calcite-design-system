@@ -430,16 +430,30 @@ export class TextArea
     };
   }
 
+  private replacePlaceholders(
+    template: string,
+    placeholderToValueObject: { [key: string]: string },
+  ): string {
+    let result = template;
+    for (const key in placeholderToValueObject) {
+      result = result.replace(key, placeholderToValueObject[key]);
+    }
+    return result;
+  }
+
   private replacePlaceholdersInLongMessages(): string {
-    return this.messages.tooLong
-      .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength)
-      .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength);
+    return this.replacePlaceholders(this.messages.tooLong, {
+      "{currentLength}": this.localizedCharacterLengthObj.currentLength,
+      "{maxLength}": this.localizedCharacterLengthObj.maxLength,
+    });
   }
 
   private replacePlaceholdersInShortMessages(): string {
-    return this.messages.tooShort
-      .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength)
-      .replace("{minLength}", this.localizedCharacterLengthObj.minLength);
+    const tooShortMessage = this.messages.tooShort;
+    return this.replacePlaceholders(tooShortMessage, {
+      "{currentLength}": this.localizedCharacterLengthObj.currentLength,
+      "{minLength}": this.localizedCharacterLengthObj.minLength,
+    });
   }
 
   private isCharacterOverMaxLimit(): boolean {
