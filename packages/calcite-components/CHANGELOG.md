@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.59...@esri/calcite-components@3.0.0-next.60) (2024-12-12)
+
+### Bug Fixes
+
+- use explicit module imports for dayjs ([#11030](https://github.com/Esri/calcite-design-system/issues/11030)) ([8935946](https://github.com/Esri/calcite-design-system/commit/893594628af6928468ce255ca67476df2839d875))
+
 ## [3.0.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.58...@esri/calcite-components@3.0.0-next.59) (2024-12-12)
 
 ### Bug Fixes
