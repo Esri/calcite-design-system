@@ -253,7 +253,16 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the nesting behavior. */
+  /**
+   * Specifies the nesting behavior of `calcite-list-item`s, where
+   *
+   * `"flat"` displays `calcite-list-item`s in a uniform list, and
+   *
+   * `"nested"` displays `calcite-list-item`s under their parent element.
+   *
+   *  The parent component's behavior should follow throughout its child elements.
+   *
+   */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
