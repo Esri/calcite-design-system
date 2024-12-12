@@ -168,6 +168,24 @@ export class List
 
   @state() moveToItems: MoveTo[] = [];
 
+  @state() get hasActiveFilter(): boolean {
+    return (
+      this.filterEnabled &&
+      this.filterText &&
+      this.filteredItems.length !== this.visibleItems.length
+    );
+  }
+
+  @state() get showNoResultsContainer(): boolean {
+    return (
+      this.hasFilterNoResults &&
+      this.filterEnabled &&
+      this.filterText &&
+      this.visibleItems.length &&
+      !this.filteredItems.length
+    );
+  }
+
   // #endregion
 
   // #region Public Properties
@@ -188,11 +206,7 @@ export class List
   @property({ reflect: true }) filterEnabled = false;
 
   /** todo */
-  @property() filterFunction: (
-    data: Array<object>,
-    value: string,
-    filterProps?: string[],
-  ) => object[];
+  @property() customFilter: (listItems: ListItem["el"][]) => ListItem["el"][];
 
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
@@ -704,13 +718,18 @@ export class List
   }
 
   private updateFilteredItems(): void {
-    const { visibleItems, filteredData, filterText } = this;
+    const { visibleItems, filteredData, filterText, customFilter } = this;
 
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems = !filterText ? visibleItems || [] : filteredData.map((item) => item.el);
+    const filteredItems = !filterText
+      ? visibleItems || []
+      : customFilter
+        ? customFilter(visibleItems)
+        : filteredData.map((item) => item.el);
+
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
@@ -778,12 +797,14 @@ export class List
   }
 
   private getItemData(): ItemData {
-    return this.listItems.map((item) => ({
-      label: item.label,
-      description: item.description,
-      metadata: item.metadata,
-      el: item,
-    }));
+    return this.customFilter
+      ? []
+      : this.listItems.map((item) => ({
+          label: item.label,
+          description: item.description,
+          metadata: item.metadata,
+          el: item,
+        }));
   }
 
   private updateGroupItems(): void {
@@ -985,13 +1006,10 @@ export class List
       disabled,
       dataForFilter,
       filterEnabled,
-      filterFunction,
       filterPlaceholder,
       filterText,
-      filteredItems,
       hasFilterActionsStart,
       hasFilterActionsEnd,
-      hasFilterNoResults,
       effectiveFilterProps,
     } = this;
     return (
@@ -1024,7 +1042,6 @@ export class List
                       <calcite-filter
                         ariaLabel={filterPlaceholder}
                         disabled={disabled}
-                        filterFunction={filterFunction}
                         filterProps={effectiveFilterProps}
                         items={dataForFilter}
                         oncalciteFilterChange={this.handleFilterChange}
@@ -1050,7 +1067,7 @@ export class List
           <div
             ariaLive="polite"
             data-test-id="no-results-container"
-            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
+            hidden={!this.showNoResultsContainer}
           >
             <slot
               name={SLOTS.filterNoResults}
@@ -1069,9 +1086,6 @@ export class List
       parentListEl,
       messages: { _lang: effectiveLocale },
       numberingSystem,
-      filterEnabled,
-      filterText,
-      filteredData,
     } = this;
 
     numberStringFormatter.numberFormatOptions = {
@@ -1081,7 +1095,7 @@ export class List
 
     return !parentListEl ? (
       <div ariaLive="polite" class={CSS.assistiveText}>
-        {filterEnabled && filterText && filteredData?.length ? (
+        {this.hasActiveFilter ? (
           <div key="aria-filter-enabled">{messages.filterEnabled}</div>
         ) : null}
         <div key="aria-item-count">

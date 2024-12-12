@@ -56,13 +56,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** todo */
-  @property() filterFunction: (
-    data: Array<object>,
-    value: string,
-    filterProps?: string[],
-  ) => object[];
-
   /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */
   @property() filterProps: string[];
 
@@ -217,7 +210,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   }
 
   private updateFiltered(value: string, emit = false, callback?: () => void): void {
-    const filtered = (this.filterFunction ?? filter)(this.items ?? [], value, this.filterProps);
+    const filtered = filter(this.items ?? [], value, this.filterProps);
 
     this.filteredItems = filtered;
     if (emit) {
