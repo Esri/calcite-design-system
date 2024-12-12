@@ -29,7 +29,7 @@
     "icons/",
     "js/",
     "lib/",
-    "fonts/",
+    "fonts/*.ttf",
     "bin/sprinter.js",
     "docs/icons.json",
     "docs/keywords.json",
