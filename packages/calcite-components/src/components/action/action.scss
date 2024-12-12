@@ -70,7 +70,10 @@ button {
   &:hover,
   &:focus {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
   }
 
   &:focus {
@@ -78,7 +81,10 @@ button {
   }
 
   &:active {
-    background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-action-background-color-press,
+      var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+    );
   }
 }
 
@@ -115,8 +121,14 @@ button {
     &,
     &:hover,
     &:focus {
-      color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
-      background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
+      color: var(
+        --calcite-action-text-color-press,
+        var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+      );
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+      );
     }
 
     &:active {
@@ -263,7 +275,10 @@ button {
       @apply opacity-disabled;
       background-color: var(
         --calcite-action-background-color-press,
-        var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+        var(
+          --calcite-action-background-color-press,
+          var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+        )
       );
     }
   }
